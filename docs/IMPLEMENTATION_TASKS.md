@@ -101,3 +101,24 @@
 - レビュー結果と修正済みの詳細仕様: [SPEC_REVIEW_2026-10-22](SPEC_REVIEW_2026-10-22.md)
 - 追加子Issue: #26（2.5D描画合成）、#27（購買需要）、#28（初回プレイ/営業）、#29（素材出典監査）
 - **2026-10-22にレビュー済みなのは仕様とIssueのみ**。コード/アセットの品質試験・実装テストは未着手。
+
+
+## 実装契約 v1.0 とデータ規格
+
+- [実装ベースラインと優先順位](implementation/00_BASELINE_AND_DECISIONS.md)
+- [Godot/クラス/API](implementation/01_ENGINE_CONTRACT.md)
+- [1tile/画像pixel/アセットサイズの確定規則](implementation/02_GRID_AND_ASSET_CONTRACT.md)
+- [経済・顧客・在庫のアルゴリズム](implementation/03_ECONOMY_AND_SIMULATION_CONTRACT.md)
+- [画面操作・セーブ・実機QA](implementation/04_UI_SAVE_QA_CONTRACT.md)
+- [Codex/Claude向け実装順](implementation/05_IMPLEMENTATION_HANDOFF.md)
+- [什器Blueprint/素材規格](implementation/06_ASSET_BLUEPRINTS_AND_VALIDATION.md)
+- [JSON Schemaと初期マスタ・校正例](examples/README.md)
+
+### 残りの検証ゲート（ゲーム実装が必要）
+- [ ] #3 fixture/product/visual/balance/saveのJSON Schemaと参照・semantic validatorを実装し、seedデータで合格する。
+- [ ] #8/9 Blenderの1m校正画像を**実際にレンダリング**してsource X(+128,+64),Y(−128,+64),Z(0,−156.767)の許容誤差を確認。
+- [ ] #6/7 1×2 E長辺の2セルアクセス、回転後S側アクセス、アイス四面アクセスをGodotで検証。
+- [ ] #22 10種の什器mesh bboxと4方向PNG＋原点anchorの一致を確認。
+- [ ] #25 画面シナリオと性能を固定条件で測定。校正・実画像・実測が無い状態でIssueをcloseしない。
+
+仕様段階の静的整合とゲーム実装/実機品質の合格は区別する。**仮画像パスとsample visual manifestは完了アセットではない**。
