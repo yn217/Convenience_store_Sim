@@ -65,3 +65,9 @@
 - [09 再現可能な乱数・経済・安全セーブ](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)：Godot 4.7.2、LCG32、商品選択/価格による購買率、費用/ロードの原子性。
 - [10 数値の受け入れテストベクトル](10_TEST_VECTORS_AND_ACCEPTANCE.md)：回転/アセット縮尺/価格/会計/保存のGiven-When-Then。
 - #2/#3では`business_state` SETUP/OPEN/CLOSING/PAYMENT_BLOCKEDと`applied_command_ids`を保存する。#15/#17では商品選択確率と会計単一commitを実装。
+
+
+## 2026-10-23 関数別仕様
+- [12 実装疑似コード・API](12_REFERENCE_ALGORITHMS_AND_API.md)を読む。UI/アート/Domainの担当境界、atomic transaction、tick/日次の順序を固定。
+- 初回OPEN時の費用不足は**副作用ゼロの失敗**、営業中の日境界費用不足のみ未払金へ振替。これを #17/#18/#20で検証。
+- 棚アクセス位置0なら配置確定を拒否。OPEN+speed0で什器変更は禁止。
