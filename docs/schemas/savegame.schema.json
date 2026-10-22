@@ -47,15 +47,18 @@
       "properties": {
         "arrivals": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "maximum": 4294967295
         },
         "purchases": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "maximum": 4294967295
         },
         "visuals": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "maximum": 4294967295
         }
       },
       "required": [
@@ -649,6 +652,14 @@
         "type": "integer",
         "minimum": 1
       }
+    },
+    "applied_command_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
     }
   },
   "required": [
@@ -670,6 +681,7 @@
     "daily_reports",
     "applied_event_ids",
     "store_reputation",
-    "product_price_overrides"
+    "product_price_overrides",
+    "applied_command_ids"
   ]
 }
