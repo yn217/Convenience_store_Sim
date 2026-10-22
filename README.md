@@ -105,3 +105,15 @@
 - 子Issue: [#30 演出](https://github.com/yn217/Convenience_store_Sim/issues/30)、[#31 イベント](https://github.com/yn217/Convenience_store_Sim/issues/31)、[#32 成長目標](https://github.com/yn217/Convenience_store_Sim/issues/32)
 
 イベントの経済効果は来店需要と対象商品カテゴリの人気度に限定し、**描画/SFX側で現金や在庫を直接書き換えません**。
+
+## ゲーム画面18枚のモックアップと画面実装仕様（2026-10-23）
+
+**追加14枚のSVGをGit登録**し、既存4枚と合計18画面になりました。
+
+- [全18画面のプレビューと個別SVG画像](docs/design/mockups/README.md)
+- [画面ごとの実装詳細仕様（18画面）](docs/design/SCREEN_SPECIFICATIONS_V1.md)
+- [画面遷移・操作可能状態・エラーとモーダル入力の規則](docs/design/SCREEN_NAVIGATION_AND_STATE_MATRIX.md)
+
+新規SVG: [タイトル](docs/design/mockups/05_title_new_game.svg) / [チュートリアル](docs/design/mockups/06_first_day_tutorial.svg) / [発注](docs/design/mockups/07_purchase_order.svg) / [補充](docs/design/mockups/08_shelf_restock.svg) / [開店](docs/design/mockups/09_opening_checklist.svg) / [閉店](docs/design/mockups/10_closing_in_progress.svg) / [イベント](docs/design/mockups/11_daily_event_festival.svg) / [初売上](docs/design/mockups/12_first_sale_achievement.svg) / [日次まとめ](docs/design/mockups/13_day_end_summary.svg) / [支払不能](docs/design/mockups/14_payment_blocked.svg) / [店舗分析](docs/design/mockups/15_store_heatmap.svg) / [セーブ](docs/design/mockups/16_save_load_settings.svg) / [広告](docs/design/mockups/17_next_day_advertising.svg) / [実績](docs/design/mockups/18_milestones_and_challenges.svg)。
+
+**注意:** SVGは構図/画面遷移の参考画像。実際の透過PNG/Blenderアセットや動作するGodotのゲームは制作中ではなく未実装。数値/経済/回転は`docs/implementation`の正式契約が優先します。
