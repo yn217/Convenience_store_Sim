@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yn217/Convenience_store_Sim/blob/main/docs/schemas/balance_config.schema.json",
+  "title": "balance_config.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "store_width_tiles": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "store_height_tiles": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "tile_meters": {
+      "const": 1
+    },
+    "starting_cash_yen": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "starting_reputation": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "base_potential_visitors_per_day": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "game_seconds_per_real_second": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "simulation_step_game_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_active_customers": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "customer_walk_tiles_per_game_second": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "checkout_duration_game_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "daily_fixed_cost_yen": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "advertising_tiers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "yen_per_day",
+          "arrival_multiplier"
+        ],
+        "properties": {
+          "yen_per_day": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "arrival_multiplier": {
+            "type": "number",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "starting_ad_budget_yen_per_day": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "game_speed_options": {
+      "const": [
+        0,
+        1,
+        2,
+        4
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "store_width_tiles",
+    "store_height_tiles",
+    "tile_meters",
+    "starting_cash_yen",
+    "starting_reputation",
+    "base_potential_visitors_per_day",
+    "game_seconds_per_real_second",
+    "simulation_step_game_seconds",
+    "max_active_customers",
+    "customer_walk_tiles_per_game_second",
+    "checkout_duration_game_seconds",
+    "daily_fixed_cost_yen",
+    "advertising_tiers",
+    "starting_ad_budget_yen_per_day",
+    "game_speed_options"
+  ]
+}
