@@ -263,3 +263,10 @@ SPAWN → CHOOSE_SHELF → WALK_TO_ACCESS_TILE → INSPECT → PICK_ITEM → (�
 
 
 - [07_SPEC_REVIEW_READINESS](implementation/07_SPEC_REVIEW_READINESS.md): 実装着手判定と未検証の範囲。
+
+
+## 14. 2026-10-23 実装上の矛盾解消
+- [08 営業状態/コマンド](implementation/08_RUNTIME_STATE_AND_COMMANDS.md)：営業終了と時計停止を分離、閉店完了まで什器の移動を禁止。
+- [09 決定論的経済・保存](implementation/09_DETERMINISTIC_SIMULATION_AND_SAVE.md)：固定RNG/需要モデル、価格上昇による購買率低下、二重請求防止。
+- [10 数値受入テスト](implementation/10_TEST_VECTORS_AND_ACCEPTANCE.md)：タイル/回転/縮尺/会計・保存の期待値。
+- Godot 4.7.2-stableをMVP標準とし、新しいsavegame v1は`SETUP/OPEN/CLOSING/PAYMENT_BLOCKED`と`applied_command_ids`を永続化。
