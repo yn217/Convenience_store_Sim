@@ -23,7 +23,7 @@ tests/{unit,contract,scenario,scene}/
 ```
 - Domain EventDirectorは`evaluate_daily`と`effects_at`だけを公開、Godot Sprite/AudioPlayerへ依存しない。
 - ApplicationのPresentationEventBridgeは既存`EventEnvelope`をread-only受信して`CueRequested`へ変換する。Presentation側CuePlayerは資金・在庫・客ステートを更新しない。
-- `GameEventState {last_selected_day, selection_event_id, active_event_id?, event_start_sec?, event_end_sec?, completed_event_ids[], shown_notice_ids[], event_rng_state}`をセーブに保存。セーブSchema拡張仕様は本書9節。
+- `GameEventState`は**Save v1の`gameplay_event_state`と一致**し、`last_selected_day`, `selection_event_id`, `selected_event_id`, `event_start_sec`, `event_end_sec`, `started`, `ended`, `shown_notice_ids`を保持。乱数stateは重複せず別の`rng_states.events`だけに保存。
 - 一日のイベントは**最大1件**。イベント無し抽選も記録。確定したイベントは当日中にコマンド/ロード/広告予算変更で再抽選しない。
 
 ## 3. deterministic日次抽選アルゴリズム
