@@ -55,7 +55,7 @@ UI commandは時計停止中でも処理される（tick処理だけ止める）
 - LCG32(seed=1)最初のstate: 1015568748。
 - hour raw weight24時間分を平均1へ正規化し、全時刻の合計24.0±1e-9。
 - category_preference全て1.0、fixture appeal1.0、stocked_category_countは到達可能な陳列カテゴリのdistinct数。
-- 値札default_price=150、設定300の`price_factor=0.5`、`purchase_probability=0.40`。同商品を100に値下げしたとき`price_factor=1.5`、`purchase_probability=0.95`（clamp）。
+- **実購買率も変える契約**: 値札default_price=150、設定300の`price_factor=0.5`、`purchase_probability=0.40`。同商品を100に値下げしたとき`price_factor=1.5`、`purchase_probability=0.95`（clamp）。同じ商品しかない場合でも、価格で実購買件数が変わる。
 - 同じゲームtick数・同じRNG state・同じコマンドID/順序なら売上履歴・来店数・現金・評判が一致する。
 - ビジュアル補間やFPSが増えてもarrivals/purchasesのstateが変わらない。
 
