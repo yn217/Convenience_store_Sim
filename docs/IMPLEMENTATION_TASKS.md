@@ -59,6 +59,8 @@
 
 - [ ] **M4-05** [#28 初回プレイ導線・営業開始条件・経営目標](https://github.com/yn217/Convenience_store_Sim/issues/28) — 依存: #6, #7, #11, #14, #17, #21 / lane: view
 
+- [ ] **M4-06** [#32 店長アシスタント・成長実績・日替わりチャレンジ](https://github.com/yn217/Convenience_store_Sim/issues/32) — 依存: #17,#19,#20,#21,#28 / lane: view/domain
+
 ### M5 — コンテンツ拡張・QA
 
 - [ ] **M5-01** [#22 10種什器アセット](https://github.com/yn217/Convenience_store_Sim/issues/22) — 依存: #8, #9, #12 / lane: art
@@ -67,6 +69,9 @@
 - [ ] **M5-04** [#25 統合テスト/性能/配布](https://github.com/yn217/Convenience_store_Sim/issues/25) — 依存: 主要機能 / lane: qa
 
 - [ ] **M5-05** [#29 AI生成素材・Blenderアセットの出典と再配布監査](https://github.com/yn217/Convenience_store_Sim/issues/29) — 依存: #8, #12, #22 / lane: art
+
+- [ ] **M5-06** [#30 リアクション・アニメ・効果音・通知](https://github.com/yn217/Convenience_store_Sim/issues/30) — 依存: #15,#17,#21,#23,#26 / lane: art/view
+- [ ] **M5-07** [#31 日替わりイベントディレクター](https://github.com/yn217/Convenience_store_Sim/issues/31) — 依存: #3,#14,#15,#20,#27 / lane: domain
 
 ## MVP確認ゲート
 
@@ -156,3 +161,19 @@
 - [ ] #10/#11/#21: 24SKUの正本マスタに接続し、棚/バックヤード/売価の情報を正しく表示。
 - [ ] #19: レポート画面のデータを会計台帳と連動させ、現金/粗利/経費を混同しない。
 - [ ] #8/#9/#22: 什器アセットの実PNGはBlenderで同一縮尺・4方向・接地アンカー校正を通すまで仮画像扱い。
+
+
+## ゲーム演出・日替わりイベント仕様（2026-10-23）
+
+**設計・データのみ登録完了**。ゲーム実装や演出素材は未制作。
+
+- [13 EventDirector / GameplayEvent 12件](implementation/13_EVENT_DIRECTOR_AND_GAMEPLAY_EVENTS.md)
+- [14 Animation / Audio / VFX / PresentationCue 15件](implementation/14_ANIMATION_AUDIO_VFX_CONTRACT.md)
+- [15 Tutorial / Story / Milestone 12件 / 日次目標3種](implementation/15_PROGRESSION_STORY_AND_SCENARIOS.md)
+- [16 イベント・演出・進行の受入テストと素材一覧](implementation/16_EVENT_QA_AND_ASSET_CHECKLIST.md)
+- [日替わりイベントJSON](examples/mvp_v1.gameplay_events.json) / [演出Cue JSON](examples/mvp_v1.presentation_cues.json) / [実績JSON](examples/mvp_v1.milestones.json)
+- [ ] #31 DAY1以降一日1回イベント抽選、倍率/カテゴリ効果、セーブ・ロード、独立LCG32を実装。
+- [ ] #30 来店/販売/売切れ/行列/廃棄/日次/称号の演出、BGM/SFX、控えめなVFXを作成・接続。
+- [ ] #32 tut_01〜08、12実績、3種のデイリーチャレンジとゲーム内案内を実装。
+- [ ] #3/#20 JSON Schemaと保存状態の新規必須フィールドをランタイムで検証。
+- [ ] #25 [EV-01〜EV-24](implementation/16_EVENT_QA_AND_ASSET_CHECKLIST.md)を実行し、イベント中/通常時のFPS・プレイ体験を報告。
