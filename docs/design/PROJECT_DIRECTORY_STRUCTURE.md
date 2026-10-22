@@ -108,3 +108,21 @@ When code is introduced, preserve the app-layer boundaries and implement `projec
 5. Report must distinguish **cash flow**, **revenue**, **COGS**, **gross margin**, **operating margin**. Illustrative mockup numbers are not authoritative gameplay fixtures.
 6. Use icons/text along with colour for placement allow/disallow and stock warning.
 7. The 4 SVGs are deliberately *editable composition mockups*, not final pixel-perfect 1920×1080 UI layouts. Production reference dimensions remain in `docs/implementation/02_GRID_AND_ASSET_CONTRACT.md` and `04_UI_SAVE_QA_CONTRACT.md`.
+
+
+## 7. 演出・イベントの追加ディレクトリ（2026-10-23）
+```text
+scripts/domain/{gameplay_event_director,milestone_tracker}.gd
+scripts/application/presentation_event_bridge.gd
+scripts/presentation/cue_player.gd
+scenes/ui/{EventBanner,NotificationStack,MilestonePanel}.tscn
+data/events/mvp_v1.json
+data/presentation/cues_v1.json
+data/progression/milestones_v1.json
+assets/generated/vfx/
+assets/generated/audio/{bgm,ambience,sfx}/
+tests/contract/event_catalog/            # event/cue/milestone schema+semantic ID refs
+tests/scenario/events/                 # same-seed daily roll/reload/cue replay
+```
+- 実装前は`docs/examples/`の3つのseed JSONを正本とし、上の`data`へ**検証付きimport/コピー**する。実画像・BGM/SEが無い状態で`assets/generated`に偽のPNG/音声を置かない。
+- 画面イベントは独立する`PresentationCue`。在庫・来店・売上を変える本体の変更はDomainでのみ行う。音声/2Dエフェクトを必須のゲームロジック依存にしない。
