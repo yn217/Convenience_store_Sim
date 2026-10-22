@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "sku_id": "drink_001",
+  "display_name": "緑茶500ml",
+  "category": "drink",
+  "purchase_cost_yen": 75,
+  "default_sell_price_yen": 130,
+  "expires_after_seconds": null,
+  "demand_weight": 1,
+  "visual_id": "green_tea_bottle",
+  "slot_units": 1
+}
