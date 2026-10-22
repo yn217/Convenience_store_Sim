@@ -78,3 +78,9 @@
 - 初期エンジン版は**Godot 4.7.2-stable**に固定（4.8 betaを採用しない）。変更する場合はバージョン更新Issueと検証を要求。
 - `business_state`とゲーム速度は別状態。[08 営業/停止/コマンド契約](08_RUNTIME_STATE_AND_COMMANDS.md)の`SETUP/OPEN/CLOSING/PAYMENT_BLOCKED`を採用。
 - [09 乱数・来店・価格・会計・保存契約](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)が決定論的アルゴリズムと入力順の正本。
+
+
+## 6. 仕様の細則の優先（2026-10-23）
+- [08](08_RUNTIME_STATE_AND_COMMANDS.md)の営業状態・command実行順は01/03/04の旧文と矛盾する場合に優先する。
+- [09](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)の乱数・価格・顧客行動・保存/費用の規則は03/04の旧文と矛盾する場合に優先する。
+- [10](10_TEST_VECTORS_AND_ACCEPTANCE.md)の入力/期待値を受入用ゴールデンケースとする。
