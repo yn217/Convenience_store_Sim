@@ -97,3 +97,11 @@ OBSERVE/SELECTED → MODAL → return previous state
 ## 10. Save/Command 冪等性追補
 - 保存には`applied_command_ids`を含め、UIコマンドの再送を跨いだ再適用を禁止。eventの重複防止集合とは別。
 - 未対応`business_state`（旧NOT_READY/READY_PAUSED/PAUSEDを含む）をv1として黙って解釈しない。Schema形式が違えば読み込み拒否し、将来はversion migrationで対応する。
+
+
+## 11. 日替わり出来事・実績・演出のUIと保存
+- 上HUDには**当日発生中のイベント名/終了時刻/効果**を常に確認できる小カードを設置。イベント開始時は3.5実秒banner、閉じても経済効果は継続。
+- 日次レポートに「当日のイベント」「その日のチャレンジ成功/失敗」「達成実績」を表示し、広告・評判・イベントの倍率を区別。**経営の損益はイベント映像が直接更新しない**。
+- 保存形式v1必須`rng_states.events`と`gameplay_event_state`/`progression_state`。ロード後に発生中イベント/達成状況をHUDに再構成し、開始音や紙吹雪を再演出しない。
+- 極端な描画負荷時も通知スタック最大3、粒子80、浮上売上6、SFX同時8。画面ズーム0.5でもイベント名をUIで認識できる。[14](14_ANIMATION_AUDIO_VFX_CONTRACT.md)
+- 従来の`save_schema_version=1`のサンプルにイベントと進行状態を**初期リリース前に**追記。未知/欠落フィールドは破損として拒否（初リリース後のv1破壊変更は行わない）。
