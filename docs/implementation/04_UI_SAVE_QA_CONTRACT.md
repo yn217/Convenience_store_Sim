@@ -79,3 +79,12 @@ OBSERVE/SELECTED → MODAL → return previous state
 - daily_reports[]: day_index, revenue/cogs/gross/wastage/ad/electricity/fixed/operating profit/cash delta/cash balance/reputation/客数と販売個数。
 - store_reputation 0..100, product_price_overrides{sku_id→販売価格円}。これらを省略すると保存・ロード完了としない。JSON上の構造は[savegame.schema.json](../schemas/savegame.schema.json)を正とする。
 - jsonschemaで表現できない在庫reservation参照・`reserved<=physical`や売上明細整合はDomain validatorで追加確認する。
+
+## 8. Undo/Redo と現金台帳の厳密な関係
+- Undo対象は**一続きの配置編集セッション**だけ。`start_business`、`order_stock`、`restock`、`checkout`、`save/load`、日付tickなどの非配置コマンドが走った時点で編集履歴を消去する。
+- `place_fixture`のUndoは占有解除と**購入時と同額の設備投資支出の逆仕訳**を原子的に行う（売上/営業利益には含めない）。Redoは配置/現金条件を最新Revisionで再検証して再購入する。
+- `move/rotate`は現金0の可逆操作。Redo時も占有衝突チェックを実行する。
+- `remove_fixture`のUndoは撤去前のfixtureとstock segment配置を同一セッション内だけ復元し、バックヤード戻しを取り消す。保存/購入/補充/客予約が挟まれば復元不可。
+- ledgerの履歴は削除せず、巻き戻しは`REVERSAL`として一意event IDで記録する。cashの純増減は正しく相殺し、冪等性は保持。
+- 不可逆の販売/仕入/日次費用を`Ctrl+Z`で戻せない。「元に戻す」の対象外であることをUIツールチップに表示。
+- テスト: 9万円のレジ設置→Undoで現金/占有が元通り→Redoで再び9万円支出、続けて仕入操作後はUndo不可。二重返金や負の残高を発生させない。
