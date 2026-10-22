@@ -93,3 +93,7 @@ OBSERVE/SELECTED → MODAL → return previous state
 - `business_state`は SETUP/OPEN/CLOSING/PAYMENT_BLOCKED とし、`speed_setting=0`は**時計だけの停止**。
 - OPEN+speed0の保存をOPEN+speed0として復元する。CLOSINGは客/予約の状態をそのまま復元して閉店継続。SETUP時には客0/予約0を検証。
 - 保存・画面操作・コマンドphaseの詳細は[08](08_RUNTIME_STATE_AND_COMMANDS.md)。LCG32と需給・イベント順は[09](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)。
+
+## 10. Save/Command 冪等性追補
+- 保存には`applied_command_ids`を含め、UIコマンドの再送を跨いだ再適用を禁止。eventの重複防止集合とは別。
+- 未対応`business_state`（旧NOT_READY/READY_PAUSED/PAUSEDを含む）をv1として黙って解釈しない。Schema形式が違えば読み込み拒否し、将来はversion migrationで対応する。
