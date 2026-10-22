@@ -34,7 +34,7 @@ OBSERVE/SELECTED → MODAL → return previous state
 
 ## 4. Savegame v1 exact boundary
 - 保存スロット`slot_1, slot_2, slot_3`の3つをMVP固定。`user://saves/<slot>.json`を使用。 `schema_version:1`。
-- 必須トップフィールド: `schema_version`, `save_id`, `saved_at_utc`, `game_tick`, `game_time_seconds`, `speed_setting`, `business_state`, `rng_states`, `store`, `fixture_instances`, `inventory_segments`, `reservations`, `customers`, `economy`, `advertising`, `daily_reports`, `applied_event_ids`。正確な構造は`docs/schemas/savegame.schema.json`。
+- 必須トップフィールド: `schema_version`, `save_id`, `saved_at_utc`, `game_tick`, `game_time_seconds`, `speed_setting`, `business_state`, `rng_states`, `store`, `store_reputation`, `product_price_overrides`, `fixture_instances`, `inventory_segments`, `reservations`, `customers`, `economy`, `advertising`, `daily_reports`, `applied_event_ids`。正確な構造は`docs/schemas/savegame.schema.json`。
 - 保存はtick処理終了後の不変GameSnapshotを作成→JSONエンコード→同じディレクトリのtemporary filenameへ書込/flush→ロード再検証→元ファイルが存在すればbackupへ切替→atomic replacement（OSのrename失敗は警告し元保存を保全）。
 - 再開はすべての参照（fixture,lot,sku,customer, event）と数量不変条件を**新しいGameState**上で検証し、全検査成功後に既存状態を入れ替える。読み込みエラーは現状態を変更しない。
 - 保存中の客/予約をそのまま復元（**予約を黙って解放しない**）。`rng_states`は客/需要/描画の独立seed状態。`applied_event_ids`と締めマーカーで再起動直後の二重決済/二重請求を防ぐ。
@@ -72,3 +72,10 @@ OBSERVE/SELECTED → MODAL → return previous state
 - 目標60FPS（約16.67ms/frame）は**製品目標**。達成判定は環境/commit/試行回数/計測結果を添えてから。
 - アセット1種類追加のために場面全体をレンダーし直さない。建設/在庫変化のときだけ該当sprite合成を更新。商品組合せ爆発を避ける。
 - 実装完了の条件は単体テストのPASSだけではなく、シーン実画面で配置・回転・スプライト合成が破綻しないこと。
+
+### 4.1 Save v1の厳密な入れ子要素
+- customers[]: customer_id/phase/position/route/route_index/reservation_ids/patience_remaining_sec/target_fixture_id/checkout_remaining_sec。
+- economy: cash_yen, ledger_transactions[] (event_id/event_type/day_index/time_sec/現金・売上・原価・費用差分), unpaid_cost_yen。
+- daily_reports[]: day_index, revenue/cogs/gross/wastage/ad/electricity/fixed/operating profit/cash delta/cash balance/reputation/客数と販売個数。
+- store_reputation 0..100, product_price_overrides{sku_id→販売価格円}。これらを省略すると保存・ロード完了としない。JSON上の構造は[savegame.schema.json](../schemas/savegame.schema.json)を正とする。
+- jsonschemaで表現できない在庫reservation参照・`reserved<=physical`や売上明細整合はDomain validatorで追加確認する。
