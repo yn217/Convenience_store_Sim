@@ -70,3 +70,9 @@ uniform_0_1() => next() / 4294967296.0
 ## 8. コマンド再送と保存の追加不変条件
 - 永続化対象に`applied_command_ids`を含める。イベント冪等性とコマンド再送の冪等性の両方を検査する。
 - `rng_states`の値はLCG32 stateの0..4294967295。保存から戻すときにエンジンのグローバル乱数で再seedしない。
+
+
+## 9. ゲームイベントと決定論的来店モデルの接続
+- [13](13_EVENT_DIRECTOR_AND_GAMEPLAY_EVENTS.md)の`EventDirector`はDAY1以降、最初のOPENまたは日付更新時に**一日一回**抽選。独立したLCG32 `rng_states.events`が1回だけ進む。DAY0は初日チュートリアル優先。
+- OPEN中の来店確率原式に`event_traffic_multiplier`を**1回だけ**掛ける。SKU選択の相対重みにカテゴリ人気倍率を1回掛ける。通常hour_weight/価格/広告・評判倍率は既存式のまま。
+- CLOSING/SETUPで新規来店を増やさない。イベントの選択/開始/終了IDは再ロード時に再生成・再請求しない。見た目イベントによる会計/購買変更禁止。[16](16_EVENT_QA_AND_ASSET_CHECKLIST.md)の固定seedテストに従う。
