@@ -43,5 +43,6 @@
   "daily_reports": [],
   "applied_event_ids": [],
   "store_reputation": 50,
-  "product_price_overrides": {}
+  "product_price_overrides": {},
+  "applied_command_ids": []
 }
