@@ -1,6 +1,6 @@
 # Convenience_store_Sim — 詳細ゲーム仕様書
 
-> Status: Draft v0.2 / 2026-10-22 / 方針: リアル寄り2.5Dアイソメトリック
+> Status: Draft v0.3 / 2026-10-22 / 方針: リアル寄り2.5Dアイソメトリック
 > 本仕様はMVPの実装契約。未決定事項は「暫定」と明記し、実装中に暗黙の仕様変更をしない。
 
 ## 0. 目的・体験
@@ -242,3 +242,21 @@ SPAWN → CHOOSE_SHELF → WALK_TO_ACCESS_TILE → INSPECT → PICK_ITEM → (�
 - [レビュー記録](SPEC_REVIEW_2026-10-22.md): 問題・判断・Issue対応表。
 
 これらは設計仕様書であり、**アセット画像・モデル・ゲーム実装を作成済みであることは意味しない**。
+
+
+## 13. 実装基準 v1.0（2026-10-22）
+
+本書の初期仮定・未決定を解消するため、実装の**唯一の正本となる決定済み規約**を次の通り追加する。以後のタイル投影/什器サイズ/商品・会計・保存の実装はこれらを優先する。
+
+- [00_BASELINE_AND_DECISIONS](implementation/00_BASELINE_AND_DECISIONS.md): 24時間営業、ゲーム時間、資金、固定ステップ、初期顧客数等を固定。
+- [01_ENGINE_CONTRACT](implementation/01_ENGINE_CONTRACT.md): Godotのシーン/ファイル/API/責務。
+- [02_GRID_AND_ASSET_CONTRACT](implementation/02_GRID_AND_ASSET_CONTRACT.md): 1tile=1m、正投影30°仰角+45°方位、128×64 screen px、source2倍、10什器の最大外形/高さ/価格、接地アンカー。
+- [03_ECONOMY_AND_SIMULATION_CONTRACT](implementation/03_ECONOMY_AND_SIMULATION_CONTRACT.md): 固定step、来店、価格、予約/会計/廃棄、広告/日次。
+- [04_UI_SAVE_QA_CONTRACT](implementation/04_UI_SAVE_QA_CONTRACT.md): UI操作、セーブv1、受入QA。
+- [05_IMPLEMENTATION_HANDOFF](implementation/05_IMPLEMENTATION_HANDOFF.md): 依存/作業レーン/PR完了条件。
+- [06_ASSET_BLUEPRINTS_AND_VALIDATION](implementation/06_ASSET_BLUEPRINTS_AND_VALIDATION.md): Blenderの形状パラメータ、商品形状サイズ、sprite出力の校正。
+- [schemas](schemas/) / [初期10什器×24SKU等の機械可読サンプル](examples/README.md)
+
+**重要な寸法変更:** 「1×2」を1m間口・2m奥行の棚として扱い、プレイヤー/客が利用する正面は**2m長辺のE側**とする。90°回転後はS側。おでん1×1はN、アイス2×2は四方。アートと経路探索はこの方向定義を共有する。
+
+**静的レビューと実機確認は別:** 仕様・マスタの静的整合は確認できるが、実PNGの画素座標/画像の品質とFPS達成はBlender/Godotで制作・測定するまで未達成。
