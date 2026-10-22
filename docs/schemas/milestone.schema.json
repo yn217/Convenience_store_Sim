@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yn217/Convenience_store_Sim/blob/main/docs/schemas/milestone.schema.json",
+  "title": "MilestoneDef",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "milestone_id": {
+      "type": "string",
+      "pattern": "^ms_[a-z0-9_]+$"
+    },
+    "name_ja": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metric": {
+      "enum": [
+        "total_sales_count",
+        "daily_operating_profit_at_least",
+        "total_customers_entered",
+        "unique_categories_stocked",
+        "fixtures_installed_count",
+        "day_closed_count",
+        "total_revenue_yen",
+        "reputation_at_least"
+      ]
+    },
+    "threshold": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "reward": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "badge_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "badge_only"
+        },
+        "badge_id": {
+          "type": "string",
+          "pattern": "^badge_[a-z0-9_]+$"
+        }
+      }
+    },
+    "notice_cue_id": {
+      "const": "milestone_celebrate"
+    }
+  },
+  "required": [
+    "schema_version",
+    "milestone_id",
+    "name_ja",
+    "metric",
+    "threshold",
+    "reward",
+    "notice_cue_id"
+  ]
+}
