@@ -44,7 +44,7 @@ uniform_0_1() => next() / 4294967296.0
 - ロット原価はpurchase時snapshot。売上原価は会計確定時だけ計上。発注支出を粗利/営業利益から二重控除しない。
 - `event_id = day_index + ":" + event_kind`（day start/close/advertisement/fixed/electricity）を永久に記録し、save/loadやre-openで再請求しない。個別販売は unique transaction IDを使う。
 - D日00:00にDの初回OPENが発生する場合、その日初回営業開始時に**当日広告費・固定費・電気代の請求処理**を1回だけ実行する（電気代は当日の有効設備から算出）。D+1日00:00でD日分報告を閉じ、OPEN/CLOSINGが続くなら新日の費用を課金する。SETUPで時間が止まる場合は新日まで進まない。
-- 支払請求は**費用認識と現金支払を分離**。不足した場合は`unpaid_cost_yen`へ未払額を加算して費用を1回だけ計上し、現金はマイナスにしない。状態`PAYMENT_BLOCKED`へ、客/予約は中断保存（ロードで復元可能）。暫定MVPでは負債返済以外に復旧する操作はなく、UIで前セーブ再開/新規ゲームを提示。
+- **開店要求時の資金不足**：事前に同日未請求の広告・固定費・設備電気代を検証し、残高不足なら`INSUFFICIENT_CASH`で拒否する。**料金・未払額・stateは変えない**（08の契約を優先）。**営業中の新日付課金時の不足**：費用認識と現金支払を分離し、その時点の現金で払える部分を支払い、残額を`unpaid_cost_yen`へ積み上げて費用を1回だけ計上、stateを`PAYMENT_BLOCKED`にする。現金は負数にしない。再試行しても同日分を重複認識しない。MVPには返済コマンドを設けないため、UIから直近成功セーブ/新規ゲームへ戻す。
 - 設備投資/設置UndoのREVERSALは本体の現金支出と帳尻を合わせる、ただし粗利/営業損益には算入しない。
 - 日次レポートの`gross_profit_yen`と`operating_profit_yen`は負数もありえる。`unpaid_cost_yen`は`cash_yen`とは別項目。
 
