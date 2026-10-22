@@ -32,6 +32,8 @@
 - [ ] **M1-03** [#8 Blenderスプライト生成](https://github.com/yn217/Convenience_store_Sim/issues/8) — 依存: #3 / lane: art
 - [ ] **M1-04** [#9 基準什器3種](https://github.com/yn217/Convenience_store_Sim/issues/9) — 依存: #6, #8 / lane: art
 
+- [ ] **M1-05** [#26 什器/商品/ガラスの描画合成と重なり順](https://github.com/yn217/Convenience_store_Sim/issues/26) — 依存: #4, #8, #9, #12 / lane: view
+
 ### M2 — 商品・在庫・パッケージ
 
 - [ ] **M2-01** [#10 8カテゴリ×3SKU/値付け](https://github.com/yn217/Convenience_store_Sim/issues/10) — 依存: #3 / lane: economy
@@ -46,12 +48,16 @@
 - [ ] **M3-03** [#16 レジ行列/離脱](https://github.com/yn217/Convenience_store_Sim/issues/16) — 依存: #7, #15 / lane: sim
 - [ ] **M3-04** [#17 売上/原価/現金台帳](https://github.com/yn217/Convenience_store_Sim/issues/17) — 依存: #11, #16 / lane: economy
 
+- [ ] **M3-05** [#27 価格弾力性・品揃え・評判による購買需要](https://github.com/yn217/Convenience_store_Sim/issues/27) — 依存: #10, #14, #15, #17 / lane: sim
+
 ### M4 — 経営UI・広告・保存
 
 - [ ] **M4-01** [#18 広告費/来店倍率](https://github.com/yn217/Convenience_store_Sim/issues/18) — 依存: #14, #17 / lane: economy
 - [ ] **M4-02** [#19 日次レポート/経営画面](https://github.com/yn217/Convenience_store_Sim/issues/19) — 依存: #13, #17, #18 / lane: economy
 - [ ] **M4-03** [#20 セーブ/ロード](https://github.com/yn217/Convenience_store_Sim/issues/20) — 依存: #3, #6, #11, #17, #18 / lane: core
 - [ ] **M4-04** [#21 建設/仕入/インスペクタ/HUD](https://github.com/yn217/Convenience_store_Sim/issues/21) — 依存: #6, #11, #14, #19 / lane: view
+
+- [ ] **M4-05** [#28 初回プレイ導線・営業開始条件・経営目標](https://github.com/yn217/Convenience_store_Sim/issues/28) — 依存: #6, #7, #11, #14, #17, #21 / lane: view
 
 ### M5 — コンテンツ拡張・QA
 
@@ -60,14 +66,16 @@
 - [ ] **M5-03** [#24 情報表示/遮蔽物選択](https://github.com/yn217/Convenience_store_Sim/issues/24) — 依存: #7, #19, #22 / lane: view
 - [ ] **M5-04** [#25 統合テスト/性能/配布](https://github.com/yn217/Convenience_store_Sim/issues/25) — 依存: 主要機能 / lane: qa
 
+- [ ] **M5-05** [#29 AI生成素材・Blenderアセットの出典と再配布監査](https://github.com/yn217/Convenience_store_Sim/issues/29) — 依存: #8, #12, #22 / lane: art
+
 ## MVP確認ゲート
 
 - [ ] **G0 表示可能**: 初期店舗がロードされ、投影・パン・ズーム・クリックの整合が確認できる（#2–#5）。
 - [ ] **G1 売場が作れる**: 什器3種の配置、回転、重複防止、入口・レジ動線チェックが使える（#6–#9）。
 - [ ] **G2 仕入れができる**: 8カテゴリ24SKU、棚補充、在庫容量、廃棄、商品表示が一致（#10–#13）。
-- [ ] **G3 売上が立つ**: 来店客が選択/会計/退店し、売上・原価・現金が一致（#14–#17）。
-- [ ] **G4 経営できる**: 広告による集客変動、日次損益、セーブ/ロード、操作UIが動く（#18–#21）。
-- [ ] **G5 プレイ可能**: 什器10種、客の見た目、オーバーレイ、統合シナリオと配布（#22–#25）。
+- [ ] **G3 売上が立つ**: 来店客が選択/会計/退店し、売上・原価・現金が一致（#14–#17, #27）。
+- [ ] **G4 経営できる**: 広告による集客変動、日次損益、セーブ/ロード、操作UIが動く（#18–#21, #28）。
+- [ ] **G5 プレイ可能**: 什器10種、客の見た目、オーバーレイ、統合シナリオと配布（#22–#26, #29）。
 
 ## テスト・レビューの共通ルール
 
@@ -86,3 +94,10 @@
 - [ ] **4方向アート規格**: 投影・接地・アンカー・影が統一
 - [ ] **保存の将来互換**: versionとstable IDを持つ
 - [ ] **MVP範囲固定**: 過剰なコンテンツ制作より1日の経営ループを完成
+
+
+## 仕様レビュー追加（2026-10-22）
+
+- レビュー結果と修正済みの詳細仕様: [SPEC_REVIEW_2026-10-22](SPEC_REVIEW_2026-10-22.md)
+- 追加子Issue: #26（2.5D描画合成）、#27（購買需要）、#28（初回プレイ/営業）、#29（素材出典監査）
+- **2026-10-22にレビュー済みなのは仕様とIssueのみ**。コード/アセットの品質試験・実装テストは未着手。
