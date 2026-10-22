@@ -19,3 +19,16 @@
 - 商品の`visual_id`も将来画像アセットへの参照予約名であり、現在画像が存在することを意味しない。
 - マスタの自動生成結果とドキュメントのfixture寸法が食い違った場合は、[実装用アセット規格](../implementation/02_GRID_AND_ASSET_CONTRACT.md)を優先し、配列を修正してローカルテストを再実行する。
 - **実装前のJSONと数値の静的整合性**はレビュー可能だが、レンダリング品質やスプライト縮尺の一致は本物のPNGを生成してGodotへ読み込むまで合格としない。
+
+
+## ゲームイベント・演出・進行の初期マスタ（2026-10-23追加）
+
+|データ|内容|要素ごとのschema|
+|---|---|---|
+|[mvp_v1.gameplay_events.json](mvp_v1.gameplay_events.json)|日替わりイベント12件（DAY1以降抽選）|[gameplay_event.schema.json](../schemas/gameplay_event.schema.json)|
+|[mvp_v1.presentation_cues.json](mvp_v1.presentation_cues.json)|会計・来店・警告・報告等の演出Cue15件|[presentation_cue.schema.json](../schemas/presentation_cue.schema.json)|
+|[mvp_v1.milestones.json](mvp_v1.milestones.json)|成長実績12件（バッジ報酬のみ）|[milestone.schema.json](../schemas/milestone.schema.json)|
+
+- 配列には各要素のschemaを適用し、ID重複・category/priority/triggerの参照や、window_start_hour < window_end_hour 等はsemantic validatorで別検査する。
+- [empty_store.savegame.json](empty_store.savegame.json) は events専用RNG345678、gameplay_event_state、progression_stateを含むv1の更新済みサンプル。
+- 画像/SFXの記号は制作予定の識別子であり、ファイルがすでに存在することを保証しない。[演出・音の仕様](../implementation/14_ANIMATION_AUDIO_VFX_CONTRACT.md)参照。
