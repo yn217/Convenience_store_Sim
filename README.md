@@ -53,3 +53,11 @@
 **注意:** 規則/JSON/例の静的整合性のレビューは済んでいるが、ゲームコード・什器メッシュ・画像アセットの制作および実機検証はまだ行っていない。
 
 - [07 — 実装着手判定と残存検証ゲート](docs/implementation/07_SPEC_REVIEW_READINESS.md)
+
+
+### 2026-10-23 最終実装契約
+- [08 営業状態・一時停止・コマンド実行](docs/implementation/08_RUNTIME_STATE_AND_COMMANDS.md)
+- [09 固定乱数・顧客/経営・安全セーブ](docs/implementation/09_DETERMINISTIC_SIMULATION_AND_SAVE.md)
+- [10 数値ゴールデンテスト](docs/implementation/10_TEST_VECTORS_AND_ACCEPTANCE.md)
+
+**初期開発エンジン:** Godot 4.7.2-stable。実装仕様は上述の追加契約を含む。実機でのBlender画角・PNG接地・性能・プレイ検証は未着手。
