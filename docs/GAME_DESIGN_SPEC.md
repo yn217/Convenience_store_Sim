@@ -260,3 +260,6 @@ SPAWN → CHOOSE_SHELF → WALK_TO_ACCESS_TILE → INSPECT → PICK_ITEM → (�
 **重要な寸法変更:** 「1×2」を1m間口・2m奥行の棚として扱い、プレイヤー/客が利用する正面は**2m長辺のE側**とする。90°回転後はS側。おでん1×1はN、アイス2×2は四方。アートと経路探索はこの方向定義を共有する。
 
 **静的レビューと実機確認は別:** 仕様・マスタの静的整合は確認できるが、実PNGの画素座標/画像の品質とFPS達成はBlender/Godotで制作・測定するまで未達成。
+
+
+- [07_SPEC_REVIEW_READINESS](implementation/07_SPEC_REVIEW_READINESS.md): 実装着手判定と未検証の範囲。
