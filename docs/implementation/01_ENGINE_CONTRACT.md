@@ -73,7 +73,7 @@ CommandResult { ok: bool, code: StringName, message_key: StringName, event_ids: 
 - `restock(instance_id,slot_id,sku_id,qty)` — 対応カテゴリ/容量/availableを検査→ロット移動。
 - `set_sell_price(sku_id,new_price_yen)` — 価格更新、予約済取引のsnapshotは変更しない。
 - `set_next_day_ad(tier_yen)` — 翌日適用、現金の請求は日境界で一度だけ。
-- `start_business()`,`pause_business()` — 条件を検査し状態遷移。
+- `start_business()`, `request_close_business()`, `set_speed(speed)` — 営業状態と時間停止は別の状態遷移。[08](08_RUNTIME_STATE_AND_COMMANDS.md)を正とする。
 - `save(slot_id)`, `load(slot_id)` — 別のServiceだが、進行中tickの安全境界で実行。
 ```
 EventEnvelope { id: string, tick: int, type: string, payload: Dictionary }
@@ -107,3 +107,8 @@ A. `GameState/Schema` と配置判定の純粋テスト → B. 床レンダラ �
 - `GameState`は**store_reputation**と**product_price_overrides{sku_id:int yen}**も保持する。値付け時は上書きマップを更新し、ロットのpurchase costを変更しない。
 - `SaveManager`は[savegame.schema.json](../schemas/savegame.schema.json)の厳密なCustomerState/LedgerTransaction/DailyReport構造に従う。任意Dictionaryで全てを通すことは禁止。
 - カタログJSON配列はfixture/product schemaを**各要素に**適用し、意味検証でID参照と棚slot capacityを照合する。
+
+## 9. 2026-10-23 実行順の補完
+- [08_RUNTIME_STATE_AND_COMMANDS](08_RUNTIME_STATE_AND_COMMANDS.md)のFIFO command phaseは**speed0でも稼働**。固定tick loop外から配置・仕入・UI変更をコミット可能とする。
+- 顧客/会計/売上だけを[09_DETERMINISTIC_SIMULATION_AND_SAVE](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)の固定step・LCG32で更新。Node2Dの_processに会計を置かない。
+- `business_state`はSETUP/OPEN/CLOSING/PAYMENT_BLOCKED、`speed_setting`は0/1/2/4で独立。OPEN+speed0中の建設は禁止。
