@@ -122,3 +122,6 @@
 - [ ] #25 画面シナリオと性能を固定条件で測定。校正・実画像・実測が無い状態でIssueをcloseしない。
 
 仕様段階の静的整合とゲーム実装/実機品質の合格は区別する。**仮画像パスとsample visual manifestは完了アセットではない**。
+
+
+- [07 実装準備レビュー・未検証項目](implementation/07_SPEC_REVIEW_READINESS.md)
