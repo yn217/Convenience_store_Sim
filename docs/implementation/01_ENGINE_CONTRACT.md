@@ -116,3 +116,11 @@ A. `GameState/Schema` と配置判定の純粋テスト → B. 床レンダラ �
 ## 10. command/event 冪等性補完
 - `GameState`に`applied_command_ids`を保持し、コマンド実行前に冪等確認、成功commit後に登録。
 - Ledgerの`applied_event_ids`と混同しない。savegame v1から両方を復元する。
+
+
+## 11. 日次イベント・演出・実績の追加モジュール（2026-10-23）
+- `scripts/domain/gameplay_event_director.gd`: 日付別抽選/効果判定だけをDomainで実行、UI・Audioには依存しない。[13](13_EVENT_DIRECTOR_AND_GAMEPLAY_EVENTS.md)
+- `scripts/domain/milestone_tracker.gd`: 成長実績/チュートリアル/日替わりチャレンジをDomain state/ledgerから判定。[15](15_PROGRESSION_STORY_AND_SCENARIOS.md)
+- `scripts/application/presentation_event_bridge.gd`: Domain EventEnvelopeの`event_id`をCueRequestへ写像、重複をフィルタ。
+- `scripts/presentation/cue_player.gd`: Audio/2Dアニメ/UIの表示のみ。描画失敗してもDomain commitを取り消さない。[14](14_ANIMATION_AUDIO_VFX_CONTRACT.md)
+- `rng_states.events`と`gameplay_event_state`、`progression_state`をSave v1に保持。Runtime in-memoryとセーブSchemaが一致していることを契約テストする。[16](16_EVENT_QA_AND_ASSET_CHECKLIST.md)
