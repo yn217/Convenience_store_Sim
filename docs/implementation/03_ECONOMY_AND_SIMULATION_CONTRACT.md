@@ -8,7 +8,7 @@
 - `paused`時はstepを進めない。翌ゲーム日00:00のイベント順は、前日23:59:59までの会計→日次集計確定→新日広告/固定費請求→新日客発生。
 
 ## B. 1 stepの処理順（**この順番はテストの前提**）
-1. 受け取ったUIコマンドをevent ID付で検証し適用（建設はpause中のみ）。
+1. 固定tickの開始前/終了後の独立command phaseでUIコマンドを逐次処理。**speed0でも動作**。建設は business_state=SETUP のみ（OPEN+speed0では不可）。
 2. 予約タイムアウト/期限切れの棚・バックヤード在庫を処理し、先に予約解除・購入予定から除外してから廃棄。
 3. 有効在庫とアクセス可能売場のsnapshotを生成。
 4. 来店希望を生成、入口混雑/上限なら失客に計上。
@@ -72,7 +72,7 @@ checkout(transaction_id, reservation_id)
 - 各step potential event確率`p = clamp(100 * traffic_multiplier * normalized_hour_weight / 43200, 0, 1)`。seedを固定したPRNGで`random_uniform()<p`。1step最大来店希望1人（MVP）。
 - `reputation`初期50。日次更新`delta = clamp(round(2*(purchase_rate-0.5)-2*queue_abandon_rate - stockout_rate), -3,+3)`、次日reputationを0〜100にclamp。率の分母0は0とする。基礎需要とは別の表示指標。
 - SKU選択重み`category_preference * price_factor * display_appeal * accessibility`。stock available=0 または到達不能→0。価格係数`clamp((reference_sell_price / current_sell_price)^1.0,0.3,2.0)`。referenceはProductDefのdefault_sell_price。display_appealはfixture appeal_factor×ProductDef demand_weight（それぞれ1を標準）、accessibilityは到達可能なら1、不可なら0。相対重みから1SKUを乱数抽選。
-- 客の購買しない確率は**0.20**の基準値（仮のゲーム調整値）。候補抽選に失敗した場合は0件購入で退出。閉店/買物導線なしなら営業開始できない。
+- 参照売価での基礎非購買確率は0.20。**選択候補の価格係数を実購買確率にも反映**して、値上げで売れ行きが本当に減るようにする。[09](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)の確率・乱数消費順が正本。
 - ad tier →倍率: (0,1.0),(1000,1.10),(2000,1.18),(5000,1.30),(10000,1.40)。翌日から適用、当日の請求1回。今日の予算変更は現金を即減らさない。
 - 時間帯/客数/売上はランダムでも**same seed + same orders + same simulation ticks => same results**。来店/需要/アートのRNGは分離。
 
@@ -97,3 +97,8 @@ checkout(transaction_id, reservation_id)
 7. 広告変更5000→1000同日に実施 → 翌日1000だけ適用、当日広告費1回。
 8. 初期レジ0台で合法棚配置は成功、営業開始は`MISSING_REGISTER`相当の理由で拒否。
 9. 4×速度と1×速度で同じstep数を進めると同じ結果。
+
+## I. 2026-10-23 確定アルゴリズム
+- 休止speed0と完全閉店SETUPは別。OPEN/CLOSING中の一時停止は保存中客・予約を保持、建設不可。明示的`request_close_business()`を完了して客0でSETUPへ戻す。
+- 時間帯重みの平均1正規化、LCG32の定数、顧客tie-break、基準価格への購買確率は[09](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)に固定。
+- 価格を上げてもSKU間の重みだけが変わる不具合を避け、`purchase_probability=clamp(0.80*price_factor,0.05,0.95)`も適用。
