@@ -1,0 +1,596 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yn217/Convenience_store_Sim/blob/main/docs/schemas/visual_manifest.schema.json",
+  "title": "visual_manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "manifest_version": {
+      "const": 1
+    },
+    "visual_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "fixture_type_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "projection_id": {
+      "const": "iso2x_v1"
+    },
+    "world_units_per_tile": {
+      "const": 1
+    },
+    "source_px_per_tile_diamond": {
+      "const": [
+        256,
+        128
+      ]
+    },
+    "footprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "w": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "h": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "w",
+        "h"
+      ]
+    },
+    "dimensions_m": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "depth": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height"
+      ]
+    },
+    "rotations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "0": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "canvas_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "anchor_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "layers": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "body": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "shadow": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "glass_front": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "fixture_back": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "fixture_front": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                }
+              },
+              "required": [
+                "body"
+              ]
+            },
+            "slot_anchors_px": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "propertyNames": {
+                "pattern": "^[a-z][a-z0-9_]*$"
+              }
+            },
+            "selection_polygon_px": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "sorting_anchor_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "canvas_px",
+            "anchor_px",
+            "layers",
+            "slot_anchors_px",
+            "selection_polygon_px",
+            "sorting_anchor_px"
+          ]
+        },
+        "1": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "canvas_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "anchor_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "layers": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "body": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "shadow": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "glass_front": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "fixture_back": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "fixture_front": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                }
+              },
+              "required": [
+                "body"
+              ]
+            },
+            "slot_anchors_px": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "propertyNames": {
+                "pattern": "^[a-z][a-z0-9_]*$"
+              }
+            },
+            "selection_polygon_px": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "sorting_anchor_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "canvas_px",
+            "anchor_px",
+            "layers",
+            "slot_anchors_px",
+            "selection_polygon_px",
+            "sorting_anchor_px"
+          ]
+        },
+        "2": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "canvas_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "anchor_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "layers": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "body": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "shadow": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "glass_front": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "fixture_back": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "fixture_front": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                }
+              },
+              "required": [
+                "body"
+              ]
+            },
+            "slot_anchors_px": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "propertyNames": {
+                "pattern": "^[a-z][a-z0-9_]*$"
+              }
+            },
+            "selection_polygon_px": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "sorting_anchor_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "canvas_px",
+            "anchor_px",
+            "layers",
+            "slot_anchors_px",
+            "selection_polygon_px",
+            "sorting_anchor_px"
+          ]
+        },
+        "3": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "canvas_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "anchor_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "layers": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "body": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "shadow": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "glass_front": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "fixture_back": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                },
+                "fixture_front": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*\\.\\.)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.png$"
+                }
+              },
+              "required": [
+                "body"
+              ]
+            },
+            "slot_anchors_px": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "propertyNames": {
+                "pattern": "^[a-z][a-z0-9_]*$"
+              }
+            },
+            "selection_polygon_px": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "sorting_anchor_px": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "canvas_px",
+            "anchor_px",
+            "layers",
+            "slot_anchors_px",
+            "selection_polygon_px",
+            "sorting_anchor_px"
+          ]
+        }
+      },
+      "required": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  },
+  "required": [
+    "manifest_version",
+    "visual_id",
+    "fixture_type_id",
+    "projection_id",
+    "world_units_per_tile",
+    "source_px_per_tile_diamond",
+    "footprint",
+    "dimensions_m",
+    "rotations"
+  ]
+}
