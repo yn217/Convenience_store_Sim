@@ -112,3 +112,7 @@ A. `GameState/Schema` と配置判定の純粋テスト → B. 床レンダラ �
 - [08_RUNTIME_STATE_AND_COMMANDS](08_RUNTIME_STATE_AND_COMMANDS.md)のFIFO command phaseは**speed0でも稼働**。固定tick loop外から配置・仕入・UI変更をコミット可能とする。
 - 顧客/会計/売上だけを[09_DETERMINISTIC_SIMULATION_AND_SAVE](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)の固定step・LCG32で更新。Node2Dの_processに会計を置かない。
 - `business_state`はSETUP/OPEN/CLOSING/PAYMENT_BLOCKED、`speed_setting`は0/1/2/4で独立。OPEN+speed0中の建設は禁止。
+
+## 10. command/event 冪等性補完
+- `GameState`に`applied_command_ids`を保持し、コマンド実行前に冪等確認、成功commit後に登録。
+- Ledgerの`applied_event_ids`と混同しない。savegame v1から両方を復元する。
