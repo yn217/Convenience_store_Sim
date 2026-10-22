@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yn217/Convenience_store_Sim/blob/main/docs/schemas/presentation_cue.schema.json",
+  "title": "PresentationCueDef",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "cue_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]+$"
+    },
+    "source_event_type": {
+      "type": "string",
+      "pattern": "^[A-Z_]+$"
+    },
+    "animation_id": {
+      "type": "string",
+      "pattern": "^[a-z_]+$"
+    },
+    "duration_seconds": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "priority": {
+      "enum": [
+        "critical",
+        "important",
+        "normal",
+        "ambient"
+      ]
+    },
+    "sfx_key": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "dedupe_payload_field": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cooldown_game_seconds": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3600
+    }
+  },
+  "required": [
+    "schema_version",
+    "cue_id",
+    "source_event_type",
+    "animation_id",
+    "duration_seconds",
+    "priority",
+    "sfx_key",
+    "dedupe_payload_field",
+    "cooldown_game_seconds"
+  ]
+}
