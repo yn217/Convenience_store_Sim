@@ -32,7 +32,8 @@
   "customers": [],
   "economy": {
     "cash_yen": 500000,
-    "ledger_transactions": []
+    "ledger_transactions": [],
+    "unpaid_cost_yen": 0
   },
   "advertising": {
     "today_budget_yen": 0,
@@ -40,5 +41,7 @@
     "last_charged_day": -1
   },
   "daily_reports": [],
-  "applied_event_ids": []
+  "applied_event_ids": [],
+  "store_reputation": 50,
+  "product_price_overrides": {}
 }
