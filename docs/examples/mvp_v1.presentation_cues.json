@@ -1,0 +1,167 @@
+[
+  {
+    "schema_version": 1,
+    "cue_id": "customer_enter",
+    "source_event_type": "CUSTOMER_ENTERED",
+    "animation_id": "door_open",
+    "duration_seconds": 0.35,
+    "priority": "ambient",
+    "sfx_key": "door_chime",
+    "dedupe_payload_field": "customer_id",
+    "cooldown_game_seconds": 1
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "customer_walk",
+    "source_event_type": "CUSTOMER_WALK_STATE",
+    "animation_id": "walk_loop",
+    "duration_seconds": 0.75,
+    "priority": "ambient",
+    "sfx_key": null,
+    "dedupe_payload_field": "customer_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "customer_idle",
+    "source_event_type": "CUSTOMER_WAIT_STATE",
+    "animation_id": "idle_loop",
+    "duration_seconds": 1.2,
+    "priority": "ambient",
+    "sfx_key": null,
+    "dedupe_payload_field": "customer_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "product_pickup",
+    "source_event_type": "CUSTOMER_RESERVED_ITEM",
+    "animation_id": "pick_item",
+    "duration_seconds": 0.45,
+    "priority": "normal",
+    "sfx_key": "product_pickup",
+    "dedupe_payload_field": "reservation_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "checkout_success",
+    "source_event_type": "SALE_COMMITTED",
+    "animation_id": "register_glow",
+    "duration_seconds": 0.5,
+    "priority": "normal",
+    "sfx_key": "register_beep",
+    "dedupe_payload_field": "transaction_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "empty_handed",
+    "source_event_type": "CUSTOMER_EXITED_NO_PURCHASE",
+    "animation_id": "empty_exit",
+    "duration_seconds": 0.7,
+    "priority": "ambient",
+    "sfx_key": null,
+    "dedupe_payload_field": "customer_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "low_stock_notice",
+    "source_event_type": "STOCK_LOW",
+    "animation_id": "low_stock_tag",
+    "duration_seconds": 1.5,
+    "priority": "normal",
+    "sfx_key": "warning_soft",
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 30
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "expiry_notice",
+    "source_event_type": "STOCK_EXPIRED",
+    "animation_id": "expired_warning",
+    "duration_seconds": 1.5,
+    "priority": "important",
+    "sfx_key": "warning_soft",
+    "dedupe_payload_field": "segment_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "long_queue",
+    "source_event_type": "QUEUE_TOO_LONG",
+    "animation_id": "queue_warning",
+    "duration_seconds": 2,
+    "priority": "normal",
+    "sfx_key": "warning_soft",
+    "dedupe_payload_field": "register_id",
+    "cooldown_game_seconds": 30
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "daily_event_start",
+    "source_event_type": "EVENT_STARTED",
+    "animation_id": "event_banner",
+    "duration_seconds": 3.5,
+    "priority": "important",
+    "sfx_key": "event_start",
+    "dedupe_payload_field": "event_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "daily_event_end",
+    "source_event_type": "EVENT_ENDED",
+    "animation_id": "event_banner_exit",
+    "duration_seconds": 2,
+    "priority": "important",
+    "sfx_key": null,
+    "dedupe_payload_field": "event_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "daily_recap",
+    "source_event_type": "DAILY_CLOSED",
+    "animation_id": "report_slide",
+    "duration_seconds": 0.45,
+    "priority": "important",
+    "sfx_key": "report_open",
+    "dedupe_payload_field": "day_index",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "milestone_celebrate",
+    "source_event_type": "MILESTONE_REACHED",
+    "animation_id": "confetti_small",
+    "duration_seconds": 1.2,
+    "priority": "important",
+    "sfx_key": "milestone",
+    "dedupe_payload_field": "milestone_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "ui_confirm",
+    "source_event_type": "UI_COMMAND_SUCCEEDED",
+    "animation_id": "button_confirm",
+    "duration_seconds": 0.2,
+    "priority": "ambient",
+    "sfx_key": "ui_confirm",
+    "dedupe_payload_field": "command_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "ui_cancel",
+    "source_event_type": "UI_COMMAND_CANCELLED",
+    "animation_id": "button_cancel",
+    "duration_seconds": 0.15,
+    "priority": "ambient",
+    "sfx_key": "ui_cancel",
+    "dedupe_payload_field": "command_id",
+    "cooldown_game_seconds": 0
+  }
+]
