@@ -71,3 +71,23 @@
 - [08 営業状態/命令/費用不足](docs/implementation/08_RUNTIME_STATE_AND_COMMANDS.md)
 - [09 乱数・価格・新日費用・保存](docs/implementation/09_DETERMINISTIC_SIMULATION_AND_SAVE.md)
 - 明示的なOPEN→CLOSING→SETUPを通らず、時計停止のみで棚を移動しない。レジのない空店舗への棚設置は可。
+
+
+## ゲーム画面モックアップ（2026-10-23）
+
+リアル寄り2.5Dアイソメトリックのプレイ画面を**4枚のSVG画像としてGit登録**しました。画面の質感・UI構成の基準です。ゲームコード/実3Dアセットを作ったという意味ではありません。
+
+| 通常営業 | 建設・配置 |
+|---|---|
+| ![店舗全景](docs/design/mockups/01_store_overview.svg) | ![建設モード](docs/design/mockups/02_layout_editor.svg) |
+| [SVGを開く](docs/design/mockups/01_store_overview.svg) | [SVGを開く](docs/design/mockups/02_layout_editor.svg) |
+
+| 商品・在庫管理 | 日次決算 |
+|---|---|
+| ![商品管理](docs/design/mockups/03_inventory_management.svg) | ![経営レポート](docs/design/mockups/04_daily_report.svg) |
+| [SVGを開く](docs/design/mockups/03_inventory_management.svg) | [SVGを開く](docs/design/mockups/04_daily_report.svg) |
+
+- [4画面の役割・仕様と注意点](docs/design/mockups/README.md)
+- [Godot/Blender/コード/テストのディレクトリ構造](docs/design/PROJECT_DIRECTORY_STRUCTURE.md)
+- [UIデザイントークン・イベント伝播ルール](docs/design/UI_DESIGN_TOKENS.md)
+- **制作規格は別**: [1tile=1m / 128×64px / source2倍 / 正投影角度](docs/implementation/02_GRID_AND_ASSET_CONTRACT.md)。モックアップのSVG内タイルは説明用縮尺。
