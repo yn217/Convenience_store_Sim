@@ -273,3 +273,12 @@ SPAWN → CHOOSE_SHELF → WALK_TO_ACCESS_TILE → INSPECT → PICK_ITEM → (�
 
 
 - [11 実装前レビュー（2026-10-23）](implementation/11_REVIEW_2026_10_23.md)：仕様の不足・修正・実装待ちの実証項目。
+
+
+## 15. ゲーム体験・演出・イベント実装契約（2026-10-23）
+- 演出のみの`PresentationCue` / 需要に効く`GameplayEvent` / 店舗実績`Milestone`を別システムとする。**金銭・在庫は既存Domain API以外で変更しない**。
+- [13 日替わりイベント12種](implementation/13_EVENT_DIRECTOR_AND_GAMEPLAY_EVENTS.md)は独立RNG、DAY1以降一日一回、時間窓とカテゴリ人気を持つ。
+- [14 来店/会計/売切れ/行列/廃棄/成果の演出](implementation/14_ANIMATION_AUDIO_VFX_CONTRACT.md)は音声・VFXがなくてもゲームを止めない。
+- [15 8段チュートリアル/実績12種/チャレンジ3種](implementation/15_PROGRESSION_STORY_AND_SCENARIOS.md)はサンドボックス体験を邪魔せずスキップ可能。
+- [16 QA](implementation/16_EVENT_QA_AND_ASSET_CHECKLIST.md)、`docs/examples/mvp_v1.gameplay_events.json`など初期データが正本。
+- これらの仕様登録は完了したが、**動く演出・素材は未制作**。
