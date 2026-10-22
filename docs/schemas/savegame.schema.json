@@ -214,6 +214,55 @@
             },
             "required": [
               "kind"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "FIXTURE"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "kind",
+                    "fixture_id",
+                    "slot_id"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "BACKROOM"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                "then": {
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "fixture_id"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "slot_id"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
             ]
           }
         },
@@ -279,7 +328,98 @@
       "type": "array",
       "items": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": false,
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "enum": [
+              "SPAWN",
+              "SELECT_SHELF",
+              "WALK_TO_ACCESS",
+              "INSPECT",
+              "WALK_TO_REGISTER",
+              "QUEUE",
+              "CHECKOUT",
+              "EXIT",
+              "CANCELLED"
+            ]
+          },
+          "position": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          },
+          "route": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ]
+            }
+          },
+          "route_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reservation_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "patience_remaining_sec": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "target_fixture_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "checkout_remaining_sec": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "customer_id",
+          "phase",
+          "position",
+          "route",
+          "route_index",
+          "reservation_ids",
+          "patience_remaining_sec",
+          "target_fixture_id",
+          "checkout_remaining_sec"
+        ]
       }
     },
     "economy": {
@@ -294,13 +434,81 @@
           "type": "array",
           "items": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": false,
+            "properties": {
+              "event_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "event_type": {
+                "enum": [
+                  "ORDER",
+                  "SALE",
+                  "AD",
+                  "DAILY_FIXED",
+                  "ELECTRICITY",
+                  "WASTAGE",
+                  "FIXTURE_PURCHASE",
+                  "REVERSAL"
+                ]
+              },
+              "day_index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "time_sec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "cash_delta_yen": {
+                "type": "integer"
+              },
+              "revenue_delta_yen": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "cogs_delta_yen": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "expense_delta_yen": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "number",
+                    "integer",
+                    "boolean",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "event_id",
+              "event_type",
+              "day_index",
+              "time_sec",
+              "cash_delta_yen",
+              "revenue_delta_yen",
+              "cogs_delta_yen",
+              "expense_delta_yen"
+            ]
           }
+        },
+        "unpaid_cost_yen": {
+          "type": "integer",
+          "minimum": 0
         }
       },
       "required": [
         "cash_yen",
-        "ledger_transactions"
+        "ledger_transactions",
+        "unpaid_cost_yen"
       ]
     },
     "advertising": {
@@ -330,7 +538,94 @@
       "type": "array",
       "items": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": false,
+        "properties": {
+          "day_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "revenue_yen": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cogs_yen": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "gross_profit_yen": {
+            "type": "integer"
+          },
+          "wastage_yen": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "advertising_yen": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "electricity_yen": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fixed_cost_yen": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "operating_profit_yen": {
+            "type": "integer"
+          },
+          "net_cash_delta_yen": {
+            "type": "integer"
+          },
+          "cash_end_yen": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "store_reputation": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "potential_customers": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "visitors": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "purchasing_customers": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "lost_customers": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "units_sold": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "day_index",
+          "revenue_yen",
+          "cogs_yen",
+          "gross_profit_yen",
+          "wastage_yen",
+          "advertising_yen",
+          "electricity_yen",
+          "fixed_cost_yen",
+          "operating_profit_yen",
+          "net_cash_delta_yen",
+          "cash_end_yen",
+          "store_reputation",
+          "potential_customers",
+          "visitors",
+          "purchasing_customers",
+          "lost_customers",
+          "units_sold"
+        ]
       }
     },
     "applied_event_ids": {
@@ -339,6 +634,21 @@
       "items": {
         "type": "string",
         "minLength": 1
+      }
+    },
+    "store_reputation": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "product_price_overrides": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
       }
     }
   },
@@ -359,6 +669,8 @@
     "economy",
     "advertising",
     "daily_reports",
-    "applied_event_ids"
+    "applied_event_ids",
+    "store_reputation",
+    "product_price_overrides"
   ]
 }
