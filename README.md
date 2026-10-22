@@ -61,3 +61,6 @@
 - [10 数値ゴールデンテスト](docs/implementation/10_TEST_VECTORS_AND_ACCEPTANCE.md)
 
 **初期開発エンジン:** Godot 4.7.2-stable。実装仕様は上述の追加契約を含む。実機でのBlender画角・PNG接地・性能・プレイ検証は未着手。
+
+
+- [11 2026-10-23 仕様最終レビューと修正記録](docs/implementation/11_REVIEW_2026_10_23.md)
