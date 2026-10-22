@@ -35,10 +35,9 @@
     },
     "business_state": {
       "enum": [
-        "NOT_READY",
-        "READY_PAUSED",
+        "SETUP",
         "OPEN",
-        "PAUSED",
+        "CLOSING",
         "PAYMENT_BLOCKED"
       ]
     },
