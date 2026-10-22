@@ -145,3 +145,14 @@
 - [ ] **Gate: atomic OPEN** — 初回開店要求で費用不足なら現金/状態/台帳を変更せず拒否、営業中に次の日付の経費不足ならPAYMENT_BLOCKEDと未払額へ記録。
 - [ ] **Gate: build access** — 1×2 E長辺を回転変換し、販売アクセスタイル0の棚配置は拒否。
 - [ ] **Gate: deterministic replay** — 固定seedと同tickで在庫/顧客/売上が一致。
+
+
+## UIモックアップ・ディレクトリ設計（2026-10-23）
+
+- **作成済み**: [通常営業](design/mockups/01_store_overview.svg)、[配置](design/mockups/02_layout_editor.svg)、[商品・在庫](design/mockups/03_inventory_management.svg)、[日次決算](design/mockups/04_daily_report.svg) のSVGモックアップ。
+- **作成済み**: [実装ディレクトリ設計](design/PROJECT_DIRECTORY_STRUCTURE.md)、[UI設計ルール](design/UI_DESIGN_TOKENS.md)、[モックアップ運用](design/mockups/README.md)。実装ファイルは未生成。
+- [ ] #5/#21: SVG構図をGodot SceneTree/Containersへ翻訳し、1920×1080/1280×720で入力の漏れ・被さり・文字切れを検証。
+- [ ] #6/#7: レイアウトモックアップのゴースト・占有・front accessをDomainグリッド検証と一致させる。
+- [ ] #10/#11/#21: 24SKUの正本マスタに接続し、棚/バックヤード/売価の情報を正しく表示。
+- [ ] #19: レポート画面のデータを会計台帳と連動させ、現金/粗利/経費を混同しない。
+- [ ] #8/#9/#22: 什器アセットの実PNGはBlenderで同一縮尺・4方向・接地アンカー校正を通すまで仮画像扱い。
