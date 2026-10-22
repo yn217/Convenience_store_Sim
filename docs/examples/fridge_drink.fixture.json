@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "type_id": "fridge_drink",
+  "display_name": "飲料冷蔵ケース",
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 2
+  },
+  "placement_cost_yen": 120000,
+  "electricity_cost_yen_per_day": 200,
+  "capacity_units": 60,
+  "allowed_categories": [
+    "drink"
+  ],
+  "access_edges": [
+    "N"
+  ],
+  "visual_id": "fridge_drink_a",
+  "shelf_slots": [
+    {
+      "slot_id": "row0",
+      "capacity_units": 20,
+      "allowed_categories": [
+        "drink"
+      ]
+    },
+    {
+      "slot_id": "row1",
+      "capacity_units": 20,
+      "allowed_categories": [
+        "drink"
+      ]
+    },
+    {
+      "slot_id": "row2",
+      "capacity_units": 20,
+      "allowed_categories": [
+        "drink"
+      ]
+    }
+  ]
+}
