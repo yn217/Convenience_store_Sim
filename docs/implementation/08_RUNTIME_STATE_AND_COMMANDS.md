@@ -71,3 +71,8 @@ UIの`observe/place/move/inspect/modal`は**UI相互排他の状態**で、上�
 5. SETUP→START同日→CLOSE→START同日で固定費/広告請求が二重にならない。
 6. 同command_id再送、同transaction_id再送でも現金/棚在庫が二重変化しない。
 7. pause画面操作時にUIボタン押下が下のタイル配置を発生させない。
+
+## 5. Command ID保存の必須契約
+- `applied_command_ids`をsavegameに永続化する。保存/復元後に同じ不可逆command_idを受けても実行しない（同じ結果またはALREADY_APPLIEDを返す）。
+- `applied_event_ids`は台帳の重複防止、`applied_command_ids`はUI/CommandBus入力の再送防止として**役割を分ける**。
+- 受け入れ: ORDER_STOCKを一度成功→SAVE→LOAD→同command_id再送で在庫/現金不変、新しいcommand_idなら再発注できる。
