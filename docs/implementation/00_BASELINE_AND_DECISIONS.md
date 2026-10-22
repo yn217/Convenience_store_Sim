@@ -84,3 +84,9 @@
 - [08](08_RUNTIME_STATE_AND_COMMANDS.md)の営業状態・command実行順は01/03/04の旧文と矛盾する場合に優先する。
 - [09](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)の乱数・価格・顧客行動・保存/費用の規則は03/04の旧文と矛盾する場合に優先する。
 - [10](10_TEST_VECTORS_AND_ACCEPTANCE.md)の入力/期待値を受入用ゴールデンケースとする。
+
+
+## 7. 「ゲームとしての演出」のMVP仕様追加
+- 既存24SKU/10什器/1顧客1個/Day0 tutorial方針を維持したまま、**12の日替わりイベント**、**15のPresentation Cue**、**12の成長実績**、**3日ローテーションの日次目標**を追加（すべて初期チューニング値）。
+- Domainの制約・金銭の正本は変えず、イベントによるゲーム効果は来店/商品カテゴリー人気の倍率に限定。イベントによる在庫や現金の無条件生成は禁止。
+- 正本は[13 EventDirector](13_EVENT_DIRECTOR_AND_GAMEPLAY_EVENTS.md)、[14 映像/音](14_ANIMATION_AUDIO_VFX_CONTRACT.md)、[15 成長/ストーリー](15_PROGRESSION_STORY_AND_SCENARIOS.md)、[16 QA](16_EVENT_QA_AND_ASSET_CHECKLIST.md)と`docs/examples/mvp_v1.{gameplay_events,presentation_cues,milestones}.json`。
