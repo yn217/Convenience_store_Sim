@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yn217/Convenience_store_Sim/blob/main/docs/schemas/gameplay_event.schema.json",
+  "title": "ConvenienceStoreMVPGameplayEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "name_ja",
+    "description_ja",
+    "weight",
+    "min_day_index",
+    "min_reputation",
+    "window_start_hour",
+    "window_end_hour",
+    "effects",
+    "visual_theme",
+    "tone"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^evt_[a-z0-9_]+$"
+    },
+    "name_ja": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description_ja": {
+      "type": "string",
+      "minLength": 1
+    },
+    "weight": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "min_day_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "min_reputation": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "window_start_hour": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 22
+    },
+    "window_end_hour": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 24
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "traffic_multiplier",
+        "category_weight_multipliers"
+      ],
+      "properties": {
+        "traffic_multiplier": {
+          "type": "number",
+          "minimum": 0.7,
+          "maximum": 1.4
+        },
+        "category_weight_multipliers": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "rice_ball",
+              "oden",
+              "instant_noodle",
+              "bread",
+              "drink",
+              "snack",
+              "dessert",
+              "ice_cream"
+            ]
+          },
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1.8
+          }
+        }
+      }
+    },
+    "visual_theme": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z_]+$"
+    },
+    "tone": {
+      "enum": [
+        "opportunity",
+        "challenge"
+      ]
+    }
+  }
+}
