@@ -102,3 +102,8 @@ A. `GameState/Schema` と配置判定の純粋テスト → B. 床レンダラ �
 - DomainはGodot SceneTree/Node/UIを参照しない。Unit testはheadlessで数値確認可能。
 - アセット担当はマニフェスト契約のみ共有し、経営計算ファイルを変更しない。
 - コードはIssue単位で分割、1PRに複数のスキーマ変更を黙って混ぜない。
+
+## 8. 保存とCatalogの追加契約
+- `GameState`は**store_reputation**と**product_price_overrides{sku_id:int yen}**も保持する。値付け時は上書きマップを更新し、ロットのpurchase costを変更しない。
+- `SaveManager`は[savegame.schema.json](../schemas/savegame.schema.json)の厳密なCustomerState/LedgerTransaction/DailyReport構造に従う。任意Dictionaryで全てを通すことは禁止。
+- カタログJSON配列はfixture/product schemaを**各要素に**適用し、意味検証でID参照と棚slot capacityを照合する。
