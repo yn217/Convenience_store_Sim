@@ -126,3 +126,12 @@ tests/scenario/events/                 # same-seed daily roll/reload/cue replay
 ```
 - 実装前は`docs/examples/`の3つのseed JSONを正本とし、上の`data`へ**検証付きimport/コピー**する。実画像・BGM/SEが無い状態で`assets/generated`に偽のPNG/音声を置かない。
 - 画面イベントは独立する`PresentationCue`。在庫・来店・売上を変える本体の変更はDomainでのみ行う。音声/2Dエフェクトを必須のゲームロジック依存にしない。
+
+## 8. 18画面のUI sceneと設計文書の参照（2026-10-23）
+
+- [SCREEN_SPECIFICATIONS_V1.md](SCREEN_SPECIFICATIONS_V1.md)が全18画面のUI挙動とモックアップIDを対応付ける。
+- [SCREEN_NAVIGATION_AND_STATE_MATRIX.md](SCREEN_NAVIGATION_AND_STATE_MATRIX.md)が入力所有権、モーダル/メイン画面とSETUP/OPEN/CLOSING/PAYMENT_BLOCKEDの可否を定義する。
+- [mockups/README.md](mockups/README.md)は 01〜04 と新規05〜18 の14枚を含む全18SVGをリンク。
+- `scenes/main/TitleScreen.tscn`はタイトルのみ独立。ほかは`Main.tscn`にModalRoot、Panel、Bannerとして実装する。UIイベント遮断はControl/Containerの階層とmouse_filterで行う。
+- `scripts/application/ui_router.gd`に画面遷移と前後focus復帰。シミュレーション値はread-only snapshotから取得。
+- 画像は`docs/design/mockups`のレビュー用SVGとして管理し、実際のGodot向けゲーム素材は`assets/source`→`assets/generated`のBlenderパイプラインから製造する。
