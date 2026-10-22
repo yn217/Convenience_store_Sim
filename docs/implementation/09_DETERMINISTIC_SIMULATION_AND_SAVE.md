@@ -23,13 +23,13 @@ uniform_0_1() => next() / 4294967296.0
 - 開店中の0在庫は開店条件とは独立し、棚売切れ後もOPENを維持、顧客は品切れとして退出できる。
 
 ## 3. 商品選択と価格
-- MVP顧客は1回来店で最大1SKU/1個、基礎的な`no_purchase_probability=0.20`。
+- MVP顧客は1回来店で最大1SKU/1個。基準価格・在庫ありのときの**基礎購買確率0.80**（基準非購買率0.20）。**候補重みだけを価格で変えても総販売量は変わらない**ため、購入確率にも価格係数を掛ける。
 - `category_preference`はMVPでは**全8カテゴリで1.0**（後からバランスJSONのカテゴリごと値へ差し替え可）。
 - `fixture_appeal_factor`はMVPでは全10種で1.0。ProductDefの`demand_weight`は初期マスタで1.0。
 - `price_factor=clamp(reference_sell_price/current_sell_price,0.3,2.0)`。売価1円以上。stock outなら重み0。
 - `weight(sku,fixture)=availability(0/1)*accessibility(0/1)*category_preference*fixture_appeal_factor*sku.demand_weight*price_factor`。
 - 同じSKUが複数の什器にある場合、候補`(sku_id,fixture_instance_id)`として別々に列挙。候補を`sku_id`→`fixture_instance_id`の辞書順で安定整列し、その相対重みから**purchases RNG 1回**の累積値抽選。予約に失敗したら品切れ/競合扱いで最大2回再選択。
-- 「買わずに帰る」判定には`purchases RNG 1回`、SKU抽選に1回。候補0のときも no-purchase判定は1回消費し、その後抽選は行わない。固定seedの回帰を守る。
+- 候補があるとき、まず`purchases RNG 1回`で上記重みの候補SKU/什器を選択し、`purchases RNG 1回`で`purchase_probability=clamp(0.80 * price_factor(selected_sku),0.05,0.95)`を判定。失敗なら購入0で退出。候補ゼロのときは`purchases RNG 1回`を消費して退出。価格を上げたときに**SKU選択割合だけでなく、実際の購買率も下がる**。
 - 客の`SELECT_SHELF`で価格を評価し、棚まで移動して予約可能か再検査。予約時に売価/仕入原価をsnapshotし、値札変更が会計額を書き換えない。
 
 ## 4. 顧客待機と会計
