@@ -5,7 +5,7 @@
   "game_tick": 0,
   "game_time_seconds": 0,
   "speed_setting": 0,
-  "business_state": "NOT_READY",
+  "business_state": "SETUP",
   "rng_states": {
     "arrivals": 1234,
     "purchases": 5678,
