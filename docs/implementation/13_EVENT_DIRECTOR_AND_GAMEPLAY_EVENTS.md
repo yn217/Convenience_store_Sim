@@ -118,3 +118,8 @@ potential_probability =
 - ランタイムコードがまだ未実装なのでsavegame `schema_version=1`に追加する。ただし**既に作成済みの旧例/他branchの同versionファイルとは非互換**となるため、必ずcode reviewerがこの契約の採用を確認し、実装時の移行不要をリリース前に検証する。初回リリース後に同versionの破壊変更をしない。
 - 保存/ロード後も選択済みイベントは当日再抽選しない。TIME変更/再開時に過去の`EVENT_STARTED`を画面で重複演出しない。
 - データ検証: `docs/schemas/gameplay_event.schema.json`、`docs/schemas/savegame.schema.json`。パス/カテゴリ/IDの意味検証はruntime validator。
+
+
+## 10. データ正本の統一
+- EventDirectorの`event_rng_state`は**`GameState.rng_states.events`の参照を指す説明上の名前**であり、GameEventStateに第二の独立乱数を重複保存しない。
+- エンジン実装で`docs/examples/mvp_v1.gameplay_events.json`→`res://data/events/mvp_v1.json`に取り込む際はID・weight・window・effectを改変せずschemaとgolden rollを実行。
