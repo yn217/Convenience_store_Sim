@@ -64,3 +64,10 @@
 
 
 - [11 2026-10-23 仕様最終レビューと修正記録](docs/implementation/11_REVIEW_2026_10_23.md)
+
+
+## 2026-10-23 補完レビュー（実装の関数別契約）
+- [12 実装疑似コード・各関数の入力/出力/副作用](docs/implementation/12_REFERENCE_ALGORITHMS_AND_API.md)
+- [08 営業状態/命令/費用不足](docs/implementation/08_RUNTIME_STATE_AND_COMMANDS.md)
+- [09 乱数・価格・新日費用・保存](docs/implementation/09_DETERMINISTIC_SIMULATION_AND_SAVE.md)
+- 明示的なOPEN→CLOSING→SETUPを通らず、時計停止のみで棚を移動しない。レジのない空店舗への棚設置は可。
