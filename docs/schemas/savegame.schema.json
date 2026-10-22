@@ -59,12 +59,18 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
+        },
+        "events": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
         }
       },
       "required": [
         "arrivals",
         "purchases",
-        "visuals"
+        "visuals",
+        "events"
       ]
     },
     "store": {
@@ -660,6 +666,127 @@
         "minLength": 1
       },
       "uniqueItems": true
+    },
+    "gameplay_event_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "last_selected_day": {
+          "type": "integer",
+          "minimum": -1
+        },
+        "selection_event_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selected_event_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "event_start_sec": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "event_end_sec": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "started": {
+          "type": "boolean"
+        },
+        "ended": {
+          "type": "boolean"
+        },
+        "shown_notice_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "last_selected_day",
+        "selection_event_id",
+        "selected_event_id",
+        "event_start_sec",
+        "event_end_sec",
+        "started",
+        "ended",
+        "shown_notice_ids"
+      ]
+    },
+    "progression_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tutorial_skipped": {
+          "type": "boolean"
+        },
+        "tutorial_step_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "completed_milestone_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "completed_daily_challenge_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "active_daily_challenge_day": {
+          "type": "integer",
+          "minimum": -1
+        },
+        "active_daily_challenge_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "challenge_stock_qualified": {
+          "type": "boolean"
+        },
+        "dismissed_story_cue_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "tutorial_skipped",
+        "tutorial_step_index",
+        "completed_milestone_ids",
+        "completed_daily_challenge_ids",
+        "active_daily_challenge_day",
+        "active_daily_challenge_id",
+        "challenge_stock_qualified",
+        "dismissed_story_cue_ids"
+      ]
     }
   },
   "required": [
@@ -682,6 +809,8 @@
     "applied_event_ids",
     "store_reputation",
     "product_price_overrides",
-    "applied_command_ids"
+    "applied_command_ids",
+    "gameplay_event_state",
+    "progression_state"
   ]
 }
