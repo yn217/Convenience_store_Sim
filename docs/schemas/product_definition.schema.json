@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yn217/Convenience_store_Sim/blob/main/docs/schemas/product_definition.schema.json",
+  "title": "product_definition.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "sku_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "enum": [
+        "rice_ball",
+        "oden",
+        "instant_noodle",
+        "bread",
+        "drink",
+        "snack",
+        "dessert",
+        "ice_cream"
+      ]
+    },
+    "purchase_cost_yen": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "default_sell_price_yen": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "expires_after_seconds": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "demand_weight": {
+      "type": "number",
+      "minimum": 0
+    },
+    "visual_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "slot_units": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "sku_id",
+    "display_name",
+    "category",
+    "purchase_cost_yen",
+    "default_sell_price_yen",
+    "expires_after_seconds",
+    "demand_weight",
+    "visual_id",
+    "slot_units"
+  ]
+}
