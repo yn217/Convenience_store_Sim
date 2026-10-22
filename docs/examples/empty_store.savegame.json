@@ -9,7 +9,8 @@
   "rng_states": {
     "arrivals": 1234,
     "purchases": 5678,
-    "visuals": 9012
+    "visuals": 9012,
+    "events": 345678
   },
   "store": {
     "store_id": "store_001",
@@ -44,5 +45,25 @@
   "applied_event_ids": [],
   "store_reputation": 50,
   "product_price_overrides": {},
-  "applied_command_ids": []
+  "applied_command_ids": [],
+  "gameplay_event_state": {
+    "last_selected_day": -1,
+    "selection_event_id": null,
+    "selected_event_id": null,
+    "event_start_sec": null,
+    "event_end_sec": null,
+    "started": false,
+    "ended": false,
+    "shown_notice_ids": []
+  },
+  "progression_state": {
+    "tutorial_skipped": false,
+    "tutorial_step_index": 0,
+    "completed_milestone_ids": [],
+    "completed_daily_challenge_ids": [],
+    "active_daily_challenge_day": -1,
+    "active_daily_challenge_id": null,
+    "challenge_stock_qualified": false,
+    "dismissed_story_cue_ids": []
+  }
 }
