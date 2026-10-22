@@ -17,7 +17,7 @@ OBSERVE/SELECTED → MODAL → return previous state
 ```
 - 操作状態は`UiInteractionMode`列挙: `observe, place, move, inspect, modal`。異なるmodeを同時有効にしない。
 - left click: 通常選択/preview確定、right clickまたはEsc: 操作キャンセル、R: プレビューを時計回り90°、Delete: 選択什器の撤去確認、mouse wheel: pointer-centred zoom、middle drag or Space+left drag: viewport pan。
-- F: 全店舗フィット表示、PまたはSpaceキー単独: game pause toggle。ただしSpaceはドラッグパンで使うので**Space単独によるpauseは採用しない**。**Pのみ** pause toggle。
+- F: 全店舗フィット表示、**Pのみ**時計のpause toggle。Space単独には操作を割り当てず、Space+ドラッグはパン。OPEN+Pは**営業停止ではなく時計の停止**で、建設不可。建設するには営業終了操作で客が退出しSETUPへ戻る必要がある。
 - Ctrl+Z / Ctrl+Y: 店舗の**停止中の建設編集履歴だけ**対象。売買/会計/在庫/時間経過のUndo禁止。
 - 機能パネル/ダイアログが入力を受け取ったpointer eventは店舗viewportへ伝播させない。モーダル時viewportの入力を無効にする。
 - 選択した棚と背景に客が重なるときは、論理occupancyのinstance_idを選択候補に含め、クリック/タブで選択を切り替え可能。
@@ -88,3 +88,8 @@ OBSERVE/SELECTED → MODAL → return previous state
 - ledgerの履歴は削除せず、巻き戻しは`REVERSAL`として一意event IDで記録する。cashの純増減は正しく相殺し、冪等性は保持。
 - 不可逆の販売/仕入/日次費用を`Ctrl+Z`で戻せない。「元に戻す」の対象外であることをUIツールチップに表示。
 - テスト: 9万円のレジ設置→Undoで現金/占有が元通り→Redoで再び9万円支出、続けて仕入操作後はUndo不可。二重返金や負の残高を発生させない。
+
+## 9. 2026-10-23 保存・営業状態の確定
+- `business_state`は SETUP/OPEN/CLOSING/PAYMENT_BLOCKED とし、`speed_setting=0`は**時計だけの停止**。
+- OPEN+speed0の保存をOPEN+speed0として復元する。CLOSINGは客/予約の状態をそのまま復元して閉店継続。SETUP時には客0/予約0を検証。
+- 保存・画面操作・コマンドphaseの詳細は[08](08_RUNTIME_STATE_AND_COMMANDS.md)。LCG32と需給・イベント順は[09](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)。
