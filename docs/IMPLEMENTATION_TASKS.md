@@ -138,3 +138,10 @@
 
 
 - [11 2026-10-23 最終レビュー記録](implementation/11_REVIEW_2026_10_23.md)：08〜10の矛盾解消と37件のサンプル構造検証。
+
+
+## 2026-10-23 再レビューで追加した実装契約
+- [12 公開APIと疑似コード](implementation/12_REFERENCE_ALGORITHMS_AND_API.md) — Function別入力/出力、コマンドのatomic commit、配置判定、tick/日次、参照整合。
+- [ ] **Gate: atomic OPEN** — 初回開店要求で費用不足なら現金/状態/台帳を変更せず拒否、営業中に次の日付の経費不足ならPAYMENT_BLOCKEDと未払額へ記録。
+- [ ] **Gate: build access** — 1×2 E長辺を回転変換し、販売アクセスタイル0の棚配置は拒否。
+- [ ] **Gate: deterministic replay** — 固定seedと同tickで在庫/顧客/売上が一致。
