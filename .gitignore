@@ -1,0 +1,31 @@
+# Godot 4 runtime/editor cache
+.godot/
+.import/
+export.cfg
+export_presets.local.cfg
+*.translation
+# Godot export/runtime binaries
+build/
+dist/
+export/
+# Blender temporary/recovery
+*.blend1
+*.blend2
+*.blend@
+# Python asset tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+# Editors/OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/settings.json
+.idea/
+# Generated temp/diagnostics
+*.tmp
+*.bak
+*.log
+# DON'T globally ignore assets/generated: approved runtime sprites should be version-controlled.
