@@ -105,3 +105,14 @@ OBSERVE/SELECTED → MODAL → return previous state
 - 保存形式v1必須`rng_states.events`と`gameplay_event_state`/`progression_state`。ロード後に発生中イベント/達成状況をHUDに再構成し、開始音や紙吹雪を再演出しない。
 - 極端な描画負荷時も通知スタック最大3、粒子80、浮上売上6、SFX同時8。画面ズーム0.5でもイベント名をUIで認識できる。[14](14_ANIMATION_AUDIO_VFX_CONTRACT.md)
 - 従来の`save_schema_version=1`のサンプルにイベントと進行状態を**初期リリース前に**追記。未知/欠落フィールドは破損として拒否（初リリース後のv1破壊変更は行わない）。
+
+## 12. 18画面のUI詳細契約（2026-10-23）
+
+従来の本書はShell/HUD/モーダルなどの原則を規定。画面ごとの実装関数・入力/失敗状態・画面遷移の細部を [SCREEN_SPECIFICATIONS_V1](../design/SCREEN_SPECIFICATIONS_V1.md)と[SCREEN_NAVIGATION_AND_STATE_MATRIX](../design/SCREEN_NAVIGATION_AND_STATE_MATRIX.md)に追加し、これらを**UI実装正本**とする。
+
+- 登録済みSVGは[全18画面](../design/mockups/README.md)。
+- **初期画面サイズ**: 1920×1080。SVG構図は1600×900で縮尺そのものの検証には使用しない。
+- **発注画面**はMVPの`ORDER_STOCK`単一SKU原子性と一致する形で1商品ずつ発注する。まとめ発注は新しいatomic batch commandが設計・テストされるまで禁止。
+- タイトル/ロード/支払不能/モーダル等の状態に応じ、背後StoreViewportは操作できない。重要なエラーは日本語テキスト/アイコンで説明。
+- DAY1の祭り画像はイベント表現の一例であり、初期固定乱数で祭りが必ず選択される仕様ではない。
+- MVPの広告は翌日5ティア、セーブ3枠、実績報酬はbadge_only。未実装システムのUIを根拠なく追加しない。
