@@ -91,3 +91,17 @@
 - [Godot/Blender/コード/テストのディレクトリ構造](docs/design/PROJECT_DIRECTORY_STRUCTURE.md)
 - [UIデザイントークン・イベント伝播ルール](docs/design/UI_DESIGN_TOKENS.md)
 - **制作規格は別**: [1tile=1m / 128×64px / source2倍 / 正投影角度](docs/implementation/02_GRID_AND_ASSET_CONTRACT.md)。モックアップのSVG内タイルは説明用縮尺。
+
+
+## ゲーム演出・イベント・成長目標（仕様追加 2026-10-23）
+
+**設計書・初期データをGitHub登録済み**。ゲームが動作する実装や効果音/スプライトが完成したことを意味しません。
+
+- [日替わりイベント12種 / EventDirector](docs/implementation/13_EVENT_DIRECTOR_AND_GAMEPLAY_EVENTS.md)
+- [入店・会計・売切れなどの演出15種、音/VFX仕様](docs/implementation/14_ANIMATION_AUDIO_VFX_CONTRACT.md)
+- [初日チュートリアル・実績12種・日替わり目標3種](docs/implementation/15_PROGRESSION_STORY_AND_SCENARIOS.md)
+- [固定シード・アニメ・UI・保存の24受入テスト](docs/implementation/16_EVENT_QA_AND_ASSET_CHECKLIST.md)
+- [ゲームイベントJSON](docs/examples/mvp_v1.gameplay_events.json)、[Cue JSON](docs/examples/mvp_v1.presentation_cues.json)、[実績JSON](docs/examples/mvp_v1.milestones.json)
+- 子Issue: [#30 演出](https://github.com/yn217/Convenience_store_Sim/issues/30)、[#31 イベント](https://github.com/yn217/Convenience_store_Sim/issues/31)、[#32 成長目標](https://github.com/yn217/Convenience_store_Sim/issues/32)
+
+イベントの経済効果は来店需要と対象商品カテゴリの人気度に限定し、**描画/SFX側で現金や在庫を直接書き換えません**。
