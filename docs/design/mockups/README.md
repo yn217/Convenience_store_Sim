@@ -30,3 +30,34 @@
 **アセット制作実績:** この時点でゲーム本体の3D什器、2Dスプライト、実商品の商品パッケージは未生成。SVGはUIのデザイン基準に限る。
 
 関連: [ディレクトリ設計](../PROJECT_DIRECTORY_STRUCTURE.md)、[ゲーム仕様](../../GAME_DESIGN_SPEC.md)。
+
+## 2026-10-23 追加モックアップ14画面
+
+既存4画面と合わせて**全18画面**。各SVGは1600×900の編集可能なベクター画像で、1920×1080のゲーム実装レイアウトの参考構図。PNGゲームアセットとは別。
+
+| SVGプレビュー |画面|プレイ内容|失敗・別状態|
+|---|---|---|---|
+| ![タイトル・新規ゲーム](05_title_new_game.svg) | [タイトル・新規ゲーム](05_title_new_game.svg) | 新規/続きから/設定 | SETUP開始 / セーブなし |
+| ![初日チュートリアル](06_first_day_tutorial.svg) | [初日チュートリアル](06_first_day_tutorial.svg) | 8段階の店づくり案内 | 途中スキップ / 再表示 |
+| ![仕入れ発注](07_purchase_order.svg) | [仕入れ発注](07_purchase_order.svg) | 仕入単価/発注量/現金 | 資金不足 / 数量エラー |
+| ![棚補充](08_shelf_restock.svg) | [棚補充](08_shelf_restock.svg) | バックヤード→棚 | 営業中拒否 / 容量超過 |
+| ![営業開始の条件](09_opening_checklist.svg) | [営業開始の条件](09_opening_checklist.svg) | レジ・棚・通路・費用 | 準備不足 / 費用不足 |
+| ![閉店・退出待ち](10_closing_in_progress.svg) | [閉店・退出待ち](10_closing_in_progress.svg) | 新規入店停止・既存客会計 | 予約/客が残る |
+| ![日替わりイベント](11_daily_event_festival.svg) | [日替わりイベント](11_daily_event_festival.svg) | お祭り/期間/集客係数 | イベント無 / 終了済 |
+| ![初売上の達成演出](12_first_sale_achievement.svg) | [初売上の達成演出](12_first_sale_achievement.svg) | 初会計/売上/バッジ | 演出スキップ / SE欠落 |
+| ![一日の決算演出](13_day_end_summary.svg) | [一日の決算演出](13_day_end_summary.svg) | 売上/原価/粗利/営業利益 | 赤字 / 0売上 |
+| ![支払不能の復旧案内](14_payment_blocked.svg) | [支払不能の復旧案内](14_payment_blocked.svg) | 未払金/ロード/新規開始 | 保存データなし / 破損 |
+| ![店舗分析オーバーレイ](15_store_heatmap.svg) | [店舗分析オーバーレイ](15_store_heatmap.svg) | 通行量/売切れ/混雑/アクセス | データなし/ズーム |
+| ![セーブ・ロード・設定](16_save_load_settings.svg) | [セーブ・ロード・設定](16_save_load_settings.svg) | 3枠/音量/表示設定 | 上書き確認/破損 |
+| ![翌日の広告予算](17_next_day_advertising.svg) | [翌日の広告予算](17_next_day_advertising.svg) | 5ティア/今日と明日 | 予算未確定/同日変更 |
+| ![実績・日替わり目標](18_milestones_and_challenges.svg) | [実績・日替わり目標](18_milestones_and_challenges.svg) | 12実績/バッジ/今日の目標 | 未達成/ロード復元 |
+
+### 実装仕様と整合するための注意
+
+- **正式な画面詳細仕様**: [SCREEN_SPECIFICATIONS_V1](../SCREEN_SPECIFICATIONS_V1.md)（全18画面の操作/状態/データソース/失敗条件）
+- **画面遷移・入力所有権**: [SCREEN_NAVIGATION_AND_STATE_MATRIX](../SCREEN_NAVIGATION_AND_STATE_MATRIX.md)。各画面を独立のGodot Sceneにせず、Shell＋Modal＋Bannerとして構築。
+- 初期MVPに従業員雇用・現金付き実績・強制ゲームオーバーはありません。支払不能はSAVE/LOAD等の復旧フロー。
+- 広告は翌日予約5ティア（¥0/¥1,000/¥2,000/¥5,000/¥10,000）。セーブは3枠。補充/建設は完全SETUP時のみ。
+- 祭りの画面はイベント種類の**画面例**であり、固定DAY1 seedで祭りが選ばれるとの主張ではありません。
+- SVG内の店舗・人物は構図用の簡易描画で、本番のBlender校正済み什器と同一ではありません。制作時は共通1m/128×64pxの規格を厳守。
+- [企画上の16画面コンセプトコラージュ]はGitHubの規範資産ではありません。各SVGと文書が実装の参照元です。
