@@ -125,3 +125,13 @@
 
 
 - [07 実装準備レビュー・未検証項目](implementation/07_SPEC_REVIEW_READINESS.md)
+
+
+## 2026-10-23 最終契約レビュー
+- [08 Runtime State / CommandBus](implementation/08_RUNTIME_STATE_AND_COMMANDS.md) — 営業/時計pause/建設可否、speed0でのコマンド処理。
+- [09 Deterministic Simulation / Save](implementation/09_DETERMINISTIC_SIMULATION_AND_SAVE.md) — Godot 4.7.2、固定RNG、価格の購買率効果、セーブ冪等性。
+- [10 Test Vectors](implementation/10_TEST_VECTORS_AND_ACCEPTANCE.md) — 具体的入力/期待値。
+- [ ] **Review-1**: OPEN+speed0で建設禁止、SETUP+speed0で建設可能。
+- [ ] **Review-2**: SAVE→LOAD後も`applied_command_ids`で同じ発注を重複しない。
+- [ ] **Review-3**: 価格を上げるとSKU選択だけでなく購買確率が低下する。
+- [ ] **Review-4**: 仕様の契約とテストベクトルが実装で一致することを証拠付きで確認。
