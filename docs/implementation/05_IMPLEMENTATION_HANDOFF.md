@@ -58,3 +58,10 @@
 
 ## 最初のCodex Goal
 > Repository: yn217/Convenience_store_Sim。docs/implementation/00〜05 および docs/schemas の契約を読んで、Issue #2 #3 #4から開始せよ。開発前にスキーマ/投影/固定stepの最小テストを作り、Blenderの1m校正軸の画像とGodotの配置を一致させる。モデル寸法を調整するためのsprite個別scaleは使わない。各Issueについて検証/PR/チェックリスト更新を行い、未解決仕様差は勝手に埋めず該当仕様とIssueを更新してから実装する。既存成果保護と独立ワークツリーを優先し、PRはレビュー完了までmergeしない。
+
+
+## 2026-10-23 追加で必読の実装契約
+- [08 営業状態とコマンド実行](08_RUNTIME_STATE_AND_COMMANDS.md)：営業と一時停止の分離、speed0でもUI command phaseを実行。
+- [09 再現可能な乱数・経済・安全セーブ](09_DETERMINISTIC_SIMULATION_AND_SAVE.md)：Godot 4.7.2、LCG32、商品選択/価格による購買率、費用/ロードの原子性。
+- [10 数値の受け入れテストベクトル](10_TEST_VECTORS_AND_ACCEPTANCE.md)：回転/アセット縮尺/価格/会計/保存のGiven-When-Then。
+- #2/#3では`business_state` SETUP/OPEN/CLOSING/PAYMENT_BLOCKEDと`applied_command_ids`を保存する。#15/#17では商品選択確率と会計単一commitを実装。
