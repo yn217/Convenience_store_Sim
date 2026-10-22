@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "save_id": "demo_empty_store",
+  "saved_at_utc": "2026-10-22T00:00:00Z",
+  "game_tick": 0,
+  "game_time_seconds": 0,
+  "speed_setting": 0,
+  "business_state": "NOT_READY",
+  "rng_states": {
+    "arrivals": 1234,
+    "purchases": 5678,
+    "visuals": 9012
+  },
+  "store": {
+    "store_id": "store_001",
+    "width": 16,
+    "height": 12,
+    "entrance_tiles": [
+      {
+        "x": 0,
+        "y": 5
+      },
+      {
+        "x": 0,
+        "y": 6
+      }
+    ]
+  },
+  "fixture_instances": [],
+  "inventory_segments": [],
+  "reservations": [],
+  "customers": [],
+  "economy": {
+    "cash_yen": 500000,
+    "ledger_transactions": []
+  },
+  "advertising": {
+    "today_budget_yen": 0,
+    "next_day_budget_yen": 0,
+    "last_charged_day": -1
+  },
+  "daily_reports": [],
+  "applied_event_ids": []
+}
