@@ -1,0 +1,364 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yn217/Convenience_store_Sim/blob/main/docs/schemas/savegame.schema.json",
+  "title": "savegame.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "save_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "saved_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "game_tick": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "game_time_seconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "speed_setting": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        4
+      ]
+    },
+    "business_state": {
+      "enum": [
+        "NOT_READY",
+        "READY_PAUSED",
+        "OPEN",
+        "PAUSED",
+        "PAYMENT_BLOCKED"
+      ]
+    },
+    "rng_states": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "arrivals": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "purchases": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "visuals": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "arrivals",
+        "purchases",
+        "visuals"
+      ]
+    },
+    "store": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "store_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "entrance_tiles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          }
+        }
+      },
+      "required": [
+        "store_id",
+        "width",
+        "height",
+        "entrance_tiles"
+      ]
+    },
+    "fixture_instances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "instance_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "y": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "rotation": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "instance_id",
+          "type_id",
+          "x",
+          "y",
+          "rotation",
+          "enabled"
+        ]
+      }
+    },
+    "inventory_segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "segment_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lot_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sku_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit_cost_yen": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "expires_at_sec": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "physical_qty": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reserved_qty": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "location": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "enum": [
+                  "BACKROOM",
+                  "FIXTURE"
+                ]
+              },
+              "fixture_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "slot_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "segment_id",
+          "lot_id",
+          "sku_id",
+          "unit_cost_yen",
+          "expires_at_sec",
+          "physical_qty",
+          "reserved_qty",
+          "location"
+        ]
+      }
+    },
+    "reservations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reservation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "customer_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "segment_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "qty": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sell_unit_yen_snapshot": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "cost_unit_yen_snapshot": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reservation_expires_at_sec": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "reservation_id",
+          "customer_id",
+          "segment_id",
+          "qty",
+          "sell_unit_yen_snapshot",
+          "cost_unit_yen_snapshot",
+          "reservation_expires_at_sec"
+        ]
+      }
+    },
+    "customers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "economy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cash_yen": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ledger_transactions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "cash_yen",
+        "ledger_transactions"
+      ]
+    },
+    "advertising": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "today_budget_yen": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "next_day_budget_yen": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "last_charged_day": {
+          "type": "integer",
+          "minimum": -1
+        }
+      },
+      "required": [
+        "today_budget_yen",
+        "next_day_budget_yen",
+        "last_charged_day"
+      ]
+    },
+    "daily_reports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "applied_event_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "save_id",
+    "saved_at_utc",
+    "game_tick",
+    "game_time_seconds",
+    "speed_setting",
+    "business_state",
+    "rng_states",
+    "store",
+    "fixture_instances",
+    "inventory_segments",
+    "reservations",
+    "customers",
+    "economy",
+    "advertising",
+    "daily_reports",
+    "applied_event_ids"
+  ]
+}
