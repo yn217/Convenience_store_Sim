@@ -111,6 +111,11 @@ Same camera preset and light set as the fixtures; the figures are boxes posed in
 & $blender -b --python tools/assets/render_customers.py -- --out build/asset_raw_customers   # about 45 s, 3 variants x 4 facings x (walk 6 + idle 2 + inspect 4) frames
 python tools/assets/build_customers.py --raw build/asset_raw_customers --out assets/generated/characters
 python tools/assets/validate_customers.py        # part of tools\run_tests.ps1
+python tools/assets/contact_sheet_customers.py --out build/asset_audit/customers_contact.png
 ```
+
+The customer contact sheet shows walk/idle/inspect frame 0 for all three variants and four
+facings on the same manifest canvas. It supports human checks of silhouette, scale, and shared
+anchor; it does not prove in-game fixture occlusion or movement sorting.
 
 All frames of a variant share one crop, one canvas and one anchor (the feet), so the feet never move between facings or frames. `validate_customers.py` re-measures the calibration image and checks the 14 §2 frame counts and rates, canvas/anchor, padding, body height against `height_m`, and ground contact. The body-height boxes are a stand-in for the AI/hand-made art of #12.
