@@ -1,6 +1,6 @@
 extends SceneTree
 ## Renders Main.tscn (non-headless) and saves a PNG for manual review.
-## godot --path . --script res://tools/screenshot.gd -- <out.png> [tile_x tile_y]
+## godot --path . --script res://tools/screenshot.gd -- <out.png> [tile_x tile_y | demo]
 
 func _initialize() -> void:
 	_run()
@@ -14,10 +14,26 @@ func _run() -> void:
 	for i in 5:
 		await process_frame
 	var world := main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
-	if args.size() >= 3:
+	if args.has("demo"):
+		_demo(main, world)
+	elif args.size() >= 3:
 		world.select_screen(world.projection.tile_center(Vector2i(int(args[1]), int(args[2]))))
 	for i in 3:
 		await process_frame
 	root.get_texture().get_image().save_png(out)
 	print("saved ", out, " tiles=", world.tile_count())
 	quit(0)
+
+
+## Demo layout: a register, shelves in different rotations, a selected shelf and a ghost.
+func _demo(main: Node, world: Node2D) -> void:
+	var app := main.get_node("AppRoot")
+	var n := 0
+	for p in [["register_basic", 3, 8, 0], ["shelf_general", 6, 3, 0], ["shelf_bread", 6, 7, 1], ["fridge_drink", 10, 2, 0], ["freezer_ice", 11, 7, 0], ["warmer_oden", 3, 3, 0]]:
+		n += 1
+		app.run_command({"command_id": "demo%d" % n, "kind": &"PLACE_FIXTURE", "type_id": p[0], "x": p[1], "y": p[2], "rotation": p[3]})
+	world.select_screen(world.projection.tile_center(Vector2i(6, 3)))
+	var bc := main.get_node("BuildController")
+	bc.begin_place("shelf_snack")
+	bc.rotate_preview()
+	world.set_hover_screen(world.projection.tile_center(Vector2i(13, 4)))

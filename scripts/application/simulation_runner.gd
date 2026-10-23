@@ -17,4 +17,6 @@ func process_frame(delta: float) -> int:
 		return 0
 	var steps := _clock.advance(delta, _state.speed_setting)
 	_state.time_sec += steps * int(GameClock.STEP_GAME_SECONDS)
+	if steps > 0:
+		_state.layout_history.clear()   # time passing ends the editing session (04 §8)
 	return steps

@@ -1,9 +1,18 @@
 extends Node2D
 ## Read-only presenter of the store (01 §2): floor, perimeter edge walls, west entrance,
-## camera (zoom/pan through IsoProjection) and tile hover/selection highlights.
-## Fixtures/customers are added by later issues. Input arrives via UiInputController.
+## fixtures, camera (zoom/pan through IsoProjection) and tile hover/selection/ghost overlays.
+## It never changes game state: clicks become signals that BuildController turns into commands.
 
 signal selection_changed(tile: Vector2i)
+signal hover_changed(tile: Vector2i)
+signal tile_clicked(tile: Vector2i)
+signal cancel_requested
+signal rotate_requested
+signal delete_requested
+signal undo_requested
+signal redo_requested
+
+enum Mode { OBSERVE, PLACE, MOVE }
 
 const NO_TILE := Vector2i(-1, -1)
 const FLOOR_A := Color(0.80, 0.80, 0.76)
@@ -17,13 +26,17 @@ var store_width: int = 0
 var store_height: int = 0
 var revision: int = -1
 var entrance_tiles: Array[Vector2i] = []
+var fixtures: Array = []
+var fixture_catalog: FixtureCatalog
 var projection := IsoProjection.new()
 var hover_tile := NO_TILE
 var selected_tile := NO_TILE
+var mode: Mode = Mode.OBSERVE
 ## True once the player zoomed/panned; resizing then keeps their view instead of refitting.
 var user_moved := false
 
 @onready var _selection: Node2D = $SelectionOverlay
+@onready var _fixture_view: Node2D = $ObjectSortRoot/FixturePresenter
 
 
 func _ready() -> void:
@@ -38,6 +51,7 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	entrance_tiles.clear()
 	for t in snapshot.get("entrance_tiles", []):
 		entrance_tiles.append(t)
+	fixtures = snapshot.get("fixtures", [])
 	if first or not in_store(selected_tile):
 		_set_selected(NO_TILE)
 	if first:
@@ -85,24 +99,68 @@ func pan_by(delta: Vector2) -> void:
 ## Returns the hovered tile, or NO_TILE when the point is outside the floor.
 func set_hover_screen(screen_pos: Vector2) -> Vector2i:
 	var c := projection.screen_to_tile(screen_pos)
-	hover_tile = c if in_store(c) else NO_TILE
+	var tile := c if in_store(c) else NO_TILE
+	var changed := tile != hover_tile
+	hover_tile = tile
 	if _selection != null:
 		if hover_tile == NO_TILE:
 			_selection.clear()
 		else:
 			_selection.show_tile(projection.tile_diamond(hover_tile))
+	if changed:
+		hover_changed.emit(hover_tile)
 	return hover_tile
 
 
-## Left click: select the tile under the pointer; clicking outside the floor deselects.
+## Left click: in OBSERVE it selects the tile (outside the floor deselects); in a build
+## mode it only reports the tile, and the controller decides what to commit.
+func primary_click(screen_pos: Vector2) -> void:
+	var c := projection.screen_to_tile(screen_pos)
+	var tile := c if in_store(c) else NO_TILE
+	if mode == Mode.OBSERVE:
+		_set_selected(tile)
+	elif tile != NO_TILE:
+		tile_clicked.emit(tile)
+
+
 func select_screen(screen_pos: Vector2) -> Vector2i:
 	var c := projection.screen_to_tile(screen_pos)
 	_set_selected(c if in_store(c) else NO_TILE)
 	return selected_tile
 
 
+## Right click / Esc: leave the build mode first, otherwise drop the selection.
+func cancel() -> void:
+	if mode != Mode.OBSERVE:
+		cancel_requested.emit()
+	else:
+		clear_selection()
+
+
 func clear_selection() -> void:
 	_set_selected(NO_TILE)
+
+
+func set_ghost(cells: Array[Vector2i], access: Array[Vector2i], valid: bool) -> void:
+	if _selection == null:
+		return
+	var cell_polys: Array = []
+	for c in cells:
+		cell_polys.append(projection.tile_diamond(c))
+	var access_polys: Array = []
+	for c in access:
+		access_polys.append(projection.tile_diamond(c))
+	_ghost = {"cells": cells, "access": access, "valid": valid}
+	_selection.show_ghost(cell_polys, access_polys, valid)
+
+
+func clear_ghost() -> void:
+	_ghost = {}
+	if _selection != null:
+		_selection.clear_ghost()
+
+
+var _ghost: Dictionary = {}
 
 
 func _set_selected(c: Vector2i) -> void:
@@ -127,13 +185,17 @@ func _on_viewport_resized() -> void:
 		fit_view()
 
 
-## Re-derive highlight polygons after any camera change so they stay on their tiles.
+## Re-derive highlight polygons after any camera/state change so they stay on their tiles.
 func _refresh() -> void:
 	if _selection != null:
 		if selected_tile != NO_TILE:
 			_selection.show_selected(projection.tile_diamond(selected_tile))
 		if hover_tile != NO_TILE:
 			_selection.show_tile(projection.tile_diamond(hover_tile))
+		if not _ghost.is_empty():
+			set_ghost(_ghost["cells"], _ghost["access"], _ghost["valid"])
+	if _fixture_view != null:
+		_fixture_view.queue_redraw()
 	queue_redraw()
 
 

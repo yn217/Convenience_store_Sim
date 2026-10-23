@@ -2,7 +2,8 @@ class_name UiInputController
 extends Node
 ## Store viewport input (04 §2): wheel = pointer-centred zoom, middle drag or
 ## Space + left drag = pan, left click = select tile, right click / Esc = cancel,
-## F = fit whole store. Space alone does nothing. Sits inside the SubViewport, so it only
+## F = fit whole store, R = rotate preview, Delete = remove selected, Ctrl+Z / Ctrl+Y = undo / redo.
+## Space alone does nothing. Sits inside the SubViewport, so it only
 ## sees pointer events that really landed on the store view (UI panels never forward theirs).
 
 const ZOOM_STEP := 1.1
@@ -52,13 +53,13 @@ func _on_button(event: InputEventMouseButton) -> bool:
 			if event.pressed and _space_held:
 				_panning = true
 			elif event.pressed:
-				_world.select_screen(event.position)
+				_world.primary_click(event.position)
 			elif _panning:
 				_panning = false
 			return true
 		MOUSE_BUTTON_RIGHT:
 			if event.pressed:
-				_world.clear_selection()
+				_world.cancel()
 			return true
 	return false
 
@@ -71,9 +72,23 @@ func _on_key(event: InputEventKey) -> bool:
 		return false
 	match event.keycode:
 		KEY_ESCAPE:
-			_world.clear_selection()
+			_world.cancel()
 			return true
 		KEY_F:
 			_world.fit_view()
 			return true
+		KEY_R:
+			_world.rotate_requested.emit()
+			return true
+		KEY_DELETE:
+			_world.delete_requested.emit()
+			return true
+		KEY_Z:
+			if event.ctrl_pressed:
+				_world.undo_requested.emit()
+				return true
+		KEY_Y:
+			if event.ctrl_pressed:
+				_world.redo_requested.emit()
+				return true
 	return false

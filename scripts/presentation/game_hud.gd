@@ -1,3 +1,4 @@
+class_name GameHud
 extends PanelContainer
 ## Top HUD (04 §1). Read-only: formats the GameState snapshot, never changes state.
 ## Values the Domain does not produce yet (sales, gross profit, customers) show "—"

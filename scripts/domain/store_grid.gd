@@ -46,6 +46,47 @@ func occupant_at(c: Vector2i) -> String:
 	return _occupancy.get(c, "")
 
 
+## True when a fixture other than `ignore_id` covers the cell.
+func is_blocked(c: Vector2i, ignore_id: String = "") -> bool:
+	return _occupancy.has(c) and _occupancy[c] != ignore_id
+
+
+## Set of covered cells (Vector2i -> true), leaving out `ignore_id`'s own cells.
+func blocked_cells(ignore_id: String = "") -> Dictionary:
+	var out := {}
+	for c in _occupancy:
+		if _occupancy[c] != ignore_id:
+			out[c] = true
+	return out
+
+
+func cells_of(instance_id: String, fixtures: FixtureCatalog) -> Array[Vector2i]:
+	var inst: Dictionary = instances[instance_id]
+	return footprint_cells(fixtures.get_type(inst["type_id"])["footprint"], inst["x"], inst["y"], inst["rotation"])
+
+
+## All-or-nothing move/rotate of an existing instance; its own old cells do not collide.
+func move_instance(instance_id: String, x: int, y: int, rotation: int, fixtures: FixtureCatalog) -> StringName:
+	if not instances.has(instance_id) or not ROTATIONS.has(rotation):
+		return &"INVALID_OPERATION"
+	var cells := footprint_cells(fixtures.get_type(instances[instance_id]["type_id"])["footprint"], x, y, rotation)
+	for c in cells:
+		if not in_bounds(c):
+			return &"OUT_OF_BOUNDS"
+	for c in cells:
+		if is_blocked(c, instance_id):
+			return &"OCCUPIED"
+	for c in _occupancy.keys():
+		if _occupancy[c] == instance_id:
+			_occupancy.erase(c)
+	for c in cells:
+		_occupancy[c] = instance_id
+	instances[instance_id]["x"] = x
+	instances[instance_id]["y"] = y
+	instances[instance_id]["rotation"] = rotation
+	return &"OK"
+
+
 ## All-or-nothing: returns &"OK" or the failure code; the grid is untouched on failure.
 func add_instance(inst: Dictionary, fixtures: FixtureCatalog) -> StringName:
 	for k in ["instance_id", "type_id", "x", "y", "rotation", "enabled"]:

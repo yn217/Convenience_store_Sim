@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/application/app_root.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/store/StoreWorld.tscn" id="2"]
 [ext_resource type="Script" path="res://scripts/presentation/main_layout.gd" id="3"]
 [ext_resource type="Script" path="res://scripts/presentation/game_hud.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/presentation/build_controller.gd" id="5"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -87,9 +88,36 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "建設パレット"
 
-[node name="Note" type="Label" parent="Layout/MainArea/BuildPalette/Body"]
+[node name="TypeList" type="VBoxContainer" parent="Layout/MainArea/BuildPalette/Body"]
 layout_mode = 2
-text = "什器の一覧は #21 で実装"
+
+[node name="UndoRow" type="HBoxContainer" parent="Layout/MainArea/BuildPalette/Body"]
+layout_mode = 2
+
+[node name="UndoButton" type="Button" parent="Layout/MainArea/BuildPalette/Body/UndoRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "設置は購入費も戻ります。仕入・販売・時間経過は元に戻せません。"
+disabled = true
+text = "元に戻す"
+
+[node name="RedoButton" type="Button" parent="Layout/MainArea/BuildPalette/Body/UndoRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "やり直す"
+
+[node name="Hint" type="Label" parent="Layout/MainArea/BuildPalette/Body"]
+layout_mode = 2
+text = "R: 回転 / Esc: キャンセル / Delete: 撤去 / Ctrl+Z, Ctrl+Y"
+autowrap_mode = 3
+
+[node name="PreviewLabel" type="Label" parent="Layout/MainArea/BuildPalette/Body"]
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="StatusLabel" type="Label" parent="Layout/MainArea/BuildPalette/Body"]
+layout_mode = 2
 autowrap_mode = 3
 
 [node name="StoreViewport" type="SubViewportContainer" parent="Layout/MainArea"]
@@ -120,6 +148,33 @@ text = "インスペクタ"
 [node name="SelectionLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Body"]
 layout_mode = 2
 text = "未選択"
+
+[node name="FixtureLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Body"]
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="MoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Body"]
+layout_mode = 2
+disabled = true
+text = "移動"
+
+[node name="RotateButton" type="Button" parent="Layout/MainArea/FixtureInspector/Body"]
+layout_mode = 2
+disabled = true
+text = "回転 (90°)"
+
+[node name="RemoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Body"]
+layout_mode = 2
+disabled = true
+text = "撤去"
+
+[node name="RemoveDialog" type="ConfirmationDialog" parent="."]
+title = "什器の撤去"
+ok_button_text = "撤去する"
+cancel_button_text = "やめる"
+
+[node name="BuildController" type="Node" parent="."]
+script = ExtResource("5")
 
 [node name="AppRoot" type="Node" parent="."]
 script = ExtResource("1")
