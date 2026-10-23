@@ -1,0 +1,371 @@
+{
+  "algorithm": "SHA-256",
+  "files": [
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/CANDIDATE_VISUAL_ID_MAP.json",
+      "sha256": "5543322cc5ca3887a7080d33bb5622e66e2d61c628c1a7dcd1655c152d8face0",
+      "bytes": 1372
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a.png",
+      "sha256": "0402a36c293d092044e2c0ba869d4f039c044a45c0fc13e5477ec69393f570ca",
+      "bytes": 1028821
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a_cutout_v01.png",
+      "sha256": "7d6f78229c4196af5249b20be0a5f4c5cc7d8f8a0119acde58c6babc874dd1df",
+      "bytes": 1633656
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a_cutout_v02.png",
+      "sha256": "2645f91bcc12f774f9082aa89ff63a55abab1e0ab673a54d26ff4ffac954bc06",
+      "bytes": 1527278
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b.png",
+      "sha256": "012a69390940945ab5f19358dda128e2d5074a98850a42d6b1b1606f63f06aed",
+      "bytes": 1056064
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b_cutout_v01.png",
+      "sha256": "4137035e63f5c097c9ff1b3499b233dc32739aae2fe10aee57c272e9c0deb968",
+      "bytes": 2007275
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b_cutout_v02.png",
+      "sha256": "652807db8c6227b8ae5ac67e060e68b1319a098ae7b929c19448c2a0c9bc1c67",
+      "bytes": 1902332
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a.png",
+      "sha256": "4779f00d4a29d72b670a53f52f062fea5d55631721ecbc311aab4dd7bac190d0",
+      "bytes": 1032050
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a_cutout_v01.png",
+      "sha256": "705672e49b95b00b27cdd2ad0571fcbb5c4603a0bc8fa69bd2c58f7a01736b6f",
+      "bytes": 1864475
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a_cutout_v02.png",
+      "sha256": "91b2ed0b02191637ec7197598bdc593fc0c15775ebac61db999158c869cde498",
+      "bytes": 1798902
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b.png",
+      "sha256": "82cac3f36e850b9f5f64eebb8fbd01acd069eb83d565e8322a593a44085b2eef",
+      "bytes": 1020547
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v01.png",
+      "sha256": "ab9887c2ed0026e52a3afd5742c963f74276fb44d20afc0d85996c5e6b79b61f",
+      "bytes": 1772955
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v02.png",
+      "sha256": "115d3be27eafe75af58a8b43b3ca3b66f092de55652ac764b801bb5d8223417d",
+      "bytes": 1731992
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a.png",
+      "sha256": "b1bf249cda6d52954e1a9359efd8999fe7922d73983b1a98c2b5f68ff0687403",
+      "bytes": 1454839
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a_cutout_v01.png",
+      "sha256": "bceb1a1f23c30e81ce620d3942fa800068a40b679e2476e951f49e7f9a0007d1",
+      "bytes": 1802439
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a_cutout_v02.png",
+      "sha256": "cd72b63302dc1e7b9c4dcd1a482b53a440e7577d289e652f7833dfaecdfcad66",
+      "bytes": 1745499
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b.png",
+      "sha256": "d8813638418e87640a87393759d5746e05b42968b482bfcc92a35d850696e4e9",
+      "bytes": 1485823
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v01.png",
+      "sha256": "cf25f17ab3132a2383b421b3867d9ee28a0ce90e6a0a779d72e1b075d196fe95",
+      "bytes": 2058380
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v02.png",
+      "sha256": "b6e190e2c77566dde28524cb4fcadf552f76862458b256a3e0aa7ae8e3225a06",
+      "bytes": 1965353
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/source_256/sku_cupnoodle_comparison_v01_a_source256_v01.png",
+      "sha256": "8b5ba8d6b1ee44193c69de3bdcfe8e3a38c698cf3570f8c6c2f1fab0cfb0d701",
+      "bytes": 50538
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/source_256/sku_cupnoodle_comparison_v01_b_source256_v01.png",
+      "sha256": "24590018e1a4d596b1f95237d42985292bc648d224600e79bb29581b7fad1f3a",
+      "bytes": 56922
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/source_256/sku_onigiri_comparison_v01_a_source256_v01.png",
+      "sha256": "db4bddf16bea2545a50eda224a478a37f71d2fbed091970e6bf4f17357ec5275",
+      "bytes": 66293
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/source_256/sku_onigiri_comparison_v01_b_source256_v01.png",
+      "sha256": "9f8ed0ef1a7c1b9395968a7625296ca7b6acb67afdf21b3d399034ca28a4a354",
+      "bytes": 65388
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/source_256/sku_tea_comparison_v01_a_source256_v01.png",
+      "sha256": "8d0485213d921368a1a89cf199b0d7c41be6a5649965ffda7267304dc3ecde6a",
+      "bytes": 42711
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/source_256/sku_tea_comparison_v01_b_source256_v01.png",
+      "sha256": "64f99d69b460149036bab7e2cfb372fa4941650c24bb473d3709573fe91f36b2",
+      "bytes": 43667
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/source_256/SOURCE_CANVAS_MANIFEST.json",
+      "sha256": "fe529d0360955c763adbdcaf064e86242daa3c504395ca9bb7ddccb5b9cee38a",
+      "bytes": 2729
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/CUTOUT_PROVENANCE.json",
+      "sha256": "4eb4714ad49839ff385a8d4b6c73849fbc51c09ac7a94fb0e9248d9c621a9ab2",
+      "bytes": 2809
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/CUTOUT_VALIDATION.json",
+      "sha256": "5765b18123f6395c2622411f86d18a1fe0db23cde44f55e8433fcf2bc5c5d4ad",
+      "bytes": 2182
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/sku_cupnoodle_comparison_v01.png",
+      "sha256": "f661b5b68ef3330998d2c805cb38fa0bcf8e012cf020969a6a661e7ec4ff71d0",
+      "bytes": 2055275
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/sku_onigiri_comparison_v01.png",
+      "sha256": "7d02f396332999ed8c0ceb462cdf5fa76148983381b90be10f5f866e139aad91",
+      "bytes": 2033466
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/sku_tea_comparison_v01.png",
+      "sha256": "d443cf0e939cd10f63ff51881c538fd851c3f268399527fe1ff0215f98a0495d",
+      "bytes": 2842623
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_a.png",
+      "sha256": "08ff4c5e60f0444d9772a0f4ba6a8a1f931217f38a1b1f86ec88954311c2b697",
+      "bytes": 881556
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_b.png",
+      "sha256": "ea38b05ebf118105da299d376208ea7e1d27d4570f5e93e0ba9a29b876512c21",
+      "bytes": 911877
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/candidates/register_basic_material_comparison_v01_a.png",
+      "sha256": "351c59c47be53308acfc2e1ccc026b1949148ec23b2c7b2eb80a293c7aea1652",
+      "bytes": 940378
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/candidates/register_basic_material_comparison_v01_b.png",
+      "sha256": "3b13cdc1761966142f1c252766c0acf3dfa6efa0693e8c746fa282157c9334b7",
+      "bytes": 1045845
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/candidates/shelf_general_material_comparison_v01_a.png",
+      "sha256": "98a5eaf60f7d672ace1e10c2afd6894d4e2d0c3740f2da0d4aaf5d9d777f0204",
+      "bytes": 1061387
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/candidates/shelf_general_material_comparison_v01_b.png",
+      "sha256": "dd41113e278fd3cf362dad96c14921e54b1fff7079c281a7ca077dfb3da5a7f5",
+      "bytes": 1013413
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/fridge_drink_material_comparison_v01.png",
+      "sha256": "d99a7dc143f527fbeef3ac4442096e75dc860ee14ddc06845bc055100fa897ab",
+      "bytes": 1773336
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/MATERIAL_PROVENANCE.json",
+      "sha256": "dcd93efd8b59a9059eb4d7f39a7aef3e0f0da25673400ef3cff92511a59ae11b",
+      "bytes": 1770
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/register_basic_material_comparison_v01.png",
+      "sha256": "370c6d9396ee4d1e4d75f3fdca63fcf075473338b0f93824655149fc13aba081",
+      "bytes": 2049939
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/shelf_general_material_comparison_v01.png",
+      "sha256": "a7412ac60cd6a6d61442de536d998cd3b91436407d7c5a42f8a2b6dc805c5d7d",
+      "bytes": 2047769
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a.png",
+      "sha256": "0612bbcb55cd4bdc1cf2911f738086b77b38dc5e4e0f14f350d37bc9e20ada03",
+      "bytes": 1124833
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a_cutout_v01.png",
+      "sha256": "4ea8618b74063c3c12b8eb8e0a82fe0694d5d9a3bf62f593dbad8513ba48ef9a",
+      "bytes": 2598849
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a_cutout_v02.png",
+      "sha256": "44abbd11ca4d8fb0163497d360590e5a80594e8d316cecf5530096da2aa5917c",
+      "bytes": 2355430
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b.png",
+      "sha256": "b675e2198c0ffe1ffbcde9946b971f15ed5bcfe071382c8a96f0810dbb0463b6",
+      "bytes": 1160688
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b_cutout_v01.png",
+      "sha256": "914a11e6673ad01e9fcb49a4b02bb18b589e49ff3d392b03e66b4a80ff6afce3",
+      "bytes": 2159556
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b_cutout_v02.png",
+      "sha256": "215fd871bf19590b4714eb234b8ddd76129b9d7d75b44c38e317f0559ad9fd96",
+      "bytes": 1978680
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/source_256/shelf_pop_comparison_v01_a_source256_v01.png",
+      "sha256": "0fb6322e8044efd0d90f5c949a2d9d1671aba24da0d6c92b51647b273e07b240",
+      "bytes": 47982
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/source_256/shelf_pop_comparison_v01_b_source256_v01.png",
+      "sha256": "382554a769e9fd39b47974f5a8cf51c6ba9862bfe36d106e5259ff207a0df6d5",
+      "bytes": 42414
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidates/source_256/SOURCE_CANVAS_MANIFEST.json",
+      "sha256": "e1b998885293c195993704da23af6f9759bedae8b378b60bbc2d7a2d6068a2d5",
+      "bytes": 779
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/POP_PROVENANCE.json",
+      "sha256": "60b9b1d1f40e41a017962839da2b8e7100fa0182490a40c79e255729b5b43c30",
+      "bytes": 1010
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/shelf_pop_comparison_v01.png",
+      "sha256": "4b35563ee1aff46e1d84b17063c509be44c5bd8deb322ddfce427bf0d6dcc879",
+      "bytes": 2216600
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/CANDIDATE_CROPS.json",
+      "sha256": "c3c4b0bb8175a707715e01719f0da45abffb12fe343717d37c48edb0e99b1d42",
+      "bytes": 373
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_casual_tote_candidate_v01.png",
+      "sha256": "dc15d4c9546391a5eec1cf3d7a40d98d6dc84a2f9ca0c7d81a5cb6d5f7dfd8ed",
+      "bytes": 722715
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_casual_tote_cutout_v01.png",
+      "sha256": "85faeb59d6e968f0502d30a03bcc8d0453952bb86b7eb9180db1395fe8fd7c56",
+      "bytes": 1952958
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_office_shoulder_bag_candidate_v01.png",
+      "sha256": "dda99c1749b1cf6ba1d88b8103d29cf3a1dcf1d0a65be32635b6d9f31617a5aa",
+      "bytes": 649721
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_office_shoulder_bag_cutout_v01.png",
+      "sha256": "7d9f5a154c1acedc1dd346b91ca7f9c515c4adc81870496648d6d62c61c41b82",
+      "bytes": 1508715
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_older_basket_candidate_v01.png",
+      "sha256": "a24c6c8d5eb166fdd49e97e6450dd4c38f49fd4150e56fd1ea5f2befc7027dbe",
+      "bytes": 736590
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_older_basket_cutout_v01.png",
+      "sha256": "fb0f52d81c7f2ce6dcd706d6e9c130f961376104b6d3149e41e01fd6001ae1c6",
+      "bytes": 1880983
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/CUSTOMER_PROVENANCE.json",
+      "sha256": "07253aa9bd2be6cabfe318191ae49b3a1c1a9cb75db3ebf98c1039c9520d4ee9",
+      "bytes": 1161
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/customer_variants_comparison_v01.png",
+      "sha256": "a3c93adfc91ab6ab7ef2ac97114bcece8862435f15eccdcb46dba89bc0426c7c",
+      "bytes": 2057120
+    }
+  ]
+}
