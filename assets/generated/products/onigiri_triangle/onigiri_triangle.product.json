@@ -1,0 +1,20 @@
+{
+ "manifest_version": 1,
+ "shape_id": "onigiri_triangle",
+ "projection_id": "iso2x_v1",
+ "dimensions_m": {
+  "width": 0.105,
+  "depth": 0.045,
+  "height": 0.095
+ },
+ "source_px_per_tile": [
+  256,
+  128
+ ],
+ "directions": {
+  "0": "onigiri_triangle_0.png",
+  "1": "onigiri_triangle_1.png",
+  "2": "onigiri_triangle_2.png",
+  "3": "onigiri_triangle_3.png"
+ }
+}

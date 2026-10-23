@@ -1,0 +1,20 @@
+{
+ "manifest_version": 1,
+ "shape_id": "dessert_cup",
+ "projection_id": "iso2x_v1",
+ "dimensions_m": {
+  "width": 0.1,
+  "depth": 0.1,
+  "height": 0.115
+ },
+ "source_px_per_tile": [
+  256,
+  128
+ ],
+ "directions": {
+  "0": "dessert_cup_0.png",
+  "1": "dessert_cup_1.png",
+  "2": "dessert_cup_2.png",
+  "3": "dessert_cup_3.png"
+ }
+}

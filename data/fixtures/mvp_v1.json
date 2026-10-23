@@ -1,0 +1,511 @@
+[
+  {
+    "schema_version": 1,
+    "type_id": "register_basic",
+    "display_name": "POSレジ",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.2
+    },
+    "placement_cost_yen": 90000,
+    "electricity_cost_yen_per_day": 50,
+    "capacity_units": 0,
+    "allowed_categories": [],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "register_basic_a",
+    "shelf_slots": [],
+    "register_queue_max_tiles": 3
+  },
+  {
+    "schema_version": 1,
+    "type_id": "shelf_general",
+    "display_name": "汎用棚",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.5
+    },
+    "placement_cost_yen": 40000,
+    "electricity_cost_yen_per_day": 0,
+    "capacity_units": 48,
+    "allowed_categories": [
+      "snack",
+      "instant_noodle",
+      "bread"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "shelf_general_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "snack",
+          "instant_noodle",
+          "bread"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "snack",
+          "instant_noodle",
+          "bread"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "snack",
+          "instant_noodle",
+          "bread"
+        ]
+      },
+      {
+        "slot_id": "row3",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "snack",
+          "instant_noodle",
+          "bread"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "shelf_onigiri",
+    "display_name": "おにぎり棚",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.4
+    },
+    "placement_cost_yen": 45000,
+    "electricity_cost_yen_per_day": 15,
+    "capacity_units": 36,
+    "allowed_categories": [
+      "rice_ball"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "shelf_onigiri_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "rice_ball"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "rice_ball"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "rice_ball"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "warmer_oden",
+    "display_name": "おでん什器",
+    "footprint": {
+      "w": 1,
+      "h": 1
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 0.92,
+      "height": 1.1
+    },
+    "placement_cost_yen": 60000,
+    "electricity_cost_yen_per_day": 100,
+    "capacity_units": 24,
+    "allowed_categories": [
+      "oden"
+    ],
+    "access_edges": [
+      "N"
+    ],
+    "visual_id": "warmer_oden_a",
+    "shelf_slots": [
+      {
+        "slot_id": "cell0",
+        "capacity_units": 4,
+        "allowed_categories": [
+          "oden"
+        ]
+      },
+      {
+        "slot_id": "cell1",
+        "capacity_units": 4,
+        "allowed_categories": [
+          "oden"
+        ]
+      },
+      {
+        "slot_id": "cell2",
+        "capacity_units": 4,
+        "allowed_categories": [
+          "oden"
+        ]
+      },
+      {
+        "slot_id": "cell3",
+        "capacity_units": 4,
+        "allowed_categories": [
+          "oden"
+        ]
+      },
+      {
+        "slot_id": "cell4",
+        "capacity_units": 4,
+        "allowed_categories": [
+          "oden"
+        ]
+      },
+      {
+        "slot_id": "cell5",
+        "capacity_units": 4,
+        "allowed_categories": [
+          "oden"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "shelf_noodle",
+    "display_name": "カップ麺棚",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.7
+    },
+    "placement_cost_yen": 42000,
+    "electricity_cost_yen_per_day": 0,
+    "capacity_units": 42,
+    "allowed_categories": [
+      "instant_noodle"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "shelf_noodle_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 11,
+        "allowed_categories": [
+          "instant_noodle"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 11,
+        "allowed_categories": [
+          "instant_noodle"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 10,
+        "allowed_categories": [
+          "instant_noodle"
+        ]
+      },
+      {
+        "slot_id": "row3",
+        "capacity_units": 10,
+        "allowed_categories": [
+          "instant_noodle"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "shelf_bread",
+    "display_name": "パン棚",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.5
+    },
+    "placement_cost_yen": 40000,
+    "electricity_cost_yen_per_day": 0,
+    "capacity_units": 36,
+    "allowed_categories": [
+      "bread"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "shelf_bread_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "bread"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "bread"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "bread"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "fridge_drink",
+    "display_name": "飲料冷蔵ケース",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 2
+    },
+    "placement_cost_yen": 120000,
+    "electricity_cost_yen_per_day": 200,
+    "capacity_units": 60,
+    "allowed_categories": [
+      "drink"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "fridge_drink_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 20,
+        "allowed_categories": [
+          "drink"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 20,
+        "allowed_categories": [
+          "drink"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 20,
+        "allowed_categories": [
+          "drink"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "shelf_snack",
+    "display_name": "おかし棚",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.6
+    },
+    "placement_cost_yen": 40000,
+    "electricity_cost_yen_per_day": 0,
+    "capacity_units": 54,
+    "allowed_categories": [
+      "snack"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "shelf_snack_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 14,
+        "allowed_categories": [
+          "snack"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 14,
+        "allowed_categories": [
+          "snack"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 13,
+        "allowed_categories": [
+          "snack"
+        ]
+      },
+      {
+        "slot_id": "row3",
+        "capacity_units": 13,
+        "allowed_categories": [
+          "snack"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "fridge_dessert",
+    "display_name": "デザート冷蔵ケース",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.6
+    },
+    "placement_cost_yen": 110000,
+    "electricity_cost_yen_per_day": 150,
+    "capacity_units": 36,
+    "allowed_categories": [
+      "dessert"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "fridge_dessert_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "dessert"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "dessert"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "dessert"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "freezer_ice",
+    "display_name": "アイス冷凍ケース",
+    "footprint": {
+      "w": 2,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 1.92,
+      "depth": 1.92,
+      "height": 1
+    },
+    "placement_cost_yen": 130000,
+    "electricity_cost_yen_per_day": 180,
+    "capacity_units": 48,
+    "allowed_categories": [
+      "ice_cream"
+    ],
+    "access_edges": [
+      "N",
+      "E",
+      "S",
+      "W"
+    ],
+    "visual_id": "freezer_ice_a",
+    "shelf_slots": [
+      {
+        "slot_id": "cell0",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "ice_cream"
+        ]
+      },
+      {
+        "slot_id": "cell1",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "ice_cream"
+        ]
+      },
+      {
+        "slot_id": "cell2",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "ice_cream"
+        ]
+      },
+      {
+        "slot_id": "cell3",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "ice_cream"
+        ]
+      }
+    ]
+  }
+]

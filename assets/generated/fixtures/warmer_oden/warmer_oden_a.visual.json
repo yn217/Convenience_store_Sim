@@ -1,0 +1,274 @@
+{
+ "manifest_version": 1,
+ "visual_id": "warmer_oden_a",
+ "fixture_type_id": "warmer_oden",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 1,
+  "h": 1
+ },
+ "dimensions_m": {
+  "width": 0.92,
+  "depth": 0.92,
+  "height": 1.1
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    314,
+    301
+   ],
+   "anchor_px": [
+    157.0,
+    218.0
+   ],
+   "layers": {
+    "body": "warmer_oden_0_body.png",
+    "shadow": "warmer_oden_0_shadow.png",
+    "glass_front": "warmer_oden_0_glass_front.png"
+   },
+   "slot_anchors_px": {
+    "cell0_item0": [
+     147.19,
+     34.72
+    ],
+    "cell1_item0": [
+     186.44,
+     54.35
+    ],
+    "cell2_item0": [
+     225.69,
+     73.98
+    ],
+    "cell3_item0": [
+     88.31,
+     64.16
+    ],
+    "cell4_item0": [
+     127.56,
+     83.79
+    ],
+    "cell5_item0": [
+     166.81,
+     103.42
+    ]
+   },
+   "selection_polygon_px": [
+    [
+     157.0,
+     154.0
+    ],
+    [
+     285.0,
+     218.0
+    ],
+    [
+     157.0,
+     282.0
+    ],
+    [
+     29.0,
+     218.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    157.0,
+    218.0
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    314,
+    323
+   ],
+   "anchor_px": [
+    157.0,
+    240.0
+   ],
+   "layers": {
+    "body": "warmer_oden_1_body.png",
+    "shadow": "warmer_oden_1_shadow.png",
+    "glass_front": "warmer_oden_1_glass_front.png"
+   },
+   "slot_anchors_px": {
+    "cell0_item0": [
+     225.69,
+     86.16
+    ],
+    "cell1_item0": [
+     186.44,
+     105.79
+    ],
+    "cell2_item0": [
+     147.19,
+     125.42
+    ],
+    "cell3_item0": [
+     166.81,
+     56.72
+    ],
+    "cell4_item0": [
+     127.56,
+     76.35
+    ],
+    "cell5_item0": [
+     88.31,
+     95.98
+    ]
+   },
+   "selection_polygon_px": [
+    [
+     157.0,
+     176.0
+    ],
+    [
+     285.0,
+     240.0
+    ],
+    [
+     157.0,
+     304.0
+    ],
+    [
+     29.0,
+     240.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    157.0,
+    240.0
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    314,
+    323
+   ],
+   "anchor_px": [
+    157.0,
+    240.0
+   ],
+   "layers": {
+    "body": "warmer_oden_2_body.png",
+    "shadow": "warmer_oden_2_shadow.png",
+    "glass_front": "warmer_oden_2_glass_front.png"
+   },
+   "slot_anchors_px": {
+    "cell0_item0": [
+     166.81,
+     125.42
+    ],
+    "cell1_item0": [
+     127.56,
+     105.79
+    ],
+    "cell2_item0": [
+     88.31,
+     86.16
+    ],
+    "cell3_item0": [
+     225.69,
+     95.98
+    ],
+    "cell4_item0": [
+     186.44,
+     76.35
+    ],
+    "cell5_item0": [
+     147.19,
+     56.72
+    ]
+   },
+   "selection_polygon_px": [
+    [
+     157.0,
+     176.0
+    ],
+    [
+     285.0,
+     240.0
+    ],
+    [
+     157.0,
+     304.0
+    ],
+    [
+     29.0,
+     240.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    157.0,
+    240.0
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    314,
+    301
+   ],
+   "anchor_px": [
+    157.0,
+    218.0
+   ],
+   "layers": {
+    "body": "warmer_oden_3_body.png",
+    "shadow": "warmer_oden_3_shadow.png",
+    "glass_front": "warmer_oden_3_glass_front.png"
+   },
+   "slot_anchors_px": {
+    "cell0_item0": [
+     88.31,
+     73.98
+    ],
+    "cell1_item0": [
+     127.56,
+     54.35
+    ],
+    "cell2_item0": [
+     166.81,
+     34.72
+    ],
+    "cell3_item0": [
+     147.19,
+     103.42
+    ],
+    "cell4_item0": [
+     186.44,
+     83.79
+    ],
+    "cell5_item0": [
+     225.69,
+     64.16
+    ]
+   },
+   "selection_polygon_px": [
+    [
+     157.0,
+     154.0
+    ],
+    [
+     285.0,
+     218.0
+    ],
+    [
+     157.0,
+     282.0
+    ],
+    [
+     29.0,
+     218.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    157.0,
+    218.0
+   ]
+  }
+ }
+}
