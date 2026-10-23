@@ -1,5 +1,5 @@
 extends Node2D
-## Placeholder fixture boxes (real sprites arrive with #9/#22/#26). Read-only: draws the
+## Fixtures: manifest sprites where generated (#9), placeholder boxes otherwise. Read-only: draws the
 ## snapshot's fixture list with the catalog dimensions, back-to-front by footprint position.
 ## The yellow edge marks the customer-facing access side, so rotation is visible.
 
@@ -11,8 +11,12 @@ const CATEGORY_COLOR := {
 const REGISTER_COLOR := Color("7f8c99")
 const FRONT_COLOR := Color("ffc873")
 const INSET := 0.46
+## Product placeholder size in source px (anchor = bottom centre of the item).
+const ITEM_W := 22.0
+const ITEM_H := 30.0
 
 var _world: Node2D
+var _sprites := FixtureSprites.new()
 
 
 func _ready() -> void:
@@ -35,7 +39,75 @@ func _draw() -> void:
 		items.append({"inst": inst, "def": def, "lo": lo, "hi": hi, "depth": hi.x + hi.y})
 	items.sort_custom(func(a, b): return a["depth"] < b["depth"])
 	for it in items:
-		_draw_box(proj, it)
+		var entry := _sprites.rotation_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))
+		if entry.is_empty():
+			_draw_box(proj, it)
+		else:
+			_draw_sprite(proj, it, entry)
+
+
+## Layers back to front: shadow, body, products, glass_front. Source px scale by zoom / 2.
+func _draw_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary) -> void:
+	var lo: Vector2i = it["lo"]
+	var ground := proj.world_to_screen(lo.x, lo.y)
+	var top_left := proj.sprite_top_left(ground, entry["anchor"])
+	var s := proj.zoom / IsoProjection.SOURCE_SCALE
+	var layers: Dictionary = entry["layers"]
+	for name in FixtureSprites.LAYER_ORDER_BELOW:
+		if layers.has(name):
+			_blit(layers[name], top_left, s)
+	_draw_products(it, entry, top_left, s, proj.zoom)
+	for name in FixtureSprites.LAYER_ORDER_ABOVE:
+		if layers.has(name):
+			_blit(layers[name], top_left, s)
+
+
+func _blit(tex: Texture2D, top_left: Vector2, s: float) -> void:
+	draw_texture_rect(tex, Rect2(top_left, tex.get_size() * s), false)
+
+
+func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: float, zoom: float) -> void:
+	var slots: Dictionary = entry["slots"]
+	if slots.is_empty():
+		return
+	var def: Dictionary = it["def"]
+	var stock: Dictionary = _world.shelf_stock.get(it["inst"]["instance_id"], {})
+	var color := _color_for(def)
+	for slot in def["shelf_slots"]:
+		var sid: String = slot["slot_id"]
+		var qty := int(stock.get(sid, 0))
+		var cap := int(slot["capacity_units"])
+		if not slots.has("%s_item0" % sid):
+			continue
+		if ShelfDisplay.lod(zoom) == "bar":
+			_draw_row_bar(slots, sid, ShelfDisplay.fill_ratio(qty, cap), color, top_left, s)
+			continue
+		var n := mini(ShelfDisplay.visible_items(qty, cap, zoom), _anchor_count(slots, sid))
+		# Item 0 is the end nearest the viewer's right; draw far items first so near ones overlap.
+		for i in range(n - 1, -1, -1):
+			var a: Vector2 = top_left + slots["%s_item%d" % [sid, i]] * s
+			var half := ITEM_W * 0.5 * s
+			var r := Rect2(a - Vector2(half, ITEM_H * s), Vector2(ITEM_W * s, ITEM_H * s))
+			draw_rect(r, color)
+			draw_rect(r, color.darkened(0.45), false, 1.0)
+
+
+func _anchor_count(slots: Dictionary, sid: String) -> int:
+	var n := 0
+	while slots.has("%s_item%d" % [sid, n]):
+		n += 1
+	return n
+
+
+func _draw_row_bar(slots: Dictionary, sid: String, ratio: float, color: Color, top_left: Vector2, s: float) -> void:
+	var a: Vector2 = top_left + slots["%s_item0" % sid] * s
+	var last := _anchor_count(slots, sid) - 1
+	var b: Vector2 = top_left + slots["%s_item%d" % [sid, last]] * s
+	if last == 0:
+		b = a + Vector2(18.0 * s, 9.0 * s)   # single-cell slot: short bar along the +X screen direction
+	draw_line(a, b, Color(0, 0, 0, 0.25), 4.0)
+	if ratio > 0.0:
+		draw_line(a, a.lerp(b, ratio), color, 4.0)
 
 
 func _color_for(def: Dictionary) -> Color:

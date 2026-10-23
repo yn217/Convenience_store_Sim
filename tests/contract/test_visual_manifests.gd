@@ -4,7 +4,7 @@ extends RefCounted
 ## on the ground point (02 §E).
 
 const DIR := "res://assets/generated/fixtures"
-const TYPES := ["shelf_general", "warmer_oden", "freezer_ice"]
+const TYPES := ["shelf_general", "warmer_oden", "freezer_ice", "register_basic", "fridge_drink"]
 
 
 func _manifest(type_id: String) -> Dictionary:

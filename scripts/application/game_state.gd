@@ -71,6 +71,7 @@ func snapshot() -> Dictionary:
 		"store_height": grid.height,
 		"entrance_tiles": grid.entrance_tiles.duplicate(),
 		"fixtures": placed,
+		"shelf_stock": ShelfDisplay.stock_by_slot(inventory_segments),
 		"can_undo": layout_history.can_undo(),
 		"can_redo": layout_history.can_redo(),
 		"cash_yen": ledger.cash_yen,

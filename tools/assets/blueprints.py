@@ -93,13 +93,55 @@ def _freezer_ice(d):
     return boxes, glass
 
 
+def _register_basic(d):
+    x0, y0, x1, y1 = _body_rect(*_wh(d))
+    boxes = [
+        Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer"),
+        Box(x0, y0, BASE, x1, y1, 0.90, "shelf_white"),                       # counter body
+        Box(x0 - 0.0, y0, 0.90, x1, y1, 0.92, "frame_metal"),                  # service top (0.92 m)
+        Box(x1 - 0.02, y0 + 0.10, 0.55, x1, y1 - 0.10, 0.62, "label_rail"),    # customer-side trim
+        Box(x0 + 0.05, 0.25, 0.92, x0 + 0.40, 0.85, 1.10, "dark_polymer"),     # POS terminal
+        Box(x0 + 0.05, 0.28, 1.10, x0 + 0.12, 0.82, 1.20, "dark_polymer"),     # display on a stalk
+    ]
+    return boxes, []
+
+
+def _fridge_drink(d):
+    x0, y0, x1, y1 = _body_rect(*_wh(d))
+    height = d["dimensions_m"]["height"]
+    door_x0 = x1 - 0.03
+    boxes = [
+        Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer"),
+        Box(x0, y0, BASE, x0 + 0.06, y1, 1.90, "shelf_white"),                 # back panel (W)
+        Box(x0, y0, BASE, door_x0, y0 + POST, 1.90, "shelf_white"),            # side panels
+        Box(x0, y1 - POST, BASE, door_x0, y1, 1.90, "shelf_white"),
+        Box(x0, y0, 1.90, x1, y1, height, "shelf_white"),                      # top cap
+        Box(x1 - 0.05, y0 + 0.06, 1.84, x1 - 0.01, y1 - 0.06, 1.88, "cool_white_led"),
+        # door frame: stiles, centre mullion, top and bottom rails
+        Box(door_x0, y0, BASE, x1, y0 + POST, 1.90, "frame_metal"),
+        Box(door_x0, y1 - POST, BASE, x1, y1, 1.90, "frame_metal"),
+        Box(door_x0, 0.48, BASE, x1, 0.52, 1.90, "frame_metal"),
+        Box(door_x0, y0, 1.82, x1, y1, 1.90, "frame_metal"),
+        Box(door_x0, y0, BASE, x1, y1, 0.10, "frame_metal"),
+    ]
+    for z in (0.46, 0.96, 1.46):
+        boxes.append(Box(x0 + 0.06, y0 + POST, z - BOARD, door_x0, y1 - POST, z, "shelf_white"))
+    glass = [
+        Box(x1 - GLASS, y0 + POST, 0.10, x1, 0.48, 1.82, "clear_glass", "glass_front"),
+        Box(x1 - GLASS, 0.52, 0.10, x1, y1 - POST, 1.82, "clear_glass", "glass_front"),
+    ]
+    return boxes, glass
+
+
 BUILDERS = {
+    "register_basic": _register_basic,
+    "fridge_drink": _fridge_drink,
     "shelf_general": _shelf_general,
     "warmer_oden": _warmer_oden,
     "freezer_ice": _freezer_ice,
 }
 # Row heights (m) of the display slots, bottom to top (06 §2).
-ROW_HEIGHTS = {"shelf_general": [0.32, 0.64, 0.96, 1.28]}
+ROW_HEIGHTS = {"shelf_general": [0.32, 0.64, 0.96, 1.28], "fridge_drink": [0.46, 0.96, 1.46]}
 
 
 def _wh(d):
@@ -131,6 +173,8 @@ def _slots(d, body):
             slots[slot["slot_id"]] = [
                 ("%s_item%d" % (slot["slot_id"], i), (0.30, -0.35 + i * (1.70 / 7.0), z)) for i in range(8)
             ]
+        return slots
+    if not d["shelf_slots"]:
         return slots
     cells = [s["slot_id"] for s in d["shelf_slots"]]
     cols = 3 if t == "warmer_oden" else 2
