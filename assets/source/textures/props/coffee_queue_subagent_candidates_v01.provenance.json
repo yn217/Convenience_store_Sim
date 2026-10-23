@@ -1,0 +1,17 @@
+{
+  "asset_family": "coffee_dispenser_and_queue_guide_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Hume and Gibbs",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single Japanese convenience-store prop, realistic 2.5D isometric, transparent RGBA background, light contact shadow, no real manufacturer/trademark/logo/readable fine text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"coffee_dispenser_white_stainless_subagent_v01","source_file":"assets/source/textures/props/coffee_dispenser_white_stainless_subagent_v01.png","sha256":"9E713248FCFACB13EEBBEAEF7CC5A6DB874D5E74CF5FE6846FC8B5B5EA9DC2BF","category":"self coffee dispenser","notes":"white/stainless"},
+    {"asset_id":"coffee_dispenser_black_wood_subagent_v01","source_file":"assets/source/textures/props/coffee_dispenser_black_wood_subagent_v01.png","sha256":"AF4C4D5029920D932AC3C1BFE409D68B4778B785B64F3739A39F2D070C0FC26D","category":"self coffee dispenser","notes":"black/wood-grain"},
+    {"asset_id":"queue_guide_chrome_red_subagent_v01","source_file":"assets/source/textures/props/queue_guide_chrome_red_subagent_v01.png","sha256":"38ADB7018C1488332A3847E3A78E0564BC385626D6A92F3E45C044E1434B4B79","category":"queue guide","notes":"chrome with red belt"},
+    {"asset_id":"queue_guide_black_blue_subagent_v01","source_file":"assets/source/textures/props/queue_guide_black_blue_subagent_v01.png","sha256":"9A61BDE333401CEA04AC7C4F6AC9416AAF0C677DD8F200B19AE2DD8961A6E366","category":"queue guide","notes":"black with blue belt"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only props; footprint, anchor, placement, occlusion and runtime integration remain open."
+}
