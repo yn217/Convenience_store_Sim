@@ -251,6 +251,9 @@ func _publish_snapshot() -> void:
 	var eventer := get_node_or_null("../EventController")
 	if eventer != null and eventer.is_node_ready() and eventer.get("_status") != null:
 		eventer.apply_snapshot(snap)
+	var fixture_card := get_node_or_null("../FixtureCard")
+	if fixture_card != null and fixture_card.is_node_ready():
+		fixture_card.apply_snapshot(snap)
 	var hud := get_node_or_null("../Layout/TopHUD")
 	if hud != null and hud.has_method("apply_snapshot"):
 		hud.apply_snapshot(snap)

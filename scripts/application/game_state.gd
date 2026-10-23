@@ -160,6 +160,22 @@ func fixture_sales_today() -> Dictionary:
 	return out
 
 
+## Revenue and gross profit per fixture id today (the selected-fixture card). Same walk as above.
+func fixture_money_today() -> Dictionary:
+	var out := {}
+	for i in range(ledger.transactions.size() - 1, -1, -1):
+		var tx: Dictionary = ledger.transactions[i]
+		if int(tx["day_index"]) < day:
+			break
+		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "":
+			var fid: String = tx["details"]["fixture_id"]
+			var m: Dictionary = out.get(fid, {"revenue_yen": 0, "gross_profit_yen": 0})
+			m["revenue_yen"] = int(m["revenue_yen"]) + int(tx["revenue_delta_yen"])
+			m["gross_profit_yen"] = int(m["gross_profit_yen"]) + int(tx["revenue_delta_yen"]) - int(tx["cogs_delta_yen"])
+			out[fid] = m
+	return out
+
+
 ## Achievements since the last call; the UI announces each one exactly once.
 func take_progression_events() -> Array[Dictionary]:
 	var out := progression_events.duplicate()
@@ -226,6 +242,7 @@ func snapshot() -> Dictionary:
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
 		"fixture_sales": fixture_sales_today(),
+		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
 		"stocked_categories": stocked,
 	}

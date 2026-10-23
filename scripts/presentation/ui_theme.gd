@@ -13,9 +13,11 @@ const TEXT_SECONDARY := Color("adc4d5")
 const WARM := Color("ffc873")
 const CARD := Color("1b3248")
 const RADIUS := 8
+const BAR_RADIUS := 4
 const HUD_RADIUS := 14
 
 const HUD_HEIGHT := 64
+const BAR_HEIGHT := 8
 const PALETTE_WIDTH := 280
 const INSPECTOR_WIDTH := 320
 const STORE_MIN_WIDTH := 640
@@ -65,6 +67,8 @@ static func build() -> Theme:
 	theme.set_color("font_color", "Button", TEXT_PRIMARY)
 	theme.set_font_size("font_size", "Label", FONT_BODY)
 	theme.set_font_size("font_size", "Button", FONT_BODY)
+	theme.set_stylebox("background", "ProgressBar", _bar_box(PANEL_ELEVATED))
+	theme.set_stylebox("fill", "ProgressBar", _bar_box(WARM))
 	return theme
 
 
@@ -75,6 +79,14 @@ static func _box(color: Color, radius: int = 0) -> StyleBoxFlat:
 	b.border_color = BORDER
 	b.set_border_width_all(1)
 	b.set_content_margin_all(8)
+	return b
+
+
+static func _bar_box(color: Color) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.set_corner_radius_all(BAR_RADIUS)
+	b.bg_color = color
+	b.set_content_margin_all(0)
 	return b
 
 

@@ -50,6 +50,14 @@ func _run() -> void:
 		guard += 1
 	for i in 240:
 		app.runner.process_frame(1.0 / 15.0)
+	if OS.get_cmdline_user_args().has("--select"):   # --select: the first fixture is selected (inspector card)
+		var ids: Array = s.grid.instances.keys()
+		ids.sort()
+		if not ids.is_empty():
+			var world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+			var first: Dictionary = s.grid.instances[ids[0]]
+			world.select_screen(world.projection.tile_center(Vector2i(first["x"], first["y"])))
+			app._publish_snapshot()
 	for i in 30:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)
