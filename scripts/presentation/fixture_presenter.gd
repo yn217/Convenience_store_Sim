@@ -44,6 +44,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_age_pick_faces(delta)
 	if _world == null or _world.customers.is_empty() or _world.speed_setting <= 0:
 		return
 	var dt := delta * float(_world.speed_setting)
@@ -104,6 +105,8 @@ func _sync_customers(dt: float) -> void:
 		if pos.distance_to(old) > 0.0001:
 			_facing[id] = CustomerSprites.facing_for(pos - old, int(_facing.get(id, CustomerSprites.FACING_E)))
 		_pos[id] = pos
+		if _pick_faces.has(id):   # the pick cue: the customer turns to face the shelf it takes an item from
+			_facing[id] = CustomerSprites.facing_for(_pick_faces[id]["center"] - pos, int(_facing.get(id, CustomerSprites.FACING_E)))
 	for id in _track.keys():
 		if not _alive.has(id):
 			_track.erase(id)
@@ -155,6 +158,43 @@ static func _point_on(chain: Array, s: float) -> Vector2:
 	if i >= chain.size() - 1:
 		return Vector2(chain[chain.size() - 1])
 	return Vector2(chain[i]).lerp(Vector2(chain[i + 1]), s - float(i))
+
+
+## Pick cue (presentation only, real time): the customer faces the fixture for PICK_FACE_SECONDS after the
+## reservation event. Keyed by customer id -> {"center": tile point of the fixture, "left": seconds}.
+var _pick_faces: Dictionary = {}
+const PICK_FACE_SECONDS := 0.45
+
+
+## Called for each product_pickup cue. Only turns the drawing; the simulation never reads it.
+func note_pick(customer_id: String, fixture_id: String) -> void:
+	var center := _fixture_center(fixture_id)
+	if customer_id == "" or center == Vector2.INF:
+		return
+	_pick_faces[customer_id] = {"center": center, "left": PICK_FACE_SECONDS}
+
+
+func _age_pick_faces(delta: float) -> void:
+	for id in _pick_faces.keys():
+		_pick_faces[id]["left"] = float(_pick_faces[id]["left"]) - delta
+		if float(_pick_faces[id]["left"]) <= 0.0:
+			_pick_faces.erase(id)
+
+
+## Centre of a placed fixture's footprint in tile units, or Vector2.INF when it is not on the layout.
+func _fixture_center(fixture_id: String) -> Vector2:
+	if _world == null or _world.fixture_catalog == null:
+		return Vector2.INF
+	for inst in _world.fixtures:
+		if inst["instance_id"] != fixture_id:
+			continue
+		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
+		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
+		var sum := Vector2.ZERO
+		for c in cells:
+			sum += Vector2(c)
+		return sum / float(maxi(cells.size(), 1)) if not cells.is_empty() else Vector2.INF
+	return Vector2.INF
 
 
 ## Sprite sheet, variant id and animation time offset of a customer, looked up once per id (not per frame).

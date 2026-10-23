@@ -6,6 +6,9 @@ extends RefCounted
 
 enum Mode { NORMAL, LAYOUT, INFO }
 
+## Height (metres above the register top) of the "レジ待ち" badge; the sale pop-up starts above the badge.
+const QUEUE_BADGE_LIFT := 0.35
+
 const MODE_NAMES := {Mode.NORMAL: "通常", Mode.LAYOUT: "配置", Mode.INFO: "情報"}
 const LOW_RATIO := 0.25
 const EDGE_STEP := {"N": Vector2i(0, -1), "E": Vector2i(1, 0), "S": Vector2i(0, 1), "W": Vector2i(-1, 0)}
@@ -79,3 +82,85 @@ static func fixture_bounds(proj: IsoProjection, cells: Array[Vector2i], height_m
 
 static func phase_text(phase: String) -> String:
 	return PHASE_TEXT.get(phase, phase)
+
+
+## What the selected customer is doing now, in Japanese, from its phase and targets (read-only snapshot fields).
+## `fixture_name` is the display name of the shelf it is heading to or picked from ("" when unknown).
+static func customer_action(c: Dictionary, fixture_name: String) -> String:
+	var shelf := fixture_name if fixture_name != "" else "棚"
+	match String(c.get("phase", "")):
+		"SELECT":
+			return "商品を選択中"
+		"WALK_SHELF":
+			return "%sへ移動中" % shelf
+		"WALK_REGISTER":
+			return "レジへ移動中"
+		"WAIT_QUEUE":
+			return "会計待ち（列の空きを待ち中）"
+		"QUEUE":
+			return "会計待ち (%d番目)" % (int(c.get("queue_slot", 0)) + 1)
+		"CHECKOUT":
+			return "会計中"
+		"EXIT":
+			return "退店中"
+	return String(c.get("phase", ""))
+## Per register: {"queued": customers holding a queue slot (walking into one or standing in it),
+## "overflow": customers who want to pay but have no slot (WAIT_QUEUE), "checkout": customers at the till,
+## "left": game seconds left of the current checkout}. Counted from the snapshot's customer views only.
+static func register_queues(customers: Array) -> Dictionary:
+	var out := {}
+	for c in customers:
+		var reg := String(c.get("register_id", ""))
+		if reg == "":
+			continue
+		var phase := String(c.get("phase", ""))
+		var slot := int(c.get("queue_slot", -1))
+		if not out.has(reg):
+			out[reg] = {"queued": 0, "overflow": 0, "checkout": 0, "left": 0}
+		if phase == "CHECKOUT":
+			out[reg]["checkout"] = int(out[reg]["checkout"]) + 1
+			out[reg]["left"] = int(c.get("checkout_left", 0))
+		elif phase == "WAIT_QUEUE":
+			out[reg]["overflow"] = int(out[reg]["overflow"]) + 1
+		elif (phase == "WALK_REGISTER" or phase == "QUEUE") and slot >= 0:
+			out[reg]["queued"] = int(out[reg]["queued"]) + 1
+	return out
+
+
+## Customers in line for this register, slots and overflow together (the estimate counts all of them).
+static func line_size(q: Dictionary) -> int:
+	return int(q.get("queued", 0)) + int(q.get("overflow", 0))
+
+
+## Estimated minutes until a newly joined customer is served: the current checkout's time left plus one full
+## checkout per customer already in line. Returns -1 when it cannot be stated (no checkout duration in the model).
+static func estimated_wait_minutes(q: Dictionary, checkout_duration_sec: int) -> int:
+	if checkout_duration_sec <= 0:
+		return -1
+	var sec := int(q.get("left", 0)) + line_size(q) * checkout_duration_sec
+	return 0 if sec <= 0 else ceili(float(sec) / 60.0)
+
+
+## "レジ待ち 3人" for the queue slots; " ＋列外14人" appended when customers have no slot.
+static func queue_badge_text(queued: int, overflow: int = 0) -> String:
+	var text := "レジ待ち %d人" % queued
+	if overflow > 0:
+		text += " ＋列外%d人" % overflow
+	return text
+
+
+## Badge colour state: "overflow" (red) when customers are outside the line, "full" (amber) when the line is at its
+## max, else "normal" (the register blue).
+static func queue_badge_state(queued: int, overflow: int, queue_max: int) -> String:
+	if overflow > 0:
+		return "overflow"
+	if queued >= queue_max:
+		return "full"
+	return "normal"
+
+
+static func register_info_text(q: Dictionary, est_minutes: int) -> String:
+	var text := "■ レジ 待ち%d・列外%d・会計中%d" % [int(q.get("queued", 0)), int(q.get("overflow", 0)), int(q.get("checkout", 0))]
+	if est_minutes >= 0 and line_size(q) + int(q.get("checkout", 0)) > 0:
+		text += " 目安 約%d分" % maxi(est_minutes, 1)
+	return text

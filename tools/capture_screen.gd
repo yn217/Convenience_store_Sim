@@ -77,7 +77,48 @@ func _run() -> void:
 	if OS.get_cmdline_user_args().has("--live"):   # --live: keep the stocked, open store running (for recording video)
 		app.run_command({"command_id": "plive", "kind": &"SET_SPEED", "speed": 1})
 		return
+	if OS.get_cmdline_user_args().has("--intent"):   # --intent: pick bubble, queue badge and checkout pop, each saved while on screen
+		await _capture_intent(main, s, out_png)
+		quit(0)
+		return
 	for i in 30:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)
 	quit(0)
+
+
+## Waits until a pick bubble, a queue of two or more and a checkout pop are on screen (each one at most once) and
+## saves <out>_pick.png, <out>_queue.png, <out>_checkout.png. Only reads the running game.
+func _capture_intent(main: Node, s: GameState, out_png: String) -> void:
+	var player: Node = main.get_node("CuePlayer")
+	var prefix := out_png.get_basename()
+	var saved := {}
+	for frame in 9000:
+		await process_frame
+		var queues := OverlayModel.register_queues(s.customers)
+		var waiting := 0
+		for reg in queues:
+			waiting = maxi(waiting, OverlayModel.line_size(queues[reg]))
+		var pick_fresh := false
+		for m in player.marks:
+			if m["kind"] == "pick" and float(m["age"]) < 0.2:
+				pick_fresh = true
+		var pop_fresh := false
+		for f in player.floats:
+			if float(f["age"]) < 0.2:
+				pop_fresh = true
+		var shot := ""
+		if pick_fresh and waiting >= 1 and not saved.has("pick"):
+			shot = "pick"
+		elif waiting >= 2 and not saved.has("queue"):
+			shot = "queue"
+		elif pop_fresh and not saved.has("checkout"):
+			shot = "checkout"
+		if shot != "":
+			get_root().get_texture().get_image().save_png("%s_%s.png" % [prefix, shot])
+			saved[shot] = true
+			print("saved %s_%s.png at game time %d" % [prefix, shot, s.time_sec])
+			for f in player.floats:   # the pop-ups on screen: merged count, total and age (real seconds)
+				print("  pop %s count=%d yen=%d age=%.2f text=%s" % [f["register_id"], int(f["count"]), int(f["yen"]), float(f["age"]), f["text"]])
+		if saved.size() == 3:
+			return

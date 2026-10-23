@@ -80,13 +80,15 @@ func _play_one(r: Dictionary) -> void:
 			glows.append({"register_id": payload.get("register_id", ""), "age": 0.0, "ttl": float(r["duration_seconds"])})
 			if glows.size() > MAX_FLOATS:
 				glows.pop_front()
-			NotificationPolicy.add_sale(floats, String(payload.get("register_id", "")), int(payload.get("revenue_yen", 0)))
+			NotificationPolicy.add_sale(floats, String(payload.get("register_id", "")), int(payload.get("revenue_yen", 0)), String(payload.get("name", "")))
 			while floats.size() > MAX_FLOATS:
 				floats.pop_front()
 		"customer_enter":
 			door_flash = float(r["duration_seconds"])
 		"product_pickup":
-			_add_mark("pick", String(payload.get("customer_id", "")), float(r["duration_seconds"]))
+			_add_mark("pick", String(payload.get("customer_id", "")), float(r["duration_seconds"]), {
+				"category": String(payload.get("category", "")), "fixture_id": String(payload.get("fixture_id", "")), "sku_id": String(payload.get("sku_id", "")),
+			})
 		"empty_handed":
 			_add_mark("empty", String(payload.get("customer_id", "")), float(r["duration_seconds"]))
 		"milestone_celebrate":
@@ -102,8 +104,10 @@ func dismiss_toast(item: Dictionary) -> void:
 		notices.dismiss(item)
 
 
-func _add_mark(kind: String, customer_id: String, ttl: float) -> void:
-	marks.append({"kind": kind, "customer_id": customer_id, "age": 0.0, "ttl": ttl})
+func _add_mark(kind: String, customer_id: String, ttl: float, extra: Dictionary = {}) -> void:
+	var mark := {"kind": kind, "customer_id": customer_id, "age": 0.0, "ttl": ttl}
+	mark.merge(extra)
+	marks.append(mark)
 	while marks.size() > MAX_FLOATS * 2:
 		marks.pop_front()
 

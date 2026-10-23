@@ -59,12 +59,28 @@ func show_stack(labels: Array) -> void:
 	_stack.text = "" if labels.is_empty() else "重なっている対象（同じ場所をもう一度クリックで切替）\n" + "\n".join(labels)
 
 
+func _process(_delta: float) -> void:
+	if _world != null and _world.selected_customer != "":
+		refresh_customer()   # the action changes every step; the text is cheap
+
+
 func refresh_customer() -> void:
 	if _world == null or _world.selected_customer == "":
 		_customer.text = ""
 		return
 	for c in _world.customers:
 		if c["customer_id"] == _world.selected_customer:
-			_customer.text = "選択中の客 %s\n状態: %s（%d, %d）" % [c["customer_id"], OverlayModel.phase_text(c["phase"]), c["tile"].x, c["tile"].y]
+			var action := OverlayModel.customer_action(c, _shelf_name(String(c.get("fixture_id", ""))))
+			_customer.text = "選択中の客 %s\n状態: %s（%d, %d）" % [c["customer_id"], action, c["tile"].x, c["tile"].y]
 			return
 	_customer.text = ""
+
+
+## Display name of a placed fixture (its shelf or register), "" when it is not on the layout.
+func _shelf_name(fixture_id: String) -> String:
+	if fixture_id == "" or _world.fixture_catalog == null:
+		return ""
+	for inst in _world.fixtures:
+		if inst["instance_id"] == fixture_id:
+			return String(_world.fixture_catalog.get_type(inst["type_id"]).get("display_name", ""))
+	return ""

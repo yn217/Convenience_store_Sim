@@ -110,6 +110,11 @@ func _deliver_cues() -> void:
 	var player := get_node_or_null("../CuePlayer")
 	if player != null and player.has_method("play") and not requests.is_empty():
 		player.play(requests)
+	var world := get_node_or_null("../Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+	var presenter := world.get_node_or_null("ObjectSortRoot/FixturePresenter") if world != null else null
+	for r in requests:   # the pick cue turns the customer to the shelf (drawing only)
+		if r["cue_id"] == "product_pickup" and presenter != null and presenter.has_method("note_pick"):
+			presenter.note_pick(String(r["payload"].get("customer_id", "")), String(r["payload"].get("fixture_id", "")))
 
 
 func _load_gameplay_events() -> Array[Dictionary]:

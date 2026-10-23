@@ -241,6 +241,7 @@ func snapshot() -> Dictionary:
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
+		"checkout_duration_sec": int(balance.get("checkout_duration_game_seconds", 30)),
 		"fixture_sales": fixture_sales_today(),
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
@@ -277,5 +278,10 @@ func _customer_views() -> Array:
 			"next": path[0] if not path.is_empty() else c["tile"], "progress": float(c.get("progress", 0.0)) if not path.is_empty() else 0.0,
 			"path": path.duplicate(), "trail": c.get("trail", []).duplicate(), "moved": int(c.get("moved", 0)),
 			"fixture_id": c.get("fixture_id", ""),
+			# Read-only copies for the presentation (what the customer is doing now); never read back by the simulation.
+			"sku_id": c.get("sku_id", ""), "reserved": c.get("reservation_id", "") != "",
+			"register_id": c.get("register_id", ""), "queue_slot": int(c.get("queue_slot", -1)),
+			"checkout_left": int(c.get("checkout_left", 0)),
+			"target_tile": path[path.size() - 1] if not path.is_empty() else c["tile"],
 		})
 	return out
