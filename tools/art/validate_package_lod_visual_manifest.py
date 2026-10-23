@@ -14,7 +14,7 @@ def main() -> None:
     products = json.loads(PRODUCTS.read_text(encoding="utf-8"))
     problems = []
     ids = [entry["existing_visual_id"] for entry in visual["entries"]]
-    product_ids = {item["visual_id"] for item in products["products"]}
+    product_ids = {item["visual_id"] for item in products}
     if len(ids) != len(set(ids)):
         problems.append("duplicate visual_id")
     for entry in visual["entries"]:
