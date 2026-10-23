@@ -51,4 +51,11 @@
     "do not claim four-direction or iso2x compliance"
   ],
   "review_status": "pending human visual, trademark, and license review"
+  ,"normalized_outputs": {
+    "method": "tools/art/normalize_package_cutouts.py",
+    "padding_px": 8,
+    "bottom_contact": "visible alpha ends at canvas bottom",
+    "validation": "assets/source/textures/packages/CUTOUT_VALIDATION.json",
+    "preview": "docs/art/package_cutout_zoom_preview.png"
+  }
 }

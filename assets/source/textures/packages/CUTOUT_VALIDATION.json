@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "candidate_count": 6,
+  "errors": [],
+  "candidates": [
+    {
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_cupnoodle_comparison_v01_a_cutout_v02.png",
+      "mode": "RGBA",
+      "size": [
+        897,
+        1445
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        889,
+        1445
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_cupnoodle_comparison_v01_b_cutout_v02.png",
+      "mode": "RGBA",
+      "size": [
+        1014,
+        1492
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        1006,
+        1492
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_onigiri_comparison_v01_a_cutout_v02.png",
+      "mode": "RGBA",
+      "size": [
+        1199,
+        1323
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        1191,
+        1323
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_onigiri_comparison_v01_b_cutout_v02.png",
+      "mode": "RGBA",
+      "size": [
+        1152,
+        1325
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        1144,
+        1325
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_tea_comparison_v01_a_cutout_v02.png",
+      "mode": "RGBA",
+      "size": [
+        865,
+        1751
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        857,
+        1751
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_tea_comparison_v01_b_cutout_v02.png",
+      "mode": "RGBA",
+      "size": [
+        836,
+        1740
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        828,
+        1740
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    }
+  ]
+}
