@@ -151,12 +151,11 @@ func test_move_rotate_remove_undo_redo_through_the_inspector(t, tree) -> void:
 	r["ctl"].handle_event(_key(KEY_ESCAPE))
 	_click(r, Vector2i(5, 6))       # observe mode: select the second cell of the shelf
 	t.eq(bc.selected_fixture_id, "fx_0001", "clicking any occupied cell selects the fixture")
-	var label := main.get_node("Layout/MainArea/FixtureInspector/Scroll/Body/FixtureLabel") as Label
+	var label := main.find_child("FixtureLabel", true, false) as Label
 	t.ok(label.text.contains("位置 (5, 5)") and label.text.contains("アクセス面 E"), "inspector: " + label.text)
-	var body := "Layout/MainArea/FixtureInspector/Scroll/Body/"
-	t.ok(not (main.get_node(body + "MoveButton") as Button).disabled, "move enabled in SETUP")
+	t.ok(not (main.find_child("MoveButton", true, false) as Button).disabled, "move enabled in SETUP")
 	# Move
-	main.get_node(body + "MoveButton").pressed.emit()
+	main.find_child("MoveButton", true, false).pressed.emit()
 	t.eq(bc.mode, 2, "MOVE mode")
 	_hover(r, Vector2i(9, 3))
 	t.ok(_preview(r).contains("移動できます"), _preview(r))
@@ -167,7 +166,7 @@ func test_move_rotate_remove_undo_redo_through_the_inspector(t, tree) -> void:
 	t.eq(bc.mode, 0, "MOVE mode ends after commit")
 	# Rotate in place
 	_click(r, Vector2i(9, 3))
-	main.get_node(body + "RotateButton").pressed.emit()
+	main.find_child("RotateButton", true, false).pressed.emit()
 	t.eq(state.grid.instances["fx_0001"]["rotation"], 1, "rotate button turns it 90°")
 	# Undo x3 via buttons, redo x3
 	var undo := main.get_node("Layout/MainArea/BuildPalette/Body/UndoRow/UndoButton") as Button
@@ -188,7 +187,7 @@ func test_move_rotate_remove_undo_redo_through_the_inspector(t, tree) -> void:
 	t.eq(state.cash_yen, 460000, "bought again once")
 	# Remove with confirmation
 	_click(r, Vector2i(9, 3))
-	main.get_node(body + "RemoveButton").pressed.emit()
+	main.find_child("RemoveButton", true, false).pressed.emit()
 	t.ok(main.get_node("RemoveDialog").visible, "removal asks for confirmation")
 	t.eq(state.grid.instances.size(), 1, "nothing removed before confirming")
 	main.get_node("RemoveDialog").confirmed.emit()

@@ -11,7 +11,7 @@ func test_bar_mirrors_and_forwards_inspector_buttons(t, tree) -> void:
 	t.eq(bar._pairs.size(), 3, "move / rotate / remove")
 	for p in bar._pairs:
 		t.ok((p[0] as Button).disabled, "nothing selected: disabled like the inspector")
-	var rotate: Button = main.get_node("Layout/MainArea/FixtureInspector/Scroll/Body/RotateButton")
+	var rotate: Button = main.find_child("RotateButton", true, false)
 	var hits := {"n": 0}
 	rotate.pressed.connect(func(): hits["n"] += 1)
 	rotate.disabled = false

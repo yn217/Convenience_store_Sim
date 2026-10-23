@@ -88,13 +88,13 @@ func test_selected_shelf_shows_stock_price_and_capacity(t, tree) -> void:
 	var app: Node = r[3]
 	_stock(app)
 	world.select_screen(world.projection.tile_center(Vector2i(4, 5)))
-	var text := (main.get_node("Layout/MainArea/FixtureInspector/Scroll/Body/FixtureLabel") as Label).text
+	var text := (main.find_child("FixtureLabel", true, false) as Label).text
 	t.ok(text.contains("おにぎり棚"), text)
 	t.ok(text.contains("row0: 鮭おにぎり 5/12"), "what is on the slot and how full")
 	t.ok(text.contains("売価 ¥150（原価 ¥100）"), "selling price against unit cost")
 	t.ok(text.contains("row1: 空き（容量 12）"), "empty slots show their capacity")
 	app.run_command({"command_id": "i9", "kind": &"SET_PRICE", "sku_id": "rice_001", "price_yen": 180})
-	text = (main.get_node("Layout/MainArea/FixtureInspector/Scroll/Body/FixtureLabel") as Label).text
+	text = (main.find_child("FixtureLabel", true, false) as Label).text
 	t.ok(text.contains("売価 ¥180"), "a price change shows up at once")
 	r[0].queue_free()
 	await tree.process_frame

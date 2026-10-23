@@ -5,7 +5,6 @@ extends PanelContainer
 ## visibility toggling, so every section stays where the controllers placed it.
 
 const WIDTH := 72
-const BODY := "FixtureInspector/Scroll/Body"   # relative to the MainArea (this node's parent)
 ## Each entry: button label, and the section-title prefixes to try in order (first match wins).
 const ITEMS := [
 	{"label": "店舗", "keys": ["選択", "未選択"]},
@@ -37,14 +36,14 @@ func _focus_section(keys: Array) -> void:
 	var parent_node := get_parent()
 	if parent_node == null:
 		return
-	var body := parent_node.get_node_or_null(BODY)
-	if body == null:
+	var inspector := parent_node.find_child("FixtureInspector", true, false)
+	if inspector == null:
 		return
-	var scroll := body.get_parent() as ScrollContainer
+	var scroll := inspector.find_child("Scroll", true, false) as ScrollContainer
 	if scroll == null:
 		return
 	for key in keys:
-		for node in body.find_children("*", "Label", true, false):
+		for node in inspector.find_children("*", "Label", true, false):
 			var label := node as Label
 			if label != null and label.is_visible_in_tree() and label.text.begins_with(key):
 				scroll.ensure_control_visible.call_deferred(label)

@@ -8,7 +8,6 @@ const ACTIONS := [
 	{"label": "回転", "target": "RotateButton"},
 	{"label": "撤去", "target": "RemoveButton"},
 ]
-const BODY := "../MainArea/FixtureInspector/Scroll/Body"
 
 var _pairs: Array = []   # [bar button, inspector button]
 var _mode_button: Button
@@ -19,18 +18,16 @@ func _ready() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	add_child(row)
-	var body := get_node_or_null(BODY)
-	if body != null:
-		for a in ACTIONS:
-			var target := body.get_node_or_null(a["target"]) as Button
-			if target == null:
-				continue
-			var b := Button.new()
-			b.text = a["label"]
-			b.focus_mode = Control.FOCUS_NONE
-			b.pressed.connect(func(): target.pressed.emit())
-			row.add_child(b)
-			_pairs.append([b, target])
+	for a in ACTIONS:
+		var target := get_parent().find_child(a["target"], true, false) as Button   # the inspector's button (sections are cards now)
+		if target == null:
+			continue
+		var b := Button.new()
+		b.text = a["label"]
+		b.focus_mode = Control.FOCUS_NONE
+		b.pressed.connect(func(): target.pressed.emit())
+		row.add_child(b)
+		_pairs.append([b, target])
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -36,22 +36,55 @@ func _ready() -> void:
 	style_sections.call_deferred()
 
 
-## Section headings of the side panels (the 20 px title labels the controllers add) get the warm heading style
-## and a rule above them, so the inspector reads as stacked cards without moving any node.
+## Section headings get the warm heading style. The inspector sections become cards: each SectionTitle
+## label and the nodes after it (up to the next title) move, in order, into one Card PanelContainer.
+## The palette keeps the flat list with a rule above each heading.
 func style_sections() -> void:
-	for body in [$Layout/MainArea/FixtureInspector/Scroll/Body, $Layout/MainArea/BuildPalette/Body]:
-		var first := true
-		for child in body.get_children():
-			if not (child is Label) or child.theme_type_variation == &"SectionTitle":
-				continue
-			if not child.has_theme_font_size_override("font_size") or child.get_theme_font_size("font_size") != 20:
-				continue
+	var inspector: VBoxContainer = $Layout/MainArea/FixtureInspector/Scroll/Body
+	for child in inspector.get_children():
+		if _is_section_title(child):
 			child.theme_type_variation = &"SectionTitle"
-			if not first:
-				var rule := HSeparator.new()
-				body.add_child(rule)
-				body.move_child(rule, child.get_index())
-			first = false
+	_wrap_cards(inspector)
+	_separate_palette_sections($Layout/MainArea/BuildPalette/Body)
+
+
+func _is_section_title(node: Node) -> bool:
+	if not (node is Label):
+		return false
+	if node.theme_type_variation == &"SectionTitle":
+		return true
+	return node.has_theme_font_size_override("font_size") and node.get_theme_font_size("font_size") == 20
+
+
+func _wrap_cards(body: VBoxContainer) -> void:
+	var sections: Array = []   # one Array of nodes per section, title first; nodes above the first title stay put
+	for child in body.get_children():
+		if child is Label and child.theme_type_variation == &"SectionTitle":
+			sections.append([])
+		if not sections.is_empty():
+			sections[-1].append(child)
+	for section in sections:
+		var card := PanelContainer.new()
+		card.theme_type_variation = &"Card"
+		var column := VBoxContainer.new()
+		card.add_child(column)
+		body.add_child(card)
+		body.move_child(card, (section[0] as Node).get_index())
+		for node in section:
+			(node as Node).reparent(column)
+
+
+func _separate_palette_sections(body: VBoxContainer) -> void:
+	var first := true
+	for child in body.get_children():
+		if not _is_section_title(child):
+			continue
+		child.theme_type_variation = &"SectionTitle"
+		if not first:
+			var rule := HSeparator.new()
+			body.add_child(rule)
+			body.move_child(rule, child.get_index())
+		first = false
 
 
 func is_compact() -> bool:
