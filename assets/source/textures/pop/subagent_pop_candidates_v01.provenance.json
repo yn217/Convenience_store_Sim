@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"file": "assets/source/textures/pop/candidate_a_neokira_subagent_v01.png", "sha256": "EDEA4073AF9652AA780C4B98A33D2DAA5C00848F60E9FD6FAB98A475E745E0B0"},
+    {"file": "assets/source/textures/pop/candidate_b_hoshimaru_subagent_v01.png", "sha256": "FBC65F62B1CA359463DA416BC2391639DE44971E65471B658B9D4CCA27C248D3"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagent",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Fictional POP candidates. Verify Japanese text quality, dimensions, transparency/crop, mounting, and fixture compatibility before adoption."
+}

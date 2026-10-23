@@ -1,0 +1,9 @@
+{
+  "asset": "assets/source/textures/materials/convenience_shelf_material_board_subagent_v01.png",
+  "purpose": "review-only baseline shelf material comparison board",
+  "generation_method": "built-in OpenAI ImageGen via subagent",
+  "sha256": "ECF6C329480F1D4182E7AEB4C5E4E10878E8EA117FEC219745A53FC569775F60",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "notes": "Contains wood, dark painted metal, and brushed metal shelf references. Not a runtime fixture and not connected to Godot."
+}

@@ -399,6 +399,18 @@
     },
     {
       "group": "materials",
+      "path": "assets/source/textures/materials/convenience_shelf_material_board_subagent_v01.png",
+      "sha256": "ecf6c329480f1d4182e7aeb4c5e4e10878e8ea117fec219745a53fc569775f60",
+      "bytes": 2135151
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/convenience_shelf_material_board_subagent_v01.provenance.json",
+      "sha256": "43d6c5fb86223c6afba6a7d0d19b6dc527b1c5216fb66e41ce084230a1369e40",
+      "bytes": 514
+    },
+    {
+      "group": "materials",
       "path": "assets/source/textures/materials/fridge_drink_material_comparison_v01.png",
       "sha256": "d99a7dc143f527fbeef3ac4442096e75dc860ee14ddc06845bc055100fa897ab",
       "bytes": 1773336
@@ -432,6 +444,18 @@
       "path": "assets/source/textures/materials/shelf_general_material_comparison_v01.png",
       "sha256": "a7412ac60cd6a6d61442de536d998cd3b91436407d7c5a42f8a2b6dc805c5d7d",
       "bytes": 2047769
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidate_a_neokira_subagent_v01.png",
+      "sha256": "edea4073af9652aa780c4b98a33d2daa5c00848f60e9fd6fab98a475e745e0b0",
+      "bytes": 1657105
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/candidate_b_hoshimaru_subagent_v01.png",
+      "sha256": "fbc65f62b1ca359463da416bc2391639de44971e65471b658b9d4cca27c248d3",
+      "bytes": 1870303
     },
     {
       "group": "pop",
@@ -498,6 +522,12 @@
       "path": "assets/source/textures/pop/shelf_pop_comparison_v01.png",
       "sha256": "4b35563ee1aff46e1d84b17063c509be44c5bd8deb322ddfce427bf0d6dcc879",
       "bytes": 2216600
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/subagent_pop_candidates_v01.provenance.json",
+      "sha256": "9a254a5603915763cb2fb82bf982c20c1df0cb3283e89990be0852861fb6276f",
+      "bytes": 715
     },
     {
       "group": "characters",
