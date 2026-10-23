@@ -49,6 +49,14 @@ func get_type(type_id: String) -> Dictionary:
 	return types.get(type_id, {})
 
 
+## Can `slot_id` of fixture `type_id` hold this SKU? Category must be allowed and one unit must fit.
+func slot_accepts(type_id: String, slot_id: String, sku: Dictionary) -> bool:
+	for slot in get_type(type_id).get("shelf_slots", []):
+		if slot["slot_id"] == slot_id:
+			return slot["allowed_categories"].has(sku["category"]) and int(slot["capacity_units"]) >= int(sku["slot_units"])
+	return false
+
+
 ## Cross-reference check: every product category must be storable in some fixture
 ## slot large enough for the product's slot_units.
 func product_errors(products: ProductCatalog) -> Array[String]:

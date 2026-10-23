@@ -1,13 +1,16 @@
 class_name GameCommands
 extends RefCounted
 ## CommandBus entry point (08 §1.1, §2). Runs in the command phase, so it works while the
-## game clock is stopped (speed 0). Implemented: SET_SPEED and the layout commands
+## game clock is stopped (speed 0). Implemented: SET_SPEED, SET_PRICE and the layout commands
 ## PLACE/MOVE/REMOVE_FIXTURE + UNDO/REDO_LAYOUT. Other kinds return INVALID_OPERATION until
 ## their Issues land. Every command validates first and mutates only when it cannot fail.
 
 const LAYOUT_KINDS: Array[StringName] = [
 	&"PLACE_FIXTURE", &"MOVE_FIXTURE", &"REMOVE_FIXTURE", &"UNDO_LAYOUT", &"REDO_LAYOUT",
 ]
+
+## Sanity ceiling for a typed price; the spec only fixes the lower bound (>= 1).
+const MAX_PRICE_YEN := 99999
 
 var _state: GameState
 
@@ -43,6 +46,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _move(command_id, command)
 		&"REMOVE_FIXTURE":
 			result = _remove(command_id, command)
+		&"SET_PRICE":
+			result = _set_price(command_id, command)
 		&"UNDO_LAYOUT":
 			result = _undo(command_id)
 		&"REDO_LAYOUT":
@@ -100,6 +105,27 @@ func _set_speed(command_id: String, command: Dictionary) -> CommandResult:
 		_state.last_nonzero_speed = speed
 	var events: Array[String] = ["%s:SPEED_CHANGED" % command_id]
 	return _commit(command_id, events)
+
+
+# ---------------------------------------------------------------- SET_PRICE
+
+## Allowed in every business state. Only the override map changes: lot costs, open
+## reservations and ledger rows keep the price they were snapshotted with (03).
+func _set_price(command_id: String, command: Dictionary) -> CommandResult:
+	var sku_id = command.get("sku_id")
+	var price = command.get("price_yen")
+	if typeof(sku_id) != TYPE_STRING or not _state.products.has_sku(sku_id):
+		return _fail(&"INVALID_OPERATION", &"sku_unknown")
+	if not _is_int(price) or price < 1 or price > MAX_PRICE_YEN:
+		return _fail(&"INVALID_OPERATION", &"price_invalid")
+	if price == _state.sell_price(sku_id):
+		return _fail(&"INVALID_OPERATION", &"no_change")
+	if price == int(_state.products.get_sku(sku_id)["default_sell_price_yen"]):
+		_state.product_price_overrides.erase(sku_id)
+	else:
+		_state.product_price_overrides[sku_id] = price
+	var events: Array[String] = ["%s:SKU_PRICE_CHANGED" % command_id]
+	return _commit(command_id, events, {"sku_id": sku_id, "price_yen": price})
 
 
 # ---------------------------------------------------------------- PLACE / MOVE / REMOVE

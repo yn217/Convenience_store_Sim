@@ -18,6 +18,8 @@ const BY_KEY := {
 	&"nothing_to_redo": "やり直す操作がありません",
 	&"no_change": "位置も向きも変わっていません",
 	&"unknown_instance": "対象の什器が見つかりません",
+	&"sku_unknown": "その商品は存在しません",
+	&"price_invalid": "価格は1〜99,999円の整数で入力してください",
 	&"unknown_type_or_rotation": "什器の種類または向きが不正です",
 }
 const BY_CODE := {

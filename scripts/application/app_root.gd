@@ -35,6 +35,9 @@ func _ready() -> void:
 	var builder := get_node_or_null("../BuildController")
 	if builder != null and world != null:
 		builder.setup(self, world, fixtures)
+	var pricer := get_node_or_null("../PriceController")
+	if pricer != null:
+		pricer.setup(self, products)
 	_publish_snapshot()
 
 
@@ -84,6 +87,9 @@ func _publish_snapshot() -> void:
 	var builder := get_node_or_null("../BuildController")
 	if builder != null and builder.has_method("apply_snapshot") and builder.is_node_ready():
 		builder.apply_snapshot(snap)
+	var pricer := get_node_or_null("../PriceController")
+	if pricer != null and pricer.has_method("apply_snapshot") and pricer.is_node_ready() and pricer.get("_products") != null:
+		pricer.apply_snapshot(snap)
 	var hud := get_node_or_null("../Layout/TopHUD")
 	if hud != null and hud.has_method("apply_snapshot"):
 		hud.apply_snapshot(snap)

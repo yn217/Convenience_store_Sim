@@ -30,6 +30,9 @@ var layout_history := LayoutHistory.new()
 var inventory_segments: Array[Dictionary] = []
 var reservations: Array[Dictionary] = []
 var next_fixture_seq: int = 0
+## Player sell prices that differ from the SKU default {sku_id: yen}. Never touches lot costs
+## or already snapshotted reservations/ledger rows.
+var product_price_overrides: Dictionary = {}
 
 var store_width: int:
 	get: return grid.width
@@ -54,6 +57,12 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 	return s
 
 
+func sell_price(sku_id: String) -> int:
+	if product_price_overrides.has(sku_id):
+		return int(product_price_overrides[sku_id])
+	return int(products.get_sku(sku_id).get("default_sell_price_yen", 0))
+
+
 func snapshot() -> Dictionary:
 	var ids := grid.instances.keys()
 	ids.sort()
@@ -71,6 +80,7 @@ func snapshot() -> Dictionary:
 		"store_height": grid.height,
 		"entrance_tiles": grid.entrance_tiles.duplicate(),
 		"fixtures": placed,
+		"product_price_overrides": product_price_overrides.duplicate(),
 		"shelf_stock": ShelfDisplay.stock_by_slot(inventory_segments),
 		"can_undo": layout_history.can_undo(),
 		"can_redo": layout_history.can_redo(),
