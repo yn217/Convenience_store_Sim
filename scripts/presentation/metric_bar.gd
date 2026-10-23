@@ -4,12 +4,13 @@ extends PanelContainer
 ## satisfaction (客層満足度, a percent derived from reputation). Display only; fed by the same snapshot as the top HUD.
 
 const CARDS := [
-	{"id": "sales", "title": "本日の売上"},
-	{"id": "profit", "title": "本日の粗利"},
-	{"id": "customers", "title": "店内客"},
-	{"id": "satisfaction", "title": "客層満足度", "tip": "評判から算出"},
+	{"id": "sales", "title": "本日の売上", "icon": "cart"},
+	{"id": "profit", "title": "本日の粗利", "icon": "bar-chart"},
+	{"id": "customers", "title": "店内客", "icon": "users"},
+	{"id": "satisfaction", "title": "客層満足度", "tip": "評判から算出", "icon": "heart"},
 ]
 const HEIGHT := 72
+const ICON_SIZE := 28
 
 var _values: Dictionary = {}
 
@@ -27,7 +28,21 @@ func _ready() -> void:
 		var box := VBoxContainer.new()
 		box.add_theme_constant_override("separation", 0)
 		box.alignment = BoxContainer.ALIGNMENT_CENTER   # value sits in the middle of the card, not on its top edge
-		card.add_child(box)
+		var line := HBoxContainer.new()   # icon at the left edge of the card, text column after it
+		line.add_theme_constant_override("separation", 10)
+		card.add_child(line)
+		var icon := TextureRect.new()
+		icon.name = "Icon"
+		icon.texture = UiIcons.texture(c["icon"], ICON_SIZE)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
+		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		icon.modulate = UiTheme.WARM
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line.add_child(icon)
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		line.add_child(box)
 		var title := Label.new()
 		title.text = c["title"]
 		title.theme_type_variation = &"CardTitle"

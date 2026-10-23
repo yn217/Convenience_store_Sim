@@ -25,6 +25,9 @@
 |calibration_characters|assets/generated/characters/calibration|Blender|tools/assets/render_customers.py|Blender 2.91.0 (EEVEE) + tools/assets スクリプト|自作(校正マーカーのみ)|2026-10-23|自動検査|yes|
 |sfx_bank|scripts/presentation/sfx_bank.gd|code|scripts/presentation/sfx_bank.gd (正弦波合成、録音・配布音源なし)|GDScript (Godot 4.7.2)|自作|2026-10-23|ピーク/長さを試験で検査|yes|
 |product_placeholders|scripts/presentation/fixture_presenter.gd|code|カテゴリ色の矩形をコード描画(パッケージ画像なし)|GDScript (Godot 4.7.2)|自作。実在ブランド/包装を含まない|2026-10-23|目視|yes|
+|ui_icons|assets/ui/icons|code|assets/ui/icons/*.svg (手書きのオリジナルSVG。出典・内訳は assets/ui/icons/README.md)|手描きSVG(24x24, #ffffff) + GDScript (Godot 4.7.2)|自作。第三者素材・トレース・ロゴ/商標を含まない。プロジェクトのライセンスに従う|2026-10-24|目視|yes|
+
+UIアイコン（`assets/ui/icons/`、25点: store, box, person, megaphone, bar-chart, gear, cash, wallet, users, sun, chevron-right, trash, rotate, move, heart, calendar, music-note, drop, eye, cart, truck, tag, grid, play, pause）は本プロジェクトで手書きしたSVGで、`scripts/presentation/ui_icons.gd` が実行時にテキストから描画する（.importは不要）。
 
 |fixtures-v1|assets/generated/fixtures|Blender|tools/assets/render_fixtures.py + tools/assets/build_sprites.py; manifest: assets/generated/fixtures/PROVENANCE.json|Blender 2.91.0 / EEVEE / iso2x_v1|プロジェクト作成スクリプト由来。第三者素材なしをコード上で確認。2026-10-24 ユーザー承認により再配布可(プロジェクト内スクリプトで生成)|PROVENANCE記録|未実施（#9残件）|yes|
 |characters-v1|assets/generated/characters|Blender|tools/assets/render_customers.py + tools/assets/build_customers.py; manifest: assets/generated/characters/PROVENANCE.json|Blender 2.91.0 / EEVEE / iso2x_v1|プロジェクト作成スクリプト由来。第三者素材なしをコード上で確認。2026-10-24 ユーザー承認により再配布可(プロジェクト内スクリプトで生成)|PROVENANCE記録|未実施|yes|
