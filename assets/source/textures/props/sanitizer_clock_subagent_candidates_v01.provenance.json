@@ -1,0 +1,17 @@
+{
+  "asset_family": "sanitizer_and_wall_clock_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Nash and Boyle",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single Japanese convenience-store prop, realistic 2.5D isometric, transparent RGBA background, light contact/attachment shadow, no real manufacturer/trademark/logo/readable fine text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"sanitizer_countertop_subagent_v01","source_file":"assets/source/textures/props/sanitizer_countertop_subagent_v01.png","sha256":"571CE20B539C1544AEDF39C27D58220943AF827B15243F964FF90B0B56C98C5C","category":"hand sanitizer","notes":"white/black countertop dispenser"},
+    {"asset_id":"sanitizer_floor_subagent_v01","source_file":"assets/source/textures/props/sanitizer_floor_subagent_v01.png","sha256":"EBFE56E7CA704C701CB5A35D7C8D9D0CF6B28F0861B0A7A8440DF2106F08C332","category":"hand sanitizer","notes":"white/stainless floor stand"},
+    {"asset_id":"wall_clock_white_subagent_v01","source_file":"assets/source/textures/props/wall_clock_white_subagent_v01.png","sha256":"A29622174A52F87DB90F099D609373B5BAECCB4E831D54B978F436E6F76FFCC7","category":"wall clock","notes":"white frame"},
+    {"asset_id":"wall_clock_black_subagent_v01","source_file":"assets/source/textures/props/wall_clock_black_subagent_v01.png","sha256":"DE4578E21F7147BBC46A9C9BA1CBBE17154643771A22B00B38C964F52C421532","category":"wall clock","notes":"black frame"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only props; footprint, anchor, placement, occlusion and runtime integration remain open."
+}
