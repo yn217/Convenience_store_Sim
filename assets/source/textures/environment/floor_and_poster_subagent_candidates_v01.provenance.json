@@ -1,0 +1,12 @@
+{
+  "assets": [
+    {"id": "floor_tile_material_board", "file": "assets/source/textures/environment/floor_tile_material_board_subagent_v01.png", "sha256": "15715C98DFBB5811A48A938E96CBC55EECE96EED549A2FC24ED837740CD96E0C"},
+    {"id": "poster_beverage_sorasoda", "file": "assets/source/textures/posters/poster_beverage_sorasoda_subagent_v01.png", "sha256": "CA55342762C790E918B690A75F28B12C97B9D3D6B677158B81EBC19CF232EF41"},
+    {"id": "poster_seasonal_komorebi_purin", "file": "assets/source/textures/posters/poster_seasonal_komorebi_purin_subagent_v01.png", "sha256": "FE870D963F73459C748CF8CB33C5452BB421F3128C19A6E70618547E43EF4B57"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Environment and poster references only. Tile scale, seamlessness, wall mounting, UI text, projection, and Godot integration remain incomplete."
+}
