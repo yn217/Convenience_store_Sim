@@ -59,7 +59,10 @@ func _ready() -> void:
 	_layout_overlay()
 	# The inspector window follows its content height: refit when its content or the window size changes.
 	_inspector.get_node("Scroll/Body").minimum_size_changed.connect(_fit_inspector)
+	_palette.get_node("Body").minimum_size_changed.connect(_fit_palette)
+	_palette.get_node("Body/Scroll/TypeList").minimum_size_changed.connect(_fit_palette)
 	resized.connect(_fit_inspector)
+	resized.connect(_fit_palette)
 	_fit_inspector()
 	_nav.set_active("")
 	# The state badge (営業中 / 準備中 …) opens the 経営 tab, where 営業開始 / 閉店 live.
@@ -93,7 +96,7 @@ func _layout_overlay() -> void:
 	hud.offset_bottom = UiTheme.HUD_HEIGHT
 	hud.custom_minimum_size.y = UiTheme.HUD_HEIGHT
 	var rail_right := _place_rail()
-	_anchor_column(_palette, rail_right + GAP, UiTheme.PALETTE_WIDTH, false)
+	_fit_palette()
 	_anchor_column(_inspector, MARGIN, UiTheme.INSPECTOR_WIDTH, true)
 	_fit_inspector()
 	# The summary is one centred row of cards, 12 px above the bottom edge; the row itself takes no clicks.
@@ -140,6 +143,35 @@ func _anchor_column(panel: Control, x: float, width: float, from_right: bool) ->
 	panel.anchor_right = panel.anchor_left
 	panel.offset_left = -x - width if from_right else x
 	panel.offset_right = -x if from_right else x + width
+
+
+## The build catalog hangs under the HUD at the rail's right edge, as tall as its content (tabs, cards and footer),
+## up to the space above the summary strip. Past that its grid scrolls inside the window. Only the window's own rect
+## takes mouse input, so the store below it stays clickable. Only the palette's anchors, offsets and scroll minimum
+## size change here.
+func _fit_palette() -> void:
+	if _palette == null:
+		return
+	var scroll := _palette.get_node("Body/Scroll") as ScrollContainer
+	var body := _palette.get_node("Body") as Control
+	var grid := scroll.get_node("TypeList") as Control
+	var height := size.y if size.y > 0.0 else get_viewport_rect().size.y
+	var top := UiTheme.HUD_HEIGHT + GAP
+	var room := maxf(height - top - BOTTOM_HEIGHT - GAP, 0.0)
+	var frame := _palette.get_theme_stylebox("panel").get_minimum_size().y
+	scroll.custom_minimum_size.y = 0.0
+	var fixed := body.get_combined_minimum_size().y   # everything but the grid (the scroll has no minimum yet)
+	scroll.custom_minimum_size.y = minf(grid.get_combined_minimum_size().y, maxf(room - frame - fixed, 0.0))
+	var wanted := body.get_combined_minimum_size().y + frame
+	var left := _rail_right() + GAP
+	_palette.anchor_top = 0.0
+	_palette.anchor_bottom = 0.0
+	_palette.anchor_left = 0.0
+	_palette.anchor_right = 0.0
+	_palette.offset_top = top
+	_palette.offset_bottom = top + minf(wanted, room)
+	_palette.offset_left = left
+	_palette.offset_right = left + UiTheme.PALETTE_WIDTH
 
 
 ## The inspector hangs from under the HUD and is as tall as its content, up to the space above the summary strip.
