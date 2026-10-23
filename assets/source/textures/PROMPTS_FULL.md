@@ -60,6 +60,20 @@ soft studio light; generic fictional material study; not a final sprite.
 - `shelf_general_material_comparison_v01.png`: cool white powder-coated steel with gray shelf lips versus pale warm laminate with light wood grain and matte charcoal uprights.
 - `fridge_drink_material_comparison_v01.png`: cool white painted metal frame with clear glass and cyan LED versus pale gray aluminum frame with warmer neutral LED and transparent glass.
 
+## `shelf_pop_comparison_v01.png`
+
+```text
+Use case: game texture source for a fictional Japanese convenience-store simulator
+Asset type: comparison board for two fictional shelf POP cards
+Primary request: create a clean square comparison board with two side-by-side front-facing fictional convenience-store shelf POP card designs. Left concept: warm cream and coral with a bold abstract rice-grain emblem and simple geometric accent bars; right concept: teal, yellow, and navy with an abstract wave emblem and geometric accent bars. Use only invented abstract marks, no real brands, no readable Japanese or English words, no logos, no watermark. Cards should be rectangular with rounded corners, clean margins, high contrast at tiny isometric sprite scale.
+Style/medium: polished realistic 2.5D game texture reference, crisp vector-like painted raster
+Composition/framing: two equal panels, front-facing orthographic view, neutral light background
+Lighting/mood: soft even studio light
+Materials/textures: matte coated paper card, subtle paper grain, small plastic holder edge
+Constraints: fictional POP only; no copied retail campaign, no product photography, no claim of final four-direction sprite
+Avoid: real chain colors or names, legible paragraphs, shelves, perspective distortion, watermark
+```
+
 ## Review status
 
 These prompts intentionally prohibit real brands and readable copied text, but

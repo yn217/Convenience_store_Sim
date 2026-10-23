@@ -22,6 +22,9 @@ GROUPS = {
         "shelf_general_material_comparison_v01",
         "fridge_drink_material_comparison_v01",
     ],
+    "pop": [
+        "shelf_pop_comparison_v01",
+    ],
 }
 
 

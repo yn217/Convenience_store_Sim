@@ -1,0 +1,12 @@
+{
+  "id": "shelf_pop_v01",
+  "source_file": "assets/source/textures/pop/shelf_pop_comparison_v01.png",
+  "variants": 2,
+  "tool": "Codex built-in image generation tool",
+  "model": "not exposed by tool",
+  "seed": null,
+  "license_status": "pending review under Issue #29; fictional abstract marks only",
+  "runtime_adoption": false,
+  "prompt_file": "assets/source/textures/PROMPTS_FULL.md",
+  "review_status": "source candidate; not runtime-approved"
+}
