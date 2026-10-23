@@ -63,7 +63,7 @@ func test_presenter_moves_smoothly_and_pauses_at_speed_zero(t, tree) -> void:
 	c["progress"] = 0.6
 	p._sync_customers(0.1)
 	var mid: Vector2 = p.customer_view(c)["pos"]
-	t.ok(mid.x > 2.0 and mid.x < 2.6, "eases toward the new position instead of jumping: %s" % str(mid))
+	t.ok(mid.x > 2.0 and mid.x <= 2.6 + 1e-4 and absf(mid.y - 2.0) < 1e-6, "walks along the path toward the next tile, never past it: %s" % str(mid))
 	t.eq(p.customer_view(c)["facing"], CustomerSprites.FACING_E)
 	t.eq(p.customer_view(c)["anim"], "walk")
 	# At speed 0 the animation clock does not advance.

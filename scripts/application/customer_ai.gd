@@ -16,6 +16,7 @@ const QUEUE_TIMEOUT_SEC := 120
 ## The third customer in line (slot 2) makes the queue "long" for the notice.
 const LONG_QUEUE_SLOT := 2
 const LOW_STOCK_RATIO := 0.25
+const TRAIL_MAX := 32   # presentation feed: recent tiles kept per customer (see _record_step)
 
 var _paths := PathService.new()
 ## Layout-derived caches (blocked set, register plan, fixture access, routed paths). They depend only on the
@@ -142,10 +143,23 @@ func _walk(state: GameState, c: Dictionary) -> bool:
 	while float(c["progress"]) >= 1.0 and not path.is_empty():
 		c["progress"] = float(c["progress"]) - 1.0
 		c["tile"] = path.pop_front()
+		_record_step(c)
 	if path.is_empty():
 		c["progress"] = 0.0
 		return true
 	return false
+
+
+## Presentation feed only (never read by the simulation): the last TRAIL_MAX tiles the customer entered and
+## how many steps in total. The shown position in the store follows these tiles, so several steps in one
+## frame are walked tile by tile instead of as one straight line (see FixturePresenter).
+func _record_step(c: Dictionary) -> void:
+	var trail: Array = c.get("trail", [])
+	trail.append(c["tile"])
+	if trail.size() > TRAIL_MAX:
+		trail.pop_front()
+	c["trail"] = trail
+	c["moved"] = int(c.get("moved", 0)) + 1
 
 
 func _route(state: GameState, c: Dictionary, goal: Vector2i) -> bool:
