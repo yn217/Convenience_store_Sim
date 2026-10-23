@@ -4,6 +4,8 @@
     {
       "category": "rice",
       "existing_visual_id": "rice_001_package",
+      "candidate_variant": "rice_001",
+      "selected": false,
       "source_cutout": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a_cutout_v02.png",
       "lod_0_5": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_a_cutout_v02_lod_0_5.png",
       "lod_0_25": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_a_cutout_v02_lod_0_25.png",
@@ -12,6 +14,8 @@
     {
       "category": "rice",
       "existing_visual_id": "rice_002_package",
+      "candidate_variant": "rice_002",
+      "selected": false,
       "source_cutout": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v02.png",
       "lod_0_5": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_b_cutout_v02_lod_0_5.png",
       "lod_0_25": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_b_cutout_v02_lod_0_25.png",
@@ -20,6 +24,8 @@
     {
       "category": "drink",
       "existing_visual_id": "drink_001_package",
+      "candidate_variant": "drink_001",
+      "selected": false,
       "source_cutout": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a_cutout_v02.png",
       "lod_0_5": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_a_cutout_v02_lod_0_5.png",
       "lod_0_25": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_a_cutout_v02_lod_0_25.png",
@@ -28,6 +34,8 @@
     {
       "category": "drink",
       "existing_visual_id": "drink_002_package",
+      "candidate_variant": "drink_002",
+      "selected": false,
       "source_cutout": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v02.png",
       "lod_0_5": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_b_cutout_v02_lod_0_5.png",
       "lod_0_25": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_b_cutout_v02_lod_0_25.png",
@@ -36,6 +44,8 @@
     {
       "category": "noodle",
       "existing_visual_id": "noodle_001_package",
+      "candidate_variant": "noodle_001",
+      "selected": false,
       "source_cutout": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a_cutout_v02.png",
       "lod_0_5": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_a_cutout_v02_lod_0_5.png",
       "lod_0_25": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_a_cutout_v02_lod_0_25.png",
@@ -44,6 +54,8 @@
     {
       "category": "noodle",
       "existing_visual_id": "noodle_002_package",
+      "candidate_variant": "noodle_002",
+      "selected": false,
       "source_cutout": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b_cutout_v02.png",
       "lod_0_5": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_b_cutout_v02_lod_0_5.png",
       "lod_0_25": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_b_cutout_v02_lod_0_25.png",
