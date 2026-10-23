@@ -1,0 +1,17 @@
+{
+  "asset_family": "price_rail_and_wall_poster_frame_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Nietzsche and Franklin",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single Japanese convenience-store prop, realistic 2.5D isometric, transparent RGBA background, no real chain/trademark/logo/readable fine text/barcode/QR/watermark; price area blank or abstract.",
+  "candidates": [
+    {"asset_id":"price_rail_white_resin_subagent_v01","source_file":"assets/source/textures/props/price_rail_white_resin_subagent_v01.png","sha256":"02110EDEF27A75C7A92896E8C7B4BFBDD4822F2F07E4AF1B92078C9FC9F20D05","category":"price rail","notes":"white/transparent resin"},
+    {"asset_id":"price_holder_black_silver_subagent_v01","source_file":"assets/source/textures/props/price_holder_black_silver_subagent_v01.png","sha256":"6F1B901F3D0A70176BAEE4A12386B51D13036A7F989DA1965EB0A0976726552D","category":"price holder","notes":"black/silver angled holder"},
+    {"asset_id":"wall_poster_frame_white_wood_subagent_v01","source_file":"assets/source/textures/props/wall_poster_frame_white_wood_subagent_v01.png","sha256":"8E60CB76C2F9A2C756DC7EBFBC99FBCF4A9189D386B07228B92EF7915CB1D3D5","category":"wall poster frame","notes":"white/wood with abstract teal/coral interior"},
+    {"asset_id":"wall_poster_frame_black_brass_subagent_v01","source_file":"assets/source/textures/props/wall_poster_frame_black_brass_subagent_v01.png","sha256":"1A5D369FCE9CDE4E41963F46CF37E7295398AB82727E38287359EF2B99706C24","category":"wall poster frame","notes":"black/brass with abstract navy/amber interior"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only props; UV/placement, footprint, anchor, text legibility and runtime integration remain open."
+}
