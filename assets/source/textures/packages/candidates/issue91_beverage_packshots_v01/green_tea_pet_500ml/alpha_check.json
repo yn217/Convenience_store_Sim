@@ -1,0 +1,14 @@
+{
+  "file": "green_tea_pet_500ml_v01.png",
+  "dimensions_px": [1024, 1536],
+  "mode": "RGBA",
+  "alpha_min": 0,
+  "alpha_max": 254,
+  "fully_transparent_pixels": 897617,
+  "partially_transparent_pixels": 675247,
+  "fully_opaque_pixels": 0,
+  "alpha_bbox_xyxy": [0, 1, 984, 1508],
+  "corner_alpha": [0, 0, 0, 0],
+  "assessment": "Alpha channel and transparent corners present. Broad partially transparent studio glow remains around the cutout; edge cleanup required before use.",
+  "runtime_approved": false
+}

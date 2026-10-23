@@ -1,0 +1,8 @@
+# Provenance and license note
+
+- Generated with the built-in ImageGen tool on 2026-10-24, from the prompt in `prompt.txt`.
+- Source output: `C:\Users\yuuna\.codex\generated_images\01a16a5b-4999-7531-937e-4f737b0cb6a0\exec-37eac955-5888-422c-87df-78ae04c07a81.png`.
+- No external image, real brand, trademark, or logo was intentionally used as input or requested.
+- Image service terms and commercial redistribution rights have **not been checked**. Confirm applicable terms before distributing or shipping.
+- This is a fictional product/package sample and texture-design candidate, not a finished `iso2x_v1` sprite or fixture asset.
+- `runtime_approved: false`.
