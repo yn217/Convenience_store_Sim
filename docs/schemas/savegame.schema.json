@@ -415,6 +415,34 @@
           "checkout_remaining_sec": {
             "type": "integer",
             "minimum": 0
+          },
+          "target_sku_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "queue_slot": {
+            "type": "integer",
+            "minimum": -1
+          },
+          "register_id": {
+            "type": "string"
+          },
+          "retries": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "walk_progress": {
+            "type": "number",
+            "minimum": 0
+          },
+          "queue_since_sec": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "outcome": {
+            "type": "string"
           }
         },
         "required": [
@@ -787,6 +815,65 @@
         "challenge_stock_qualified",
         "dismissed_story_cue_ids"
       ]
+    },
+    "runtime_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Added with M4-03 (#20): runtime values the other sections have no slot for. Optional; loaders fall back to ids found in the data.",
+      "properties": {
+        "id_counters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fixture": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lot": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "segment": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "customer": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "visit_stats": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "potential": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "entered": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lost": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "purchased": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "last_nonzero_speed": {
+          "type": "integer",
+          "enum": [
+            1,
+            2,
+            4
+          ]
+        }
+      }
     }
   },
   "required": [

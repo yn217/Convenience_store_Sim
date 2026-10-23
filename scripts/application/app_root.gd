@@ -7,11 +7,16 @@ const PRODUCTS_PATH := "res://data/products/mvp_v1.json"
 const REQUIRED_BALANCE_KEYS := [
 	"store_width_tiles", "store_height_tiles", "starting_cash_yen", "starting_reputation",
 ]
-const DEFAULT_SEEDS := {"arrivals": 1234, "purchases": 5678, "visuals": 9012}
+const DEFAULT_SEEDS := {"arrivals": 1234, "purchases": 5678, "visuals": 9012, "events": 345678}
 
 var state: GameState
 var commands: GameCommands
 var runner: SimulationRunner
+## Where save files live (tests point this at a scratch folder).
+var save_dir: String = SaveStore.DIR
+var _balance: Dictionary
+var _fixtures: FixtureCatalog
+var _products: ProductCatalog
 
 
 func _ready() -> void:
@@ -25,6 +30,9 @@ func _ready() -> void:
 	if not problems.is_empty():
 		push_error("master data invalid: " + str(problems))
 		return
+	_balance = balance
+	_fixtures = fixtures
+	_products = products
 	state = GameState.from_balance(balance, DEFAULT_SEEDS, fixtures, products)
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
@@ -38,6 +46,9 @@ func _ready() -> void:
 	var business := get_node_or_null("../BusinessController")
 	if business != null:
 		business.setup(self, balance)
+	var saver := get_node_or_null("../SaveController")
+	if saver != null:
+		saver.setup(self)
 	var reporter := get_node_or_null("../ReportController")
 	if reporter != null:
 		reporter.setup(self)
@@ -72,10 +83,49 @@ func _load_balance() -> Dictionary:
 
 ## The only route from the UI to the Domain: runs one command, republishes on success.
 func run_command(command: Dictionary) -> CommandResult:
+	match StringName(command.get("kind", &"")):
+		&"SAVE_GAME":
+			return _save_game(String(command.get("slot_id", "")))
+		&"LOAD_GAME":
+			return _load_game(String(command.get("slot_id", "")), bool(command.get("use_backup", false)))
 	var result := commands.execute(command)
 	if result.ok:
 		_publish_snapshot()
 	return result
+
+
+## SAVE_GAME: writes the current state to a slot (temp file, then replace; the previous save is
+## kept as the backup). The game state is not changed.
+func _save_game(slot_id: String) -> CommandResult:
+	if not SaveStore.SLOTS.has(slot_id):
+		return CommandResult.failure(&"INVALID_OPERATION", state.revision, &"save_failed")
+	var stamp := Time.get_datetime_string_from_system(true) + "Z"
+	var written := SaveStore.write(slot_id, SaveGame.to_dict(state, slot_id, stamp), save_dir)
+	if not written["ok"]:
+		return CommandResult.failure(&"INVALID_OPERATION", state.revision, &"save_failed")
+	var events: Array[String] = []
+	return CommandResult.success(state.revision, events)
+
+
+## LOAD_GAME: reads and fully validates the file into a new GameState first; only a valid file
+## replaces the running state. Any problem leaves the current game exactly as it is.
+func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
+	var read := SaveStore.read(slot_id, use_backup, save_dir)
+	if not read["ok"]:
+		var key := &"save_empty" if read["error"] == "no_save" else &"save_corrupt"
+		return CommandResult.failure(&"INVALID_OPERATION", state.revision, key)
+	var loaded := SaveGame.from_dict(read["data"], _balance, _fixtures, _products)
+	if not loaded["ok"]:
+		var key := &"save_unsupported" if loaded["unsupported_version"] else &"save_invalid"
+		return CommandResult.failure(&"INVALID_OPERATION", state.revision, key)
+	var fresh: GameState = loaded["state"]
+	fresh.revision = state.revision + 1
+	state = fresh
+	commands = GameCommands.new(state)
+	runner = SimulationRunner.new(state)
+	_publish_snapshot()
+	var events: Array[String] = []
+	return CommandResult.success(state.revision, events)
 
 
 func _world() -> Node:

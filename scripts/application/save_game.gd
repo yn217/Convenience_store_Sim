@@ -1,0 +1,474 @@
+class_name SaveGame
+extends RefCounted
+## savegame.schema.json v1 <-> GameState (04 §8, 09 §6, 12 §5).
+## `to_dict` is the only writer; `from_dict` builds a brand-new GameState, validates it and
+## returns {ok, state, errors}. The caller's current state is never touched, so a rejected file
+## changes nothing. Fields the schema has no slot for live in the optional `runtime_state`
+## object and in optional customer keys (docs/schemas/savegame.schema.json, added with #20).
+
+const SCHEMA_VERSION := 1
+const DEFAULT_EVENTS_SEED := 345678
+const REQUIRED := [
+	"schema_version", "save_id", "saved_at_utc", "game_tick", "game_time_seconds", "speed_setting",
+	"business_state", "rng_states", "store", "fixture_instances", "inventory_segments", "reservations",
+	"customers", "economy", "advertising", "daily_reports", "applied_event_ids", "store_reputation",
+	"product_price_overrides", "applied_command_ids", "gameplay_event_state", "progression_state",
+]
+const OPTIONAL := ["runtime_state"]
+const PHASE_OUT := {
+	"SELECT": "SELECT_SHELF", "WALK_SHELF": "WALK_TO_ACCESS", "WALK_REGISTER": "WALK_TO_REGISTER",
+	"WAIT_QUEUE": "QUEUE", "QUEUE": "QUEUE", "CHECKOUT": "CHECKOUT", "EXIT": "EXIT",
+}
+const PHASE_IN := {
+	"SELECT_SHELF": "SELECT", "WALK_TO_ACCESS": "WALK_SHELF", "WALK_TO_REGISTER": "WALK_REGISTER",
+	"QUEUE": "QUEUE", "CHECKOUT": "CHECKOUT", "EXIT": "EXIT",
+}
+const STATES := ["SETUP", "OPEN", "CLOSING", "PAYMENT_BLOCKED"]
+
+
+# ---------------------------------------------------------------- state -> dictionary
+
+static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> Dictionary:
+	var grid := state.grid.to_save()
+	var charged_day := -1
+	for tx in state.ledger.transactions:
+		if tx["event_type"] == "AD":
+			charged_day = maxi(charged_day, int(tx["day_index"]))
+	var customers: Array = []
+	for c in state.customers:
+		customers.append(_customer_out(c, state.time_sec))
+	var event_ids := state.ledger.applied_event_ids.keys()
+	event_ids.sort()
+	var rng := state.rng_states.duplicate()
+	if not rng.has("events"):
+		rng["events"] = DEFAULT_EVENTS_SEED
+	return {
+		"schema_version": SCHEMA_VERSION,
+		"save_id": save_id,
+		"saved_at_utc": saved_at_utc,
+		"game_tick": state.time_sec / int(GameClock.STEP_GAME_SECONDS),
+		"game_time_seconds": state.time_sec,
+		"speed_setting": state.speed_setting,
+		"business_state": String(state.business_state),
+		"rng_states": rng,
+		"store": grid["store"],
+		"fixture_instances": grid["fixture_instances"],
+		"inventory_segments": state.inventory_segments.duplicate(true),
+		"reservations": state.reservations.duplicate(true),
+		"customers": customers,
+		"economy": {
+			"cash_yen": state.ledger.cash_yen,
+			"ledger_transactions": state.ledger.transactions.duplicate(true),
+			"unpaid_cost_yen": state.unpaid_cost_yen,
+		},
+		"advertising": {
+			"today_budget_yen": state.applied_ad_tier_yen,
+			"next_day_budget_yen": state.next_day_ad_yen,
+			"last_charged_day": charged_day,
+		},
+		"daily_reports": state.daily_reports.duplicate(true),
+		"applied_event_ids": event_ids,
+		"store_reputation": state.reputation,
+		"product_price_overrides": state.product_price_overrides.duplicate(),
+		"applied_command_ids": state.applied_command_ids.duplicate(),
+		"gameplay_event_state": state.gameplay_event_state.duplicate(true),
+		"progression_state": state.progression_state.duplicate(true),
+		"runtime_state": {
+			"id_counters": {
+				"fixture": state.next_fixture_seq, "lot": state.next_lot_seq,
+				"segment": state.next_segment_seq, "customer": state.next_customer_seq,
+			},
+			"visit_stats": state.visit_stats.duplicate(),
+			"last_nonzero_speed": state.last_nonzero_speed,
+		},
+	}
+
+
+static func _customer_out(c: Dictionary, now_sec: int) -> Dictionary:
+	var route: Array = []
+	for p in c["path"]:
+		route.append({"x": p.x, "y": p.y})
+	var tile: Vector2i = c["tile"]
+	return {
+		"customer_id": c["customer_id"],
+		"phase": PHASE_OUT[c["phase"]],
+		"position": {"x": tile.x, "y": tile.y},
+		"route": route,
+		"route_index": 0,
+		"reservation_ids": [] if c["reservation_id"] == "" else [c["reservation_id"]],
+		"patience_remaining_sec": maxi(CustomerAI.QUEUE_TIMEOUT_SEC - (now_sec - int(c["queue_since"])), 0) if c["reservation_id"] != "" else CustomerAI.QUEUE_TIMEOUT_SEC,
+		"target_fixture_id": null if c["fixture_id"] == "" else c["fixture_id"],
+		"checkout_remaining_sec": maxi(int(c["checkout_left"]), 0),
+		"target_sku_id": c["sku_id"] if c["sku_id"] != "" else null,
+		"queue_slot": c["queue_slot"],
+		"register_id": c["register_id"],
+		"retries": c["retries"],
+		"walk_progress": c["progress"],
+		"queue_since_sec": c["queue_since"],
+		"outcome": c["outcome"],
+	}
+
+
+# ---------------------------------------------------------------- dictionary -> state
+
+## Result: {"ok": bool, "state": GameState or null, "errors": Array[String], "unsupported_version": bool}.
+static func from_dict(data, balance: Dictionary, fixtures: FixtureCatalog, products: ProductCatalog) -> Dictionary:
+	var errs: Array[String] = []
+	if typeof(data) != TYPE_DICTIONARY:
+		return _bad(["$: not_object"])
+	if data.has("schema_version") and JsonCheck.is_int(data["schema_version"]) and int(data["schema_version"]) > SCHEMA_VERSION:
+		var r := _bad(["schema_version: unsupported_schema_version"])
+		r["unsupported_version"] = true
+		return r
+	errs.append_array(JsonCheck.key_errors(data, REQUIRED, OPTIONAL, "$"))
+	if not errs.is_empty():
+		return _bad(errs)
+	if not JsonCheck.is_int(data["schema_version"]) or int(data["schema_version"]) != SCHEMA_VERSION:
+		return _bad(["schema_version: invalid_schema_version"])
+	_check_scalars(data, errs)
+	if not errs.is_empty():
+		return _bad(errs)
+	var grid := StoreGrid.from_save(data["store"], data["fixture_instances"], fixtures)
+	errs.append_array(grid.load_errors)
+	if not errs.is_empty():
+		return _bad(errs)
+	errs.append_array(StockSegment.list_errors(data["inventory_segments"], products, fixtures, grid))
+	if not errs.is_empty():
+		return _bad(errs)
+	var s := GameState.from_balance(balance, {}, fixtures, products)
+	s.grid = grid
+	_fill(s, data, errs)
+	if errs.is_empty():
+		errs.append_array(semantic_errors(s))
+	if not errs.is_empty():
+		return _bad(errs)
+	return {"ok": true, "state": s, "errors": errs, "unsupported_version": false}
+
+
+static func _bad(errs: Array[String]) -> Dictionary:
+	return {"ok": false, "state": null, "errors": errs, "unsupported_version": false}
+
+
+static func _check_scalars(d: Dictionary, errs: Array[String]) -> void:
+	for k in ["game_tick", "game_time_seconds", "speed_setting", "store_reputation"]:
+		if not JsonCheck.is_int(d[k]):
+			errs.append("%s: not_integer" % k)
+	if not errs.is_empty():
+		return
+	if int(d["game_time_seconds"]) < 0 or int(d["game_tick"]) < 0:
+		errs.append("game_time_seconds: negative")
+	if not GameState.SPEED_OPTIONS.has(int(d["speed_setting"])):
+		errs.append("speed_setting: invalid")
+	if int(d["store_reputation"]) < 0 or int(d["store_reputation"]) > 100:
+		errs.append("store_reputation: out_of_range")
+	if typeof(d["business_state"]) != TYPE_STRING or not STATES.has(d["business_state"]):
+		errs.append("business_state: invalid")
+	for k in ["save_id", "saved_at_utc"]:
+		if not JsonCheck.is_nonempty_string(d[k]):
+			errs.append("%s: empty" % k)
+	for k in ["fixture_instances", "inventory_segments", "reservations", "customers", "daily_reports", "applied_event_ids", "applied_command_ids"]:
+		if typeof(d[k]) != TYPE_ARRAY:
+			errs.append("%s: not_array" % k)
+	for k in ["rng_states", "store", "economy", "advertising", "product_price_overrides", "gameplay_event_state", "progression_state"]:
+		if typeof(d[k]) != TYPE_DICTIONARY:
+			errs.append("%s: not_object" % k)
+	if not errs.is_empty():
+		return
+	for k in ["arrivals", "purchases", "visuals", "events"]:
+		if not d["rng_states"].has(k) or not JsonCheck.is_int(d["rng_states"][k]) or int(d["rng_states"][k]) < 0 or int(d["rng_states"][k]) > 4294967295:
+			errs.append("rng_states.%s: invalid" % k)
+	var eco: Dictionary = d["economy"]
+	errs.append_array(JsonCheck.key_errors(eco, ["cash_yen", "ledger_transactions", "unpaid_cost_yen"], [], "economy"))
+	if errs.is_empty():
+		if not JsonCheck.is_int(eco["cash_yen"]) or int(eco["cash_yen"]) < 0:
+			errs.append("economy.cash_yen: invalid")
+		if not JsonCheck.is_int(eco["unpaid_cost_yen"]) or int(eco["unpaid_cost_yen"]) < 0:
+			errs.append("economy.unpaid_cost_yen: invalid")
+		if typeof(eco["ledger_transactions"]) != TYPE_ARRAY:
+			errs.append("economy.ledger_transactions: not_array")
+	var ad: Dictionary = d["advertising"]
+	errs.append_array(JsonCheck.key_errors(ad, ["today_budget_yen", "next_day_budget_yen", "last_charged_day"], [], "advertising"))
+	if errs.is_empty():
+		for k in ["today_budget_yen", "next_day_budget_yen"]:
+			if not JsonCheck.is_int(ad[k]) or int(ad[k]) < 0:
+				errs.append("advertising.%s: invalid" % k)
+		if not JsonCheck.is_int(ad["last_charged_day"]) or int(ad["last_charged_day"]) < -1:
+			errs.append("advertising.last_charged_day: invalid")
+	for sku_id in d["product_price_overrides"]:
+		var price = d["product_price_overrides"][sku_id]
+		if not JsonCheck.is_int(price) or int(price) < 1:
+			errs.append("product_price_overrides.%s: invalid" % sku_id)
+
+
+static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
+	s.time_sec = int(d["game_time_seconds"])
+	s.day = s.time_sec / DemandModel.SECONDS_PER_DAY
+	s.speed_setting = int(d["speed_setting"])
+	s.business_state = StringName(d["business_state"])
+	s.reputation = int(d["store_reputation"])
+	for k in d["rng_states"]:
+		s.rng_states[k] = int(d["rng_states"][k])
+	s.ledger.cash_yen = int(d["economy"]["cash_yen"])
+	s.unpaid_cost_yen = int(d["economy"]["unpaid_cost_yen"])
+	var seen_events := {}
+	for i in d["economy"]["ledger_transactions"].size():
+		var tx = d["economy"]["ledger_transactions"][i]
+		var tx_errs := _transaction_errors(tx, "economy.ledger_transactions[%d]" % i)
+		errs.append_array(tx_errs)
+		if not tx_errs.is_empty():
+			continue
+		if seen_events.has(tx["event_id"]):
+			errs.append("economy.ledger_transactions[%d].event_id: duplicate_id" % i)
+		seen_events[tx["event_id"]] = true
+		s.ledger.transactions.append({
+			"event_id": tx["event_id"], "event_type": tx["event_type"], "day_index": int(tx["day_index"]),
+			"time_sec": int(tx["time_sec"]), "cash_delta_yen": int(tx["cash_delta_yen"]),
+			"revenue_delta_yen": int(tx["revenue_delta_yen"]), "cogs_delta_yen": int(tx["cogs_delta_yen"]),
+			"expense_delta_yen": int(tx["expense_delta_yen"]), "details": _ints_back(tx["details"]),
+		})
+	for id in d["applied_event_ids"]:
+		if typeof(id) != TYPE_STRING or String(id).is_empty():
+			errs.append("applied_event_ids: invalid")
+		else:
+			s.ledger.applied_event_ids[id] = true
+	for tx_id in seen_events:
+		if not s.ledger.applied_event_ids.has(tx_id):
+			errs.append("applied_event_ids: missing %s" % tx_id)
+	if d["applied_event_ids"].size() != s.ledger.applied_event_ids.size():
+		errs.append("applied_event_ids: duplicate_id")
+	var seen_cmd := {}
+	for id in d["applied_command_ids"]:
+		if typeof(id) != TYPE_STRING or String(id).is_empty() or seen_cmd.has(id):
+			errs.append("applied_command_ids: invalid_or_duplicate")
+		else:
+			seen_cmd[id] = true
+			s.applied_command_ids.append(id)
+	s.applied_ad_tier_yen = int(d["advertising"]["today_budget_yen"])
+	s.next_day_ad_yen = int(d["advertising"]["next_day_budget_yen"])
+	for sku_id in d["product_price_overrides"]:
+		s.product_price_overrides[sku_id] = int(d["product_price_overrides"][sku_id])
+	for seg in d["inventory_segments"]:
+		var copy: Dictionary = seg.duplicate(true)
+		for k in ["unit_cost_yen", "physical_qty", "reserved_qty"]:
+			copy[k] = int(copy[k])
+		if copy["expires_at_sec"] != null:
+			copy["expires_at_sec"] = int(copy["expires_at_sec"])
+		s.inventory_segments.append(copy)
+	for i in d["reservations"].size():
+		var r = d["reservations"][i]
+		var r_errs := JsonCheck.key_errors(r, ["reservation_id", "customer_id", "segment_id", "qty", "sell_unit_yen_snapshot", "cost_unit_yen_snapshot", "reservation_expires_at_sec"], [], "reservations[%d]" % i) if typeof(r) == TYPE_DICTIONARY else ["reservations[%d]: not_object" % i]
+		errs.append_array(r_errs)
+		if r_errs.is_empty():
+			for k in ["qty", "sell_unit_yen_snapshot", "cost_unit_yen_snapshot", "reservation_expires_at_sec"]:
+				if not JsonCheck.is_int(r[k]) or int(r[k]) < (1 if k == "qty" or k == "sell_unit_yen_snapshot" else 0):
+					errs.append("reservations[%d].%s: invalid" % [i, k])
+			var copy: Dictionary = r.duplicate()
+			for k in ["qty", "sell_unit_yen_snapshot", "cost_unit_yen_snapshot", "reservation_expires_at_sec"]:
+				copy[k] = int(copy[k])
+			s.reservations.append(copy)
+	for i in d["daily_reports"].size():
+		var rep_errs := DailyReport.errors(d["daily_reports"][i])
+		for e in rep_errs:
+			errs.append("daily_reports[%d].%s" % [i, e])
+		if rep_errs.is_empty():
+			var rep := {}
+			for k in DailyReport.FIELDS:
+				rep[k] = int(d["daily_reports"][i][k])
+			s.daily_reports.append(rep)
+	for i in d["customers"].size():
+		_customer_in(s, d["customers"][i], i, errs)
+	s.gameplay_event_state = _normalized(d["gameplay_event_state"])
+	s.progression_state = _normalized(d["progression_state"])
+	var rt = d.get("runtime_state", {})
+	if typeof(rt) != TYPE_DICTIONARY:
+		errs.append("runtime_state: not_object")
+		return
+	var counters = rt.get("id_counters", {})
+	s.next_fixture_seq = _counter(counters, "fixture", _max_suffix(s.grid.instances.keys()), errs)
+	s.next_lot_seq = _counter(counters, "lot", _max_suffix(s.inventory_segments.map(func(x): return x["lot_id"])), errs)
+	s.next_segment_seq = _counter(counters, "segment", _max_suffix(s.inventory_segments.map(func(x): return x["segment_id"])), errs)
+	s.next_customer_seq = _counter(counters, "customer", _max_suffix(s.customers.map(func(x): return x["customer_id"])), errs)
+	var vs = rt.get("visit_stats", s.visit_stats)
+	for k in s.visit_stats:
+		if typeof(vs) != TYPE_DICTIONARY or not vs.has(k) or not JsonCheck.is_int(vs[k]) or int(vs[k]) < 0:
+			errs.append("runtime_state.visit_stats.%s: invalid" % k)
+		else:
+			s.visit_stats[k] = int(vs[k])
+	var ln = rt.get("last_nonzero_speed", 1)
+	if not JsonCheck.is_int(ln) or not [1, 2, 4].has(int(ln)):
+		errs.append("runtime_state.last_nonzero_speed: invalid")
+	else:
+		s.last_nonzero_speed = int(ln)
+
+
+static func _counter(counters, key: String, fallback: int, errs: Array[String]) -> int:
+	if typeof(counters) != TYPE_DICTIONARY or not counters.has(key):
+		return fallback
+	if not JsonCheck.is_int(counters[key]) or int(counters[key]) < 0:
+		errs.append("runtime_state.id_counters.%s: invalid" % key)
+		return fallback
+	return maxi(int(counters[key]), fallback)
+
+
+## Highest numeric suffix among ids such as fx_0007 / seg_0012 (0 when none).
+static func _max_suffix(ids: Array) -> int:
+	var best := 0
+	for id in ids:
+		var parts := String(id).split("_")
+		if parts.size() > 1 and parts[parts.size() - 1].is_valid_int():
+			best = maxi(best, parts[parts.size() - 1].to_int())
+	return best
+
+
+static func _transaction_errors(tx, path: String) -> Array[String]:
+	var errs := JsonCheck.key_errors(tx, ["event_id", "event_type", "day_index", "time_sec", "cash_delta_yen", "revenue_delta_yen", "cogs_delta_yen", "expense_delta_yen"], ["details"], path) if typeof(tx) == TYPE_DICTIONARY else ["%s: not_object" % path]
+	if not errs.is_empty():
+		return errs
+	if not JsonCheck.is_nonempty_string(tx["event_id"]):
+		errs.append("%s.event_id: empty" % path)
+	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL"].has(tx["event_type"]):
+		errs.append("%s.event_type: unknown" % path)
+	for k in ["day_index", "time_sec", "revenue_delta_yen", "cogs_delta_yen", "expense_delta_yen"]:
+		if not JsonCheck.is_int(tx[k]) or int(tx[k]) < 0:
+			errs.append("%s.%s: invalid" % [path, k])
+	if not JsonCheck.is_int(tx["cash_delta_yen"]):
+		errs.append("%s.cash_delta_yen: not_integer" % path)
+	if tx.has("details") and typeof(tx["details"]) != TYPE_DICTIONARY:
+		errs.append("%s.details: not_object" % path)
+	return errs
+
+
+## Whole-number floats (what JSON parsing yields) back to int, recursively.
+static func _normalized(v):
+	match typeof(v):
+		TYPE_FLOAT:
+			return int(v) if JsonCheck.is_int(v) else v
+		TYPE_DICTIONARY:
+			var out := {}
+			for k in v:
+				out[k] = _normalized(v[k])
+			return out
+		TYPE_ARRAY:
+			var arr := []
+			for x in v:
+				arr.append(_normalized(x))
+			return arr
+	return v
+
+
+## JSON numbers come back as floats; whole numbers in ledger details go back to int.
+static func _ints_back(details) -> Dictionary:
+	var out := {}
+	if typeof(details) != TYPE_DICTIONARY:
+		return out
+	for k in details:
+		var v = details[k]
+		out[k] = int(v) if typeof(v) == TYPE_FLOAT and JsonCheck.is_int(v) else v
+	return out
+
+
+static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
+	var path := "customers[%d]" % i
+	if typeof(c) != TYPE_DICTIONARY:
+		errs.append("%s: not_object" % path)
+		return
+	var required := ["customer_id", "phase", "position", "route", "route_index", "reservation_ids", "patience_remaining_sec", "target_fixture_id", "checkout_remaining_sec"]
+	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome"]
+	var k_errs := JsonCheck.key_errors(c, required, optional, path)
+	errs.append_array(k_errs)
+	if not k_errs.is_empty():
+		return
+	if not JsonCheck.is_nonempty_string(c["customer_id"]) or not PHASE_IN.has(c["phase"]):
+		errs.append("%s: invalid_id_or_phase" % path)
+		return
+	if typeof(c["position"]) != TYPE_DICTIONARY or typeof(c["route"]) != TYPE_ARRAY or typeof(c["reservation_ids"]) != TYPE_ARRAY:
+		errs.append("%s: invalid_shape" % path)
+		return
+	var path_tiles: Array[Vector2i] = []
+	for p in c["route"]:
+		if typeof(p) != TYPE_DICTIONARY or not p.has("x") or not p.has("y") or not JsonCheck.is_int(p["x"]) or not JsonCheck.is_int(p["y"]):
+			errs.append("%s.route: invalid" % path)
+			return
+		path_tiles.append(Vector2i(int(p["x"]), int(p["y"])))
+	var pos = c["position"]
+	if not pos.has("x") or not pos.has("y") or not JsonCheck.is_int(pos["x"]) or not JsonCheck.is_int(pos["y"]):
+		errs.append("%s.position: invalid" % path)
+		return
+	if not JsonCheck.is_int(c["checkout_remaining_sec"]):
+		errs.append("%s.checkout_remaining_sec: invalid" % path)
+		return
+	var phase: String = PHASE_IN[c["phase"]]
+	var slot: int = int(c.get("queue_slot", -1))
+	if phase == "QUEUE" and slot < 0:
+		phase = "WAIT_QUEUE"
+	s.customers.append({
+		"customer_id": c["customer_id"], "phase": phase, "tile": Vector2i(int(pos["x"]), int(pos["y"])), "path": path_tiles,
+		"progress": float(c.get("walk_progress", 0.0)), "fixture_id": "" if c["target_fixture_id"] == null else c["target_fixture_id"],
+		"sku_id": "" if c.get("target_sku_id") == null else c["target_sku_id"],
+		"reservation_id": "" if c["reservation_ids"].is_empty() else c["reservation_ids"][0],
+		"queue_slot": slot, "retries": int(c.get("retries", 0)), "queue_since": int(c.get("queue_since_sec", 0)),
+		"checkout_left": int(c["checkout_remaining_sec"]), "register_id": c.get("register_id", ""), "outcome": c.get("outcome", ""),
+	})
+
+
+# ---------------------------------------------------------------- cross-reference invariants (12 §5)
+
+## Semantic checks on a fully built state; returns [] when it is consistent.
+static func semantic_errors(s: GameState) -> Array[String]:
+	var errs: Array[String] = []
+	if s.business_state == GameState.SETUP:
+		if not s.customers.is_empty() or not s.reservations.is_empty():
+			errs.append("SETUP: customers_or_reservations_present")
+		if s.speed_setting != 0:
+			errs.append("SETUP: speed_not_zero")
+	var by_segment := {}
+	var res_ids := {}
+	var segs := {}
+	for seg in s.inventory_segments:
+		segs[seg["segment_id"]] = seg
+		if int(seg["reserved_qty"]) > int(seg["physical_qty"]):
+			errs.append("%s: reserved_exceeds_physical" % seg["segment_id"])
+	for r in s.reservations:
+		if res_ids.has(r["reservation_id"]):
+			errs.append("%s: duplicate_reservation" % r["reservation_id"])
+		res_ids[r["reservation_id"]] = true
+		if not segs.has(r["segment_id"]):
+			errs.append("%s: unknown_segment" % r["reservation_id"])
+			continue
+		by_segment[r["segment_id"]] = int(by_segment.get(r["segment_id"], 0)) + int(r["qty"])
+	for id in segs:
+		if int(segs[id]["reserved_qty"]) != int(by_segment.get(id, 0)):
+			errs.append("%s: reserved_qty_mismatch" % id)
+	var seen := {}
+	for c in s.customers:
+		if seen.has(c["customer_id"]):
+			errs.append("%s: duplicate_customer" % c["customer_id"])
+		seen[c["customer_id"]] = true
+		if c["reservation_id"] != "" and not res_ids.has(c["reservation_id"]):
+			errs.append("%s: unknown_reservation" % c["customer_id"])
+		if c["fixture_id"] != "" and not s.grid.instances.has(c["fixture_id"]):
+			errs.append("%s: unknown_fixture" % c["customer_id"])
+		if c["sku_id"] != "" and not s.products.has_sku(c["sku_id"]):
+			errs.append("%s: unknown_sku" % c["customer_id"])
+		if not s.grid.in_bounds(c["tile"]):
+			errs.append("%s: out_of_bounds" % c["customer_id"])
+	for r in s.reservations:
+		if r["customer_id"] != "" and not seen.has(r["customer_id"]) and s.business_state != GameState.SETUP:
+			errs.append("%s: reservation_without_customer" % r["reservation_id"])
+	for sku_id in s.product_price_overrides:
+		if not s.products.has_sku(sku_id):
+			errs.append("product_price_overrides.%s: unknown_sku" % sku_id)
+	# Daily charges are at-most-once per day and kind; ledger cash must be reproducible.
+	var charges := {}
+	for tx in s.ledger.transactions:
+		if ["AD", "DAILY_FIXED", "ELECTRICITY"].has(tx["event_type"]):
+			var key := "%d:%s" % [tx["day_index"], tx["event_type"]]
+			if charges.has(key):
+				errs.append("%s: charged_twice" % key)
+			charges[key] = true
+	var days := {}
+	for rep in s.daily_reports:
+		if days.has(rep["day_index"]):
+			errs.append("daily_reports.%d: duplicate_day" % rep["day_index"])
+		days[rep["day_index"]] = true
+	return errs

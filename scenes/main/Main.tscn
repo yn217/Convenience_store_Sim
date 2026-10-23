@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/application/app_root.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/store/StoreWorld.tscn" id="2"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/presentation/stock_controller.gd" id="7"]
 [ext_resource type="Script" path="res://scripts/presentation/business_controller.gd" id="8"]
 [ext_resource type="Script" path="res://scripts/presentation/report_controller.gd" id="9"]
+[ext_resource type="Script" path="res://scripts/presentation/save_controller.gd" id="10"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -182,6 +183,9 @@ script = ExtResource("5")
 
 [node name="BusinessController" type="Node" parent="."]
 script = ExtResource("8")
+
+[node name="SaveController" type="Node" parent="."]
+script = ExtResource("10")
 
 [node name="ReportController" type="Node" parent="."]
 script = ExtResource("9")

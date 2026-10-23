@@ -47,6 +47,16 @@ var customers: Array[Dictionary] = []
 var arrival_queue: Array[Dictionary] = []
 ## Closed days, oldest first (see DailyReport). Never rewritten once appended.
 var daily_reports: Array[Dictionary] = []
+## Saved verbatim until the event director / progression systems (M5-07, M4-06) own them.
+var gameplay_event_state: Dictionary = {
+	"last_selected_day": -1, "selection_event_id": null, "selected_event_id": null, "event_start_sec": null,
+	"event_end_sec": null, "started": false, "ended": false, "shown_notice_ids": [],
+}
+var progression_state: Dictionary = {
+	"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [],
+	"completed_daily_challenge_ids": [], "active_daily_challenge_day": -1, "active_daily_challenge_id": null,
+	"challenge_stock_qualified": false, "dismissed_story_cue_ids": [],
+}
 var next_segment_seq: int = 0
 ## Player sell prices that differ from the SKU default {sku_id: yen}. Never touches lot costs
 ## or already snapshotted reservations/ledger rows.
@@ -72,6 +82,8 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 	s.ledger.cash_yen = int(balance["starting_cash_yen"])
 	s.reputation = int(balance["starting_reputation"])
 	s.rng_states = seeds.duplicate()
+	if not s.rng_states.has("events"):
+		s.rng_states["events"] = 345678   # separate stream for the event director (09 §1)
 	s.balance = balance.duplicate(true)
 	s.next_day_ad_yen = int(balance.get("starting_ad_budget_yen_per_day", 0))
 	return s
