@@ -1,0 +1,242 @@
+{
+ "manifest_version": 1,
+ "visual_id": "freezer_ice_a",
+ "fixture_type_id": "freezer_ice",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 2,
+  "h": 2
+ },
+ "dimensions_m": {
+  "width": 1.92,
+  "depth": 1.92,
+  "height": 1
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    570,
+    435
+   ],
+   "anchor_px": [
+    285.0,
+    224.0
+   ],
+   "layers": {
+    "body": "freezer_ice_0_body.png",
+    "shadow": "freezer_ice_0_shadow.png",
+    "glass_front": "freezer_ice_0_glass_front.png"
+   },
+   "slot_anchors_px": {
+    "cell0_item0": [
+     285.0,
+     98.01
+    ],
+    "cell1_item0": [
+     407.88,
+     159.45
+    ],
+    "cell2_item0": [
+     162.12,
+     159.45
+    ],
+    "cell3_item0": [
+     285.0,
+     220.89
+    ]
+   },
+   "selection_polygon_px": [
+    [
+     285.0,
+     160.0
+    ],
+    [
+     541.0,
+     288.0
+    ],
+    [
+     285.0,
+     416.0
+    ],
+    [
+     29.0,
+     288.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    285.0,
+    224.0
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    570,
+    435
+   ],
+   "anchor_px": [
+    285.0,
+    224.0
+   ],
+   "layers": {
+    "body": "freezer_ice_1_body.png",
+    "shadow": "freezer_ice_1_shadow.png",
+    "glass_front": "freezer_ice_1_glass_front.png"
+   },
+   "slot_anchors_px": {
+    "cell0_item0": [
+     407.88,
+     159.45
+    ],
+    "cell1_item0": [
+     285.0,
+     220.89
+    ],
+    "cell2_item0": [
+     285.0,
+     98.01
+    ],
+    "cell3_item0": [
+     162.12,
+     159.45
+    ]
+   },
+   "selection_polygon_px": [
+    [
+     285.0,
+     160.0
+    ],
+    [
+     541.0,
+     288.0
+    ],
+    [
+     285.0,
+     416.0
+    ],
+    [
+     29.0,
+     288.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    285.0,
+    224.0
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    570,
+    435
+   ],
+   "anchor_px": [
+    285.0,
+    224.0
+   ],
+   "layers": {
+    "body": "freezer_ice_2_body.png",
+    "shadow": "freezer_ice_2_shadow.png",
+    "glass_front": "freezer_ice_2_glass_front.png"
+   },
+   "slot_anchors_px": {
+    "cell0_item0": [
+     285.0,
+     220.89
+    ],
+    "cell1_item0": [
+     162.12,
+     159.45
+    ],
+    "cell2_item0": [
+     407.88,
+     159.45
+    ],
+    "cell3_item0": [
+     285.0,
+     98.01
+    ]
+   },
+   "selection_polygon_px": [
+    [
+     285.0,
+     160.0
+    ],
+    [
+     541.0,
+     288.0
+    ],
+    [
+     285.0,
+     416.0
+    ],
+    [
+     29.0,
+     288.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    285.0,
+    224.0
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    570,
+    435
+   ],
+   "anchor_px": [
+    285.0,
+    224.0
+   ],
+   "layers": {
+    "body": "freezer_ice_3_body.png",
+    "shadow": "freezer_ice_3_shadow.png",
+    "glass_front": "freezer_ice_3_glass_front.png"
+   },
+   "slot_anchors_px": {
+    "cell0_item0": [
+     162.12,
+     159.45
+    ],
+    "cell1_item0": [
+     285.0,
+     98.01
+    ],
+    "cell2_item0": [
+     285.0,
+     220.89
+    ],
+    "cell3_item0": [
+     407.88,
+     159.45
+    ]
+   },
+   "selection_polygon_px": [
+    [
+     285.0,
+     160.0
+    ],
+    [
+     541.0,
+     288.0
+    ],
+    [
+     285.0,
+     416.0
+    ],
+    [
+     29.0,
+     288.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    285.0,
+    224.0
+   ]
+  }
+ }
+}

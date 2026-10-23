@@ -21,6 +21,12 @@ Write-Host '== catalog sync check =='
 python (Join-Path $PSScriptRoot 'validation\check_catalog.py') $root
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+Write-Host '== asset pipeline (python: validator + unit tests) =='
+python (Join-Path $PSScriptRoot 'assets\validate_manifests.py') --dir (Join-Path $root 'assets\generated\fixtures') --catalog (Join-Path $root 'data\fixtures\mvp_v1.json')
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+python -m unittest discover -s (Join-Path $root 'tests\tools')
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 if (-not $SkipImport) {
     Write-Host '== import (builds global class cache) =='
     & $godot --headless --path $root --import --quit
