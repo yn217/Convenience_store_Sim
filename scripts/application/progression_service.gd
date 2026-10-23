@@ -158,7 +158,8 @@ static func _accessible_stock(state: GameState) -> bool:
 
 # ---------------------------------------------------------------- milestones (15 §3)
 
-static func metric_value(state: GameState, metric: String, threshold: int) -> int:
+## `stocked_count` >= 0 lets a caller that already knows it skip the inventory scan.
+static func metric_value(state: GameState, metric: String, threshold: int, stocked_count: int = -1) -> int:
 	var t: Dictionary = state.progression_totals
 	match metric:
 		"total_sales_count":
@@ -171,7 +172,7 @@ static func metric_value(state: GameState, metric: String, threshold: int) -> in
 				total += int(r["visitors"])
 			return total
 		"unique_categories_stocked":
-			return DemandGenerator.stocked_category_count(state)
+			return stocked_count if stocked_count >= 0 else DemandGenerator.stocked_category_count(state)
 		"fixtures_installed_count":
 			return state.grid.instances.size()
 		"day_closed_count":
@@ -198,11 +199,11 @@ static func _milestones(state: GameState, events: Array[Dictionary]) -> void:
 
 
 ## Every milestone with its current value, for the achievements page (SCR-18).
-static func milestone_progress(state: GameState) -> Array[Dictionary]:
+static func milestone_progress(state: GameState, stocked_count: int = -1) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	var done: Array = state.progression_state["completed_milestone_ids"]
 	for m in state.milestones:
-		var value := metric_value(state, m["metric"], m["threshold"])
+		var value := metric_value(state, m["metric"], m["threshold"], stocked_count)
 		out.append({
 			"milestone_id": m["milestone_id"], "name_ja": m["name_ja"], "metric": m["metric"], "threshold": m["threshold"],
 			"value": mini(value, int(m["threshold"])), "done": done.has(m["milestone_id"]),

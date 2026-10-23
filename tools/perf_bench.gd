@@ -73,6 +73,23 @@ func _run() -> void:
 	for i in 20:
 		ai.candidates(s)
 	print("PHASES ", phases, " candidates_ms=", float(Time.get_ticks_usec() - tc) / 20000.0)
+	var snap_parts := {}
+	for name in ["today", "story", "milestone", "event", "stocked", "customers", "fixture_sales", "shelf", "stock_by_slot", "reports"]:
+		var q0 := Time.get_ticks_usec()
+		for i in 50:
+			match name:
+				"today": s.today_summary()
+				"story": AssistantService.current(s)
+				"milestone": ProgressionService.milestone_progress(s)
+				"event": EventService.view(s)
+				"stocked": DemandGenerator.stocked_categories(s)
+				"customers": s._customer_views()
+				"fixture_sales": s.fixture_sales_today()
+				"shelf": s._shelf_skus()
+				"stock_by_slot": ShelfDisplay.stock_by_slot(s.inventory_segments)
+				"reports": s.daily_reports.duplicate(true)
+		snap_parts[name] = float(Time.get_ticks_usec() - q0) / 50000.0
+	print("SNAPPARTS ", snap_parts)
 	print("PARTS ", parts)
 	var presenter: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld/ObjectSortRoot/FixturePresenter")
 	var t1 := Time.get_ticks_usec()

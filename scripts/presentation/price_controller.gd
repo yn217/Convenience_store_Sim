@@ -71,7 +71,9 @@ func apply_snapshot(snap: Dictionary) -> void:
 		if edit.has_focus():
 			continue
 		var price: int = int(overrides.get(sku_id, _products.get_sku(sku_id)["default_sell_price_yen"]))
-		edit.text = str(price)
+		var shown := str(price)
+		if edit.text != shown:   # assigning to a LineEdit is not free even when nothing changes
+			edit.text = shown
 
 
 func submit(sku_id: String, edit: LineEdit) -> CommandResult:

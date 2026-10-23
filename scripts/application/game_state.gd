@@ -187,6 +187,7 @@ func backroom_available(sku_id: String) -> int:
 
 
 func snapshot() -> Dictionary:
+	var stocked := DemandGenerator.stocked_categories(self)   # once: the achievements list needs the count too
 	var ids := grid.instances.keys()
 	ids.sort()
 	var placed: Array = []
@@ -219,14 +220,14 @@ func snapshot() -> Dictionary:
 		"today": today_summary(),
 		"progression": progression_state.duplicate(true),
 		"story_cue": AssistantService.current(self),
-		"milestone_progress": ProgressionService.milestone_progress(self),
+		"milestone_progress": ProgressionService.milestone_progress(self, stocked.size()),
 		"opening": BusinessService.opening_report(self) if business_state == SETUP else {},
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
 		"fixture_sales": fixture_sales_today(),
 		"gameplay_event": EventService.view(self),
-		"stocked_categories": DemandGenerator.stocked_categories(self),
+		"stocked_categories": stocked,
 	}
 
 
