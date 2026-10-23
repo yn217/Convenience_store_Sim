@@ -1,0 +1,15 @@
+{
+  "asset_family": "cooler_glass_reflection_material_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagent Einstein",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Transparent or semi-transparent cooler glass with restrained cold-air reflection and metal frame, realistic 2.5D game material, no text/logos/products/real brands, no excessive bloom.",
+  "candidates": [
+    {"asset_id":"cooler_glass_reflection_subagent_a_v01","source_file":"assets/source/textures/materials/cooler_glass_reflection_subagent_a_v01.png","sha256":"12C3738C8E84F7942A78651FA6768A37A262306ED284AB4621FDEDF49284D7FD","notes":"bright frame, restrained vertical reflection, light condensation"},
+    {"asset_id":"cooler_glass_reflection_subagent_b_v01","source_file":"assets/source/textures/materials/cooler_glass_reflection_subagent_b_v01.png","sha256":"B93318B36ABE21FEE8B31EC744004E903A66B3A098AF9C328C08E1720CB58C5F","notes":"dark frame, stronger reflection, restrained edge condensation"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate material sources only; alpha tuning, UV mapping, glass/products/character depth composition, and runtime integration remain open."
+}

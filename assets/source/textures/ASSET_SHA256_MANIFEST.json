@@ -537,6 +537,24 @@
     },
     {
       "group": "materials",
+      "path": "assets/source/textures/materials/cooler_glass_reflection_subagent_a_v01.png",
+      "sha256": "12c3738c8e84f7942a78651fa6768a37a262306ed284ab4621fdedf49284d7fd",
+      "bytes": 2117982
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/cooler_glass_reflection_subagent_b_v01.png",
+      "sha256": "b93318b36abe21fee8b31ec744004e903a66b3a098af9c328c08e1720cb58c5f",
+      "bytes": 2135403
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/cooler_glass_subagent_candidates_v01.provenance.json",
+      "sha256": "73fa1fa4d1866c00e04bebea493e5415b7f5a16bb83b505ac7282f689615b07b",
+      "bytes": 1317
+    },
+    {
+      "group": "materials",
       "path": "assets/source/textures/materials/fridge_drink_material_comparison_v01.png",
       "sha256": "d99a7dc143f527fbeef3ac4442096e75dc860ee14ddc06845bc055100fa897ab",
       "bytes": 1773336
@@ -654,6 +672,24 @@
       "path": "assets/source/textures/pop/candidates/source_256/SOURCE_CANVAS_MANIFEST.json",
       "sha256": "e1b998885293c195993704da23af6f9759bedae8b378b60bbc2d7a2d6068a2d5",
       "bytes": 779
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/hot_snack_category_pop_subagent_v01.png",
+      "sha256": "20a92442fabba2cb69154d452463e863914ee9c5b664a8e6adc670368d632fd6",
+      "bytes": 2140243
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/oden_category_pop_subagent_v01.png",
+      "sha256": "31ede8244860376db3a8981e047d8d21b853fe444a40c9b5f5a1b045400b00e5",
+      "bytes": 2120472
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/oden_hot_snack_pop_subagent_candidates_v01.provenance.json",
+      "sha256": "952e9042aeb3c05c7a632134295a9525e04fbe89f8069bedc58677f85f33775f",
+      "bytes": 1134
     },
     {
       "group": "pop",
