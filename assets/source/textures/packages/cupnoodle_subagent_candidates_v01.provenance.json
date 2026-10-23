@@ -1,0 +1,15 @@
+{
+  "asset_family": "fictional_cup_noodle_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagent Pascal",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single cup noodle package, realistic 2.5D isometric, transparent background, noodles and toppings visually identifiable, fictional packaging, no logo, trademark, readable text, barcode, or watermark; suitable for slot overlay candidate.",
+  "candidates": [
+    {"asset_id":"cupnoodle_warm_subagent_v01","source_file":"assets/source/textures/packages/cupnoodle_warm_subagent_v01.png","sha256":"14CC7E019370A3E5D799D515585509E10DFB1F0AFE42543EB7DAC51B409B967E","palette":"vermilion red, amber orange, cream"},
+    {"asset_id":"cupnoodle_cool_subagent_v01","source_file":"assets/source/textures/packages/cupnoodle_cool_subagent_v01.png","sha256":"AA5C14A9AE3ABB86B8F29007083311214BA6E015D37D9AF8EC542AF17294A3A9","palette":"cobalt blue, teal, icy cyan"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only source PNGs; slot composition, scale, anchor, four-direction rendering, and runtime inventory linkage remain open."
+}

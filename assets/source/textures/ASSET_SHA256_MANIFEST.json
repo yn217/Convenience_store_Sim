@@ -393,6 +393,24 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/cupnoodle_cool_subagent_v01.png",
+      "sha256": "aa5c14a9ae3abb86b8f29007083311214ba6e015d37d9af8ec542af17294a3a9",
+      "bytes": 1688622
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/cupnoodle_subagent_candidates_v01.provenance.json",
+      "sha256": "b639ea5b103d771db7db9ff964ee173903c6b2585b89b524600a1516adfe9dff",
+      "bytes": 1248
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/cupnoodle_warm_subagent_v01.png",
+      "sha256": "14cc7e019370a3e5d799d515585509e10dfb1f0afe42543eb7dac51b409b967e",
+      "bytes": 2047166
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/CUTOUT_PROVENANCE.json",
       "sha256": "4eb4714ad49839ff385a8d4b6c73849fbc51c09ac7a94fb0e9248d9c621a9ab2",
       "bytes": 2809
@@ -402,6 +420,24 @@
       "path": "assets/source/textures/packages/CUTOUT_VALIDATION.json",
       "sha256": "5765b18123f6395c2622411f86d18a1fe0db23cde44f55e8433fcf2bc5c5d4ad",
       "bytes": 2182
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/drink_berry_tea_subagent_v01.png",
+      "sha256": "53d262f55a85b0130c263d69452d7f051fa3061c131524f3bb95caf96116347c",
+      "bytes": 1951597
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/drink_citrus_soda_subagent_v01.png",
+      "sha256": "9d3efb9076721d7411d97cd6de5111dae9241f1d35dcd8db1480531ee41335e0",
+      "bytes": 1742269
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/drink_subagent_candidates_v01.provenance.json",
+      "sha256": "bc63e126e3146c68c1d3705adfb06188ac9308563597f7b1b711945c9f894120",
+      "bytes": 1246
     },
     {
       "group": "packages",

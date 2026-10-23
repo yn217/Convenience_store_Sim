@@ -1,0 +1,15 @@
+{
+  "asset_family": "fictional_drink_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagent Curie",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single PET bottle, realistic 2.5D isometric, transparent background, fictional packaging, no existing brand, trademark, readable small text, barcode, or watermark; suitable for a slot overlay candidate.",
+  "candidates": [
+    {"asset_id":"drink_citrus_soda_subagent_v01","source_file":"assets/source/textures/packages/drink_citrus_soda_subagent_v01.png","sha256":"9D3EFB9076721D7411D97CD6DE5111DAE9241F1D35DCD8DB1480531EE41335E0","category":"citrus soda","palette":"lemon yellow and turquoise"},
+    {"asset_id":"drink_berry_tea_subagent_v01","source_file":"assets/source/textures/packages/drink_berry_tea_subagent_v01.png","sha256":"53D262F55A85B0130C263D69452D7F051FA3061C131524F3BB95CAF96116347C","category":"berry tea","palette":"ruby red and plum"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only source PNGs; slot composition, scale, anchor, four-direction rendering, and runtime inventory linkage remain open."
+}
