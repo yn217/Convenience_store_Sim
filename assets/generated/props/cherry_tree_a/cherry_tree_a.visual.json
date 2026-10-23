@@ -1,0 +1,166 @@
+{
+ "manifest_version": 1,
+ "visual_id": "cherry_tree_a",
+ "fixture_type_id": "cherry_tree_a",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 2,
+  "h": 2
+ },
+ "dimensions_m": {
+  "width": 1.92,
+  "depth": 1.92,
+  "height": 3.5
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    320,
+    320
+   ],
+   "anchor_px": [
+    160,
+    210
+   ],
+   "layers": {
+    "body": "cherry_tree_a_0_body.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     160,
+     210
+    ],
+    [
+     416,
+     338
+    ],
+    [
+     160,
+     466
+    ],
+    [
+     -96,
+     338
+    ]
+   ],
+   "sorting_anchor_px": [
+    160,
+    210
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    320,
+    320
+   ],
+   "anchor_px": [
+    160,
+    210
+   ],
+   "layers": {
+    "body": "cherry_tree_a_1_body.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     160,
+     210
+    ],
+    [
+     416,
+     338
+    ],
+    [
+     160,
+     466
+    ],
+    [
+     -96,
+     338
+    ]
+   ],
+   "sorting_anchor_px": [
+    160,
+    210
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    320,
+    320
+   ],
+   "anchor_px": [
+    160,
+    210
+   ],
+   "layers": {
+    "body": "cherry_tree_a_2_body.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     160,
+     210
+    ],
+    [
+     416,
+     338
+    ],
+    [
+     160,
+     466
+    ],
+    [
+     -96,
+     338
+    ]
+   ],
+   "sorting_anchor_px": [
+    160,
+    210
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    320,
+    320
+   ],
+   "anchor_px": [
+    160,
+    210
+   ],
+   "layers": {
+    "body": "cherry_tree_a_3_body.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     160,
+     210
+    ],
+    [
+     416,
+     338
+    ],
+    [
+     160,
+     466
+    ],
+    [
+     -96,
+     338
+    ]
+   ],
+   "sorting_anchor_px": [
+    160,
+    210
+   ]
+  }
+ }
+}
