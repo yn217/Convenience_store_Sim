@@ -100,10 +100,19 @@ layout_mode = 2
 [node name="Title" type="Label" parent="Layout/MainArea/BuildPalette/Body"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "建設パレット"
+text = "建設 什器カタログ"
 
-[node name="TypeList" type="VBoxContainer" parent="Layout/MainArea/BuildPalette/Body"]
+[node name="Scroll" type="ScrollContainer" parent="Layout/MainArea/BuildPalette/Body"]
 layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="TypeList" type="GridContainer" parent="Layout/MainArea/BuildPalette/Body/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
 
 [node name="UndoRow" type="HBoxContainer" parent="Layout/MainArea/BuildPalette/Body"]
 layout_mode = 2
@@ -123,7 +132,7 @@ text = "やり直す"
 
 [node name="Hint" type="Label" parent="Layout/MainArea/BuildPalette/Body"]
 layout_mode = 2
-text = "R: 回転 / Esc: キャンセル / Delete: 撤去 / Ctrl+Z, Ctrl+Y"
+text = "R: 回転  Esc: やめる"
 autowrap_mode = 3
 
 [node name="PreviewLabel" type="Label" parent="Layout/MainArea/BuildPalette/Body"]

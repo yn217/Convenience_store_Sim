@@ -131,7 +131,7 @@ func test_overlay_sizes_fit_1920x1080(t, tree) -> void:
 	await tree.process_frame
 	var palette: Control = main.get_node("Layout/MainArea/BuildPalette")
 	t.ok(palette.get_combined_minimum_size().y <= main.get_node("Layout/MainArea").size.y, "palette fits the height in BUILD")
-	t.eq(palette.size.x, 280.0, "palette is 280 px in BUILD")
+	t.eq(palette.size.x, 380.0, "palette is 380 px in BUILD")
 	main.close_build()
 	var world: Control = main.get_node("Layout/MainArea/StoreViewport")
 	t.eq(world.size, main.get_viewport_rect().size, "the store world is the whole window")

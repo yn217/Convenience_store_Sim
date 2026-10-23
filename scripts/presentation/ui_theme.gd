@@ -56,7 +56,7 @@ const SPACE_L := 16
 
 const HUD_HEIGHT := 64
 const BAR_HEIGHT := 8
-const PALETTE_WIDTH := 280
+const PALETTE_WIDTH := 380
 const INSPECTOR_WIDTH := 340
 const STORE_MIN_WIDTH := 640
 const COMPACT_WIDTH := 1280
@@ -355,6 +355,40 @@ static func summary_card_box() -> StyleBoxFlat:
 
 
 ## Selected palette row: the blue face with a soft blue glow.
+## Build catalog card face: a raised card, a light rim when lifted (hovered) and the blue glow when selected.
+static func catalog_card_box(lifted: bool, selected: bool) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	if selected:
+		b.bg_color = Color(BRAND_BLUE, 0.55)
+		b.border_color = HIGHLIGHT_BLUE
+		b.shadow_color = Color(0.18, 0.55, 1.0, 0.55)
+		b.shadow_size = 8
+	else:
+		b.bg_color = PANEL_ELEVATED if lifted else CARD
+		b.border_color = Color("9cc8f0") if lifted else BORDER
+		b.shadow_color = Color(EDGE_DARK, 0.6)
+		b.shadow_size = 4 if lifted else 0
+	b.set_border_width_all(2 if (lifted or selected) else 1)
+	b.set_corner_radius_all(BUTTON_RADIUS)
+	b.content_margin_left = 4.0
+	b.content_margin_right = 4.0
+	b.content_margin_top = 4.0
+	b.content_margin_bottom = 4.0
+	return b
+
+
+## Build catalog category tab: the selected tab is brand blue, the others sit on the panel colour.
+static func catalog_tab_box(selected: bool) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = BRAND_BLUE if selected else PANEL
+	b.border_color = HIGHLIGHT_BLUE if selected else BORDER
+	b.set_border_width_all(1)
+	b.set_corner_radius_all(BUTTON_RADIUS)
+	b.content_margin_top = 4.0
+	b.content_margin_bottom = 4.0
+	return b
+
+
 static func selected_row_box() -> StyleBoxFlat:
 	var b := StyleBoxFlat.new()
 	b.bg_color = Color(BRAND_BLUE, 0.7)

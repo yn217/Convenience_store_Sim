@@ -69,10 +69,11 @@ func _preview(r: Dictionary) -> String:
 
 func test_palette_lists_all_fixture_types(t, tree) -> void:
 	var r := await _boot(tree)
-	var list: VBoxContainer = r["main"].get_node("Layout/MainArea/BuildPalette/Body/TypeList")
-	t.eq(list.get_child_count(), 10, "10 fixture types in the palette")
-	t.ok((list.get_child(0) as Button).text.contains("¥90,000"), "price shown: " + (list.get_child(0) as Button).text)
-	t.eq(r["main"].get_node("Layout/MainArea/BuildPalette").offset_right - r["main"].get_node("Layout/MainArea/BuildPalette").offset_left, 280.0, "palette is a 280 px floating panel")
+	var list: GridContainer = r["main"].find_child("TypeList", true, false)
+	t.eq(list.get_child_count(), 10, "10 fixture types in the catalog")
+	var price := (list.get_child(0) as Button).find_child("Price", true, false) as Label
+	t.ok(price != null and price.text == "¥90,000", "price shown: " + (price.text if price != null else "missing"))
+	t.eq(r["main"].get_node("Layout/MainArea/BuildPalette").offset_right - r["main"].get_node("Layout/MainArea/BuildPalette").offset_left, 380.0, "catalog is a 380 px floating window")
 	await _end(tree, r)
 
 
@@ -81,7 +82,7 @@ func test_place_flow_ghost_rotate_commit(t, tree) -> void:
 	var world: Node2D = r["world"]
 	var bc: Node = r["bc"]
 	var state: GameState = r["app"].state
-	bc._type_buttons["shelf_general"].pressed.emit()
+	bc._catalog_view.card("shelf_general").pressed.emit()
 	t.eq(bc.mode, 1, "PLACE mode")
 	t.eq(world.mode, 1, "world knows the mode")
 	_hover(r, Vector2i(5, 5))
@@ -108,7 +109,7 @@ func test_invalid_placement_is_red_with_reason_and_refused(t, tree) -> void:
 	var r := await _boot(tree)
 	var world: Node2D = r["world"]
 	var state: GameState = r["app"].state
-	r["bc"]._type_buttons["shelf_general"].pressed.emit()
+	r["bc"]._catalog_view.card("shelf_general").pressed.emit()
 	_click(r, Vector2i(5, 5))
 	_hover(r, Vector2i(5, 6))
 	t.ok(not world._ghost["valid"], "overlap is red")
@@ -132,7 +133,7 @@ func test_not_enough_cash_is_refused(t, tree) -> void:
 	var state: GameState = r["app"].state
 	state.ledger.cash_yen = 30000
 	r["app"]._publish_snapshot()
-	r["bc"]._type_buttons["shelf_general"].pressed.emit()
+	r["bc"]._catalog_view.card("shelf_general").pressed.emit()
 	_hover(r, Vector2i(5, 5))
 	t.ok(_preview(r).contains("資金"), "cash reason: " + _preview(r))
 	_click(r, Vector2i(5, 5))
@@ -146,7 +147,7 @@ func test_move_rotate_remove_undo_redo_through_the_inspector(t, tree) -> void:
 	var main: Control = r["main"]
 	var bc: Node = r["bc"]
 	var state: GameState = r["app"].state
-	bc._type_buttons["shelf_general"].pressed.emit()
+	bc._catalog_view.card("shelf_general").pressed.emit()
 	_click(r, Vector2i(5, 5))
 	r["ctl"].handle_event(_key(KEY_ESCAPE))
 	_click(r, Vector2i(5, 6))       # observe mode: select the second cell of the shelf
@@ -205,14 +206,14 @@ func test_construction_is_locked_outside_setup(t, tree) -> void:
 	var r := await _boot(tree)
 	var state: GameState = r["app"].state
 	var bc: Node = r["bc"]
-	bc._type_buttons["shelf_general"].pressed.emit()
+	bc._catalog_view.card("shelf_general").pressed.emit()
 	t.eq(bc.mode, 1)
 	state.business_state = GameState.OPEN
 	state.speed_setting = 0     # OPEN + pause: still no construction
 	r["app"]._publish_snapshot()
 	t.eq(bc.mode, 0, "an open store leaves the build mode")
-	t.ok(bc._type_buttons["shelf_general"].disabled, "palette disabled")
-	bc._type_buttons["shelf_general"].pressed.emit()
+	t.ok(bc._catalog_view.card("shelf_general").disabled, "palette disabled")
+	bc._catalog_view.card("shelf_general").pressed.emit()
 	t.eq(bc.mode, 0, "cannot re-enter")
 	t.ok(_status(r).contains("準備中") or _status(r).contains("営業を終了"), "tells the player why: " + _status(r))
 	_click(r, Vector2i(5, 5))
@@ -223,7 +224,7 @@ func test_construction_is_locked_outside_setup(t, tree) -> void:
 func test_keyboard_reaches_the_store_through_the_window(t, tree) -> void:
 	var r := await _boot(tree)
 	var bc: Node = r["bc"]
-	bc._type_buttons["shelf_general"].pressed.emit()
+	bc._catalog_view.card("shelf_general").pressed.emit()
 	var k := _key(KEY_R)
 	tree.root.push_input(k, true)
 	await tree.process_frame
@@ -246,7 +247,7 @@ func test_corridor_block_is_red_with_a_reason(t, tree) -> void:
 		_put(state, p[0], "freezer_ice", p[1], p[2])
 	_put(state, "reg", "register_basic", 12, 5)
 	r["app"]._publish_snapshot()
-	r["bc"]._type_buttons["freezer_ice"].pressed.emit()
+	r["bc"]._catalog_view.card("freezer_ice").pressed.emit()
 	_hover(r, Vector2i(8, 6))
 	t.ok(not world._ghost["valid"], "sealing the last gap is red")
 	t.ok(_preview(r).contains("塞ぐ"), "reason in text: " + _preview(r))
@@ -260,7 +261,7 @@ func test_corridor_block_is_red_with_a_reason(t, tree) -> void:
 func test_register_preview_shows_its_queue(t, tree) -> void:
 	var r := await _boot(tree)
 	var world: Node2D = r["world"]
-	r["bc"]._type_buttons["register_basic"].pressed.emit()
+	r["bc"]._catalog_view.card("register_basic").pressed.emit()
 	_hover(r, Vector2i(6, 4))
 	t.eq(world._ghost["queue"], [Vector2i(7, 5), Vector2i(8, 5), Vector2i(9, 5)] as Array[Vector2i], "3-slot queue line")
 	_hover(r, Vector2i(15, 4))

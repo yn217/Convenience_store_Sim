@@ -19,10 +19,10 @@ var _snapshot: Dictionary = {}
 var _fixture_at: Dictionary = {}
 var _instances: Dictionary = {}
 var _seq: int = 0
-var _type_buttons: Dictionary = {}
+var _catalog_view: BuildCatalog
 var _products: ProductCatalog
 
-@onready var _type_list: VBoxContainer = $"../Layout/MainArea/BuildPalette/Body/TypeList"
+@onready var _type_list: GridContainer = $"../Layout/MainArea/BuildPalette/Body/Scroll/TypeList"
 @onready var _undo: Button = $"../Layout/MainArea/BuildPalette/Body/UndoRow/UndoButton"
 @onready var _redo: Button = $"../Layout/MainArea/BuildPalette/Body/UndoRow/RedoButton"
 @onready var _preview_label: Label = $"../Layout/MainArea/BuildPalette/Body/PreviewLabel"
@@ -39,23 +39,8 @@ func setup(app: Node, world: Node2D, catalog: FixtureCatalog, products: ProductC
 	_products = products
 	_world = world
 	_catalog = catalog
-	for type_id in catalog.types:
-		var def := catalog.get_type(type_id)
-		var b := Button.new()
-		b.text = "%s
-%s ・ %d×%d" % [def["display_name"], GameHud.format_yen(def["placement_cost_yen"]), def["footprint"]["w"], def["footprint"]["h"]]
-		b.clip_text = true
-		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		var thumb := FixtureThumbnails.texture(type_id)   # 56 px fixture thumbnail at the left of the row (#61)
-		if thumb != null:
-			b.icon = thumb
-			b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
-			b.expand_icon = false
-		b.pressed.connect(begin_place.bind(type_id))
-		_type_list.add_child(b)
-		if thumb != null:
-			_tighten_row(b)   # after add_child: the padding comes from the theme, which needs the tree
-		_type_buttons[type_id] = b
+	_catalog_view = BuildCatalog.new()
+	_catalog_view.setup(_type_list, _type_list.get_parent(), catalog, begin_place)
 	_undo.pressed.connect(func(): run_simple(&"UNDO_LAYOUT"))
 	_redo.pressed.connect(func(): run_simple(&"REDO_LAYOUT"))
 	_move_button.pressed.connect(begin_move)
@@ -72,18 +57,6 @@ func setup(app: Node, world: Node2D, catalog: FixtureCatalog, products: ProductC
 	_world.redo_requested.connect(func(): run_simple(&"REDO_LAYOUT"))
 
 
-## A palette row holds a 56 px thumbnail, so its vertical padding is trimmed from the theme's 8 px to 2 px.
-static func _tighten_row(b: Button) -> void:
-	for state in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
-		var base := b.get_theme_stylebox(state)
-		if base == null:
-			continue
-		var sb := base.duplicate() as StyleBox
-		sb.content_margin_top = 2
-		sb.content_margin_bottom = 2
-		b.add_theme_stylebox_override(state, sb)
-
-
 func apply_snapshot(snap: Dictionary) -> void:
 	_snapshot = snap
 	_instances.clear()
@@ -97,8 +70,9 @@ func apply_snapshot(snap: Dictionary) -> void:
 		cancel_mode()
 	if moving_id != NO_ID and not _instances.has(moving_id):
 		cancel_mode()
-	for b in _type_buttons.values():
-		b.disabled = not is_setup()
+	if _catalog_view != null:
+		_catalog_view.set_enabled(is_setup())
+		_catalog_view.set_cash(int(snap.get("cash_yen", 0)))
 	_undo.disabled = not (is_setup() and snap.get("can_undo", false))
 	_redo.disabled = not (is_setup() and snap.get("can_redo", false))
 	_refresh_inspector()
@@ -142,6 +116,8 @@ func cancel_mode() -> void:
 func _enter_mode(m: int) -> void:
 	mode = m
 	_world.mode = m
+	if _catalog_view != null:
+		_catalog_view.set_selected(pending_type if m == 1 else "")
 	_update_ghost()
 
 
