@@ -226,3 +226,19 @@
 - [ ] MVPにない店員雇用・実在ブランド・広告システムの追加をしない。チャット内の生成画像は**参考コンセプト**であり本番のゲーム素材ではない。
 
 **設計規格の正本**: [アセット寸法/投影](implementation/02_GRID_AND_ASSET_CONTRACT.md)、[画面別UI仕様](design/SCREEN_SPECIFICATIONS_V1.md)、[画面操作状態](design/SCREEN_NAVIGATION_AND_STATE_MATRIX.md)。
+
+
+## 2026-10-23 AI画像生成の実アセット採用ゲート
+[Issue #61](https://github.com/yn217/Convenience_store_Sim/issues/61) / [#12 商品](https://github.com/yn217/Convenience_store_Sim/issues/12) / [#22 什器](https://github.com/yn217/Convenience_store_Sim/issues/22) / [#29 権利](https://github.com/yn217/Convenience_store_Sim/issues/29)を追加更新。
+
+**現状確認:** [PR #62](https://github.com/yn217/Convenience_store_Sim/pull/62)にはPNG277件等の候補があるが、実ゲーム用画像は主にBlender/Pillowで手続き生成されたもの。画像生成AIの実利用は画風比較コンセプトの段階で、本番向け高品質包装・材質の採用はまだ確認できない。PR #62は既存の生成パイプライン成果として保護する。
+
+- [ ] **P0: 使用できるAI画像生成方式を実調査**（ツール/モデル/ライセンス/記録できる生成条件）。利用不可能なら事実を記録し無理に完成扱いしない。
+- [ ] **P0: POSレジ・汎用棚・飲料冷蔵ケース**でAI生成の架空商品包装・POP・材質/テクスチャを制作し、Blenderの共通iso2x_v1カメラ/寸法/4方向で本番候補画像を生成。
+- [ ] **P0: 代表3SKU→8カテゴリ24SKU**の架空包装表現を評価・拡張し、商品の見え方（empty/low/medium/full）を既存slot/StockLotへ連動。
+- [ ] **P0: 一対一Before/After**を同一16×12店舗・カメラ・日時・在庫・客条件で撮影し、名称非表示で棚カテゴリを認識できるかレビュー。AI概念画のみを実装証拠にしない。
+- [ ] **P0: Godot結合と回帰**（ズーム0.5/1/2、全4方向、ガラス/客/商品層、選択、1280×720/1920×1080、固定ベンチ）を実際に確認。旧procedural素材へのfallbackを確保。
+- [ ] **P0: #29ライセンス/出典**としてAIモデル、プロンプト、商用再配布、架空ブランド/文字化け・商標審査、素材/マニフェスト対応を記録。
+- [ ] **並列作業の安全性:** Codexは独立Worktreeと小PRを利用し、Claudeの未コミット変更・Godot Renderer/Domain/Sceneを勝手に変更しない。
+
+**受け入れ注意:** 「PNG画像が多数ある」「Blenderで4方向レンダリング済み」「コンセプトAI画像を生成した」だけでアート改善完成にしない。**実ゲーム画面に高品質素材が採用され、Before/After・ゲーム操作・権利審査が合格した時点で完了**。
