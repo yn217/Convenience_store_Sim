@@ -6,7 +6,17 @@ This board is a source-art candidate for the customer sprite work in Issue #23. 
 
 The equal-third crops are reproducible with `tools/art/split_customer_candidates.py` and are listed in `assets/source/textures/characters/CANDIDATE_CROPS.json`.
 
-Transparent cutout pilots are stored at `assets/source/textures/characters/candidates/customer_casual_tote_cutout_v01.png` and `customer_office_shoulder_bag_cutout_v01.png` (both 1024x1536 RGBA). They are source-art pilots, not production sprites: scale, anchor, shadow, and direction consistency still require review.
+Transparent cutout pilots are stored at `assets/source/textures/characters/candidates/customer_casual_tote_cutout_v01.png`, `customer_office_shoulder_bag_cutout_v01.png`, and `customer_older_basket_cutout_v01.png` (all 1024x1536 RGBA). They are source-art pilots, not production sprites: scale, anchor, shadow, and direction consistency still require review.
+
+## Issue #23 conversion gate
+
+- [x] Three fictional customer variants have source candidates and transparent cutout pilots.
+- [ ] Generate directions 0, 1, 2, 3 from one common camera/model; do not use simple mirroring.
+- [ ] Adopt `projection_id="iso2x_v1"`, 1m tile scale, and common foot anchor.
+- [ ] Record `canvas_px`, `anchor_px`, and `sorting_anchor_px` in a manifest.
+- [ ] Produce walk 6 frames, idle 2 frames, inspect 4 frames, checkout 4 frames, and exit 2 frames per direction.
+- [ ] Validate zoom 0.5/1/2 and front/back occlusion in the game.
+- [ ] Record focused Godot screenshots/tests before claiming completion.
 
 ## Prompt record
 

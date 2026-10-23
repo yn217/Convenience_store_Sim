@@ -19,6 +19,12 @@
       "source": "ImageGen edit of customer_office_shoulder_bag_candidate_v01.png",
       "dimensions": "1024x1536",
       "alpha": "RGBA"
+    },
+    {
+      "path": "candidates/customer_older_basket_cutout_v01.png",
+      "source": "ImageGen edit of customer_older_basket_candidate_v01.png",
+      "dimensions": "1024x1536",
+      "alpha": "RGBA"
     }
   ]
 }
