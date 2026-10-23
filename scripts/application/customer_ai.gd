@@ -34,6 +34,8 @@ var _taken_dirty := true
 var _res_ids: Dictionary = {}      # reservation ids that exist; rebuilt when one is made / released / sold
 var _res_dirty := true
 var _access_cache: Dictionary = {}   # fixture id -> reachable access tiles (layout-derived)
+var _held: Dictionary = {}           # tile -> id of the customer standing still on it (line/till), rebuilt each step
+const MAX_ROOM_RADIUS := 3
 
 
 func _sync_layout(state: GameState) -> void:
@@ -69,6 +71,10 @@ func step(state: GameState) -> void:
 	_spawn(state)
 	_taken_dirty = true
 	_res_dirty = true
+	_held.clear()
+	for c in state.customers:
+		if _is_standing_in_line(c) and not _held.has(c["tile"]):   # the first one on a tile keeps it
+			_held[c["tile"]] = c["customer_id"]
 	_by_id.clear()
 	var ids: Array[String] = []
 	for c in state.customers:
@@ -125,7 +131,11 @@ func _update(state: GameState, c: Dictionary) -> void:
 			elif _walk(state, c):
 				c["phase"] = "QUEUE"
 		"WAIT_QUEUE":
-			_wait_for_slot(state, c)
+			if not (c["path"] as Array).is_empty():
+				if _walk(state, c):
+					_wait_for_slot(state, c)   # arrived at its spot: try the line again
+			else:
+				_wait_for_slot(state, c)
 		"QUEUE":
 			_queue(state, c)
 		"CHECKOUT":
@@ -306,7 +316,8 @@ func _pick(state: GameState, c: Dictionary) -> void:
 		return
 	c["reservation_id"] = res["reservation_id"]
 	_res_dirty = true
-	state.emit_event("CUSTOMER_RESERVED_ITEM", {"customer_id": c["customer_id"], "reservation_id": res["reservation_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"]})
+	var sku := state.products.get_sku(c["sku_id"])
+	state.emit_event("CUSTOMER_RESERVED_ITEM", {"customer_id": c["customer_id"], "reservation_id": res["reservation_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"], "category": sku.get("category", ""), "name": sku.get("display_name", "")})
 	var plan := _register_plan(state)
 	if plan.is_empty():
 		_leave(state, c, "no_register")
@@ -334,6 +345,8 @@ func _wait_for_slot(state: GameState, c: Dictionary) -> void:
 	if slot < 0:
 		if _timed_out(state, c):
 			_leave(state, c, "queue_timeout")
+			return
+		_make_room(state, c, plan)
 		return
 	c["queue_slot"] = slot
 	_taken_dirty = true
@@ -343,6 +356,36 @@ func _wait_for_slot(state: GameState, c: Dictionary) -> void:
 		_leave(state, c, "unreachable_register")
 		return
 	c["phase"] = "WALK_REGISTER"
+
+
+## A customer who has no slot waits on a tile nobody else stands on: when its own tile is held, it walks to
+## the nearest free tile (fixed search order, radius up to MAX_ROOM_RADIUS) and holds that one. Queue cells are
+## never used for waiting, so a full line never stacks two people on one tile (issue #16 / #30).
+func _make_room(state: GameState, c: Dictionary, plan: Dictionary) -> void:
+	var tile: Vector2i = c["tile"]
+	var me: String = c["customer_id"]
+	if _held.get(tile, me) == me:
+		_held[tile] = me
+		return
+	var queue_cells: Array = plan["queue_cells"]
+	var blocked := _blocked(state)
+	var reach := _paths.current_distances(state.grid)
+	for r in range(1, MAX_ROOM_RADIUS + 1):
+		for dy in range(-r, r + 1):
+			for dx in range(-r, r + 1):
+				if maxi(absi(dx), absi(dy)) != r:
+					continue
+				var cand := tile + Vector2i(dx, dy)
+				if not reach.has(cand) or blocked.has(cand) or _held.has(cand) or queue_cells.has(cand) or state.grid.entrance_tiles.has(cand):
+					continue
+				if _route(state, c, cand):
+					_held[cand] = me
+					return
+	# No free tile nearby: the customer keeps its place (the line stays a presentation question only then).
+
+
+static func _is_standing_in_line(c: Dictionary) -> bool:
+	return (c["path"] as Array).is_empty() and c["phase"] in ["WAIT_QUEUE", "QUEUE", "CHECKOUT"]
 
 
 func _free_slot(state: GameState, c: Dictionary, plan: Dictionary) -> int:
@@ -413,7 +456,8 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 		state.visit_stats["purchased"] += 1
 		c["reservation_id"] = ""
 		c["outcome"] = "purchased"
-		state.emit_event("SALE_COMMITTED", {"transaction_id": "sale:%s" % reservation_id_of_sale, "customer_id": c["customer_id"], "revenue_yen": sale["revenue_yen"], "register_id": c["register_id"], "fixture_id": sale["fixture_id"]})
+		var sold_sku := state.products.get_sku(c["sku_id"])
+		state.emit_event("SALE_COMMITTED", {"transaction_id": "sale:%s" % reservation_id_of_sale, "customer_id": c["customer_id"], "revenue_yen": sale["revenue_yen"], "register_id": c["register_id"], "fixture_id": sale["fixture_id"], "sku_id": c["sku_id"], "name": sold_sku.get("display_name", "")})
 		if InventoryService.fixture_fill_ratio(state, sale["fixture_id"]) < LOW_STOCK_RATIO:
 			state.emit_event("STOCK_LOW", {"fixture_id": sale["fixture_id"]})
 		_start_exit(state, c)
