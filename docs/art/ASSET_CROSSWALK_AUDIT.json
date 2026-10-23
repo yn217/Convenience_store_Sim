@@ -1,0 +1,112 @@
+{
+  "scope": "Issue #29 source-art provenance crosswalk",
+  "runtime_policy": "review-only candidates must not replace procedural runtime assets",
+  "provenance_files": [
+    {
+      "file": "assets/source/textures/CANDIDATE_PROVENANCE.json",
+      "asset_paths": [
+        "assets/source/textures/materials/fridge_drink_material_comparison_v01.png",
+        "assets/source/textures/materials/register_basic_material_comparison_v01.png",
+        "assets/source/textures/materials/shelf_general_material_comparison_v01.png",
+        "assets/source/textures/packages/sku_cupnoodle_comparison_v01.png",
+        "assets/source/textures/packages/sku_onigiri_comparison_v01.png",
+        "assets/source/textures/packages/sku_tea_comparison_v01.png"
+      ],
+      "missing_paths": [],
+      "status": "unspecified"
+    },
+    {
+      "file": "assets/source/textures/characters/CUSTOMER_PROVENANCE.json",
+      "asset_paths": [],
+      "missing_paths": [],
+      "status": "unspecified"
+    },
+    {
+      "file": "assets/source/textures/materials/MATERIAL_PROVENANCE.json",
+      "asset_paths": [
+        "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_a.png",
+        "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_b.png",
+        "assets/source/textures/materials/candidates/register_basic_material_comparison_v01_a.png",
+        "assets/source/textures/materials/candidates/register_basic_material_comparison_v01_b.png",
+        "assets/source/textures/materials/candidates/shelf_general_material_comparison_v01_a.png",
+        "assets/source/textures/materials/candidates/shelf_general_material_comparison_v01_b.png",
+        "assets/source/textures/materials/fridge_drink_material_comparison_v01.png",
+        "assets/source/textures/materials/register_basic_material_comparison_v01.png",
+        "assets/source/textures/materials/shelf_general_material_comparison_v01.png"
+      ],
+      "missing_paths": [],
+      "status": "source-only candidate set; not runtime-approved"
+    },
+    {
+      "file": "assets/source/textures/packages/CUTOUT_PROVENANCE.json",
+      "asset_paths": [
+        "assets/source/textures/packages/CUTOUT_VALIDATION.json",
+        "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a.png",
+        "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a_cutout_v01.png",
+        "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b.png",
+        "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b_cutout_v01.png",
+        "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a.png",
+        "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a_cutout_v01.png",
+        "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b.png",
+        "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v01.png",
+        "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a.png",
+        "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a_cutout_v01.png",
+        "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b.png",
+        "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v01.png",
+        "assets/source/textures/packages/sku_cupnoodle_comparison_v01.png",
+        "assets/source/textures/packages/sku_onigiri_comparison_v01.png",
+        "assets/source/textures/packages/sku_tea_comparison_v01.png"
+      ],
+      "missing_paths": [],
+      "status": "source-only pilot; not runtime-approved"
+    },
+    {
+      "file": "assets/source/textures/pop/POP_PROVENANCE.json",
+      "asset_paths": [
+        "assets/source/textures/PROMPTS_FULL.md",
+        "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a.png",
+        "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a_cutout_v01.png",
+        "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a_cutout_v02.png",
+        "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b.png",
+        "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b_cutout_v01.png",
+        "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b_cutout_v02.png",
+        "assets/source/textures/pop/shelf_pop_comparison_v01.png"
+      ],
+      "missing_paths": [],
+      "status": "unspecified"
+    }
+  ],
+  "product_visual_ids": {
+    "total": 24,
+    "mapped_review_only": 6,
+    "unmapped": [
+      "bread_001_package",
+      "bread_002_package",
+      "bread_003_package",
+      "dessert_001_package",
+      "dessert_002_package",
+      "dessert_003_package",
+      "drink_003_package",
+      "ice_001_package",
+      "ice_002_package",
+      "ice_003_package",
+      "noodle_003_package",
+      "oden_001_package",
+      "oden_002_package",
+      "oden_003_package",
+      "rice_003_package",
+      "snack_001_package",
+      "snack_002_package",
+      "snack_003_package"
+    ]
+  },
+  "review_only_visual_ids": [
+    "drink_001_package",
+    "drink_002_package",
+    "noodle_001_package",
+    "noodle_002_package",
+    "rice_001_package",
+    "rice_002_package"
+  ],
+  "unapproved_status": "present where provenance says pending/review-only; not treated as complete"
+}

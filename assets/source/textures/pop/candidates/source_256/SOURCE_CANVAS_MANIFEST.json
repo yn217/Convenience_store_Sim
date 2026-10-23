@@ -1,0 +1,29 @@
+{
+  "status": "source staging only",
+  "candidates": [
+    {
+      "source": "assets\\source\\textures\\pop\\candidates\\shelf_pop_comparison_v01_a_cutout_v02.png",
+      "output": "assets\\source\\textures\\pop\\candidates\\source_256\\shelf_pop_comparison_v01_a_source256_v01.png",
+      "canvas_px": [
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        256
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\pop\\candidates\\shelf_pop_comparison_v01_b_cutout_v02.png",
+      "output": "assets\\source\\textures\\pop\\candidates\\source_256\\shelf_pop_comparison_v01_b_source256_v01.png",
+      "canvas_px": [
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        256
+      ]
+    }
+  ]
+}

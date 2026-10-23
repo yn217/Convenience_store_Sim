@@ -1,0 +1,216 @@
+{
+  "method": "Pillow lossless RGBA crop",
+  "seam_margin_px": 8,
+  "candidates": [
+    {
+      "source": "assets\\source\\textures\\packages\\sku_onigiri_comparison_v01.png",
+      "variant": "a",
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_onigiri_comparison_v01_a.png",
+      "crop_box": [
+        0,
+        0,
+        619,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\sku_onigiri_comparison_v01.png",
+      "variant": "b",
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_onigiri_comparison_v01_b.png",
+      "crop_box": [
+        635,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\sku_tea_comparison_v01.png",
+      "variant": "a",
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_tea_comparison_v01_a.png",
+      "crop_box": [
+        0,
+        0,
+        619,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\sku_tea_comparison_v01.png",
+      "variant": "b",
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_tea_comparison_v01_b.png",
+      "crop_box": [
+        635,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\sku_cupnoodle_comparison_v01.png",
+      "variant": "a",
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_cupnoodle_comparison_v01_a.png",
+      "crop_box": [
+        0,
+        0,
+        619,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\sku_cupnoodle_comparison_v01.png",
+      "variant": "b",
+      "file": "assets\\source\\textures\\packages\\candidates\\sku_cupnoodle_comparison_v01_b.png",
+      "crop_box": [
+        635,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\materials\\register_basic_material_comparison_v01.png",
+      "variant": "a",
+      "file": "assets\\source\\textures\\materials\\candidates\\register_basic_material_comparison_v01_a.png",
+      "crop_box": [
+        0,
+        0,
+        619,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\materials\\register_basic_material_comparison_v01.png",
+      "variant": "b",
+      "file": "assets\\source\\textures\\materials\\candidates\\register_basic_material_comparison_v01_b.png",
+      "crop_box": [
+        635,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\materials\\shelf_general_material_comparison_v01.png",
+      "variant": "a",
+      "file": "assets\\source\\textures\\materials\\candidates\\shelf_general_material_comparison_v01_a.png",
+      "crop_box": [
+        0,
+        0,
+        619,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\materials\\shelf_general_material_comparison_v01.png",
+      "variant": "b",
+      "file": "assets\\source\\textures\\materials\\candidates\\shelf_general_material_comparison_v01_b.png",
+      "crop_box": [
+        635,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\materials\\fridge_drink_material_comparison_v01.png",
+      "variant": "a",
+      "file": "assets\\source\\textures\\materials\\candidates\\fridge_drink_material_comparison_v01_a.png",
+      "crop_box": [
+        0,
+        0,
+        619,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\materials\\fridge_drink_material_comparison_v01.png",
+      "variant": "b",
+      "file": "assets\\source\\textures\\materials\\candidates\\fridge_drink_material_comparison_v01_b.png",
+      "crop_box": [
+        635,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\pop\\shelf_pop_comparison_v01.png",
+      "variant": "a",
+      "file": "assets\\source\\textures\\pop\\candidates\\shelf_pop_comparison_v01_a.png",
+      "crop_box": [
+        0,
+        0,
+        619,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\pop\\shelf_pop_comparison_v01.png",
+      "variant": "b",
+      "file": "assets\\source\\textures\\pop\\candidates\\shelf_pop_comparison_v01_b.png",
+      "crop_box": [
+        635,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    }
+  ]
+}
