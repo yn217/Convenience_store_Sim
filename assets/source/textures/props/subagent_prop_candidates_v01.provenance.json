@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"id": "shopping_basket", "file": "assets/source/textures/props/shopping_basket_subagent_v01.png", "sha256": "A0455D62B111044CB781FF48904A92FDF30391E1478DF687EE242BA6B8E40025"},
+    {"id": "entrance_sign", "file": "assets/source/textures/props/entrance_sign_subagent_v01.png", "sha256": "CA114C72A2176894360A2E314456C7ECE96CAC3C3ED503C62A07388C5678E2EF"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Review references only. Transparent crop, dimensions, anchor, projection, occlusion, and Godot integration remain incomplete."
+}
