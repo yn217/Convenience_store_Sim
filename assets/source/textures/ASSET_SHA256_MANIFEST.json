@@ -45,6 +45,42 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_iso2x_review.provenance.json",
+      "sha256": "b221296b559c439749f1ca1ede4b45287adecd0c7d8a7a185a13795d01d3a703",
+      "bytes": 1079
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_r0.png",
+      "sha256": "ac4c55d26c84b076f6df019b69d26e4193b8bf142ef21ea3df19c1f3af83c7b7",
+      "bytes": 913
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_r1.png",
+      "sha256": "7dbd8fd4d2032a422f4ebb80cfa05a3b8fa92464b4a153afe9cbaf0e51b80360",
+      "bytes": 917
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_r2.png",
+      "sha256": "cc3fccc33f63efbc8de57a31354f5a8d861b92123c2f286b8daf8835391b8671",
+      "bytes": 907
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_r3.png",
+      "sha256": "ea6bef55bbd5840245ae34f9e3341694bf2888ac5ae5654d64e41762391100da",
+      "bytes": 910
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/manifest.json",
+      "sha256": "3b8197b8c2224224a0a056a59360ce1a76ad5a828fab6d64ae4ac1f220c57d04",
+      "bytes": 1639
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/lod/LOD_MANIFEST.json",
       "sha256": "6e8c9d6f840232c06ad0050744718ba5ab394635443b9e801580e2dfea06529f",
       "bytes": 4173
@@ -126,6 +162,42 @@
       "path": "assets/source/textures/packages/candidates/lod/VISUAL_LOD_MANIFEST.json",
       "sha256": "21133e2a967579ec01972c4b2bc666349551ba65b397888da2f3fe9790174ce9",
       "bytes": 3617
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/manifest.json",
+      "sha256": "dd246cd889db88d2ff60bbfe1f5ae980ec300a5096fb30b94242433be9f411be",
+      "bytes": 1543
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/onigiri_triangle_r0.png",
+      "sha256": "8ea638ec31bb1dba9b4b7600362013e17e4159e9a6de0c2da7da12715105f343",
+      "bytes": 499
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/onigiri_triangle_r1.png",
+      "sha256": "d7537c8493f277b554cb164e7619ffe99c09cb85e77b83b04c9e06aa0587ff59",
+      "bytes": 482
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/onigiri_triangle_r2.png",
+      "sha256": "8ea638ec31bb1dba9b4b7600362013e17e4159e9a6de0c2da7da12715105f343",
+      "bytes": 499
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/onigiri_triangle_r3.png",
+      "sha256": "d7537c8493f277b554cb164e7619ffe99c09cb85e77b83b04c9e06aa0587ff59",
+      "bytes": 482
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/provenance.json",
+      "sha256": "245b730b55f7388dff893189ad8ac92052599ccd08f84eab241822f7b7a6bb3a",
+      "bytes": 354
     },
     {
       "group": "packages",
