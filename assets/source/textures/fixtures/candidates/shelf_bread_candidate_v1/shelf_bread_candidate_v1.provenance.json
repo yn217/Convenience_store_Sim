@@ -1,0 +1,55 @@
+{
+  "asset_id": "shelf_bread_candidate_v1",
+  "status": "review-only",
+  "runtime_approved": false,
+  "source": "original deterministic Pillow geometry; no third-party raster assets",
+  "generator": "generate_shelf_bread.py",
+  "projection_id": "iso2x_v1",
+  "camera": {
+    "azimuth_deg": 45,
+    "elevation_deg": 30,
+    "scale": "iso2x_v1"
+  },
+  "physical_contract": {
+    "footprint": [
+      1,
+      2
+    ],
+    "body_max_m": [
+      0.92,
+      1.92
+    ],
+    "height_m": 1.5,
+    "access_edge": "E"
+  },
+  "files": [
+    {
+      "rotation": 0,
+      "body": "shelf_bread_r0_body.png",
+      "body_sha256": "bff48f7f2b1d0a7a3404514c3686743ff58255b233c8513b4831c170f2f4e25f",
+      "shadow": "shelf_bread_r0_shadow.png",
+      "shadow_sha256": "5c3974572b109a93228b3dcdc027a47e196fad7f58190c5492c629a342159bda"
+    },
+    {
+      "rotation": 1,
+      "body": "shelf_bread_r1_body.png",
+      "body_sha256": "fbc90c7afa72316a0562f549df79480725e4ba8aef537ce2f562e341a5c9fe61",
+      "shadow": "shelf_bread_r1_shadow.png",
+      "shadow_sha256": "032ad0ebfbe41ad94b2bcb97f350d7457283f75dd26393f7c9029ffaa32e1730"
+    },
+    {
+      "rotation": 2,
+      "body": "shelf_bread_r2_body.png",
+      "body_sha256": "0e48df0edceceef5dcd4cf99b4fa0bc0e680b751a7e8301331610ed140d80218",
+      "shadow": "shelf_bread_r2_shadow.png",
+      "shadow_sha256": "633a845ba778e43d3aeaf036852545f47a967bb75c30325efa7a314bd7c87860"
+    },
+    {
+      "rotation": 3,
+      "body": "shelf_bread_r3_body.png",
+      "body_sha256": "19f3f258c2f3acbbdaeb9f24c3e90c7544084fb46b146ef7a0727bedde0eff00",
+      "shadow": "shelf_bread_r3_shadow.png",
+      "shadow_sha256": "39ac655e7e6b1b5714ac0e7c38bddbaf887f1995bd194607683221173e03713e"
+    }
+  ]
+}
