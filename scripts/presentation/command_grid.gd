@@ -76,7 +76,7 @@ func button(label: String) -> Button:
 ## Makes a button short enough for the bottom row: smaller font and tighter top/bottom padding in every state.
 ## The theme's default button is about 34 px tall; this brings it to about 24 px. Shared with CommandBar.
 static func slim_button(b: Button) -> void:
-	b.add_theme_font_size_override("font_size", 13)
+	b.add_theme_font_size_override("font_size", 14)
 	for state in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
 		var base := b.get_theme_stylebox(state)
 		if base == null:

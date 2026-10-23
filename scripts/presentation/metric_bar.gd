@@ -26,6 +26,7 @@ func _ready() -> void:
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var box := VBoxContainer.new()
 		box.add_theme_constant_override("separation", 0)
+		box.alignment = BoxContainer.ALIGNMENT_CENTER   # value sits in the middle of the card, not on its top edge
 		card.add_child(box)
 		var title := Label.new()
 		title.text = c["title"]
