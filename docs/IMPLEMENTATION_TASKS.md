@@ -242,3 +242,21 @@
 - [ ] **並列作業の安全性:** Codexは独立Worktreeと小PRを利用し、Claudeの未コミット変更・Godot Renderer/Domain/Sceneを勝手に変更しない。
 
 **受け入れ注意:** 「PNG画像が多数ある」「Blenderで4方向レンダリング済み」「コンセプトAI画像を生成した」だけでアート改善完成にしない。**実ゲーム画面に高品質素材が採用され、Before/After・ゲーム操作・権利審査が合格した時点で完了**。
+
+
+## 2026-10-23 Codex Goal停止後の安全な継続プラン
+
+PR [#62](https://github.com/yn217/Convenience_store_Sim/pull/62)はOpen・未マージ・正式レビュー0件。既存パイプラインは保護し、Godot/Claude依存の統合だけを**局所的blocked**とする。[#61](https://github.com/yn217/Convenience_store_Sim/issues/61)のGoal全体は**作業可能な独立タスクがある間はblockedにしない**。
+
+### 並行して実施できる成果物
+- [ ] **A01** PR #62の候補資産/contact sheetをread-onlyで視覚監査し、基準3什器の弱点と改善対象を記録。
+- [ ] **A02** [#12](https://github.com/yn217/Convenience_store_Sim/issues/12)の代表3SKUから、架空商品包装の実画像・編集元・2案比較・生成元台帳を独立Worktree/PRで作成。コンセプト画だけで実アセット完成とはしない。
+- [ ] **A03** レジ/汎用棚/飲料冷蔵庫に共通利用可能なPOP/表面材質の候補素材を制作。
+- [ ] **A04** 画像ファイル、サイズ、透明度、SKU ID、出典/ライセンス・文字/商標をオフライン検証。
+- [ ] **A05** Blender/Godot本番組込はその環境が利用可能になるまで個別保留。ClaudeのGameState/scene/presenterと衝突するファイルは変更しない。
+- [ ] **A06** 安全な新規PRが作成できたらIssueに差分/テスト/プレビューを記録し、次の作業へ進む。
+
+### Codex共有フォルダの保護
+共有ブランチ/HEAD/未コミット変更を変更しない。別ディレクトリへ独立Worktreeを作成し、原則main起点で新規texture/sourceのみ変更。PR #62のみに存在するコードを直接改修する必要があれば#62基点の別ブランチでstacked PRとし、#62のPRブランチを上書きしない。修正不能な競合はその作業だけblockedにして、別のIssueを選ぶ。
+
+**完了判定:** 3SKUの実画像、基準什器の質感、比較プレビュー、provenanceがPRに揃い、ゲーム組込と権利承認の未完了は区別して記録する。
