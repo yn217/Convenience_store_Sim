@@ -27,6 +27,7 @@ func _ready() -> void:
 	bottom.add_child(CommandGrid.new())
 	var bar := CommandBar.new()
 	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER   # the bar keeps its own height; the grid sets the row height
 	bottom.add_child(bar)
 	$Layout.add_child(MetricBar.new())
 	var floats := FloatCards.new()
