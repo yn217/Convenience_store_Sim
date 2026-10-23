@@ -1,0 +1,28 @@
+{
+  "candidate_id": "shelf_noodle_candidate_v1",
+  "fixture_type_id": "shelf_noodle",
+  "projection_id": "iso2x_v1",
+  "source_px_per_tile": [256, 128],
+  "dimensions_m": {"width": 0.92, "depth": 1.92, "height": 1.70},
+  "footprint": {"w": 1, "h": 2},
+  "access_edge": "E",
+  "runtime_approved": false,
+  "review_status": "review-only",
+  "generator": "generate_candidate.py",
+  "generation_method": "deterministic Pillow fallback; Blender unavailable",
+  "sha256": {
+    "shelf_noodle_candidate_v1_0_body.png": "FFF16053B4BAE2EDF85625A3C18C221C3F07E8EE433B2F5A2C296FC87F61CECD",
+    "shelf_noodle_candidate_v1_0_shadow.png": "B6784E92CCC1F5BB7585F1999D31D495EC51574ED3681DEF9D39782E38886E2B",
+    "shelf_noodle_candidate_v1_1_body.png": "8D49C7935AB97AC1AEF372AA970086BC71475AB7B3DBB6B7409A28A74A4F58CD",
+    "shelf_noodle_candidate_v1_1_shadow.png": "D6A07F9943C58EF2844A3344D2DE88E63D78ADD7198897189A81696FD168A8CE",
+    "shelf_noodle_candidate_v1_2_body.png": "FFF16053B4BAE2EDF85625A3C18C221C3F07E8EE433B2F5A2C296FC87F61CECD",
+    "shelf_noodle_candidate_v1_2_shadow.png": "B6784E92CCC1F5BB7585F1999D31D495EC51574ED3681DEF9D39782E38886E2B",
+    "shelf_noodle_candidate_v1_3_body.png": "8D49C7935AB97AC1AEF372AA970086BC71475AB7B3DBB6B7409A28A74A4F58CD",
+    "shelf_noodle_candidate_v1_3_shadow.png": "D6A07F9943C58EF2844A3344D2DE88E63D78ADD7198897189A81696FD168A8CE"
+  },
+  "unverified_points": [
+    "Blender mesh/camera calibration not executed",
+    "Godot runtime integration and occlusion order not verified",
+    "Visual art direction and slot readability require human review"
+  ]
+}

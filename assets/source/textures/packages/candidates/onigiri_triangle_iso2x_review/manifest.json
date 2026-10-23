@@ -1,0 +1,58 @@
+{
+  "manifest_version": 1,
+  "visual_id": "onigiri_triangle_iso2x_review",
+  "shape_id": "onigiri_triangle",
+  "projection_id": "iso2x_v1",
+  "dimensions_m": {
+    "width": 0.105,
+    "depth": 0.045,
+    "height": 0.095
+  },
+  "canvas_px": [
+    128,
+    96
+  ],
+  "anchor_px": [
+    64,
+    48
+  ],
+  "slot_units": 1,
+  "runtime_approved": false,
+  "review_only": true,
+  "directions": [
+    {
+      "rotation": 0,
+      "path": "onigiri_triangle_r0.png",
+      "sha256": "8ea638ec31bb1dba9b4b7600362013e17e4159e9a6de0c2da7da12715105f343",
+      "rgba": true
+    },
+    {
+      "rotation": 1,
+      "path": "onigiri_triangle_r1.png",
+      "sha256": "d7537c8493f277b554cb164e7619ffe99c09cb85e77b83b04c9e06aa0587ff59",
+      "rgba": true
+    },
+    {
+      "rotation": 2,
+      "path": "onigiri_triangle_r2.png",
+      "sha256": "8ea638ec31bb1dba9b4b7600362013e17e4159e9a6de0c2da7da12715105f343",
+      "rgba": true
+    },
+    {
+      "rotation": 3,
+      "path": "onigiri_triangle_r3.png",
+      "sha256": "d7537c8493f277b554cb164e7619ffe99c09cb85e77b83b04c9e06aa0587ff59",
+      "rgba": true
+    }
+  ],
+  "provenance": {
+    "generator": "generate_candidate.py",
+    "renderer": "Pillow",
+    "deterministic": true,
+    "source_contracts": [
+      "docs/implementation/06_ASSET_BLUEPRINTS_AND_VALIDATION.md",
+      "docs/implementation/02_GRID_AND_ASSET_CONTRACT.md"
+    ],
+    "note": "Review-only candidate; Blender calibration and semantic validation are not claimed PASS."
+  }
+}

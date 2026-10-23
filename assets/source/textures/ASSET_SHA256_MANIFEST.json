@@ -4,8 +4,80 @@
     {
       "group": "packages",
       "path": "assets/source/textures/packages/CANDIDATE_VISUAL_ID_MAP.json",
-      "sha256": "5543322cc5ca3887a7080d33bb5622e66e2d61c628c1a7dcd1655c152d8face0",
-      "bytes": 1372
+      "sha256": "0ad365de218321f7b92f011ab97cf0531c2633ff31ca415601c6a87cb36f72e4",
+      "bytes": 1403
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review.manifest.json",
+      "sha256": "aa1505f3935bb06d5d43dcb414ac74d22d4d4906ddfc869232572e715827f6bb",
+      "bytes": 1202
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review.provenance.json",
+      "sha256": "4d565cf24ca806060a14affd641544d72228d5b49347476f3570f5446e1ba7de",
+      "bytes": 681
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_0.png",
+      "sha256": "36caf3d3770d1be94df2db7c045e3a40218a3e691b4ded739e92844c0a1ddd14",
+      "bytes": 1371
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_1.png",
+      "sha256": "88ca546af8c6f22c2926a098b1ebbd356398b81e3ff8f87c652bdc59193dcb50",
+      "bytes": 1366
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_2.png",
+      "sha256": "88ca546af8c6f22c2926a098b1ebbd356398b81e3ff8f87c652bdc59193dcb50",
+      "bytes": 1366
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_3.png",
+      "sha256": "36caf3d3770d1be94df2db7c045e3a40218a3e691b4ded739e92844c0a1ddd14",
+      "bytes": 1371
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_iso2x_review.provenance.json",
+      "sha256": "b221296b559c439749f1ca1ede4b45287adecd0c7d8a7a185a13795d01d3a703",
+      "bytes": 1079
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_r0.png",
+      "sha256": "ac4c55d26c84b076f6df019b69d26e4193b8bf142ef21ea3df19c1f3af83c7b7",
+      "bytes": 913
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_r1.png",
+      "sha256": "7dbd8fd4d2032a422f4ebb80cfa05a3b8fa92464b4a153afe9cbaf0e51b80360",
+      "bytes": 917
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_r2.png",
+      "sha256": "cc3fccc33f63efbc8de57a31354f5a8d861b92123c2f286b8daf8835391b8671",
+      "bytes": 907
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/cup_noodle_r3.png",
+      "sha256": "ea6bef55bbd5840245ae34f9e3341694bf2888ac5ae5654d64e41762391100da",
+      "bytes": 910
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/cup_noodle_iso2x_review/manifest.json",
+      "sha256": "3b8197b8c2224224a0a056a59360ce1a76ad5a828fab6d64ae4ac1f220c57d04",
+      "bytes": 1639
     },
     {
       "group": "packages",
@@ -90,6 +162,42 @@
       "path": "assets/source/textures/packages/candidates/lod/VISUAL_LOD_MANIFEST.json",
       "sha256": "21133e2a967579ec01972c4b2bc666349551ba65b397888da2f3fe9790174ce9",
       "bytes": 3617
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/manifest.json",
+      "sha256": "dd246cd889db88d2ff60bbfe1f5ae980ec300a5096fb30b94242433be9f411be",
+      "bytes": 1543
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/onigiri_triangle_r0.png",
+      "sha256": "8ea638ec31bb1dba9b4b7600362013e17e4159e9a6de0c2da7da12715105f343",
+      "bytes": 499
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/onigiri_triangle_r1.png",
+      "sha256": "d7537c8493f277b554cb164e7619ffe99c09cb85e77b83b04c9e06aa0587ff59",
+      "bytes": 482
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/onigiri_triangle_r2.png",
+      "sha256": "8ea638ec31bb1dba9b4b7600362013e17e4159e9a6de0c2da7da12715105f343",
+      "bytes": 499
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/onigiri_triangle_r3.png",
+      "sha256": "d7537c8493f277b554cb164e7619ffe99c09cb85e77b83b04c9e06aa0587ff59",
+      "bytes": 482
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_triangle_iso2x_review/provenance.json",
+      "sha256": "245b730b55f7388dff893189ad8ac92052599ccd08f84eab241822f7b7a6bb3a",
+      "bytes": 354
     },
     {
       "group": "packages",
@@ -244,8 +352,8 @@
     {
       "group": "packages",
       "path": "assets/source/textures/packages/CUTOUT_PROVENANCE.json",
-      "sha256": "4eb4714ad49839ff385a8d4b6c73849fbc51c09ac7a94fb0e9248d9c621a9ab2",
-      "bytes": 2809
+      "sha256": "5d019d556a327c955c42a623d4d7c132b7cef2f4a6592ba4a82db7c8842ef408",
+      "bytes": 2874
     },
     {
       "group": "packages",
@@ -322,8 +430,8 @@
     {
       "group": "materials",
       "path": "assets/source/textures/materials/MATERIAL_PROVENANCE.json",
-      "sha256": "dcd93efd8b59a9059eb4d7f39a7aef3e0f0da25673400ef3cff92511a59ae11b",
-      "bytes": 1770
+      "sha256": "c4f72d2a4e4099658c59ea75d982a609f3020a4a3dc238ab70a0761648e33630",
+      "bytes": 1806
     },
     {
       "group": "materials",
@@ -394,8 +502,8 @@
     {
       "group": "pop",
       "path": "assets/source/textures/pop/POP_PROVENANCE.json",
-      "sha256": "60b9b1d1f40e41a017962839da2b8e7100fa0182490a40c79e255729b5b43c30",
-      "bytes": 1010
+      "sha256": "e601044b2513cc6357189f8d41afc213accc1754aeedb656d1563768f3dcb44d",
+      "bytes": 1032
     },
     {
       "group": "pop",
@@ -406,8 +514,8 @@
     {
       "group": "characters",
       "path": "assets/source/textures/characters/CANDIDATE_CROPS.json",
-      "sha256": "c3c4b0bb8175a707715e01719f0da45abffb12fe343717d37c48edb0e99b1d42",
-      "bytes": 373
+      "sha256": "a743baff7873552c777017d052df7acb9246f87abd4be0256914c0ba767356ab",
+      "bytes": 383
     },
     {
       "group": "characters",
@@ -478,8 +586,8 @@
     {
       "group": "characters",
       "path": "assets/source/textures/characters/CUSTOMER_PROVENANCE.json",
-      "sha256": "07253aa9bd2be6cabfe318191ae49b3a1c1a9cb75db3ebf98c1039c9520d4ee9",
-      "bytes": 1161
+      "sha256": "22ab3a123216ab338bb5af176bbed5e4d6fcf9885485af64f0498956107ee3d6",
+      "bytes": 1191
     },
     {
       "group": "characters",

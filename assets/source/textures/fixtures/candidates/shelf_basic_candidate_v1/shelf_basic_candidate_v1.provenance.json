@@ -1,0 +1,37 @@
+{
+  "candidate_id": "shelf_basic_candidate_v1",
+  "projection_id": "iso2x_v1",
+  "generator": "tools/assets/generate_shelf_basic_candidate_v1.py",
+  "generator_sha256": "7fd6e873821ad3639b5cf5228e86ae56d1c5b7dc984077f6842c4ebc68d902f0",
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.5
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "runtime_approved": false,
+  "review_status": "review-only candidate; not wired into Godot",
+  "blender": {
+    "available": false,
+    "fallback": "deterministic Pillow renderer"
+  },
+  "sha256": {
+    "shelf_basic_r0_body.png": "f23caba331417a4f089ce202926035dbda8bceb5e076f822acced88518a1fdf7",
+    "shelf_basic_r0_shadow.png": "51f86e77f4a31c7593a9fed1c5cdfa5d8a09032af707d1aa6851ebe8b239d087",
+    "shelf_basic_r1_body.png": "637d187ac90c065d88a57e2c0e867085f6522dc570cd1cd56f6bd2c17d049119",
+    "shelf_basic_r1_shadow.png": "4aa2bd8ac7ae07d84bbaee1f64076ef91fcdefd572a9db7c85a51dd36321de6a",
+    "shelf_basic_r2_body.png": "ab15d762fd96e038ac155a2f8de7e41e7753f69066396e08f6580ef7dcef93f9",
+    "shelf_basic_r2_shadow.png": "51f86e77f4a31c7593a9fed1c5cdfa5d8a09032af707d1aa6851ebe8b239d087",
+    "shelf_basic_r3_body.png": "7696e7dd38d2b6ed38dc8017f761ccbf133adec86d41d65443b1f88ae9691bb5",
+    "shelf_basic_r3_shadow.png": "4aa2bd8ac7ae07d84bbaee1f64076ef91fcdefd572a9db7c85a51dd36321de6a"
+  },
+  "unverified_points": [
+    "visual silhouette and palette have not been art-directed",
+    "pixel anchor and selection polygon have not been validated in-game",
+    "occlusion ordering against neighboring fixtures is unverified",
+    "physical dimensions are metadata only; no Blender mesh/render evidence"
+  ]
+}

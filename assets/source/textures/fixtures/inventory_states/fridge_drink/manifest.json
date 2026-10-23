@@ -1,0 +1,341 @@
+{
+  "manifest_version": 1,
+  "visual_id": "fridge_drink_inventory_states_v1",
+  "fixture_type_id": "fridge_drink",
+  "projection_id": "iso2x_v1",
+  "source_px_per_tile": [
+    256,
+    128
+  ],
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 2.0
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "front": "E",
+  "canvas_px": [
+    512,
+    512
+  ],
+  "anchor_px": [
+    256,
+    438
+  ],
+  "states": [
+    "FULL",
+    "HALF",
+    "EMPTY"
+  ],
+  "rotations": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "rotations_states": {
+    "full_r0": {
+      "state": "FULL",
+      "rotation": 0,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_full_r0_body.png",
+        "products": "fridge_drink_full_r0_products.png",
+        "glass_front": "fridge_drink_full_r0_glass_front.png",
+        "shadow": "fridge_drink_full_r0_shadow.png"
+      },
+      "composite": "fridge_drink_full_r0.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "full_r1": {
+      "state": "FULL",
+      "rotation": 1,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_full_r1_body.png",
+        "products": "fridge_drink_full_r1_products.png",
+        "glass_front": "fridge_drink_full_r1_glass_front.png",
+        "shadow": "fridge_drink_full_r1_shadow.png"
+      },
+      "composite": "fridge_drink_full_r1.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "full_r2": {
+      "state": "FULL",
+      "rotation": 2,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_full_r2_body.png",
+        "products": "fridge_drink_full_r2_products.png",
+        "glass_front": "fridge_drink_full_r2_glass_front.png",
+        "shadow": "fridge_drink_full_r2_shadow.png"
+      },
+      "composite": "fridge_drink_full_r2.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "full_r3": {
+      "state": "FULL",
+      "rotation": 3,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_full_r3_body.png",
+        "products": "fridge_drink_full_r3_products.png",
+        "glass_front": "fridge_drink_full_r3_glass_front.png",
+        "shadow": "fridge_drink_full_r3_shadow.png"
+      },
+      "composite": "fridge_drink_full_r3.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "half_r0": {
+      "state": "HALF",
+      "rotation": 0,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_half_r0_body.png",
+        "products": "fridge_drink_half_r0_products.png",
+        "glass_front": "fridge_drink_half_r0_glass_front.png",
+        "shadow": "fridge_drink_half_r0_shadow.png"
+      },
+      "composite": "fridge_drink_half_r0.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "half_r1": {
+      "state": "HALF",
+      "rotation": 1,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_half_r1_body.png",
+        "products": "fridge_drink_half_r1_products.png",
+        "glass_front": "fridge_drink_half_r1_glass_front.png",
+        "shadow": "fridge_drink_half_r1_shadow.png"
+      },
+      "composite": "fridge_drink_half_r1.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "half_r2": {
+      "state": "HALF",
+      "rotation": 2,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_half_r2_body.png",
+        "products": "fridge_drink_half_r2_products.png",
+        "glass_front": "fridge_drink_half_r2_glass_front.png",
+        "shadow": "fridge_drink_half_r2_shadow.png"
+      },
+      "composite": "fridge_drink_half_r2.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "half_r3": {
+      "state": "HALF",
+      "rotation": 3,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_half_r3_body.png",
+        "products": "fridge_drink_half_r3_products.png",
+        "glass_front": "fridge_drink_half_r3_glass_front.png",
+        "shadow": "fridge_drink_half_r3_shadow.png"
+      },
+      "composite": "fridge_drink_half_r3.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "empty_r0": {
+      "state": "EMPTY",
+      "rotation": 0,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_empty_r0_body.png",
+        "products": "fridge_drink_empty_r0_products.png",
+        "glass_front": "fridge_drink_empty_r0_glass_front.png",
+        "shadow": "fridge_drink_empty_r0_shadow.png"
+      },
+      "composite": "fridge_drink_empty_r0.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "empty_r1": {
+      "state": "EMPTY",
+      "rotation": 1,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_empty_r1_body.png",
+        "products": "fridge_drink_empty_r1_products.png",
+        "glass_front": "fridge_drink_empty_r1_glass_front.png",
+        "shadow": "fridge_drink_empty_r1_shadow.png"
+      },
+      "composite": "fridge_drink_empty_r1.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "empty_r2": {
+      "state": "EMPTY",
+      "rotation": 2,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_empty_r2_body.png",
+        "products": "fridge_drink_empty_r2_products.png",
+        "glass_front": "fridge_drink_empty_r2_glass_front.png",
+        "shadow": "fridge_drink_empty_r2_shadow.png"
+      },
+      "composite": "fridge_drink_empty_r2.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    },
+    "empty_r3": {
+      "state": "EMPTY",
+      "rotation": 3,
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        256,
+        438
+      ],
+      "layers": {
+        "body": "fridge_drink_empty_r3_body.png",
+        "products": "fridge_drink_empty_r3_products.png",
+        "glass_front": "fridge_drink_empty_r3_glass_front.png",
+        "shadow": "fridge_drink_empty_r3_shadow.png"
+      },
+      "composite": "fridge_drink_empty_r3.png",
+      "composition_order": [
+        "shadow",
+        "body",
+        "products",
+        "glass_front"
+      ]
+    }
+  }
+}

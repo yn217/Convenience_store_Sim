@@ -1,0 +1,13 @@
+{
+  "asset": "shelf_onigiri_2_body.png",
+  "generator": "regenerate_shelf_onigiri.py",
+  "generator_mode": "deterministic_pillow",
+  "seed": "shelf_onigiri_candidate_v1_pillow_deterministic",
+  "projection_id": "iso2x_v1",
+  "source_px_per_tile": [
+    256,
+    128
+  ],
+  "sha256": "4715b36bb34647f13f9d2bd79a20229b2c5c19a6adc75b9a45f1e4fdd686b8bc",
+  "runtime_approved": false
+}

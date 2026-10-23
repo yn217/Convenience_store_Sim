@@ -1,0 +1,31 @@
+{
+  "asset_id": "cooler_basic_candidate_v1",
+  "generator": "generate_candidate.py",
+  "generator_sha256": "7f7acf530038f8baff72af391bd87a65e7d6fbf8826a9e6bd2f8e97615d81f4d",
+  "sha256": {
+    "body_000.png": "3df1fa4710d197af76d7f26c80419875e0118410035ee8cad34c764dff45be1f",
+    "shadow_000.png": "d9d02b9ad6158fde07af90e59684c6a9da906221665033058bf6003b6431925a",
+    "body_090.png": "16c1746add1d1fd7ae86ab825eb208ef51c20f3ca2dffac6488e742cb5b913cf",
+    "shadow_090.png": "94f97c823a4a184e43900c51066ef90aeeaab5b2a055b832c57ea12cb1bc7109",
+    "body_180.png": "d2c251278e728d2ec0151675cc8190851cb9f3385ebb52cba6d05341113dbcb1",
+    "shadow_180.png": "d9d02b9ad6158fde07af90e59684c6a9da906221665033058bf6003b6431925a",
+    "body_270.png": "4058d573d4ae377c9765106bdc5dcae09512623f2b0d7fd66a2e2ab2f3cdad32",
+    "shadow_270.png": "94f97c823a4a184e43900c51066ef90aeeaab5b2a055b832c57ea12cb1bc7109",
+    "visual_manifest.json": "2e310e595ffd0878ee9f2971adf9acbace4a42f95822d909944f223ad38f5224"
+  },
+  "runtime_approved": false,
+  "blender": {
+    "available": false,
+    "attempted": true
+  },
+  "unverified_points": [
+    "Blender mesh bbox and camera calibration not executed",
+    "RGBA alpha/anchor semantics are procedural fallback only",
+    "visual quality, glass ordering, and Godot placement require human review",
+    "not registered in Godot scenes or runtime asset catalogs"
+  ],
+  "environment": {
+    "python": "3.10.9 (tags/v3.10.9:1dd9be6, Dec  6 2022, 20:01:21) [MSC v.1934 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0"
+  }
+}
