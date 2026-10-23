@@ -1,12 +1,13 @@
-# Onigiri transparent cutout pilot
+# Transparent package cutout pilot
 
-This stacked PR contains the first transparent-background package cutout
-pilot. The two fictional onigiri candidates were edited from the lossless
-left/right crops in PR #67. The original board and crops remain unchanged.
+This stacked PR contains a transparent-background package cutout pilot. The
+fictional onigiri, tea, and cup-noodle candidates were edited from the
+lossless left/right crops in PR #67. The original boards and crops remain
+unchanged.
 
 Verification performed locally:
 
-- Both outputs load as `RGBA` PNGs.
+- All six outputs load as `RGBA` PNGs.
 - Alpha extrema include both transparent and opaque pixels (`0..255`).
 - The front-facing package remains fully visible from cap to contact edge.
 - The output is intentionally not treated as an iso2x sprite: dimensions,

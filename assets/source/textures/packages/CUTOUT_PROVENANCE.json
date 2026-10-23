@@ -3,7 +3,11 @@
   "tool": "Codex built-in image generation edit",
   "model": "not exposed by tool",
   "seed": null,
-  "source_board": "assets/source/textures/packages/sku_onigiri_comparison_v01.png",
+  "source_boards": [
+    "assets/source/textures/packages/sku_onigiri_comparison_v01.png",
+    "assets/source/textures/packages/sku_tea_comparison_v01.png",
+    "assets/source/textures/packages/sku_cupnoodle_comparison_v01.png"
+  ],
   "source_candidates": [
     "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a.png",
     "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b.png"
@@ -16,6 +20,26 @@
     },
     {
       "file": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v01.png",
+      "mode": "RGBA",
+      "purpose": "transparent package cutout staging candidate"
+    },
+    {
+      "file": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a_cutout_v01.png",
+      "mode": "RGBA",
+      "purpose": "transparent package cutout staging candidate"
+    },
+    {
+      "file": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v01.png",
+      "mode": "RGBA",
+      "purpose": "transparent package cutout staging candidate"
+    },
+    {
+      "file": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a_cutout_v01.png",
+      "mode": "RGBA",
+      "purpose": "transparent package cutout staging candidate"
+    },
+    {
+      "file": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b_cutout_v01.png",
       "mode": "RGBA",
       "purpose": "transparent package cutout staging candidate"
     }
