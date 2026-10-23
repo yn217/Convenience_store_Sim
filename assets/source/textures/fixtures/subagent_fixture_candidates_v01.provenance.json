@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"id": "beverage_cooler", "file": "assets/source/textures/fixtures/beverage_cooler_subagent_v01.png", "sha256": "CBB95E65B57C38F610F943938741D12F9221D79898612B6796D92AA4EA47D7EE"},
+    {"id": "oden_warmer", "file": "assets/source/textures/fixtures/oden_warmer_subagent_v01.png", "sha256": "ABA343BED7E7FDEEAAFFD6C3494C3C61D17F2A4624EA8F6A9372BEAD80E1BFC6"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Review references only. 2.5D projection, dimensions, four directions, anchors, occlusion, and Godot fixture integration remain incomplete."
+}
