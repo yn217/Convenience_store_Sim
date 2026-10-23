@@ -22,6 +22,11 @@
       "sorting_anchor_px": null,
       "runtime_approved": false,
       "selection_status": "needs_human_review",
+      "normalized_sha256": "cd2ac3fe8c9a458a3dbe9b436b4fb67b1b17a22df4f91e6d0eeed1db39460db2",
+      "normalized_dimensions": [
+        1024,
+        1536
+      ],
       "derived_candidates": [
         {
           "path": "candidates/source_1024/customer_casual_tote_cutout_cleaned_v01.png",
@@ -53,7 +58,12 @@
       "anchor_px": null,
       "sorting_anchor_px": null,
       "runtime_approved": false,
-      "selection_status": "needs_human_review"
+      "selection_status": "needs_human_review",
+      "normalized_sha256": "48fc05b95d19105582ea54e8cbbf77c715cb0550198fccdc702697a12032ab59",
+      "normalized_dimensions": [
+        1024,
+        1536
+      ]
     },
     {
       "variant_id": "customer_003",
@@ -75,7 +85,12 @@
       "anchor_px": null,
       "sorting_anchor_px": null,
       "runtime_approved": false,
-      "selection_status": "needs_human_review"
+      "selection_status": "needs_human_review",
+      "normalized_sha256": "973570baedd5e10bfc72565661e7df39d02f4311d5e380bce9b9e9147c86318d",
+      "normalized_dimensions": [
+        1024,
+        1536
+      ]
     }
   ]
 }

@@ -33,6 +33,10 @@ def main() -> None:
                 "runtime_approved": False,
                 "selection_status": "needs_human_review"
             }
+            normalized = ROOT / entry["normalized_source"]
+            if normalized.is_file():
+                entry["normalized_sha256"] = hashlib.sha256(normalized.read_bytes()).hexdigest()
+                entry["normalized_dimensions"] = [1024, 1536]
             cleaned = CHAR_ROOT / "candidates/source_1024/customer_casual_tote_cutout_cleaned_v01.png"
             if index == 1 and cleaned.is_file():
                 entry["derived_candidates"] = [{"path": "candidates/source_1024/customer_casual_tote_cutout_cleaned_v01.png", "sha256": hashlib.sha256(cleaned.read_bytes()).hexdigest(), "method": "tools/art/clean_customer_alpha_candidate.py", "input": item["path"], "runtime_approved": False, "selection_status": "needs_human_review"}]
