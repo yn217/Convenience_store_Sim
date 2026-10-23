@@ -45,6 +45,50 @@ func test_presenter_draws_all_rotations_and_zooms(t, tree) -> void:
 	await tree.process_frame
 
 
+## Package icons (command type 3) appear at close zoom only, follow the SKU in the slot, and are dropped from the cache when it changes.
+func test_shelf_items_become_package_icons(t, tree) -> void:
+	var fixtures := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
+	var products := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
+	var world: Node2D = load("res://scenes/store/StoreWorld.tscn").instantiate()
+	tree.root.add_child(world)
+	world.fixture_catalog = fixtures
+	world.product_catalog = products
+	var placed := [{"instance_id": "shelf_general_0", "type_id": "shelf_general", "x": 4, "y": 5, "rotation": 0, "enabled": true}]
+	var stock := {"shelf_general_0": {"row0": 12, "row1": 5}}
+	var skus := {"shelf_general_0": {"row0": "rice_001", "row1": "no_such_sku"}}
+	world.apply_snapshot({"store_width": 20, "store_height": 12, "revision": 1, "entrance_tiles": [] as Array[Vector2i],
+		"fixtures": placed, "shelf_stock": stock, "shelf_skus": skus})
+	var presenter: Node2D = world.get_node("ObjectSortRoot/FixturePresenter")
+	world.projection.set_zoom(0.5)
+	presenter.queue_redraw()
+	await tree.process_frame
+	t.eq(_icon_cmds(presenter).size(), 0, "far zoom keeps the rects")
+	world.projection.set_zoom(1.0)
+	presenter.queue_redraw()
+	await tree.process_frame
+	var icons := _icon_cmds(presenter)
+	t.ok(icons.size() > 0, "close zoom draws package icons")
+	t.ok(icons.size() < 12, "the unknown SKU row keeps its rects: %d icons" % icons.size())
+	var first_tex: Texture2D = icons[0][1]
+	world.apply_snapshot({"store_width": 20, "store_height": 12, "revision": 1, "entrance_tiles": [] as Array[Vector2i],
+		"fixtures": placed, "shelf_stock": stock, "shelf_skus": {"shelf_general_0": {"row0": "rice_002", "row1": "no_such_sku"}}})
+	presenter.queue_redraw()
+	await tree.process_frame
+	var after := _icon_cmds(presenter)
+	t.ok(after.size() > 0 and after[0][1] != first_tex, "restocking another SKU redraws its icon")
+	world.queue_free()
+	await tree.process_frame
+
+
+func _icon_cmds(presenter: Node2D) -> Array:
+	var out: Array = []
+	for hit in presenter._seg_cache.values():
+		for c in hit["cmds"]:
+			if c[0] == 3:
+				out.append(c)
+	return out
+
+
 func test_customers_and_fixture_segments_compose_front_to_back(t, tree) -> void:
 	var fixtures := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var world: Node2D = load("res://scenes/store/StoreWorld.tscn").instantiate()

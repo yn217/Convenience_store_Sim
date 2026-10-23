@@ -17,6 +17,9 @@ const INSET := 0.46
 ## Product placeholder size in source px (anchor = bottom centre of the item).
 const ITEM_W := 22.0
 const ITEM_H := 30.0
+## From this zoom on (and when the row is not in the far "bar" LOD) shelf items are package icons (ProductIcons).
+const ICON_MIN_ZOOM := 0.9
+const ICON_PX := 32
 
 var _world: Node2D
 var _sprites := FixtureSprites.new()
@@ -315,19 +318,21 @@ func _draw_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary) -> voi
 	var lo: Vector2i = it["lo"]
 	var ground := proj.world_to_screen(lo.x, lo.y)
 	var stock: Dictionary = _world.shelf_stock.get(it["inst"]["instance_id"], {})
+	var skus: Dictionary = _world.shelf_skus.get(it["inst"]["instance_id"], {})
 	var fade: bool = it.get("fade", false)
 	var key := "%s/%d" % [it["inst"]["instance_id"], int(it["column"])]
 	var hit: Dictionary = _seg_cache.get(key, {})
-	if hit.is_empty() or hit["zoom"] != proj.zoom or hit["ground"] != ground or hit["fade"] != fade or hit["stock"] != stock:
+	if hit.is_empty() or hit["zoom"] != proj.zoom or hit["ground"] != ground or hit["fade"] != fade or hit["stock"] != stock or hit["skus"] != skus:
 		var cmds: Array = []
-		_emit_sprite(proj, it, entry, ground, stock, cmds)
-		hit = {"zoom": proj.zoom, "ground": ground, "fade": fade, "stock": stock.duplicate(true), "cmds": cmds}
+		_emit_sprite(proj, it, entry, ground, stock, skus, cmds)
+		hit = {"zoom": proj.zoom, "ground": ground, "fade": fade, "stock": stock.duplicate(true), "skus": skus.duplicate(true), "cmds": cmds}
 		_seg_cache[key] = hit
 	_replay(hit["cmds"])
 
 
 ## Command = [type, args...]: 0 texture region (tex, dst, src, tint), 1 rect (rect, color, filled, width),
-## 2 line (a, b, color, width). Emitting in the original order keeps the output identical.
+## 2 line (a, b, color, width), 3 texture rect (tex, rect, tint: a package icon). Emitting in the original
+## order keeps the output identical.
 func _replay(cmds: Array) -> void:
 	for c in cmds:
 		match c[0]:
@@ -335,11 +340,13 @@ func _replay(cmds: Array) -> void:
 				draw_texture_rect_region(c[1], c[2], c[3], c[4])
 			1:
 				draw_rect(c[1], c[2], c[3], c[4])
+			3:
+				draw_texture_rect(c[1], c[2], false, c[3])
 			_:
 				draw_line(c[1], c[2], c[3], c[4])
 
 
-func _emit_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary, ground: Vector2, stock: Dictionary, cmds: Array) -> void:
+func _emit_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary, ground: Vector2, stock: Dictionary, skus: Dictionary, cmds: Array) -> void:
 	var top_left := proj.sprite_top_left(ground, entry["anchor"])
 	var s := proj.zoom / IsoProjection.SOURCE_SCALE
 	var strip := _strip(proj, it)
@@ -348,7 +355,7 @@ func _emit_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary, ground
 	for name in FixtureSprites.LAYER_ORDER_BELOW:
 		if layers.has(name):
 			_blit(layers[name], top_left, s, strip, tint, cmds)
-	_emit_products(it, entry, top_left, s, proj.zoom, strip, stock, tint.a, cmds)
+	_emit_products(it, entry, top_left, s, proj.zoom, strip, stock, skus, tint.a, cmds)
 	for name in FixtureSprites.LAYER_ORDER_ABOVE:
 		if layers.has(name):
 			_blit(layers[name], top_left, s, strip, tint, cmds)
@@ -363,18 +370,34 @@ func _blit(tex: Texture2D, top_left: Vector2, s: float, strip: Vector2, tint: Co
 	cmds.append([0, tex, Rect2(top_left + Vector2(u0 * s, 0.0), Vector2(u1 - u0, size.y) * s), Rect2(u0, 0.0, u1 - u0, size.y), tint])
 
 
-func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: float, zoom: float, strip: Vector2, stock: Dictionary, alpha: float, cmds: Array) -> void:
+## True when shelf items are drawn as package icons: close zoom and not the far "bar" LOD. Otherwise rects.
+static func use_icons(zoom: float) -> bool:
+	return zoom >= ICON_MIN_ZOOM and ShelfDisplay.lod(zoom) != "bar"
+
+
+## The product dictionary held in one slot, or {} when the slot holds nothing or the SKU is unknown
+## (those items keep the plain rect). `per_slot` is {slot_id: sku_id} of one fixture.
+static func sku_in_slot(per_slot: Dictionary, slot_id: String, products: ProductCatalog) -> Dictionary:
+	var sku_id := str(per_slot.get(slot_id, ""))
+	if sku_id == "" or products == null or not products.has_sku(sku_id):
+		return {}
+	return products.get_sku(sku_id)
+
+
+func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: float, zoom: float, strip: Vector2, stock: Dictionary, skus: Dictionary, alpha: float, cmds: Array) -> void:
 	var slots: Dictionary = entry["slots"]
 	if slots.is_empty():
 		return
 	var def: Dictionary = it["def"]
 	var color := _color_for(def)
 	var lod := ShelfDisplay.lod(zoom)
+	var icons := use_icons(zoom)
 	var half := ITEM_W * 0.5 * s
 	var size := Vector2(ITEM_W * s, ITEM_H * s)
 	var outline := zoom >= OUTLINE_ZOOM   # the outline doubles the draw commands; small items read fine without it
 	var edge := Color(color.darkened(0.45), alpha)
 	var fill := Color(color, alpha)
+	var tint := Color(1, 1, 1, alpha)
 	var anchors := _slot_anchors(entry)
 	for slot in def["shelf_slots"]:
 		var sid: String = slot["slot_id"]
@@ -386,6 +409,7 @@ func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 		if lod == "bar":
 			_emit_row_bar(pts, ShelfDisplay.fill_ratio(qty, cap), color, top_left, s, strip, cmds)
 			continue
+		var sku: Dictionary = sku_in_slot(skus, sid, _world.product_catalog) if icons else {}
 		var n := mini(ShelfDisplay.visible_items(qty, cap, zoom), pts.size())
 		# Item 0 is the end nearest the viewer's right; draw far items first so near ones overlap.
 		for i in range(n - 1, -1, -1):
@@ -393,6 +417,9 @@ func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 			if a.x < strip.x or a.x >= strip.y:
 				continue   # belongs to another column segment
 			var r := Rect2(a - Vector2(half, ITEM_H * s), size)
+			if not sku.is_empty():
+				cmds.append([3, ProductIcons.texture(sku, ICON_PX), r, tint])
+				continue
 			cmds.append([1, r, fill, true, -1.0])
 			if outline:
 				cmds.append([1, r, edge, false, 1.0])

@@ -49,6 +49,7 @@ func _ready() -> void:
 	var world := _world()
 	if world != null:
 		world.fixture_catalog = fixtures
+		world.product_catalog = products
 		world.selection_changed.connect(_on_selection_changed)
 	var builder := get_node_or_null("../BuildController")
 	if builder != null and world != null:

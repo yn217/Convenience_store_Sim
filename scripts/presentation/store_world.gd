@@ -34,6 +34,8 @@ var _floor_key: Array = []   # what the floor and walls were last drawn from (la
 var fixtures: Array = []
 var fixture_catalog: FixtureCatalog
 var shelf_stock: Dictionary = {}
+var shelf_skus: Dictionary = {}          # {fixture_id: {slot_id: sku_id}} from the snapshot
+var product_catalog: ProductCatalog      # SKU lookup for the package icons (set by the app)
 var customers: Array = []
 var speed_setting: int = 0
 var fixture_sales: Dictionary = {}
@@ -73,6 +75,7 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 		entrance_tiles.append(t)
 	fixtures = snapshot.get("fixtures", [])
 	shelf_stock = snapshot.get("shelf_stock", {})
+	shelf_skus = snapshot.get("shelf_skus", {})
 	customers = snapshot.get("customers", [])
 	speed_setting = int(snapshot.get("speed_setting", 0))
 	fixture_sales = snapshot.get("fixture_sales", {})
