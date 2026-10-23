@@ -11,6 +11,14 @@ func _initialize() -> void:
 	_run()
 
 
+## `-- --only=<text>` runs only the test files whose name contains <text> (for one-off checks).
+func _only_filter() -> String:
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--only="):
+			return arg.trim_prefix("--only=")
+	return ""
+
+
 func _run() -> void:
 	var ctx := Ctx.new()
 	var test_count := 0
@@ -18,7 +26,8 @@ func _run() -> void:
 		var dir := DirAccess.open("res://tests/%s" % suite)
 		if dir == null:
 			continue
-		var files := Array(dir.get_files()).filter(func(f): return f.begins_with("test_") and f.ends_with(".gd"))
+		var only := _only_filter()
+		var files := Array(dir.get_files()).filter(func(f): return f.begins_with("test_") and f.ends_with(".gd") and (only == "" or f.contains(only)))
 		files.sort()
 		for file in files:
 			var script := load("res://tests/%s/%s" % [suite, file]) as GDScript
