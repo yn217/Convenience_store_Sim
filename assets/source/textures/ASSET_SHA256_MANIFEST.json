@@ -459,6 +459,12 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/CUSTOMER_STAGING_MANIFEST.json",
+      "sha256": "a8666a1255b66ad82326385a75af9fe56b25cae9c5ea96d3ac4cf8d424d09ce1",
+      "bytes": 1815
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/customer_variants_comparison_v01.png",
       "sha256": "a3c93adfc91ab6ab7ef2ac97114bcece8862435f15eccdcb46dba89bc0426c7c",
       "bytes": 2057120
