@@ -44,7 +44,7 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 	ids.sort()
 	for sku_id in ids:
 		var sku := products.get_sku(sku_id)
-		_order_sku.add_item("%s ¥%d" % [sku["display_name"], sku["purchase_cost_yen"]])
+		_order_sku.add_icon_item(ProductIcons.texture(sku, 32), "%s ¥%d" % [sku["display_name"], sku["purchase_cost_yen"]])
 		_order_sku.set_item_metadata(_order_sku.item_count - 1, sku_id)
 	_order_qty = _qty_edit()
 	var order_btn := Button.new()
@@ -158,7 +158,7 @@ func _fill_sku_choices() -> void:
 	ids.sort()
 	for id in ids:
 		if _fixtures.slot_accepts(inst["type_id"], slot_id, _products.get_sku(id)):
-			_restock_sku.add_item(_products.get_sku(id)["display_name"])
+			_restock_sku.add_icon_item(ProductIcons.texture(_products.get_sku(id), 32), _products.get_sku(id)["display_name"])
 			_restock_sku.set_item_metadata(_restock_sku.item_count - 1, id)
 
 
