@@ -1,9 +1,11 @@
 class_name MetricBar
-extends PanelContainer
-## Bottom strip of four metric cards (mockup A): sales, gross profit, customers in store, customer
-## satisfaction (客層満足度, a percent derived from reputation). Display only; fed by the same snapshot as the top HUD.
-## Game look (#61): each card has a round icon badge, a changed number pops, and the sales card keeps a small
-## sparkline of its last HISTORY publishes (a ring buffer, presentation only; it restarts when the day changes).
+extends Control
+## Bottom summary: four floating cards in one centred row (docs/qa/UI_ARCHITECTURE.md). Each card has a round icon
+## badge on the left, a small title above a big outlined value, and (sales only) a tiny sparkline on the right.
+## Sales, profit, customers in store, customer satisfaction (客層満足度, a percent derived from reputation). Display
+## only; fed by the same snapshot as the top HUD. The row takes no mouse input; only the cards stop it.
+## Game look (#61): a changed number pops, and the sales card keeps a sparkline of its last HISTORY publishes
+## (a ring buffer, presentation only; it restarts when the day changes).
 
 const CARDS := [
 	{"id": "sales", "title": "本日の売上", "icon": "cart", "tint": UiTheme.INFO_CYAN},
@@ -11,13 +13,18 @@ const CARDS := [
 	{"id": "customers", "title": "店内客", "icon": "users", "tint": UiTheme.WARM},
 	{"id": "satisfaction", "title": "客層満足度", "tip": "評判から算出", "icon": "heart", "tint": Color("ff7a9c")},
 ]
-const HEIGHT := 72
+const HEIGHT := 64          # card height
+const GAP := 12             # space between cards
+const CARD_MIN := 170       # narrowest card (the row shrinks cards down to this)
+const CARD_MAX := 220       # widest card (the row never stretches them past this)
 const ICON_SIZE := 20
-const BADGE_SIZE := 34
+const BADGE_SIZE := 36
+const SPARK_SIZE := Vector2(40, 22)
 const HISTORY := 24
 
 var _values: Dictionary = {}   # id -> value Label
 var _last: Dictionary = {}     # id -> last number shown (ints), for the pop
+var _cards: Array[PanelContainer] = []
 var _spark: Spark
 var _samples := PackedFloat32Array()
 var _head := 0
@@ -33,7 +40,7 @@ class Spark extends Control:
 	var tint := UiTheme.INFO_CYAN
 
 	func _ready() -> void:
-		custom_minimum_size = Vector2(0, 16)
+		custom_minimum_size = SPARK_SIZE
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	func _draw() -> void:
@@ -59,57 +66,90 @@ class Spark extends Control:
 
 func _ready() -> void:
 	name = "MetricBar"
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	custom_minimum_size.y = HEIGHT
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", UiTheme.SPACE_M)
+	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", GAP)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(row)
 	_samples.resize(HISTORY)
 	for c in CARDS:
-		var card := PanelContainer.new()
-		card.theme_type_variation = &"Card"
-		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var line := HBoxContainer.new()   # badge at the left edge of the card, text column after it
-		line.add_theme_constant_override("separation", UiTheme.SPACE_M)
-		card.add_child(line)
-		var badge := PanelContainer.new()
-		badge.name = "Badge"
-		badge.custom_minimum_size = Vector2(BADGE_SIZE, BADGE_SIZE)
-		badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		badge.add_theme_stylebox_override("panel", UiTheme.badge_circle(c["tint"], BADGE_SIZE / 2))
-		line.add_child(badge)
-		var icon := TextureRect.new()
-		icon.name = "Icon"
-		icon.texture = UiIcons.texture(c["icon"], ICON_SIZE)
-		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
-		icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		icon.modulate = c["tint"]
-		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		badge.add_child(icon)
-		var box := VBoxContainer.new()
-		box.add_theme_constant_override("separation", 0)
-		box.alignment = BoxContainer.ALIGNMENT_CENTER   # value sits in the middle of the card, not on its top edge
-		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		line.add_child(box)
-		var title := Label.new()
-		title.text = c["title"]
-		title.theme_type_variation = &"CardTitle"
-		box.add_child(title)
-		var value := Label.new()
-		value.theme_type_variation = &"CardValue"
-		value.text = "—"
-		if c.has("tip"):
-			value.tooltip_text = c["tip"]
-		box.add_child(value)
-		if c["id"] == "sales":
-			_spark = Spark.new()
-			_spark.tint = c["tint"]
-			box.add_child(_spark)
-		row.add_child(card)
-		_values[c["id"]] = value
+		_add_card(row, c)
+	_fit_cards()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_RESIZED:
+		_fit_cards()
+
+
+## One floating card: badge | title over value | (sales) sparkline.
+func _add_card(row: HBoxContainer, c: Dictionary) -> void:
+	var card := PanelContainer.new()
+	card.theme_type_variation = &"SummaryCard"
+	card.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	card.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	card.custom_minimum_size = Vector2(CARD_MIN, HEIGHT)
+	var line := HBoxContainer.new()
+	line.add_theme_constant_override("separation", UiTheme.SPACE_S)
+	card.add_child(line)
+	var badge := PanelContainer.new()
+	badge.name = "Badge"
+	badge.custom_minimum_size = Vector2(BADGE_SIZE, BADGE_SIZE)
+	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.add_theme_stylebox_override("panel", UiTheme.badge_circle(c["tint"], BADGE_SIZE / 2))
+	line.add_child(badge)
+	var icon := TextureRect.new()
+	icon.name = "Icon"
+	icon.texture = UiIcons.texture(c["icon"], ICON_SIZE)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
+	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon.modulate = c["tint"]
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.add_child(icon)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 0)
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	line.add_child(box)
+	var title := Label.new()
+	title.text = c["title"]
+	title.theme_type_variation = &"CardTitle"
+	title.clip_text = true
+	box.add_child(title)
+	var value := Label.new()
+	value.theme_type_variation = &"SummaryValue"
+	value.text = "—"
+	value.clip_text = true
+	if c.has("tip"):
+		value.tooltip_text = c["tip"]
+	box.add_child(value)
+	if c["id"] == "sales":
+		_spark = Spark.new()
+		_spark.tint = c["tint"]
+		_spark.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		line.add_child(_spark)
+	row.add_child(card)
+	_cards.append(card)
+	_values[c["id"]] = value
+
+
+## The cards share the row width: each gets an equal slice, kept between CARD_MIN and CARD_MAX so the group stays
+## compact and centred instead of stretching across the window.
+func _fit_cards() -> void:
+	if _cards.is_empty():
+		return
+	var free := size.x - GAP * (_cards.size() - 1)
+	var width := clampf(floorf(free / _cards.size()), CARD_MIN, CARD_MAX)
+	for card in _cards:
+		card.custom_minimum_size.x = width
 
 
 static func texts(s: Dictionary) -> Dictionary:
