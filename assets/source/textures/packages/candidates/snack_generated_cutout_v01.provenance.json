@@ -1,0 +1,14 @@
+{
+  "asset": "assets/source/textures/packages/candidates/snack_generated_cutout_v01.png",
+  "description": "fictional Japanese convenience-store snack bag, single transparent candidate",
+  "generation_method": "built-in OpenAI ImageGen",
+  "prompt_record": "agent-generated prompt: single fictional snack bag, genuinely transparent background, no readable text, no logo, no extra objects, centered upright portrait package, polished 2D game asset",
+  "sha256": "B2036E445746DFF390CC80D33F9514B154EE00D2C351D1EB76830F1E0F85E307",
+  "format": "PNG RGBA",
+  "dimensions": [1024, 1536],
+  "corner_alpha": [0, 0, 0, 0],
+  "selection_status": "needs_human_review",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Review required for edge halo, readable text absence, common scale, anchor, iso2x, LOD, four directions, and SKU/visual_id mapping."
+}

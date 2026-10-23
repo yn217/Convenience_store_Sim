@@ -237,6 +237,18 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/snack_generated_cutout_v01.png",
+      "sha256": "b2036e445746dff390cc80d33f9514b154ee00d2c351d1eb76830f1e0f85e307",
+      "bytes": 2241366
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/snack_generated_cutout_v01.provenance.json",
+      "sha256": "c59c057b4815168c8294e7108eda7b45c96504163be2a41b6a67de8805370057",
+      "bytes": 925
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/source_256/sku_cupnoodle_comparison_v01_a_source256_v01.png",
       "sha256": "8b5ba8d6b1ee44193c69de3bdcfe8e3a38c698cf3570f8c6c2f1fab0cfb0d701",
       "bytes": 50538
