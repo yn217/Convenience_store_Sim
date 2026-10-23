@@ -30,6 +30,6 @@ func test_cards_follow_the_snapshot_on_the_real_scene(t, tree) -> void:
 		t.ok(card.find_child("Icon", true, false) is TextureRect, "every card has an icon")
 	t.eq(values[0], "¥0")
 	t.eq(values[2], "0 人")
-	t.eq(main.get_node("Layout/MainArea/BuildPalette").size.x, 280.0, "side panel width unchanged")
+	t.eq(main.get_node("Layout/MainArea/BuildPalette").offset_right - main.get_node("Layout/MainArea/BuildPalette").offset_left, 280.0, "palette is a 280 px floating panel")
 	main.queue_free()
 	await tree.process_frame

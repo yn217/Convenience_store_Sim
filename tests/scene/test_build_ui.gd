@@ -72,7 +72,7 @@ func test_palette_lists_all_fixture_types(t, tree) -> void:
 	var list: VBoxContainer = r["main"].get_node("Layout/MainArea/BuildPalette/Body/TypeList")
 	t.eq(list.get_child_count(), 10, "10 fixture types in the palette")
 	t.ok((list.get_child(0) as Button).text.contains("¥90,000"), "price shown: " + (list.get_child(0) as Button).text)
-	t.eq(r["main"].get_node("Layout/MainArea/BuildPalette").size.x, 280.0, "palette stays 280 px wide")
+	t.eq(r["main"].get_node("Layout/MainArea/BuildPalette").offset_right - r["main"].get_node("Layout/MainArea/BuildPalette").offset_left, 280.0, "palette is a 280 px floating panel")
 	await _end(tree, r)
 
 

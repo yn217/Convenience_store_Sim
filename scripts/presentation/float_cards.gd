@@ -20,6 +20,8 @@ var _event_remaining: Label
 var _stock_card: PanelContainer
 var _stock_rows: Label
 var _catalog: FixtureCatalog
+## Extra px from the store's corner (MainLayout sets it to clear the rail and the HUD).
+var inset := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -133,4 +135,4 @@ func _follow_store() -> void:
 	if _store == null or not is_instance_valid(_store):
 		return
 	var offset := _store.get_global_rect().position - get_global_rect().position
-	_stack.position = offset + Vector2(MARGIN, MARGIN)
+	_stack.position = offset + Vector2(MARGIN, MARGIN) + inset
