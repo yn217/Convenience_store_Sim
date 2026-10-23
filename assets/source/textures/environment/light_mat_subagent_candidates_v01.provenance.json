@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"id": "ceiling_light", "file": "assets/source/textures/environment/ceiling_light_subagent_v01.png", "sha256": "32B3FCC488EFCCF06109B97FBC7CC21E3FE1D0527C222E297B17E71738C23EF0"},
+    {"id": "entrance_floor_mat", "file": "assets/source/textures/props/entrance_floor_mat_subagent_v01.png", "sha256": "87CFFE4E73C8588D137A9947BD7DBAB8C3894C708882ABEBF3D259F25C329BA7"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Environment/prop candidates. Verify tiling or mounting, scale, projection, anchor, occlusion, and Godot integration before adoption."
+}
