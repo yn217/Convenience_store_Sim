@@ -21,6 +21,10 @@ const ITEM_H := 30.0
 ## code-made package icon (ProductIcons). Shelf items are Codex product sprites at every LOD above "bar".
 const ICON_MIN_ZOOM := 0.9
 const ICON_PX := 32
+## Item size caps: height up to this share of the row gap to the board above; width up to this multiple of the
+## spacing to the neighbour (so a neighbour overlaps by at most about 15%).
+const ROW_FILL := 0.85
+const SPACING_FILL := 1.15
 
 var _world: Node2D
 var _sprites := FixtureSprites.new()
@@ -419,6 +423,8 @@ func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 			continue
 		var sku_tint := ProductSprites.tint_for(str(sku.get("sku_id", "")), str(sku.get("category", "")))
 		var tint := Color(sku_tint.r, sku_tint.g, sku_tint.b, alpha)
+		# An item stays within its row: at most ROW_FILL of the gap to the board above, and no wider than its spacing.
+		var max_h := float(_row_gaps(entry).get(sid, INF)) * s * ROW_FILL
 		# Item 0 is the end nearest the viewer's right; draw far items first so near ones overlap.
 		for i in range(n - 1, -1, -1):
 			var a: Vector2 = top_left + pts[i] * s
@@ -426,7 +432,8 @@ func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 				continue   # belongs to another column segment
 			var spr := _art.sprite(str(sku.get("visual_id", "")), rot, ProductSprites.variant_for(sid, i), small) if not sku.is_empty() else {}
 			if not spr.is_empty():
-				var px := ProductSprites.screen_size(spr, zoom)
+				var max_w := _item_spacing(pts, i) * s * SPACING_FILL
+				var px := ProductSprites.screen_size(spr, zoom, Vector2(max_w, max_h))
 				var base := a + Vector2(ProductSprites.jitter_px(sid, i), 0.0)
 				cmds.append([3, spr["texture"], Rect2(base - Vector2(px.x * 0.5, px.y), px), tint])
 				continue
@@ -448,6 +455,37 @@ func _emit_price_tag(a: Vector2, zoom: float, strip: Vector2, alpha: float, cmds
 	var r := Rect2(a + Vector2(-w * 0.5, -h - 2.0 * zoom), Vector2(w, h))
 	cmds.append([1, r, Color(1.0, 0.86, 0.3, alpha), true, -1.0])
 	cmds.append([1, r, Color(0.2, 0.16, 0.1, alpha), false, 1.0])
+
+
+## Horizontal distance (source px) from item i to its neighbour along the row: the item may be this wide at most,
+## so neighbours overlap by about SPACING_FILL at most. Unbounded for a single-item slot.
+static func _item_spacing(pts: PackedVector2Array, i: int) -> float:
+	var nb := i + 1 if i + 1 < pts.size() else i - 1
+	if nb < 0 or nb >= pts.size():
+		return INF
+	var d := absf(pts[nb].x - pts[i].x)
+	if d < 1.0:
+		d = pts[nb].distance_to(pts[i])
+	return d if d >= 1.0 else INF
+
+
+## Vertical distance (source px) from each slot's first item up to the board above it, at the same column; the top
+## row measures to the fixture top. Cached on the entry (the manifest never changes at runtime).
+func _row_gaps(entry: Dictionary) -> Dictionary:
+	if entry.has("_gaps"):
+		return entry["_gaps"]
+	var anchors := _slot_anchors(entry)
+	var out := {}
+	for sid in anchors:
+		var base: Vector2 = anchors[sid][0]
+		var gap := base.y   # no board above: the distance to the fixture top
+		for other in anchors:
+			var o: Vector2 = anchors[other][0]
+			if other != sid and absf(o.x - base.x) < 2.0 and o.y < base.y:
+				gap = minf(gap, base.y - o.y)
+		out[sid] = gap
+	entry["_gaps"] = out
+	return out
 
 
 ## Slot anchors of a sprite entry as {slot_id: PackedVector2Array}, built once (the manifest never changes at runtime).

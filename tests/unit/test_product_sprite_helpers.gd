@@ -1,4 +1,5 @@
 extends RefCounted
+const Presenter := preload("res://scripts/presentation/fixture_presenter.gd")
 ## Pure helpers of the shelf product sprites: facing, size from dimensions_m, LOD, stock state, variation.
 
 
@@ -23,10 +24,30 @@ func test_screen_size_follows_height_in_metres(t, _tree) -> void:
 	var b := ProductSprites.screen_size(bottle, 1.0)
 	var o := ProductSprites.screen_size(onigiri, 1.0)
 	t.ok(b.y > o.y * 2.0, "500 ml bottle is more than twice the onigiri height")
-	t.ok(absf(b.y - 0.225 * ProductSprites.ITEM_SCALE * IsoProjection.Z_PX_PER_M) < 0.01, "drawn height is height_m scaled to pixels")
+	t.ok(absf(b.y - 0.225 * IsoProjection.Z_PX_PER_M) < 0.01, "drawn height is height_m at true metric scale")
 	t.ok(absf(b.x / b.y - 40.0 / 130.0) < 0.001, "uniform scale keeps the crop aspect ratio")
 	t.ok(absf(ProductSprites.screen_size(bottle, 2.0).y - b.y * 2.0) < 0.01, "size grows linearly with zoom")
 	t.ok(ProductSprites.screen_size({"size": Vector2.ZERO, "height_m": 0.1}, 1.0) == Vector2.ZERO, "empty crop has no size")
+	var capped := ProductSprites.screen_size(bottle, 1.0, Vector2(INF, 10.0))
+	t.ok(absf(capped.y - 10.0) < 0.01, "height cap wins over the metric height")
+	t.ok(absf(capped.x / capped.y - 40.0 / 130.0) < 0.001, "cap keeps the aspect ratio")
+	var narrow := ProductSprites.screen_size(bottle, 1.0, Vector2(3.0, INF))
+	t.ok(absf(narrow.x - 3.0) < 0.01, "width cap wins over the metric height")
+
+
+func test_tint_is_subtle_and_snack_keeps_artwork(t, _tree) -> void:
+	for cat in ["rice_ball", "oden", "instant_noodle", "bread", "drink", "dessert", "ice_cream"]:
+		for n in [1, 2, 3]:
+			var c := ProductSprites.tint_for("%s_%03d" % [cat, n], cat)
+			t.ok(c.r >= 0.75 and c.g >= 0.75 and c.b >= 0.75, "%s tint blends at most a quarter toward its hue" % cat)
+	t.ok(ProductSprites.tint_for("snack_001", "snack") == Color(1, 1, 1), "snack pouch keeps its artwork colours")
+
+
+func test_item_spacing_bounds_width(t, _tree) -> void:
+	var pts := PackedVector2Array([Vector2(368, 264), Vector2(337, 280), Vector2(306, 295)])
+	t.ok(absf(Presenter._item_spacing(pts, 0) - 31.0) < 0.5, "spacing to the next item along the row")
+	t.ok(absf(Presenter._item_spacing(pts, 2) - 31.0) < 0.5, "last item uses the previous neighbour")
+	t.ok(Presenter._item_spacing(PackedVector2Array([Vector2(1, 1)]), 0) == INF, "single-item slot is unbounded")
 
 
 func test_sprite_lod_bands(t, _tree) -> void:
