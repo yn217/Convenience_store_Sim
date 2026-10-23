@@ -1,0 +1,62 @@
+{
+  "manifest_version": 1,
+  "candidate_id": "mockup_bakery_products_v01",
+  "issue_refs": [12, 61],
+  "reference_image_role": "style_and_mood_only",
+  "source_tool": "OpenAI built-in ImageGen",
+  "generation_date": "2026-10-24",
+  "model_version": "not_exposed_by_tool",
+  "runtime_approved": false,
+  "physical_scale_calibrated": false,
+  "projection_id": null,
+  "four_directions": false,
+  "anchor_verified": false,
+  "godot_visual_review": false,
+  "rights_review": "pending_issue_29",
+  "assets": [
+    {
+      "path": "bakery_products_sheet.png",
+      "role": "early_three_product_visual_contact_sheet",
+      "products": ["melon_pan", "curry_bun", "cream_bun"],
+      "dimensions_px": [2167, 725],
+      "format": "PNG RGBA",
+      "alpha": true,
+      "production_use": false
+    },
+    {
+      "path": "melonpan_cutout.png",
+      "role": "isolated_package_art_candidate",
+      "product": "melon_pan",
+      "dimensions_px": [1536, 1024],
+      "format": "PNG RGBA",
+      "alpha": true,
+      "production_use": false
+    },
+    {
+      "path": "curry_bun.png",
+      "role": "isolated_package_art_candidate",
+      "product": "curry_bun",
+      "dimensions_px": [1536, 1024],
+      "format": "PNG RGBA",
+      "alpha": true,
+      "production_use": false,
+      "created_by": "asset-production subagent"
+    },
+    {
+      "path": "cream_bun.png",
+      "role": "isolated_package_art_candidate",
+      "product": "cream_bun",
+      "dimensions_px": [1536, 1024],
+      "format": "PNG RGBA",
+      "alpha": true,
+      "production_use": false,
+      "created_by": "asset-production subagent"
+    }
+  ],
+  "visual_review_notes": [
+    "All three individual candidates have alpha channels containing transparent pixels and share a 1536x1024 canvas.",
+    "The curry-bun visible bounds reach the right canvas edge at alpha > 16; treat it as a concept candidate and regenerate/reframe before any sprite use.",
+    "The melon-pan and cream-bun visible bounds leave margins but are not consistent metric crops or shared anchors.",
+    "The sheet is not an atlas with calibrated per-item rectangles; do not use it for runtime slicing."
+  ]
+}
