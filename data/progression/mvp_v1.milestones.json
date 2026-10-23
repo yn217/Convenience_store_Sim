@@ -1,0 +1,146 @@
+[
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_first_sale",
+    "name_ja": "はじめての一品",
+    "metric": "total_sales_count",
+    "threshold": 1,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_first_sale"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_ten_sales",
+    "name_ja": "売れっ子のお店",
+    "metric": "total_sales_count",
+    "threshold": 10,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_ten_sales"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_fifty_sales",
+    "name_ja": "地域に根付いたお店",
+    "metric": "total_sales_count",
+    "threshold": 50,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_fifty_sales"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_first_profit",
+    "name_ja": "初めての黒字",
+    "metric": "daily_operating_profit_at_least",
+    "threshold": 1,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_first_profit"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_ten_visitors",
+    "name_ja": "お客さんが集まる店",
+    "metric": "total_customers_entered",
+    "threshold": 10,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_ten_visitors"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_fifty_visitors",
+    "name_ja": "人気のお店",
+    "metric": "total_customers_entered",
+    "threshold": 50,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_fifty_visitors"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_three_categories",
+    "name_ja": "品揃えに自信",
+    "metric": "unique_categories_stocked",
+    "threshold": 3,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_three_categories"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_six_categories",
+    "name_ja": "選べるコンビニ",
+    "metric": "unique_categories_stocked",
+    "threshold": 6,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_six_categories"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_three_fixtures",
+    "name_ja": "売場の拡張",
+    "metric": "fixtures_installed_count",
+    "threshold": 3,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_three_fixtures"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_first_week",
+    "name_ja": "7日間の経営",
+    "metric": "day_closed_count",
+    "threshold": 7,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_first_week"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_revenue_10000",
+    "name_ja": "売上1万円",
+    "metric": "total_revenue_yen",
+    "threshold": 10000,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_revenue_10000"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  },
+  {
+    "schema_version": 1,
+    "milestone_id": "ms_reputation_70",
+    "name_ja": "街の評判店",
+    "metric": "reputation_at_least",
+    "threshold": 70,
+    "reward": {
+      "kind": "badge_only",
+      "badge_id": "badge_reputation_70"
+    },
+    "notice_cue_id": "milestone_celebrate"
+  }
+]

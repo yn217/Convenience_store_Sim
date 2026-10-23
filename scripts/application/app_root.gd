@@ -4,6 +4,7 @@ extends Node
 const BALANCE_PATH := "res://data/balance/mvp_v1.json"
 const FIXTURES_PATH := "res://data/fixtures/mvp_v1.json"
 const PRODUCTS_PATH := "res://data/products/mvp_v1.json"
+const MILESTONES_PATH := "res://data/progression/mvp_v1.milestones.json"
 const REQUIRED_BALANCE_KEYS := [
 	"store_width_tiles", "store_height_tiles", "starting_cash_yen", "starting_reputation",
 ]
@@ -34,6 +35,7 @@ func _ready() -> void:
 	_fixtures = fixtures
 	_products = products
 	state = GameState.from_balance(balance, DEFAULT_SEEDS, fixtures, products)
+	state.milestones = _load_milestones()
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
 	var world := _world()
@@ -54,6 +56,9 @@ func _ready() -> void:
 	var saver := get_node_or_null("../SaveController")
 	if saver != null:
 		saver.setup(self)
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null:
+		guide.setup(self, state.milestones)
 	var reporter := get_node_or_null("../ReportController")
 	if reporter != null:
 		reporter.setup(self)
@@ -63,6 +68,7 @@ func _ready() -> void:
 	var pricer := get_node_or_null("../PriceController")
 	if pricer != null:
 		pricer.setup(self, products)
+	ProgressionService.evaluate(state)   # tut_01: the game is running
 	_publish_snapshot()
 
 
@@ -71,6 +77,15 @@ func _process(delta: float) -> void:
 		return
 	if runner.process_frame(delta) > 0:
 		_publish_snapshot()
+
+
+func _load_milestones() -> Array[Dictionary]:
+	var problems: Array[String] = []
+	var list := ProgressionService.load_milestones(JSON.parse_string(FileAccess.get_file_as_string(MILESTONES_PATH)), problems)
+	if not problems.is_empty():
+		push_error("milestones invalid: " + str(problems))
+		return []
+	return list
 
 
 func _load_balance() -> Dictionary:
@@ -146,6 +161,7 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 		return CommandResult.failure(&"INVALID_OPERATION", state.revision, key)
 	var fresh: GameState = loaded["state"]
 	fresh.revision = state.revision + 1
+	fresh.milestones = state.milestones
 	state = fresh
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
@@ -172,6 +188,10 @@ func _publish_snapshot() -> void:
 	var builder := get_node_or_null("../BuildController")
 	if builder != null and builder.has_method("apply_snapshot") and builder.is_node_ready():
 		builder.apply_snapshot(snap)
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null and guide.is_node_ready() and guide.get("_card") != null:
+		guide.apply_snapshot(snap)
+		guide.show_events(state.take_progression_events())
 	var business := get_node_or_null("../BusinessController")
 	if business != null and business.has_method("apply_snapshot") and business.is_node_ready() and business.get("_tiers") != null and not business._tiers.is_empty():
 		business.apply_snapshot(snap)

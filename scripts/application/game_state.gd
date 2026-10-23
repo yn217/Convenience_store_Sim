@@ -49,6 +49,11 @@ var customers: Array[Dictionary] = []
 var arrival_queue: Array[Dictionary] = []
 ## Closed days, oldest first (see DailyReport). Never rewritten once appended.
 var daily_reports: Array[Dictionary] = []
+## Milestone definitions (data/progression) and the transient pieces of ProgressionService:
+## achievements waiting to be announced, and incremental ledger totals (rebuilt after a load).
+var milestones: Array[Dictionary] = []
+var progression_events: Array[Dictionary] = []
+var progression_totals := {"scanned": 0, "sales": 0, "revenue": 0, "order_qty": 0, "sales_by_day": {}}
 ## Saved verbatim until the event director / progression systems (M5-07, M4-06) own them.
 var gameplay_event_state: Dictionary = {
 	"last_selected_day": -1, "selection_event_id": null, "selected_event_id": null, "event_start_sec": null,
@@ -119,6 +124,13 @@ func today_summary() -> Dictionary:
 	return {"revenue_yen": revenue, "gross_profit_yen": revenue - cogs}
 
 
+## Achievements since the last call; the UI announces each one exactly once.
+func take_progression_events() -> Array[Dictionary]:
+	var out := progression_events.duplicate()
+	progression_events.clear()
+	return out
+
+
 func active_customer_count() -> int:
 	return customers.size()
 
@@ -169,6 +181,8 @@ func snapshot() -> Dictionary:
 		"unpaid_cost_yen": unpaid_cost_yen,
 		"daily_reports": daily_reports.duplicate(true),
 		"today": today_summary(),
+		"progression": progression_state.duplicate(true),
+		"opening": BusinessService.opening_report(self) if business_state == SETUP else {},
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),

@@ -49,6 +49,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _remove(command_id, command)
 		&"SET_PRICE":
 			result = _set_price(command_id, command)
+		&"SET_TUTORIAL_SKIPPED":
+			result = _set_tutorial_skipped(command_id, command)
 		&"SET_NEXT_DAY_AD":
 			result = _set_next_day_ad(command_id, command)
 		&"START_BUSINESS":
@@ -69,6 +71,8 @@ func execute(command: Dictionary) -> CommandResult:
 			return CommandResult.failure(&"INVALID_OPERATION", _state.revision, &"command_not_implemented")
 	if result.ok and not LAYOUT_KINDS.has(kind):
 		_state.layout_history.clear()
+	if result.ok:
+		ProgressionService.evaluate(_state)
 	return result
 
 
@@ -117,6 +121,18 @@ func _set_speed(command_id: String, command: Dictionary) -> CommandResult:
 	if speed != 0:
 		_state.last_nonzero_speed = speed
 	var events: Array[String] = ["%s:SPEED_CHANGED" % command_id]
+	return _commit(command_id, events)
+
+
+# ---------------------------------------------------------------- tutorial visibility
+
+## Hide or show the tutorial. Progress itself is judged from state and is never lost by this.
+func _set_tutorial_skipped(command_id: String, command: Dictionary) -> CommandResult:
+	var skipped = command.get("skipped")
+	if typeof(skipped) != TYPE_BOOL:
+		return _fail(&"INVALID_OPERATION", &"command_malformed")
+	_state.progression_state["tutorial_skipped"] = skipped
+	var events: Array[String] = ["%s:TUTORIAL_VISIBILITY_CHANGED" % command_id]
 	return _commit(command_id, events)
 
 

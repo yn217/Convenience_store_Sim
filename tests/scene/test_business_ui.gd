@@ -8,7 +8,8 @@ func test_start_needs_a_register_then_opens(t, tree) -> void:
 	await tree.process_frame
 	var app: Node = main.get_node("AppRoot")
 	var bc: BusinessController = main.get_node("BusinessController")
-	t.ok(not bc._start.disabled)
+	t.ok(bc._start.disabled, "no register: the button is off")
+	t.ok(bc._checklist.text.contains("✗ レジが必要です"), "and the checklist says why")
 	t.ok(bc._close.disabled, "nothing to close yet")
 	var r := bc.start_business()
 	t.eq(r.code, &"MISSING_REGISTER")
@@ -27,6 +28,8 @@ func test_start_needs_a_register_then_opens(t, tree) -> void:
 	t.ok(bc.set_next_day_ad(2000).ok)
 	t.ok(bc._ad_info.text.contains("今日の広告: なし"), "today is not changed by tomorrow's choice")
 	t.ok(bc._ad_info.text.contains("¥2,000"))
+	t.ok(not bc._start.disabled, "register + reachable stock + cash: ready")
+	t.ok(bc._checklist.text.contains("✓ レジあり") and bc._checklist.text.contains("支払えます"))
 	t.ok(bc.start_business().ok)
 	t.eq(app.state.business_state, GameState.OPEN)
 	t.ok(bc._start.disabled)

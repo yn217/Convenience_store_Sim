@@ -14,6 +14,7 @@ var _close: Button
 var _ad: OptionButton
 var _ad_info: Label
 var _status: Label
+var _checklist: Label
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -37,6 +38,9 @@ func setup(app: Node, balance: Dictionary) -> void:
 	row.add_child(_start)
 	row.add_child(_close)
 	_body.add_child(row)
+	_checklist = Label.new()
+	_checklist.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_checklist)
 	_ad = OptionButton.new()
 	_ad.clip_text = true
 	_ad.fit_to_longest_item = false
@@ -57,7 +61,9 @@ func setup(app: Node, balance: Dictionary) -> void:
 func apply_snapshot(snap: Dictionary) -> void:
 	_snap = snap
 	var state := String(snap.get("business_state", "SETUP"))
-	_start.disabled = state != "SETUP"
+	var opening: Dictionary = snap.get("opening", {})
+	_start.disabled = state != "SETUP" or (not opening.is_empty() and not opening["ready"])
+	_checklist.text = checklist_text(opening) if state == "SETUP" else ""
 	_close.disabled = state != "OPEN"
 	for i in _ad.item_count:
 		if _ad.get_item_metadata(i) == int(snap.get("next_day_ad_yen", 0)):
@@ -67,6 +73,23 @@ func apply_snapshot(snap: Dictionary) -> void:
 	var unpaid := int(snap.get("unpaid_cost_yen", 0))
 	if state == "PAYMENT_BLOCKED":
 		_status.text = "費用を支払えず営業を停止しました（未払い %s）。セーブからやり直してください。" % GameHud.format_yen(unpaid)
+
+
+## SCR-09: every opening condition with a mark, so a disabled button always says why.
+static func checklist_text(opening: Dictionary) -> String:
+	if opening.is_empty():
+		return ""
+	var lines: Array[String] = []
+	lines.append(("✓ レジあり" if opening["register_ok"] else "✗ レジが必要です（待機列を作れる場所に置いてください）"))
+	lines.append(("✓ 客が行ける棚に商品あり" if opening["stock_ok"] else "✗ 客が行ける棚に商品を並べてください"))
+	var due := int(opening["charges_due_yen"])
+	if due <= 0:
+		lines.append("✓ 今日の費用は支払い済みです")
+	elif opening["cash_ok"]:
+		lines.append("✓ 今日の費用 %s を支払えます" % GameHud.format_yen(due))
+	else:
+		lines.append("✗ 今日の費用 %s に所持金が足りません" % GameHud.format_yen(due))
+	return "\n".join(lines)
 
 
 func _yen_or_none(yen: int) -> String:

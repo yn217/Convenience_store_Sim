@@ -11,6 +11,7 @@ PAIRS = [
     ("docs/examples/mvp_v1.fixtures.json", "data/fixtures/mvp_v1.json"),
     ("docs/examples/mvp_v1.products.json", "data/products/mvp_v1.json"),
     ("docs/examples/mvp_v1.balance.json", "data/balance/mvp_v1.json"),
+    ("docs/examples/mvp_v1.milestones.json", "data/progression/mvp_v1.milestones.json"),
     ("docs/examples/empty_store.savegame.json", "tests/data/empty_store.savegame.json"),
 ]
 

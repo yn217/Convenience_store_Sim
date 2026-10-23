@@ -62,6 +62,23 @@ static func opening_problem(state: GameState) -> StringName:
 	return &"MISSING_STOCK"
 
 
+## What the opening checklist (SCR-09) shows while in SETUP. `problem` is the first blocker the
+## START_BUSINESS command would report; the three flags let the UI list every condition.
+static func opening_report(state: GameState) -> Dictionary:
+	var problem := opening_problem(state)
+	var charged := day_charged(state, state.day)
+	var costs := day_costs(state)
+	var due := 0 if charged else total(costs)
+	return {
+		"register_ok": problem != &"MISSING_REGISTER",
+		"stock_ok": problem != &"MISSING_REGISTER" and problem != &"MISSING_STOCK",
+		"problem": String(problem),
+		"charges_due_yen": due,
+		"cash_ok": due <= state.cash_yen,
+		"ready": problem == &"" and due <= state.cash_yen,
+	}
+
+
 ## Books the day's three charges. `partial` = false pays in full or not at all (opening);
 ## true pays what cash allows and keeps the rest as unpaid cost (new day while open).
 ## Returns the yen left unpaid. Events already booked for the day are skipped.

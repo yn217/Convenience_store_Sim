@@ -20,6 +20,7 @@ func process_frame(delta: float) -> int:
 	for i in steps:
 		_run_step()
 	if steps > 0:
+		ProgressionService.evaluate(_state)
 		_state.layout_history.clear()   # time passing ends the editing session (04 §8)
 	return steps
 
