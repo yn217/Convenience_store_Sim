@@ -1,0 +1,61 @@
+"""Issue #29: the credits audit passes on the repo and detects missing rows, unknown licences, missing files."""
+import shutil
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools" / "validation"))
+import check_asset_credits as cc  # noqa: E402
+
+
+class Credits(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        (self.tmp / "docs").mkdir()
+        shutil.copy(ROOT / "docs/ASSET_CREDITS.md", self.tmp / "docs/ASSET_CREDITS.md")
+        shutil.copytree(ROOT / "assets/generated", self.tmp / "assets/generated", ignore=shutil.ignore_patterns("*.png", "*.import"))
+        for f in ("scripts/presentation/sfx_bank.gd", "scripts/presentation/fixture_presenter.gd"):
+            (self.tmp / f).parent.mkdir(parents=True, exist_ok=True)
+            (self.tmp / f).write_text("x")
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def edit(self, old, new):
+        p = self.tmp / "docs/ASSET_CREDITS.md"
+        p.write_text(p.read_text(encoding="utf-8").replace(old, new, 1), encoding="utf-8")
+
+    def test_repo_passes(self):
+        self.assertEqual(cc.problems(ROOT), [])
+
+    def test_all_ten_fixtures_and_three_customers_are_listed(self):
+        ids = {r["asset_id"] for r in cc.parse(ROOT)}
+        self.assertEqual(len([i for i in ids if i.startswith("fixture_")]), 10)
+        self.assertEqual(len([i for i in ids if i.startswith("customer_")]), 3)
+
+    def test_unlisted_asset_is_found(self):
+        (self.tmp / "assets/generated/fixtures/new_thing").mkdir()
+        self.assertTrue(any("without a ledger row" in p for p in cc.problems(self.tmp)))
+
+    def test_unknown_license_and_redistribution(self):
+        self.edit("自作(箱ジオメトリ、外部素材・テクスチャなし)。プロジェクトのライセンスに従う", "unknown")
+        self.assertTrue(any("licence unknown" in p for p in cc.problems(self.tmp)))
+        self.edit("|yes|", "|no|")
+        self.assertTrue(any("redistribution" in p for p in cc.problems(self.tmp)))
+
+    def test_missing_file_and_bad_source_type(self):
+        self.edit("assets/generated/fixtures/shelf_bread", "assets/generated/fixtures/shelf_gone")
+        probs = cc.problems(self.tmp)
+        self.assertTrue(any("path missing" in p for p in probs))
+        self.edit("|Blender|tools/assets/figures.py", "|magic|tools/assets/figures.py")
+        self.assertTrue(any("unknown source_type" in p for p in cc.problems(self.tmp)))
+
+    def test_ai_rows_need_a_prompt_or_link(self):
+        self.edit("|Blender|tools/assets/figures.py", "|AI|tools/assets/figures.py")
+        self.assertTrue(any("need the prompt" in p for p in cc.problems(self.tmp)))
+
+
+if __name__ == "__main__":
+    unittest.main()
