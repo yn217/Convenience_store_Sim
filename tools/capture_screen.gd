@@ -98,7 +98,7 @@ func _capture_intent(main: Node, s: GameState, out_png: String) -> void:
 		var queues := OverlayModel.register_queues(s.customers)
 		var waiting := 0
 		for reg in queues:
-			waiting = maxi(waiting, int(queues[reg]["waiting"]))
+			waiting = maxi(waiting, OverlayModel.line_size(queues[reg]))
 		var pick_fresh := false
 		for m in player.marks:
 			if m["kind"] == "pick" and float(m["age"]) < 0.2:
@@ -118,5 +118,7 @@ func _capture_intent(main: Node, s: GameState, out_png: String) -> void:
 			get_root().get_texture().get_image().save_png("%s_%s.png" % [prefix, shot])
 			saved[shot] = true
 			print("saved %s_%s.png at game time %d" % [prefix, shot, s.time_sec])
+			for f in player.floats:   # the pop-ups on screen: merged count, total and age (real seconds)
+				print("  pop %s count=%d yen=%d age=%.2f text=%s" % [f["register_id"], int(f["count"]), int(f["yen"]), float(f["age"]), f["text"]])
 		if saved.size() == 3:
 			return

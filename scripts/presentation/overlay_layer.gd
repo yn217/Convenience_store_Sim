@@ -11,6 +11,7 @@ const ACCESS_FILL := Color(1.0, 0.78, 0.45, 0.30)
 const ACCESS_EDGE := Color(1.0, 0.78, 0.45, 0.95)
 const BADGE_BG := Color(0.08, 0.10, 0.14, 0.85)
 const QUEUE_FULL := Color("ffb300")   # amber: the register's line is at its maximum
+const QUEUE_OVERFLOW := Color("ff5252")   # red: customers outside the line
 const LEVEL_COLOR := {"empty": Color("ff8a80"), "low": Color("ffd54f"), "ok": Color("9ccc65"), "register": Color("90caf9"), "none": Color("cfd8dc")}
 
 var _world: Node2D
@@ -76,7 +77,8 @@ func _top_anchor(inst: Dictionary, def: Dictionary, lift: float) -> Vector2:
 	return _world.projection.world_to_screen(cx / cells.size(), cy / cells.size(), float(def["dimensions_m"]["height"]) + lift)
 
 
-## "レジ待ち N人" above each register with at least one customer waiting; amber when its line is full.
+## "レジ待ち N人 ＋列外M人" above each register with at least one customer in line (slots or overflow).
+## Amber when the slots are full, red when customers are outside the line.
 func _draw_queue_badges() -> void:
 	if _world.overlay_mode == OverlayModel.Mode.INFO:
 		return   # the info mode shows the same counts in the register's own badge
@@ -87,11 +89,16 @@ func _draw_queue_badges() -> void:
 	var size := int(round(13.0 * maxf(_world.projection.zoom, 0.8)))
 	for inst in _world.fixtures:
 		var q: Dictionary = queues.get(inst["instance_id"], {})
-		if q.is_empty() or int(q["waiting"]) < 1:
+		if q.is_empty() or OverlayModel.line_size(q) < 1:
 			continue
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
-		var full := int(q["waiting"]) >= AccessService.QUEUE_MAX
-		_badge(font, _top_anchor(inst, def, 0.35), OverlayModel.queue_badge_text(int(q["waiting"])), size, QUEUE_FULL if full else LEVEL_COLOR["register"])
+		var accent := LEVEL_COLOR["register"]
+		match OverlayModel.queue_badge_state(int(q["queued"]), int(q["overflow"]), AccessService.QUEUE_MAX):
+			"overflow":
+				accent = QUEUE_OVERFLOW
+			"full":
+				accent = QUEUE_FULL
+		_badge(font, _top_anchor(inst, def, OverlayModel.QUEUE_BADGE_LIFT), OverlayModel.queue_badge_text(int(q["queued"]), int(q["overflow"])), size, accent)
 
 
 func _draw_layout() -> void:

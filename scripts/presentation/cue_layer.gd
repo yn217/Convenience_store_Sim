@@ -15,6 +15,7 @@ const TOAST_POP_SECONDS := 0.18
 const TOAST_FADE_SECONDS := 0.3
 const SALE_FONT := 20
 const SALE_RISE := 40.0            # px the pop-up rises over its lifetime (0 under reduce_motion)
+const SALE_CLEAR_BADGE := 34.0     # px above the badge's bottom edge where the sale text's baseline starts
 const FALLBACK_TOP := 76.0
 const FALLBACK_RIGHT := 12.0
 
@@ -57,10 +58,26 @@ func _font() -> Font:
 	return f if f != null else ThemeDB.fallback_font
 
 
+## Screen point of the queue badge of a register (the badge's bottom edge); the sale pop-up is placed relative to it.
+func _sale_anchor(register_id: String) -> Vector2:
+	for inst in _world.fixtures:
+		if inst["instance_id"] == register_id:
+			var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
+			var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
+			var cx := 0.0
+			var cy := 0.0
+			for c in cells:
+				cx += c.x
+				cy += c.y
+			var n := float(maxi(cells.size(), 1))
+			return _world.projection.world_to_screen(cx / n, cy / n, float(def["dimensions_m"]["height"]) + OverlayModel.QUEUE_BADGE_LIFT)
+	return Vector2.ZERO
+
+
 func _register_pos(register_id: String) -> Vector2:
 	for inst in _world.fixtures:
 		if inst["instance_id"] == register_id:
-			return _world.projection.world_to_screen(inst["x"], inst["y"], 1.35)
+			return _world.projection.world_to_screen(inst["x"], inst["y"], 0.6)   # the till's body: the queue badge sits above the top
 	return Vector2.ZERO
 
 
@@ -149,11 +166,12 @@ func _draw_pick_bubble(font: Font, where: Vector2, m: Dictionary) -> void:
 func _draw_sales(font: Font, proj: IsoProjection) -> void:
 	var still := _player.reduce_motion
 	for f in _player.floats:
-		var p := _register_pos(f["register_id"])
+		var p := _sale_anchor(f["register_id"])
 		if p == Vector2.ZERO:
 			continue
 		var k: float = float(f["age"]) / maxf(float(f["ttl"]), 0.01)
-		var at := p + Vector2(-20, 0.0 if still else -SALE_RISE * k * proj.zoom)
+		# Starts above the "レジ待ち" badge (which sits on the same anchor) and rises from there, never over it.
+		var at := p + Vector2(-20, -SALE_CLEAR_BADGE * proj.zoom - (0.0 if still else SALE_RISE * k * proj.zoom))
 		var alpha := 1.0 if still else 1.0 - k
 		draw_string_outline(font, at, f["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, SALE_FONT, 4, Color(0, 0, 0, 0.8 * alpha))
 		draw_string(font, at, f["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, SALE_FONT, Color(1, 0.95, 0.5, alpha))

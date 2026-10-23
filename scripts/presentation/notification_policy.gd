@@ -10,6 +10,7 @@ const MAX_VISIBLE := 3
 const MERGE_WINDOW := 8.0          # seconds from the first notice of a kind in which later ones merge into it
 const SALE_MERGE_SECONDS := 0.3    # sales on one register within this time share one pop-up
 const SALE_TTL := 0.8
+const SALE_MERGE_MAX := 4                # sales one pop-up may combine (a burst of more starts a new pop-up)
 const RANK := {"error": 3, "warning": 2, "achievement": 1, "info": 0}
 const DURATION := {"error": INF, "warning": 6.0, "achievement": 4.0, "info": 3.0}
 
@@ -78,7 +79,9 @@ func _trim() -> void:
 static func add_sale(sales: Array, register_id: String, yen: int, product: String = "") -> Dictionary:
 	for sale in sales:
 		if sale["register_id"] == register_id:
-			if float(sale["age"]) < SALE_MERGE_SECONDS:
+			# Merge only inside the burst window (age below SALE_MERGE_SECONDS) and up to SALE_MERGE_MAX sales,
+			# so one pop-up never counts up over many seconds.
+			if float(sale["age"]) < SALE_MERGE_SECONDS and int(sale["count"]) < SALE_MERGE_MAX:
 				sale["yen"] = int(sale["yen"]) + yen
 				sale["count"] = int(sale["count"]) + 1
 				sale["product"] = sale["product"] if sale["product"] == product else ""
