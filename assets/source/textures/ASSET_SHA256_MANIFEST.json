@@ -111,6 +111,18 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/oden_generated_cutout_v01.png",
+      "sha256": "08a0497a588d7d8b75fdd40689b4426f96f51c4c3c87b7baa0edebd25c03f87b",
+      "bytes": 1830463
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/oden_generated_cutout_v01.provenance.json",
+      "sha256": "10529a8bce6395ba51d2c98cb03f7520d9e8f1ba18b4b25949c01adf6f524c06",
+      "bytes": 883
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a.png",
       "sha256": "0402a36c293d092044e2c0ba869d4f039c044a45c0fc13e5477ec69393f570ca",
       "bytes": 1028821

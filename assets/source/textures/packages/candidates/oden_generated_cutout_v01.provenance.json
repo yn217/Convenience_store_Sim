@@ -1,0 +1,11 @@
+{
+  "file": "assets/source/textures/packages/candidates/oden_generated_cutout_v01.png",
+  "family": "oden",
+  "generation_method": "OpenAI image generation tool",
+  "prompt": "Single fictional Japanese convenience-store oden cup package, realistic stylized 2.5D game asset, front three-quarter view, centered, full object visible with clean silhouette and subtle contact shadow, no real trademarks, transparent background.",
+  "sha256": "08A0497A588D7D8B75FDD40689B4426F96F51C4C3C87B7BAA0EDEBD25C03F87B",
+  "selection_status": "needs_human_review",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Generated as a separate cutout candidate. White edge specks, label quality, contact shadow, anchor, iso2x scale, LOD, four directions, and SKU/visual_id mapping require review. Not runtime-connected."
+}
