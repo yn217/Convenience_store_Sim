@@ -56,6 +56,10 @@ func _ready() -> void:
 	_floats.setup(_store)
 	_build_screen_window()
 	_layout_overlay()
+	# The inspector window follows its content height: refit when its content or the window size changes.
+	_inspector.get_node("Scroll/Body").minimum_size_changed.connect(_fit_inspector)
+	resized.connect(_fit_inspector)
+	_fit_inspector()
 	_nav.set_active("")
 	# The state badge (営業中 / 準備中 …) opens the 経営 tab, where 営業開始 / 閉店 live.
 	_state_label.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -91,6 +95,7 @@ func _layout_overlay() -> void:
 	_anchor_column(_nav, 0.0, rail, false)
 	_anchor_column(_palette, rail + MARGIN, UiTheme.PALETTE_WIDTH, false)
 	_anchor_column(_inspector, MARGIN, UiTheme.INSPECTOR_WIDTH, true)
+	_fit_inspector()
 	_summary.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	_summary.offset_left = rail + MARGIN
 	_summary.offset_right = -MARGIN
@@ -103,6 +108,8 @@ func _layout_overlay() -> void:
 
 
 const MARGIN := 8
+## The inspector window hangs from just under the HUD, with this gap above and below, and is only as tall as its content.
+const INSPECTOR_TOP := 12
 
 
 ## A floating column that spans the height between the HUD and the summary. `x` is its left edge from the left
@@ -116,6 +123,26 @@ func _anchor_column(panel: Control, x: float, width: float, from_right: bool) ->
 	panel.anchor_right = panel.anchor_left
 	panel.offset_left = -x - width if from_right else x
 	panel.offset_right = -x if from_right else x + width
+
+
+## The inspector hangs from under the HUD and is as tall as its content, up to the space above the summary strip.
+## Past that space its scroll area takes the rest, so only the window's own rect takes mouse input; the store below
+## it stays clickable. Only the inspector's anchors, offsets and scroll minimum size change here.
+func _fit_inspector() -> void:
+	if _inspector == null:
+		return
+	var scroll := _inspector.get_node("Scroll") as ScrollContainer
+	var body := scroll.get_node("Body") as Control
+	var height := size.y if size.y > 0.0 else get_viewport_rect().size.y
+	var top := UiTheme.HUD_HEIGHT + INSPECTOR_TOP
+	var room := maxf(height - top - BOTTOM_HEIGHT - INSPECTOR_TOP, 0.0)
+	var frame := _inspector.get_theme_stylebox("panel").get_minimum_size().y
+	scroll.custom_minimum_size.y = minf(body.get_combined_minimum_size().y, maxf(room - frame, 0.0))
+	var wanted := scroll.get_combined_minimum_size().y + frame
+	_inspector.anchor_top = 0.0
+	_inspector.anchor_bottom = 0.0
+	_inspector.offset_top = top
+	_inspector.offset_bottom = top + minf(wanted, room)
 
 
 ## Esc leaves the current mode; B toggles build mode (both are ignored while a window is open for B).
@@ -202,6 +229,7 @@ func _apply_mode() -> void:
 	if _floats != null:
 		_floats.inset = Vector2(LeftNav.WIDTH + (UiTheme.PALETTE_WIDTH + MARGIN if ui.is_build() else 0), UiTheme.HUD_HEIGHT)
 	_inspector.visible = ui.is_selected()
+	_fit_inspector()
 	_dimmer.visible = ui.is_screen()
 	_window.visible = ui.is_screen()
 	if ui.is_screen():
