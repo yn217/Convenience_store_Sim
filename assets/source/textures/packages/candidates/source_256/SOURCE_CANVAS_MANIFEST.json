@@ -1,0 +1,106 @@
+{
+  "projection": "source staging only; not iso2x rendered",
+  "canvas_px": [
+    256,
+    256
+  ],
+  "max_object_px": 224,
+  "candidates": [
+    {
+      "source": "assets\\source\\textures\\packages\\candidates\\sku_cupnoodle_comparison_v01_a_cutout_v02.png",
+      "output": "assets\\source\\textures\\packages\\candidates\\source_256\\sku_cupnoodle_comparison_v01_a_source256_v01.png",
+      "canvas_px": [
+        256,
+        256
+      ],
+      "object_px": [
+        139,
+        224
+      ],
+      "anchor_px": [
+        127,
+        256
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\candidates\\sku_cupnoodle_comparison_v01_b_cutout_v02.png",
+      "output": "assets\\source\\textures\\packages\\candidates\\source_256\\sku_cupnoodle_comparison_v01_b_source256_v01.png",
+      "canvas_px": [
+        256,
+        256
+      ],
+      "object_px": [
+        152,
+        224
+      ],
+      "anchor_px": [
+        128,
+        256
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\candidates\\sku_onigiri_comparison_v01_a_cutout_v02.png",
+      "output": "assets\\source\\textures\\packages\\candidates\\source_256\\sku_onigiri_comparison_v01_a_source256_v01.png",
+      "canvas_px": [
+        256,
+        256
+      ],
+      "object_px": [
+        203,
+        224
+      ],
+      "anchor_px": [
+        127,
+        256
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\candidates\\sku_onigiri_comparison_v01_b_cutout_v02.png",
+      "output": "assets\\source\\textures\\packages\\candidates\\source_256\\sku_onigiri_comparison_v01_b_source256_v01.png",
+      "canvas_px": [
+        256,
+        256
+      ],
+      "object_px": [
+        195,
+        224
+      ],
+      "anchor_px": [
+        127,
+        256
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\candidates\\sku_tea_comparison_v01_a_cutout_v02.png",
+      "output": "assets\\source\\textures\\packages\\candidates\\source_256\\sku_tea_comparison_v01_a_source256_v01.png",
+      "canvas_px": [
+        256,
+        256
+      ],
+      "object_px": [
+        111,
+        224
+      ],
+      "anchor_px": [
+        127,
+        256
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\packages\\candidates\\sku_tea_comparison_v01_b_cutout_v02.png",
+      "output": "assets\\source\\textures\\packages\\candidates\\source_256\\sku_tea_comparison_v01_b_source256_v01.png",
+      "canvas_px": [
+        256,
+        256
+      ],
+      "object_px": [
+        108,
+        224
+      ],
+      "anchor_px": [
+        128,
+        256
+      ]
+    }
+  ]
+}
