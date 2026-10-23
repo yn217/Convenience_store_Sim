@@ -24,7 +24,7 @@ static func order(state: GameState, command_id: String, sku_id, qty) -> Dictiona
 	var sku := state.products.get_sku(sku_id)
 	var cost: int = qty * int(sku["purchase_cost_yen"])
 	var event := "%s:STOCK_PURCHASED" % command_id
-	if not state.ledger.record("STOCK_PURCHASED", event, -cost, state.day, state.time_sec, {"sku_id": sku_id, "qty": qty}):
+	if not state.ledger.record("ORDER", event, -cost, state.day, state.time_sec, {"sku_id": sku_id, "qty": qty}):
 		return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
 	state.next_lot_seq += 1
 	state.next_segment_seq += 1

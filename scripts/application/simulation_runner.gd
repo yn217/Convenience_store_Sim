@@ -18,5 +18,6 @@ func process_frame(delta: float) -> int:
 	var steps := _clock.advance(delta, _state.speed_setting)
 	_state.time_sec += steps * int(GameClock.STEP_GAME_SECONDS)
 	if steps > 0:
+		InventoryService.sweep_expired(_state)   # before any checkout of this step (03 §B.2)
 		_state.layout_history.clear()   # time passing ends the editing session (04 §8)
 	return steps

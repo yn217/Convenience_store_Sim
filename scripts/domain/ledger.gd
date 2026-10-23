@@ -14,7 +14,8 @@ func has_event(event_id: String) -> bool:
 
 ## Returns false (and changes nothing) for a duplicate event id or when cash would go negative.
 ## Fixture purchases are capital expenditure: they move cash but carry no expense_delta.
-func record(event_type: String, event_id: String, cash_delta: int, day_index: int, time_sec: int, details: Dictionary = {}) -> bool:
+## `amounts` carries the P&L side {revenue, cogs, expense}; wastage books expense with cash 0.
+func record(event_type: String, event_id: String, cash_delta: int, day_index: int, time_sec: int, details: Dictionary = {}, amounts: Dictionary = {}) -> bool:
 	if event_id.is_empty() or applied_event_ids.has(event_id):
 		return false
 	if cash_yen + cash_delta < 0:
@@ -27,9 +28,9 @@ func record(event_type: String, event_id: String, cash_delta: int, day_index: in
 		"day_index": day_index,
 		"time_sec": time_sec,
 		"cash_delta_yen": cash_delta,
-		"revenue_delta_yen": 0,
-		"cogs_delta_yen": 0,
-		"expense_delta_yen": 0,
+		"revenue_delta_yen": int(amounts.get("revenue", 0)),
+		"cogs_delta_yen": int(amounts.get("cogs", 0)),
+		"expense_delta_yen": int(amounts.get("expense", 0)),
 		"details": details,
 	})
 	return true
