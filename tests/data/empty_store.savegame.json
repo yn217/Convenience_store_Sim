@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "save_id": "demo_empty_store",
+  "saved_at_utc": "2026-10-22T00:00:00Z",
+  "game_tick": 0,
+  "game_time_seconds": 0,
+  "speed_setting": 0,
+  "business_state": "SETUP",
+  "rng_states": {
+    "arrivals": 1234,
+    "purchases": 5678,
+    "visuals": 9012,
+    "events": 345678
+  },
+  "store": {
+    "store_id": "store_001",
+    "width": 16,
+    "height": 12,
+    "entrance_tiles": [
+      {
+        "x": 0,
+        "y": 5
+      },
+      {
+        "x": 0,
+        "y": 6
+      }
+    ]
+  },
+  "fixture_instances": [],
+  "inventory_segments": [],
+  "reservations": [],
+  "customers": [],
+  "economy": {
+    "cash_yen": 500000,
+    "ledger_transactions": [],
+    "unpaid_cost_yen": 0
+  },
+  "advertising": {
+    "today_budget_yen": 0,
+    "next_day_budget_yen": 0,
+    "last_charged_day": -1
+  },
+  "daily_reports": [],
+  "applied_event_ids": [],
+  "store_reputation": 50,
+  "product_price_overrides": {},
+  "applied_command_ids": [],
+  "gameplay_event_state": {
+    "last_selected_day": -1,
+    "selection_event_id": null,
+    "selected_event_id": null,
+    "event_start_sec": null,
+    "event_end_sec": null,
+    "started": false,
+    "ended": false,
+    "shown_notice_ids": []
+  },
+  "progression_state": {
+    "tutorial_skipped": false,
+    "tutorial_step_index": 0,
+    "completed_milestone_ids": [],
+    "completed_daily_challenge_ids": [],
+    "active_daily_challenge_day": -1,
+    "active_daily_challenge_id": null,
+    "challenge_stock_qualified": false,
+    "dismissed_story_cue_ids": []
+  }
+}

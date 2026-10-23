@@ -17,6 +17,10 @@ Write-Host '== layering check =='
 python (Join-Path $PSScriptRoot 'validation\check_layering.py') $root
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+Write-Host '== catalog sync check =='
+python (Join-Path $PSScriptRoot 'validation\check_catalog.py') $root
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 if (-not $SkipImport) {
     Write-Host '== import (builds global class cache) =='
     & $godot --headless --path $root --import --quit
@@ -33,5 +37,7 @@ Get-ChildItem -Path (Join-Path $root 'scripts'), (Join-Path $root 'tests') -Recu
 if ($failed) { exit 1 }
 
 Write-Host '== headless tests =='
+# Godot logs engine errors to stderr; judge by exit code only.
+$ErrorActionPreference = 'Continue'
 & $godot --headless --path $root --script res://tests/run_all.gd
 exit $LASTEXITCODE
