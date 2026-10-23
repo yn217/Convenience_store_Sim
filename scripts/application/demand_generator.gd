@@ -13,14 +13,18 @@ static func step(state: GameState) -> bool:
 	var rng := Lcg32.new(int(state.rng_states["arrivals"]))
 	var roll := rng.uniform_0_1()
 	state.rng_states["arrivals"] = rng.state
-	var p := DemandModel.step_probability(
-		DemandModel.hour_of_day(state.time_sec),
-		float(state.balance.get("base_potential_visitors_per_day", 100)),
-		DemandModel.ad_multiplier(state.balance.get("advertising_tiers", []), state.applied_ad_tier_yen),
-		state.reputation,
-		stocked_category_count(state),
-		state.balance,
-		float(EventService.effects(state)["traffic"]))
+	var hour := DemandModel.hour_of_day(state.time_sec)
+	var base := float(state.balance.get("base_potential_visitors_per_day", 100))
+	var ad := DemandModel.ad_multiplier(state.balance.get("advertising_tiers", []), state.applied_ad_tier_yen)
+	var traffic := float(EventService.effects(state)["traffic"])
+	# The probability is monotone in the stocked-category count (0..CATEGORY_COUNT, clamped), so the
+	# extremes bound it: a roll at or above the upper bound is no visitor and the shelf scan is skipped.
+	var p_max := maxf(
+		DemandModel.step_probability(hour, base, ad, state.reputation, 0, state.balance, traffic),
+		DemandModel.step_probability(hour, base, ad, state.reputation, DemandModel.CATEGORY_COUNT, state.balance, traffic))
+	if roll >= p_max:
+		return false
+	var p := DemandModel.step_probability(hour, base, ad, state.reputation, stocked_category_count(state), state.balance, traffic)
 	if roll >= p:
 		return false
 	state.visit_stats["potential"] += 1

@@ -18,20 +18,34 @@ const LONG_QUEUE_SLOT := 2
 const LOW_STOCK_RATIO := 0.25
 
 var _paths := PathService.new()
-## The layout cannot change inside one fixed step, so the blocked set and the register plan are built once per step.
+## Layout-derived caches (blocked set, register plan, fixture access, routed paths). They depend only on the
+## grid instance and its revision, which every structural change bumps, so they survive across fixed steps
+## and are dropped by _sync_layout() when the layout changes.
 var _blocked_cache: Dictionary = {}
 var _plan_cache: Dictionary = {}
 var _cache_fresh := false
+var _path_cache: Dictionary = {}   # Vector4i(start, goal) -> Array[Vector2i] (empty when unreachable)
+var _layout_grid: StoreGrid = null
+var _layout_rev := -1
 var _by_id: Dictionary = {}
 var _taken: Dictionary = {}        # register id -> {queue slot: true}; rebuilt when a slot changes
 var _taken_dirty := true
 var _res_ids: Dictionary = {}      # reservation ids that exist; rebuilt when one is made / released / sold
 var _res_dirty := true
-var _in_step := false
-var _access_cache: Dictionary = {}   # fixture id -> reachable access tiles (layout is fixed within a step)
+var _access_cache: Dictionary = {}   # fixture id -> reachable access tiles (layout-derived)
+
+
+func _sync_layout(state: GameState) -> void:
+	if state.grid != _layout_grid or state.grid.revision != _layout_rev:
+		_layout_grid = state.grid
+		_layout_rev = state.grid.revision
+		_cache_fresh = false
+		_access_cache.clear()
+		_path_cache.clear()
 
 
 func _blocked(state: GameState) -> Dictionary:
+	_sync_layout(state)
 	if not _cache_fresh:
 		_blocked_cache = state.grid.blocked_cells()
 		_plan_cache = _build_register_plan(state)
@@ -39,10 +53,18 @@ func _blocked(state: GameState) -> Dictionary:
 	return _blocked_cache
 
 
+## Shortest path on the current layout, memoised per (start, goal). Returns a copy the caller may consume.
+func _path(state: GameState, start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
+	var blocked := _blocked(state)
+	var key := Vector4i(start.x, start.y, goal.x, goal.y)
+	if not _path_cache.has(key):
+		_path_cache[key] = PathService.find_path(state.grid, blocked, start, goal)
+	var cached: Array[Vector2i] = _path_cache[key]
+	return cached.duplicate()
+
+
 func step(state: GameState) -> void:
-	_cache_fresh = false
-	_access_cache.clear()
-	_in_step = true
+	_sync_layout(state)
 	_spawn(state)
 	_taken_dirty = true
 	_res_dirty = true
@@ -61,7 +83,6 @@ func step(state: GameState) -> void:
 		if c["phase"] != "GONE":
 			alive.append(c)
 	state.customers = alive
-	_in_step = false
 
 
 # ---------------------------------------------------------------- spawn / helpers
@@ -128,7 +149,7 @@ func _walk(state: GameState, c: Dictionary) -> bool:
 
 
 func _route(state: GameState, c: Dictionary, goal: Vector2i) -> bool:
-	var found := PathService.find_path(state.grid, _blocked(state), c["tile"], goal)
+	var found := _path(state, c["tile"], goal)
 	if found.is_empty():
 		return false
 	found.pop_front()   # already standing on the first tile
@@ -170,7 +191,7 @@ func _start_exit(state: GameState, c: Dictionary) -> void:
 	var goal := Vector2i(-1, -1)
 	var best := 1 << 30
 	for e in state.grid.entrance_tiles:
-		var path := PathService.find_path(state.grid, _blocked(state), c["tile"], e)
+		var path := _path(state, c["tile"], e)
 		if not path.is_empty() and path.size() < best:
 			best = path.size()
 			goal = e
@@ -227,6 +248,7 @@ func _price_factor(state: GameState, sku_id: String) -> float:
 ## (sku_id, fixture_id) pairs a customer could buy right now, sorted by sku then fixture id,
 ## with weight = availability * accessibility * preference * appeal * demand_weight * price_factor.
 func candidates(state: GameState) -> Array[Dictionary]:
+	_sync_layout(state)
 	var reach := _paths.current_distances(state.grid)
 	var seen := {}
 	for seg in state.inventory_segments:
@@ -239,11 +261,9 @@ func candidates(state: GameState) -> Array[Dictionary]:
 		if not inst.get("enabled", true):
 			continue
 		var def := state.fixtures.get_type(inst["type_id"])
-		var access: Array = _access_cache.get(loc["fixture_id"], []) if _in_step else []
-		if not _in_step or not _access_cache.has(loc["fixture_id"]):
-			access = AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach)
-			if _in_step:
-				_access_cache[loc["fixture_id"]] = access
+		if not _access_cache.has(loc["fixture_id"]):
+			_access_cache[loc["fixture_id"]] = AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach)
+		var access: Array = _access_cache[loc["fixture_id"]]
 		if access.is_empty():
 			continue
 		seen["%s|%s" % [seg["sku_id"], loc["fixture_id"]]] = {"sku_id": seg["sku_id"], "fixture_id": loc["fixture_id"]}
