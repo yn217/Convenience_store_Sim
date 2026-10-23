@@ -28,6 +28,8 @@ Transparent cutout pilots are stored at `assets/source/textures/characters/candi
 
 `clean_customer_alpha_candidate.py` creates a separate casual cleanup candidate by zeroing only alpha values below 16; it does not alter geometry. The original and normalized inputs remain available as fallbacks, and the cleaned candidate remains `needs_human_review`.
 
+`build_customer_cleanup_preview.py` regenerates `docs/art/customer_cleanup_before_after.png` for visual review of the cleanup. It is evidence of the processing difference only, not approval of the candidate.
+
 ## Prompt record
 
 `Create a clean game-asset concept comparison board for a realistic-leaning 2.5D isometric Japanese convenience-store simulation. Show three distinct fictional adult customer character variants standing separately on a neutral light background: (A) casual young adult with hoodie and tote bag, (B) office worker with neat shirt and shoulder bag, (C) older adult with cardigan and shopping basket. Each character should be shown in a consistent 3/4 isometric standing pose with clear feet contact, readable silhouette, modest natural proportions, soft studio lighting, muted convenience-store palette, no readable text, no logos, no copyrighted characters. Arrange as three equal columns with large spacing, front-facing toward camera, suitable as an art-direction reference board. Square 1024x1024 composition.`
