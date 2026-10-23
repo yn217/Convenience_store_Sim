@@ -1,0 +1,17 @@
+{
+  "asset_family": "bag_dispenser_and_restock_container_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Archimedes and Fermat",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single Japanese convenience-store operation prop, realistic 2.5D isometric, transparent RGBA background, light contact shadow, no real manufacturer/trademark/logo/readable fine text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"bag_dispenser_white_subagent_v01","source_file":"assets/source/textures/props/bag_dispenser_white_subagent_v01.png","sha256":"FE1A9F476EE8CA7F78FD4E16071217A66EC030F227E34227F69070889CA37B64","category":"bag dispenser","notes":"white/translucent with bag outlet"},
+    {"asset_id":"bag_stocker_black_gray_subagent_v01","source_file":"assets/source/textures/props/bag_stocker_black_gray_subagent_v01.png","sha256":"ACC4E787A3BF7980A33620DB65D482E4C66DE2EF0B348591FC358CF1ACF7947C","category":"bag dispenser","notes":"black/gray compact stocker"},
+    {"asset_id":"restock_container_blue_gray_subagent_v01","source_file":"assets/source/textures/props/restock_container_blue_gray_subagent_v01.png","sha256":"278588384771A2D6E7610E3DFF036AD8ED616BB272ED4738285B096C3838AD77","category":"restock container","notes":"blue/gray folding container"},
+    {"asset_id":"roll_cage_orange_black_subagent_v01","source_file":"assets/source/textures/props/roll_cage_orange_black_subagent_v01.png","sha256":"E4F4AE9B81CE9C5E392D2DD138406527E62B01DA8C7BBD1F1F680E1B441694E1","category":"restock cart","notes":"orange/black roll cage"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only operation props; footprint, anchor, placement, occlusion and runtime integration remain open."
+}
