@@ -30,6 +30,7 @@ var store_width: int = 0
 var store_height: int = 0
 var revision: int = -1
 var entrance_tiles: Array[Vector2i] = []
+var _floor_key: Array = []   # what the floor and walls were last drawn from (layout, camera, viewport)
 var fixtures: Array = []
 var fixture_catalog: FixtureCatalog
 var shelf_stock: Dictionary = {}
@@ -59,6 +60,9 @@ func _ready() -> void:
 
 func apply_snapshot(snapshot: Dictionary) -> void:
 	var first := store_width <= 0
+	var floor_key := [int(snapshot["store_width"]), int(snapshot["store_height"]), snapshot.get("entrance_tiles", []), projection.origin, projection.zoom, viewport_size()]
+	var floor_changed := floor_key != _floor_key
+	_floor_key = floor_key
 	store_width = int(snapshot["store_width"])
 	store_height = int(snapshot["store_height"])
 	revision = int(snapshot["revision"])
@@ -82,8 +86,12 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 		_set_selected(NO_TILE)
 	if first:
 		fit_view()
-	else:
+	elif floor_changed:
 		_refresh()
+	else:
+		# Views are republished about 20 times a second. The floor and walls only depend on the layout, the
+		# camera and the viewport (floor_key), so a publish that changes none of them does not redraw the floor.
+		_refresh_objects()
 
 
 func tile_count() -> int:
@@ -315,6 +323,12 @@ func _on_viewport_resized() -> void:
 
 ## Re-derive highlight polygons after any camera/state change so they stay on their tiles.
 func _refresh() -> void:
+	_refresh_objects()
+	queue_redraw()
+
+
+## Selection, ghost and the object layers. The floor and walls (this node's own _draw) are left alone.
+func _refresh_objects() -> void:
 	if _selection != null:
 		if selected_tile != NO_TILE:
 			_selection.show_selected(projection.tile_diamond(selected_tile))
@@ -323,7 +337,6 @@ func _refresh() -> void:
 		if not _ghost.is_empty():
 			set_ghost(_ghost["cells"], _ghost["access"], _ghost["valid"], _ghost["queue"])
 	_redraw_objects()
-	queue_redraw()
 
 
 func _draw() -> void:
