@@ -1,0 +1,258 @@
+{
+  "issue": 91,
+  "runtime_approved": false,
+  "records": [
+    {
+      "fixture": "shelf_general",
+      "state": "full",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_full_r0_composite.png",
+      "sha256": "bbe9dc954e459dbdb1fac19391faa17f50ff0d394bf7b54c06cecef91579dc69"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "full",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_full_r1_composite.png",
+      "sha256": "e26bab4431927ed6c049399118ae9cc2c76fa7a801e3ebed92fa079dc1a813fe"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "full",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_full_r2_composite.png",
+      "sha256": "db2e797d8f55668a34133d3b8863e126ce4c20f7414a8a70709fc64f3805c582"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "full",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_full_r3_composite.png",
+      "sha256": "42e6ec408a69f71bb77a441d89c9dc727b38f34ed320aec89fea56949859e4f9"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "half",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_half_r0_composite.png",
+      "sha256": "41bb6a707ead1f1216e8f2345fabca4651d52b9d04826e6e25f6c320838e2aee"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "half",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_half_r1_composite.png",
+      "sha256": "1d0c73203b14db69c9b91a91ccaf1cd99b0ff80e0da5c087338ccefbc0c864f0"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "half",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_half_r2_composite.png",
+      "sha256": "1d936ec906fe1b8fb42edb1e16badee1865d87f93bdbc04fde2bc366448082a3"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "half",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_half_r3_composite.png",
+      "sha256": "d533d54572d45379074a124a26e20d1b84c31f2f0598c022445f7d1d846d1a2e"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "empty",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_empty_r0_composite.png",
+      "sha256": "3c5d13e2ec3abc691ea374cf3031aa8ee8e83d8a5951b987d2e4d5474953e6f1"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "empty",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_empty_r1_composite.png",
+      "sha256": "d189c786e06313b3d23ec4deffff73f172ab45ee92a769c66540eb92b1e6e394"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "empty",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_empty_r2_composite.png",
+      "sha256": "bbc788c3d62a32a7d8f7ac0ef083ee46a331d2427d5e53edf861a949e7f2cf63"
+    },
+    {
+      "fixture": "shelf_general",
+      "state": "empty",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/shelf_general/shelf_general_empty_r3_composite.png",
+      "sha256": "8260c0cdecb9ab67496938effd92bbccd7fd5052340d873f70e27edca888ef9b"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "full",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_full_r0.png",
+      "sha256": "3cd7f004bad2bf886bc007f987cc66a6281c03ece1a748a365e4591f080a1da8"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "full",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_full_r1.png",
+      "sha256": "a98c12256c60fa9af64a7e228f3ecdc07ad6d1efed3a26a8a52b909121dd2980"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "full",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_full_r2.png",
+      "sha256": "a003ed9cebd12a5ea48d7c8876883f7db1e1583de8c4bb675d3d039e2008dbc6"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "full",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_full_r3.png",
+      "sha256": "6549ba23a89f5656174cb9e9ddfe19959bb62899cae9c9350a459c44b32d8644"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "half",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_half_r0.png",
+      "sha256": "d0af8cc8736d2dabb5f1fe038bca554f7315f3916c08a92cd94c859e1c0634d3"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "half",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_half_r1.png",
+      "sha256": "33492e3c0d9f448b1da23bb69f9f3e5b8c2a90dcab05ada1c037660471467d7b"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "half",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_half_r2.png",
+      "sha256": "9f443e1d9a40f41639db72860ebfcee5e51927106301ee18e66cd6ea2b90eff2"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "half",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_half_r3.png",
+      "sha256": "9351c473941dede175d58e9f75860a168f3283acd8d9a184f5c930b540a59c4c"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "empty",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_empty_r0.png",
+      "sha256": "66a9ff6d8d43efe246038cd6d7aac3bfcee5be3e4308adc878339b17e5b731a9"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "empty",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_empty_r1.png",
+      "sha256": "a240445d6d9308f41db28525bd76648e9e9b4f622050a339bf6a0d16a6428808"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "empty",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_empty_r2.png",
+      "sha256": "ce27edca5905746ec2a1d8835a64a88d37ffc931a4123d22577e46564d214397"
+    },
+    {
+      "fixture": "fridge_drink",
+      "state": "empty",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/fridge_drink/fridge_drink_empty_r3.png",
+      "sha256": "41e55d6f329ea8471103daa85c48bfd72545fea2a1df14e0a96e8b18a4bdfd8b"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "full",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_full_r0.png",
+      "sha256": "72bc0815836803061cde5f866b9e12d3003ba428e971193a84cbf82cb84fe80d"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "full",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_full_r1.png",
+      "sha256": "634fdf4341a51df1c64c47e8c724545defa238c0a39fa3f3017f222a1f43bb79"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "full",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_full_r2.png",
+      "sha256": "72bc0815836803061cde5f866b9e12d3003ba428e971193a84cbf82cb84fe80d"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "full",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_full_r3.png",
+      "sha256": "634fdf4341a51df1c64c47e8c724545defa238c0a39fa3f3017f222a1f43bb79"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "half",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_half_r0.png",
+      "sha256": "d2aef98c6c177c73b4a6319094dd466b359332c0d19d74abe6d39a7baaceaae5"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "half",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_half_r1.png",
+      "sha256": "62cd69715f21aa6c702cb0d7644de6a464204ece7e0549766063cf843529b691"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "half",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_half_r2.png",
+      "sha256": "d2aef98c6c177c73b4a6319094dd466b359332c0d19d74abe6d39a7baaceaae5"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "half",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_half_r3.png",
+      "sha256": "62cd69715f21aa6c702cb0d7644de6a464204ece7e0549766063cf843529b691"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "empty",
+      "rotation": 0,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_empty_r0.png",
+      "sha256": "6f944b0574323efe3d2ddb73523363a9ad822f7e8c8a394daec2357f4f8e30e1"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "empty",
+      "rotation": 1,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_empty_r1.png",
+      "sha256": "ed0ae12b87f47e12cf36b3fafad77e86fe6cb60180d9984fb822bdd132af97a5"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "empty",
+      "rotation": 2,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_empty_r2.png",
+      "sha256": "6f944b0574323efe3d2ddb73523363a9ad822f7e8c8a394daec2357f4f8e30e1"
+    },
+    {
+      "fixture": "shelf_noodle",
+      "state": "empty",
+      "rotation": 3,
+      "path": "textures/fixtures/inventory_states/shelf_noodle/shelf_noodle_empty_r3.png",
+      "sha256": "ed0ae12b87f47e12cf36b3fafad77e86fe6cb60180d9984fb822bdd132af97a5"
+    }
+  ]
+}

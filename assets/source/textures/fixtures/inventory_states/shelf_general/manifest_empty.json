@@ -1,0 +1,259 @@
+{
+  "manifest_version": 1,
+  "fixture_type_id": "shelf_general",
+  "visual_id": "shelf_general_inventory_empty",
+  "projection_id": "iso2x_v1",
+  "projection": {
+    "angle_xy_deg": 45,
+    "vertical_angle_deg": 30
+  },
+  "source_px_per_tile": [
+    256,
+    128
+  ],
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.5
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "front": "E",
+  "visual_state": "EMPTY",
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        442,
+        450
+      ],
+      "anchor_px": [
+        285,
+        303
+      ],
+      "visual_state": "EMPTY",
+      "rotation": 0,
+      "layers": {
+        "body": "shelf_general_empty_r0_body.png",
+        "products": "shelf_general_empty_r0_products.png",
+        "shadow": "shelf_general_empty_r0_shadow.png",
+        "composite": "shelf_general_empty_r0_composite.png"
+      },
+      "selection_polygon_px": [
+        [
+          285,
+          239
+        ],
+        [
+          413,
+          303
+        ],
+        [
+          285,
+          367
+        ],
+        [
+          157,
+          303
+        ]
+      ],
+      "sorting_anchor_px": [
+        285,
+        303
+      ],
+      "slot_anchors_px": {
+        "row0": [
+          285,
+          249
+        ],
+        "row1": [
+          285,
+          199
+        ],
+        "row2": [
+          285,
+          149
+        ],
+        "row3": [
+          285,
+          99
+        ]
+      }
+    },
+    "1": {
+      "canvas_px": [
+        442,
+        450
+      ],
+      "anchor_px": [
+        157,
+        303
+      ],
+      "visual_state": "EMPTY",
+      "rotation": 1,
+      "layers": {
+        "body": "shelf_general_empty_r1_body.png",
+        "products": "shelf_general_empty_r1_products.png",
+        "shadow": "shelf_general_empty_r1_shadow.png",
+        "composite": "shelf_general_empty_r1_composite.png"
+      },
+      "selection_polygon_px": [
+        [
+          285,
+          239
+        ],
+        [
+          413,
+          303
+        ],
+        [
+          285,
+          367
+        ],
+        [
+          157,
+          303
+        ]
+      ],
+      "sorting_anchor_px": [
+        157,
+        303
+      ],
+      "slot_anchors_px": {
+        "row0": [
+          285,
+          249
+        ],
+        "row1": [
+          285,
+          199
+        ],
+        "row2": [
+          285,
+          149
+        ],
+        "row3": [
+          285,
+          99
+        ]
+      }
+    },
+    "2": {
+      "canvas_px": [
+        442,
+        450
+      ],
+      "anchor_px": [
+        285,
+        303
+      ],
+      "visual_state": "EMPTY",
+      "rotation": 2,
+      "layers": {
+        "body": "shelf_general_empty_r2_body.png",
+        "products": "shelf_general_empty_r2_products.png",
+        "shadow": "shelf_general_empty_r2_shadow.png",
+        "composite": "shelf_general_empty_r2_composite.png"
+      },
+      "selection_polygon_px": [
+        [
+          285,
+          239
+        ],
+        [
+          413,
+          303
+        ],
+        [
+          285,
+          367
+        ],
+        [
+          157,
+          303
+        ]
+      ],
+      "sorting_anchor_px": [
+        285,
+        303
+      ],
+      "slot_anchors_px": {
+        "row0": [
+          285,
+          249
+        ],
+        "row1": [
+          285,
+          199
+        ],
+        "row2": [
+          285,
+          149
+        ],
+        "row3": [
+          285,
+          99
+        ]
+      }
+    },
+    "3": {
+      "canvas_px": [
+        442,
+        450
+      ],
+      "anchor_px": [
+        157,
+        303
+      ],
+      "visual_state": "EMPTY",
+      "rotation": 3,
+      "layers": {
+        "body": "shelf_general_empty_r3_body.png",
+        "products": "shelf_general_empty_r3_products.png",
+        "shadow": "shelf_general_empty_r3_shadow.png",
+        "composite": "shelf_general_empty_r3_composite.png"
+      },
+      "selection_polygon_px": [
+        [
+          285,
+          239
+        ],
+        [
+          413,
+          303
+        ],
+        [
+          285,
+          367
+        ],
+        [
+          157,
+          303
+        ]
+      ],
+      "sorting_anchor_px": [
+        157,
+        303
+      ],
+      "slot_anchors_px": {
+        "row0": [
+          285,
+          249
+        ],
+        "row1": [
+          285,
+          199
+        ],
+        "row2": [
+          285,
+          149
+        ],
+        "row3": [
+          285,
+          99
+        ]
+      }
+    }
+  }
+}

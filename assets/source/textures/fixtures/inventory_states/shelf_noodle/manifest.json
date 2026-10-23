@@ -1,0 +1,279 @@
+{
+  "manifest_version": 1,
+  "visual_id": "shelf_noodle_inventory_v1",
+  "fixture_type_id": "shelf_noodle",
+  "projection_id": "iso2x_v1",
+  "projection": {
+    "azimuth_deg": 45,
+    "elevation_deg": 30,
+    "source_px_per_tile": [
+      256,
+      128
+    ]
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.7
+  },
+  "footprint": [
+    1,
+    2
+  ],
+  "front": "E",
+  "runtime_approved": false,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        272,
+        382
+      ],
+      "states": {
+        "FULL": {
+          "composite": "shelf_noodle_full_r0.png",
+          "layers": {
+            "body": "shelf_noodle_full_r0_body.png",
+            "products": "shelf_noodle_full_r0_products.png",
+            "shadow": "shelf_noodle_full_r0_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            272,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        },
+        "HALF": {
+          "composite": "shelf_noodle_half_r0.png",
+          "layers": {
+            "body": "shelf_noodle_half_r0_body.png",
+            "products": "shelf_noodle_half_r0_products.png",
+            "shadow": "shelf_noodle_half_r0_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            272,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        },
+        "EMPTY": {
+          "composite": "shelf_noodle_empty_r0.png",
+          "layers": {
+            "body": "shelf_noodle_empty_r0_body.png",
+            "products": "shelf_noodle_empty_r0_products.png",
+            "shadow": "shelf_noodle_empty_r0_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            272,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        }
+      }
+    },
+    "1": {
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        240,
+        382
+      ],
+      "states": {
+        "FULL": {
+          "composite": "shelf_noodle_full_r1.png",
+          "layers": {
+            "body": "shelf_noodle_full_r1_body.png",
+            "products": "shelf_noodle_full_r1_products.png",
+            "shadow": "shelf_noodle_full_r1_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            240,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        },
+        "HALF": {
+          "composite": "shelf_noodle_half_r1.png",
+          "layers": {
+            "body": "shelf_noodle_half_r1_body.png",
+            "products": "shelf_noodle_half_r1_products.png",
+            "shadow": "shelf_noodle_half_r1_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            240,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        },
+        "EMPTY": {
+          "composite": "shelf_noodle_empty_r1.png",
+          "layers": {
+            "body": "shelf_noodle_empty_r1_body.png",
+            "products": "shelf_noodle_empty_r1_products.png",
+            "shadow": "shelf_noodle_empty_r1_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            240,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        }
+      }
+    },
+    "2": {
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        272,
+        382
+      ],
+      "states": {
+        "FULL": {
+          "composite": "shelf_noodle_full_r2.png",
+          "layers": {
+            "body": "shelf_noodle_full_r2_body.png",
+            "products": "shelf_noodle_full_r2_products.png",
+            "shadow": "shelf_noodle_full_r2_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            272,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        },
+        "HALF": {
+          "composite": "shelf_noodle_half_r2.png",
+          "layers": {
+            "body": "shelf_noodle_half_r2_body.png",
+            "products": "shelf_noodle_half_r2_products.png",
+            "shadow": "shelf_noodle_half_r2_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            272,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        },
+        "EMPTY": {
+          "composite": "shelf_noodle_empty_r2.png",
+          "layers": {
+            "body": "shelf_noodle_empty_r2_body.png",
+            "products": "shelf_noodle_empty_r2_products.png",
+            "shadow": "shelf_noodle_empty_r2_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            272,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        }
+      }
+    },
+    "3": {
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        240,
+        382
+      ],
+      "states": {
+        "FULL": {
+          "composite": "shelf_noodle_full_r3.png",
+          "layers": {
+            "body": "shelf_noodle_full_r3_body.png",
+            "products": "shelf_noodle_full_r3_products.png",
+            "shadow": "shelf_noodle_full_r3_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            240,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        },
+        "HALF": {
+          "composite": "shelf_noodle_half_r3.png",
+          "layers": {
+            "body": "shelf_noodle_half_r3_body.png",
+            "products": "shelf_noodle_half_r3_products.png",
+            "shadow": "shelf_noodle_half_r3_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            240,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        },
+        "EMPTY": {
+          "composite": "shelf_noodle_empty_r3.png",
+          "layers": {
+            "body": "shelf_noodle_empty_r3_body.png",
+            "products": "shelf_noodle_empty_r3_products.png",
+            "shadow": "shelf_noodle_empty_r3_shadow.png"
+          },
+          "canvas_px": [
+            512,
+            512
+          ],
+          "anchor_px": [
+            240,
+            382
+          ],
+          "product_alpha_policy": "opaque_per_item; HALF uses fewer items, never 50% alpha"
+        }
+      }
+    }
+  }
+}
