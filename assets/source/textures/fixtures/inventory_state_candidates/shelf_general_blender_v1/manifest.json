@@ -1,0 +1,1011 @@
+{
+  "manifest_version": 1,
+  "visual_id": "shelf_general_a_inventory_v2",
+  "fixture_type_id": "shelf_general",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1.0,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.5
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "product_counts_by_state": {
+    "FULL": 32,
+    "HALF": 16,
+    "EMPTY": 0
+  },
+  "product_setup": {
+    "shape": "snack_pouch 0.130 x 0.055 x 0.215m plus cup_noodle 0.110 x 0.110 x 0.120m",
+    "art_sources": [
+      "assets/source/textures/packages/candidates/issue91_snack_art_v01/potato_chips/front_art_v01.png",
+      "assets/source/textures/packages/candidates/issue91_snack_art_v01/chocolate_biscuit/front_art.png",
+      "assets/source/textures/packages/candidates/issue91_snack_art_v01/fruit_gummy/front_art.png",
+      "assets/source/textures/packages/candidates/issue91_cup_noodle_wrap_art_v01/spicy_miso/label_art.png",
+      "assets/source/textures/packages/candidates/issue91_bread_art_v01/melon_pan/front_art.png",
+      "assets/source/textures/packages/candidates/issue91_bread_art_v01/butter_roll/front_art.png"
+    ],
+    "shape_dimensions_m": {
+      "snack_pouch": [
+        0.13,
+        0.055,
+        0.215
+      ],
+      "cup_noodle": [
+        0.11,
+        0.11,
+        0.12
+      ]
+    }
+  },
+  "front": "E",
+  "runtime_approved": false,
+  "states": {
+    "FULL": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            285.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_full_r0_body.png",
+            "products": "shelf_general_full_r0_products.png",
+            "glass_front": "shelf_general_full_r0_glass_front.png",
+            "shadow": "shelf_general_full_r0_shadow.png",
+            "composite": "shelf_general_full_r0_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              243.86,
+              311.65
+            ],
+            "row1": [
+              243.86,
+              261.48
+            ],
+            "row2": [
+              243.86,
+              211.32
+            ],
+            "row3": [
+              243.86,
+              161.15
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              239.0
+            ],
+            [
+              413.0,
+              303.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              1.5
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              0.24500000476837158,
+              -0.41499999165534973,
+              0.32099997997283936
+            ],
+            "max": [
+              0.35499998927116394,
+              1.4149999618530273,
+              1.4959999322891235
+            ]
+          },
+          "product_count": 32
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_full_r1_body.png",
+            "products": "shelf_general_full_r1_products.png",
+            "glass_front": "shelf_general_full_r1_glass_front.png",
+            "shadow": "shelf_general_full_r1_shadow.png",
+            "composite": "shelf_general_full_r1_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              167.06,
+              296.11
+            ],
+            "row1": [
+              167.06,
+              245.94
+            ],
+            "row2": [
+              167.06,
+              195.78
+            ],
+            "row3": [
+              167.06,
+              145.61
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              239.0
+            ],
+            [
+              413.0,
+              367.0
+            ],
+            [
+              285.0,
+              431.0
+            ],
+            [
+              29.0,
+              303.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              1.5
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.41499999165534973,
+              0.24500000476837158,
+              0.32099997997283936
+            ],
+            "max": [
+              1.415000081062317,
+              0.35499998927116394,
+              1.4959999322891235
+            ]
+          },
+          "product_count": 32
+        },
+        "2": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            285.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_full_r2_body.png",
+            "products": "shelf_general_full_r2_products.png",
+            "glass_front": "shelf_general_full_r2_glass_front.png",
+            "shadow": "shelf_general_full_r2_shadow.png",
+            "composite": "shelf_general_full_r2_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              198.14,
+              257.71
+            ],
+            "row1": [
+              198.14,
+              207.54
+            ],
+            "row2": [
+              198.14,
+              157.38
+            ],
+            "row3": [
+              198.14,
+              107.21
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              239.0
+            ],
+            [
+              413.0,
+              303.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              1.5
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.35499998927116394,
+              -0.41499999165534973,
+              0.32099997997283936
+            ],
+            "max": [
+              -0.24500000476837158,
+              1.415000081062317,
+              1.4959999322891235
+            ]
+          },
+          "product_count": 32
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_full_r3_body.png",
+            "products": "shelf_general_full_r3_products.png",
+            "glass_front": "shelf_general_full_r3_glass_front.png",
+            "shadow": "shelf_general_full_r3_shadow.png",
+            "composite": "shelf_general_full_r3_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              274.94,
+              273.25
+            ],
+            "row1": [
+              274.94,
+              223.08
+            ],
+            "row2": [
+              274.94,
+              172.92
+            ],
+            "row3": [
+              274.94,
+              122.75
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              239.0
+            ],
+            [
+              413.0,
+              367.0
+            ],
+            [
+              285.0,
+              431.0
+            ],
+            [
+              29.0,
+              303.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              1.5
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.41499999165534973,
+              -0.35499998927116394,
+              0.32099997997283936
+            ],
+            "max": [
+              1.415000081062317,
+              -0.24500000476837158,
+              1.4959999322891235
+            ]
+          },
+          "product_count": 32
+        }
+      }
+    },
+    "HALF": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            285.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_half_r0_body.png",
+            "products": "shelf_general_half_r0_products.png",
+            "glass_front": "shelf_general_half_r0_glass_front.png",
+            "shadow": "shelf_general_half_r0_shadow.png",
+            "composite": "shelf_general_half_r0_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              243.86,
+              311.65
+            ],
+            "row1": [
+              243.86,
+              261.48
+            ],
+            "row2": [
+              243.86,
+              211.32
+            ],
+            "row3": [
+              243.86,
+              161.15
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              239.0
+            ],
+            [
+              413.0,
+              303.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              1.5
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              0.24500000476837158,
+              -0.41499999165534973,
+              0.32099997997283936
+            ],
+            "max": [
+              0.35499998927116394,
+              1.4149999618530273,
+              1.4959999322891235
+            ]
+          },
+          "product_count": 16
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_half_r1_body.png",
+            "products": "shelf_general_half_r1_products.png",
+            "glass_front": "shelf_general_half_r1_glass_front.png",
+            "shadow": "shelf_general_half_r1_shadow.png",
+            "composite": "shelf_general_half_r1_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              167.06,
+              296.11
+            ],
+            "row1": [
+              167.06,
+              245.94
+            ],
+            "row2": [
+              167.06,
+              195.78
+            ],
+            "row3": [
+              167.06,
+              145.61
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              239.0
+            ],
+            [
+              413.0,
+              367.0
+            ],
+            [
+              285.0,
+              431.0
+            ],
+            [
+              29.0,
+              303.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              1.5
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.41499999165534973,
+              0.24500000476837158,
+              0.32099997997283936
+            ],
+            "max": [
+              1.415000081062317,
+              0.35499998927116394,
+              1.4959999322891235
+            ]
+          },
+          "product_count": 16
+        },
+        "2": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            285.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_half_r2_body.png",
+            "products": "shelf_general_half_r2_products.png",
+            "glass_front": "shelf_general_half_r2_glass_front.png",
+            "shadow": "shelf_general_half_r2_shadow.png",
+            "composite": "shelf_general_half_r2_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              198.14,
+              257.71
+            ],
+            "row1": [
+              198.14,
+              207.54
+            ],
+            "row2": [
+              198.14,
+              157.38
+            ],
+            "row3": [
+              198.14,
+              107.21
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              239.0
+            ],
+            [
+              413.0,
+              303.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              1.5
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.35499998927116394,
+              -0.41499999165534973,
+              0.32099997997283936
+            ],
+            "max": [
+              -0.24500000476837158,
+              1.415000081062317,
+              1.4959999322891235
+            ]
+          },
+          "product_count": 16
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_half_r3_body.png",
+            "products": "shelf_general_half_r3_products.png",
+            "glass_front": "shelf_general_half_r3_glass_front.png",
+            "shadow": "shelf_general_half_r3_shadow.png",
+            "composite": "shelf_general_half_r3_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              274.94,
+              273.25
+            ],
+            "row1": [
+              274.94,
+              223.08
+            ],
+            "row2": [
+              274.94,
+              172.92
+            ],
+            "row3": [
+              274.94,
+              122.75
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              239.0
+            ],
+            [
+              413.0,
+              367.0
+            ],
+            [
+              285.0,
+              431.0
+            ],
+            [
+              29.0,
+              303.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              1.5
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.41499999165534973,
+              -0.35499998927116394,
+              0.32099997997283936
+            ],
+            "max": [
+              1.415000081062317,
+              -0.24500000476837158,
+              1.4959999322891235
+            ]
+          },
+          "product_count": 16
+        }
+      }
+    },
+    "EMPTY": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            285.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_empty_r0_body.png",
+            "products": "shelf_general_empty_r0_products.png",
+            "glass_front": "shelf_general_empty_r0_glass_front.png",
+            "shadow": "shelf_general_empty_r0_shadow.png",
+            "composite": "shelf_general_empty_r0_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              243.86,
+              311.65
+            ],
+            "row1": [
+              243.86,
+              261.48
+            ],
+            "row2": [
+              243.86,
+              211.32
+            ],
+            "row3": [
+              243.86,
+              161.15
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              239.0
+            ],
+            [
+              413.0,
+              303.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              1.5
+            ]
+          },
+          "products_bbox": null,
+          "product_count": 0
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_empty_r1_body.png",
+            "products": "shelf_general_empty_r1_products.png",
+            "glass_front": "shelf_general_empty_r1_glass_front.png",
+            "shadow": "shelf_general_empty_r1_shadow.png",
+            "composite": "shelf_general_empty_r1_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              167.06,
+              296.11
+            ],
+            "row1": [
+              167.06,
+              245.94
+            ],
+            "row2": [
+              167.06,
+              195.78
+            ],
+            "row3": [
+              167.06,
+              145.61
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              239.0
+            ],
+            [
+              413.0,
+              367.0
+            ],
+            [
+              285.0,
+              431.0
+            ],
+            [
+              29.0,
+              303.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              1.5
+            ]
+          },
+          "products_bbox": null,
+          "product_count": 0
+        },
+        "2": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            285.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_empty_r2_body.png",
+            "products": "shelf_general_empty_r2_products.png",
+            "glass_front": "shelf_general_empty_r2_glass_front.png",
+            "shadow": "shelf_general_empty_r2_shadow.png",
+            "composite": "shelf_general_empty_r2_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              198.14,
+              257.71
+            ],
+            "row1": [
+              198.14,
+              207.54
+            ],
+            "row2": [
+              198.14,
+              157.38
+            ],
+            "row3": [
+              198.14,
+              107.21
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              239.0
+            ],
+            [
+              413.0,
+              303.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              1.5
+            ]
+          },
+          "products_bbox": null,
+          "product_count": 0
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_empty_r3_body.png",
+            "products": "shelf_general_empty_r3_products.png",
+            "glass_front": "shelf_general_empty_r3_glass_front.png",
+            "shadow": "shelf_general_empty_r3_shadow.png",
+            "composite": "shelf_general_empty_r3_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              274.94,
+              273.25
+            ],
+            "row1": [
+              274.94,
+              223.08
+            ],
+            "row2": [
+              274.94,
+              172.92
+            ],
+            "row3": [
+              274.94,
+              122.75
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              239.0
+            ],
+            [
+              413.0,
+              367.0
+            ],
+            [
+              285.0,
+              431.0
+            ],
+            [
+              29.0,
+              303.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              1.5
+            ]
+          },
+          "products_bbox": null,
+          "product_count": 0
+        }
+      }
+    }
+  },
+  "composition_order": [
+    "shadow",
+    "body",
+    "products",
+    "glass_front"
+  ],
+  "note": "Per-state composite PNG is rendered as one Blender scene for correct depth. Separate layers are review/reference passes; their simple 2D stack is not a substitute for per-pixel depth occlusion."
+}

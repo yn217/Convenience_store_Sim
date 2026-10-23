@@ -16,6 +16,11 @@ import iso2x
 STATES = ("FULL", "HALF", "EMPTY")
 LAYERS = ("body", "products", "glass_front", "shadow")
 PADDING = 8
+PRODUCT_SHAPE_DIMENSIONS_M = {
+    "fridge_drink": {"bottle_500": [0.068, 0.068, 0.225]},
+    "shelf_noodle": {"cup_noodle": [0.110, 0.110, 0.120]},
+    "shelf_general": {"snack_pouch": [0.130, 0.055, 0.215], "cup_noodle": [0.110, 0.110, 0.120]},
+}
 
 
 def sha256(path):
@@ -39,6 +44,8 @@ def main():
     canvas_w, canvas_h = info["canvas_px"]
     origin_x, origin_y = info["origin_px"]
     fixture = info["fixture_type_id"]
+    product_setup = dict(info["product_setup"])
+    product_setup["shape_dimensions_m"] = PRODUCT_SHAPE_DIMENSIONS_M[fixture]
     catalog_path = HERE.parents[1] / "data" / "fixtures" / "mvp_v1.json"
     catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
     definition = next(item for item in catalog if item["type_id"] == fixture)
@@ -55,6 +62,8 @@ def main():
         "source_px_per_tile_diamond": list(iso2x.SOURCE_PX_PER_TILE_DIAMOND),
         "dimensions_m": definition["dimensions_m"],
         "footprint": definition["footprint"],
+        "product_counts_by_state": info["product_counts_by_state"],
+        "product_setup": product_setup,
         "front": definition["access_edges"][0],
         "runtime_approved": False,
         "states": {},
@@ -146,6 +155,8 @@ def main():
     comparison = Image.new("RGB", (1120, 590), (231, 234, 237))
     compare_draw = ImageDraw.Draw(comparison)
     before_path = HERE.parents[1] / "assets" / "source" / "textures" / "fixtures" / "inventory_states" / fixture / (fixture + "_full_r0.png")
+    if not before_path.is_file():
+        before_path = before_path.with_name(fixture + "_full_r0_composite.png")
     for column, (label, path) in enumerate((("BEFORE / existing Pillow candidate", before_path), ("AFTER / calibrated Blender candidate", output / (fixture + "_full_r0_composite.png")))):
         with Image.open(path).convert("RGBA") as image:
             image.thumbnail((520, 510), Image.Resampling.LANCZOS)
@@ -169,15 +180,15 @@ def main():
         "crop_padding_px": PADDING,
         "dimensions_m": definition["dimensions_m"],
         "footprint": definition["footprint"],
-        "product_shape": "bottle_500; 0.068 x 0.068 x 0.225m; three fictional material palettes",
-        "state_setup": {"FULL": "8 bottles per each of 3 shelves", "HALF": "4 bottles per each of 3 shelves", "EMPTY": "0 bottles"},
+        "product_setup": product_setup,
+        "product_counts_by_state": info["product_counts_by_state"],
         "rotation_mesh_bbox": {state: {r: info["rotations"][state][r]["mesh_bbox"] for r in sorted(info["rotations"][state])} for state in STATES},
         "calibration": {"chart": "calibration.png", "measured_by": "tools/assets/validate_inventory_fixture_states.py", "status": "see validation_report.json"},
         "runtime_approved": False,
         "third_party_assets": False,
         "visual_review_required": True,
-        "source_label_art": {name: {"path": "assets/source/textures/packages/candidates/issue91_beverage_label_art_v01/%s/label_art_v01.png" % name, "sha256": sha256(HERE.parents[1] / "assets" / "source" / "textures" / "packages" / "candidates" / "issue91_beverage_label_art_v01" / name / "label_art_v01.png")} for name in ("green_tea", "citrus_soda", "unsweetened_coffee")},
-        "notes": "Composite is a single scene render with Blender depth occlusion; separated passes are not independently depth-aware. The ImageGen label art is UV-wrapped around the modeled 500ml bottle label band. Candidate label textures and generated packshot references are not runtime-approved.",
+        "source_art_sha256": {path: sha256(HERE.parents[1] / path) for path in info["product_setup"]["art_sources"]},
+        "notes": "Composite is a single scene render with Blender depth occlusion; separated passes are not independently depth-aware. Generated packaging artwork is mapped to physical product geometry. All candidate textures and sprites remain runtime-unapproved.",
         "sha256": {path.name: sha256(path) for path in pngs},
     }
     (output / "provenance.json").write_text(json.dumps(provenance, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
