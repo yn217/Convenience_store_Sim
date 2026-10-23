@@ -8,7 +8,9 @@ func test_metric_texts_from_snapshot(t, _tree) -> void:
 	t.eq(m["sales"], "¥12,345")
 	t.eq(m["profit"], "¥4,000")
 	t.eq(m["customers"], "3 人")
-	t.eq(m["reputation"], "57")
+	t.eq(m["satisfaction"], "57%")
+	t.eq(MetricBar.texts({"reputation": 150})["satisfaction"], "100%", "clamped to 100")
+	t.eq(MetricBar.satisfaction_percent(-5), 0, "clamped to 0")
 	t.eq(MetricBar.texts({})["sales"], "¥0", "empty snapshot is a real zero")
 
 

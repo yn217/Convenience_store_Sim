@@ -1,13 +1,13 @@
 class_name MetricBar
 extends PanelContainer
-## Bottom strip of four metric cards (mockup A): sales, gross profit, customers in store, reputation.
-## Display only; fed by the same snapshot as the top HUD.
+## Bottom strip of four metric cards (mockup A): sales, gross profit, customers in store, customer
+## satisfaction (客層満足度, a percent derived from reputation). Display only; fed by the same snapshot as the top HUD.
 
 const CARDS := [
 	{"id": "sales", "title": "本日の売上"},
 	{"id": "profit", "title": "本日の粗利"},
 	{"id": "customers", "title": "店内客"},
-	{"id": "reputation", "title": "評判"},
+	{"id": "satisfaction", "title": "客層満足度", "tip": "評判から算出"},
 ]
 const HEIGHT := 72
 
@@ -34,6 +34,8 @@ func _ready() -> void:
 		var value := Label.new()
 		value.theme_type_variation = &"CardValue"
 		value.text = "—"
+		if c.has("tip"):
+			value.tooltip_text = c["tip"]
 		box.add_child(value)
 		row.add_child(card)
 		_values[c["id"]] = value
@@ -45,8 +47,13 @@ static func texts(s: Dictionary) -> Dictionary:
 		"sales": GameHud.format_yen(int(today["revenue_yen"])),
 		"profit": GameHud.format_yen(int(today["gross_profit_yen"])),
 		"customers": "%d 人" % s.get("customers", []).size(),
-		"reputation": "%d" % int(s.get("reputation", 0)),
+		"satisfaction": "%d%%" % satisfaction_percent(int(s.get("reputation", 0))),
 	}
+
+
+## Reputation is already a 0..100 score (see ReputationModel), so the percent is the clamped value.
+static func satisfaction_percent(rep: int) -> int:
+	return clampi(rep, 0, 100)
 
 
 func apply_snapshot(s: Dictionary) -> void:

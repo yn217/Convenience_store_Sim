@@ -7,6 +7,8 @@ extends PanelContainer
 signal speed_requested(speed: int)
 
 const NONE := "—"
+## (month, days) in calendar order from April; the sum is the 365-day year.
+const CALENDAR := [[4, 30], [5, 31], [6, 30], [7, 31], [8, 31], [9, 30], [10, 31], [11, 30], [12, 31], [1, 31], [2, 28], [3, 31]]
 const STATE_TEXT := {
 	"SETUP": "準備中", "OPEN": "営業中", "CLOSING": "閉店処理中", "PAYMENT_BLOCKED": "支払不能",
 }
@@ -18,13 +20,18 @@ const STATE_TEXT := {
 @onready var _clock: Label = $Row/ClockLabel
 @onready var _speed: Label = $Row/SpeedLabel
 @onready var _state: Label = $Row/StateLabel
+var _date: Label
 var _speed_buttons: Dictionary = {}
 
 
 func _ready() -> void:
 	var row: HBoxContainer = $Row
+	_date = Label.new()
+	_date.name = "DateLabel"
+	row.add_child(_date)
+	row.move_child(_date, _clock.get_index() + 1)
 	var anchor := _speed.get_index()
-	for lbl in [_cash, _sales, _profit, _customers, _clock, _speed, _state]:
+	for lbl in [_cash, _sales, _profit, _customers, _clock, _date, _speed, _state]:
 		lbl.theme_type_variation = &"HudValue"
 	for speed in [0, 1, 2, 4]:
 		var b := Button.new()
@@ -63,6 +70,29 @@ static func weekday_text(day: int) -> String:
 	return NAMES[posmod(day, 7)]
 
 
+## Calendar date for the mockup HUD, e.g. "春 4月1日(月)". DAY 0 is 4月1日 of a non-leap 365-day year;
+## the weekday comes from weekday_text so both labels agree. Pure: no randomness, no state.
+static func date_text(day: int) -> String:
+	var rest := posmod(day, 365)
+	for entry in CALENDAR:
+		var month: int = entry[0]
+		var length: int = entry[1]
+		if rest < length:
+			return "%s %d月%d日(%s)" % [season_text(month), month, rest + 1, weekday_text(day).substr(0, 1)]
+		rest -= length
+	return ""
+
+
+static func season_text(month: int) -> String:
+	if month >= 3 and month <= 5:
+		return "春"
+	if month >= 6 and month <= 8:
+		return "夏"
+	if month >= 9 and month <= 11:
+		return "秋"
+	return "冬"
+
+
 func apply_snapshot(s: Dictionary) -> void:
 	var metrics := get_node_or_null("../MetricBar")
 	if metrics != null:
@@ -79,6 +109,7 @@ func apply_snapshot(s: Dictionary) -> void:
 	var day := int(s["day"])
 	_clock.text = "DAY %d  %s" % [day, format_clock(int(s["time_sec"]))]
 	_clock.tooltip_text = "%s（%d日目）" % [weekday_text(day), day + 1]
+	_date.text = date_text(day)
 	_speed.text = "速度 " + speed_text(int(s["speed_setting"]))
 	_state.text = STATE_TEXT.get(s["business_state"], String(s["business_state"]))
 	var running: bool = s["business_state"] == "OPEN" or s["business_state"] == "CLOSING"
