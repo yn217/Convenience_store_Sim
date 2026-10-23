@@ -7,3 +7,5 @@ The manifest is `assets/source/textures/packages/candidates/lod/LOD_MANIFEST.jso
 The review sheet is `docs/art/package_lod_comparison.png` and can be regenerated with `tools/art/build_package_lod_preview.py`.
 
 `VISUAL_LOD_MANIFEST.json` maps the six existing review visual IDs (`rice`, `drink`, and `noodle`) to their source cutout and LOD paths. It is deliberately review-only; the existing procedural visual IDs remain the fallback until human mark review and `iso2x_v1` integration are complete.
+
+`PACKAGE_VISUAL_COVERAGE.json` compares those review-only candidates with all catalog products and explicitly lists products without a candidate. It does not alter runtime product definitions.

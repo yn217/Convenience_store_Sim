@@ -255,6 +255,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/PACKAGE_VISUAL_COVERAGE.json",
+      "sha256": "0760520d9fa3dfd2aa443f457082db50ee20fbdecd1c71a721257ded76686d6b",
+      "bytes": 5657
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/sku_cupnoodle_comparison_v01.png",
       "sha256": "f661b5b68ef3330998d2c805cb38fa0bcf8e012cf020969a6a661e7ec4ff71d0",
       "bytes": 2055275

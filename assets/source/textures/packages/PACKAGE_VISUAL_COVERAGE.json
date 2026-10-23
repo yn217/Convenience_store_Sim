@@ -1,0 +1,199 @@
+{
+  "status": "coverage report only; existing procedural runtime remains fallback",
+  "total_products": 24,
+  "review_only_products": 6,
+  "rows": [
+    {
+      "sku_id": "rice_001",
+      "category": "rice_ball",
+      "visual_id": "rice_001_package",
+      "candidate_status": "review-only",
+      "candidate_variant": "rice_001",
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "rice_002",
+      "category": "rice_ball",
+      "visual_id": "rice_002_package",
+      "candidate_status": "review-only",
+      "candidate_variant": "rice_002",
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "rice_003",
+      "category": "rice_ball",
+      "visual_id": "rice_003_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "oden_001",
+      "category": "oden",
+      "visual_id": "oden_001_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "oden_002",
+      "category": "oden",
+      "visual_id": "oden_002_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "oden_003",
+      "category": "oden",
+      "visual_id": "oden_003_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "noodle_001",
+      "category": "instant_noodle",
+      "visual_id": "noodle_001_package",
+      "candidate_status": "review-only",
+      "candidate_variant": "noodle_001",
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "noodle_002",
+      "category": "instant_noodle",
+      "visual_id": "noodle_002_package",
+      "candidate_status": "review-only",
+      "candidate_variant": "noodle_002",
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "noodle_003",
+      "category": "instant_noodle",
+      "visual_id": "noodle_003_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "bread_001",
+      "category": "bread",
+      "visual_id": "bread_001_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "bread_002",
+      "category": "bread",
+      "visual_id": "bread_002_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "bread_003",
+      "category": "bread",
+      "visual_id": "bread_003_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "drink_001",
+      "category": "drink",
+      "visual_id": "drink_001_package",
+      "candidate_status": "review-only",
+      "candidate_variant": "drink_001",
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "drink_002",
+      "category": "drink",
+      "visual_id": "drink_002_package",
+      "candidate_status": "review-only",
+      "candidate_variant": "drink_002",
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "drink_003",
+      "category": "drink",
+      "visual_id": "drink_003_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "snack_001",
+      "category": "snack",
+      "visual_id": "snack_001_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "snack_002",
+      "category": "snack",
+      "visual_id": "snack_002_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "snack_003",
+      "category": "snack",
+      "visual_id": "snack_003_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "dessert_001",
+      "category": "dessert",
+      "visual_id": "dessert_001_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "dessert_002",
+      "category": "dessert",
+      "visual_id": "dessert_002_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "dessert_003",
+      "category": "dessert",
+      "visual_id": "dessert_003_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "ice_001",
+      "category": "ice_cream",
+      "visual_id": "ice_001_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "ice_002",
+      "category": "ice_cream",
+      "visual_id": "ice_002_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    },
+    {
+      "sku_id": "ice_003",
+      "category": "ice_cream",
+      "visual_id": "ice_003_package",
+      "candidate_status": "not_registered",
+      "candidate_variant": null,
+      "runtime_approved": false
+    }
+  ]
+}
