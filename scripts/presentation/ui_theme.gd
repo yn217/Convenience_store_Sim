@@ -33,8 +33,25 @@ const RADIUS := 10
 const BUTTON_RADIUS := 8
 const BAR_RADIUS := 4
 const HUD_RADIUS := 14
-const FRAME_RADIUS := 12
+const FRAME_RADIUS := 14
 const TOAST_RADIUS := 16
+const FRAME_TOP := Color("1a3652")
+const FRAME_BOTTOM := Color("0f2236")
+const FRAME_RIM := Color("5d82a8")
+const CARD_TOP := Color("22446a")
+const CARD_BOTTOM := Color("142c46")
+const CARD_RIM := Color("4a6f96")
+const CHIP_FACE := Color(0.04, 0.1, 0.17, 0.9)
+
+## Type scale (13 / 15 / 18 / 24) and spacing (8 / 12 / 16).
+const FONT_SMALL := 13
+const FONT_BODY := 15
+const FONT_TITLE := 18
+const FONT_VALUE := 24
+const FONT_HUD := FONT_BODY
+const SPACE_S := 8
+const SPACE_M := 12
+const SPACE_L := 16
 
 const HUD_HEIGHT := 64
 const BAR_HEIGHT := 8
@@ -42,14 +59,15 @@ const PALETTE_WIDTH := 280
 const INSPECTOR_WIDTH := 320
 const STORE_MIN_WIDTH := 640
 const COMPACT_WIDTH := 1280
-const FONT_BODY := 16
-const FONT_HUD := 20
+
+## Baked frame textures, one per colour pair (built on first use, see _rounded_texture).
+static var _texture_cache: Dictionary = {}
 
 
 static func build() -> Theme:
 	var theme := Theme.new()
 	# Frames: default panels are thick rounded game windows, cards are lifted with a shadow.
-	theme.set_stylebox("panel", "PanelContainer", _frame(PANEL))
+	theme.set_stylebox("panel", "PanelContainer", _frame())
 	theme.add_type("Card")
 	theme.set_type_variation("Card", "PanelContainer")
 	theme.set_stylebox("panel", "Card", _card_box())
@@ -69,23 +87,28 @@ static func build() -> Theme:
 	theme.add_type("SectionTitle")
 	theme.set_type_variation("SectionTitle", "Label")
 	theme.set_color("font_color", "SectionTitle", WARM)
-	theme.set_font_size("font_size", "SectionTitle", 20)
+	theme.set_font_size("font_size", "SectionTitle", FONT_TITLE)
 	theme.set_constant("outline_size", "SectionTitle", 2)
 	theme.set_color("font_outline_color", "SectionTitle", Color(0, 0, 0, 0.7))
 	theme.add_type("CardTitle")
 	theme.set_type_variation("CardTitle", "Label")
 	theme.set_color("font_color", "CardTitle", TEXT_SECONDARY)
-	theme.set_font_size("font_size", "CardTitle", 13)
+	theme.set_font_size("font_size", "CardTitle", FONT_SMALL)
 	theme.add_type("CardValue")
 	theme.set_type_variation("CardValue", "Label")
 	theme.set_color("font_color", "CardValue", GOLD)
-	theme.set_font_size("font_size", "CardValue", 24)
+	theme.set_font_size("font_size", "CardValue", FONT_VALUE)
 	_outline(theme, "CardValue", 3)
 	theme.add_type("HudValue")
 	theme.set_type_variation("HudValue", "Label")
-	theme.set_color("font_color", "HudValue", GOLD)
+	theme.set_color("font_color", "HudValue", TEXT_PRIMARY)
 	theme.set_font_size("font_size", "HudValue", FONT_HUD)
-	_outline(theme, "HudValue", 3)
+	_outline(theme, "HudValue", 2)
+	theme.add_type("HudCash")   # the money chip's value: a larger gold figure
+	theme.set_type_variation("HudCash", "Label")
+	theme.set_color("font_color", "HudCash", GOLD)
+	theme.set_font_size("font_size", "HudCash", FONT_TITLE)
+	_outline(theme, "HudCash", 3)
 	# Toggles: pill track with a white knob (blue when on).
 	theme.set_icon("checked", "CheckButton", _toggle_texture(true))
 	theme.set_icon("checked_disabled", "CheckButton", _toggle_texture(true))
@@ -140,23 +163,113 @@ static func _box(color: Color, radius: int = 0) -> StyleBoxFlat:
 	return b
 
 
-static func _frame(color: Color) -> StyleBoxFlat:
-	var b := _box(color, FRAME_RADIUS)
-	b.set_border_width_all(2)
-	b.set_content_margin_all(10)
-	b.shadow_color = Color(0, 0, 0, 0.35)
-	b.shadow_size = 6
-	b.shadow_offset = Vector2(0, 3)
+## Game window: a rounded frame with a vertical gradient, a 2 px light rim and a darker 2 px inner band.
+static func _frame() -> StyleBoxTexture:
+	return _rounded_box(FRAME_TOP, FRAME_BOTTOM, FRAME_RIM, FRAME_RADIUS, 10)
+
+
+## Card: the same window look in the card colours, a little tighter.
+static func _card_box() -> StyleBoxTexture:
+	return _rounded_box(CARD_TOP, CARD_BOTTOM, CARD_RIM, RADIUS, 10)
+
+
+static func _rounded_box(top: Color, bottom: Color, rim: Color, radius: int, pad: int) -> StyleBoxTexture:
+	var b := StyleBoxTexture.new()
+	b.texture = _rounded_texture(top, bottom, rim, radius)
+	b.set_texture_margin_all(radius)
+	b.set_content_margin_all(pad)
 	return b
 
 
-static func _card_box() -> StyleBoxFlat:
-	var b := _box(CARD, RADIUS)
-	b.border_color = Color(BORDER, 0.6)
-	b.set_content_margin_all(10)
-	b.shadow_color = Color(0, 0, 0, 0.4)
-	b.shadow_size = 5
-	b.shadow_offset = Vector2(0, 3)
+## The frame texture is (2 * radius + 4) px square and is stretched by StyleBoxTexture's 9-slice, so the corners stay
+## round at any size. Baked once per colour set and cached.
+static func _rounded_texture(top: Color, bottom: Color, rim: Color, radius: int) -> ImageTexture:
+	var key := "%s|%s|%s|%d" % [top.to_html(), bottom.to_html(), rim.to_html(), radius]
+	if _texture_cache.has(key):
+		return _texture_cache[key]
+	var n := radius * 2 + 4
+	var img := Image.create(n, n, false, Image.FORMAT_RGBA8)
+	var half := n * 0.5
+	var inner := half - float(radius)
+	var band_colour := 0.7
+	for y in n:
+		var fill := top.lerp(bottom, (y + 0.5) / n)
+		var band := fill.darkened(band_colour)
+		for x in n:
+			var p := Vector2(x + 0.5, y + 0.5) - Vector2(half, half)
+			var q := Vector2(absf(p.x), absf(p.y)) - Vector2(inner, inner)
+			var d := Vector2(maxf(q.x, 0.0), maxf(q.y, 0.0)).length() + minf(maxf(q.x, q.y), 0.0) - float(radius)
+			var cover := clampf(0.5 - d, 0.0, 1.0)   # antialiased outline
+			if cover <= 0.0:
+				continue
+			var from_edge := -d
+			var c := rim if from_edge < 2.0 else (band if from_edge < 4.0 else fill)
+			c.a = cover
+			img.set_pixel(x, y, c)
+	var tex := ImageTexture.create_from_image(img)
+	_texture_cache[key] = tex
+	return tex
+
+
+## Header ribbon behind a card title: a warm-edged strip. Drawn by the label's own draw signal so the title stays a
+## plain Label (the card's first child). It extends a little into the card's padding so the text is not on the edge.
+static func ribbon(label: Label) -> void:
+	if label.has_meta(&"ribbon"):
+		return
+	label.set_meta(&"ribbon", true)
+	var box := ribbon_box()
+	label.draw.connect(func(): label.draw_style_box(box, Rect2(Vector2(-8, -2), label.size + Vector2(16, 4))))
+
+
+static func ribbon_box() -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = Color(WARM, 0.2)
+	b.set_corner_radius_all(6)
+	b.border_width_left = 3
+	b.border_color = WARM
+	return b
+
+
+## A game-style pill for a HUD value group.
+static func chip_box(edge: Color = BORDER) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = CHIP_FACE
+	b.border_color = Color(edge, 0.7)
+	b.set_border_width_all(1)
+	b.set_corner_radius_all(14)
+	return b
+
+
+## Filled green badge for the open-for-business state.
+static func badge_box() -> StyleBoxFlat:
+	var b := chip_box(SUCCESS_GREEN)
+	b.bg_color = CONFIRM_GREEN
+	b.border_color = SUCCESS_GREEN
+	return b
+
+
+## Round icon badge on a metric card: a disc in the tint, with a ring of the same tint.
+static func badge_circle(tint: Color, size: int) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = Color(tint, 0.28)
+	b.border_color = tint
+	b.set_border_width_all(2)
+	b.set_corner_radius_all(size)
+	b.set_content_margin_all(0)
+	return b
+
+
+## Selected palette row: the blue face with a soft blue glow.
+static func selected_row_box() -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = Color(BRAND_BLUE, 0.7)
+	b.border_color = HIGHLIGHT_BLUE
+	b.set_border_width_all(2)
+	b.set_corner_radius_all(BUTTON_RADIUS)
+	b.shadow_color = Color(0.18, 0.55, 1.0, 0.5)
+	b.shadow_size = 8
+	b.content_margin_top = 2.0
+	b.content_margin_bottom = 2.0
 	return b
 
 
