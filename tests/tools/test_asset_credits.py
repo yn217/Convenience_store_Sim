@@ -52,6 +52,17 @@ class Credits(unittest.TestCase):
         self.edit("|Blender|tools/assets/figures.py", "|magic|tools/assets/figures.py")
         self.assertTrue(any("unknown source_type" in p for p in cc.problems(self.tmp)))
 
+    def test_ui_icon_set_is_listed_with_its_provenance(self):
+        rows = {r["asset_id"]: r for r in cc.parse(ROOT)}
+        self.assertIn("ui_icons", rows)
+        self.assertEqual(rows["ui_icons"]["path"], "assets/ui/icons")
+        self.assertEqual(rows["ui_icons"]["redistribution"], "yes")
+        svgs = sorted(p.name for p in (ROOT / "assets/ui/icons").glob("*.svg"))
+        self.assertEqual(len(svgs), 25)
+        readme = (ROOT / "assets/ui/icons/README.md").read_text(encoding="utf-8")
+        for name in svgs:
+            self.assertIn(name[:-4], readme, "README names " + name)
+
     def test_ai_rows_need_a_prompt_or_link(self):
         self.edit("|Blender|tools/assets/figures.py", "|AI|tools/assets/figures.py")
         self.assertTrue(any("need the prompt" in p for p in cc.problems(self.tmp)))

@@ -14,19 +14,22 @@ const ENTRY_HEIGHT := 64
 const BAR_WIDTH := 4
 ## Each entry: title, subtitle, and the section-title prefixes to try in order (first match wins).
 ## スタッフ has no section yet (MVP対象外), so it is disabled.
+const ICON_SIZE := 24
+const ICON_TEXT_LEFT := 40   # icon starts at the button's content margin (8 px), label after it
 const ITEMS := [
-	{"title": "店舗", "subtitle": "レイアウト・設備", "keys": ["選択", "未選択"]},
-	{"title": "商品", "subtitle": "発注・在庫・棚割", "keys": ["在庫", "販売価格"]},
-	{"title": "スタッフ", "subtitle": "シフト・教育", "keys": [], "disabled": true, "tooltip": "MVP対象外"},
-	{"title": "営業", "subtitle": "広告・イベント", "keys": ["営業"]},
-	{"title": "データ", "subtitle": "売上・顧客分析", "keys": ["日次レポート", "実績"]},
-	{"title": "設定", "subtitle": "店舗設定・その他", "keys": ["セーブ", "演出・音"]},
+	{"title": "店舗", "subtitle": "レイアウト・設備", "keys": ["選択", "未選択"], "icon": "store"},
+	{"title": "商品", "subtitle": "発注・在庫・棚割", "keys": ["在庫", "販売価格"], "icon": "box"},
+	{"title": "スタッフ", "subtitle": "シフト・教育", "keys": [], "disabled": true, "tooltip": "MVP対象外", "icon": "person"},
+	{"title": "営業", "subtitle": "広告・イベント", "keys": ["営業"], "icon": "megaphone"},
+	{"title": "データ", "subtitle": "売上・顧客分析", "keys": ["日次レポート", "実績"], "icon": "bar-chart"},
+	{"title": "設定", "subtitle": "店舗設定・その他", "keys": ["セーブ", "演出・音"], "icon": "gear"},
 ]
 
 var selected_index := 0
 var _buttons: Array[Button] = []
 var _titles: Array[Label] = []
 var _subtitles: Array[Label] = []
+var _icons: Array[Texture2D] = []
 
 
 func _ready() -> void:
@@ -48,7 +51,7 @@ func _add_entry(column: VBoxContainer, index: int, item: Dictionary) -> void:
 	var inner := VBoxContainer.new()
 	inner.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inner.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	inner.offset_left = 14
+	inner.offset_left = ICON_TEXT_LEFT
 	inner.offset_right = -8
 	inner.offset_top = 6
 	inner.offset_bottom = -6
@@ -66,6 +69,10 @@ func _add_entry(column: VBoxContainer, index: int, item: Dictionary) -> void:
 	subtitle.add_theme_color_override("font_color", UiTheme.TEXT_SECONDARY)
 	subtitle.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inner.add_child(subtitle)
+	var icon := UiIcons.texture(item["icon"], ICON_SIZE)
+	b.icon = icon
+	b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	b.expand_icon = false
 	if item.get("disabled", false):
 		b.disabled = true
 		b.tooltip_text = item["tooltip"]
@@ -78,6 +85,7 @@ func _add_entry(column: VBoxContainer, index: int, item: Dictionary) -> void:
 	_buttons.append(b)
 	_titles.append(title)
 	_subtitles.append(subtitle)
+	_icons.append(icon)
 
 
 ## Number of entries (for tests and layout checks).
@@ -124,8 +132,11 @@ func _apply_style(b: Button, selected: bool) -> void:
 ## Narrow strip for compact windows: subtitles hidden, titles smaller so they fit.
 func set_compact(compact: bool) -> void:
 	custom_minimum_size.x = COMPACT_WIDTH_PX if compact else WIDTH
-	for b in _buttons:
+	for i in _buttons.size():   # the strip is too narrow for icon and label together: titles only
+		var b := _buttons[i]
 		b.custom_minimum_size.x = COMPACT_WIDTH_PX - 12 if compact else WIDTH - 12
+		b.icon = null if compact else _icons[i]
+		(b.get_child(0) as Control).offset_left = 14 if compact else ICON_TEXT_LEFT
 	for title in _titles:
 		title.add_theme_font_size_override("font_size", COMPACT_TITLE_SIZE if compact else TITLE_SIZE)
 	for subtitle in _subtitles:

@@ -7,14 +7,15 @@ extends PanelContainer
 const TABS := ["よく使うコマンド", "商品補充", "店舗運営", "その他"]
 const TAB_NOT_READY := "準備中"
 const ACTIONS := [
-	{"label": "什器を設置", "section": "", "palette": true},
-	{"label": "商品を仕入れる", "section": "在庫"},
-	{"label": "棚割りを編集", "section": "在庫"},
-	{"label": "スタッフ配置", "section": "", "tip": "MVP対象外"},
-	{"label": "広告を実施", "section": "営業"},
-	{"label": "価格を変更", "section": "販売価格"},
+	{"label": "什器を設置", "section": "", "palette": true, "icon": "box"},
+	{"label": "商品を仕入れる", "section": "在庫", "icon": "truck"},
+	{"label": "棚割りを編集", "section": "在庫", "icon": "grid"},
+	{"label": "スタッフ配置", "section": "", "tip": "MVP対象外", "icon": "person"},
+	{"label": "広告を実施", "section": "営業", "icon": "megaphone"},
+	{"label": "価格を変更", "section": "販売価格", "icon": "tag"},
 ]
 const BUTTON_SIZE := Vector2(160, 26)
+const ICON_SIZE := 20
 
 var _buttons: Dictionary = {}   # label -> Button
 var _column: VBoxContainer
@@ -61,6 +62,9 @@ func _ready() -> void:
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.focus_mode = Control.FOCUS_NONE
 		slim_button(b)
+		b.icon = UiIcons.texture(a["icon"], ICON_SIZE)
+		b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b.expand_icon = false
 		if a.has("tip"):
 			b.disabled = true
 			b.tooltip_text = a["tip"]

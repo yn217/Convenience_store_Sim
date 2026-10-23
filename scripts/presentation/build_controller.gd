@@ -46,8 +46,15 @@ func setup(app: Node, world: Node2D, catalog: FixtureCatalog, products: ProductC
 %s ・ %d×%d" % [def["display_name"], GameHud.format_yen(def["placement_cost_yen"]), def["footprint"]["w"], def["footprint"]["h"]]
 		b.clip_text = true
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		var thumb := FixtureThumbnails.texture(type_id)   # 56 px fixture thumbnail at the left of the row (#61)
+		if thumb != null:
+			b.icon = thumb
+			b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			b.expand_icon = false
 		b.pressed.connect(begin_place.bind(type_id))
 		_type_list.add_child(b)
+		if thumb != null:
+			_tighten_row(b)   # after add_child: the padding comes from the theme, which needs the tree
 		_type_buttons[type_id] = b
 	_undo.pressed.connect(func(): run_simple(&"UNDO_LAYOUT"))
 	_redo.pressed.connect(func(): run_simple(&"REDO_LAYOUT"))
@@ -63,6 +70,18 @@ func setup(app: Node, world: Node2D, catalog: FixtureCatalog, products: ProductC
 	_world.delete_requested.connect(request_remove)
 	_world.undo_requested.connect(func(): run_simple(&"UNDO_LAYOUT"))
 	_world.redo_requested.connect(func(): run_simple(&"REDO_LAYOUT"))
+
+
+## A palette row holds a 56 px thumbnail, so its vertical padding is trimmed from the theme's 8 px to 2 px.
+static func _tighten_row(b: Button) -> void:
+	for state in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
+		var base := b.get_theme_stylebox(state)
+		if base == null:
+			continue
+		var sb := base.duplicate() as StyleBox
+		sb.content_margin_top = 2
+		sb.content_margin_bottom = 2
+		b.add_theme_stylebox_override(state, sb)
 
 
 func apply_snapshot(snap: Dictionary) -> void:

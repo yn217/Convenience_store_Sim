@@ -7,6 +7,7 @@ extends PanelContainer
 signal speed_requested(speed: int)
 
 const NONE := "—"
+const HUD_ICON_SIZE := 22
 ## (month, days) in calendar order from April; the sum is the 365-day year.
 const CALENDAR := [[4, 30], [5, 31], [6, 30], [7, 31], [8, 31], [9, 30], [10, 31], [11, 30], [12, 31], [1, 31], [2, 28], [3, 31]]
 const STATE_TEXT := {
@@ -43,6 +44,22 @@ func _ready() -> void:
 		row.add_child(b)
 		row.move_child(b, anchor + 1 + _speed_buttons.size())
 		_speed_buttons[speed] = b
+	# Icons sit in their own TextureRects right before each value label; the label texts stay as they are.
+	for pair in [[_cash, "cash"], [_sales, "cart"], [_profit, "bar-chart"], [_customers, "users"]]:
+		_add_icon_before(pair[0], pair[1])
+
+
+func _add_icon_before(label: Label, icon_name: String) -> void:
+	var icon := TextureRect.new()
+	icon.name = label.name + "Icon"
+	icon.texture = UiIcons.texture(icon_name, HUD_ICON_SIZE)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(HUD_ICON_SIZE, HUD_ICON_SIZE)
+	icon.modulate = UiTheme.WARM
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.get_parent().add_child(icon)
+	label.get_parent().move_child(icon, label.get_index())
 
 
 static func format_yen(amount: int) -> String:
