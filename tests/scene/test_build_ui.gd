@@ -151,9 +151,9 @@ func test_move_rotate_remove_undo_redo_through_the_inspector(t, tree) -> void:
 	r["ctl"].handle_event(_key(KEY_ESCAPE))
 	_click(r, Vector2i(5, 6))       # observe mode: select the second cell of the shelf
 	t.eq(bc.selected_fixture_id, "fx_0001", "clicking any occupied cell selects the fixture")
-	var label := main.get_node("Layout/MainArea/FixtureInspector/Body/FixtureLabel") as Label
+	var label := main.get_node("Layout/MainArea/FixtureInspector/Scroll/Body/FixtureLabel") as Label
 	t.ok(label.text.contains("位置 (5, 5)") and label.text.contains("アクセス面 E"), "inspector: " + label.text)
-	var body := "Layout/MainArea/FixtureInspector/Body/"
+	var body := "Layout/MainArea/FixtureInspector/Scroll/Body/"
 	t.ok(not (main.get_node(body + "MoveButton") as Button).disabled, "move enabled in SETUP")
 	# Move
 	main.get_node(body + "MoveButton").pressed.emit()

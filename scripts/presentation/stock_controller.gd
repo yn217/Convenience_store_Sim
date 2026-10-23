@@ -20,7 +20,7 @@ var _restock_qty: LineEdit
 var _restock_info: Label
 var _status: Label
 
-@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Body"
+@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
 
 func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> void:

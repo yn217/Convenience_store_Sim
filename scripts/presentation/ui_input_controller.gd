@@ -2,7 +2,7 @@ class_name UiInputController
 extends Node
 ## Store viewport input (04 §2): wheel = pointer-centred zoom, middle drag or
 ## Space + left drag = pan, left click = select tile, right click / Esc = cancel,
-## F = fit whole store, R = rotate preview, Delete = remove selected, Ctrl+Z / Ctrl+Y = undo / redo.
+## F = fit whole store, P = pause / resume the clock, R = rotate preview, Delete = remove selected, Ctrl+Z / Ctrl+Y = undo / redo.
 ## Space alone does nothing. Sits inside the SubViewport, so it only
 ## sees pointer events that really landed on the store view (UI panels never forward theirs).
 
@@ -79,6 +79,9 @@ func _on_key(event: InputEventKey) -> bool:
 			return true
 		KEY_R:
 			_world.rotate_requested.emit()
+			return true
+		KEY_P:
+			_world.pause_toggle_requested.emit()   # clock pause only; never a construction permission
 			return true
 		KEY_DELETE:
 			_world.delete_requested.emit()

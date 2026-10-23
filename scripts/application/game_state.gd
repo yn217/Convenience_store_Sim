@@ -100,6 +100,21 @@ func close_day_once(day_index: int) -> bool:
 	return true
 
 
+## Revenue and gross profit of the current day for the HUD. Walks the ledger from the end and
+## stops at the first earlier day, so it stays cheap while the ledger grows.
+func today_summary() -> Dictionary:
+	var revenue := 0
+	var cogs := 0
+	for i in range(ledger.transactions.size() - 1, -1, -1):
+		var tx: Dictionary = ledger.transactions[i]
+		if int(tx["day_index"]) < day:
+			break
+		if tx["event_type"] == "SALE":
+			revenue += int(tx["revenue_delta_yen"])
+			cogs += int(tx["cogs_delta_yen"])
+	return {"revenue_yen": revenue, "gross_profit_yen": revenue - cogs}
+
+
 func active_customer_count() -> int:
 	return customers.size()
 
@@ -149,6 +164,7 @@ func snapshot() -> Dictionary:
 		"applied_ad_tier_yen": applied_ad_tier_yen,
 		"unpaid_cost_yen": unpaid_cost_yen,
 		"daily_reports": daily_reports.duplicate(true),
+		"today": today_summary(),
 		"visit_stats": visit_stats.duplicate(),
 		"customers": _customer_views(),
 	}

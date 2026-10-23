@@ -12,7 +12,7 @@ var _rows: Dictionary = {}
 var _status: Label
 var _seq: int = 0
 
-@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Body"
+@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
 
 ## Typed text -> price in yen, or -1 when it is not a plain positive integer.
@@ -32,7 +32,7 @@ func setup(app: Node, products: ProductCatalog) -> void:
 	_body.add_child(title)
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.custom_minimum_size = Vector2(0, 120)
+	scroll.custom_minimum_size = Vector2(0, 260)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_body.add_child(scroll)
 	var list := VBoxContainer.new()

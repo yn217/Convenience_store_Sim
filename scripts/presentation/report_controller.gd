@@ -8,7 +8,7 @@ const CHART_DAYS := 7
 var _label: Label
 var _chart: ReportChart
 
-@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Body"
+@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
 
 func setup(_app: Node) -> void:

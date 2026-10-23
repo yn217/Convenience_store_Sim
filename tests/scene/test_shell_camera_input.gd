@@ -243,7 +243,7 @@ func test_inspector_shows_selected_tile(t, tree) -> void:
 	var r: Array = await _boot(tree)
 	var main: Control = r[1]
 	var world: Node2D = r[2]
-	var label := main.get_node("Layout/MainArea/FixtureInspector/Body/SelectionLabel") as Label
+	var label := main.get_node("Layout/MainArea/FixtureInspector/Scroll/Body/SelectionLabel") as Label
 	t.eq(label.text, "未選択")
 	world.select_screen(world.projection.tile_center(Vector2i(3, 9)))
 	t.eq(label.text, "選択タイル (3, 9)")

@@ -142,33 +142,38 @@ render_target_update_mode = 4
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 
-[node name="Body" type="VBoxContainer" parent="Layout/MainArea/FixtureInspector"]
+[node name="Scroll" type="ScrollContainer" parent="Layout/MainArea/FixtureInspector"]
 layout_mode = 2
+horizontal_scroll_mode = 0
 
-[node name="Title" type="Label" parent="Layout/MainArea/FixtureInspector/Body"]
+[node name="Body" type="VBoxContainer" parent="Layout/MainArea/FixtureInspector/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "インスペクタ"
 
-[node name="SelectionLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Body"]
+[node name="SelectionLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
 layout_mode = 2
 text = "未選択"
 
-[node name="FixtureLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Body"]
+[node name="FixtureLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
 layout_mode = 2
 autowrap_mode = 3
 
-[node name="MoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Body"]
+[node name="MoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
 layout_mode = 2
 disabled = true
 text = "移動"
 
-[node name="RotateButton" type="Button" parent="Layout/MainArea/FixtureInspector/Body"]
+[node name="RotateButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
 layout_mode = 2
 disabled = true
 text = "回転 (90°)"
 
-[node name="RemoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Body"]
+[node name="RemoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
 layout_mode = 2
 disabled = true
 text = "撤去"

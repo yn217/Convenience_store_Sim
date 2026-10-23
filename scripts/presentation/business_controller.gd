@@ -15,7 +15,7 @@ var _ad: OptionButton
 var _ad_info: Label
 var _status: Label
 
-@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Body"
+@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
 
 func setup(app: Node, balance: Dictionary) -> void:

@@ -42,7 +42,12 @@ func _ready() -> void:
 		world.selection_changed.connect(_on_selection_changed)
 	var builder := get_node_or_null("../BuildController")
 	if builder != null and world != null:
-		builder.setup(self, world, fixtures)
+		builder.setup(self, world, fixtures, products)
+	if world != null:
+		world.pause_toggle_requested.connect(toggle_pause)
+	var hud := get_node_or_null("../Layout/TopHUD")
+	if hud != null and hud.has_signal("speed_requested"):
+		hud.speed_requested.connect(set_speed)
 	var business := get_node_or_null("../BusinessController")
 	if business != null:
 		business.setup(self, balance)
@@ -92,6 +97,27 @@ func run_command(command: Dictionary) -> CommandResult:
 	if result.ok:
 		_publish_snapshot()
 	return result
+
+
+## HUD speed buttons and the P key. The answer (e.g. "no clock in SETUP") goes to the message line.
+func set_speed(speed: int) -> CommandResult:
+	var r := run_command({"command_id": "ui_speed_%d_%d" % [Time.get_ticks_usec(), speed], "kind": &"SET_SPEED", "speed": speed})
+	_tell(r)
+	_publish_snapshot()   # re-syncs the pressed state of the speed buttons after a refusal
+	return r
+
+
+## P: stop the clock, or resume at the last non-zero speed. Never allows construction.
+func toggle_pause() -> CommandResult:
+	if state.speed_setting == 0:
+		return set_speed(state.last_nonzero_speed)
+	return set_speed(0)
+
+
+func _tell(r: CommandResult) -> void:
+	var builder := get_node_or_null("../BuildController")
+	if builder != null and builder.has_method("say"):
+		builder.say("" if r.ok else CommandMessages.text(r.code, r.message_key))
 
 
 ## SAVE_GAME: writes the current state to a slot (temp file, then replace; the previous save is

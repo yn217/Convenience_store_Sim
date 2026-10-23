@@ -11,7 +11,7 @@ var compact_panel: SidePanel = SidePanel.PALETTE
 @onready var _store: Control = $Layout/MainArea/StoreViewport
 @onready var _tab_palette: Button = $Layout/TopHUD/Row/PaletteTab
 @onready var _tab_inspector: Button = $Layout/TopHUD/Row/InspectorTab
-@onready var _selection_label: Label = $Layout/MainArea/FixtureInspector/Body/SelectionLabel
+@onready var _selection_label: Label = $Layout/MainArea/FixtureInspector/Scroll/Body/SelectionLabel
 
 
 func _ready() -> void:

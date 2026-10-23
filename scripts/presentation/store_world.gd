@@ -11,6 +11,7 @@ signal rotate_requested
 signal delete_requested
 signal undo_requested
 signal redo_requested
+signal pause_toggle_requested
 
 enum Mode { OBSERVE, PLACE, MOVE }
 

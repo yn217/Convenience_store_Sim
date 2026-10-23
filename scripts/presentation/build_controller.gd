@@ -20,21 +20,23 @@ var _fixture_at: Dictionary = {}
 var _instances: Dictionary = {}
 var _seq: int = 0
 var _type_buttons: Dictionary = {}
+var _products: ProductCatalog
 
 @onready var _type_list: VBoxContainer = $"../Layout/MainArea/BuildPalette/Body/TypeList"
 @onready var _undo: Button = $"../Layout/MainArea/BuildPalette/Body/UndoRow/UndoButton"
 @onready var _redo: Button = $"../Layout/MainArea/BuildPalette/Body/UndoRow/RedoButton"
 @onready var _preview_label: Label = $"../Layout/MainArea/BuildPalette/Body/PreviewLabel"
 @onready var _status_label: Label = $"../Layout/MainArea/BuildPalette/Body/StatusLabel"
-@onready var _fixture_label: Label = $"../Layout/MainArea/FixtureInspector/Body/FixtureLabel"
-@onready var _move_button: Button = $"../Layout/MainArea/FixtureInspector/Body/MoveButton"
-@onready var _rotate_button: Button = $"../Layout/MainArea/FixtureInspector/Body/RotateButton"
-@onready var _remove_button: Button = $"../Layout/MainArea/FixtureInspector/Body/RemoveButton"
+@onready var _fixture_label: Label = $"../Layout/MainArea/FixtureInspector/Scroll/Body/FixtureLabel"
+@onready var _move_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/MoveButton"
+@onready var _rotate_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/RotateButton"
+@onready var _remove_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/RemoveButton"
 @onready var _remove_dialog: ConfirmationDialog = $"../RemoveDialog"
 
 
-func setup(app: Node, world: Node2D, catalog: FixtureCatalog) -> void:
+func setup(app: Node, world: Node2D, catalog: FixtureCatalog, products: ProductCatalog = null) -> void:
 	_app = app
+	_products = products
 	_world = world
 	_catalog = catalog
 	for type_id in catalog.types:
@@ -190,6 +192,11 @@ func _say(text: String) -> void:
 	_status_label.text = text
 
 
+## Message line shared with the other panels (speed changes, pause).
+func say(text: String) -> void:
+	_say(text)
+
+
 # ------------------------------------------------------------------ views
 
 func _update_ghost() -> void:
@@ -223,3 +230,23 @@ func _refresh_inspector() -> void:
 		GameHud.format_yen(def["placement_cost_yen"]),
 		",".join(def["access_edges"].map(func(e): return PlacementRules.rotate_edge(e, inst["rotation"]))),
 	]
+	_fixture_label.text += _slot_lines(inst, def)
+
+
+## One line per shelf slot: what is on it, how full, and the selling price against the unit cost.
+func _slot_lines(inst: Dictionary, def: Dictionary) -> String:
+	if def["shelf_slots"].is_empty() or _products == null:
+		return ""
+	var held: Dictionary = _snapshot.get("shelf_stock", {}).get(inst["instance_id"], {})
+	var skus: Dictionary = _snapshot.get("shelf_skus", {}).get(inst["instance_id"], {})
+	var overrides: Dictionary = _snapshot.get("product_price_overrides", {})
+	var out := "\n棚の中身"
+	for slot in def["shelf_slots"]:
+		var sid: String = slot["slot_id"]
+		if not skus.has(sid):
+			out += "\n%s: 空き（容量 %d）" % [sid, slot["capacity_units"]]
+			continue
+		var sku := _products.get_sku(skus[sid])
+		var price := int(overrides.get(skus[sid], sku["default_sell_price_yen"]))
+		out += "\n%s: %s %d/%d ・売価 %s（原価 %s）" % [sid, sku["display_name"], int(held.get(sid, 0)), slot["capacity_units"], GameHud.format_yen(price), GameHud.format_yen(int(sku["purchase_cost_yen"]))]
+	return out

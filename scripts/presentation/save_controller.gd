@@ -13,7 +13,7 @@ var _last_failed_slot: String = ""
 
 func setup(app: Node) -> void:
 	_app = app
-	var body: VBoxContainer = get_node("../Layout/MainArea/FixtureInspector/Body")
+	var body: VBoxContainer = get_node("../Layout/MainArea/FixtureInspector/Scroll/Body")
 	var title := Label.new()
 	title.text = "セーブ / ロード"
 	title.add_theme_font_size_override("font_size", 20)
