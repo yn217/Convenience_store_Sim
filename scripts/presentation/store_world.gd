@@ -52,6 +52,7 @@ var user_moved := false
 @onready var _selection: Node2D = $SelectionOverlay
 @onready var _fixture_view: Node2D = $ObjectSortRoot/FixturePresenter
 @onready var _light_glow: LightGlow = get_node_or_null("LightGlow") as LightGlow
+@onready var _walls: WallLayer = get_node_or_null("WallLayer") as WallLayer
 
 
 func _ready() -> void:
@@ -324,6 +325,8 @@ func _on_viewport_resized() -> void:
 ## Re-derive highlight polygons after any camera/state change so they stay on their tiles.
 func _refresh() -> void:
 	_refresh_objects()
+	if _walls != null and store_width > 0:
+		_walls.sync(store_width, store_height, entrance_tiles, projection, viewport_size())
 	queue_redraw()
 
 

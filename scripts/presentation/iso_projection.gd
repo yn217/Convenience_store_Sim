@@ -15,6 +15,8 @@ const ZOOM_NORMAL := 1.0
 const ZOOM_MAX := 2.0
 ## Sprites are authored at 2x (256x128 source px per tile diamond).
 const SOURCE_SCALE := 2.0
+## Back walls (WallLayer) rise this high above the far floor corner; fit and centring count them.
+const WALL_HEIGHT_M := 2.6
 
 var origin: Vector2 = Vector2.ZERO
 var zoom: float = ZOOM_NORMAL
@@ -81,8 +83,11 @@ func fit_floor(viewport_size: Vector2, width: int, height: int, margin: float = 
 	zoom = ZOOM_NORMAL
 	origin = Vector2.ZERO
 	var b := floor_bounds(width, height)
+	# The floor stays centred, so the walls' rise above the far corner is reserved on top and the same
+	# amount is left free below: b.h + 2 * wall must fit. Walls scale with zoom like the floor (at zoom 1 here).
+	var wall_px := Z_PX_PER_M * WALL_HEIGHT_M
 	var avail := viewport_size - Vector2(margin, margin) * 2.0
-	set_zoom(minf(avail.x / b.size.x, avail.y / b.size.y))
+	set_zoom(minf(avail.x / b.size.x, avail.y / (b.size.y + 2.0 * wall_px)))
 	center_floor(viewport_size, width, height)
 
 
