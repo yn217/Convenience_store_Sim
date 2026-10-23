@@ -1,0 +1,67 @@
+{
+  "schema_version": "visual-manifest-v1",
+  "asset_kind": "product_candidate",
+  "shape_id": "cup_noodle",
+  "dimensions_m": [
+    0.11,
+    0.11,
+    0.12
+  ],
+  "projection_id": "iso2x_v1",
+  "source_px_per_tile": [
+    256,
+    128
+  ],
+  "world_units_per_tile": 1.0,
+  "slot_units": 1,
+  "anchor_px": [
+    32,
+    50
+  ],
+  "canvas_px": [
+    64,
+    64
+  ],
+  "origin_pivot": "world_origin_floor",
+  "directions": [
+    {
+      "direction": 0,
+      "path": "cup_noodle_r0.png",
+      "sha256": "ac4c55d26c84b076f6df019b69d26e4193b8bf142ef21ea3df19c1f3af83c7b7",
+      "mime": "image/png"
+    },
+    {
+      "direction": 1,
+      "path": "cup_noodle_r1.png",
+      "sha256": "7dbd8fd4d2032a422f4ebb80cfa05a3b8fa92464b4a153afe9cbaf0e51b80360",
+      "mime": "image/png"
+    },
+    {
+      "direction": 2,
+      "path": "cup_noodle_r2.png",
+      "sha256": "cc3fccc33f63efbc8de57a31354f5a8d861b92123c2f286b8daf8835391b8671",
+      "mime": "image/png"
+    },
+    {
+      "direction": 3,
+      "path": "cup_noodle_r3.png",
+      "sha256": "ea6bef55bbd5840245ae34f9e3341694bf2888ac5ae5654d64e41762391100da",
+      "mime": "image/png"
+    }
+  ],
+  "layers": [
+    "product_surface"
+  ],
+  "slots": [],
+  "runtime_approved": false,
+  "provenance": {
+    "generator": "generate_cup_noodle.py",
+    "method": "deterministic_pillow",
+    "source_contracts": [
+      "docs/implementation/06_ASSET_BLUEPRINTS_AND_VALIDATION.md",
+      "docs/implementation/02_GRID_AND_ASSET_CONTRACT.md"
+    ],
+    "blender_available": false,
+    "generated_utc": "2026-10-24T00:00:00Z"
+  }
+}

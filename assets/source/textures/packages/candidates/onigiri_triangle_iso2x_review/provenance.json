@@ -1,0 +1,10 @@
+{
+  "generator": "generate_candidate.py",
+  "renderer": "Pillow",
+  "deterministic": true,
+  "source_contracts": [
+    "docs/implementation/06_ASSET_BLUEPRINTS_AND_VALIDATION.md",
+    "docs/implementation/02_GRID_AND_ASSET_CONTRACT.md"
+  ],
+  "note": "Review-only candidate; Blender calibration and semantic validation are not claimed PASS."
+}
