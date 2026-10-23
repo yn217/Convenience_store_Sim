@@ -275,5 +275,7 @@ func _customer_views() -> Array:
 		out.append({
 			"customer_id": c["customer_id"], "tile": c["tile"], "phase": c["phase"],
 			"next": path[0] if not path.is_empty() else c["tile"], "progress": float(c.get("progress", 0.0)) if not path.is_empty() else 0.0,
+			"path": path.duplicate(), "trail": c.get("trail", []).duplicate(), "moved": int(c.get("moved", 0)),
+			"fixture_id": c.get("fixture_id", ""),
 		})
 	return out

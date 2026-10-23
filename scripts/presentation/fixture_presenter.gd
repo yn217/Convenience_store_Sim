@@ -59,27 +59,102 @@ static func target_pos(c: Dictionary) -> Vector2:
 	return Vector2(t) + Vector2(n - t) * float(c.get("progress", 0.0))
 
 
-## Eases the shown positions toward the simulation's and keeps each person's facing.
+## Presentation-only walk state per customer: {"hist": tiles walked so far (ends at the simulation's tile),
+## "seen": steps already taken in from the simulation's trail, "s": shown position as an index into the chain
+## hist + remaining path}. The shown position only moves along that chain, so it stays on tile centres.
+## Forward motion also stops at every turning tile of the chain, so the straight line between two frames
+## never cuts a corner, whatever the frame rate or the speed (x1, x2, x4) and however many steps one frame covers.
+var _track: Dictionary = {}
+## Catch-up rate of the shown position toward the simulation's (per unit of dt, which is real time x speed).
+const SHOW_EASE := 120.0
+const TRACK_KEEP := 4
+
+
+## Moves the shown positions along each customer's walk and keeps each person's facing.
 func _sync_customers(dt: float) -> void:
 	_alive.clear()
-	var ease_k := 1.0 - exp(-dt * 3.0)   # same for every customer this call
+	var k := 1.0 - exp(-dt * SHOW_EASE)   # same for every customer this call
 	for c in _world.customers:
 		var id: String = c["customer_id"]
 		_alive[id] = true
-		var target := target_pos(c)
-		if not _pos.has(id) or (_pos[id] as Vector2).distance_to(target) > 2.5:
-			_pos[id] = target
+		var tile: Vector2i = c["tile"]
+		var path: Array = c.get("path", [])
+		if not c.has("path") and c.has("next") and c["next"] != tile:
+			path = [c["next"]]   # a view without the full path: the next tile is all there is
+		var tr: Dictionary = _track.get(id, {})
+		if tr.is_empty():
+			tr = {"hist": [tile], "seen": int(c.get("moved", 0)), "s": 0.0}
+			_track[id] = tr
 			if not _facing.has(id):
-				_facing[id] = CustomerSprites.facing_for(Vector2(c.get("next", c["tile"]) - c["tile"]), CustomerSprites.FACING_E)
+				_facing[id] = CustomerSprites.facing_for(Vector2(c.get("next", tile) - tile), CustomerSprites.FACING_E)
 		else:
-			var old: Vector2 = _pos[id]
-			_facing[id] = CustomerSprites.facing_for(target - old, int(_facing.get(id, CustomerSprites.FACING_E)))
-			_pos[id] = old.lerp(target, ease_k)
-	for id in _pos.keys():
+			_take_steps(tr, c)
+		var hist: Array = tr["hist"]
+		var chain: Array = hist + path
+		var target := float(hist.size() - 1)
+		if not path.is_empty():
+			target += float(c.get("progress", 0.0))
+		var s0: float = tr["s"]
+		var s := s0 + (target - s0) * k
+		if s > s0:
+			s = minf(s, _next_turn(chain, s0))
+		tr["s"] = s
+		var pos := _point_on(chain, s)
+		var old: Vector2 = _pos.get(id, pos)
+		if pos.distance_to(old) > 0.0001:
+			_facing[id] = CustomerSprites.facing_for(pos - old, int(_facing.get(id, CustomerSprites.FACING_E)))
+		_pos[id] = pos
+	for id in _track.keys():
 		if not _alive.has(id):
+			_track.erase(id)
 			_pos.erase(id)
 			_facing.erase(id)
 			_look.erase(id)
+
+
+## Appends the tiles the simulation walked since the last call to the customer's history (from its trail).
+## Any tile change the trail does not explain (a spawn, a teleport, a gap longer than the trail) restarts
+## the history at the current tile: the one place where the shown position is placed rather than walked.
+func _take_steps(tr: Dictionary, c: Dictionary) -> void:
+	var tile: Vector2i = c["tile"]
+	var moved := int(c.get("moved", 0))
+	var new_steps := moved - int(tr["seen"])
+	var hist: Array = tr["hist"]
+	var trail: Array = c.get("trail", [])
+	tr["seen"] = moved
+	var still: bool = new_steps == 0 and hist.back() == tile
+	var walked: bool = new_steps > 0 and new_steps <= trail.size() and trail.back() == tile
+	if not (still or walked):
+		hist.clear()
+		hist.append(tile)
+		tr["s"] = 0.0
+		return
+	for i in range(trail.size() - new_steps, trail.size()):
+		hist.append(trail[i])
+	while hist.size() > TRACK_KEEP and float(tr["s"]) >= 1.0:
+		hist.pop_front()
+		tr["s"] = float(tr["s"]) - 1.0
+
+
+## First turning tile of the chain strictly after position s (the chain end when there is none).
+static func _next_turn(chain: Array, s: float) -> float:
+	var last := chain.size() - 1
+	var i := int(floor(s)) + 1
+	while i < last:
+		if (chain[i] - chain[i - 1]) != (chain[i + 1] - chain[i]):
+			return float(i)
+		i += 1
+	return float(last)
+
+
+## Point at chain position s (index + fraction): always on the straight segment between two chain tiles.
+static func _point_on(chain: Array, s: float) -> Vector2:
+	if chain.size() == 1 or s <= 0.0:
+		return Vector2(chain[0])
+	var i := int(floor(s))
+	if i >= chain.size() - 1:
+		return Vector2(chain[chain.size() - 1])
+	return Vector2(chain[i]).lerp(Vector2(chain[i + 1]), s - float(i))
 
 
 ## Sprite sheet, variant id and animation time offset of a customer, looked up once per id (not per frame).
