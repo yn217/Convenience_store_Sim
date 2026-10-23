@@ -16,6 +16,9 @@ var compact_panel: SidePanel = SidePanel.PALETTE
 
 func _ready() -> void:
 	theme = UiTheme.build()
+	var nav := LeftNav.new()
+	$Layout/MainArea.add_child(nav)
+	$Layout/MainArea.move_child(nav, 0)
 	$Layout.add_child(CommandBar.new())
 	$Layout.add_child(MetricBar.new())
 	$Layout/TopHUD.custom_minimum_size.y = UiTheme.HUD_HEIGHT
