@@ -35,6 +35,7 @@ func _run_step() -> void:
 	_customers.step(_state)
 	var new_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
 	if new_day != prev_day:
+		_state.close_day_once(prev_day)   # report before the new day's costs (12 §4)
 		_state.day = new_day
 		_charge_new_day()
 	BusinessService.finish_closing_if_empty(_state)

@@ -38,6 +38,9 @@ func _ready() -> void:
 	var business := get_node_or_null("../BusinessController")
 	if business != null:
 		business.setup(self, balance)
+	var reporter := get_node_or_null("../ReportController")
+	if reporter != null:
+		reporter.setup(self)
 	var stocker := get_node_or_null("../StockController")
 	if stocker != null:
 		stocker.setup(self, products, fixtures)
@@ -96,6 +99,9 @@ func _publish_snapshot() -> void:
 	var business := get_node_or_null("../BusinessController")
 	if business != null and business.has_method("apply_snapshot") and business.is_node_ready() and business.get("_tiers") != null and not business._tiers.is_empty():
 		business.apply_snapshot(snap)
+	var reporter := get_node_or_null("../ReportController")
+	if reporter != null and reporter.has_method("apply_snapshot") and reporter.is_node_ready() and reporter.get("_chart") != null:
+		reporter.apply_snapshot(snap)
 	var stocker := get_node_or_null("../StockController")
 	if stocker != null and stocker.has_method("apply_snapshot") and stocker.is_node_ready() and stocker.get("_products") != null:
 		stocker.apply_snapshot(snap)

@@ -45,6 +45,8 @@ var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 ## Customers in the store (filled by M3-02) and arrivals waiting to be spawned as customers.
 var customers: Array[Dictionary] = []
 var arrival_queue: Array[Dictionary] = []
+## Closed days, oldest first (see DailyReport). Never rewritten once appended.
+var daily_reports: Array[Dictionary] = []
 var next_segment_seq: int = 0
 ## Player sell prices that differ from the SKU default {sku_id: yen}. Never touches lot costs
 ## or already snapshotted reservations/ledger rows.
@@ -73,6 +75,17 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 	s.balance = balance.duplicate(true)
 	s.next_day_ad_yen = int(balance.get("starting_ad_budget_yen_per_day", 0))
 	return s
+
+
+## Closes `day_index` exactly once: the report is built from that day's ledger rows and the
+## per-day visitor counters restart. A day that already has a report is left untouched.
+func close_day_once(day_index: int) -> bool:
+	for r in daily_reports:
+		if r["day_index"] == day_index:
+			return false
+	daily_reports.append(DailyReport.build(day_index, ledger, visit_stats, reputation, ledger.cash_yen))
+	visit_stats = {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
+	return true
 
 
 func active_customer_count() -> int:
@@ -123,6 +136,7 @@ func snapshot() -> Dictionary:
 		"next_day_ad_yen": next_day_ad_yen,
 		"applied_ad_tier_yen": applied_ad_tier_yen,
 		"unpaid_cost_yen": unpaid_cost_yen,
+		"daily_reports": daily_reports.duplicate(true),
 		"visit_stats": visit_stats.duplicate(),
 		"customers": _customer_views(),
 	}

@@ -11,7 +11,7 @@ static func summarize(ledger: Ledger, day_index: int = -1) -> Dictionary:
 	var out := {
 		"revenue_yen": 0, "cogs_yen": 0, "wastage_yen": 0, "order_yen": 0, "capex_yen": 0,
 		"advertising_yen": 0, "electricity_yen": 0, "fixed_cost_yen": 0, "cash_delta_yen": 0,
-		"sale_count": 0,
+		"sale_count": 0, "units_sold": 0,
 	}
 	for tx in ledger.transactions:
 		if day_index >= 0 and int(tx["day_index"]) != day_index:
@@ -22,6 +22,7 @@ static func summarize(ledger: Ledger, day_index: int = -1) -> Dictionary:
 				out["revenue_yen"] += int(tx["revenue_delta_yen"])
 				out["cogs_yen"] += int(tx["cogs_delta_yen"])
 				out["sale_count"] += 1
+				out["units_sold"] += int(tx["details"].get("qty", 1))
 			"WASTAGE":
 				out["wastage_yen"] += int(tx["expense_delta_yen"])
 			"ORDER":
