@@ -22,7 +22,8 @@ MATERIALS = (
     "dark_polymer", "label_rail", "product_surface",
     # procedural looks (fixture_looks.py, Issue #61 Phase B)
     "wood_laminate", "stainless", "pegboard", "slotted_upright", "glass_gradient",
-    "pos_screen", "header_emit", "accent_strip", "price_rail", "cabinet_grey",
+    "pos_screen", "header_white", "header_blue", "accent_strip", "price_rail",
+    "board_warm", "housing_grey", "cabinet_grey", "charcoal", "interior_cool",
 )
 BEVEL_TINY = 0.003         # edge bevel radii for small parts / standards (m)
 BEVEL_SMALL = 0.006        # edge bevel for panels, boards and tops (m)
@@ -79,12 +80,12 @@ def _shelf_general(d):
     with a coloured strip, and a dark base plinth. Same rows and slots as the basic rack."""
     x0, y0, x1, y1 = _body_rect(*_wh(d))
     height = d["dimensions_m"]["height"]
-    boxes = [Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer", bevel=BEVEL_SMALL)]          # base plinth
+    boxes = [Box(x0, y0, 0.0, x1, y1, BASE, "housing_grey", bevel=BEVEL_SMALL)]          # base plinth
     boxes.append(Box(x0, y0, BASE, x0 + 0.02, y1, height - 0.02, "pegboard"))           # pegboard back
     boxes += _uprights(x0, y0, x1, y1, BASE, height - 0.02, "slotted_upright")
-    boxes.append(Box(x0, y0, height - 0.02, x1, y1, height, "shelf_white", bevel=BEVEL_SMALL))  # top cap
+    boxes.append(Box(x0, y0, height - 0.02, x1, y1, height, "housing_grey", bevel=BEVEL_SMALL))  # top cap (dark edge)
     for z in ROW_HEIGHTS["shelf_general"]:
-        boxes.append(Box(x0 + 0.02, y0, z - BOARD, x1, y1, z, "shelf_white", bevel=BEVEL_SMALL))
+        boxes.append(Box(x0 + 0.02, y0, z - BOARD, x1, y1, z, "board_warm", bevel=BEVEL_SMALL))
         boxes += _price_rail(x0, y0, x1, y1, z - BOARD)
     return boxes, []
 
@@ -101,8 +102,8 @@ def _price_rail(x0, y0, x1, y1, shelf_underside):
     """Shelf-edge price rail under a board: light grey rail with a thin coloured strip at its top."""
     top = shelf_underside
     return [
-        Box(x1 - 0.02, y0 + POST, top - 0.034, x1, y1 - POST, top - 0.006, "price_rail", bevel=BEVEL_TINY),
-        Box(x1 - 0.02, y0 + POST, top - 0.006, x1, y1 - POST, top, "accent_strip"),
+        Box(x1 - 0.02, y0 + POST, top - 0.034, x1, y1 - POST, top - 0.010, "price_rail", bevel=BEVEL_TINY),
+        Box(x1 - 0.02, y0 + POST, top - 0.010, x1, y1 - POST, top, "accent_strip"),
     ]
 
 
@@ -157,7 +158,8 @@ def _register_basic(d):
     x0, y0, x1, y1 = _body_rect(*_wh(d))
     boxes = [
         Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer", bevel=BEVEL_SMALL),                 # kick plate
-        Box(x0, y0, BASE, x1, y1, 0.90, "wood_laminate", bevel=BEVEL_SMALL),               # counter front
+        Box(x0, y0, BASE, x1, y1, BASE + 0.035, "dark_polymer", bevel=BEVEL_TINY),         # dark rubber edge band
+        Box(x0, y0, BASE + 0.035, x1, y1, 0.90, "wood_laminate", bevel=BEVEL_SMALL),       # counter front
         Box(x0, y0, 0.90, x1, y1, 0.92, "stainless", bevel=BEVEL_SMALL),                   # service top (0.92 m)
         Box(x1 - 0.02, y0 + 0.10, 0.60, x1, y1 - 0.10, 0.66, "accent_strip"),              # brand-neutral stripe
         Box(x0 + 0.05, 0.25, 0.92, x0 + 0.40, 0.85, 1.10, "dark_polymer", bevel=BEVEL_TINY),  # POS terminal
@@ -219,23 +221,26 @@ def _fridge_pro(d, rows):
         Box(x0, y0, BASE, x0 + 0.06, y1, top, "cabinet_grey"),                             # back panel (W)
         Box(x0, y0, BASE, door_x0, y0 + POST, top, "cabinet_grey", bevel=BEVEL_TINY),     # side panels
         Box(x0, y1 - POST, BASE, door_x0, y1, top, "cabinet_grey", bevel=BEVEL_TINY),
-        Box(x0, y0, top, x1, y1, height - 0.03, "shelf_white", bevel=BEVEL_SMALL),         # top cap
-        Box(x0 + 0.03, y0 + 0.04, height - 0.03, x1, y1 - 0.04, height, "header_emit"),    # lit header sign
+        # dark charcoal housing top; the front strip above the doors carries the lit header
+        Box(x0, y0, top, door_x0, y1, height, "charcoal", bevel=BEVEL_SMALL),
+        Box(door_x0, y0, top + 0.06, x1, y1, height, "charcoal", bevel=BEVEL_SMALL),
+        Box(door_x0, y0 + 0.04, top, x1, y1 - 0.04, top + 0.012, "header_blue"),           # thin blue band
+        Box(door_x0, y0 + 0.04, top + 0.012, x1, y1 - 0.04, top + 0.06, "header_white"),   # cool-white header
         # interior light strips on the back wall (emissive, visible through the glass)
         Box(x0 + 0.06, y0 + 0.10, BASE + 0.05, x0 + 0.075, y0 + 0.13, top - 0.05, "cool_white_led"),
         Box(x0 + 0.06, y1 - 0.13, BASE + 0.05, x0 + 0.075, y1 - 0.10, top - 0.05, "cool_white_led"),
-        # dark door frame: stiles, centre mullion, top and bottom rails
-        Box(door_x0, y0, BASE, x1, y0 + POST, top, "dark_polymer", bevel=BEVEL_TINY),
-        Box(door_x0, y1 - POST, BASE, x1, y1, top, "dark_polymer", bevel=BEVEL_TINY),
-        Box(door_x0, mid - 0.02, BASE, x1, mid + 0.02, top, "dark_polymer"),
-        Box(door_x0, y0, top - 0.08, x1, y1, top, "dark_polymer", bevel=BEVEL_TINY),
-        Box(door_x0, y0, BASE, x1, y1, 0.10, "dark_polymer", bevel=BEVEL_TINY),
+        # charcoal door frame: stiles, centre mullion, top and bottom rails
+        Box(door_x0, y0, BASE, x1, y0 + POST, top, "charcoal", bevel=BEVEL_TINY),
+        Box(door_x0, y1 - POST, BASE, x1, y1, top, "charcoal", bevel=BEVEL_TINY),
+        Box(door_x0, mid - 0.02, BASE, x1, mid + 0.02, top, "charcoal"),
+        Box(door_x0, y0, top - 0.08, x1, y1, top, "charcoal", bevel=BEVEL_TINY),
+        Box(door_x0, y0, BASE, x1, y1, 0.10, "charcoal", bevel=BEVEL_TINY),
         # vertical door handles, one each side of the mullion (inside the glass line)
         Box(door_x0, mid - 0.09, 0.45, door_x0 + 0.012, mid - 0.06, top - 0.20, "frame_metal", bevel=BEVEL_TINY),
         Box(door_x0, mid + 0.06, 0.45, door_x0 + 0.012, mid + 0.09, top - 0.20, "frame_metal", bevel=BEVEL_TINY),
     ]
     for z in rows:
-        boxes.append(Box(x0 + 0.06, y0 + POST, z - BOARD, door_x0, y1 - POST, z, "shelf_white", bevel=BEVEL_TINY))
+        boxes.append(Box(x0 + 0.06, y0 + POST, z - BOARD, door_x0, y1 - POST, z, "interior_cool", bevel=BEVEL_TINY))
     glass = [
         Box(x1 - GLASS, y0 + POST, 0.10, x1, mid - 0.02, top - 0.08, "glass_gradient", "glass_front"),
         Box(x1 - GLASS, mid + 0.02, 0.10, x1, y1 - POST, top - 0.08, "glass_gradient", "glass_front"),

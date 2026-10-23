@@ -74,12 +74,15 @@ def wood_laminate(mat):
     wave = nodes.new("ShaderNodeTexWave")
     wave.wave_type = "BANDS"
     wave.bands_direction = "Z"
-    wave.inputs["Scale"].default_value = 5.0
-    wave.inputs["Distortion"].default_value = 1.6
-    wave.inputs["Detail"].default_value = 1.0
+    # fine, low-contrast grain: many thin bands, noisy distortion, narrow colour range
+    wave.inputs["Scale"].default_value = 14.0
+    wave.inputs["Distortion"].default_value = 4.0
+    wave.inputs["Detail"].default_value = 3.0
+    wave.inputs["Detail Scale"].default_value = 4.0
     links.new(vec, wave.inputs["Vector"])
-    col = ramp(nodes, links, wave.outputs["Fac"], [(0.0, (0.56, 0.41, 0.26)), (0.6, (0.66, 0.51, 0.34)), (1.0, (0.72, 0.58, 0.40))])
-    bsdf = principled(nodes, links, (0.6, 0.5, 0.4), roughness=0.46, specular=0.4)
+    # Base colours in this module are LINEAR (Blender default); the values below are a walnut-tone laminate.
+    col = ramp(nodes, links, wave.outputs["Fac"], [(0.0, (0.26, 0.16, 0.085)), (0.6, (0.33, 0.21, 0.11)), (1.0, (0.40, 0.27, 0.15))])
+    bsdf = principled(nodes, links, (0.3, 0.2, 0.1), roughness=0.5, specular=0.35)
     links.new(col, bsdf.inputs["Base Color"])
     output(nodes, links, bsdf.outputs[0])
 
@@ -113,24 +116,24 @@ def pegboard(mat):
     vor.inputs["Scale"].default_value = 30.0
     links.new(vec, vor.inputs["Vector"])
     col = ramp(nodes, links, vor.outputs["Distance"], [(0.0, (0.03, 0.03, 0.035)), (0.2, (0.03, 0.03, 0.035)), (0.26, (0.80, 0.82, 0.84))])
-    bsdf = principled(nodes, links, (0.8, 0.82, 0.84), roughness=0.6)
+    bsdf = principled(nodes, links, (0.45, 0.44, 0.42), roughness=0.6)
     links.new(col, bsdf.inputs["Base Color"])
     output(nodes, links, bsdf.outputs[0])
 
 
 def slotted_upright(mat):
-    """Gondola end upright: grey standard with a fine slot pattern (Brick mortar lines)."""
+    """Gondola end upright: #6b7280 standard with a fine slot pattern (Brick mortar lines)."""
     nt, nodes, links = fresh_tree(mat)
     vec = object_vector(nodes, links, (9.0, 9.0, 9.0))
     brick = nodes.new("ShaderNodeTexBrick")
-    brick.inputs["Color1"].default_value = (0.50, 0.53, 0.57, 1.0)
-    brick.inputs["Color2"].default_value = (0.44, 0.47, 0.51, 1.0)
-    brick.inputs["Mortar"].default_value = (0.10, 0.10, 0.11, 1.0)
+    brick.inputs["Color1"].default_value = (0.147, 0.168, 0.216, 1.0)     # #6b7280 (linear)
+    brick.inputs["Color2"].default_value = (0.125, 0.145, 0.19, 1.0)
+    brick.inputs["Mortar"].default_value = (0.02, 0.02, 0.025, 1.0)
     brick.inputs["Mortar Size"].default_value = 0.05
     brick.inputs["Brick Width"].default_value = 0.5
     brick.inputs["Row Height"].default_value = 0.25
     links.new(vec, brick.inputs["Vector"])
-    bsdf = principled(nodes, links, (0.5, 0.53, 0.57), metallic=0.6, roughness=0.42)
+    bsdf = principled(nodes, links, (0.147, 0.168, 0.216), metallic=0.4, roughness=0.42)
     links.new(brick.outputs["Color"], bsdf.inputs["Base Color"])
     output(nodes, links, bsdf.outputs[0])
 
@@ -157,11 +160,17 @@ def glass_gradient(mat):
 
 
 def pos_screen(mat):
-    emissive(mat, (0.62, 0.88, 1.0), 1.6)
+    emissive(mat, (0.45, 0.82, 1.0), 2.4)
 
 
-def header_emit(mat):
-    emissive(mat, (0.20, 0.55, 1.0), 1.1)
+def header_white(mat):
+    """Cool-white lit header strip on the cooler front."""
+    emissive(mat, (0.86, 0.94, 1.0), 1.5)
+
+
+def header_blue(mat):
+    """Thin blue band under the cool-white header strip."""
+    emissive(mat, (0.15, 0.50, 1.0), 2.0)
 
 
 def plain(color, metallic=0.0, roughness=0.5):
@@ -180,10 +189,15 @@ LOOKS = {
     "slotted_upright": slotted_upright,
     "glass_gradient": glass_gradient,
     "pos_screen": pos_screen,
-    "header_emit": header_emit,
-    "accent_strip": plain((0.10, 0.52, 0.50), roughness=0.4),
-    "price_rail": plain((0.80, 0.81, 0.83), roughness=0.4),
-    "cabinet_grey": plain((0.58, 0.61, 0.65), roughness=0.5),
+    "header_white": header_white,
+    "header_blue": header_blue,
+    "accent_strip": plain((0.04, 0.30, 0.28), roughness=0.4),
+    "price_rail": plain((0.66, 0.67, 0.68), roughness=0.4),
+    "board_warm": plain((0.56, 0.53, 0.48), roughness=0.55),       # warm light grey (sRGB ~#c8c2b8)
+    "housing_grey": plain((0.147, 0.168, 0.216), roughness=0.5),   # #6b7280 (linear)
+    "cabinet_grey": plain((0.085, 0.09, 0.10), roughness=0.5),     # mid grey housing
+    "charcoal": plain((0.02, 0.022, 0.025), roughness=0.45),       # dark charcoal frame/top
+    "interior_cool": plain((0.62, 0.72, 0.82), roughness=0.4),     # cool bright interior
 }
 
 

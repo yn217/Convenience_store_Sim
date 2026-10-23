@@ -191,6 +191,17 @@ def render_to(path, visible):
     bpy.ops.render.render(write_still=True)
 
 
+# Types whose glass is culled on the far side (Issue #61 Phase B). Other types keep every glass box.
+FAR_GLASS_CULLED = {"fridge_drink"}
+
+
+def glass_faces_camera(box, centre):
+    """The camera looks from +X/+Y (game coordinates), so glass on the +X/+Y half of the body is the
+    visible front. The glass layer is composited over the body, so far-side glass must be left out."""
+    gx, gy = (box.x0 + box.x1) / 2.0, (box.y0 + box.y1) / 2.0
+    return (gx - centre[0]) + (gy - centre[1]) > 0.0
+
+
 def mesh_bbox_game(objs):
     lo = [float("inf")] * 3
     hi = [float("-inf")] * 3
@@ -259,7 +270,11 @@ def main():
             clear_models()
             rot = blueprints.rotated(bp, d, r)
             objs = {"body": [], "glass_front": [], "shadow": []}
+            centre = blueprints.mesh_bbox(rot["boxes"], layers=("body",))
+            centre = [(centre[0][k] + centre[1][k]) / 2.0 for k in (0, 1)]
             for i, b in enumerate(rot["boxes"]):
+                if type_id in FAR_GLASS_CULLED and b.layer == "glass_front" and not glass_faces_camera(b, centre):
+                    continue    # far-side glass would be composited over the opaque housing; omit it
                 objs[b.layer].append(add_box("%s_r%d_%d" % (type_id, r, i), b.x0, b.y0, b.z0, b.x1, b.y1, b.z1, b.material, b.bevel))
             sx0, sy0, sx1, sy1 = rot["shadow"]
             objs["shadow"].append(add_box("%s_r%d_shadow" % (type_id, r), sx0, sy0, 0.0, sx1, sy1, 0.002, "shadow"))
