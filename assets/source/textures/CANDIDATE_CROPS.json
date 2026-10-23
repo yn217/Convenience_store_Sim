@@ -181,6 +181,36 @@
         619,
         1254
       ]
+    },
+    {
+      "source": "assets\\source\\textures\\pop\\shelf_pop_comparison_v01.png",
+      "variant": "a",
+      "file": "assets\\source\\textures\\pop\\candidates\\shelf_pop_comparison_v01_a.png",
+      "crop_box": [
+        0,
+        0,
+        619,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
+    },
+    {
+      "source": "assets\\source\\textures\\pop\\shelf_pop_comparison_v01.png",
+      "variant": "b",
+      "file": "assets\\source\\textures\\pop\\candidates\\shelf_pop_comparison_v01_b.png",
+      "crop_box": [
+        635,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        619,
+        1254
+      ]
     }
   ]
 }
