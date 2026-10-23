@@ -1,0 +1,17 @@
+{
+  "asset_family": "fictional_convenience_customer_and_clerk_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Descartes the 2nd and Jason the 2nd",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Full-body fictional convenience-store customer or clerk, realistic 2.5D isometric, front 3/4 view, transparent RGBA background, visible feet and category-specific clothing/props, no real person, chain uniform, logo, text or watermark.",
+  "candidates": [
+    {"asset_id":"customer_casual_adult_beige_tote_imagegen_v01","source_file":"assets/source/textures/characters/candidates/customer_casual_adult_beige_tote_imagegen_v01.png","sha256":"E825CF50FFA2E51A8810F54E35180F63B829E39A2D38B3F1BEEB334EF3D6162A","category":"customer / casual adult","palette":"beige, white and charcoal","dimensions_px":[1024,1536]},
+    {"asset_id":"customer_student_navy_backpack_imagegen_v01","source_file":"assets/source/textures/characters/candidates/customer_student_navy_backpack_imagegen_v01.png","sha256":"F7874FE352FA9F1B99B550F9386BC9F2B16135EE92D9559B9C8CA26C66AB8762","category":"customer / student","palette":"navy, charcoal and white","dimensions_px":[1024,1536]},
+    {"asset_id":"clerk_cashier_teal_apron_imagegen_v01","source_file":"assets/source/textures/characters/candidates/clerk_cashier_teal_apron_imagegen_v01.png","sha256":"D8D77E200698C0EC5030737F680EA2347D0B3ACE3DC8FAF943267E1281F8D17C","category":"clerk / cashier","palette":"teal, white and charcoal","dimensions_px":[1024,1536]},
+    {"asset_id":"clerk_restock_orange_apron_imagegen_v01","source_file":"assets/source/textures/characters/candidates/clerk_restock_orange_apron_imagegen_v01.png","sha256":"3C4535C6C63AA026F062035CC335EA7D08DE52B89EC4B7078BEC92151AA0E3B2","category":"clerk / restocking","palette":"orange, white and charcoal","dimensions_px":[1024,1536]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only full-body character PNGs. Four-direction rendering, animation states, normalized height/anchor, occlusion, selection and runtime linkage remain open; no Godot files were changed."
+}

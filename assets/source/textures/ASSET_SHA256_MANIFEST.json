@@ -1071,6 +1071,12 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/clerk_cashier_teal_apron_imagegen_v01.png",
+      "sha256": "d8d77e200698c0ec5030737f680ea2347d0b3ace3dc8faf943267e1281f8d17c",
+      "bytes": 1404144
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/candidates/clerk_customer_subagent_candidates_v01.provenance.json",
       "sha256": "ec5771edc84772cffd1acdbb6de3ae3afe6d9e07d45d1bc13e82e10ac455afc9",
       "bytes": 802
@@ -1083,6 +1089,18 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/clerk_restock_orange_apron_imagegen_v01.png",
+      "sha256": "3c4535c6c63aa026f062035cc335ea7d08de52b89ec4b7078bec92151aa0e3b2",
+      "bytes": 1676253
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_casual_adult_beige_tote_imagegen_v01.png",
+      "sha256": "e825cf50ffa2e51a8810f54e35180f63b829e39a2d38b3f1beeb334ef3d6162a",
+      "bytes": 1557238
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/candidates/customer_casual_tote_candidate_v01.png",
       "sha256": "dc15d4c9546391a5eec1cf3d7a40d98d6dc84a2f9ca0c7d81a5cb6d5f7dfd8ed",
       "bytes": 722715
@@ -1092,6 +1110,12 @@
       "path": "assets/source/textures/characters/candidates/customer_casual_tote_cutout_v01.png",
       "sha256": "85faeb59d6e968f0502d30a03bcc8d0453952bb86b7eb9180db1395fe8fd7c56",
       "bytes": 1952958
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_clerk_imagegen_candidates_v01.provenance.json",
+      "sha256": "26f1001b50b10b976742dc1b1610bb6195b98a44f2212ca1bcb565d41caa702c",
+      "bytes": 2230
     },
     {
       "group": "characters",
@@ -1122,6 +1146,12 @@
       "path": "assets/source/textures/characters/candidates/customer_older_basket_cutout_v01.png",
       "sha256": "fb0f52d81c7f2ce6dcd706d6e9c130f961376104b6d3149e41e01fd6001ae1c6",
       "bytes": 1880983
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_student_navy_backpack_imagegen_v01.png",
+      "sha256": "f7874fe352fa9f1b99b550f9386bc9f2b16135ee92d9559b9c8ca26c66ab8762",
+      "bytes": 1429902
     },
     {
       "group": "characters",
