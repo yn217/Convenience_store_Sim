@@ -1,0 +1,15 @@
+{
+  "asset_family": "fictional_convenience_fixture_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Euclid and Russell",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single fictional Japanese convenience-store fixture, realistic 2.5D isometric, transparent RGBA background, front 3/4 view, category-specific structure, no real brand/trademark/logo/readable fine text/watermark.",
+  "candidates": [
+    {"asset_id":"hot_snack_microwave_fixture_subagent_v01","source_file":"assets/source/textures/fixtures/hot_snack_microwave_fixture_subagent_v01.png","sha256":"620ABFC8495947EBE2EAD66662957A7AD9F6CD9A68D0908990763F93412124EF","category":"fixture / hot snack warmer with microwave","palette":"light wood, stainless steel and warm amber","dimensions_px":[1254,1254]},
+    {"asset_id":"umbrella_daily_necessity_stand_subagent_v01","source_file":"assets/source/textures/fixtures/umbrella_daily_necessity_stand_subagent_v01.png","sha256":"7C44A85DDA65AC8CD6DC1FDC66CFDC3362B88B33646999D395485B861BF51BDE","category":"fixture / umbrella and daily necessity stand","palette":"charcoal metal, navy, clear and white","dimensions_px":[1284,1225]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only fixture PNGs. Tile footprint, anchor, normalized game scale, four-direction coverage, depth ordering and runtime linkage remain open; no Godot files were changed."
+}

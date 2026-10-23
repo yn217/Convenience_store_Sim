@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 GROUPS = {
     "packages": ROOT / "assets/source/textures/packages",
+    "fixtures": ROOT / "assets/source/textures/fixtures",
     "materials": ROOT / "assets/source/textures/materials",
     "pop": ROOT / "assets/source/textures/pop",
     "characters": ROOT / "assets/source/textures/characters",

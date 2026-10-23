@@ -638,6 +638,54 @@
       "bytes": 1588731
     },
     {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/beverage_cooler_subagent_v01.png",
+      "sha256": "cbb95e65b57c38f610f943938741d12f9221d79898612b6796d92aa4ea47d7ee",
+      "bytes": 2303059
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/frozen_case_subagent_v01.png",
+      "sha256": "28dc9dfac45e9b18e891717d6bc524fe26f7c2e7cc6058c19b3ab2d3dc8722e6",
+      "bytes": 2282005
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/hot_snack_microwave_fixture_subagent_v01.png",
+      "sha256": "620abfc8495947ebe2ead66662957a7ad9f6cd9a68d0908990763f93412124ef",
+      "bytes": 1604349
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/hot_snack_umbrella_subagent_candidates_v01.provenance.json",
+      "sha256": "459c1bfd36f58e0740e1b8ebc6055d338dd59e2fcc15a5b2340a2f40e0f8c5c7",
+      "bytes": 1530
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/oden_warmer_subagent_v01.png",
+      "sha256": "aba343bed7e7fdeeaaffd6c3494c3c61d17f2a4624ea8f6a9372bead80e1bfc6",
+      "bytes": 2669197
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/register_counter_subagent_v01.png",
+      "sha256": "996ce5773cd02fa9d112fc18585c9e7fbd2f508c6b4b113ac323b6f704dba81e",
+      "bytes": 2015660
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/subagent_fixture_candidates_v01.provenance.json",
+      "sha256": "3682254a4b54ec05232dae1a6f34615e810be0c0273a70f7b457de54a808b74a",
+      "bytes": 1121
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/umbrella_daily_necessity_stand_subagent_v01.png",
+      "sha256": "7c44a85dda65ac8cd6dc1fdc66cfdc3362b88b33646999d395485b861bf51bde",
+      "bytes": 1615457
+    },
+    {
       "group": "materials",
       "path": "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_a.png",
       "sha256": "08ff4c5e60f0444d9772a0f4ba6a8a1f931217f38a1b1f86ec88954311c2b697",
