@@ -13,8 +13,21 @@
         980,
         1536
       ],
+      "padding_px": {
+        "left": 0,
+        "top": 0,
+        "right": 44,
+        "bottom": 0
+      },
+      "min_padding_ok": false,
+      "edge_alpha": {
+        "left": true,
+        "right": false,
+        "top": true,
+        "bottom": true
+      },
       "bottom_alpha_row": 1535,
-      "status": "pass"
+      "status": "needs_human_review"
     },
     {
       "path": "candidates/customer_office_shoulder_bag_cutout_v01.png",
@@ -28,6 +41,19 @@
         971,
         1520
       ],
+      "padding_px": {
+        "left": 27,
+        "top": 13,
+        "right": 53,
+        "bottom": 16
+      },
+      "min_padding_ok": true,
+      "edge_alpha": {
+        "left": false,
+        "right": false,
+        "top": false,
+        "bottom": false
+      },
       "bottom_alpha_row": 1519,
       "status": "pass"
     },
@@ -43,6 +69,19 @@
         966,
         1510
       ],
+      "padding_px": {
+        "left": 31,
+        "top": 15,
+        "right": 58,
+        "bottom": 26
+      },
+      "min_padding_ok": true,
+      "edge_alpha": {
+        "left": false,
+        "right": false,
+        "top": false,
+        "bottom": false
+      },
       "bottom_alpha_row": 1509,
       "status": "pass"
     }
