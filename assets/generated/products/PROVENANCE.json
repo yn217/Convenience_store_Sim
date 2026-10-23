@@ -1,0 +1,11 @@
+{
+ "projection_id": "iso2x_v1",
+ "source_type": "procedural_pillow",
+ "shape_count": 8,
+ "directions_per_shape": 4,
+ "sku_count": 24,
+ "generator": "tools/assets/build_products.py",
+ "generator_sha256_16": "1892d3000f0a9368",
+ "third_party_art": false,
+ "notes": "Generic fictional labels only; no real brands or external images. SKU mapping is category-based and does not bake products into fixture art."
+}

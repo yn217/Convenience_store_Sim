@@ -1,0 +1,80 @@
+{
+ "projection_id": "iso2x_v1",
+ "blender_version": "2.91.0",
+ "engine": "BLENDER_EEVEE",
+ "samples": 64,
+ "view_transform": "Standard",
+ "render_canvas_px": [
+  768,
+  768
+ ],
+ "padding_px": 8,
+ "variants": [
+  "customer_a",
+  "customer_b",
+  "customer_c"
+ ],
+ "origin_px": [
+  384.0,
+  384.0
+ ],
+ "generator_sha256_16": {
+  "iso2x.py": "e3b79e77b28a24b6",
+  "figures.py": "146d674521f13799",
+  "render_customers.py": "3560176ed171f927",
+  "build_customers.py": "d374c9ba5822fbac"
+ },
+ "calibration": {
+  "file": "calibration/iso2x_v1_calibration.png",
+  "markers": {
+   "marker_o": {
+    "position": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "color": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "marker_x": {
+    "position": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "color": [
+     1.0,
+     0.0,
+     0.0
+    ]
+   },
+   "marker_y": {
+    "position": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "color": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "marker_z": {
+    "position": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "color": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  }
+ }
+}
