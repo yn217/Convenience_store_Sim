@@ -48,6 +48,7 @@ const FONT_SMALL := 13
 const FONT_BODY := 15
 const FONT_TITLE := 18
 const FONT_VALUE := 24
+const FONT_SUMMARY := 22
 const FONT_HUD := FONT_BODY
 const SPACE_S := 8
 const SPACE_M := 12
@@ -159,6 +160,15 @@ static func build() -> Theme:
 		theme.set_color("font_hovered_color", tab_type, TEXT_PRIMARY)
 	theme.set_stylebox("background", "ProgressBar", _bar_box(Color("0a1726")))
 	theme.set_stylebox("fill", "ProgressBar", _bar_box(WARM))
+	# Floating summary cards at the bottom (MetricBar): a translucent card and a smaller outlined value.
+	theme.add_type("SummaryCard")
+	theme.set_type_variation("SummaryCard", "PanelContainer")
+	theme.set_stylebox("panel", "SummaryCard", summary_card_box())
+	theme.add_type("SummaryValue")
+	theme.set_type_variation("SummaryValue", "Label")
+	theme.set_color("font_color", "SummaryValue", GOLD)
+	theme.set_font_size("font_size", "SummaryValue", FONT_SUMMARY)
+	_outline(theme, "SummaryValue", 3)
 	return theme
 
 
@@ -296,6 +306,51 @@ static func badge_circle(tint: Color, size: int) -> StyleBoxFlat:
 	b.set_border_width_all(2)
 	b.set_corner_radius_all(size)
 	b.set_content_margin_all(0)
+	return b
+
+
+## Floating left rail: a translucent dark panel with a soft shadow, rounded all round.
+static func rail_box() -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = Color(0.05, 0.11, 0.18, 0.85)
+	b.set_corner_radius_all(16)
+	b.set_border_width_all(1)
+	b.border_color = Color(BORDER, 0.6)
+	b.set_content_margin_all(6)
+	b.shadow_color = Color(0, 0, 0, 0.35)
+	b.shadow_size = 10
+	b.shadow_offset = Vector2(0, 4)
+	return b
+
+
+## One rail entry. `fill` is its face; a lit entry (selected) also gets a blue rim and a soft glow.
+static func rail_entry_box(fill: Color, glow: bool) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = fill
+	b.set_corner_radius_all(12)
+	b.set_border_width_all(1)
+	b.border_color = Color(HIGHLIGHT_BLUE, 0.9) if glow else Color(0, 0, 0, 0)
+	b.set_content_margin_all(4)
+	if glow:
+		b.shadow_color = Color(0.18, 0.55, 1.0, 0.55)
+		b.shadow_size = 10
+	return b
+
+
+## Bottom summary card: a translucent card with a soft shadow (the card's own text colours come from its labels).
+static func summary_card_box() -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = Color(0.06, 0.13, 0.21, 0.9)
+	b.set_corner_radius_all(14)
+	b.set_border_width_all(1)
+	b.border_color = Color(CARD_RIM, 0.7)
+	b.content_margin_left = 8.0
+	b.content_margin_right = 10.0
+	b.content_margin_top = 6.0
+	b.content_margin_bottom = 6.0
+	b.shadow_color = Color(0, 0, 0, 0.4)
+	b.shadow_size = 8
+	b.shadow_offset = Vector2(0, 3)
 	return b
 
 

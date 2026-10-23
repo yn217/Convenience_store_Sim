@@ -15,7 +15,8 @@ const TAB_OF_SECTION := {
 	"演出・音": "設定", "表示モード (O)": "設定", "セーブ / ロード": "設定",
 }
 const INSPECTOR_CARD := "インスペクタ"
-const BOTTOM_HEIGHT := 72
+const GAP := 12                                  # floating gap: from the window edges and the HUD, and between floating panels
+const BOTTOM_HEIGHT := 76                        # the summary cards (64) plus the gap under them (12); see MetricBar.HEIGHT
 const WINDOW_SIZE := Vector2(780, 600)
 const NO_TILE := Vector2i(-1, -1)
 
@@ -91,20 +92,36 @@ func _layout_overlay() -> void:
 	hud.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	hud.offset_bottom = UiTheme.HUD_HEIGHT
 	hud.custom_minimum_size.y = UiTheme.HUD_HEIGHT
-	var rail := LeftNav.WIDTH
-	_anchor_column(_nav, 0.0, rail, false)
-	_anchor_column(_palette, rail + MARGIN, UiTheme.PALETTE_WIDTH, false)
+	var rail_right := _place_rail()
+	_anchor_column(_palette, rail_right + GAP, UiTheme.PALETTE_WIDTH, false)
 	_anchor_column(_inspector, MARGIN, UiTheme.INSPECTOR_WIDTH, true)
 	_fit_inspector()
+	# The summary is one centred row of cards, 12 px above the bottom edge; the row itself takes no clicks.
 	_summary.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	_summary.offset_left = rail + MARGIN
-	_summary.offset_right = -MARGIN
+	_summary.offset_left = GAP
+	_summary.offset_right = -GAP
 	_summary.offset_top = -BOTTOM_HEIGHT
-	_summary.offset_bottom = -MARGIN
-	_summary.mouse_filter = Control.MOUSE_FILTER_IGNORE   # the strip itself takes no clicks; its cards may
-	# Camera safe area: the store is fitted between the HUD, the rail and the summary; panels overlay it.
-	_world.safe_inset = Vector4(rail + MARGIN, UiTheme.HUD_HEIGHT, 0, BOTTOM_HEIGHT)
+	_summary.offset_bottom = -GAP
+	_summary.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Camera safe area: the store is fitted between the rail and the right edge, under the HUD and above the summary,
+	# so it sits centred in the space the floating UI leaves. Panels that open later overlay the store.
+	_world.safe_inset = Vector4(rail_right + GAP, UiTheme.HUD_HEIGHT + GAP, GAP, BOTTOM_HEIGHT)
 	_world.fit_view()
+
+
+## The rail's right edge (it floats GAP in from the left edge).
+func _rail_right() -> float:
+	return GAP + LeftNav.WIDTH
+
+
+## The rail floats at the top left, under the HUD, and is only as tall as its entries. Returns its right edge.
+func _place_rail() -> float:
+	_nav.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	_nav.offset_left = GAP
+	_nav.offset_top = UiTheme.HUD_HEIGHT + GAP
+	_nav.offset_right = _rail_right()
+	_nav.offset_bottom = _nav.offset_top + _nav.get_combined_minimum_size().y
+	return _nav.offset_right
 
 
 const MARGIN := 8
@@ -227,7 +244,7 @@ func _apply_mode() -> void:
 	_palette.visible = ui.is_build()
 	# Notification cards start clear of the rail and the HUD, and of the build palette while it is open.
 	if _floats != null:
-		_floats.inset = Vector2(LeftNav.WIDTH + (UiTheme.PALETTE_WIDTH + MARGIN if ui.is_build() else 0), UiTheme.HUD_HEIGHT)
+		_floats.inset = Vector2(_rail_right() + (UiTheme.PALETTE_WIDTH + GAP if ui.is_build() else 0), UiTheme.HUD_HEIGHT)
 	_inspector.visible = ui.is_selected()
 	_fit_inspector()
 	_dimmer.visible = ui.is_screen()

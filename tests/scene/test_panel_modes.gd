@@ -129,7 +129,7 @@ func test_camera_does_not_move_when_panels_open(t, tree) -> void:
 func test_store_fit_keeps_clear_of_the_hud_rail_and_summary(t, tree) -> void:
 	var main := await _boot(tree)
 	var world: Node2D = main.get_node(WORLD)
-	t.ok(world.safe_inset.x >= 80.0 and world.safe_inset.y >= 64.0 and world.safe_inset.w >= 72.0, "safe area covers rail, HUD and summary")
+	t.ok(world.safe_inset.x >= 84.0 and world.safe_inset.y >= 64.0 and world.safe_inset.w >= 76.0, "safe area covers rail, HUD and summary")
 	world.fit_view()
 	var floor_rect: Rect2 = world.projection.floor_bounds(world.store_width, world.store_height)
 	var top_left: Vector2 = world.projection.origin + floor_rect.position * world.projection.zoom
@@ -199,5 +199,41 @@ func test_state_badge_opens_the_management_tab(t, tree) -> void:
 	main.call("_on_state_gui_input", click)
 	t.eq(main.mode_name(), "SCREEN", "the state badge opens a screen")
 	t.eq(main.get("ui").screen_tab, "経営", "on the 経営 tab")
+	main.queue_free()
+	await tree.process_frame
+
+
+## The rail floats under the HUD (12 px margin) and is only as tall as its entries, not the full height.
+func test_rail_floats_under_the_hud_and_fits_its_entries(t, tree) -> void:
+	var main := await _boot(tree)
+	var nav := main.get_node("Layout/MainArea/LeftNav") as Control
+	var window: Vector2 = main.get_viewport_rect().size
+	var rect := nav.get_global_rect()
+	t.eq(rect.position.x, 12.0, "rail starts 12 px from the left edge")
+	t.eq(rect.position.y, UiTheme.HUD_HEIGHT + 12.0, "rail starts 12 px under the HUD")
+	t.eq(rect.size.x, float(LeftNav.WIDTH), "rail is the compact width")
+	t.ok(rect.end.y < window.y * 0.5, "rail is only as tall as its buttons, not the full height")
+	main.queue_free()
+	await tree.process_frame
+
+
+## The four summary cards form one centred row 12 px above the bottom edge, and only the cards take mouse input.
+func test_summary_cards_are_a_centred_row_above_the_bottom(t, tree) -> void:
+	var main := await _boot(tree)
+	var bar := main.find_child("MetricBar", true, false) as Control
+	var window: Vector2 = main.get_viewport_rect().size
+	var cards: Array = bar.get_child(0).get_children()
+	t.eq(cards.size(), 4, "four cards")
+	var first: Rect2 = (cards[0] as Control).get_global_rect()
+	var last: Rect2 = (cards[3] as Control).get_global_rect()
+	t.ok(absf(window.y - 12.0 - first.end.y) <= 1.0, "cards end 12 px above the bottom edge")
+	var group_centre := (first.position.x + last.end.x) * 0.5
+	t.ok(absf(group_centre - window.x * 0.5) <= 2.0, "the card row is centred in the window")
+	for c in cards:
+		var card := c as Control
+		t.ok(card.get_global_rect().size.x >= 170.0 and card.get_global_rect().size.x <= 220.0, "card width 170..220 px")
+		t.eq(card.mouse_filter, Control.MOUSE_FILTER_STOP, "cards stop the mouse")
+	t.eq(bar.mouse_filter, Control.MOUSE_FILTER_IGNORE, "the summary strip itself passes the mouse through")
+	t.ok(_blockers_at(main, Vector2(window.x * 0.5, window.y - 90.0)).is_empty(), "the space just above the cards is not blocked")
 	main.queue_free()
 	await tree.process_frame

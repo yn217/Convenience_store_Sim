@@ -6,11 +6,10 @@ extends PanelContainer
 
 signal item_pressed(id: String)
 
-const WIDTH := 80
-const ENTRY_HEIGHT := 64
+const WIDTH := 72
+const ENTRY_HEIGHT := 60
 const ICON_SIZE := 26
 const LABEL_SIZE := 13
-const BAR_WIDTH := 4
 ## Each entry: id (what MainLayout dispatches on), short label, icon name (UiIcons).
 const ITEMS := [
 	{"id": "store", "title": "店舗", "icon": "store"},
@@ -28,6 +27,7 @@ var _titles: Array[Label] = []
 func _ready() -> void:
 	name = "LeftNav"
 	custom_minimum_size.x = WIDTH
+	add_theme_stylebox_override("panel", UiTheme.rail_box())
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 6)
 	add_child(column)
@@ -38,7 +38,7 @@ func _ready() -> void:
 
 func _add_entry(column: VBoxContainer, item: Dictionary) -> void:
 	var b := Button.new()
-	b.custom_minimum_size = Vector2(WIDTH - 10, ENTRY_HEIGHT)
+	b.custom_minimum_size = Vector2(WIDTH - 12, ENTRY_HEIGHT)
 	b.focus_mode = Control.FOCUS_NONE
 	b.clip_contents = true
 	b.tooltip_text = item["title"]
@@ -91,22 +91,22 @@ func entry_id(index: int) -> String:
 	return ITEMS[index]["id"]
 
 
-## Marks the entry with this id as active (brighter fill, warm bar on the left edge). "" clears the mark.
+## Marks the entry with this id as active (blue fill with a glow). "" clears the mark.
 func set_active(id: String) -> void:
 	active_id = id
 	for i in _buttons.size():
 		_apply_style(_buttons[i], ITEMS[i]["id"] == id)
 
 
+## Entries are transparent until hovered; the selected one is filled blue and glows. Pressed darkens the blue.
 func _apply_style(b: Button, selected: bool) -> void:
-	var fill: Color = UiTheme.PANEL_ELEVATED if selected else UiTheme.PANEL
 	for state in ["normal", "hover", "pressed", "disabled"]:
-		var box := UiTheme._box(fill, 8)
+		var fill := Color(0, 0, 0, 0)
+		var glow := selected
 		if selected:
-			box.border_width_left = BAR_WIDTH
-			box.border_color = UiTheme.WARM
-		if state == "hover":
-			box.border_color = UiTheme.WARM
+			fill = UiTheme.BRAND_BLUE
+		elif state == "hover":
+			fill = Color(1, 1, 1, 0.08)
 		if state == "pressed":
-			box.bg_color = UiTheme.BRAND_BLUE
-		b.add_theme_stylebox_override(state, box)
+			fill = UiTheme.BRAND_BLUE.darkened(0.2) if selected else Color(1, 1, 1, 0.14)
+		b.add_theme_stylebox_override(state, UiTheme.rail_entry_box(fill, glow))
