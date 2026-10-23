@@ -528,10 +528,10 @@
   }
  },
  "generator_sha256_16": {
-  "iso2x.py": "e3b79e77b28a24b6",
-  "blueprints.py": "9463c33e08de1bab",
-  "render_fixtures.py": "af436e9ca6ea8818",
-  "build_sprites.py": "00cfcc6b87863a9e"
+  "iso2x.py": "7b3bc87687fad84f",
+  "blueprints.py": "3f1743b2b29e6c1b",
+  "render_fixtures.py": "e449144fd51076fe",
+  "build_sprites.py": "83855c9466920189"
  },
  "calibration": {
   "file": "calibration/iso2x_v1_calibration.png",

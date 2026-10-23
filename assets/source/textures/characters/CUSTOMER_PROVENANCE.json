@@ -1,0 +1,30 @@
+{
+  "asset": "customer_variants_comparison_v01.png",
+  "purpose": "Issue #23 art-direction candidate board for three fictional adult customer variants",
+  "source": "OpenAI image generation tool",
+  "model": "unavailable in tool result",
+  "seed": "unavailable in tool result",
+  "prompt_record": "docs/art/CUSTOMER_ART_CANDIDATES.md",
+  "license": "Generated for this project; final adoption requires repository licensing review",
+  "runtime_status": "reference candidate only; not wired into Godot",
+  "cutouts": [
+    {
+      "path": "candidates/customer_casual_tote_cutout_v01.png",
+      "source": "ImageGen edit of customer_casual_tote_candidate_v01.png",
+      "dimensions": "1024x1536",
+      "alpha": "RGBA"
+    },
+    {
+      "path": "candidates/customer_office_shoulder_bag_cutout_v01.png",
+      "source": "ImageGen edit of customer_office_shoulder_bag_candidate_v01.png",
+      "dimensions": "1024x1536",
+      "alpha": "RGBA"
+    },
+    {
+      "path": "candidates/customer_older_basket_cutout_v01.png",
+      "source": "ImageGen edit of customer_older_basket_candidate_v01.png",
+      "dimensions": "1024x1536",
+      "alpha": "RGBA"
+    }
+  ]
+}

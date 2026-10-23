@@ -1,0 +1,125 @@
+{
+  "status": "review-only; not runtime wired",
+  "outputs": [
+    {
+      "source": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_a_cutout_v02_lod_0_5.png",
+      "scale": 0.5,
+      "dimensions": [
+        448,
+        722
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_a_cutout_v02_lod_0_25.png",
+      "scale": 0.25,
+      "dimensions": [
+        224,
+        361
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_b_cutout_v02_lod_0_5.png",
+      "scale": 0.5,
+      "dimensions": [
+        507,
+        746
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_b_cutout_v02_lod_0_25.png",
+      "scale": 0.25,
+      "dimensions": [
+        254,
+        373
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_a_cutout_v02_lod_0_5.png",
+      "scale": 0.5,
+      "dimensions": [
+        600,
+        662
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_a_cutout_v02_lod_0_25.png",
+      "scale": 0.25,
+      "dimensions": [
+        300,
+        331
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_b_cutout_v02_lod_0_5.png",
+      "scale": 0.5,
+      "dimensions": [
+        576,
+        662
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_b_cutout_v02_lod_0_25.png",
+      "scale": 0.25,
+      "dimensions": [
+        288,
+        331
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_a_cutout_v02_lod_0_5.png",
+      "scale": 0.5,
+      "dimensions": [
+        432,
+        876
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_a_cutout_v02_lod_0_25.png",
+      "scale": 0.25,
+      "dimensions": [
+        216,
+        438
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_b_cutout_v02_lod_0_5.png",
+      "scale": 0.5,
+      "dimensions": [
+        418,
+        870
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "source": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v02.png",
+      "path": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_b_cutout_v02_lod_0_25.png",
+      "scale": 0.25,
+      "dimensions": [
+        209,
+        435
+      ],
+      "mode": "RGBA"
+    }
+  ]
+}

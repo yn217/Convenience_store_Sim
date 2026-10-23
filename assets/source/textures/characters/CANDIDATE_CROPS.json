@@ -1,0 +1,10 @@
+{
+  "source": "customer_variants_comparison_v01.png",
+  "crop_rule": "equal vertical thirds; full height; RGBA",
+  "candidates": [
+    "candidates/customer_casual_tote_candidate_v01.png",
+    "candidates/customer_office_shoulder_bag_candidate_v01.png",
+    "candidates/customer_older_basket_candidate_v01.png"
+  ],
+  "status": "reference candidates; not runtime sprites"
+}

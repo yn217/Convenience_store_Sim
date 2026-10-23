@@ -26,8 +26,10 @@ SAMPLES = 64
 CAMERA_DISTANCE = 30.0
 
 PALETTE = {
-    "frame_metal": {"color": (0.55, 0.57, 0.60), "metallic": 0.8, "roughness": 0.40},
-    "shelf_white": {"color": (0.90, 0.90, 0.88), "metallic": 0.0, "roughness": 0.55},
+    # Keep the white fixtures readable under the shared key/fill lights; the previous
+    # near-white value clipped the top faces and erased shelf/side-panel separation.
+    "frame_metal": {"color": (0.38, 0.41, 0.46), "metallic": 0.75, "roughness": 0.42},
+    "shelf_white": {"color": (0.72, 0.75, 0.78), "metallic": 0.0, "roughness": 0.58},
     "dark_polymer": {"color": (0.08, 0.09, 0.10), "metallic": 0.0, "roughness": 0.60},
     "label_rail": {"color": (0.85, 0.75, 0.20), "metallic": 0.0, "roughness": 0.50},
     "product_surface": {"color": (0.50, 0.50, 0.50), "metallic": 0.0, "roughness": 0.50},
