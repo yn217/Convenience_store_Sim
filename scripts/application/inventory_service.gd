@@ -130,6 +130,8 @@ static func complete_sale(state: GameState, transaction_id: String, reservation_
 	if seg.is_empty() or is_expired(seg, state.time_sec):
 		return {"ok": false, "reason": "expired_or_missing"}
 	var qty := int(res["qty"])
+	if qty < 1 or int(seg["physical_qty"]) < qty or int(seg["reserved_qty"]) < qty:
+		return {"ok": false, "reason": "insufficient_stock"}
 	var revenue := int(res["sell_unit_yen_snapshot"]) * qty
 	var cogs := int(res["cost_unit_yen_snapshot"]) * qty
 	if not state.ledger.record("SALE", transaction_id, revenue, state.day, state.time_sec,
