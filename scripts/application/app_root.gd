@@ -20,6 +20,9 @@ func _ready() -> void:
 	state = GameState.from_balance(balance, DEFAULT_SEEDS)
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
+	var world := _world()
+	if world != null:
+		world.selection_changed.connect(_on_selection_changed)
 	_publish_snapshot()
 
 
@@ -43,13 +46,21 @@ func _load_balance() -> Dictionary:
 	return parsed
 
 
+func _world() -> Node:
+	return get_node_or_null("../Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+
+
+func _on_selection_changed(tile: Vector2i) -> void:
+	var main := get_parent()
+	if main != null and main.has_method("show_selection"):
+		main.show_selection(tile)
+
+
 func _publish_snapshot() -> void:
 	var snap := state.snapshot()
-	var world := get_node_or_null("../MainArea/StoreViewport/SubViewport/StoreWorld")
+	var world := _world()
 	if world != null and world.has_method("apply_snapshot"):
 		world.apply_snapshot(snap)
-	var label := get_node_or_null("../GameHUD/StateLabel") as Label
-	if label != null:
-		label.text = "空店舗 %d×%d / %s / speed %d / 現金 %d円" % [
-			snap["store_width"], snap["store_height"], snap["business_state"],
-			snap["speed_setting"], snap["cash_yen"]]
+	var hud := get_node_or_null("../Layout/TopHUD")
+	if hud != null and hud.has_method("apply_snapshot"):
+		hud.apply_snapshot(snap)

@@ -6,13 +6,14 @@ func test_main_scene_boots_empty_store(t, tree) -> void:
 	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
 	tree.root.add_child(main)
 	await tree.process_frame
-	var world := main.get_node("MainArea/StoreViewport/SubViewport/StoreWorld")
+	var world := main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 	t.eq(world.store_width, 16, "store width")
 	t.eq(world.store_height, 12, "store height")
 	t.eq(world.revision, 0, "first snapshot is revision 0")
 	t.eq(world.get_node("ObjectSortRoot").get_child_count(), 0, "no fixtures in empty store")
-	var label := main.get_node("GameHUD/StateLabel") as Label
-	t.ok(label.text.contains("SETUP"), "HUD shows SETUP")
+	t.eq((main.get_node("Layout/TopHUD/Row/StateLabel") as Label).text, "準備中", "HUD shows SETUP state")
+	t.eq((main.get_node("Layout/TopHUD/Row/CashLabel") as Label).text, "所持金 ¥500,000", "HUD shows starting cash")
+	t.eq((main.get_node("Layout/TopHUD/Row/SpeedLabel") as Label).text, "速度 停止", "HUD shows paused")
 	t.eq(main.get_node("AppRoot").state.speed_setting, 0, "starts paused")
 	main.queue_free()
 	await tree.process_frame

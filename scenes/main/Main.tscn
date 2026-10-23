@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/application/app_root.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/store/StoreWorld.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/presentation/main_layout.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/presentation/game_hud.gd" id="4"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -10,42 +12,114 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("3")
 
-[node name="MainArea" type="HBoxContainer" parent="."]
+[node name="Layout" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="StoreViewport" type="SubViewportContainer" parent="MainArea"]
+[node name="TopHUD" type="PanelContainer" parent="Layout"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+script = ExtResource("4")
+
+[node name="Row" type="HBoxContainer" parent="Layout/TopHUD"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="CashLabel" type="Label" parent="Layout/TopHUD/Row"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="SalesLabel" type="Label" parent="Layout/TopHUD/Row"]
+layout_mode = 2
+
+[node name="ProfitLabel" type="Label" parent="Layout/TopHUD/Row"]
+layout_mode = 2
+
+[node name="CustomersLabel" type="Label" parent="Layout/TopHUD/Row"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Layout/TopHUD/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="PaletteTab" type="Button" parent="Layout/TopHUD/Row"]
+visible = false
+layout_mode = 2
+text = "建設"
+
+[node name="InspectorTab" type="Button" parent="Layout/TopHUD/Row"]
+visible = false
+layout_mode = 2
+text = "情報"
+
+[node name="ClockLabel" type="Label" parent="Layout/TopHUD/Row"]
+layout_mode = 2
+
+[node name="SpeedLabel" type="Label" parent="Layout/TopHUD/Row"]
+layout_mode = 2
+
+[node name="StateLabel" type="Label" parent="Layout/TopHUD/Row"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="MainArea" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="BuildPalette" type="PanelContainer" parent="Layout/MainArea"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+
+[node name="Body" type="VBoxContainer" parent="Layout/MainArea/BuildPalette"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Layout/MainArea/BuildPalette/Body"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "建設パレット"
+
+[node name="Note" type="Label" parent="Layout/MainArea/BuildPalette/Body"]
+layout_mode = 2
+text = "什器の一覧は #21 で実装"
+autowrap_mode = 3
+
+[node name="StoreViewport" type="SubViewportContainer" parent="Layout/MainArea"]
+custom_minimum_size = Vector2(640, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="MainArea/StoreViewport"]
+[node name="SubViewport" type="SubViewport" parent="Layout/MainArea/StoreViewport"]
 handle_input_locally = false
-size = Vector2i(1920, 1080)
+size = Vector2i(1320, 1016)
 render_target_update_mode = 4
 
-[node name="StoreWorld" parent="MainArea/StoreViewport/SubViewport" instance=ExtResource("2")]
+[node name="StoreWorld" parent="Layout/MainArea/StoreViewport/SubViewport" instance=ExtResource("2")]
 
-[node name="GameHUD" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="FixtureInspector" type="PanelContainer" parent="Layout/MainArea"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
 
-[node name="StateLabel" type="Label" parent="GameHUD"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 800.0
-offset_bottom = 48.0
+[node name="Body" type="VBoxContainer" parent="Layout/MainArea/FixtureInspector"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Layout/MainArea/FixtureInspector/Body"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "インスペクタ"
+
+[node name="SelectionLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Body"]
+layout_mode = 2
+text = "未選択"
 
 [node name="AppRoot" type="Node" parent="."]
 script = ExtResource("1")

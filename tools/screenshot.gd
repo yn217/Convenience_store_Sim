@@ -13,9 +13,9 @@ func _run() -> void:
 	root.add_child(main)
 	for i in 5:
 		await process_frame
-	var world := main.get_node("MainArea/StoreViewport/SubViewport/StoreWorld")
+	var world := main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 	if args.size() >= 3:
-		world.set_hover_screen(world.projection.tile_center(Vector2i(int(args[1]), int(args[2]))))
+		world.select_screen(world.projection.tile_center(Vector2i(int(args[1]), int(args[2]))))
 	for i in 3:
 		await process_frame
 	root.get_texture().get_image().save_png(out)

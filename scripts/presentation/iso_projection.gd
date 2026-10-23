@@ -65,6 +65,42 @@ func floor_bounds(width: int, height: int) -> Rect2:
 	return Rect2(left.x, top.y, right.x - left.x, bottom.y - top.y)
 
 
+## Zoom about a screen point: the world position under `pivot` stays under it.
+func zoom_at(pivot: Vector2, new_zoom: float) -> void:
+	var w := screen_to_world(pivot)
+	set_zoom(new_zoom)
+	origin += pivot - world_to_screen(w.x, w.y)
+
+
+func pan(delta: Vector2) -> void:
+	origin += delta
+
+
+## Largest zoom (clamped to the allowed range) at which the whole floor fits, then centred.
+func fit_floor(viewport_size: Vector2, width: int, height: int, margin: float = 32.0) -> void:
+	zoom = ZOOM_NORMAL
+	origin = Vector2.ZERO
+	var b := floor_bounds(width, height)
+	var avail := viewport_size - Vector2(margin, margin) * 2.0
+	set_zoom(minf(avail.x / b.size.x, avail.y / b.size.y))
+	center_floor(viewport_size, width, height)
+
+
+## Keeps at least `min_visible` px of the floor on screen along each axis so it cannot be panned away.
+func clamp_to_viewport(viewport_size: Vector2, width: int, height: int, min_visible: float = 128.0) -> void:
+	var b := floor_bounds(width, height)
+	var d := Vector2.ZERO
+	if b.end.x < min_visible:
+		d.x = min_visible - b.end.x
+	elif b.position.x > viewport_size.x - min_visible:
+		d.x = (viewport_size.x - min_visible) - b.position.x
+	if b.end.y < min_visible:
+		d.y = min_visible - b.end.y
+	elif b.position.y > viewport_size.y - min_visible:
+		d.y = (viewport_size.y - min_visible) - b.position.y
+	origin += d
+
+
 ## Moves the origin so the floor is centred in `viewport_size` (zoom unchanged).
 func center_floor(viewport_size: Vector2, width: int, height: int) -> void:
 	origin = Vector2.ZERO
