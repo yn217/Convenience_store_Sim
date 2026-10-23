@@ -10,7 +10,11 @@
   ],
   "source_candidates": [
     "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a.png",
-    "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b.png"
+    "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b.png",
+    "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a.png",
+    "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b.png",
+    "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a.png",
+    "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b.png"
   ],
   "outputs": [
     {
@@ -50,8 +54,8 @@
     "do not add readable text, real brands, logos, or new product design",
     "do not claim four-direction or iso2x compliance"
   ],
-  "review_status": "pending human visual, trademark, and license review"
-  ,"normalized_outputs": {
+  "review_status": "pending human visual, trademark, and license review",
+  "normalized_outputs": {
     "method": "tools/art/normalize_package_cutouts.py",
     "padding_px": 8,
     "bottom_contact": "visible alpha ends at canvas bottom",
