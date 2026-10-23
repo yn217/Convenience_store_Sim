@@ -8,6 +8,25 @@
 |characters-v1|assets/generated/characters/**|Blender procedural|tools/assets/render_customers.py + tools/assets/build_customers.py; manifest: assets/generated/characters/PROVENANCE.json|Blender 2.91.0 / EEVEE / iso2x_v1|プロジェクト作成スクリプト由来。第三者素材なしをコード上で確認。リポジトリのライセンス条項との照合待ち|PROVENANCE記録|未実施|要確認|
 |products-shapes-v1|assets/generated/products/**|Procedural Pillow|tools/assets/build_products.py; per-shape manifests and assets/generated/products/PROVENANCE.json|Pillow / RGBA source sprites / iso2x_v1|架空ラベルのみ。第三者画像・実在ブランドなし。リポジトリのライセンス条項との照合待ち|生成時に記録|未実施|要確認|
 
+## Coverage index for current generated IDs
+
+The three ledger scopes above cover the following generated IDs. This index is an inventory
+cross-check, not a license approval; the human review and redistribution fields remain pending.
+
+### Fixture IDs (10)
+
+`freezer_ice`, `fridge_dessert`, `fridge_drink`, `register_basic`, `shelf_bread`,
+`shelf_general`, `shelf_noodle`, `shelf_onigiri`, `shelf_snack`, `warmer_oden`
+
+### Product visual IDs (24)
+
+`rice_001_package`, `rice_002_package`, `rice_003_package`, `oden_001_package`,
+`oden_002_package`, `oden_003_package`, `noodle_001_package`, `noodle_002_package`,
+`noodle_003_package`, `bread_001_package`, `bread_002_package`, `bread_003_package`,
+`drink_001_package`, `drink_002_package`, `drink_003_package`, `snack_001_package`,
+`snack_002_package`, `snack_003_package`, `dessert_001_package`, `dessert_002_package`,
+`dessert_003_package`, `ice_001_package`, `ice_002_package`, `ice_003_package`
+
 ## 受入チェック
 - [x] 元データと生成方法が再現できる（生成スクリプト、PROVENANCE、ハッシュを登録）
 - [ ] 第三者素材のゲーム内利用/商用利用/再配布条件を確認
