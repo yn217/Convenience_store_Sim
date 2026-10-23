@@ -1,0 +1,35 @@
+{
+  "status": "review-only",
+  "runtime_approved": false,
+  "generator": "built-in image_gen",
+  "generated_at": "2026-10-24",
+  "background": "transparent PNG alpha",
+  "style": "realistic 2.5D standalone object for a Japanese convenience store",
+  "constraints": ["fictional brand", "minimal or no text", "no watermark", "no Godot scene or game logic changes"],
+  "candidates": [
+    {
+      "file": "assets/source/textures/fixtures/candidates/counter_donation_box_candidate.png",
+      "sha256": "DD79C68907502B2B0223C5094874BCB696BE98954F3249684838657B89FC5309",
+      "asset": "counter-side donation box",
+      "prompt": "Compact clear acrylic charity collection box with weighted dark base, coin slot, tiny fictional symbol; isolated on genuinely transparent background; realistic 2.5D product render; no readable words or logos."
+    },
+    {
+      "file": "assets/source/textures/fixtures/candidates/self_service_coffee_machine_candidate.png",
+      "sha256": "FEC3986D75DB1B09D41318858AAC8CC0C9BE4F0DB4BDCE53F408BE723D72736F",
+      "asset": "self-service coffee machine",
+      "prompt": "Compact Japanese convenience-store self-service coffee machine with dark body, stainless drip tray, two cup bays, simple colored buttons and tiny fictional icon; isolated transparent background; realistic 2.5D product render; no readable text or brands."
+    },
+    {
+      "file": "assets/source/textures/fixtures/candidates/prize_lottery_box_candidate.png",
+      "sha256": "5C6CF50F85902027CF2255825AD948E6760FB5AC565417BE7F64AC7BDDD45847",
+      "asset": "counter prize lottery box",
+      "prompt": "Compact bright cardboard prize lottery dispenser with rounded top window, ticket slot and abstract star shapes; isolated transparent background; realistic 2.5D product render; fictional design, abstract symbols instead of lettering, no brands."
+    },
+    {
+      "file": "assets/source/textures/fixtures/candidates/cooler_side_module_candidate.png",
+      "sha256": "0BE70458ED9297B83863BF0248AB6FCA714948AD297A94B3BE45BAD01AFA345F",
+      "asset": "refrigerated showcase side module",
+      "prompt": "Narrow insulated side module for a refrigerated showcase near a convenience-store register, with vent grille, tiny unreadable abstract temperature display and slim product-facing edge; isolated transparent background; realistic 2.5D industrial render; no full refrigerator, no products, no brands."
+    }
+  ]
+}

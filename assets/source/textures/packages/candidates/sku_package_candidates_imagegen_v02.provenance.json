@@ -1,0 +1,57 @@
+{
+  "schema": "sku-package-candidate-provenance-v1",
+  "review_status": "review-only",
+  "runtime_approved": false,
+  "generation_tool": "built-in image_gen",
+  "generation_date": "2026-10-24",
+  "shared_constraints": {
+    "background": "transparent alpha",
+    "view": "near-front, centered",
+    "brand": "fictional",
+    "text_policy": "minimal text only",
+    "game_use": "candidate asset review; not wired into runtime"
+  },
+  "avoid_checked_against_existing_candidates": [
+    "onigiri",
+    "cup noodles",
+    "tea"
+  ],
+  "assets": [
+    {
+      "file": "assets/source/textures/packages/candidates/sku_dorayaki_fuwadora_imagegen_v01.png",
+      "sha256": "C8C35C5341E0515D25C0D53973FABBDA7C5F9335B0E709FC996C6C84AFD738AD",
+      "sku_category": "wagashi",
+      "subject": "dorayaki red-bean pancake in a clear-front pillow pouch",
+      "fictional_brand_or_text": "ふわどら",
+      "prompt": "Japanese convenience-store style packaged wagashi, dorayaki red-bean pancake, clear-front pillow pouch, front-facing, centered, stylized product render, transparent background, fictional brand, minimal text, no real logos or watermark."
+    },
+    {
+      "file": "assets/source/textures/packages/candidates/sku_melonpan_soyokaze_imagegen_v01.png",
+      "sha256": "F7E4E1553AAF1A9A7E93C240E58DA0C1B743EADB4FEA1D9198CF9F05415B2CD0",
+      "sku_category": "sweet_bread",
+      "subject": "melon-pan in a clear-front plastic bread bag",
+      "fictional_brand_or_text": "そよかぜ",
+      "prompt": "Japanese convenience-store style packaged sweet bread, melon-pan in a clear-front plastic bread bag, front-facing, centered, stylized product render, transparent background, fictional brand, minimal text, no real logos or watermark."
+    },
+    {
+      "file": "assets/source/textures/packages/candidates/sku_strawberrymilk_ichigomilk_imagegen_v01.png",
+      "sha256": "10A71F171D46BF25B8D4E2FEC5D4D55BD376EB6D42CF5F289AE691F2FFC67A08",
+      "sku_category": "dairy_drink",
+      "subject": "small strawberry milk bottle with foil cap",
+      "fictional_brand_or_text": "いちごミルク",
+      "prompt": "Japanese convenience-store style dairy drink, squat strawberry milk bottle with foil cap and simple label, front-facing, centered, stylized product render, transparent background, fictional packaging, minimal text, no real logos or watermark."
+    },
+    {
+      "file": "assets/source/textures/packages/candidates/sku_grapejelly_budoupurun_imagegen_v01.png",
+      "sha256": "68FFBB6655546AA5DE2BCBB7C28784753A930C9FC5F4D1125942BD84FD72F40A",
+      "sku_category": "jelly_drink",
+      "subject": "grape jelly drink in a stand-up spouted pouch",
+      "fictional_brand_or_text": "ぶどうぷるん",
+      "prompt": "Japanese convenience-store style chilled dessert drink, grape jelly in a stand-up spouted pouch, front-facing, centered, stylized product render, transparent background, fictional brand, minimal text, no real logos or watermark."
+    }
+  ],
+  "notes": [
+    "Generated as four distinct SKU candidates; existing candidates were onigiri, cup noodles, and tea.",
+    "Do not promote to runtime without human review of silhouette, alpha edges, and text rendering."
+  ]
+}

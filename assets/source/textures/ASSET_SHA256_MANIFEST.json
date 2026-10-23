@@ -285,6 +285,24 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_dorayaki_fuwadora_imagegen_v01.png",
+      "sha256": "c8c35c5341e0515d25c0d53973fabbda7c5f9335b0e709fc996c6c84afd738ad",
+      "bytes": 2466517
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_grapejelly_budoupurun_imagegen_v01.png",
+      "sha256": "68ffbb6655546aa5de2bcbb7c28784753a930c9fc5f4d1125942bd84fd72f40a",
+      "bytes": 1429022
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_melonpan_soyokaze_imagegen_v01.png",
+      "sha256": "f7e4e1553aaf1a9a7e93c240e58da0c1b743eadb4fea1d9198cf9f05415b2cd0",
+      "bytes": 2010307
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a.png",
       "sha256": "4779f00d4a29d72b670a53f52f062fea5d55631721ecbc311aab4dd7bac190d0",
       "bytes": 1032050
@@ -318,6 +336,18 @@
       "path": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v02.png",
       "sha256": "115d3be27eafe75af58a8b43b3ca3b66f092de55652ac764b801bb5d8223417d",
       "bytes": 1731992
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_package_candidates_imagegen_v02.provenance.json",
+      "sha256": "0068f3559125bef18e9d10e25ef868f2af38bc09c71ba347e0d3b1fd3de55b96",
+      "bytes": 3204
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/sku_strawberrymilk_ichigomilk_imagegen_v01.png",
+      "sha256": "10a71f171d46bf25b8d4e2fec5d4d55bd376eb6d42cf5f289ae691f2ffc67a08",
+      "bytes": 975456
     },
     {
       "group": "packages",
@@ -732,6 +762,36 @@
       "path": "assets/source/textures/fixtures/beverage_cooler_subagent_v01.png",
       "sha256": "cbb95e65b57c38f610f943938741d12f9221d79898612b6796d92aa4ea47d7ee",
       "bytes": 2303059
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/cooler_side_module_candidate.png",
+      "sha256": "0be70458ed9297b83863bf0248ab6fca714948ad297a94b3be45bad01afa345f",
+      "bytes": 841719
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/counter_donation_box_candidate.png",
+      "sha256": "dd79c68907502b2b0223c5094874bcb696be98954f3249684838657b89fc5309",
+      "bytes": 1447180
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/fixture_small_object_candidates_imagegen_v01.provenance.json",
+      "sha256": "9c429fd6966906b180827645375b71108ae1fa437d56f0b0283cf699f3445d6e",
+      "bytes": 2420
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/prize_lottery_box_candidate.png",
+      "sha256": "5c6cf50f85902027cf2255825ad948e6760fb5ac565417be7f64ac7bddd45847",
+      "bytes": 1668684
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/self_service_coffee_machine_candidate.png",
+      "sha256": "fec3986d75db1b09d41318858aac8cc0c9be4f0db4bdce53f408be723d72736f",
+      "bytes": 1557895
     },
     {
       "group": "fixtures",
