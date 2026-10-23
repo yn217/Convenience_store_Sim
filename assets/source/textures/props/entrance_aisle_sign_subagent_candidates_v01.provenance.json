@@ -1,0 +1,17 @@
+{
+  "asset_family": "entrance_door_and_aisle_category_sign_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Cicero and Popper",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single Japanese convenience-store prop, realistic 2.5D isometric, transparent RGBA background, light contact/attachment shadow, no real manufacturer/trademark/logo/readable fine text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"entrance_door_prop_subagent_a_v01","source_file":"assets/source/textures/props/entrance_door_prop_subagent_a_v01.png","sha256":"5CEE3D1B6F22107346D3B039A19C18F8685C81B2EC43D280B99E3B1A1AFF6245","category":"entrance door prop","notes":"vertical handle and square sensor"},
+    {"asset_id":"entrance_door_prop_subagent_b_v01","source_file":"assets/source/textures/props/entrance_door_prop_subagent_b_v01.png","sha256":"3EDBC0C291C46E2D956347932E6818BC9B1ED2C9A899191DE479AA860F96BF2E","category":"entrance door prop","notes":"U-shaped handle and rounded sensor"},
+    {"asset_id":"aisle_category_sign_warm_subagent_v01","source_file":"assets/source/textures/props/aisle_category_sign_warm_subagent_v01.png","sha256":"50945152873C21CBEAF6B25CAB58260D661D4147F8635469A975E70FF411BB01","category":"aisle category sign","notes":"warm produce/bakery abstract symbols"},
+    {"asset_id":"aisle_category_sign_cool_subagent_v01","source_file":"assets/source/textures/props/aisle_category_sign_cool_subagent_v01.png","sha256":"F2D8500D33A52BE39F855F59DE7935CEA890809F0F8F42A0F72D890FC89D3A2C","category":"aisle category sign","notes":"cool beverage/refrigerated abstract symbols"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only props; footprint, anchor, placement, occlusion and runtime integration remain open."
+}
