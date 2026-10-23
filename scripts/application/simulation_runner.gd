@@ -5,6 +5,7 @@ extends RefCounted
 
 var _state: GameState
 var _clock := GameClock.new()
+var _customers := CustomerAI.new()
 
 
 func _init(state: GameState) -> void:
@@ -23,9 +24,11 @@ func process_frame(delta: float) -> int:
 	return steps
 
 
-## One fixed step in the order of 03 §B: expiry sweep first, then new arrivals. The customer AI
-## and checkout (M3-02..04) slot in after these.
+## One fixed step in the order of 03 §B: expiry sweep first, then new arrivals, then customers. The customer AI
+## runs after these; checkout and queue timeouts (M3-03/04) slot in next.
 func _run_step() -> void:
 	_state.time_sec += int(GameClock.STEP_GAME_SECONDS)
 	InventoryService.sweep_expired(_state)
+	InventoryService.release_timed_out(_state)
 	DemandGenerator.step(_state)
+	_customers.step(_state)

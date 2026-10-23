@@ -46,6 +46,32 @@ static func sweep_expired(state: GameState) -> Array[String]:
 	return booked
 
 
+## Gives one reservation back (customer left or timed out): the units are available again and
+## physical stock is untouched. Returns false for an unknown id.
+static func release_reservation(state: GameState, reservation_id: String) -> bool:
+	for idx in state.reservations.size():
+		var res: Dictionary = state.reservations[idx]
+		if res["reservation_id"] != reservation_id:
+			continue
+		for seg in state.inventory_segments:
+			if seg["segment_id"] == res["segment_id"]:
+				seg["reserved_qty"] = maxi(int(seg["reserved_qty"]) - int(res["qty"]), 0)
+		state.reservations.remove_at(idx)
+		return true
+	return false
+
+
+## Reservations whose hold time has run out go back to the shelf (03 §B.2).
+static func release_timed_out(state: GameState) -> int:
+	var due: Array[String] = []
+	for res in state.reservations:
+		if state.time_sec >= int(res["reservation_expires_at_sec"]):
+			due.append(res["reservation_id"])
+	for id in due:
+		release_reservation(state, id)
+	return due.size()
+
+
 ## The shelf segment a customer should take from: earliest expiry first (no expiry last), then
 ## segment id; expired or fully reserved segments are skipped. `fixture_id` limits the search.
 static func pick_sale_segment(state: GameState, sku_id: String, fixture_id: String = "") -> Dictionary:

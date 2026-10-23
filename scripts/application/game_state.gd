@@ -116,6 +116,7 @@ func snapshot() -> Dictionary:
 		"reputation": reputation,
 		"rng_states": rng_states.duplicate(),
 		"visit_stats": visit_stats.duplicate(),
+		"customers": _customer_views(),
 	}
 
 
@@ -136,4 +137,11 @@ func _shelf_skus() -> Dictionary:
 			if not out.has(loc["fixture_id"]):
 				out[loc["fixture_id"]] = {}
 			out[loc["fixture_id"]][loc["slot_id"]] = seg["sku_id"]
+	return out
+
+
+func _customer_views() -> Array:
+	var out: Array = []
+	for c in customers:
+		out.append({"customer_id": c["customer_id"], "tile": c["tile"], "phase": c["phase"]})
 	return out

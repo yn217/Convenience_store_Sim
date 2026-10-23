@@ -111,7 +111,7 @@ func test_full_store_loses_visitors_and_empty_store_does_not_crash(t, _tree) -> 
 	var s := _state()
 	s.balance["base_potential_visitors_per_day"] = 1.0e9   # p = 1 every step
 	for i in 30:
-		s.customers.append({"customer_id": "x%d" % i})
+		s.customers.append({"customer_id": "x%d" % i, "phase": "QUEUE", "reservation_id": "", "queue_slot": -1, "tile": Vector2i(1, 1)})
 	var runner := _open(s)
 	runner.process_frame(1.0 / 3.0)   
 	t.eq(s.visit_stats["potential"], 10)
@@ -122,8 +122,7 @@ func test_full_store_loses_visitors_and_empty_store_does_not_crash(t, _tree) -> 
 	e.balance["base_potential_visitors_per_day"] = 1.0e9
 	_open(e).process_frame(1.0 / 3.0)
 	t.eq(e.visit_stats["entered"], 10, "no products at all still works")
-	t.eq(e.arrival_queue.size(), 10)
-	t.eq(e.arrival_queue[0]["customer_id"], "cust_00001")
+	t.eq(e.next_customer_seq, 10, "ten customers were created and numbered in order")
 	t.eq(e.visit_stats["potential"], e.visit_stats["entered"] + e.visit_stats["lost"], "counters add up")
 
 
