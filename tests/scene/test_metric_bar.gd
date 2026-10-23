@@ -19,7 +19,7 @@ func test_cards_follow_the_snapshot_on_the_real_scene(t, tree) -> void:
 	tree.root.add_child(main)
 	await tree.process_frame
 	await tree.process_frame
-	var bar: MetricBar = main.get_node("Layout/MetricBar")
+	var bar: MetricBar = main.find_child("MetricBar", true, false)
 	t.eq(bar.get_child(0).get_child_count(), 4, "four cards")
 	var app: Node = main.get_node("AppRoot")
 	app._publish_snapshot()

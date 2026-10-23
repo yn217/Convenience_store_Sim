@@ -26,6 +26,7 @@ func _ready() -> void:
 		var b := Button.new()
 		b.text = a["label"]
 		b.focus_mode = Control.FOCUS_NONE
+		CommandGrid.slim_button(b)
 		b.pressed.connect(func(): target.pressed.emit())
 		row.add_child(b)
 		_pairs.append([b, target])
@@ -36,6 +37,7 @@ func _ready() -> void:
 	_mode_button = Button.new()
 	_mode_button.text = "表示切替 (O)"
 	_mode_button.focus_mode = Control.FOCUS_NONE
+	CommandGrid.slim_button(_mode_button)
 	_mode_button.pressed.connect(_cycle_overlay)
 	row.add_child(_mode_button)
 	sync_state()
