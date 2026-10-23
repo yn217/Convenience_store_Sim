@@ -196,6 +196,19 @@ static func _milestones(state: GameState, events: Array[Dictionary]) -> void:
 			events.append({"kind": "MILESTONE", "id": m["milestone_id"], "badge_id": m["reward"]["badge_id"]})
 
 
+## Every milestone with its current value, for the achievements page (SCR-18).
+static func milestone_progress(state: GameState) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var done: Array = state.progression_state["completed_milestone_ids"]
+	for m in state.milestones:
+		var value := metric_value(state, m["metric"], m["threshold"])
+		out.append({
+			"milestone_id": m["milestone_id"], "name_ja": m["name_ja"], "metric": m["metric"], "threshold": m["threshold"],
+			"value": mini(value, int(m["threshold"])), "done": done.has(m["milestone_id"]),
+		})
+	return out
+
+
 ## Level = how many milestones are done; a progress title, not a strength bonus.
 static func level(state: GameState) -> int:
 	return state.progression_state["completed_milestone_ids"].size()

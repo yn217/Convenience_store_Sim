@@ -49,6 +49,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _remove(command_id, command)
 		&"SET_PRICE":
 			result = _set_price(command_id, command)
+		&"DISMISS_STORY_CUE":
+			result = _dismiss_story_cue(command_id, command)
 		&"SET_TUTORIAL_SKIPPED":
 			result = _set_tutorial_skipped(command_id, command)
 		&"SET_NEXT_DAY_AD":
@@ -121,6 +123,21 @@ func _set_speed(command_id: String, command: Dictionary) -> CommandResult:
 	if speed != 0:
 		_state.last_nonzero_speed = speed
 	var events: Array[String] = ["%s:SPEED_CHANGED" % command_id]
+	return _commit(command_id, events)
+
+
+# ---------------------------------------------------------------- assistant cues
+
+## Closes an assistant card for good (saved). Only known cue ids are accepted; closing one twice is a no-op error.
+func _dismiss_story_cue(command_id: String, command: Dictionary) -> CommandResult:
+	var cue = command.get("cue_id")
+	if typeof(cue) != TYPE_STRING or not AssistantService.CUES.has(cue):
+		return _fail(&"INVALID_OPERATION", &"command_malformed")
+	var dismissed: Array = _state.progression_state["dismissed_story_cue_ids"]
+	if dismissed.has(cue):
+		return _fail(&"INVALID_OPERATION", &"no_change")
+	dismissed.append(cue)
+	var events: Array[String] = ["%s:STORY_CUE_DISMISSED" % command_id]
 	return _commit(command_id, events)
 
 

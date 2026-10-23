@@ -86,3 +86,37 @@ func test_shortage_is_explained_and_nothing_is_taken(t, tree) -> void:
 	t.ok(bc._status.text.contains("支払えず") and bc._status.text.contains("未払い ¥1,500") and bc._status.text.contains("セーブ"), bc._status.text)
 	r[0].queue_free()
 	await tree.process_frame
+
+
+func test_assistant_cues_show_in_order_and_stay_dismissed(t, tree) -> void:
+	var r: Array = await _boot(tree)
+	var app: Node = r[1]
+	var pc: ProgressionController = r[2]
+	t.eq(pc._snap["story_cue"], "story_start")
+	t.ok(pc._assistant.visible and pc._assistant.text.contains("どんなお店"))
+	t.ok(pc.dismiss_cue().ok)
+	t.eq(pc._snap["story_cue"], "", "nothing else is eligible yet")
+	t.ok(not pc._assistant.visible)
+	t.eq(pc.dismiss_cue().code, &"INVALID_OPERATION", "no cue to close")
+	_cmd(app, "a1", &"PLACE_FIXTURE", {"type_id": "register_basic", "x": 8, "y": 5, "rotation": 0})
+	t.eq(pc._snap["story_cue"], "story_register")
+	app.state.rate_stats["stockouts"] = 1
+	t.ok(pc.dismiss_cue().ok)
+	t.eq(pc._snap["story_cue"], "story_sold_out", "the next eligible cue follows")
+	# Dismissals are saved and survive a load.
+	var saved := SaveGame.to_dict(app.state, "s", "2026-01-01T00:00:00Z")
+	t.ok(saved["progression_state"]["dismissed_story_cue_ids"].has("story_register"))
+	t.eq(app.run_command({"command_id": "a9", "kind": &"DISMISS_STORY_CUE", "cue_id": "nope"}).code, &"INVALID_OPERATION")
+	t.eq(AssistantService.CUES.size(), ProgressionText.ASSISTANT.size(), "every cue has a text")
+	r[0].queue_free()
+	await tree.process_frame
+
+
+func test_achievement_list_shows_progress(t, tree) -> void:
+	var r: Array = await _boot(tree)
+	var pc: ProgressionController = r[2]
+	t.eq(pc._snap["milestone_progress"].size(), 12)
+	t.ok(pc._achievements.text.begins_with("実績一覧"))
+	t.ok(pc._achievements.text.contains("・ "), "unfinished entries show as open")
+	r[0].queue_free()
+	await tree.process_frame

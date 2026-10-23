@@ -67,3 +67,23 @@ static func metric_unit(metric: String) -> String:
 		"daily_operating_profit_at_least":
 			return "円以上の黒字の日"
 	return ""
+
+const ASSISTANT := {
+	"story_start": "小さなコンビニですが、どんなお店にするかはあなた次第です。",
+	"story_register": "会計の準備ができました。次は売場を作りましょう。",
+	"story_first_restock": "棚がにぎやかになってきました。開店してお客さんの反応を見ましょう。",
+	"story_first_sale": "はじめての商品が売れました！ 在庫と現金を確認できます。",
+	"story_first_profit": "今月ではなく、今日は利益が出ています。仕入れの支払いと利益の違いにも注目しましょう。",
+	"story_sold_out": "この棚は売切れです。閉店して補充するか、次の営業の品揃えを工夫しましょう。",
+	"story_queue_giveup": "行列で帰ったお客さんがいます。レジ周辺の動線を見直すと改善するかもしれません。",
+	"story_event": "今日は飲料が人気です。棚を補充していたら売れ方の違いが見えるかもしれません。",
+}
+
+
+static func assistant_text(cue_id: String) -> String:
+	return ASSISTANT.get(cue_id, "")
+
+
+## One line per milestone for the achievements page: mark, name, and how far along it is.
+static func progress_line(entry: Dictionary) -> String:
+	return "%s %s（%d/%d %s）" % ["✓" if entry["done"] else "・", entry["name_ja"], int(entry["value"]), int(entry["threshold"]), metric_unit(entry["metric"])]

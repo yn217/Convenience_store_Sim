@@ -13,6 +13,9 @@ var _challenge: Label
 var _milestones: Label
 var _notices: Label
 var _toggle: Button
+var _assistant: Label
+var _dismiss: Button
+var _achievements: Label
 var _history: Array[String] = []
 var _snap: Dictionary = {}
 var _seq: int = 0
@@ -38,7 +41,14 @@ func setup(app: Node, milestones: Array) -> void:
 	_milestones.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_notices = Label.new()
 	_notices.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	for c in [_card, _toggle, _challenge, _milestones, _notices]:
+	_assistant = Label.new()
+	_assistant.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_dismiss = Button.new()
+	_dismiss.text = "閉じる"
+	_dismiss.pressed.connect(dismiss_cue)
+	_achievements = Label.new()
+	_achievements.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	for c in [_card, _toggle, _challenge, _milestones, _notices, _assistant, _dismiss, _achievements]:
 		_body.add_child(c)
 	apply_snapshot({"progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [], "active_daily_challenge_id": null}})
 
@@ -53,6 +63,14 @@ func apply_snapshot(snap: Dictionary) -> void:
 	var done: int = p["completed_milestone_ids"].size()
 	_milestones.text = "称号 %d/%d（店のレベル %d）" % [done, maxi(_milestone_defs.size(), done), done]
 	_notices.text = "\n".join(_history.slice(maxi(_history.size() - NOTICE_LINES, 0)))
+	var cue := String(snap.get("story_cue", ""))
+	_assistant.text = ("店長アシスタント: " + ProgressionText.assistant_text(cue)) if cue != "" else ""
+	_assistant.visible = cue != ""
+	_dismiss.visible = cue != ""
+	var lines: Array[String] = []
+	for entry in snap.get("milestone_progress", []):
+		lines.append(ProgressionText.progress_line(entry))
+	_achievements.text = "実績一覧\n" + "\n".join(lines) if not lines.is_empty() else ""
 
 
 ## Called by AppRoot with the achievements that happened since the last snapshot.
@@ -63,6 +81,11 @@ func show_events(events: Array) -> void:
 			_history.append(line)
 	if not events.is_empty() and not _snap.is_empty():
 		apply_snapshot(_snap)
+
+
+func dismiss_cue() -> CommandResult:
+	_seq += 1
+	return _app.run_command({"command_id": "ui_cue_%d" % _seq, "kind": &"DISMISS_STORY_CUE", "cue_id": String(_snap.get("story_cue", ""))})
 
 
 func toggle_tutorial() -> CommandResult:
