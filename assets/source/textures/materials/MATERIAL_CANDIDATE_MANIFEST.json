@@ -1,0 +1,78 @@
+{
+  "status": "candidate-only; not runtime-approved",
+  "scope": "three baseline fixture material families",
+  "entries": [
+    {
+      "fixture_type_id": "register_basic",
+      "visual_id": "register_basic_a",
+      "variant_id": "a",
+      "selection_status": "review-only",
+      "runtime_approved": false,
+      "asset": {
+        "path": "assets/source/textures/materials/candidates/register_basic_material_comparison_v01_a.png",
+        "sha256": "351c59c47be53308acfc2e1ccc026b1949148ec23b2c7b2eb80a293c7aea1652",
+        "bytes": 940378
+      }
+    },
+    {
+      "fixture_type_id": "register_basic",
+      "visual_id": "register_basic_b",
+      "variant_id": "b",
+      "selection_status": "review-only",
+      "runtime_approved": false,
+      "asset": {
+        "path": "assets/source/textures/materials/candidates/register_basic_material_comparison_v01_b.png",
+        "sha256": "3b13cdc1761966142f1c252766c0acf3dfa6efa0693e8c746fa282157c9334b7",
+        "bytes": 1045845
+      }
+    },
+    {
+      "fixture_type_id": "shelf_general",
+      "visual_id": "shelf_general_a",
+      "variant_id": "a",
+      "selection_status": "review-only",
+      "runtime_approved": false,
+      "asset": {
+        "path": "assets/source/textures/materials/candidates/shelf_general_material_comparison_v01_a.png",
+        "sha256": "98a5eaf60f7d672ace1e10c2afd6894d4e2d0c3740f2da0d4aaf5d9d777f0204",
+        "bytes": 1061387
+      }
+    },
+    {
+      "fixture_type_id": "shelf_general",
+      "visual_id": "shelf_general_b",
+      "variant_id": "b",
+      "selection_status": "review-only",
+      "runtime_approved": false,
+      "asset": {
+        "path": "assets/source/textures/materials/candidates/shelf_general_material_comparison_v01_b.png",
+        "sha256": "dd41113e278fd3cf362dad96c14921e54b1fff7079c281a7ca077dfb3da5a7f5",
+        "bytes": 1013413
+      }
+    },
+    {
+      "fixture_type_id": "fridge_drink",
+      "visual_id": "fridge_drink_a",
+      "variant_id": "a",
+      "selection_status": "review-only",
+      "runtime_approved": false,
+      "asset": {
+        "path": "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_a.png",
+        "sha256": "08ff4c5e60f0444d9772a0f4ba6a8a1f931217f38a1b1f86ec88954311c2b697",
+        "bytes": 881556
+      }
+    },
+    {
+      "fixture_type_id": "fridge_drink",
+      "visual_id": "fridge_drink_b",
+      "variant_id": "b",
+      "selection_status": "review-only",
+      "runtime_approved": false,
+      "asset": {
+        "path": "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_b.png",
+        "sha256": "ea38b05ebf118105da299d376208ea7e1d27d4570f5e93e0ba9a29b876512c21",
+        "bytes": 911877
+      }
+    }
+  ]
+}

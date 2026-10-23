@@ -315,6 +315,12 @@
     },
     {
       "group": "materials",
+      "path": "assets/source/textures/materials/MATERIAL_CANDIDATE_MANIFEST.json",
+      "sha256": "d648b0ede07aed7c1bc942d18f2492bd210c91c47975979220f4d84d0da555e2",
+      "bytes": 2814
+    },
+    {
+      "group": "materials",
       "path": "assets/source/textures/materials/MATERIAL_PROVENANCE.json",
       "sha256": "dcd93efd8b59a9059eb4d7f39a7aef3e0f0da25673400ef3cff92511a59ae11b",
       "bytes": 1770
