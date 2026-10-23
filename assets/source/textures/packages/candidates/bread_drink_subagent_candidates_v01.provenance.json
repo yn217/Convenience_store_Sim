@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"id": "melonpan", "category": "bread", "file": "assets/source/textures/packages/candidates/melonpan_generated_cutout_v01.png", "sha256": "0C11AFE0AE531D168EBF71BE15013538CDCD18CA257F4B280EB062BBB474D456"},
+    {"id": "pet_bottle", "category": "drink", "file": "assets/source/textures/packages/candidates/pet_bottle_generated_cutout_v01.png", "sha256": "070F71DF0C94A074002984F3974B736E37D10D0A52A64EDDAC49112E4FFB37C9"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Subagent-generated candidates. Verify alpha edge, common scale, anchor, iso2x, LOD, four directions, and SKU/visual_id mapping before adoption."
+}
