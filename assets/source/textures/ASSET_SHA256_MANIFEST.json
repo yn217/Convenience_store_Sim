@@ -27,6 +27,18 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/dessert_ice_subagent_candidates_v01.provenance.json",
+      "sha256": "85798501b01a3d2014a1f950e8b1cac330131522378459591adacf2d7d58375d",
+      "bytes": 829
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/ice_cream_generated_cutout_v01.png",
+      "sha256": "535c270080a25df3033c700a81327ff1a84de868554fa3207644082f3b8dab88",
+      "bytes": 2372142
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/lod/LOD_MANIFEST.json",
       "sha256": "6e8c9d6f840232c06ad0050744718ba5ab394635443b9e801580e2dfea06529f",
       "bytes": 4173
@@ -144,6 +156,12 @@
       "path": "assets/source/textures/packages/candidates/onigiri_generated_cutout_v01.provenance.json",
       "sha256": "3150ea97a9cdb610eabf600a6ad31b4ce21391032823209838c1c97a1d82a83b",
       "bytes": 658
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/pudding_generated_cutout_v01.png",
+      "sha256": "b6c9b05e283c032b2d0df27a39bc1b28c8f40fe97304b9e0f03dd72bc9fe76d3",
+      "bytes": 1698571
     },
     {
       "group": "packages",

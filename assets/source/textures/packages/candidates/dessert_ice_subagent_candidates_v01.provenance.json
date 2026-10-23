@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"id": "pudding", "category": "dessert", "file": "assets/source/textures/packages/candidates/pudding_generated_cutout_v01.png", "sha256": "B6C9B05E283C032B2D0DF27A39BC1B28C8F40FE97304B9E0F03DD72BC9FE76D3"},
+    {"id": "ice_cream", "category": "ice_cream", "file": "assets/source/textures/packages/candidates/ice_cream_generated_cutout_v01.png", "sha256": "535C270080A25DF3033C700A81327FF1A84DE868554FA3207644082F3B8DAB88"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Subagent-generated product candidates. Verify alpha edge, scale, anchor, iso2x, LOD, four directions, and SKU/visual_id mapping before adoption."
+}
