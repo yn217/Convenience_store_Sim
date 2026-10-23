@@ -9,6 +9,84 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/LOD_MANIFEST.json",
+      "sha256": "6e8c9d6f840232c06ad0050744718ba5ab394635443b9e801580e2dfea06529f",
+      "bytes": 4173
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_a_cutout_v02_lod_0_25.png",
+      "sha256": "484b9c03d8b854ec4282331a575fc496cb9eb73c58e56e4b7df696cecef94850",
+      "bytes": 112421
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_a_cutout_v02_lod_0_5.png",
+      "sha256": "bfe08844260024403d25d0d2ae74d0d104f87f8d5d178760906edc80c7710a2b",
+      "bytes": 404459
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_b_cutout_v02_lod_0_25.png",
+      "sha256": "0c1cdd9c3b32a048afa95968cd1b9615e66332b260edddcb0ddd781d7f49e06b",
+      "bytes": 134772
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_cupnoodle_comparison_v01_b_cutout_v02_lod_0_5.png",
+      "sha256": "26af00dc7736a256e29e0108429c51147465d6460a8c86abb14cf6394ee3cf65",
+      "bytes": 500218
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_a_cutout_v02_lod_0_25.png",
+      "sha256": "a9367ada9050060c07be3e1428ece864c7a64b8ed1fcd9e719ec95509c4017df",
+      "bytes": 130546
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_a_cutout_v02_lod_0_5.png",
+      "sha256": "e1e395dc9d1a3a45bb1acfb63bff4f0b5ef893d5344fa2388d20a545ef077939",
+      "bytes": 489247
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_b_cutout_v02_lod_0_25.png",
+      "sha256": "6003d1baf640fcf469bb0de99dbb806a1a84f9004b1bb0bdb32f3487bd45cd46",
+      "bytes": 128676
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_onigiri_comparison_v01_b_cutout_v02_lod_0_5.png",
+      "sha256": "00611c5b383378af37f743befe3c7954040a8b533430f4c2d24022e4b46d4249",
+      "bytes": 471170
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_a_cutout_v02_lod_0_25.png",
+      "sha256": "4c55584fe578185f9e53c5fbde58303210dd181d037976bda8d2c0783a450eb8",
+      "bytes": 136281
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_a_cutout_v02_lod_0_5.png",
+      "sha256": "df99a9e4367eb88a917802369d77c4f413dee519d62006ed08b8820e70f30243",
+      "bytes": 489099
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_b_cutout_v02_lod_0_25.png",
+      "sha256": "cc5f6af7285f3519794e9fa8aa7ea00b8a2f9bd6d111c9572966acc09f30601b",
+      "bytes": 142972
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/lod/sku_tea_comparison_v01_b_cutout_v02_lod_0_5.png",
+      "sha256": "5922a0257226bb7244294f8eb289ea467f3a9dd037b50bec81b01db7bf2cb8cc",
+      "bytes": 535972
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a.png",
       "sha256": "0402a36c293d092044e2c0ba869d4f039c044a45c0fc13e5477ec69393f570ca",
       "bytes": 1028821
