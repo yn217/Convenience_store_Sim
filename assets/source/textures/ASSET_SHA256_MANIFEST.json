@@ -1071,6 +1071,18 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/character_action_imagegen_candidates_v01.provenance.json",
+      "sha256": "4ef6e896b4bc6346b9632a1538ed7629d04360e897d1f1b04ab60d35afbd8b5d",
+      "bytes": 2792
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/clerk_box_shelf_action_imagegen_v01.png",
+      "sha256": "ce51efd28f3ac0b3104a3e5e04f9915cdc817637df2e189cbf1c9455034e72e4",
+      "bytes": 1685277
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/candidates/clerk_cashier_teal_apron_imagegen_v01.png",
       "sha256": "d8d77e200698c0ec5030737f680ea2347d0b3ace3dc8faf943267e1281f8d17c",
       "bytes": 1404144
@@ -1089,9 +1101,21 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/clerk_paper_bag_counter_action_imagegen_v01.png",
+      "sha256": "651e9482c0ed82c7cdbd7e11245630375fc019d9e6eb108fc25e0dc9220ecd2b",
+      "bytes": 1771455
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/candidates/clerk_restock_orange_apron_imagegen_v01.png",
       "sha256": "3c4535c6c63aa026f062035cc335ea7d08de52b89ec4b7078bec92151aa0e3b2",
       "bytes": 1676253
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_basket_shelf_action_imagegen_v01.png",
+      "sha256": "7532bcbe327c48728cefe20ca680a19da00f99c6f6e5bf2607294b3846b50c5a",
+      "bytes": 1811285
     },
     {
       "group": "characters",
@@ -1146,6 +1170,12 @@
       "path": "assets/source/textures/characters/candidates/customer_older_basket_cutout_v01.png",
       "sha256": "fb0f52d81c7f2ce6dcd706d6e9c130f961376104b6d3149e41e01fd6001ae1c6",
       "bytes": 1880983
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_reaching_shelf_action_imagegen_v01.png",
+      "sha256": "7507d3b24022d939cbe1d5efa0491edfa10232b9ec0629ea8937d4dbdc9aa72e",
+      "bytes": 1818474
     },
     {
       "group": "characters",

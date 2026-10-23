@@ -1,0 +1,17 @@
+{
+  "asset_family": "fictional_convenience_customer_and_clerk_action_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Carson the 2nd and Boyle the 2nd",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Full-body fictional convenience-store customer or clerk action pose, realistic 2.5D isometric, front 3/4 view, transparent RGBA background, visible feet and action prop, no real person, chain uniform, logo, text or watermark.",
+  "candidates": [
+    {"asset_id":"customer_reaching_shelf_action_imagegen_v01","source_file":"assets/source/textures/characters/candidates/customer_reaching_shelf_action_imagegen_v01.png","sha256":"7507D3B24022D939CBE1D5EFA0491EDFA10232B9EC0629EA8937D4DBDC9AA72E","category":"customer action / reaching shelf","palette":"beige, denim and white","dimensions_px":[1024,1536],"review_note":"Character silhouette is clear; action pose needs normalized anchor and four-direction reconstruction."},
+    {"asset_id":"customer_basket_shelf_action_imagegen_v01","source_file":"assets/source/textures/characters/candidates/customer_basket_shelf_action_imagegen_v01.png","sha256":"7532BCBE327C48728CEFE20CA680A19DA00F99C6F6E5BF2607294B3846B50C5A","category":"customer action / basket shopping","palette":"navy, charcoal and blue","dimensions_px":[1024,1536],"review_note":"Character and basket are identifiable; action pose needs normalized anchor and four-direction reconstruction."},
+    {"asset_id":"clerk_paper_bag_counter_action_imagegen_v01","source_file":"assets/source/textures/characters/candidates/clerk_paper_bag_counter_action_imagegen_v01.png","sha256":"651E9482C0ED82C7CDBD7E11245630375FC019D9E6EB108FC25E0DC9220ECD2B","category":"clerk action / bagging at counter","palette":"teal, white and gray","dimensions_px":[1024,1536],"review_note":"Register/counter context is present; extract or redraw a clean character-only cutout before runtime consideration."},
+    {"asset_id":"clerk_box_shelf_action_imagegen_v01","source_file":"assets/source/textures/characters/candidates/clerk_box_shelf_action_imagegen_v01.png","sha256":"CE51EFD28F3AC0B3104A3E5E04F9915CDC817637DF2E189CBF1C9455034E72E4","category":"clerk action / carrying restock box","palette":"orange, white and charcoal","dimensions_px":[1024,1536],"review_note":"Shelf context is present; extract or redraw a clean character-only cutout before runtime consideration."}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Action pose review candidates only. Four-direction animation, clean character cutouts where context geometry is present, normalized height/anchor, occlusion and runtime linkage remain open; no Godot files were changed."
+}
