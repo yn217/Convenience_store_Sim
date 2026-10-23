@@ -6,6 +6,7 @@ const FIXTURES_PATH := "res://data/fixtures/mvp_v1.json"
 const PRODUCTS_PATH := "res://data/products/mvp_v1.json"
 const MILESTONES_PATH := "res://data/progression/mvp_v1.milestones.json"
 const CUES_PATH := "res://data/presentation/cues_v1.json"
+const EVENTS_PATH := "res://data/events/mvp_v1.json"
 const REQUIRED_BALANCE_KEYS := [
 	"store_width_tiles", "store_height_tiles", "starting_cash_yen", "starting_reputation",
 ]
@@ -38,6 +39,7 @@ func _ready() -> void:
 	_products = products
 	state = GameState.from_balance(balance, DEFAULT_SEEDS, fixtures, products)
 	state.milestones = _load_milestones()
+	state.gameplay_events = _load_gameplay_events()
 	_load_cues()
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
@@ -98,6 +100,15 @@ func _deliver_cues() -> void:
 	var player := get_node_or_null("../CuePlayer")
 	if player != null and player.has_method("play") and not requests.is_empty():
 		player.play(requests)
+
+
+func _load_gameplay_events() -> Array[Dictionary]:
+	var problems: Array[String] = []
+	var list := GameplayEventDirector.load_events(JSON.parse_string(FileAccess.get_file_as_string(EVENTS_PATH)), problems)
+	if not problems.is_empty():
+		push_error("gameplay events invalid: " + str(problems))
+		return []
+	return list
 
 
 func _load_milestones() -> Array[Dictionary]:
@@ -184,6 +195,7 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 	var fresh: GameState = loaded["state"]
 	fresh.revision = state.revision + 1
 	fresh.milestones = state.milestones
+	fresh.gameplay_events = state.gameplay_events
 	state = fresh
 	cue_bridge.reset()   # a loaded game never replays what was announced before
 	commands = GameCommands.new(state)
@@ -227,6 +239,9 @@ func _publish_snapshot() -> void:
 	var pricer := get_node_or_null("../PriceController")
 	if pricer != null and pricer.has_method("apply_snapshot") and pricer.is_node_ready() and pricer.get("_products") != null:
 		pricer.apply_snapshot(snap)
+	var eventer := get_node_or_null("../EventController")
+	if eventer != null and eventer.is_node_ready() and eventer.get("_status") != null:
+		eventer.apply_snapshot(snap)
 	var hud := get_node_or_null("../Layout/TopHUD")
 	if hud != null and hud.has_method("apply_snapshot"):
 		hud.apply_snapshot(snap)

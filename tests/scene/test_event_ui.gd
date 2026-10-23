@@ -1,0 +1,42 @@
+extends RefCounted
+## Issue #31: the daily event panel (SCR-11) follows the EventService state.
+
+
+func _force(app: Node, event_id: String, started: bool, ended: bool = false) -> void:
+	var ev := GameplayEventDirector.event_by_id(app.state.gameplay_events, event_id)
+	var w := GameplayEventDirector.window(1, ev)
+	app.state.gameplay_event_state.merge({"last_selected_day": 1, "selection_event_id": "daily:1", "selected_event_id": event_id,
+			"event_start_sec": w.x, "event_end_sec": w.y, "started": started, "ended": ended}, true)
+
+
+func test_panel_shows_each_state(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var app: Node = main.get_node("AppRoot")
+	var panel: EventController = main.get_node("EventController")
+	t.eq(app.state.gameplay_events.size(), 12, "master data is loaded at boot")
+	t.ok(panel._status.text.contains("DAY 0 はイベントなし"), panel._status.text)
+	app.state.time_sec = 86400 + 6 * 3600
+	_force(app, "evt_hot_day", false)
+	app._publish_snapshot()
+	t.ok(panel._status.text.begins_with("予定: 暑い日"), panel._status.text)
+	t.ok(panel._status.text.contains("時間 11:00〜17:00") and panel._status.text.contains("飲料 ×1.60") and panel._status.text.contains("アイス ×1.60"), panel._status.text)
+	t.ok(panel._status.text.contains("開始まで 05:00"))
+	t.ok(panel._status.text.contains("対象の商品が棚にありません"), "nothing stocked yet: the panel says what to do")
+	app.state.time_sec = 86400 + 12 * 3600
+	_force(app, "evt_hot_day", true)
+	app._publish_snapshot()
+	t.ok(panel._status.text.begins_with("開催中:") and panel._status.text.contains("終了まで 05:00"), panel._status.text)
+	_force(app, "evt_roadworks", true)
+	app._publish_snapshot()
+	t.ok(panel._status.text.contains("来店 ×0.75") and panel._status.text.contains("品揃えと価格を見直して乗り切りましょう"), "a negative event comes with a way out")
+	_force(app, "evt_roadworks", true, true)
+	app._publish_snapshot()
+	t.ok(panel._status.text.begins_with("終了:"))
+	app.state.gameplay_event_state.merge({"selected_event_id": null, "event_start_sec": null, "event_end_sec": null, "started": false, "ended": false}, true)
+	app._publish_snapshot()
+	t.ok(panel._status.text.contains("イベントはありません"), panel._status.text)
+	main.queue_free()
+	await tree.process_frame

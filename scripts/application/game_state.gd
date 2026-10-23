@@ -55,6 +55,8 @@ var milestones: Array[Dictionary] = []
 var progression_events: Array[Dictionary] = []
 var progression_totals := {"scanned": 0, "sales": 0, "revenue": 0, "order_qty": 0, "sales_by_day": {}}
 ## Saved verbatim until the event director / progression systems (M5-07, M4-06) own them.
+## Event master data (data/events); empty = the director is off. Loaded by AppRoot, never saved.
+var gameplay_events: Array[Dictionary] = []
 var gameplay_event_state: Dictionary = {
 	"last_selected_day": -1, "selection_event_id": null, "selected_event_id": null, "event_start_sec": null,
 	"event_end_sec": null, "started": false, "ended": false, "shown_notice_ids": [],
@@ -105,9 +107,9 @@ var event_log: Array[Dictionary] = []
 var _next_event_seq: int = 0
 
 
-func emit_event(type: String, payload: Dictionary) -> void:
+func emit_event(type: String, payload: Dictionary, explicit_id: String = "") -> void:
 	_next_event_seq += 1
-	event_log.append({"id": "ev_%06d" % _next_event_seq, "tick": time_sec, "type": type, "payload": payload})
+	event_log.append({"id": explicit_id if explicit_id != "" else "ev_%06d" % _next_event_seq, "tick": time_sec, "type": type, "payload": payload})
 	if event_log.size() > EVENT_LOG_CAP:
 		event_log.pop_front()
 
@@ -223,6 +225,8 @@ func snapshot() -> Dictionary:
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
 		"fixture_sales": fixture_sales_today(),
+		"gameplay_event": EventService.view(self),
+		"stocked_categories": DemandGenerator.stocked_categories(self),
 	}
 
 

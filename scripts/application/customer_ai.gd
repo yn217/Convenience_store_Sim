@@ -209,13 +209,14 @@ func candidates(state: GameState) -> Array[Dictionary]:
 		if AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach).is_empty():
 			continue
 		seen["%s|%s" % [seg["sku_id"], loc["fixture_id"]]] = {"sku_id": seg["sku_id"], "fixture_id": loc["fixture_id"]}
+	var fx := EventService.effects(state)   # the active event's category weights, applied once here
 	var keys := seen.keys()
 	keys.sort()
 	var out: Array[Dictionary] = []
 	for k in keys:
 		var e: Dictionary = seen[k]
 		var sku := state.products.get_sku(e["sku_id"])
-		e["weight"] = DemandModel.category_preference(sku["category"], state.balance) * float(sku["demand_weight"]) * _price_factor(state, e["sku_id"])
+		e["weight"] = DemandModel.category_preference(sku["category"], state.balance) * float(sku["demand_weight"]) * _price_factor(state, e["sku_id"]) * GameplayEventDirector.category_multiplier(fx, sku["category"])
 		out.append(e)
 	return out
 

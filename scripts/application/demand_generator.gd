@@ -19,7 +19,8 @@ static func step(state: GameState) -> bool:
 		DemandModel.ad_multiplier(state.balance.get("advertising_tiers", []), state.applied_ad_tier_yen),
 		state.reputation,
 		stocked_category_count(state),
-		state.balance)
+		state.balance,
+		float(EventService.effects(state)["traffic"]))
 	if roll >= p:
 		return false
 	state.visit_stats["potential"] += 1
@@ -35,9 +36,16 @@ static func step(state: GameState) -> bool:
 ## Distinct categories with stock (qty > 0) on a placed fixture, 0..8. Reachability of the
 ## fixture's access side is applied by the customer AI, which sets accessibility to 0/1 itself.
 static func stocked_category_count(state: GameState) -> int:
+	return stocked_categories(state).size()
+
+
+## Category ids with stock on a placed fixture, sorted.
+static func stocked_categories(state: GameState) -> Array:
 	var seen := {}
 	for seg in state.inventory_segments:
 		var loc: Dictionary = seg["location"]
 		if loc["kind"] == "FIXTURE" and int(seg["physical_qty"]) > 0 and state.grid.instances.has(loc["fixture_id"]):
 			seen[state.products.get_sku(seg["sku_id"])["category"]] = true
-	return seen.size()
+	var out := seen.keys()
+	out.sort()
+	return out

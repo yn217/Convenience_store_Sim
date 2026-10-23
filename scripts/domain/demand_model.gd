@@ -77,7 +77,7 @@ static func ad_multiplier(tiers: Array, yen_per_day: int) -> float:
 	return 1.0
 
 
-static func step_probability(hour: int, base_visits: float, ad_mult: float, reputation: int, stocked_categories: int, balance: Dictionary = {}) -> float:
+static func step_probability(hour: int, base_visits: float, ad_mult: float, reputation: int, stocked_categories: int, balance: Dictionary = {}, event_traffic: float = 1.0) -> float:
 	var weights := normalized_hour_weights()
-	var p := base_visits * weights[clampi(hour, 0, 23)] * ad_mult * reputation_multiplier(reputation, balance) * assortment_multiplier(stocked_categories, balance) / STEPS_PER_DAY
+	var p := base_visits * weights[clampi(hour, 0, 23)] * ad_mult * reputation_multiplier(reputation, balance) * assortment_multiplier(stocked_categories, balance) * event_traffic / STEPS_PER_DAY
 	return clampf(p, 0.0, 1.0)

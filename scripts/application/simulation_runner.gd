@@ -32,6 +32,7 @@ func _run_step() -> void:
 	_state.time_sec += int(GameClock.STEP_GAME_SECONDS)
 	InventoryService.sweep_expired(_state)
 	InventoryService.release_timed_out(_state)
+	EventService.step(_state)
 	DemandGenerator.step(_state)
 	_customers.step(_state)
 	var new_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
