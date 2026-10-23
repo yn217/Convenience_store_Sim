@@ -24,6 +24,8 @@ Transparent cutout pilots are stored at `assets/source/textures/characters/candi
 
 `tools/art/normalize_customer_source_canvases.py` creates padded 1024x1536 source copies under `candidates/source_1024/` without overwriting the original cutouts. These copies are scale-normalized candidates only; they do not establish a shared world anchor.
 
+`tools/art/build_customer_zoom_preview.py` regenerates `docs/art/customer_zoom_review.png`, a visual-only 0.5x/1x/2x comparison. It does not prove animation, direction, anchor, or runtime readiness.
+
 ## Prompt record
 
 `Create a clean game-asset concept comparison board for a realistic-leaning 2.5D isometric Japanese convenience-store simulation. Show three distinct fictional adult customer character variants standing separately on a neutral light background: (A) casual young adult with hoodie and tote bag, (B) office worker with neat shirt and shoulder bag, (C) older adult with cardigan and shopping basket. Each character should be shown in a consistent 3/4 isometric standing pose with clear feet contact, readable silhouette, modest natural proportions, soft studio lighting, muted convenience-store palette, no readable text, no logos, no copyrighted characters. Arrange as three equal columns with large spacing, front-facing toward camera, suitable as an art-direction reference board. Square 1024x1024 composition.`
