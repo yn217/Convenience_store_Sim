@@ -20,11 +20,11 @@
 
 |ID|確認|期待結果|静的証跡|Godot証跡|状態|
 |---|---|---|---|---|---|
-|G-01|基準3種×4方向|輪郭・材質・接地anchorが一貫|manifest/zoom audit|4方向スクリーンショット|未実施|
-|G-02|zoom 0.5/1/2|透明端・接地・選択位置が破綻しない|120 raster checks|各zoom画像＋選択操作|未実施|
+|G-01|基準3種×4方向|輪郭・材質・接地anchorが一貫|manifest/zoom audit|対象fixture presenterテスト（93 assertions中）|部分証拠|
+|G-02|zoom 0.5/1/2|透明端・接地・選択位置が破綻しない|120 raster checks|対象fixture presenterのzoomテスト（93 assertions中）|部分証拠|
 |G-03|empty→low→medium→full|商品数が在庫値に追従し、固定満棚にならない|LOD 0/2/5/8 audit|同一棚の4状態画像|未実施|
 |G-04|商品＋ガラス|商品が扉の背後で読め、ガラスが前面に残る|manifest layer audit|冷蔵ケース4方向画像|未実施|
-|G-05|客が什器の手前/裏|客が全体前景化せず、足元が跳ねない|customer manifest/contact sheet|移動シーンまたは録画|未実施|
+|G-05|客が什器の手前/裏|客が全体前景化せず、足元が跳ねない|customer manifest/contact sheet|customer/fixture合成テスト（93 assertions中）|部分証拠|
 |G-06|選択・配置・Undo/Redo|選択polygon、配置、復元が既存ロジックと一致|manifest footprint|操作動画＋save差分|未実施|
 |G-07|画面サイズ|店舗・GUI・客・什器が隠れず読める|なし|1280×720 / 1920×1080画像|未実施|
 |G-08|fallback|候補を無効化して旧visual_idへ戻せる|replacement audit|切替前後の起動確認|未実施|
@@ -37,5 +37,6 @@
 - customer manifest: 3件、0 problems
 - provenance coverage: fixture 10 IDs / product 24 visual IDs、0 problems
 - occlusion layer: 40回転すべてpending（現行manifestは単一opaque `body`）
+- targeted runtime probe: 共有コミット `21a9e26` 起点の独立Worktreeで対象3テストのみ実行、93 assertions / 0 failures（viewport警告あり）
 
-G-01〜G-08の「Godot証跡」は未取得です。静的検証が通ったことだけでruntime受入へチェックを移してはいけません。
+上記probeはG-01/G-02/G-05の部分証拠であり、同一店舗のスクリーンショット、選択操作、商品＋ガラス深度、画面サイズ、fallbackを検証していません。したがってG-01〜G-08の完全受入は未完了です。
