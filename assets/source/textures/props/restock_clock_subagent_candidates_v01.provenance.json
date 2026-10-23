@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"id": "restock_cart", "file": "assets/source/textures/props/restock_cart_subagent_v01.png", "sha256": "259001A5E58F305E0E2AF95F344235BCDA429BD153FFA553DE6BAC6DB3D72317"},
+    {"id": "wall_clock", "file": "assets/source/textures/props/wall_clock_subagent_v01.png", "sha256": "0B5DB77D3693C3E8195619C70693F9F0D1A5C5DFD7E81A2CD8533A72E2E8B1E5"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Operational prop candidates. Verify alpha/crop, scale, anchor, projection, occlusion, and Godot integration before adoption."
+}
