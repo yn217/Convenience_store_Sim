@@ -1,0 +1,170 @@
+{
+ "manifest_version": 1,
+ "visual_id": "register_basic_candidate_v1",
+ "fixture_type_id": "register_basic",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 1,
+  "h": 2
+ },
+ "dimensions_m": {
+  "width": 0.92,
+  "depth": 1.92,
+  "height": 1.2
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    442,
+    359
+   ],
+   "anchor_px": [
+    285.0,
+    212.0
+   ],
+   "layers": {
+    "body": "register_basic_0_body.png",
+    "shadow": "register_basic_0_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     285.0,
+     148.0
+    ],
+    [
+     413.0,
+     212.0
+    ],
+    [
+     157.0,
+     340.0
+    ],
+    [
+     29.0,
+     276.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    285.0,
+    212.0
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    442,
+    359
+   ],
+   "anchor_px": [
+    157.0,
+    212.0
+   ],
+   "layers": {
+    "body": "register_basic_1_body.png",
+    "shadow": "register_basic_1_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     157.0,
+     148.0
+    ],
+    [
+     413.0,
+     276.0
+    ],
+    [
+     285.0,
+     340.0
+    ],
+    [
+     29.0,
+     212.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    157.0,
+    212.0
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    442,
+    359
+   ],
+   "anchor_px": [
+    285.0,
+    212.0
+   ],
+   "layers": {
+    "body": "register_basic_2_body.png",
+    "shadow": "register_basic_2_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     285.0,
+     148.0
+    ],
+    [
+     413.0,
+     212.0
+    ],
+    [
+     157.0,
+     340.0
+    ],
+    [
+     29.0,
+     276.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    285.0,
+    212.0
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    442,
+    359
+   ],
+   "anchor_px": [
+    157.0,
+    212.0
+   ],
+   "layers": {
+    "body": "register_basic_3_body.png",
+    "shadow": "register_basic_3_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     157.0,
+     148.0
+    ],
+    [
+     413.0,
+     276.0
+    ],
+    [
+     285.0,
+     340.0
+    ],
+    [
+     29.0,
+     212.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    157.0,
+    212.0
+   ]
+  }
+ }
+}

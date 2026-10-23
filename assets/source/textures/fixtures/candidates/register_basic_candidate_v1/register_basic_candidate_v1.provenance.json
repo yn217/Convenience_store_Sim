@@ -1,0 +1,49 @@
+{
+  "asset_id": "fixture_register_basic_candidate_v1",
+  "fixture_type_id": "register_basic",
+  "display_name": "POSレジ",
+  "status": "review-only",
+  "runtime_approved": false,
+  "source_pipeline": {
+    "generator": "tools/assets/render_fixtures.py + tools/assets/build_sprites.py",
+    "reproduction_script": "tools/assets/render_register_basic_candidate.ps1",
+    "projection_id": "iso2x_v1",
+    "engine": "BLENDER_EEVEE",
+    "blender_version": "2.91.0",
+    "render_canvas_px": [1600, 1600],
+    "source_px_per_tile_diamond": [256, 128],
+    "world_units_per_tile": 1.0,
+    "view_transform": "Standard",
+    "look": "None",
+    "padding_px": 8
+  },
+  "physical_metadata": {
+    "footprint": {"w": 1, "h": 2},
+    "dimensions_m": {"width": 0.92, "depth": 1.92, "height": 1.2},
+    "access_edges_local": ["E"],
+    "origin_pivot": "local cell (0,0) center at z=0"
+  },
+  "directions": {
+    "0": {"body": "register_basic_0_body.png", "shadow": "register_basic_0_shadow.png", "canvas_px": [442, 359], "anchor_px": [285.0, 212.0]},
+    "1": {"body": "register_basic_1_body.png", "shadow": "register_basic_1_shadow.png", "canvas_px": [442, 359], "anchor_px": [157.0, 212.0]},
+    "2": {"body": "register_basic_2_body.png", "shadow": "register_basic_2_shadow.png", "canvas_px": [442, 359], "anchor_px": [285.0, 212.0]},
+    "3": {"body": "register_basic_3_body.png", "shadow": "register_basic_3_shadow.png", "canvas_px": [442, 359], "anchor_px": [157.0, 212.0]}
+  },
+  "sha256": {
+    "register_basic_0_body.png": "44ef801a9ab48cf34ff616f225836311cd9a5f52375072c5195b7418bd04912c",
+    "register_basic_0_shadow.png": "d14488b7b5029f1b7f330ced7b4395e66fb3e740e5cc44eb5b8b491498de8ff8",
+    "register_basic_1_body.png": "d7b75021091192c1bc87df41ff8ce09b3d2db94a0509c326d1ff5544447f84d1",
+    "register_basic_1_shadow.png": "20bb9046a864c056a54c28b3939f5fdafec7b652f419560d78ff094af87263e8",
+    "register_basic_2_body.png": "4a478be928211b6c9d8cf4079ec0dc1aa2524c102e804f930da1bf04cc4510b5",
+    "register_basic_2_shadow.png": "d14488b7b5029f1b7f330ced7b4395e66fb3e740e5cc44eb5b8b491498de8ff8",
+    "register_basic_3_body.png": "af80bf6c3c6241b182f64ba5277b0cf6f18f6d10cf4d4f2f49b49292e6fd2c6b",
+    "register_basic_3_shadow.png": "20bb9046a864c056a54c28b3939f5fdafec7b652f419560d78ff094af87263e8"
+  },
+  "unverified": [
+    "Blender 2.91.0再実行はこの環境で未実施（blender実行体未検出）",
+    "iso2x_v1の実画素校正差分は未再測定",
+    "4方向の目視品質レビュー未実施",
+    "Godot実画面への統合・接地・前後描画確認未実施"
+  ],
+  "notes": "既存のBlender生成済みregister_basic_a 4方向RGBA出力を、専用worktreeのreview-only候補として分離した。Godot Scene/ロジック/既存ファイルは変更していない。"
+}

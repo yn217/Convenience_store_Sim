@@ -45,6 +45,42 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review.manifest.json",
+      "sha256": "aa1505f3935bb06d5d43dcb414ac74d22d4d4906ddfc869232572e715827f6bb",
+      "bytes": 1202
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review.provenance.json",
+      "sha256": "4d565cf24ca806060a14affd641544d72228d5b49347476f3570f5446e1ba7de",
+      "bytes": 681
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_0.png",
+      "sha256": "36caf3d3770d1be94df2db7c045e3a40218a3e691b4ded739e92844c0a1ddd14",
+      "bytes": 1371
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_1.png",
+      "sha256": "88ca546af8c6f22c2926a098b1ebbd356398b81e3ff8f87c652bdc59193dcb50",
+      "bytes": 1366
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_2.png",
+      "sha256": "88ca546af8c6f22c2926a098b1ebbd356398b81e3ff8f87c652bdc59193dcb50",
+      "bytes": 1366
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_3.png",
+      "sha256": "36caf3d3770d1be94df2db7c045e3a40218a3e691b4ded739e92844c0a1ddd14",
+      "bytes": 1371
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/bread_comparison_candidate_v01.png",
       "sha256": "9864f0627b36b548efa1f8faa53405526723f5cd9350bddfd04d7c864932c849",
       "bytes": 628038
@@ -786,6 +822,66 @@
       "path": "assets/source/textures/fixtures/candidates/prize_lottery_box_candidate.png",
       "sha256": "5c6cf50f85902027cf2255825ad948e6760fb5ac565417be7f64ac7bddd45847",
       "bytes": 1668684
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_0_body.png",
+      "sha256": "44ef801a9ab48cf34ff616f225836311cd9a5f52375072c5195b7418bd04912c",
+      "bytes": 11256
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_0_shadow.png",
+      "sha256": "d14488b7b5029f1b7f330ced7b4395e66fb3e740e5cc44eb5b8b491498de8ff8",
+      "bytes": 1752
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_1_body.png",
+      "sha256": "d7b75021091192c1bc87df41ff8ce09b3d2db94a0509c326d1ff5544447f84d1",
+      "bytes": 10892
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_1_shadow.png",
+      "sha256": "20bb9046a864c056a54c28b3939f5fdafec7b652f419560d78ff094af87263e8",
+      "bytes": 1788
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_2_body.png",
+      "sha256": "4a478be928211b6c9d8cf4079ec0dc1aa2524c102e804f930da1bf04cc4510b5",
+      "bytes": 5774
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_2_shadow.png",
+      "sha256": "d14488b7b5029f1b7f330ced7b4395e66fb3e740e5cc44eb5b8b491498de8ff8",
+      "bytes": 1752
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_3_body.png",
+      "sha256": "af80bf6c3c6241b182f64ba5277b0cf6f18f6d10cf4d4f2f49b49292e6fd2c6b",
+      "bytes": 6353
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_3_shadow.png",
+      "sha256": "20bb9046a864c056a54c28b3939f5fdafec7b652f419560d78ff094af87263e8",
+      "bytes": 1788
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_candidate_v1.provenance.json",
+      "sha256": "0d349934378f746bbb3a0c42e7b44c018858ea9297eba6480532da29cf25dfe8",
+      "bytes": 2808
+    },
+    {
+      "group": "fixtures",
+      "path": "assets/source/textures/fixtures/candidates/register_basic_candidate_v1/register_basic_candidate_v1.visual.json",
+      "sha256": "c93fe8b803307014fac2a1a1801a60dc1cf138c5239929b1085105b6ba4cb474",
+      "bytes": 2363
     },
     {
       "group": "fixtures",
