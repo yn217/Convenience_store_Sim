@@ -50,6 +50,7 @@ var user_moved := false
 
 @onready var _selection: Node2D = $SelectionOverlay
 @onready var _fixture_view: Node2D = $ObjectSortRoot/FixturePresenter
+@onready var _light_glow: LightGlow = get_node_or_null("LightGlow") as LightGlow
 
 
 func _ready() -> void:
@@ -72,6 +73,8 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	var tint := get_node_or_null("TimeTint")
 	if tint != null and snapshot.has("time_sec"):
 		tint.color = LightingModel.tint(int(snapshot["time_sec"]))
+	if _light_glow != null and snapshot.has("time_sec"):
+		_light_glow.set_time(int(snapshot["time_sec"]))
 	if selected_customer != "" and not customers.any(func(c): return c["customer_id"] == selected_customer):
 		selected_customer = ""
 		customer_selected.emit("")
@@ -235,6 +238,8 @@ func cycle_overlay_mode() -> void:
 func _redraw_objects() -> void:
 	if _fixture_view != null:
 		_fixture_view.queue_redraw()
+	if _light_glow != null:
+		_light_glow.queue_redraw()
 	var layer := get_node_or_null("OverlayLayer")
 	if layer != null:
 		layer.queue_redraw()
