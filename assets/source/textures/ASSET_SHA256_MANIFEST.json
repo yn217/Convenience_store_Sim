@@ -3,6 +3,24 @@
   "files": [
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/bento_orange_salmon_subagent_v01.png",
+      "sha256": "58468ec040c48711aeb13e4aa3b466e626c4983d2f710cdf5f8723a0b582e0be",
+      "bytes": 2587734
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/bento_snack_subagent_candidates_v01.provenance.json",
+      "sha256": "1b15b010c85c3c8ac5176baeb20ef03958bdf617608f610a95eaaa9335dfb073",
+      "bytes": 1828
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/bento_teal_chicken_subagent_v01.png",
+      "sha256": "39d4e9a965913906746732897a62217a07c69e37dae52b2727883b6a3227b37c",
+      "bytes": 2553605
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/bread_sandwich_subagent_candidates_v01.provenance.json",
       "sha256": "162abd6d5f9e189ba0b7a4b2283213e5aa15d6898879de66fd6e580bd28f313e",
       "bytes": 1135
@@ -516,6 +534,18 @@
       "path": "assets/source/textures/packages/sku_tea_comparison_v01.png",
       "sha256": "d443cf0e939cd10f63ff51881c538fd851c3f268399527fe1ff0215f98a0495d",
       "bytes": 2842623
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/snack_potato_subagent_v01.png",
+      "sha256": "c09f9cec66fde0f1174a73f4989980820c89d74eece81d78c73eda4ccec3a8e0",
+      "bytes": 2219183
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/snack_rice_cracker_subagent_v01.png",
+      "sha256": "c7ac5594abca52177c191e7b9460e9d34e9283c7db37b9ef8a8530fa083c926d",
+      "bytes": 2325475
     },
     {
       "group": "packages",

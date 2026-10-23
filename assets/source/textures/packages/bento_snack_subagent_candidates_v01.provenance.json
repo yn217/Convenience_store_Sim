@@ -1,0 +1,17 @@
+{
+  "asset_family": "fictional_bento_and_snack_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Plato and Laplace",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single fictional Japanese convenience-store package, realistic 2.5D isometric, transparent RGBA background, category and color differences, no real brand/trademark/logo/readable fine text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"bento_orange_salmon_subagent_v01","source_file":"assets/source/textures/packages/bento_orange_salmon_subagent_v01.png","sha256":"58468EC040C48711AEB13E4AA3B466E626C4983D2F710CDF5F8723A0B582E0BE","category":"bento","notes":"salmon, orange/red geometric package"},
+    {"asset_id":"bento_teal_chicken_subagent_v01","source_file":"assets/source/textures/packages/bento_teal_chicken_subagent_v01.png","sha256":"39D4E9A965913906746732897A62217A07C69E37DAE52B2727883B6A3227B37C","category":"bento","notes":"teriyaki chicken, teal/navy geometric package"},
+    {"asset_id":"snack_potato_subagent_v01","source_file":"assets/source/textures/packages/snack_potato_subagent_v01.png","sha256":"C09F9CEC66FDE0F1174A73F4989980820C89D74EECE81D78C73EDA4CCEC3A8E0","category":"snack","notes":"potato-style, orange/gold/cream/teal"},
+    {"asset_id":"snack_rice_cracker_subagent_v01","source_file":"assets/source/textures/packages/snack_rice_cracker_subagent_v01.png","sha256":"C7AC5594ABCA52177C191E7B9460E9D34E9283C7DB37B9EF8A8530FA083C926D","category":"snack","notes":"rice cracker-style, indigo/rice-white/red/gold"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only package PNGs; slot overlay, scale, anchor, LOD and inventory linkage remain open."
+}
