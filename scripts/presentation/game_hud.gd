@@ -24,9 +24,12 @@ var _speed_buttons: Dictionary = {}
 func _ready() -> void:
 	var row: HBoxContainer = $Row
 	var anchor := _speed.get_index()
+	for lbl in [_cash, _sales, _profit, _customers, _clock, _speed, _state]:
+		lbl.theme_type_variation = &"HudValue"
 	for speed in [0, 1, 2, 4]:
 		var b := Button.new()
 		b.text = speed_text(speed)
+		b.theme_type_variation = &"HudSpeedButton"
 		b.toggle_mode = true
 		b.focus_mode = Control.FOCUS_NONE
 		b.pressed.connect(func(): speed_requested.emit(speed))
@@ -54,6 +57,12 @@ static func speed_text(speed: int) -> String:
 	return "停止" if speed == 0 else "×%d" % speed
 
 
+## Day 0 is a Monday (the game calendar starts on 月曜日).
+static func weekday_text(day: int) -> String:
+	const NAMES := ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"]
+	return NAMES[posmod(day, 7)]
+
+
 func apply_snapshot(s: Dictionary) -> void:
 	var metrics := get_node_or_null("../MetricBar")
 	if metrics != null:
@@ -63,7 +72,9 @@ func apply_snapshot(s: Dictionary) -> void:
 	_sales.text = "本日の売上 " + format_yen(int(today["revenue_yen"]))
 	_profit.text = "本日の粗利 " + format_yen(int(today["gross_profit_yen"]))
 	_customers.text = "店内客 %d" % s.get("customers", []).size()
-	_clock.text = "DAY %d  %s" % [int(s["day"]), format_clock(int(s["time_sec"]))]
+	var day := int(s["day"])
+	_clock.text = "DAY %d  %s" % [day, format_clock(int(s["time_sec"]))]
+	_clock.tooltip_text = "%s（%d日目）" % [weekday_text(day), day + 1]
 	_speed.text = "速度 " + speed_text(int(s["speed_setting"]))
 	_state.text = STATE_TEXT.get(s["business_state"], String(s["business_state"]))
 	var running: bool = s["business_state"] == "OPEN" or s["business_state"] == "CLOSING"
