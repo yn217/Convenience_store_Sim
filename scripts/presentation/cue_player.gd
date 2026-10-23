@@ -183,6 +183,7 @@ func load_settings() -> void:
 		return
 	muted = bool(data.get("muted", true))
 	reduce_motion = bool(data.get("reduce_motion", false))
+	UiFx.reduced = reduce_motion
 	sfx_volume = clampf(float(data.get("sfx_volume", 0.8)), 0.0, 1.0)
 
 
@@ -199,6 +200,7 @@ func set_muted(value: bool) -> void:
 
 func set_reduce_motion(value: bool) -> void:
 	reduce_motion = value
+	UiFx.reduced = value   # the UI's hover, press and value-pop tweens follow the same setting
 	if value:
 		particles.clear()
 		floats.clear()

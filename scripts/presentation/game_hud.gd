@@ -8,6 +8,7 @@ signal speed_requested(speed: int)
 
 const NONE := "—"
 const HUD_ICON_SIZE := 22
+const NO_CASH := -2147483648   # sentinel: no snapshot seen yet, so the first cash value does not pop
 ## (month, days) in calendar order from April; the sum is the 365-day year.
 const CALENDAR := [[4, 30], [5, 31], [6, 30], [7, 31], [8, 31], [9, 30], [10, 31], [11, 30], [12, 31], [1, 31], [2, 28], [3, 31]]
 const STATE_TEXT := {
@@ -23,6 +24,8 @@ const STATE_TEXT := {
 @onready var _state: Label = $Row/StateLabel
 var _date: Label
 var _speed_buttons: Dictionary = {}
+var _is_open := false
+var _last_cash := NO_CASH
 
 
 func _ready() -> void:
@@ -32,8 +35,9 @@ func _ready() -> void:
 	row.add_child(_date)
 	row.move_child(_date, _clock.get_index() + 1)
 	var anchor := _speed.get_index()
-	for lbl in [_cash, _sales, _profit, _customers, _clock, _date, _speed, _state]:
+	for lbl in [_sales, _profit, _customers, _clock, _date, _speed, _state]:
 		lbl.theme_type_variation = &"HudValue"
+	_cash.theme_type_variation = &"HudCash"
 	for speed in [0, 1, 2, 4]:
 		var b := Button.new()
 		b.text = speed_text(speed)
@@ -41,12 +45,46 @@ func _ready() -> void:
 		b.toggle_mode = true
 		b.focus_mode = Control.FOCUS_NONE
 		b.pressed.connect(func(): speed_requested.emit(speed))
+		UiFx.attach(b)
 		row.add_child(b)
 		row.move_child(b, anchor + 1 + _speed_buttons.size())
 		_speed_buttons[speed] = b
 	# Icons sit in their own TextureRects right before each value label; the label texts stay as they are.
 	for pair in [[_cash, "cash"], [_sales, "cart"], [_profit, "bar-chart"], [_customers, "users"]]:
 		_add_icon_before(pair[0], pair[1])
+	# The chips are painted by the row itself, behind its children, so the labels keep their places in the tree.
+	row.draw.connect(_draw_chips.bind(row))
+	row.sort_children.connect(row.queue_redraw)
+
+
+## Chip groups as [icon, value] or [value, value] node names, in row order. Each group gets one pill behind it.
+const CHIP_GROUPS := [
+	["CashLabelIcon", "CashLabel"], ["SalesLabelIcon", "SalesLabel"], ["ProfitLabelIcon", "ProfitLabel"],
+	["CustomersLabelIcon", "CustomersLabel"], ["ClockLabel", "DateLabel"],
+]
+
+
+## Paints the pills: one per CHIP_GROUPS entry, and a green badge around the state label while the shop is open.
+func _draw_chips(row: Control) -> void:
+	for names in CHIP_GROUPS:
+		var rect := _group_rect(row, names)
+		if rect.size.x > 0.0:
+			row.draw_style_box(UiTheme.chip_box(), rect)
+	var state_rect := _group_rect(row, ["StateLabel"])
+	if state_rect.size.x > 0.0:
+		row.draw_style_box(UiTheme.badge_box() if _is_open else UiTheme.chip_box(), state_rect)
+
+
+func _group_rect(row: Control, names: Array) -> Rect2:
+	var rect := Rect2()
+	var first := true
+	for node_name in names:
+		var c := row.get_node_or_null(node_name) as Control
+		if c == null or not c.is_visible_in_tree():
+			continue
+		rect = c.get_rect() if first else rect.merge(c.get_rect())
+		first = false
+	return rect.grow_individual(8, 4, 8, 4) if not first else Rect2()
 
 
 func _add_icon_before(label: Label, icon_name: String) -> void:
@@ -118,7 +156,11 @@ func apply_snapshot(s: Dictionary) -> void:
 	var floats := get_node_or_null("../../FloatCards")
 	if floats != null:
 		floats.apply_snapshot(s)
-	_cash.text = "所持金 " + format_yen(int(s["cash_yen"]))
+	var cash := int(s["cash_yen"])
+	_cash.text = "所持金 " + format_yen(cash)
+	if _last_cash != NO_CASH and cash != _last_cash:
+		UiFx.pop(_cash, UiFx.direction(_last_cash, cash))
+	_last_cash = cash
 	var today: Dictionary = s.get("today", {"revenue_yen": 0, "gross_profit_yen": 0})
 	_sales.text = "本日の売上 " + format_yen(int(today["revenue_yen"]))
 	_profit.text = "本日の粗利 " + format_yen(int(today["gross_profit_yen"]))
@@ -129,6 +171,9 @@ func apply_snapshot(s: Dictionary) -> void:
 	_date.text = date_text(day)
 	_speed.text = "速度 " + speed_text(int(s["speed_setting"]))
 	_state.text = STATE_TEXT.get(s["business_state"], String(s["business_state"]))
+	_is_open = s["business_state"] == "OPEN"
+	_state.add_theme_color_override("font_color", Color.WHITE if _is_open else UiTheme.TEXT_SECONDARY)
+	($Row as Control).queue_redraw()
 	var running: bool = s["business_state"] == "OPEN" or s["business_state"] == "CLOSING"
 	for speed in _speed_buttons:
 		var b: Button = _speed_buttons[speed]
