@@ -7,7 +7,7 @@ func test_bar_mirrors_and_forwards_inspector_buttons(t, tree) -> void:
 	tree.root.add_child(main)
 	await tree.process_frame
 	await tree.process_frame
-	var bar: CommandBar = main.get_node("Layout/CommandBar")
+	var bar: CommandBar = main.find_child("CommandBar", true, false)
 	t.eq(bar._pairs.size(), 3, "move / rotate / remove")
 	for p in bar._pairs:
 		t.ok((p[0] as Button).disabled, "nothing selected: disabled like the inspector")
