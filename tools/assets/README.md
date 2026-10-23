@@ -14,8 +14,7 @@ Normative sizes: `docs/implementation/02_GRID_AND_ASSET_CONTRACT.md` and `06_ASS
 | `validate_manifests.py` | Python + Pillow + numpy | the mechanical gate (calibration, schema shape, files, canvas, anchors, silhouette, sizes) |
 | `contact_sheet.py` | Python + Pillow | all rotations side by side with anchor and footprint outline, for the eyeball check |
 
-Modelled types so far: `warmer_oden` (1×1), `shelf_general` (1×2), `freezer_ice` (2×2), `register_basic` (1×2), `fridge_drink` (1×2).
-The other five types come with #22.
+All ten initial types are modelled (#8, #22): the 1x1 `warmer_oden`, 2x2 `freezer_ice`, and the 1x2 `register_basic`, `shelf_general`, `shelf_onigiri`, `shelf_noodle`, `shelf_bread`, `shelf_snack`, `fridge_drink`, `fridge_dessert`.
 
 ## Regenerate everything (Windows)
 

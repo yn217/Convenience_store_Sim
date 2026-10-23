@@ -2,7 +2,7 @@ extends RefCounted
 ## Issue #9: sprite layers/anchors come from manifests, other types stay placeholders, and the
 ## presenter draws every rotation at the three reference zooms with different shelf fill levels.
 
-const SPRITE_TYPES := ["shelf_general", "warmer_oden", "freezer_ice", "register_basic", "fridge_drink"]
+const SPRITE_TYPES := ["shelf_general", "warmer_oden", "freezer_ice", "register_basic", "fridge_drink", "shelf_onigiri", "shelf_noodle", "shelf_bread", "shelf_snack", "fridge_dessert"]
 
 
 func test_manifest_entries_for_every_rotation(t, _tree) -> void:
@@ -12,8 +12,8 @@ func test_manifest_entries_for_every_rotation(t, _tree) -> void:
 			var e := sprites.rotation_entry(type_id, r)
 			t.ok(not e.is_empty(), "%s r%d entry" % [type_id, r])
 			t.ok(e["layers"].has("body") and e["layers"].has("shadow"), "%s r%d body+shadow" % [type_id, r])
-	t.ok(sprites.rotation_entry("shelf_onigiri", 0).is_empty(), "type without art keeps its placeholder")
-	t.ok(not sprites.has_sprites("shelf_onigiri"))
+	t.ok(sprites.rotation_entry("no_such_type", 0).is_empty(), "type without art keeps its placeholder")
+	t.ok(not sprites.has_sprites("no_such_type"))
 	t.eq(sprites.rotation_entry("fridge_drink", 0)["layers"].has("glass_front"), true)
 	t.eq(sprites.rotation_entry("fridge_drink", 0)["slots"].size(), 24)
 	t.eq(sprites.rotation_entry("register_basic", 0)["slots"].size(), 0)

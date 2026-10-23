@@ -50,18 +50,42 @@ def _body_rect(w, h):
     return (x0 + BODY_INSET, y0 + BODY_INSET, x1 - BODY_INSET, y1 - BODY_INSET)
 
 
-def _shelf_general(d):
+def _rack(d, rows, trim=None, back=True):
+    """Open rack: base, four posts, optional back panel, top cap, one board per row, optional trim rail."""
     x0, y0, x1, y1 = _body_rect(*_wh(d))
     height = d["dimensions_m"]["height"]
     boxes = [Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer")]
     for px in (x0, x1 - POST):
         for py in (y0, y1 - POST):
             boxes.append(Box(px, py, BASE, px + POST, py + POST, height - 0.02, "frame_metal"))
-    boxes.append(Box(x0, y0, BASE, x0 + 0.02, y1, height - 0.02, "shelf_white"))       # back panel (W side)
+    if back:
+        boxes.append(Box(x0, y0, BASE, x0 + 0.02, y1, height - 0.02, "shelf_white"))   # back panel (W side)
     boxes.append(Box(x0, y0, height - 0.02, x1, y1, height, "shelf_white"))            # top cap
-    for z in (0.32, 0.64, 0.96, 1.28):
+    for z in rows:
         boxes.append(Box(x0 + 0.02, y0, z - BOARD, x1, y1, z, "shelf_white"))
+        if trim:
+            boxes.append(Box(x1 - 0.02, y0 + POST, z - BOARD - 0.04, x1, y1 - POST, z - BOARD, trim))   # price-label rail
     return boxes, []
+
+
+def _shelf_general(d):
+    return _rack(d, ROW_HEIGHTS["shelf_general"])
+
+
+def _shelf_onigiri(d):
+    return _rack(d, ROW_HEIGHTS["shelf_onigiri"], trim="label_rail")
+
+
+def _shelf_noodle(d):
+    return _rack(d, ROW_HEIGHTS["shelf_noodle"], trim="label_rail")
+
+
+def _shelf_bread(d):
+    return _rack(d, ROW_HEIGHTS["shelf_bread"], back=False)       # open-backed bread rack
+
+
+def _shelf_snack(d):
+    return _rack(d, ROW_HEIGHTS["shelf_snack"], trim="label_rail")
 
 
 def _warmer_oden(d):
@@ -106,31 +130,42 @@ def _register_basic(d):
     return boxes, []
 
 
-def _fridge_drink(d):
+def _fridge(d, rows):
+    """Glass-door chilled case; the body top sits 0.10 m under the stated height."""
     x0, y0, x1, y1 = _body_rect(*_wh(d))
     height = d["dimensions_m"]["height"]
     door_x0 = x1 - 0.03
+    top = height - 0.10
+    mid = (y0 + y1) / 2
     boxes = [
         Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer"),
-        Box(x0, y0, BASE, x0 + 0.06, y1, 1.90, "shelf_white"),                 # back panel (W)
-        Box(x0, y0, BASE, door_x0, y0 + POST, 1.90, "shelf_white"),            # side panels
-        Box(x0, y1 - POST, BASE, door_x0, y1, 1.90, "shelf_white"),
-        Box(x0, y0, 1.90, x1, y1, height, "shelf_white"),                      # top cap
-        Box(x1 - 0.05, y0 + 0.06, 1.84, x1 - 0.01, y1 - 0.06, 1.88, "cool_white_led"),
+        Box(x0, y0, BASE, x0 + 0.06, y1, top, "shelf_white"),                 # back panel (W)
+        Box(x0, y0, BASE, door_x0, y0 + POST, top, "shelf_white"),            # side panels
+        Box(x0, y1 - POST, BASE, door_x0, y1, top, "shelf_white"),
+        Box(x0, y0, top, x1, y1, height, "shelf_white"),                      # top cap
+        Box(x1 - 0.05, y0 + 0.06, top - 0.06, x1 - 0.01, y1 - 0.06, top - 0.02, "cool_white_led"),
         # door frame: stiles, centre mullion, top and bottom rails
-        Box(door_x0, y0, BASE, x1, y0 + POST, 1.90, "frame_metal"),
-        Box(door_x0, y1 - POST, BASE, x1, y1, 1.90, "frame_metal"),
-        Box(door_x0, 0.48, BASE, x1, 0.52, 1.90, "frame_metal"),
-        Box(door_x0, y0, 1.82, x1, y1, 1.90, "frame_metal"),
+        Box(door_x0, y0, BASE, x1, y0 + POST, top, "frame_metal"),
+        Box(door_x0, y1 - POST, BASE, x1, y1, top, "frame_metal"),
+        Box(door_x0, mid - 0.02, BASE, x1, mid + 0.02, top, "frame_metal"),
+        Box(door_x0, y0, top - 0.08, x1, y1, top, "frame_metal"),
         Box(door_x0, y0, BASE, x1, y1, 0.10, "frame_metal"),
     ]
-    for z in (0.46, 0.96, 1.46):
+    for z in rows:
         boxes.append(Box(x0 + 0.06, y0 + POST, z - BOARD, door_x0, y1 - POST, z, "shelf_white"))
     glass = [
-        Box(x1 - GLASS, y0 + POST, 0.10, x1, 0.48, 1.82, "clear_glass", "glass_front"),
-        Box(x1 - GLASS, 0.52, 0.10, x1, y1 - POST, 1.82, "clear_glass", "glass_front"),
+        Box(x1 - GLASS, y0 + POST, 0.10, x1, mid - 0.02, top - 0.08, "clear_glass", "glass_front"),
+        Box(x1 - GLASS, mid + 0.02, 0.10, x1, y1 - POST, top - 0.08, "clear_glass", "glass_front"),
     ]
     return boxes, glass
+
+
+def _fridge_drink(d):
+    return _fridge(d, ROW_HEIGHTS["fridge_drink"])
+
+
+def _fridge_dessert(d):
+    return _fridge(d, ROW_HEIGHTS["fridge_dessert"])
 
 
 BUILDERS = {
@@ -139,9 +174,19 @@ BUILDERS = {
     "shelf_general": _shelf_general,
     "warmer_oden": _warmer_oden,
     "freezer_ice": _freezer_ice,
+    "shelf_onigiri": _shelf_onigiri,
+    "shelf_noodle": _shelf_noodle,
+    "shelf_bread": _shelf_bread,
+    "shelf_snack": _shelf_snack,
+    "fridge_dessert": _fridge_dessert,
 }
 # Row heights (m) of the display slots, bottom to top (06 §2).
-ROW_HEIGHTS = {"shelf_general": [0.32, 0.64, 0.96, 1.28], "fridge_drink": [0.46, 0.96, 1.46]}
+ROW_HEIGHTS = {
+    "shelf_general": [0.32, 0.64, 0.96, 1.28], "fridge_drink": [0.46, 0.96, 1.46],
+    "shelf_onigiri": [0.40, 0.80, 1.20], "shelf_noodle": [0.32, 0.70, 1.08, 1.46],
+    "shelf_bread": [0.45, 0.85, 1.25], "shelf_snack": [0.32, 0.68, 1.04, 1.40],
+    "fridge_dessert": [0.40, 0.85, 1.30],
+}
 
 
 def _wh(d):
