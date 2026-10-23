@@ -1,6 +1,7 @@
 """Split the three-panel review-only package board into lossless staging crops."""
 from pathlib import Path
 import json
+import hashlib
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -19,7 +20,7 @@ def main() -> None:
         for name, box in zip(NAMES, boxes):
             path = OUT / f"{name}_comparison_candidate_v01.png"
             image.crop(box).save(path, format="PNG", optimize=False)
-            records.append({"family": name, "source": str(SOURCE.relative_to(ROOT)), "file": str(path.relative_to(ROOT)), "crop_box": list(box), "size": [box[2] - box[0], box[3] - box[1]], "selection_status": "review-only", "runtime_approved": False})
+            records.append({"family": name, "source": str(SOURCE.relative_to(ROOT)), "file": str(path.relative_to(ROOT)), "crop_box": list(box), "size": [box[2] - box[0], box[3] - box[1]], "mode": "RGBA", "sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "selection_status": "review-only", "runtime_approved": False, "sku_id": None, "visual_id": None, "background_removal": None, "anchor_px": None, "lod": None})
     manifest = OUT / "oden_bread_snack_candidates.json"
     manifest.write_text(json.dumps({"method": "Pillow lossless RGBA crop", "source": str(SOURCE.relative_to(ROOT)), "candidates": records}, indent=2) + "\n", encoding="utf-8")
     print(f"split {len(records)} package candidates")

@@ -16,8 +16,15 @@
         408,
         1254
       ],
+      "mode": "RGBA",
+      "sha256": "d4cabdcadc3a53db52d25015d9f7235b0ff4b7ac1b3650a6591a27dae9173df6",
       "selection_status": "review-only",
-      "runtime_approved": false
+      "runtime_approved": false,
+      "sku_id": null,
+      "visual_id": null,
+      "background_removal": null,
+      "anchor_px": null,
+      "lod": null
     },
     {
       "family": "bread",
@@ -33,8 +40,15 @@
         398,
         1254
       ],
+      "mode": "RGBA",
+      "sha256": "9864f0627b36b548efa1f8faa53405526723f5cd9350bddfd04d7c864932c849",
       "selection_status": "review-only",
-      "runtime_approved": false
+      "runtime_approved": false,
+      "sku_id": null,
+      "visual_id": null,
+      "background_removal": null,
+      "anchor_px": null,
+      "lod": null
     },
     {
       "family": "snack",
@@ -50,8 +64,15 @@
         408,
         1254
       ],
+      "mode": "RGBA",
+      "sha256": "87aaf1ab2d7dc589f0c1683747c2118af570c52fc1c7b6fb18d36af25f814647",
       "selection_status": "review-only",
-      "runtime_approved": false
+      "runtime_approved": false,
+      "sku_id": null,
+      "visual_id": null,
+      "background_removal": null,
+      "anchor_px": null,
+      "lod": null
     }
   ]
 }
