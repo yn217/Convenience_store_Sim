@@ -62,6 +62,10 @@ func _run() -> void:
 		if a.begins_with("--zoom="):
 			var store: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 			store.zoom_at(store.viewport_size() * 0.5, float(a.trim_prefix("--zoom=")))
+	for a in OS.get_cmdline_user_args():   # --hour=12: capture at that game clock (daylight tint, #61)
+		if a.begins_with("--hour="):
+			s.time_sec = int(float(a.trim_prefix("--hour=")) * 3600.0)
+			app._publish_snapshot()
 	for i in 30:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)
