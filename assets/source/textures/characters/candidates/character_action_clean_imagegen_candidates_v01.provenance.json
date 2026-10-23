@@ -1,0 +1,17 @@
+{
+  "asset_family": "clean_fictional_convenience_character_action_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Galileo the 2nd and Fermat the 2nd",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Full-body fictional convenience-store customer or clerk action pose, realistic 2.5D isometric, front 3/4 view, transparent RGBA background, only the character and specified handheld prop, no furniture/store background/extra person/logo/text/watermark.",
+  "candidates": [
+    {"asset_id":"customer_reaching_shelf_clean_imagegen_v01","source_file":"assets/source/textures/characters/candidates/customer_reaching_shelf_clean_imagegen_v01.png","sha256":"BD40B5A4D0D581EE6934B93643A293FFD498576B35FF7DCE065F028713D85136","category":"customer action / reaching","palette":"beige, denim and white","dimensions_px":[1024,1536]},
+    {"asset_id":"customer_basket_shelf_clean_imagegen_v01","source_file":"assets/source/textures/characters/candidates/customer_basket_shelf_clean_imagegen_v01.png","sha256":"CA7BA6E086FAE029A82C46F52F2E5BDC97B98E2FB5858D416C81953FBC40AC27","category":"customer action / basket","palette":"navy, charcoal and blue","dimensions_px":[1024,1536]},
+    {"asset_id":"clerk_paper_bag_clean_imagegen_v01","source_file":"assets/source/textures/characters/candidates/clerk_paper_bag_clean_imagegen_v01.png","sha256":"722DA4D9A8ACA36C2D95FFEE3CD58205F0EA32F8C9132DC3DD611CBA38E527B6","category":"clerk action / paper bag","palette":"teal, white and gray","dimensions_px":[1024,1536]},
+    {"asset_id":"clerk_cardboard_box_clean_imagegen_v01","source_file":"assets/source/textures/characters/candidates/clerk_cardboard_box_clean_imagegen_v01.png","sha256":"59F21A112AC73C66F3E439B71FA12BB103A5E225B87C898A0F6CE49EB1C72399","category":"clerk action / cardboard box","palette":"orange, white and charcoal","dimensions_px":[1024,1536]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Clean action candidates supersede the contextual action review variants for future cutout work. Four-direction animation, normalized height/anchor, occlusion and runtime linkage remain open; no Godot files were changed."
+}

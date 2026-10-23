@@ -1071,6 +1071,12 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/character_action_clean_imagegen_candidates_v01.provenance.json",
+      "sha256": "9350d112e3c5d33c197ac871006c52507424aedb156875227c4c550cc974185b",
+      "bytes": 2276
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/candidates/character_action_imagegen_candidates_v01.provenance.json",
       "sha256": "4ef6e896b4bc6346b9632a1538ed7629d04360e897d1f1b04ab60d35afbd8b5d",
       "bytes": 2792
@@ -1080,6 +1086,12 @@
       "path": "assets/source/textures/characters/candidates/clerk_box_shelf_action_imagegen_v01.png",
       "sha256": "ce51efd28f3ac0b3104a3e5e04f9915cdc817637df2e189cbf1c9455034e72e4",
       "bytes": 1685277
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/clerk_cardboard_box_clean_imagegen_v01.png",
+      "sha256": "59f21a112ac73c66f3e439b71fa12bb103a5e225b87c898a0f6ce49eb1c72399",
+      "bytes": 1494255
     },
     {
       "group": "characters",
@@ -1101,6 +1113,12 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/clerk_paper_bag_clean_imagegen_v01.png",
+      "sha256": "722da4d9a8aca36c2d95ffee3cd58205f0ea32f8c9132dc3dd611cba38e527b6",
+      "bytes": 1353645
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/candidates/clerk_paper_bag_counter_action_imagegen_v01.png",
       "sha256": "651e9482c0ed82c7cdbd7e11245630375fc019d9e6eb108fc25e0dc9220ecd2b",
       "bytes": 1771455
@@ -1116,6 +1134,12 @@
       "path": "assets/source/textures/characters/candidates/customer_basket_shelf_action_imagegen_v01.png",
       "sha256": "7532bcbe327c48728cefe20ca680a19da00f99c6f6e5bf2607294b3846b50c5a",
       "bytes": 1811285
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_basket_shelf_clean_imagegen_v01.png",
+      "sha256": "ca7ba6e086fae029a82c46f52f2e5bdc97b98e2fb5858d416c81953fbc40ac27",
+      "bytes": 1529803
     },
     {
       "group": "characters",
@@ -1176,6 +1200,12 @@
       "path": "assets/source/textures/characters/candidates/customer_reaching_shelf_action_imagegen_v01.png",
       "sha256": "7507d3b24022d939cbe1d5efa0491edfa10232b9ec0629ea8937d4dbdc9aa72e",
       "bytes": 1818474
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_reaching_shelf_clean_imagegen_v01.png",
+      "sha256": "bd40b5a4d0d581ee6934b93643a293ffd498576b35ff7dce065f028713d85136",
+      "bytes": 1736208
     },
     {
       "group": "characters",
