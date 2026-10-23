@@ -1,0 +1,492 @@
+{
+  "manifest_version": 1,
+  "visual_id": "shelf_general_a",
+  "fixture_type_id": "shelf_general",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.5
+  },
+  "front": "E",
+  "runtime_approved": false,
+  "states": {
+    "FULL": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            540,
+            435
+          ],
+          "anchor_px": [
+            255.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_full_r0_body.png",
+            "products": "shelf_general_full_r0_products.png",
+            "shadow": "shelf_general_full_r0_shadow.png",
+            "composite": "shelf_general_full_r0_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              303.0
+            ],
+            [
+              383.0,
+              367.0
+            ],
+            [
+              255.0,
+              431.0
+            ],
+            [
+              127.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            303.0
+          ]
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_full_r1_body.png",
+            "products": "shelf_general_full_r1_products.png",
+            "shadow": "shelf_general_full_r1_shadow.png",
+            "composite": "shelf_general_full_r1_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              303.0
+            ],
+            [
+              285.0,
+              367.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ]
+        },
+        "2": {
+          "canvas_px": [
+            540,
+            435
+          ],
+          "anchor_px": [
+            255.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_full_r2_body.png",
+            "products": "shelf_general_full_r2_products.png",
+            "shadow": "shelf_general_full_r2_shadow.png",
+            "composite": "shelf_general_full_r2_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              303.0
+            ],
+            [
+              383.0,
+              367.0
+            ],
+            [
+              255.0,
+              431.0
+            ],
+            [
+              127.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            303.0
+          ]
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_full_r3_body.png",
+            "products": "shelf_general_full_r3_products.png",
+            "shadow": "shelf_general_full_r3_shadow.png",
+            "composite": "shelf_general_full_r3_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              303.0
+            ],
+            [
+              285.0,
+              367.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ]
+        }
+      }
+    },
+    "HALF": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            540,
+            435
+          ],
+          "anchor_px": [
+            255.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_half_r0_body.png",
+            "products": "shelf_general_half_r0_products.png",
+            "shadow": "shelf_general_half_r0_shadow.png",
+            "composite": "shelf_general_half_r0_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              303.0
+            ],
+            [
+              383.0,
+              367.0
+            ],
+            [
+              255.0,
+              431.0
+            ],
+            [
+              127.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            303.0
+          ]
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_half_r1_body.png",
+            "products": "shelf_general_half_r1_products.png",
+            "shadow": "shelf_general_half_r1_shadow.png",
+            "composite": "shelf_general_half_r1_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              303.0
+            ],
+            [
+              285.0,
+              367.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ]
+        },
+        "2": {
+          "canvas_px": [
+            540,
+            435
+          ],
+          "anchor_px": [
+            255.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_half_r2_body.png",
+            "products": "shelf_general_half_r2_products.png",
+            "shadow": "shelf_general_half_r2_shadow.png",
+            "composite": "shelf_general_half_r2_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              303.0
+            ],
+            [
+              383.0,
+              367.0
+            ],
+            [
+              255.0,
+              431.0
+            ],
+            [
+              127.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            303.0
+          ]
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_half_r3_body.png",
+            "products": "shelf_general_half_r3_products.png",
+            "shadow": "shelf_general_half_r3_shadow.png",
+            "composite": "shelf_general_half_r3_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              303.0
+            ],
+            [
+              285.0,
+              367.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ]
+        }
+      }
+    },
+    "EMPTY": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            540,
+            435
+          ],
+          "anchor_px": [
+            255.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_empty_r0_body.png",
+            "products": "shelf_general_empty_r0_products.png",
+            "shadow": "shelf_general_empty_r0_shadow.png",
+            "composite": "shelf_general_empty_r0_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              303.0
+            ],
+            [
+              383.0,
+              367.0
+            ],
+            [
+              255.0,
+              431.0
+            ],
+            [
+              127.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            303.0
+          ]
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_empty_r1_body.png",
+            "products": "shelf_general_empty_r1_products.png",
+            "shadow": "shelf_general_empty_r1_shadow.png",
+            "composite": "shelf_general_empty_r1_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              303.0
+            ],
+            [
+              285.0,
+              367.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ]
+        },
+        "2": {
+          "canvas_px": [
+            540,
+            435
+          ],
+          "anchor_px": [
+            255.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_empty_r2_body.png",
+            "products": "shelf_general_empty_r2_products.png",
+            "shadow": "shelf_general_empty_r2_shadow.png",
+            "composite": "shelf_general_empty_r2_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              303.0
+            ],
+            [
+              383.0,
+              367.0
+            ],
+            [
+              255.0,
+              431.0
+            ],
+            [
+              127.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            303.0
+          ]
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            450
+          ],
+          "anchor_px": [
+            157.0,
+            303.0
+          ],
+          "layers": {
+            "body": "shelf_general_empty_r3_body.png",
+            "products": "shelf_general_empty_r3_products.png",
+            "shadow": "shelf_general_empty_r3_shadow.png",
+            "composite": "shelf_general_empty_r3_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              303.0
+            ],
+            [
+              285.0,
+              367.0
+            ],
+            [
+              157.0,
+              431.0
+            ],
+            [
+              29.0,
+              367.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            303.0
+          ]
+        }
+      }
+    }
+  }
+}

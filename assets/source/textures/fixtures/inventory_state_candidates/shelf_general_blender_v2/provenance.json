@@ -1,0 +1,100 @@
+{
+  "issue": "#91",
+  "fixture_type_id": "shelf_general",
+  "renderer": "Blender 2.91.0 / BLENDER_EEVEE",
+  "source_generator": "tools/assets/render_shelf_inventory_states.py",
+  "crop_generator": "tools/assets/build_shelf_inventory_states.py",
+  "projection_id": "iso2x_v1",
+  "azimuth_deg": 45,
+  "elevation_deg": 30,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "physical_dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.5
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "front": "E",
+  "states": {
+    "FULL": "8 packages per shelf row",
+    "HALF": "4 packages per shelf row",
+    "EMPTY": "0 packages"
+  },
+  "rotations": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "calibration": {
+    "file": "calibration.png"
+  },
+  "origin_px": [
+    800.0,
+    800.0
+  ],
+  "calibration_measured": false,
+  "calibration_validation": "validation_report.json",
+  "runtime_approved": false,
+  "third_party_assets": false,
+  "notes": "This builder records the calibration chart and origin but does not measure it. Run validate_inventory_state_candidate.py; its separate report records measured projection offsets and layer consistency. Mesh silhouette and runtime rendering remain unverified.",
+  "sha256": {
+    "calibration.png": "3fd3dd5eef2bd55b4fcf1c5fcd13b61914f9518fd38d1f20e9851db196db2aad",
+    "contact_sheet.png": "0691587c28ecaa112a3daadd90abac62651441350bf49e9bd7d2ca8de33969b6",
+    "manifest.json": "284092652d5646ee433ad77bbf61603271219dbb786821a7e53adbb72a88bdb1",
+    "shelf_general_empty_r0_body.png": "d9c77b9a101261c42f0133a494427622876ceab1276b4bd24d4fa60c9a178821",
+    "shelf_general_empty_r0_composite.png": "1bc61b34c23de5bf005f6ccaa35ffb98131ae1e0cb8c7485901c5ee4ae6c08ee",
+    "shelf_general_empty_r0_products.png": "82b279d025db47e76b283acbc0edcfcd393d62af31742d129790a9dcda6a4c63",
+    "shelf_general_empty_r0_shadow.png": "50966177eb726d5b3b7735eaf400e89f4f1e6ab45a4532bd32713ef7e9da071c",
+    "shelf_general_empty_r1_body.png": "f2f8cb6b1889757913f67de04b91a5f659985584a9d2c061a1bd9c40409bc2ad",
+    "shelf_general_empty_r1_composite.png": "ac973619eb147472cdda0d3ef9aac3233e9ddafe65cd15b392f0a8707c3cccdb",
+    "shelf_general_empty_r1_products.png": "edf52a2a96286b7feb36360533c574c3ce7c6bc5d0729e835720bba7d9cc7bb1",
+    "shelf_general_empty_r1_shadow.png": "94e0e4f26462114d45370e5065b179a1438f23a2c9e2b158a94ce2b16e2bcb9f",
+    "shelf_general_empty_r2_body.png": "508caa53c36467bff5710f24d0b2e01bcd6da6ea7d2a9c2cb23dfb817265f7d1",
+    "shelf_general_empty_r2_composite.png": "9feaf3e65c6af1b04308f8ee33e8de3d8fd68127f2b7e7c3b69dafba47e60a82",
+    "shelf_general_empty_r2_products.png": "82b279d025db47e76b283acbc0edcfcd393d62af31742d129790a9dcda6a4c63",
+    "shelf_general_empty_r2_shadow.png": "50966177eb726d5b3b7735eaf400e89f4f1e6ab45a4532bd32713ef7e9da071c",
+    "shelf_general_empty_r3_body.png": "c1d6ab68f8bfe10e93f5a188c8d1f2c8683770acdfa6fb330c1c679faf58d4e5",
+    "shelf_general_empty_r3_composite.png": "154c288c2fb88dd098d0ff343087e4e71cc131aaea39e2284de1ebad6dd5c517",
+    "shelf_general_empty_r3_products.png": "edf52a2a96286b7feb36360533c574c3ce7c6bc5d0729e835720bba7d9cc7bb1",
+    "shelf_general_empty_r3_shadow.png": "94e0e4f26462114d45370e5065b179a1438f23a2c9e2b158a94ce2b16e2bcb9f",
+    "shelf_general_full_r0_body.png": "d9c77b9a101261c42f0133a494427622876ceab1276b4bd24d4fa60c9a178821",
+    "shelf_general_full_r0_composite.png": "d06a9032fbe80a7e3bdb0fca00c206bef63c7969f50286a1cc75ae6421cb63f7",
+    "shelf_general_full_r0_products.png": "f32acb9a568b11e26b0bf9715169495ca2282b780c4535e435405d32d27bd865",
+    "shelf_general_full_r0_shadow.png": "50966177eb726d5b3b7735eaf400e89f4f1e6ab45a4532bd32713ef7e9da071c",
+    "shelf_general_full_r1_body.png": "f2f8cb6b1889757913f67de04b91a5f659985584a9d2c061a1bd9c40409bc2ad",
+    "shelf_general_full_r1_composite.png": "989e4c44e2bff56ef1cd5b0f43afc3e49c886c9bd1079e949c74ec6fed50d136",
+    "shelf_general_full_r1_products.png": "2a38ded714d1a27701e4ad7452fcd71a402d2744ae46cbd7e607ea45949f96d5",
+    "shelf_general_full_r1_shadow.png": "94e0e4f26462114d45370e5065b179a1438f23a2c9e2b158a94ce2b16e2bcb9f",
+    "shelf_general_full_r2_body.png": "508caa53c36467bff5710f24d0b2e01bcd6da6ea7d2a9c2cb23dfb817265f7d1",
+    "shelf_general_full_r2_composite.png": "357a3b24743ceb675313deed922f81b035ad8f1979f8be6f17890300f32688e4",
+    "shelf_general_full_r2_products.png": "dedd94d221689d037bd19c2c66a834ae42c8df470b6efac16c708fa19bcd5e70",
+    "shelf_general_full_r2_shadow.png": "50966177eb726d5b3b7735eaf400e89f4f1e6ab45a4532bd32713ef7e9da071c",
+    "shelf_general_full_r3_body.png": "c1d6ab68f8bfe10e93f5a188c8d1f2c8683770acdfa6fb330c1c679faf58d4e5",
+    "shelf_general_full_r3_composite.png": "1d13c8553216ca02f0e2aaee16b1eb8be2321d484ba56bc79ac5d255fcb4e1d3",
+    "shelf_general_full_r3_products.png": "2ad8ad56e1ebf9fca11bde65ec84b4b0bc5ed6586913008db8c06ad5d4ca11bb",
+    "shelf_general_full_r3_shadow.png": "94e0e4f26462114d45370e5065b179a1438f23a2c9e2b158a94ce2b16e2bcb9f",
+    "shelf_general_half_r0_body.png": "d9c77b9a101261c42f0133a494427622876ceab1276b4bd24d4fa60c9a178821",
+    "shelf_general_half_r0_composite.png": "5344623e30e5a2a2dd00a783b72cd7d0571c30ceeb133451b45f6161dca87e1a",
+    "shelf_general_half_r0_products.png": "b7919a2b740f5cc3947d970c45efd29e1817ca9ecd54af20d5fc36f1ff932ec8",
+    "shelf_general_half_r0_shadow.png": "50966177eb726d5b3b7735eaf400e89f4f1e6ab45a4532bd32713ef7e9da071c",
+    "shelf_general_half_r1_body.png": "f2f8cb6b1889757913f67de04b91a5f659985584a9d2c061a1bd9c40409bc2ad",
+    "shelf_general_half_r1_composite.png": "2d2b0e5a79cad9457ba0bd9c4a7ddac45e078fadc19096116d5b00230cfaf92b",
+    "shelf_general_half_r1_products.png": "45f13007aac1f2e4db72b8b8b80c3c78d51ab644c3029e0fb17278a450fbbbf3",
+    "shelf_general_half_r1_shadow.png": "94e0e4f26462114d45370e5065b179a1438f23a2c9e2b158a94ce2b16e2bcb9f",
+    "shelf_general_half_r2_body.png": "508caa53c36467bff5710f24d0b2e01bcd6da6ea7d2a9c2cb23dfb817265f7d1",
+    "shelf_general_half_r2_composite.png": "67648a779eb11645b1d903a5571a2408257121d4f4f552a37985786ae44606b6",
+    "shelf_general_half_r2_products.png": "624773e38f8cab0859835ae47e1106b0870c4ff35261ae16561eb436ca65563c",
+    "shelf_general_half_r2_shadow.png": "50966177eb726d5b3b7735eaf400e89f4f1e6ab45a4532bd32713ef7e9da071c",
+    "shelf_general_half_r3_body.png": "c1d6ab68f8bfe10e93f5a188c8d1f2c8683770acdfa6fb330c1c679faf58d4e5",
+    "shelf_general_half_r3_composite.png": "777a764c6121d2fe12d2e77215e02512bb94dbe2eb811d9394deed23778533d2",
+    "shelf_general_half_r3_products.png": "2fab106fe93ffafa02e4db67e10ef36d995d8daaae9fdd85a28bee7a603c31b2",
+    "shelf_general_half_r3_shadow.png": "94e0e4f26462114d45370e5065b179a1438f23a2c9e2b158a94ce2b16e2bcb9f"
+  }
+}

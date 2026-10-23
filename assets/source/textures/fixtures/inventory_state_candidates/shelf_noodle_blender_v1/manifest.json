@@ -1,0 +1,492 @@
+{
+  "manifest_version": 1,
+  "visual_id": "shelf_noodle_a",
+  "fixture_type_id": "shelf_noodle",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.7
+  },
+  "front": "E",
+  "runtime_approved": false,
+  "states": {
+    "FULL": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            540,
+            466
+          ],
+          "anchor_px": [
+            255.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_full_r0_body.png",
+            "products": "shelf_noodle_full_r0_products.png",
+            "shadow": "shelf_noodle_full_r0_shadow.png",
+            "composite": "shelf_noodle_full_r0_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              334.0
+            ],
+            [
+              383.0,
+              398.0
+            ],
+            [
+              255.0,
+              462.0
+            ],
+            [
+              127.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            334.0
+          ]
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            481
+          ],
+          "anchor_px": [
+            157.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_full_r1_body.png",
+            "products": "shelf_noodle_full_r1_products.png",
+            "shadow": "shelf_noodle_full_r1_shadow.png",
+            "composite": "shelf_noodle_full_r1_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              334.0
+            ],
+            [
+              285.0,
+              398.0
+            ],
+            [
+              157.0,
+              462.0
+            ],
+            [
+              29.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            334.0
+          ]
+        },
+        "2": {
+          "canvas_px": [
+            540,
+            466
+          ],
+          "anchor_px": [
+            255.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_full_r2_body.png",
+            "products": "shelf_noodle_full_r2_products.png",
+            "shadow": "shelf_noodle_full_r2_shadow.png",
+            "composite": "shelf_noodle_full_r2_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              334.0
+            ],
+            [
+              383.0,
+              398.0
+            ],
+            [
+              255.0,
+              462.0
+            ],
+            [
+              127.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            334.0
+          ]
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            481
+          ],
+          "anchor_px": [
+            157.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_full_r3_body.png",
+            "products": "shelf_noodle_full_r3_products.png",
+            "shadow": "shelf_noodle_full_r3_shadow.png",
+            "composite": "shelf_noodle_full_r3_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              334.0
+            ],
+            [
+              285.0,
+              398.0
+            ],
+            [
+              157.0,
+              462.0
+            ],
+            [
+              29.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            334.0
+          ]
+        }
+      }
+    },
+    "HALF": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            540,
+            466
+          ],
+          "anchor_px": [
+            255.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_half_r0_body.png",
+            "products": "shelf_noodle_half_r0_products.png",
+            "shadow": "shelf_noodle_half_r0_shadow.png",
+            "composite": "shelf_noodle_half_r0_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              334.0
+            ],
+            [
+              383.0,
+              398.0
+            ],
+            [
+              255.0,
+              462.0
+            ],
+            [
+              127.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            334.0
+          ]
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            481
+          ],
+          "anchor_px": [
+            157.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_half_r1_body.png",
+            "products": "shelf_noodle_half_r1_products.png",
+            "shadow": "shelf_noodle_half_r1_shadow.png",
+            "composite": "shelf_noodle_half_r1_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              334.0
+            ],
+            [
+              285.0,
+              398.0
+            ],
+            [
+              157.0,
+              462.0
+            ],
+            [
+              29.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            334.0
+          ]
+        },
+        "2": {
+          "canvas_px": [
+            540,
+            466
+          ],
+          "anchor_px": [
+            255.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_half_r2_body.png",
+            "products": "shelf_noodle_half_r2_products.png",
+            "shadow": "shelf_noodle_half_r2_shadow.png",
+            "composite": "shelf_noodle_half_r2_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              334.0
+            ],
+            [
+              383.0,
+              398.0
+            ],
+            [
+              255.0,
+              462.0
+            ],
+            [
+              127.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            334.0
+          ]
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            481
+          ],
+          "anchor_px": [
+            157.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_half_r3_body.png",
+            "products": "shelf_noodle_half_r3_products.png",
+            "shadow": "shelf_noodle_half_r3_shadow.png",
+            "composite": "shelf_noodle_half_r3_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              334.0
+            ],
+            [
+              285.0,
+              398.0
+            ],
+            [
+              157.0,
+              462.0
+            ],
+            [
+              29.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            334.0
+          ]
+        }
+      }
+    },
+    "EMPTY": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            540,
+            466
+          ],
+          "anchor_px": [
+            255.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_empty_r0_body.png",
+            "products": "shelf_noodle_empty_r0_products.png",
+            "shadow": "shelf_noodle_empty_r0_shadow.png",
+            "composite": "shelf_noodle_empty_r0_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              334.0
+            ],
+            [
+              383.0,
+              398.0
+            ],
+            [
+              255.0,
+              462.0
+            ],
+            [
+              127.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            334.0
+          ]
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            481
+          ],
+          "anchor_px": [
+            157.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_empty_r1_body.png",
+            "products": "shelf_noodle_empty_r1_products.png",
+            "shadow": "shelf_noodle_empty_r1_shadow.png",
+            "composite": "shelf_noodle_empty_r1_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              334.0
+            ],
+            [
+              285.0,
+              398.0
+            ],
+            [
+              157.0,
+              462.0
+            ],
+            [
+              29.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            334.0
+          ]
+        },
+        "2": {
+          "canvas_px": [
+            540,
+            466
+          ],
+          "anchor_px": [
+            255.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_empty_r2_body.png",
+            "products": "shelf_noodle_empty_r2_products.png",
+            "shadow": "shelf_noodle_empty_r2_shadow.png",
+            "composite": "shelf_noodle_empty_r2_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              255.0,
+              334.0
+            ],
+            [
+              383.0,
+              398.0
+            ],
+            [
+              255.0,
+              462.0
+            ],
+            [
+              127.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            255.0,
+            334.0
+          ]
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            481
+          ],
+          "anchor_px": [
+            157.0,
+            334.0
+          ],
+          "layers": {
+            "body": "shelf_noodle_empty_r3_body.png",
+            "products": "shelf_noodle_empty_r3_products.png",
+            "shadow": "shelf_noodle_empty_r3_shadow.png",
+            "composite": "shelf_noodle_empty_r3_composite.png"
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              334.0
+            ],
+            [
+              285.0,
+              398.0
+            ],
+            [
+              157.0,
+              462.0
+            ],
+            [
+              29.0,
+              398.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            334.0
+          ]
+        }
+      }
+    }
+  }
+}

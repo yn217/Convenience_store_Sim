@@ -1,0 +1,51 @@
+{
+  "fixture_type_id": "shelf_noodle",
+  "calibration": {
+    "status": "PASS",
+    "origin_px": [
+      800.0454990694485,
+      800.090998138897
+    ],
+    "markers": {
+      "marker_x": {
+        "observed_px": [
+          128.0,
+          64.0
+        ],
+        "expected_px": [
+          128.0,
+          64.0
+        ],
+        "tolerance_px": 1.0
+      },
+      "marker_y": {
+        "observed_px": [
+          -128.0,
+          64.0
+        ],
+        "expected_px": [
+          -128.0,
+          64.0
+        ],
+        "tolerance_px": 1.0
+      },
+      "marker_z": {
+        "observed_px": [
+          -0.05288724836225356,
+          -156.8843288098235
+        ],
+        "expected_px": [
+          0.0,
+          -156.76734354
+        ],
+        "tolerance_px": 2.0
+      }
+    }
+  },
+  "packaging_consistency": {
+    "image_layers_checked": 48,
+    "status": "PASS"
+  },
+  "runtime_approved": false,
+  "errors": []
+}

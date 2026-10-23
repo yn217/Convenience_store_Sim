@@ -1,0 +1,100 @@
+{
+  "issue": "#91",
+  "fixture_type_id": "shelf_noodle",
+  "renderer": "Blender 2.91.0 / BLENDER_EEVEE",
+  "source_generator": "tools/assets/render_shelf_inventory_states.py",
+  "crop_generator": "tools/assets/build_shelf_inventory_states.py",
+  "projection_id": "iso2x_v1",
+  "azimuth_deg": 45,
+  "elevation_deg": 30,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "physical_dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.7
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "front": "E",
+  "states": {
+    "FULL": "8 packages per shelf row",
+    "HALF": "4 packages per shelf row",
+    "EMPTY": "0 packages"
+  },
+  "rotations": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "calibration": {
+    "file": "calibration.png"
+  },
+  "origin_px": [
+    800.0,
+    800.0
+  ],
+  "calibration_measured": false,
+  "calibration_validation": "validation_report.json",
+  "runtime_approved": false,
+  "third_party_assets": false,
+  "notes": "This builder records the calibration chart and origin but does not measure it. Run validate_inventory_state_candidate.py; its separate report records measured projection offsets and layer consistency. Mesh silhouette and runtime rendering remain unverified.",
+  "sha256": {
+    "calibration.png": "ad79f97eefca0f5c8678b807206ceffe56287e474a7b973c3b27584c15d6195c",
+    "contact_sheet.png": "49a8049d8355049d1c96b6624f99184cbf87f96ff05c5a431786ca4aab838c17",
+    "manifest.json": "ef38b1ff76292299bd1358e8598b36b983397ae654ddbba37bbc7ffeba6b2bc9",
+    "shelf_noodle_empty_r0_body.png": "8c905426f7c92e8c5ddeabb3101f45cb59f200fdbbcb1335625fafe979a98ea2",
+    "shelf_noodle_empty_r0_composite.png": "ae383cedecb3cf84fdb4403015230918ec3849dd55fe944fc9d546c2a9ac074d",
+    "shelf_noodle_empty_r0_products.png": "0b277e3b7e0a9468494b7f5fdb2b5da3d57779bae1c5be71b216c3a1fc1098ab",
+    "shelf_noodle_empty_r0_shadow.png": "c3abc68209a115be905595289c976708146d6c2e8ece8d88cef61c949a9462c5",
+    "shelf_noodle_empty_r1_body.png": "3fd8f929dc7b362c9dccda5fe19e03344ec0b4d570e99f99a3edbf23b20d9724",
+    "shelf_noodle_empty_r1_composite.png": "9e5768c3f961c446790aec70ebb0f26541af9a88e6efb6d0cc6cbe4be401c11c",
+    "shelf_noodle_empty_r1_products.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r1_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_empty_r2_body.png": "18aea46281f1f67571f42cf1ef9101a951b4d6b9b01b101bc905136cbd2a440b",
+    "shelf_noodle_empty_r2_composite.png": "df8646da43ff361bd0a34c477c7763fa53d01565f5de38480fe730ef916c7558",
+    "shelf_noodle_empty_r2_products.png": "0b277e3b7e0a9468494b7f5fdb2b5da3d57779bae1c5be71b216c3a1fc1098ab",
+    "shelf_noodle_empty_r2_shadow.png": "c3abc68209a115be905595289c976708146d6c2e8ece8d88cef61c949a9462c5",
+    "shelf_noodle_empty_r3_body.png": "5eee6f183fec8c33158279fddc525dc0e4a8cf5c182f04636c6f8604e25ecc44",
+    "shelf_noodle_empty_r3_composite.png": "d8de383d0262b424d9deeb3e21f1e15acd374a5e42e52e9e388d0dbdc40201d8",
+    "shelf_noodle_empty_r3_products.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r3_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_full_r0_body.png": "8c905426f7c92e8c5ddeabb3101f45cb59f200fdbbcb1335625fafe979a98ea2",
+    "shelf_noodle_full_r0_composite.png": "04af32634bb28b0cb7c9a8f6efb0f8b93f19554ecfe5ae51eaf06b84fe7957f9",
+    "shelf_noodle_full_r0_products.png": "885b0064374fe84e25af4de78054e1b27d609daff2ade17b3224935d0ac4d3a5",
+    "shelf_noodle_full_r0_shadow.png": "c3abc68209a115be905595289c976708146d6c2e8ece8d88cef61c949a9462c5",
+    "shelf_noodle_full_r1_body.png": "3fd8f929dc7b362c9dccda5fe19e03344ec0b4d570e99f99a3edbf23b20d9724",
+    "shelf_noodle_full_r1_composite.png": "78630546061a50335f6ce964d6f5e43be3ee57fa28084830ebe76843144cd787",
+    "shelf_noodle_full_r1_products.png": "7d23fe044ce4fea5ab8a45033adff548083da4658aad5389683a3a93cb2fbdcb",
+    "shelf_noodle_full_r1_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_full_r2_body.png": "18aea46281f1f67571f42cf1ef9101a951b4d6b9b01b101bc905136cbd2a440b",
+    "shelf_noodle_full_r2_composite.png": "b73e2421d45e45df2326244a74b05d941c4af86f20e9147d27a3b57fe6e03355",
+    "shelf_noodle_full_r2_products.png": "8284494f3bb707b91135e492fcac76fbd362fda97c52b9a35efae7f56434fa0c",
+    "shelf_noodle_full_r2_shadow.png": "c3abc68209a115be905595289c976708146d6c2e8ece8d88cef61c949a9462c5",
+    "shelf_noodle_full_r3_body.png": "5eee6f183fec8c33158279fddc525dc0e4a8cf5c182f04636c6f8604e25ecc44",
+    "shelf_noodle_full_r3_composite.png": "3ca7736b35da1fffcdf3a7190dc01171acdc5341f3f18ac00ff1fb9e7133a00e",
+    "shelf_noodle_full_r3_products.png": "93166f0fffa11aa94bda3e288e06ad3f8702cfd5c75319d732f4cd4d9bc7e405",
+    "shelf_noodle_full_r3_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_half_r0_body.png": "8c905426f7c92e8c5ddeabb3101f45cb59f200fdbbcb1335625fafe979a98ea2",
+    "shelf_noodle_half_r0_composite.png": "1e2f9c40ec22c2ecdd8383c19b07d6d54a02221f1553786751671aad55dcf39f",
+    "shelf_noodle_half_r0_products.png": "8ea10534aa4593243eaebb29772acbf08c674d98c4ff2e7bbe7898c11251c953",
+    "shelf_noodle_half_r0_shadow.png": "c3abc68209a115be905595289c976708146d6c2e8ece8d88cef61c949a9462c5",
+    "shelf_noodle_half_r1_body.png": "3fd8f929dc7b362c9dccda5fe19e03344ec0b4d570e99f99a3edbf23b20d9724",
+    "shelf_noodle_half_r1_composite.png": "d3ebebde5b429ef051590eb6e12581813f9f81cc045833e4f8df9116e4736130",
+    "shelf_noodle_half_r1_products.png": "7de2c49716ca4d0d912ac0b34c416f0bd6f75a8438b409ecf36bc53bc384631b",
+    "shelf_noodle_half_r1_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_half_r2_body.png": "18aea46281f1f67571f42cf1ef9101a951b4d6b9b01b101bc905136cbd2a440b",
+    "shelf_noodle_half_r2_composite.png": "6ecadea7df893f5a775c92aa11e7e7a03f36d0d254fd8ace1a4927a7d77a8eef",
+    "shelf_noodle_half_r2_products.png": "473357e2e96c2f33ca24e664bc396fa3f14d72cf9e6122e652059d0df78bb6bd",
+    "shelf_noodle_half_r2_shadow.png": "c3abc68209a115be905595289c976708146d6c2e8ece8d88cef61c949a9462c5",
+    "shelf_noodle_half_r3_body.png": "5eee6f183fec8c33158279fddc525dc0e4a8cf5c182f04636c6f8604e25ecc44",
+    "shelf_noodle_half_r3_composite.png": "5870e7f259d44aee71645afb34378a7a19c48216ea9216bb3de58388f50c2b86",
+    "shelf_noodle_half_r3_products.png": "0ad650fecc82612282bb4e7029507091652b3a4239d03b864b468b173ee56689",
+    "shelf_noodle_half_r3_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f"
+  }
+}
