@@ -435,6 +435,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/curry_bread_warm_subagent_v01.png",
+      "sha256": "80331bf9e93e5a2d7a67d2044e3df2663c80484b7ef7cfdcc650372c0d244a46",
+      "bytes": 2338637
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/CUTOUT_PROVENANCE.json",
       "sha256": "4eb4714ad49839ff385a8d4b6c73849fbc51c09ac7a94fb0e9248d9c621a9ab2",
       "bytes": 2809
@@ -489,6 +495,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/drinks_dessert_bread_subagent_candidates_v01.provenance.json",
+      "sha256": "ea799dfe2c95eeb8a1d21803359fd2c6cf88332f714ed2d9e8a043fc9c5b9c06",
+      "bytes": 2058
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/frozen_daily_subagent_candidates_v01.provenance.json",
       "sha256": "8f9745344247a51b4e13cbe827e7599aa7610c29a95fd34aa122a98c761b880d",
       "bytes": 2111
@@ -504,6 +516,18 @@
       "path": "assets/source/textures/packages/frozen_gyoza_teal_subagent_v01.png",
       "sha256": "c4fbc2742a7064629f5d8861f9d4a83ec7858785c2927eb9d1984f01b76418f1",
       "bytes": 2337500
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/fruit_jelly_pink_subagent_v01.png",
+      "sha256": "daef581bd54cd9e115c103ac6a4f21cdf21425f8a3f7f84a6d89d73e03d203cb",
+      "bytes": 1584884
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/green_tea_jade_subagent_v01.png",
+      "sha256": "93f24a4db77c291e05dcd2a554080eb44633161612996129d68a56a7c328cdb3",
+      "bytes": 2057453
     },
     {
       "group": "packages",
@@ -630,6 +654,12 @@
       "path": "assets/source/textures/packages/snack_rice_cracker_subagent_v01.png",
       "sha256": "c7ac5594abca52177c191e7b9460e9d34e9283c7db37b9ef8a8530fa083c926d",
       "bytes": 2325475
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/strawberry_milk_pink_subagent_v01.png",
+      "sha256": "14ac71448a78eadf76731ee7ce625db005b2e66d37a832b069d323b1cbf0e502",
+      "bytes": 1720899
     },
     {
       "group": "packages",

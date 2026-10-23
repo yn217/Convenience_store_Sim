@@ -1,0 +1,17 @@
+{
+  "asset_family": "fictional_drink_dessert_bread_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Euler the 2nd and Bernoulli the 2nd",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single fictional Japanese convenience-store package, realistic 2.5D, front-oriented, transparent RGBA background, category-specific silhouette and palette, no real brand/trademark/logo/readable long text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"green_tea_jade_subagent_v01","source_file":"assets/source/textures/packages/green_tea_jade_subagent_v01.png","sha256":"93F24A4DB77C291E05DCD2A554080EB44633161612996129D68A56A7C328CDB3","category":"beverage / green tea","palette":"pale jade, green and amber","dimensions_px":[1024,1536]},
+    {"asset_id":"strawberry_milk_pink_subagent_v01","source_file":"assets/source/textures/packages/strawberry_milk_pink_subagent_v01.png","sha256":"14AC71448A78EADF76731EE7CE625DB005B2E66D37A832B069D323B1CBF0E502","category":"beverage / strawberry milk","palette":"soft pink, cream and red","dimensions_px":[1024,1536]},
+    {"asset_id":"curry_bread_warm_subagent_v01","source_file":"assets/source/textures/packages/curry_bread_warm_subagent_v01.png","sha256":"80331BF9E93E5A2D7A67D2044E3DF2663C80484B7EF7CFDCC650372C0D244A46","category":"bread / curry bread","palette":"warm yellow, orange and clear tray","dimensions_px":[1536,1024]},
+    {"asset_id":"fruit_jelly_pink_subagent_v01","source_file":"assets/source/textures/packages/fruit_jelly_pink_subagent_v01.png","sha256":"DAEF581BD54CD9E115C103AC6A4F21CDF21425F8A3F7F84A6D89D73E03D203CB","category":"dessert / fruit jelly cup","palette":"pink, magenta, green and transparent fruit","dimensions_px":[1330,1183]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only package PNGs. Slot overlay, normalized game scale, anchor, LOD, four-direction coverage and inventory linkage remain open."
+}
