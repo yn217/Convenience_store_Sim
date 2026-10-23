@@ -120,21 +120,21 @@ func test_failures_are_told_apart(t, tree) -> void:
 		seen[texts[k]] = true
 
 
-func test_everything_fits_1920x1080(t, tree) -> void:
+
+func test_overlay_sizes_fit_1920x1080(t, tree) -> void:
 	var r: Array = await _boot(tree, Vector2(1920, 1080))
 	var main: Control = r[1]
-	var inspector: Control = main.get_node("Layout/MainArea/FixtureInspector")
-	var palette: Control = main.get_node("Layout/MainArea/BuildPalette")
-	var area: Control = main.get_node("Layout/MainArea")
-	t.ok(main.get_combined_minimum_size().y <= 1080.0, "the whole screen needs no more than 1080 px (%s)" % str(main.get_combined_minimum_size().y))
-	t.ok(inspector.size.y <= 1080.0 - 64.0 + 1.0, "inspector height stays inside the window (%s)" % str(inspector.size.y))
-	t.ok(inspector.get_node("Scroll").vertical_scroll_mode != ScrollContainer.SCROLL_MODE_DISABLED, "long contents scroll instead of growing the window")
-	t.ok(palette.get_combined_minimum_size().y <= area.size.y, "palette fits the height")
-	t.eq(inspector.size.x, 320.0)
-	t.eq(palette.size.x, 280.0)
 	var hud: Control = main.get_node("Layout/TopHUD")
 	t.ok(hud.get_combined_minimum_size().x <= 1920.0, "HUD labels and speed buttons fit one row")
-	t.ok(main.get_node("Layout/MainArea/StoreViewport").size.x >= 1100.0, "the store view keeps most of the width (1920 - 200 nav - 280 - 320)")
+	t.eq(hud.size.y, 64.0, "HUD is 64 px tall")
+	main.toggle_build()
+	await tree.process_frame
+	var palette: Control = main.get_node("Layout/MainArea/BuildPalette")
+	t.ok(palette.get_combined_minimum_size().y <= main.get_node("Layout/MainArea").size.y, "palette fits the height in BUILD")
+	t.eq(palette.size.x, 280.0, "palette is 280 px in BUILD")
+	main.close_build()
+	var world: Control = main.get_node("Layout/MainArea/StoreViewport")
+	t.eq(world.size, main.get_viewport_rect().size, "the store world is the whole window")
 	r[0].queue_free()
 	await tree.process_frame
 
@@ -145,10 +145,13 @@ func test_panels_do_not_pass_clicks_to_the_store(t, tree) -> void:
 	var world: Node2D = r[2]
 	var app: Node = r[3]
 	# A real click on the palette area never reaches the SubViewport's input controller.
+	main.toggle_build()   # the palette only exists in BUILD mode now
+	await tree.process_frame
 	var palette: Control = main.get_node("Layout/MainArea/BuildPalette")
 	var inside := palette.get_global_rect().get_center()
 	var store: Control = main.get_node("Layout/MainArea/StoreViewport")
-	t.ok(not store.get_global_rect().has_point(inside), "the palette lies outside the store view")
+	t.eq(palette.mouse_filter, Control.MOUSE_FILTER_STOP, "the palette floats over the store and stops the mouse")
+	t.ok(store.get_global_rect().has_point(inside), "the store view is full-window underneath the palette")
 	var before: Vector2i = world.selected_tile
 	var press := InputEventMouseButton.new()
 	press.button_index = MOUSE_BUTTON_LEFT

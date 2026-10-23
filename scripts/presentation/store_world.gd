@@ -50,6 +50,9 @@ var selected_tile := NO_TILE
 var mode: Mode = Mode.OBSERVE
 ## True once the player zoomed/panned; resizing then keeps their view instead of refitting.
 var user_moved := false
+## Screen px the UI covers around the viewport (x = left rail, y = top HUD, z = right, w = bottom summary).
+## fit_view() centres the floor in what is left. Set by MainLayout; zero means the whole viewport.
+var safe_inset := Vector4.ZERO
 
 @onready var _selection: Node2D = $SelectionOverlay
 @onready var _fixture_view: Node2D = $ObjectSortRoot/FixturePresenter
@@ -120,7 +123,12 @@ func fit_view() -> void:
 	if store_width <= 0:
 		return
 	user_moved = false
-	projection.fit_floor(viewport_size(), store_width, store_height)
+	# The store fits the part of the viewport that the UI does not cover (safe_inset), so a refit never hides it
+	# under the HUD, rail or summary. Panels that open later overlay the store and do not move the camera.
+	var inset := safe_inset
+	var area := viewport_size() - Vector2(inset.x + inset.z, inset.y + inset.w)
+	projection.fit_floor(area, store_width, store_height)
+	projection.origin += Vector2(inset.x, inset.y)
 	_refresh()
 
 

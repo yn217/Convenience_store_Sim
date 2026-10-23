@@ -58,6 +58,11 @@ func _run() -> void:
 			var first: Dictionary = s.grid.instances[ids[0]]
 			world.select_screen(world.projection.tile_center(Vector2i(first["x"], first["y"])))
 			app._publish_snapshot()
+	for a in OS.get_cmdline_user_args():   # --build: build mode (palette at the left); --screen=商品: management window on that tab
+		if a == "--build":
+			main.call("toggle_build")
+		elif a.begins_with("--screen="):
+			main.call("open_screen_tab", a.trim_prefix("--screen="))
 	for a in OS.get_cmdline_user_args():   # --zoom=1.2: capture at that camera zoom (package icons, #12)
 		if a.begins_with("--zoom="):
 			var store: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")

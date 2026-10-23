@@ -1,25 +1,45 @@
 extends RefCounted
-## Issue #61 (GUI side): each inspector section is a Card whose content starts with its SectionTitle label.
+## Issue #61 (GUI side): each section is a Card whose content starts with its SectionTitle label. After the
+## redesign the selection cards stay in the inspector and the rest sit in the management window tabs.
+
+const TABS := ["商品", "経営", "データ", "設定"]
 
 
-func test_inspector_sections_are_cards(t, tree) -> void:
+func test_sections_are_cards_in_the_right_place(t, tree) -> void:
 	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
 	tree.root.add_child(main)
 	await tree.process_frame
 	await tree.process_frame
 	var body: Node = main.get_node("Layout/MainArea/FixtureInspector/Scroll/Body")
-	var cards := 0
 	var loose := 0
+	var selection_titles: Array = []
 	for c in body.get_children():
 		if c is PanelContainer and c.theme_type_variation == &"Card":
-			cards += 1
-			var column: Node = c.get_child(0)
-			var first: Node = column.get_child(0)
-			t.ok(first is Label and first.theme_type_variation == &"SectionTitle", "card %d starts with its section title" % cards)
+			selection_titles.append(_title_of(c))
 		else:
 			loose += 1
-	t.ok(cards >= 5, "section cards: %d" % cards)
 	t.eq(loose, 0, "the inspector body holds only cards")
+	t.eq(selection_titles, ["インスペクタ", "選択中の什器"], "inspector keeps only the selection cards")
+	var tab_cards := 0
+	var tabs: Node = main.find_child("ScreenTabs", true, false)
+	t.ok(tabs != null, "management window has tabs")
+	for tab in TABS:
+		var page: Node = tabs.get_node(tab + "/Body")
+		for c in page.get_children():
+			if c is PanelContainer and c.theme_type_variation == &"Card":
+				tab_cards += 1
+				var column: Node = c.get_child(0)
+				var first: Node = column.get_child(0)
+				t.ok(first is Label and first.theme_type_variation == &"SectionTitle", "%s card starts with its section title" % tab)
+	t.eq(tab_cards, 9, "nine cards are in the management tabs")
 	t.ok(main.find_child("MoveButton", true, false) != null, "nodes are still reachable by name")
 	main.queue_free()
 	await tree.process_frame
+
+
+func _title_of(card: Node) -> String:
+	var column: Node = card.get_child(0)
+	var first: Node = column.get_child(0)
+	if first is HBoxContainer:   # the heading row with the × button
+		first = first.get_child(0)
+	return (first as Label).text

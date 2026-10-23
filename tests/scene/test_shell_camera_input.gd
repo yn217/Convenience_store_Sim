@@ -187,6 +187,8 @@ func test_ui_panels_do_not_leak_input_to_the_store(t, tree) -> void:
 	t.eq(palette.mouse_filter, Control.MOUSE_FILTER_STOP, "palette stops mouse")
 	t.eq(hud.mouse_filter, Control.MOUSE_FILTER_STOP, "HUD stops mouse")
 	t.eq(main.get_node("Layout/MainArea/FixtureInspector").mouse_filter, Control.MOUSE_FILTER_STOP, "inspector stops mouse")
+	main.toggle_build()   # the palette is only shown in BUILD mode
+	await tree.process_frame
 	var z0: float = world.projection.zoom
 	var o0: Vector2 = world.projection.origin
 	# Positive control first: the same push path reaches the store through its container.
@@ -208,34 +210,6 @@ func test_ui_panels_do_not_leak_input_to_the_store(t, tree) -> void:
 	t.eq(world.selected_tile, NO_TILE, "clicks on UI panels never select a tile")
 	t.ok(world.projection.origin.distance_to(o0) < 1e9, "sanity")
 	r[0].queue_free()
-	await tree.process_frame
-
-
-func test_compact_layout_shows_one_side_panel(t, tree) -> void:
-	var r: Array = await _boot(tree, Vector2(1000, 700))
-	var main: Control = r[1]
-	var palette: Control = main.get_node("Layout/MainArea/BuildPalette")
-	var inspector: Control = main.get_node("Layout/MainArea/FixtureInspector")
-	var store: Control = main.get_node("Layout/MainArea/StoreViewport")
-	t.ok(main.is_compact(), "1000 px wide is compact")
-	t.ok(palette.visible and not inspector.visible, "palette first")
-	t.ok(main.get_node("Layout/TopHUD/Row/PaletteTab").visible, "tabs shown when compact")
-	t.ok(store.size.x >= 640.0, "store view keeps >= 640 px (%s)" % str(store.size.x))
-	main.show_compact_panel(main.SidePanel.INSPECTOR)
-	t.ok(inspector.visible and not palette.visible, "switch to inspector hides palette")
-	main.get_node("Layout/TopHUD/Row/PaletteTab").pressed.emit()
-	t.ok(palette.visible and not inspector.visible, "tab button switches back")
-	r[0].queue_free()
-	await tree.process_frame
-	var wide: Array = await _boot(tree, Vector2(1920, 1080))
-	var wm: Control = wide[1]
-	t.ok(not wm.is_compact(), "1920 px is not compact")
-	t.ok(wm.get_node("Layout/MainArea/BuildPalette").visible and wm.get_node("Layout/MainArea/FixtureInspector").visible, "both panels in wide layout")
-	t.ok(not wm.get_node("Layout/TopHUD/Row/PaletteTab").visible, "no tabs when wide")
-	t.eq(wm.get_node("Layout/TopHUD").size.y, 64.0, "HUD height 64")
-	t.eq(wm.get_node("Layout/MainArea/BuildPalette").size.x, 280.0, "palette 280 px")
-	t.eq(wm.get_node("Layout/MainArea/FixtureInspector").size.x, 320.0, "inspector 320 px")
-	wide[0].queue_free()
 	await tree.process_frame
 
 
