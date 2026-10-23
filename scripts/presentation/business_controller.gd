@@ -108,9 +108,7 @@ static func plan_summary_text(tiers: Array, tier_yen: int) -> String:
 			tier = t
 	var multiplier := float(tier.get("arrival_multiplier", 1.0))
 	var plan := "なし" if tier_yen <= 0 else GameHud.format_yen(tier_yen) + "/日"
-	return "プラン: %s
-広告費: %s
-効果予測: 来店 ×%.2f" % [plan, GameHud.format_yen(maxi(tier_yen, 0)), multiplier]
+	return "プラン: %s\n広告費: %s\n効果予測: 来店 ×%.2f" % [plan, GameHud.format_yen(maxi(tier_yen, 0)), multiplier]
 
 
 ## SCR-09: every opening condition with a mark, so a disabled button always says why.
