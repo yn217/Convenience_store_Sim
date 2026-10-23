@@ -85,6 +85,8 @@ func customer_view(c: Dictionary) -> Dictionary:
 const CUSTOMER_HEIGHT_M := 1.6
 const CUSTOMER_HALF_W_M := 0.16
 const CUSTOMER_COLOR := Color("3d6fb5")
+const FADE_ALPHA := 0.35
+const XRAY_ALPHA := 0.5
 
 
 ## The draw list in back-to-front order: {"kind": "fixture"|"customer", "rect": Rect2, ...}.
@@ -108,8 +110,55 @@ func compose() -> Array:
 	for c in _world.customers:
 		var shown: Vector2 = _pos.get(c["customer_id"], target_pos(c))
 		var cell := Vector2i(roundi(shown.x), roundi(shown.y))
-		items.append({"kind": "customer", "rect": DrawOrder.cell_rect(cell), "customer": c})
-	return DrawOrder.sorted(items)
+		items.append({"kind": "customer", "rect": DrawOrder.cell_rect(cell), "customer": c, "pos": shown})
+	var sorted := DrawOrder.sorted(items)
+	_mark_see_through(sorted)
+	return sorted
+
+
+## Things that stand in front of the selected fixture / customer and cover it are drawn translucent,
+## so what the player picked stays readable behind a tall case (#24).
+func _mark_see_through(items: Array) -> void:
+	var proj: IsoProjection = _world.projection
+	var rect := Rect2()
+	var bounds := Rect2()
+	var found := false
+	for it in items:
+		if it["kind"] == "fixture" and _world.selected_fixture_id() == it["inst"]["instance_id"]:
+			rect = it["rect"] if not found else rect.merge(it["rect"])
+			bounds = _fixture_bounds(proj, it) if not found else bounds.merge(_fixture_bounds(proj, it))
+			found = true
+		elif it["kind"] == "customer" and _world.selected_customer == it["customer"]["customer_id"]:
+			rect = it["rect"]
+			bounds = OverlayModel.customer_rect(proj, it["pos"])
+			found = true
+	if not found:
+		return
+	for it in items:
+		if it["kind"] != "fixture" or _world.selected_fixture_id() == it["inst"]["instance_id"]:
+			continue
+		if DrawOrder.is_behind(rect, it["rect"]) and _fixture_bounds(proj, it).intersects(bounds):
+			it["fade"] = true
+
+
+func _fixture_bounds(proj: IsoProjection, it: Dictionary) -> Rect2:
+	var cells := StoreGrid.footprint_cells(it["def"]["footprint"], it["inst"]["x"], it["inst"]["y"], it["inst"]["rotation"])
+	return OverlayModel.fixture_bounds(proj, cells, float(it["def"]["dimensions_m"]["height"]))
+
+
+## Customers hidden behind a fixture get a translucent copy on top (information / layout modes).
+func hidden_customers(items: Array) -> Array:
+	var out: Array = []
+	var proj: IsoProjection = _world.projection
+	for it in items:
+		if it["kind"] != "customer":
+			continue
+		var r := OverlayModel.customer_rect(proj, it["pos"])
+		for other in items:
+			if other["kind"] == "fixture" and DrawOrder.is_behind(it["rect"], other["rect"]) and _fixture_bounds(proj, other).intersects(r):
+				out.append(it)
+				break
+	return out
 
 
 func _draw() -> void:
@@ -117,7 +166,8 @@ func _draw() -> void:
 		return
 	var proj: IsoProjection = _world.projection
 	var boxes_done := {}
-	for it in compose():
+	var ordered := compose()
+	for it in ordered:
 		if it["kind"] == "customer":
 			_draw_customer(proj, it["customer"])
 			continue
@@ -127,10 +177,13 @@ func _draw() -> void:
 		elif not boxes_done.has(it["inst"]["instance_id"]):
 			boxes_done[it["inst"]["instance_id"]] = true   # the placeholder is one box, drawn with its first segment in order
 			_draw_box(proj, it)
+	if _world.overlay_mode != OverlayModel.Mode.NORMAL or _world.selected_customer != "":
+		for it in hidden_customers(ordered):
+			_draw_customer(proj, it["customer"], XRAY_ALPHA)
 
 
 ## Sprite person (#23); a plain bar stands in when the art is missing. Anchor = feet, shared by all frames.
-func _draw_customer(proj: IsoProjection, c: Dictionary) -> void:
+func _draw_customer(proj: IsoProjection, c: Dictionary, alpha: float = 1.0) -> void:
 	var view := customer_view(c)
 	var pos: Vector2 = view["pos"]
 	var sheet := _people.variant(view["variant"])
@@ -140,9 +193,10 @@ func _draw_customer(proj: IsoProjection, c: Dictionary) -> void:
 	var s := proj.zoom / IsoProjection.SOURCE_SCALE
 	var top_left := proj.sprite_top_left(proj.world_to_screen(pos.x, pos.y), sheet["anchor"])
 	var shadow: Texture2D = sheet["shadow"]
-	draw_texture_rect(shadow, Rect2(top_left, shadow.get_size() * s), false)
+	var tint := Color(1, 1, 1, alpha)
+	draw_texture_rect(shadow, Rect2(top_left, shadow.get_size() * s), false, tint)
 	var tex: Texture2D = sheet["frames"][view["facing"]][view["anim"]][view["frame"]]
-	draw_texture_rect(tex, Rect2(top_left, tex.get_size() * s), false)
+	draw_texture_rect(tex, Rect2(top_left, tex.get_size() * s), false, tint)
 
 
 func _draw_customer_bar(proj: IsoProjection, pos: Vector2) -> void:
@@ -185,26 +239,27 @@ func _draw_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary) -> voi
 	var top_left := proj.sprite_top_left(ground, entry["anchor"])
 	var s := proj.zoom / IsoProjection.SOURCE_SCALE
 	var strip := _strip(proj, it)
+	var tint := Color(1, 1, 1, FADE_ALPHA if it.get("fade", false) else 1.0)
 	var layers: Dictionary = entry["layers"]
 	for name in FixtureSprites.LAYER_ORDER_BELOW:
 		if layers.has(name):
-			_blit(layers[name], top_left, s, strip)
-	_draw_products(it, entry, top_left, s, proj.zoom, strip)
+			_blit(layers[name], top_left, s, strip, tint)
+	_draw_products(it, entry, top_left, s, proj.zoom, strip, tint.a)
 	for name in FixtureSprites.LAYER_ORDER_ABOVE:
 		if layers.has(name):
-			_blit(layers[name], top_left, s, strip)
+			_blit(layers[name], top_left, s, strip, tint)
 
 
-func _blit(tex: Texture2D, top_left: Vector2, s: float, strip: Vector2) -> void:
+func _blit(tex: Texture2D, top_left: Vector2, s: float, strip: Vector2, tint: Color = Color.WHITE) -> void:
 	var size := tex.get_size()
 	var u0 := clampf((strip.x - top_left.x) / s, 0.0, size.x)
 	var u1 := clampf((strip.y - top_left.x) / s, 0.0, size.x)
 	if u1 - u0 < 0.5:
 		return
-	draw_texture_rect_region(tex, Rect2(top_left + Vector2(u0 * s, 0.0), Vector2(u1 - u0, size.y) * s), Rect2(u0, 0.0, u1 - u0, size.y))
+	draw_texture_rect_region(tex, Rect2(top_left + Vector2(u0 * s, 0.0), Vector2(u1 - u0, size.y) * s), Rect2(u0, 0.0, u1 - u0, size.y), tint)
 
 
-func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: float, zoom: float, strip: Vector2) -> void:
+func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: float, zoom: float, strip: Vector2, alpha: float = 1.0) -> void:
 	var slots: Dictionary = entry["slots"]
 	if slots.is_empty():
 		return
@@ -228,8 +283,8 @@ func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 				continue   # belongs to another column segment
 			var half := ITEM_W * 0.5 * s
 			var r := Rect2(a - Vector2(half, ITEM_H * s), Vector2(ITEM_W * s, ITEM_H * s))
-			draw_rect(r, color)
-			draw_rect(r, color.darkened(0.45), false, 1.0)
+			draw_rect(r, Color(color, alpha))
+			draw_rect(r, Color(color.darkened(0.45), alpha), false, 1.0)
 
 
 func _anchor_count(slots: Dictionary, sid: String) -> int:

@@ -124,6 +124,18 @@ func today_summary() -> Dictionary:
 	return {"revenue_yen": revenue, "gross_profit_yen": revenue - cogs}
 
 
+## Units sold today per fixture id (SALE rows carry the fixture they were taken from).
+func fixture_sales_today() -> Dictionary:
+	var out := {}
+	for i in range(ledger.transactions.size() - 1, -1, -1):
+		var tx: Dictionary = ledger.transactions[i]
+		if int(tx["day_index"]) < day:
+			break
+		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "":
+			out[tx["details"]["fixture_id"]] = int(out.get(tx["details"]["fixture_id"], 0)) + int(tx["details"].get("qty", 1))
+	return out
+
+
 ## Achievements since the last call; the UI announces each one exactly once.
 func take_progression_events() -> Array[Dictionary]:
 	var out := progression_events.duplicate()
@@ -188,6 +200,7 @@ func snapshot() -> Dictionary:
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
+		"fixture_sales": fixture_sales_today(),
 	}
 
 

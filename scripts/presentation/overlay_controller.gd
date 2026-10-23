@@ -1,0 +1,69 @@
+class_name OverlayController
+extends Node
+## "表示" section of the inspector (#24): the three overlay modes, the list of objects stacked under the
+## last click (click again to reach the next one), and the selected customer. Pure view state: switching
+## modes never touches the game state, the selection or the build ghost.
+
+var _world: Node2D
+var _buttons: Dictionary = {}
+var _stack: Label
+var _customer: Label
+var _hint: Label
+
+@onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
+
+
+func _ready() -> void:
+	_world = get_node_or_null("../Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+	var title := Label.new()
+	title.text = "表示モード (O)"
+	title.add_theme_font_size_override("font_size", 20)
+	_body.add_child(title)
+	var row := HBoxContainer.new()
+	var group := ButtonGroup.new()
+	for m in OverlayModel.MODE_NAMES:
+		var b := Button.new()
+		b.text = OverlayModel.MODE_NAMES[m]
+		b.toggle_mode = true
+		b.button_group = group
+		b.focus_mode = Control.FOCUS_NONE
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		b.pressed.connect(func(): set_mode(m))
+		row.add_child(b)
+		_buttons[m] = b
+	_buttons[OverlayModel.Mode.NORMAL].button_pressed = true
+	_body.add_child(row)
+	_hint = Label.new()
+	_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_hint.text = "配置: グリッド・通れない場所・客側 / 情報: 在庫と本日の売れ数"
+	_body.add_child(_hint)
+	_stack = Label.new()
+	_stack.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_stack)
+	_customer = Label.new()
+	_customer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_customer)
+	if _world != null:
+		_world.overlay_changed.connect(func(m): _buttons[m].button_pressed = true)
+		_world.pick_candidates_changed.connect(show_stack)
+		_world.customer_selected.connect(func(_id): refresh_customer())
+
+
+func set_mode(m: int) -> void:
+	if _world != null:
+		_world.set_overlay_mode(m)
+
+
+func show_stack(labels: Array) -> void:
+	_stack.text = "" if labels.is_empty() else "重なっている対象（同じ場所をもう一度クリックで切替）\n" + "\n".join(labels)
+
+
+func refresh_customer() -> void:
+	if _world == null or _world.selected_customer == "":
+		_customer.text = ""
+		return
+	for c in _world.customers:
+		if c["customer_id"] == _world.selected_customer:
+			_customer.text = "選択中の客 %s\n状態: %s（%d, %d）" % [c["customer_id"], OverlayModel.phase_text(c["phase"]), c["tile"].x, c["tile"].y]
+			return
+	_customer.text = ""

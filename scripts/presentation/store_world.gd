@@ -12,6 +12,9 @@ signal delete_requested
 signal undo_requested
 signal redo_requested
 signal pause_toggle_requested
+signal overlay_changed(mode: int)
+signal customer_selected(customer_id: String)
+signal pick_candidates_changed(labels: Array)
 
 enum Mode { OBSERVE, PLACE, MOVE }
 
@@ -32,6 +35,12 @@ var fixture_catalog: FixtureCatalog
 var shelf_stock: Dictionary = {}
 var customers: Array = []
 var speed_setting: int = 0
+var fixture_sales: Dictionary = {}
+var overlay_mode: int = OverlayModel.Mode.NORMAL
+var selected_customer: String = ""
+## Click cycling over overlapping objects: where the last pick was and which candidate it chose.
+var _pick_pos := Vector2(-1e9, -1e9)
+var _pick_index := 0
 var projection := IsoProjection.new()
 var hover_tile := NO_TILE
 var selected_tile := NO_TILE
@@ -59,6 +68,10 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	shelf_stock = snapshot.get("shelf_stock", {})
 	customers = snapshot.get("customers", [])
 	speed_setting = int(snapshot.get("speed_setting", 0))
+	fixture_sales = snapshot.get("fixture_sales", {})
+	if selected_customer != "" and not customers.any(func(c): return c["customer_id"] == selected_customer):
+		selected_customer = ""
+		customer_selected.emit("")
 	if first or not in_store(selected_tile):
 		_set_selected(NO_TILE)
 	if first:
@@ -125,9 +138,103 @@ func primary_click(screen_pos: Vector2) -> void:
 	var c := projection.screen_to_tile(screen_pos)
 	var tile := c if in_store(c) else NO_TILE
 	if mode == Mode.OBSERVE:
-		_set_selected(tile)
+		_pick(screen_pos, tile)
 	elif tile != NO_TILE:
 		tile_clicked.emit(tile)
+
+
+## Everything under a screen point, frontmost first: customers, fixtures (by their visible outline,
+## so a tall case also catches clicks on the floor it hides), then the floor tile itself.
+## -> Array of {"kind": "customer"|"fixture"|"tile", "id": String, "tile": Vector2i, "label": String}
+func pick_candidates(screen_pos: Vector2) -> Array:
+	var out: Array = []
+	var seen := {}
+	if _fixture_view != null and fixture_catalog != null:
+		var ordered: Array = _fixture_view.compose()
+		ordered.reverse()
+		for it in ordered:
+			if it["kind"] == "customer":
+				if OverlayModel.customer_rect(projection, it["pos"]).has_point(screen_pos):
+					out.append({"kind": "customer", "id": it["customer"]["customer_id"], "tile": it["customer"]["tile"], "label": "客 " + it["customer"]["customer_id"]})
+				continue
+			var inst: Dictionary = it["inst"]
+			if seen.has(inst["instance_id"]):
+				continue
+			var cells := StoreGrid.footprint_cells(it["def"]["footprint"], inst["x"], inst["y"], inst["rotation"])
+			var poly := OverlayModel.hit_polygon(projection, cells, float(it["def"]["dimensions_m"]["height"]))
+			if Geometry2D.is_point_in_polygon(screen_pos, poly):
+				seen[inst["instance_id"]] = true
+				out.append({"kind": "fixture", "id": inst["instance_id"], "tile": Vector2i(inst["x"], inst["y"]), "label": it["def"]["display_name"]})
+	var floor_tile := projection.screen_to_tile(screen_pos)
+	if in_store(floor_tile):
+		out.append({"kind": "tile", "id": "", "tile": floor_tile, "label": "床 (%d, %d)" % [floor_tile.x, floor_tile.y]})
+	return out
+
+
+## Select the frontmost candidate; clicking again on the same spot moves on to the next one behind it.
+func _pick(screen_pos: Vector2, fallback_tile: Vector2i) -> void:
+	var cands := pick_candidates(screen_pos)
+	if cands.is_empty():
+		_pick_pos = Vector2(-1e9, -1e9)
+		_set_customer("")
+		_set_selected(fallback_tile)
+		pick_candidates_changed.emit([])
+		return
+	if screen_pos.distance_to(_pick_pos) <= 6.0:
+		_pick_index = (_pick_index + 1) % cands.size()
+	else:
+		_pick_index = 0
+	_pick_pos = screen_pos
+	var chosen: Dictionary = cands[_pick_index]
+	if chosen["kind"] == "customer":
+		_set_selected(NO_TILE)
+		_set_customer(chosen["id"])
+	else:
+		_set_customer("")
+		_set_selected(chosen["tile"])
+	var labels: Array = []
+	for i in cands.size():
+		labels.append(("▶ " if i == _pick_index else "　") + cands[i]["label"])
+	pick_candidates_changed.emit(labels if cands.size() > 1 else [])
+	_redraw_objects()
+
+
+func _set_customer(id: String) -> void:
+	if id == selected_customer:
+		return
+	selected_customer = id
+	customer_selected.emit(id)
+
+
+## The fixture instance whose footprint holds the selected tile, or "".
+func selected_fixture_id() -> String:
+	if selected_tile == NO_TILE or fixture_catalog == null:
+		return ""
+	for inst in fixtures:
+		var def: Dictionary = fixture_catalog.get_type(inst["type_id"])
+		if StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"]).has(selected_tile):
+			return inst["instance_id"]
+	return ""
+
+
+func set_overlay_mode(m: int) -> void:
+	if m == overlay_mode:
+		return
+	overlay_mode = m
+	overlay_changed.emit(m)
+	_redraw_objects()
+
+
+func cycle_overlay_mode() -> void:
+	set_overlay_mode((overlay_mode + 1) % OverlayModel.MODE_NAMES.size())
+
+
+func _redraw_objects() -> void:
+	if _fixture_view != null:
+		_fixture_view.queue_redraw()
+	var layer := get_node_or_null("OverlayLayer")
+	if layer != null:
+		layer.queue_redraw()
 
 
 func select_screen(screen_pos: Vector2) -> Vector2i:
@@ -145,7 +252,10 @@ func cancel() -> void:
 
 
 func clear_selection() -> void:
+	_set_customer("")
 	_set_selected(NO_TILE)
+	pick_candidates_changed.emit([])
+	_redraw_objects()
 
 
 func set_ghost(cells: Array[Vector2i], access: Array[Vector2i], valid: bool, queue: Array[Vector2i] = []) -> void:
@@ -204,8 +314,7 @@ func _refresh() -> void:
 			_selection.show_tile(projection.tile_diamond(hover_tile))
 		if not _ghost.is_empty():
 			set_ghost(_ghost["cells"], _ghost["access"], _ghost["valid"], _ghost["queue"])
-	if _fixture_view != null:
-		_fixture_view.queue_redraw()
+	_redraw_objects()
 	queue_redraw()
 
 

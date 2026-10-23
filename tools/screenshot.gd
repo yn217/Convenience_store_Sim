@@ -41,6 +41,9 @@ func _demo(main: Node, world: Node2D) -> void:
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("zoom="):
 			world.projection.set_zoom(float(a.substr(5)))
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("overlay="):
+			world.set_overlay_mode(int(a.substr(8)))
 	world.select_screen(world.projection.tile_center(Vector2i(6, 3)))
 	var bc := main.get_node("BuildController")
 	bc.begin_place("shelf_snack")

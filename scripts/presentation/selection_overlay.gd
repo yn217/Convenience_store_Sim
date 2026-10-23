@@ -63,6 +63,9 @@ func _draw() -> void:
 		_draw_diamond(poly, ACCESS_FILL, ACCESS_EDGE, 2.0)
 	for poly in ghost_cells:
 		_draw_diamond(poly, GHOST_OK if ghost_valid else GHOST_BAD, GHOST_OK.lightened(0.3) if ghost_valid else GHOST_BAD.lightened(0.3), 2.0)
+		if not ghost_valid and poly.size() >= 4:   # colour-blind safe: a cross, not only red
+			draw_line(poly[0], poly[2], Color(0.45, 0.05, 0.05), 3.0)
+			draw_line(poly[1], poly[3], Color(0.45, 0.05, 0.05), 3.0)
 	_draw_diamond(polygon, HOVER_FILL, HOVER_EDGE, 2.0)
 	_draw_diamond(selected_polygon, SELECT_FILL, SELECT_EDGE, 3.0)
 
