@@ -6,6 +6,8 @@ This board is a source-art candidate for the customer sprite work in Issue #23. 
 
 The equal-third crops are reproducible with `tools/art/split_customer_candidates.py` and are listed in `assets/source/textures/characters/CANDIDATE_CROPS.json`.
 
+A first transparent cutout pilot is stored at `assets/source/textures/characters/candidates/customer_casual_tote_cutout_v01.png` (1024x1536 RGBA). It is a source-art pilot, not a production sprite: scale, anchor, shadow, and direction consistency still require review.
+
 ## Prompt record
 
 `Create a clean game-asset concept comparison board for a realistic-leaning 2.5D isometric Japanese convenience-store simulation. Show three distinct fictional adult customer character variants standing separately on a neutral light background: (A) casual young adult with hoodie and tote bag, (B) office worker with neat shirt and shoulder bag, (C) older adult with cardigan and shopping basket. Each character should be shown in a consistent 3/4 isometric standing pose with clear feet contact, readable silhouette, modest natural proportions, soft studio lighting, muted convenience-store palette, no readable text, no logos, no copyrighted characters. Arrange as three equal columns with large spacing, front-facing toward camera, suitable as an art-direction reference board. Square 1024x1024 composition.`
