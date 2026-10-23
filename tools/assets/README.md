@@ -72,6 +72,7 @@ python tools/assets/build_products.py
 python tools/assets/validate_products.py
 python tools/assets/validate_provenance.py
 python tools/assets/compose_product_lod.py
+python tools/assets/audit_occlusion_contract.py
 ```
 
 `validate_products.py` checks the 8 shapes, RGBA 256×256 source canvases, four directions,
@@ -86,6 +87,10 @@ glass depth ordering (Issue #26), or a later fixture render that supplies explic
 body layers.
 `validate_provenance.py` checks the three ledger rows, referenced generator/manifest paths,
 and the JSON provenance manifests used for redistribution review.
+`audit_occlusion_contract.py` reports whether each fixture rotation has explicit
+`fixture_back`/`fixture_front` layers. Its default informational mode preserves the current
+pipeline; `--require-split` is the adoption gate for Issue #26 and intentionally fails until
+the generated fixtures expose those layers.
 
 ## Reproducibility and its limits
 
