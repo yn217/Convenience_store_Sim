@@ -9,6 +9,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bread_comparison_candidate_v01.png",
+      "sha256": "9864f0627b36b548efa1f8faa53405526723f5cd9350bddfd04d7c864932c849",
+      "bytes": 628038
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/lod/LOD_MANIFEST.json",
       "sha256": "6e8c9d6f840232c06ad0050744718ba5ab394635443b9e801580e2dfea06529f",
       "bytes": 4173
@@ -90,6 +96,18 @@
       "path": "assets/source/textures/packages/candidates/lod/VISUAL_LOD_MANIFEST.json",
       "sha256": "21133e2a967579ec01972c4b2bc666349551ba65b397888da2f3fe9790174ce9",
       "bytes": 3617
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/oden_bread_snack_candidates.json",
+      "sha256": "db5d5ea3b1069b2aa25675324e452f681a409fd59601b39ccbe87bad6c5f0123",
+      "bytes": 1503
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/oden_comparison_candidate_v01.png",
+      "sha256": "d4cabdcadc3a53db52d25015d9f7235b0ff4b7ac1b3650a6591a27dae9173df6",
+      "bytes": 659802
     },
     {
       "group": "packages",
@@ -198,6 +216,12 @@
       "path": "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v02.png",
       "sha256": "b6e190e2c77566dde28524cb4fcadf552f76862458b256a3e0aa7ae8e3225a06",
       "bytes": 1965353
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/snack_comparison_candidate_v01.png",
+      "sha256": "87aaf1ab2d7dc589f0c1683747c2118af570c52fc1c7b6fb18d36af25f814647",
+      "bytes": 706061
     },
     {
       "group": "packages",

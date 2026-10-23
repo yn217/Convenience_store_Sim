@@ -1,0 +1,57 @@
+{
+  "method": "Pillow lossless RGBA crop",
+  "source": "assets\\source\\textures\\packages\\oden_bread_snack_comparison_v01.png",
+  "candidates": [
+    {
+      "family": "oden",
+      "source": "assets\\source\\textures\\packages\\oden_bread_snack_comparison_v01.png",
+      "file": "assets\\source\\textures\\packages\\candidates\\oden_comparison_candidate_v01.png",
+      "crop_box": [
+        0,
+        0,
+        408,
+        1254
+      ],
+      "size": [
+        408,
+        1254
+      ],
+      "selection_status": "review-only",
+      "runtime_approved": false
+    },
+    {
+      "family": "bread",
+      "source": "assets\\source\\textures\\packages\\oden_bread_snack_comparison_v01.png",
+      "file": "assets\\source\\textures\\packages\\candidates\\bread_comparison_candidate_v01.png",
+      "crop_box": [
+        428,
+        0,
+        826,
+        1254
+      ],
+      "size": [
+        398,
+        1254
+      ],
+      "selection_status": "review-only",
+      "runtime_approved": false
+    },
+    {
+      "family": "snack",
+      "source": "assets\\source\\textures\\packages\\oden_bread_snack_comparison_v01.png",
+      "file": "assets\\source\\textures\\packages\\candidates\\snack_comparison_candidate_v01.png",
+      "crop_box": [
+        846,
+        0,
+        1254,
+        1254
+      ],
+      "size": [
+        408,
+        1254
+      ],
+      "selection_status": "review-only",
+      "runtime_approved": false
+    }
+  ]
+}
