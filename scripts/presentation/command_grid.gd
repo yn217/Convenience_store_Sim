@@ -17,6 +17,8 @@ const ACTIONS := [
 const BUTTON_SIZE := Vector2(160, 26)
 
 var _buttons: Dictionary = {}   # label -> Button
+var _column: VBoxContainer
+var _tabs: HBoxContainer
 
 
 func _ready() -> void:
@@ -26,18 +28,20 @@ func _ready() -> void:
 		box.content_margin_top = 6
 		box.content_margin_bottom = 6
 		add_theme_stylebox_override("panel", box)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 2)
-	add_child(column)
+	_column = VBoxContainer.new()
+	_column.add_theme_constant_override("separation", 2)
+	add_child(_column)
 	var tabs := HBoxContainer.new()
 	tabs.add_theme_constant_override("separation", 4)
-	column.add_child(tabs)
+	_tabs = tabs
+	_column.add_child(tabs)
 	for i in TABS.size():
 		var tab := Button.new()
 		tab.text = TABS[i]
 		tab.toggle_mode = true
 		tab.focus_mode = Control.FOCUS_NONE
 		tab.custom_minimum_size.y = BUTTON_SIZE.y
+		slim_button(tab)
 		tab.button_pressed = i == 0
 		if i == 0:
 			tab.pressed.connect(func(): tab.set_pressed_no_signal(true))   # the first tab stays selected
@@ -49,13 +53,14 @@ func _ready() -> void:
 	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 6)
 	grid.add_theme_constant_override("v_separation", 4)
-	column.add_child(grid)
+	_column.add_child(grid)
 	for a in ACTIONS:
 		var b := Button.new()
 		b.text = a["label"]
 		b.custom_minimum_size = BUTTON_SIZE
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.focus_mode = Control.FOCUS_NONE
+		slim_button(b)
 		if a.has("tip"):
 			b.disabled = true
 			b.tooltip_text = a["tip"]
@@ -66,6 +71,30 @@ func _ready() -> void:
 
 func button(label: String) -> Button:
 	return _buttons.get(label)
+
+
+## Makes a button short enough for the bottom row: smaller font and tighter top/bottom padding in every state.
+## The theme's default button is about 34 px tall; this brings it to about 24 px. Shared with CommandBar.
+static func slim_button(b: Button) -> void:
+	b.add_theme_font_size_override("font_size", 13)
+	for state in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
+		var base := b.get_theme_stylebox(state)
+		if base == null:
+			continue
+		var sb := base.duplicate() as StyleBox
+		sb.content_margin_top = 2
+		sb.content_margin_bottom = 2
+		b.add_theme_stylebox_override(state, sb)
+
+
+## Adds a control under the button grid, inside this panel (the command bar sits here). Call after the grid is in the tree.
+func attach_footer(node: Control) -> void:
+	_column.add_child(node)
+
+
+## Compact (narrow) layout: the decorative tab strip is hidden to save height.
+func set_compact(compact: bool) -> void:
+	_tabs.visible = not compact
 
 
 func _on_pressed(label: String) -> void:

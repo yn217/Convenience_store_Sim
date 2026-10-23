@@ -94,7 +94,7 @@ static func season_text(month: int) -> String:
 
 
 func apply_snapshot(s: Dictionary) -> void:
-	var metrics := get_node_or_null("../MetricBar")
+	var metrics: Node = find_parent("Layout").find_child("MetricBar", true, false) if find_parent("Layout") != null else null   # bottom row, inside Layout
 	if metrics != null:
 		metrics.apply_snapshot(s)
 	# FloatCards is a child of Main, one level above Layout (where this HUD lives).

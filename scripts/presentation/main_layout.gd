@@ -6,6 +6,7 @@ enum SidePanel { PALETTE, INSPECTOR }
 
 var compact_panel: SidePanel = SidePanel.PALETTE
 var _nav: LeftNav
+var _command_grid: CommandGrid
 
 @onready var _palette: Control = $Layout/MainArea/BuildPalette
 @onready var _inspector: Control = $Layout/MainArea/FixtureInspector
@@ -20,16 +21,22 @@ func _ready() -> void:
 	_nav = LeftNav.new()
 	$Layout/MainArea.add_child(_nav)
 	$Layout/MainArea.move_child(_nav, 0)
-	var bottom := HBoxContainer.new()   # command grid (left) and command bar (right) share one row
+	# One bottom row (mockup A, #61): the command panel (grid + command bar under it) on the left, the four
+	# metric cards filling the rest of the row. The row is about 130 px tall at 1080p.
+	var bottom := HBoxContainer.new()
 	bottom.name = "BottomRow"
 	bottom.add_theme_constant_override("separation", 12)
 	$Layout.add_child(bottom)
-	bottom.add_child(CommandGrid.new())
+	_command_grid = CommandGrid.new()
+	bottom.add_child(_command_grid)
 	var bar := CommandBar.new()
 	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER   # the bar keeps its own height; the grid sets the row height
-	bottom.add_child(bar)
-	$Layout.add_child(MetricBar.new())
+	bar.add_theme_stylebox_override("panel", StyleBoxEmpty.new())   # sits inside the grid panel, no second frame
+	_command_grid.attach_footer(bar)
+	var metrics := MetricBar.new()
+	metrics.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	metrics.size_flags_vertical = Control.SIZE_FILL
+	bottom.add_child(metrics)
 	var floats := FloatCards.new()
 	add_child(floats)
 	floats.setup(_store)
@@ -111,6 +118,8 @@ func apply_layout() -> void:
 		_nav.set_compact(compact)
 	_tab_palette.visible = compact
 	_tab_inspector.visible = compact
+	if _command_grid != null:
+		_command_grid.set_compact(compact)
 	_palette.visible = not compact or compact_panel == SidePanel.PALETTE
 	_inspector.visible = not compact or compact_panel == SidePanel.INSPECTOR
 
