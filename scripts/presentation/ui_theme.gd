@@ -10,6 +10,10 @@ const BRAND_BLUE := Color("226092")
 const TEXT_PRIMARY := Color("edf5fb")
 const TEXT_SECONDARY := Color("adc4d5")
 
+const WARM := Color("ffc873")
+const CARD := Color("1b3248")
+const RADIUS := 8
+
 const HUD_HEIGHT := 64
 const PALETTE_WIDTH := 280
 const INSPECTOR_WIDTH := 320
@@ -22,9 +26,23 @@ const FONT_HUD := 20
 static func build() -> Theme:
 	var theme := Theme.new()
 	theme.set_stylebox("panel", "PanelContainer", _box(PANEL))
-	theme.set_stylebox("normal", "Button", _box(PANEL_ELEVATED))
-	theme.set_stylebox("hover", "Button", _box(BRAND_BLUE))
-	theme.set_stylebox("pressed", "Button", _box(BRAND_BLUE))
+	theme.set_stylebox("disabled", "Button", _box(PANEL, 8))
+	var warm_hover := _box(PANEL_ELEVATED, 8)
+	warm_hover.border_color = WARM
+	theme.set_stylebox("hover", "Button", warm_hover)
+	theme.set_stylebox("normal", "Button", _box(PANEL_ELEVATED, 8))
+	theme.set_stylebox("pressed", "Button", _box(BRAND_BLUE, 8))
+	theme.add_type("Card")
+	theme.set_type_variation("Card", "PanelContainer")
+	theme.set_stylebox("panel", "Card", _box(CARD, RADIUS))
+	theme.add_type("CardTitle")
+	theme.set_type_variation("CardTitle", "Label")
+	theme.set_color("font_color", "CardTitle", TEXT_SECONDARY)
+	theme.set_font_size("font_size", "CardTitle", 13)
+	theme.add_type("CardValue")
+	theme.set_type_variation("CardValue", "Label")
+	theme.set_color("font_color", "CardValue", WARM)
+	theme.set_font_size("font_size", "CardValue", 24)
 	theme.set_color("font_color", "Label", TEXT_PRIMARY)
 	theme.set_color("font_color", "Button", TEXT_PRIMARY)
 	theme.set_font_size("font_size", "Label", FONT_BODY)
@@ -32,8 +50,9 @@ static func build() -> Theme:
 	return theme
 
 
-static func _box(color: Color) -> StyleBoxFlat:
+static func _box(color: Color, radius: int = 0) -> StyleBoxFlat:
 	var b := StyleBoxFlat.new()
+	b.set_corner_radius_all(radius)
 	b.bg_color = color
 	b.border_color = BORDER
 	b.set_border_width_all(1)
