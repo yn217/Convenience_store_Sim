@@ -1,0 +1,15 @@
+{
+  "asset_family": "shelf_pop_and_price_label_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagent Linnaeus",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Transparent PNG shelf POP and price label for a realistic 2.5D Japanese convenience-store game, compact and readable when reduced, fictional category design, no real chain/trademark/logo/barcode.",
+  "candidates": [
+    {"asset_id":"shelf_pop_citrus_subagent_v01","source_file":"assets/source/textures/pop/shelf_pop_citrus_subagent_v01.png","sha256":"0B61D18236860DA0C436F79116E493F5ED475CA74B2E1509DBAD8144847CE716","notes":"fictional citrus category POP, no text/logo/barcode"},
+    {"asset_id":"price_label_drink_subagent_v01","source_file":"assets/source/textures/pop/price_label_drink_subagent_v01.png","sha256":"2CDC934BA0D7A0425C6DE6E4D44F8D3EDB346FEB07AE9F8552BB51879F8AE68D","notes":"fictional beverage category price label with abstract price symbols"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only POP/label assets; text legibility, placement, and runtime inventory linkage remain open."
+}

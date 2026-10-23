@@ -572,6 +572,24 @@
       "bytes": 2047769
     },
     {
+      "group": "materials",
+      "path": "assets/source/textures/materials/shelf_metal_resin_edge_subagent_a_v01.png",
+      "sha256": "62e9c6058aae8206d26d96c285848dc8c67e0064ae13dd292446f7f106f3bfc2",
+      "bytes": 3414705
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/shelf_painted_resin_edge_subagent_b_v01.png",
+      "sha256": "610a0e2012d58e2bd1058c4797333962572d00814df26f3f8dd784ae92cbb4da",
+      "bytes": 2899860
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/shelf_surface_subagent_candidates_v01.provenance.json",
+      "sha256": "3f3b8d018c03bdecffba19e0183fecf39f7fd7c8ff14149e5e03b219241e2c7e",
+      "bytes": 1277
+    },
+    {
       "group": "pop",
       "path": "assets/source/textures/pop/candidate_a_neokira_subagent_v01.png",
       "sha256": "edea4073af9652aa780c4b98a33d2daa5c00848f60e9fd6fab98a475e745e0b0",
@@ -645,9 +663,27 @@
     },
     {
       "group": "pop",
+      "path": "assets/source/textures/pop/price_label_drink_subagent_v01.png",
+      "sha256": "2cdc934ba0d7a0425c6de6e4d44f8d3edb346feb07ae9f8552bb51879f8ae68d",
+      "bytes": 985205
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/shelf_pop_citrus_subagent_v01.png",
+      "sha256": "0b61d18236860da0c436f79116e493f5ed475ca74b2e1509dbad8144847ce716",
+      "bytes": 1851607
+    },
+    {
+      "group": "pop",
       "path": "assets/source/textures/pop/shelf_pop_comparison_v01.png",
       "sha256": "4b35563ee1aff46e1d84b17063c509be44c5bd8deb322ddfce427bf0d6dcc879",
       "bytes": 2216600
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/shelf_pop_price_label_subagent_candidates_v01.provenance.json",
+      "sha256": "d46dd13b70a57c0f1ea26f037a905a2caeafb351d31e82f21ef9a1c664b30ac8",
+      "bytes": 1233
     },
     {
       "group": "pop",

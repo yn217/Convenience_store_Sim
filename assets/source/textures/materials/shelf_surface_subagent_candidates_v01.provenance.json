@@ -1,0 +1,15 @@
+{
+  "asset_family": "shelf_surface_material_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagent Anscombe",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Close-up material texture for Japanese convenience-store shelf, metal shelf board and resin edge, realistic clean game texture, subtle wear, no text/logos/products/background objects/excessive reflection.",
+  "candidates": [
+    {"asset_id":"shelf_metal_resin_edge_subagent_a_v01","source_file":"assets/source/textures/materials/shelf_metal_resin_edge_subagent_a_v01.png","sha256":"62E9C6058AAE8206D26D96C285848DC8C67E0064AE13DD292446F7F106F3BFC2","notes":"galvanized light-gray metal and off-white resin edge"},
+    {"asset_id":"shelf_painted_resin_edge_subagent_b_v01","source_file":"assets/source/textures/materials/shelf_painted_resin_edge_subagent_b_v01.png","sha256":"610A0E2012D58E2BD1058C4797333962572D00814DF26F3F8DD784AE92CBB4DA","notes":"pale-gray painted metal and charcoal resin edge"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate texture sources only; tileability, UV mapping, fixture application, and runtime integration remain open."
+}
