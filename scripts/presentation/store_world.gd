@@ -19,8 +19,6 @@ signal pick_candidates_changed(labels: Array)
 enum Mode { OBSERVE, PLACE, MOVE }
 
 const NO_TILE := Vector2i(-1, -1)
-const FLOOR_A := Color(0.80, 0.80, 0.76)
-const FLOOR_B := Color(0.74, 0.74, 0.70)
 const WALL := Color(0.25, 0.25, 0.28)
 const DOOR := Color(0.25, 0.60, 0.85)
 const OUTSIDE := Color(0.55, 0.62, 0.50)
@@ -31,6 +29,8 @@ var store_height: int = 0
 var revision: int = -1
 var entrance_tiles: Array[Vector2i] = []
 var _floor_key: Array = []   # what the floor and walls were last drawn from (layout, camera, viewport)
+var _shadows: Array = []     # fixture contact shadows in world space, cached by _shadow_sig (layout signature)
+var _shadow_sig: Array = []
 var fixtures: Array = []
 var fixture_catalog: FixtureCatalog
 var shelf_stock: Dictionary = {}
@@ -64,7 +64,8 @@ func _ready() -> void:
 
 func apply_snapshot(snapshot: Dictionary) -> void:
 	var first := store_width <= 0
-	var floor_key := [int(snapshot["store_width"]), int(snapshot["store_height"]), snapshot.get("entrance_tiles", []), projection.origin, projection.zoom, viewport_size()]
+	var layout := FloorStyle.layout_signature(snapshot.get("fixtures", []))
+	var floor_key := [int(snapshot["store_width"]), int(snapshot["store_height"]), snapshot.get("entrance_tiles", []), layout, projection.origin, projection.zoom, viewport_size()]
 	var floor_changed := floor_key != _floor_key
 	_floor_key = floor_key
 	store_width = int(snapshot["store_width"])
@@ -74,6 +75,9 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	for t in snapshot.get("entrance_tiles", []):
 		entrance_tiles.append(t)
 	fixtures = snapshot.get("fixtures", [])
+	if layout != _shadow_sig and fixture_catalog != null:
+		_shadow_sig = layout
+		_shadows = FloorStyle.fixture_shadows(fixtures, fixture_catalog)
 	shelf_stock = snapshot.get("shelf_stock", {})
 	shelf_skus = snapshot.get("shelf_skus", {})
 	customers = snapshot.get("customers", [])
@@ -348,6 +352,8 @@ func _refresh_objects() -> void:
 	_redraw_objects()
 
 
+## Floor pass (issue #61): tiles, grout, sheen, wall occlusion, then fixture contact shadows, all under
+## the objects. Redrawn only when _floor_key changes (layout, camera or viewport), never per frame.
 func _draw() -> void:
 	if store_width <= 0:
 		return
@@ -355,7 +361,17 @@ func _draw() -> void:
 	for y in store_height:
 		for x in store_width:
 			var c := Vector2i(x, y)
-			draw_colored_polygon(projection.tile_diamond(c), FLOOR_A if (x + y) % 2 == 0 else FLOOR_B)
+			draw_colored_polygon(projection.tile_diamond(c), FloorStyle.tile_color(c, entrance_tiles))
+	draw_multiline(FloorStyle.grout_segments(projection, store_width, store_height), FloorStyle.GROUT, maxf(1.0, projection.zoom))
+	var s := FloorStyle.sheen(projection, store_width, store_height)
+	draw_polygon(s["points"], s["colors"])
+	for ao in FloorStyle.wall_ao(projection, store_width, store_height):
+		draw_polygon(ao["points"], ao["colors"])
+	for e in entrance_tiles:   # entrance mat: border inset on the mat tile
+		var inset := FloorStyle.tile_inset(projection, e)
+		inset.append(inset[0])
+		draw_polyline(inset, FloorStyle.MAT_INSET, maxf(1.0, projection.zoom))
+	FloorStyle.draw_shadows(self, projection, _shadows)
 	_draw_perimeter()
 
 
