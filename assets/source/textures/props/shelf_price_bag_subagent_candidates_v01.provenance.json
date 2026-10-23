@@ -1,0 +1,12 @@
+{
+  "assets": [
+    {"id": "shelf_price_strip_a", "file": "assets/source/textures/pop/shelf_price_strip_option_a_subagent_v01.png", "sha256": "59CCA2527AC98997831665734D6B1B3662FDCACC442F6F9C55C594A4B6893F8D"},
+    {"id": "shelf_price_strip_b", "file": "assets/source/textures/pop/shelf_price_strip_option_b_subagent_v01.png", "sha256": "CFA00006FA45A0917538409FF25AC7EDE6B5D6E2EF094D75E062B62043EA89F2"},
+    {"id": "checkout_paper_bag", "file": "assets/source/textures/props/checkout_paper_bag_subagent_v01.png", "sha256": "C33DDC567DE5AB7E744F6A71A2F337F26D0BB554D91D1438C8D42308C551EB0C"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Review candidates only. Verify text quality, dimensions, alpha edge, mounting, anchor, and Godot integration before adoption."
+}

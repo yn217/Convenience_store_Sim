@@ -597,6 +597,18 @@
     },
     {
       "group": "pop",
+      "path": "assets/source/textures/pop/shelf_price_strip_option_a_subagent_v01.png",
+      "sha256": "59cca2527ac98997831665734d6b1b3662fdcacc442f6f9c55c594a4b6893f8d",
+      "bytes": 1529376
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/shelf_price_strip_option_b_subagent_v01.png",
+      "sha256": "cfa00006fa45a0917538409ff25ac7ede6b5d6e2ef094d75e062b62043ea89f2",
+      "bytes": 1238150
+    },
+    {
+      "group": "pop",
       "path": "assets/source/textures/pop/subagent_pop_candidates_v01.provenance.json",
       "sha256": "9a254a5603915763cb2fb82bf982c20c1df0cb3283e89990be0852861fb6276f",
       "bytes": 715
