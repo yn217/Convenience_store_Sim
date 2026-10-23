@@ -66,6 +66,9 @@ func _run() -> void:
 		if a.begins_with("--hour="):
 			s.time_sec = int(float(a.trim_prefix("--hour=")) * 3600.0)
 			app._publish_snapshot()
+	if OS.get_cmdline_user_args().has("--live"):   # --live: keep the stocked, open store running (for recording video)
+		app.run_command({"command_id": "plive", "kind": &"SET_SPEED", "speed": 1})
+		return
 	for i in 30:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)
