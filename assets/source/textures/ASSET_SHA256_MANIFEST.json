@@ -45,6 +45,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/jelly_fruit_generated_cutout_v01.png",
+      "sha256": "6fa9f06218c3e46277410b436de5ba0b7d7b40f984f83257035a9e4e13049198",
+      "bytes": 2330256
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/lod/LOD_MANIFEST.json",
       "sha256": "6e8c9d6f840232c06ad0050744718ba5ab394635443b9e801580e2dfea06529f",
       "bytes": 4173
@@ -180,6 +186,18 @@
       "path": "assets/source/textures/packages/candidates/onigiri_generated_cutout_v01.provenance.json",
       "sha256": "3150ea97a9cdb610eabf600a6ad31b4ce21391032823209838c1c97a1d82a83b",
       "bytes": 658
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_jelly_subagent_candidates_v01.provenance.json",
+      "sha256": "677d13fda072a8e019b33be8523df72808c06c759e3069cef53871ff18e3186e",
+      "bytes": 851
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/onigiri_kombu_generated_cutout_v01.png",
+      "sha256": "3583ab0fe6bdc2b101a6cd0b7b37896c97b29c90689bb5fa25cc75e3e8efda2a",
+      "bytes": 1995088
     },
     {
       "group": "packages",
