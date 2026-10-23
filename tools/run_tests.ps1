@@ -24,6 +24,8 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 Write-Host '== asset pipeline (python: validator + unit tests) =='
 python (Join-Path $PSScriptRoot 'assets\validate_manifests.py') --dir (Join-Path $root 'assets\generated\fixtures') --catalog (Join-Path $root 'data\fixtures\mvp_v1.json')
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+python (Join-Path $PSScriptRoot 'assets\validate_customers.py') --dir (Join-Path $root 'assets\generated\characters')
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 python -m unittest discover -s (Join-Path $root 'tests\tools')
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 

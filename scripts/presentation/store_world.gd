@@ -31,6 +31,7 @@ var fixtures: Array = []
 var fixture_catalog: FixtureCatalog
 var shelf_stock: Dictionary = {}
 var customers: Array = []
+var speed_setting: int = 0
 var projection := IsoProjection.new()
 var hover_tile := NO_TILE
 var selected_tile := NO_TILE
@@ -57,6 +58,7 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	fixtures = snapshot.get("fixtures", [])
 	shelf_stock = snapshot.get("shelf_stock", {})
 	customers = snapshot.get("customers", [])
+	speed_setting = int(snapshot.get("speed_setting", 0))
 	if first or not in_store(selected_tile):
 		_set_selected(NO_TILE)
 	if first:

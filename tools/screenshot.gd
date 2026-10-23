@@ -35,8 +35,8 @@ func _demo(main: Node, world: Node2D) -> void:
 	_fake_stock(world)
 	# Customers around the shelf at (6,3) (1x2 along y): in front, behind, and past each end.
 	world.customers = [
-		{"customer_id": "c1", "tile": Vector2i(7, 3), "phase": "SELECT"}, {"customer_id": "c2", "tile": Vector2i(5, 4), "phase": "SELECT"},
-		{"customer_id": "c3", "tile": Vector2i(6, 5), "phase": "SELECT"}, {"customer_id": "c4", "tile": Vector2i(6, 2), "phase": "SELECT"},
+		{"customer_id": "cust_000001", "tile": Vector2i(7, 3), "phase": "SELECT"}, {"customer_id": "cust_000002", "tile": Vector2i(5, 4), "phase": "WALK_SHELF", "next": Vector2i(6, 4), "progress": 0.5},
+		{"customer_id": "cust_000003", "tile": Vector2i(6, 5), "phase": "QUEUE"}, {"customer_id": "cust_000004", "tile": Vector2i(6, 2), "phase": "WALK_REGISTER", "next": Vector2i(6, 1), "progress": 0.3},
 	]
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("zoom="):

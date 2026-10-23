@@ -71,3 +71,15 @@ Blender version may change pixels slightly (Eevee), which is why the gate uses t
 
 Final art quality (glass, materials, label rails) needs a human look (#9 reference assets).
 Product sprites are composed from slot anchors; they are not rendered per SKU.
+
+## Customer sprites (Issue #23)
+
+Same camera preset and light set as the fixtures; the figures are boxes posed in 3D (`figures.py`) and turned by quarter turns before rendering (no mirrored or rotated images).
+
+```powershell
+& $blender -b --python tools/assets/render_customers.py -- --out build/asset_raw_customers   # about 45 s, 3 variants x 4 facings x (walk 6 + idle 2 + inspect 4) frames
+python tools/assets/build_customers.py --raw build/asset_raw_customers --out assets/generated/characters
+python tools/assets/validate_customers.py        # part of tools\run_tests.ps1
+```
+
+All frames of a variant share one crop, one canvas and one anchor (the feet), so the feet never move between facings or frames. `validate_customers.py` re-measures the calibration image and checks the 14 §2 frame counts and rates, canvas/anchor, padding, body height against `height_m`, and ground contact. The body-height boxes are a stand-in for the AI/hand-made art of #12.

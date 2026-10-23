@@ -20,10 +20,66 @@ const ITEM_H := 30.0
 
 var _world: Node2D
 var _sprites := FixtureSprites.new()
+var _people := CustomerSprites.new()
+## Presentation-only state of the people shown (never saved, never read by the simulation):
+## smoothed tile position, last facing, and the animation clock in game seconds (frozen at speed 0).
+var _pos: Dictionary = {}
+var _facing: Dictionary = {}
+var anim_time: float = 0.0
 
 
 func _ready() -> void:
 	_world = get_parent().get_parent()
+
+
+func _process(delta: float) -> void:
+	if _world == null or _world.customers.is_empty() or _world.speed_setting <= 0:
+		return
+	var dt := delta * float(_world.speed_setting)
+	anim_time += dt
+	_sync_customers(dt)
+	queue_redraw()
+
+
+## Where the customer is aimed (tile units): the current tile moved toward the next path tile.
+static func target_pos(c: Dictionary) -> Vector2:
+	var t: Vector2i = c["tile"]
+	var n: Vector2i = c.get("next", t)
+	return Vector2(t) + Vector2(n - t) * float(c.get("progress", 0.0))
+
+
+## Eases the shown positions toward the simulation's and keeps each person's facing.
+func _sync_customers(dt: float) -> void:
+	var alive := {}
+	for c in _world.customers:
+		var id: String = c["customer_id"]
+		alive[id] = true
+		var target := target_pos(c)
+		if not _pos.has(id) or (_pos[id] as Vector2).distance_to(target) > 2.5:
+			_pos[id] = target
+			if not _facing.has(id):
+				_facing[id] = CustomerSprites.facing_for(Vector2(c.get("next", c["tile"]) - c["tile"]), CustomerSprites.FACING_E)
+		else:
+			var old: Vector2 = _pos[id]
+			var now := old.lerp(target, 1.0 - exp(-dt * 3.0))
+			_facing[id] = CustomerSprites.facing_for(target - old, int(_facing.get(id, CustomerSprites.FACING_E)))
+			_pos[id] = now
+	for id in _pos.keys():
+		if not alive.has(id):
+			_pos.erase(id)
+			_facing.erase(id)
+
+
+## What is drawn for a customer now: {"pos", "facing", "anim", "frame", "variant"}.
+func customer_view(c: Dictionary) -> Dictionary:
+	var id: String = c["customer_id"]
+	var anim := CustomerSprites.anim_for(c["phase"])
+	var variant_id := CustomerSprites.variant_for(id)
+	var sheet := _people.variant(variant_id)
+	var frame := 0
+	if not sheet.is_empty():
+		frame = CustomerSprites.frame_index(sheet["animations"][anim], anim_time + float(id.hash() % 7) * 0.37)
+	return {"pos": _pos.get(id, target_pos(c)), "facing": int(_facing.get(id, CustomerSprites.FACING_E)), "anim": anim, "frame": frame, "variant": variant_id}
 
 
 const CUSTOMER_HEIGHT_M := 1.6
@@ -48,8 +104,11 @@ func compose() -> Array:
 				"kind": "fixture", "rect": segs[k]["rect"], "inst": inst, "def": def, "lo": lo, "hi": hi,
 				"column": segs[k]["column"], "first": k == 0, "last": k == segs.size() - 1,
 			})
+	_sync_customers(0.0)
 	for c in _world.customers:
-		items.append({"kind": "customer", "rect": DrawOrder.cell_rect(c["tile"]), "customer": c})
+		var shown: Vector2 = _pos.get(c["customer_id"], target_pos(c))
+		var cell := Vector2i(roundi(shown.x), roundi(shown.y))
+		items.append({"kind": "customer", "rect": DrawOrder.cell_rect(cell), "customer": c})
 	return DrawOrder.sorted(items)
 
 
@@ -70,13 +129,27 @@ func _draw() -> void:
 			_draw_box(proj, it)
 
 
-## Placeholder person until the customer sprites arrive (#23): shadow ellipse and a body bar.
+## Sprite person (#23); a plain bar stands in when the art is missing. Anchor = feet, shared by all frames.
 func _draw_customer(proj: IsoProjection, c: Dictionary) -> void:
-	var t: Vector2i = c["tile"]
-	var foot := proj.world_to_screen(t.x, t.y)
+	var view := customer_view(c)
+	var pos: Vector2 = view["pos"]
+	var sheet := _people.variant(view["variant"])
+	if sheet.is_empty():
+		_draw_customer_bar(proj, pos)
+		return
+	var s := proj.zoom / IsoProjection.SOURCE_SCALE
+	var top_left := proj.sprite_top_left(proj.world_to_screen(pos.x, pos.y), sheet["anchor"])
+	var shadow: Texture2D = sheet["shadow"]
+	draw_texture_rect(shadow, Rect2(top_left, shadow.get_size() * s), false)
+	var tex: Texture2D = sheet["frames"][view["facing"]][view["anim"]][view["frame"]]
+	draw_texture_rect(tex, Rect2(top_left, tex.get_size() * s), false)
+
+
+func _draw_customer_bar(proj: IsoProjection, pos: Vector2) -> void:
+	var foot := proj.world_to_screen(pos.x, pos.y)
 	var hw := CUSTOMER_HALF_W_M * IsoProjection.HALF_TILE_W * proj.zoom
 	draw_colored_polygon(_ellipse(foot, hw * 1.6, hw * 0.8), Color(0, 0, 0, 0.25))
-	var top := proj.world_to_screen(t.x, t.y, CUSTOMER_HEIGHT_M)
+	var top := proj.world_to_screen(pos.x, pos.y, CUSTOMER_HEIGHT_M)
 	var body := Rect2(Vector2(foot.x - hw, top.y), Vector2(hw * 2.0, foot.y - top.y))
 	draw_rect(body, CUSTOMER_COLOR)
 	draw_rect(body, CUSTOMER_COLOR.darkened(0.5), false, 1.0)

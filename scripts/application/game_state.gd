@@ -214,5 +214,9 @@ func _shelf_skus() -> Dictionary:
 func _customer_views() -> Array:
 	var out: Array = []
 	for c in customers:
-		out.append({"customer_id": c["customer_id"], "tile": c["tile"], "phase": c["phase"]})
+		var path: Array = c.get("path", [])
+		out.append({
+			"customer_id": c["customer_id"], "tile": c["tile"], "phase": c["phase"],
+			"next": path[0] if not path.is_empty() else c["tile"], "progress": float(c.get("progress", 0.0)) if not path.is_empty() else 0.0,
+		})
 	return out
