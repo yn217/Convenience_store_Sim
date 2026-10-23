@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/presentation/store_world.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/presentation/light_glow.gd" id="7"]
 [ext_resource type="Script" path="res://scripts/presentation/selection_overlay.gd" id="2"]
 [ext_resource type="Script" path="res://scripts/presentation/ui_input_controller.gd" id="3"]
 [ext_resource type="Script" path="res://scripts/presentation/fixture_presenter.gd" id="4"]
@@ -19,6 +20,9 @@ y_sort_enabled = true
 
 [node name="FixturePresenter" type="Node2D" parent="ObjectSortRoot"]
 script = ExtResource("4")
+
+[node name="LightGlow" type="Node2D" parent="."]
+script = ExtResource("7")
 
 [node name="OverlayLayer" type="Node2D" parent="."]
 script = ExtResource("5")
