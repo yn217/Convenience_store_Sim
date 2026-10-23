@@ -19,7 +19,14 @@ func _ready() -> void:
 	var nav := LeftNav.new()
 	$Layout/MainArea.add_child(nav)
 	$Layout/MainArea.move_child(nav, 0)
-	$Layout.add_child(CommandBar.new())
+	var bottom := HBoxContainer.new()   # command grid (left) and command bar (right) share one row
+	bottom.name = "BottomRow"
+	bottom.add_theme_constant_override("separation", 12)
+	$Layout.add_child(bottom)
+	bottom.add_child(CommandGrid.new())
+	var bar := CommandBar.new()
+	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bottom.add_child(bar)
 	$Layout.add_child(MetricBar.new())
 	var floats := FloatCards.new()
 	add_child(floats)
