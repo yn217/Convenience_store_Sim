@@ -84,8 +84,7 @@ func _draw() -> void:
 		var where := _customer_head(presenter, m["customer_id"])
 		if where != Vector2.ZERO:
 			if m["kind"] == "pick":
-				draw_rect(Rect2(where + Vector2(-6, -20), Vector2(12, 12)), Color("e8a87c"))
-				draw_rect(Rect2(where + Vector2(-6, -20), Vector2(12, 12)), Color(0, 0, 0, 0.6), false, 1.5)
+				_draw_pick_bubble(font, where, m)
 			else:
 				draw_string_outline(font, where + Vector2(-8, -8), "×", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, 4, Color(0, 0, 0, 0.8))
 				draw_string(font, where + Vector2(-8, -8), "×", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("ff8a80"))
@@ -127,6 +126,23 @@ func _draw_toasts(font: Font, size: Vector2) -> void:
 		if level == "error":
 			_toast_hits.append({"rect": Rect2(Vector2(right - w, y), Vector2(w, h)), "item": t})
 		y += h + TOAST_GAP
+
+
+## Pick cue: a small bubble over the head with the item's category icon and a tiny "+かご" that rises and fades.
+## It is only the reservation moment (not a sale): the sale pop-up is drawn at the register on SALE_COMMITTED.
+func _draw_pick_bubble(font: Font, where: Vector2, m: Dictionary) -> void:
+	var ttl := maxf(float(m["ttl"]), 0.01)
+	var k := clampf(float(m["age"]) / ttl, 0.0, 1.0)
+	var alpha := 1.0 if _player.reduce_motion else 1.0 - k * 0.6
+	var box := Rect2(where + Vector2(-14, -50), Vector2(28, 28))
+	draw_rect(box, Color(1, 1, 1, 0.95 * alpha))
+	draw_rect(box, Color(0, 0, 0, 0.6 * alpha), false, 1.5)
+	var sku: Dictionary = _world.product_catalog.get_sku(String(m.get("sku_id", ""))) if _world.product_catalog != null else {}
+	if not sku.is_empty():
+		draw_texture_rect(ProductIcons.texture(sku, 24), Rect2(box.position + Vector2(2, 2), Vector2(24, 24)), false, Color(1, 1, 1, alpha))
+	var at := where + Vector2(18, -40 - (0.0 if _player.reduce_motion else 10.0 * k))
+	draw_string_outline(font, at, "+かご", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0, 0, 0, 0.8 * alpha))
+	draw_string(font, at, "+かご", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.7, 1.0, 0.75, alpha))
 
 
 ## Sales pop-ups: one "+¥" per register, rising and fading over its 0.8 s. Under reduce_motion it stays still.

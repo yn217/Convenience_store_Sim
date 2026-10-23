@@ -73,19 +73,30 @@ func _trim() -> void:
 
 ## One pop-up per register in `sales`: a sale within SALE_MERGE_SECONDS of the pop-up's start adds to it
 ## (+¥450 ×2); a later sale replaces it. Returns the pop-up that now shows the sale.
-static func add_sale(sales: Array, register_id: String, yen: int) -> Dictionary:
+## `product` is the sold item's name ("" when unknown): one sale reads "<商品名> ¥<price>"; merged sales of the
+## same item keep the name, mixed ones fall back to the total "+¥total ×n".
+static func add_sale(sales: Array, register_id: String, yen: int, product: String = "") -> Dictionary:
 	for sale in sales:
 		if sale["register_id"] == register_id:
 			if float(sale["age"]) < SALE_MERGE_SECONDS:
 				sale["yen"] = int(sale["yen"]) + yen
 				sale["count"] = int(sale["count"]) + 1
-				sale["text"] = sale_text(int(sale["yen"]), int(sale["count"]))
+				sale["product"] = sale["product"] if sale["product"] == product else ""
+				sale["text"] = sale_label(int(sale["yen"]), int(sale["count"]), String(sale["product"]))
 				return sale
 			sales.erase(sale)
 			break
-	var fresh := {"register_id": register_id, "yen": yen, "count": 1, "text": sale_text(yen, 1), "age": 0.0, "ttl": SALE_TTL}
+	var fresh := {"register_id": register_id, "yen": yen, "count": 1, "product": product, "text": sale_label(yen, 1, product), "age": 0.0, "ttl": SALE_TTL}
 	sales.append(fresh)
 	return fresh
+
+
+static func sale_label(yen: int, count: int, product: String) -> String:
+	if count == 1 and product != "":
+		return "%s %s" % [product, GameHud.format_yen(yen)]
+	if count > 1 and product != "":
+		return "%s %s ×%d" % [product, GameHud.format_yen(yen), count]
+	return sale_text(yen, count)
 
 
 static func sale_text(yen: int, count: int) -> String:

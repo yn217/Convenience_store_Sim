@@ -38,6 +38,7 @@ var shelf_stock: Dictionary = {}
 var shelf_skus: Dictionary = {}          # {fixture_id: {slot_id: sku_id}} from the snapshot
 var product_catalog: ProductCatalog      # SKU lookup for the package icons (set by the app)
 var customers: Array = []
+var checkout_duration_sec: int = 0       # game seconds per checkout (balance), for the queue estimate
 var speed_setting: int = 0
 var fixture_sales: Dictionary = {}
 var overlay_mode: int = OverlayModel.Mode.NORMAL
@@ -103,6 +104,7 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	shelf_stock = snapshot.get("shelf_stock", {})
 	shelf_skus = snapshot.get("shelf_skus", {})
 	customers = snapshot.get("customers", [])
+	checkout_duration_sec = int(snapshot.get("checkout_duration_sec", 0))
 	speed_setting = int(snapshot.get("speed_setting", 0))
 	fixture_sales = snapshot.get("fixture_sales", {})
 	var tint := get_node_or_null("TimeTint")

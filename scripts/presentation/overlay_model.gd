@@ -79,3 +79,65 @@ static func fixture_bounds(proj: IsoProjection, cells: Array[Vector2i], height_m
 
 static func phase_text(phase: String) -> String:
 	return PHASE_TEXT.get(phase, phase)
+
+
+## What the selected customer is doing now, in Japanese, from its phase and targets (read-only snapshot fields).
+## `fixture_name` is the display name of the shelf it is heading to or picked from ("" when unknown).
+static func customer_action(c: Dictionary, fixture_name: String) -> String:
+	var shelf := fixture_name if fixture_name != "" else "棚"
+	match String(c.get("phase", "")):
+		"SELECT":
+			return "商品を選択中"
+		"WALK_SHELF":
+			return "%sへ移動中" % shelf
+		"WALK_REGISTER":
+			return "レジへ移動中"
+		"WAIT_QUEUE":
+			return "会計待ち（列の空きを待ち中）"
+		"QUEUE":
+			return "会計待ち (%d番目)" % (int(c.get("queue_slot", 0)) + 1)
+		"CHECKOUT":
+			return "会計中"
+		"EXIT":
+			return "退店中"
+	return String(c.get("phase", ""))
+
+
+## Per register: {"waiting": customers in line (walking to it, in its queue, or waiting for a slot),
+## "checkout": customers at the till, "left": game seconds left of the current checkout}. Counted from the
+## snapshot's customer views only; nothing is stored.
+static func register_queues(customers: Array) -> Dictionary:
+	var out := {}
+	for c in customers:
+		var reg := String(c.get("register_id", ""))
+		if reg == "":
+			continue
+		var phase := String(c.get("phase", ""))
+		if not out.has(reg):
+			out[reg] = {"waiting": 0, "checkout": 0, "left": 0}
+		if phase == "CHECKOUT":
+			out[reg]["checkout"] = int(out[reg]["checkout"]) + 1
+			out[reg]["left"] = int(c.get("checkout_left", 0))
+		elif phase == "WAIT_QUEUE" or phase == "WALK_REGISTER" or phase == "QUEUE":
+			out[reg]["waiting"] = int(out[reg]["waiting"]) + 1
+	return out
+
+
+## Estimated minutes until a newly joined customer is served: the current checkout's time left plus one full
+## checkout per customer already in line. Returns -1 when it cannot be stated (no checkout duration in the model).
+static func estimated_wait_minutes(q: Dictionary, checkout_duration_sec: int) -> int:
+	if checkout_duration_sec <= 0:
+		return -1
+	var sec := int(q.get("left", 0)) + int(q.get("waiting", 0)) * checkout_duration_sec
+	return 0 if sec <= 0 else ceili(float(sec) / 60.0)
+
+
+static func queue_badge_text(waiting: int) -> String:
+	return "レジ待ち %d人" % waiting
+
+
+static func register_info_text(q: Dictionary, est_minutes: int) -> String:
+	var text := "■ レジ 待ち%d・会計中%d" % [int(q.get("waiting", 0)), int(q.get("checkout", 0))]
+	if est_minutes >= 0 and int(q.get("waiting", 0)) + int(q.get("checkout", 0)) > 0:
+		text += " 目安 約%d分" % maxi(est_minutes, 1)
+	return text
