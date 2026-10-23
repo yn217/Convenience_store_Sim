@@ -573,6 +573,18 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/clerk_customer_subagent_candidates_v01.provenance.json",
+      "sha256": "ec5771edc84772cffd1acdbb6de3ae3afe6d9e07d45d1bc13e82e10ac455afc9",
+      "bytes": 802
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/clerk_generated_cutout_v01.png",
+      "sha256": "01eaa4f965091f275a9410a4c3782a12608e2fa7e93cb78aab38515d5f90e628",
+      "bytes": 1338582
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/candidates/customer_casual_tote_candidate_v01.png",
       "sha256": "dc15d4c9546391a5eec1cf3d7a40d98d6dc84a2f9ca0c7d81a5cb6d5f7dfd8ed",
       "bytes": 722715
@@ -582,6 +594,12 @@
       "path": "assets/source/textures/characters/candidates/customer_casual_tote_cutout_v01.png",
       "sha256": "85faeb59d6e968f0502d30a03bcc8d0453952bb86b7eb9180db1395fe8fd7c56",
       "bytes": 1952958
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/customer_generated_cutout_v01.png",
+      "sha256": "358bc927273fa1e04395ec85a7189e84773fd91c09de7f02e312b0c09545814d",
+      "bytes": 1725523
     },
     {
       "group": "characters",

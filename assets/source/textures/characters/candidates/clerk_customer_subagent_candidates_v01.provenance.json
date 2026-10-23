@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"id": "clerk", "file": "assets/source/textures/characters/candidates/clerk_generated_cutout_v01.png", "sha256": "01EAA4F965091F275A9410A4C3782A12608E2FA7E93CB78AAB38515D5F90E628"},
+    {"id": "customer", "file": "assets/source/textures/characters/candidates/customer_generated_cutout_v01.png", "sha256": "358BC927273FA1E04395EC85A7189E84773FD91C09DE7F02E312B0C09545814D"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "needs_human_review",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Character candidates only. Verify alpha edges, common scale, foot contact, anchor, four directions, animation, occlusion, and Godot integration before adoption."
+}
