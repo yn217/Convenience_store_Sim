@@ -447,6 +447,12 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/source_1024/customer_casual_tote_cutout_cleaned_v01.png",
+      "sha256": "06305e4eda7caf0c62999fe4264bbdd447529bb9099c2f7e68a9bec922bbe80a",
+      "bytes": 1039592
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/candidates/source_1024/customer_casual_tote_cutout_source1024_v01.png",
       "sha256": "cd2ac3fe8c9a458a3dbe9b436b4fb67b1b17a22df4f91e6d0eeed1db39460db2",
       "bytes": 1046653
