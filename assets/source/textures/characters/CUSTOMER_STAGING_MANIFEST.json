@@ -21,7 +21,17 @@
       "anchor_px": null,
       "sorting_anchor_px": null,
       "runtime_approved": false,
-      "selection_status": "needs_human_review"
+      "selection_status": "needs_human_review",
+      "derived_candidates": [
+        {
+          "path": "candidates/source_1024/customer_casual_tote_cutout_cleaned_v01.png",
+          "sha256": "06305e4eda7caf0c62999fe4264bbdd447529bb9099c2f7e68a9bec922bbe80a",
+          "method": "tools/art/clean_customer_alpha_candidate.py",
+          "input": "candidates/customer_casual_tote_cutout_v01.png",
+          "runtime_approved": false,
+          "selection_status": "needs_human_review"
+        }
+      ]
     },
     {
       "variant_id": "customer_002",

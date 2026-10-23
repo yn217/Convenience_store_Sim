@@ -19,7 +19,7 @@ def main() -> None:
             bbox = alpha.getbbox()
             bottom_rows = [y for y in range(image.height) if alpha.crop((0, y, image.width, y + 1)).getbbox()]
             bottom = max(bottom_rows) if bottom_rows else None
-            entries.append({
+            entry = {
                 "variant_id": f"customer_{index:03d}",
                 "source": item["path"],
                 "normalized_source": f"assets/source/textures/characters/candidates/source_1024/{Path(item['path']).name.replace('_v01.png', '_source1024_v01.png')}",
@@ -32,7 +32,11 @@ def main() -> None:
                 "sorting_anchor_px": None,
                 "runtime_approved": False,
                 "selection_status": "needs_human_review"
-            })
+            }
+            cleaned = CHAR_ROOT / "candidates/source_1024/customer_casual_tote_cutout_cleaned_v01.png"
+            if index == 1 and cleaned.is_file():
+                entry["derived_candidates"] = [{"path": "candidates/source_1024/customer_casual_tote_cutout_cleaned_v01.png", "sha256": hashlib.sha256(cleaned.read_bytes()).hexdigest(), "method": "tools/art/clean_customer_alpha_candidate.py", "input": item["path"], "runtime_approved": False, "selection_status": "needs_human_review"}]
+            entries.append(entry)
     OUT.write_text(json.dumps({"status": "source-art staging only; no iso2x or world anchor asserted", "entries": entries}, indent=2) + "\n", encoding="utf-8")
     print(f"customer staging manifest: {len(entries)} candidates")
 
