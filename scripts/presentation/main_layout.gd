@@ -54,7 +54,8 @@ func _ready() -> void:
 	_summary = metrics
 	_floats = FloatCards.new()
 	add_child(_floats)
-	_floats.setup(_store)
+	_floats.setup()
+	_floats.jump_requested.connect(_on_alert_jump)
 	_build_screen_window()
 	_layout_overlay()
 	# The inspector window follows its content height: refit when its content or the window size changes.
@@ -97,6 +98,9 @@ func _layout_overlay() -> void:
 	hud.custom_minimum_size.y = UiTheme.HUD_HEIGHT
 	var rail_right := _place_rail()
 	_fit_palette()
+	# Notification column: toasts start under the HUD; the card stack sits above the summary strip.
+	_floats.column_top = UiTheme.HUD_HEIGHT + GAP
+	_floats.column_bottom = BOTTOM_HEIGHT + GAP
 	_anchor_column(_inspector, MARGIN, UiTheme.INSPECTOR_WIDTH, true)
 	_fit_inspector()
 	# The summary is one centred row of cards, 12 px above the bottom edge; the row itself takes no clicks.
@@ -256,6 +260,13 @@ func _on_rail_pressed(id: String) -> void:
 		open_screen_tab(RAIL_TAB[id])
 
 
+## The 在庫アラート row's 選ぶ button: selects that fixture, as a click on it would (build mode gives way first).
+func _on_alert_jump(tile: Vector2i) -> void:
+	if ui.is_build():
+		close_build()
+	_world.select_screen(_world.projection.tile_center(tile))
+
+
 func _on_state_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		open_screen_tab("経営")
@@ -274,10 +285,10 @@ func _sync_selection() -> void:
 
 func _apply_mode() -> void:
 	_palette.visible = ui.is_build()
-	# Notification cards start clear of the rail and the HUD, and of the build palette while it is open.
-	if _floats != null:
-		_floats.inset = Vector2(_rail_right() + (UiTheme.PALETTE_WIDTH + GAP if ui.is_build() else 0), UiTheme.HUD_HEIGHT)
 	_inspector.visible = ui.is_selected()
+	# The notification column keeps clear of the open inspector (it hangs on the right edge).
+	if _floats != null:
+		_floats.column_right = GAP + (MARGIN + UiTheme.INSPECTOR_WIDTH + GAP if ui.is_selected() else 0)
 	_fit_inspector()
 	_dimmer.visible = ui.is_screen()
 	_window.visible = ui.is_screen()

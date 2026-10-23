@@ -1,16 +1,16 @@
 class_name CuePlayer
 extends Node
-## Plays CueRequests (14): toasts, floating sales, confetti, register glow, door flash, pickup / empty-handed
+## Plays CueRequests (14): toasts, sales pop-ups, confetti, register glow, door flash, pickup / empty-handed
 ## marks and the synthesized sounds. Display only - it cannot fail a sale, move stock or change money,
 ## and a missing sound, a muted game or `reduce_motion` only drops the decoration: the text notice stays.
-## Limits (14 §4): 3 toasts, 6 sales floats, 80 particles, 8 simultaneous sounds.
+## Toast rules (levels, limit, merging, lifetimes) are in NotificationPolicy.
+## Limits (14 §4): 3 toasts, 6 sales pop-ups, 80 particles, 8 simultaneous sounds.
 
-const MAX_TOASTS := 3
+const MAX_TOASTS := NotificationPolicy.MAX_VISIBLE
 const MAX_FLOATS := 6
 const MAX_PARTICLES := 80
 const MAX_SFX := 8
 const CONFETTI_PER_CUE := 40
-const PRIORITY_RANK := {"critical": 3, "important": 2, "normal": 1, "ambient": 0}
 const SETTINGS_VERSION := 1
 
 ## Sounds start OFF: the player turns them on once to hear them, and the choice is saved.
@@ -20,7 +20,12 @@ var sfx_volume := 0.8
 var settings_path := "user://settings.json"
 
 ## Live decorations, advanced with real time (UI clock). Read by CueLayer.
-var toasts: Array[Dictionary] = []
+var notices := NotificationPolicy.new()
+## Live toasts (the policy's list): text, level, age, ttl.
+var toasts: Array[Dictionary]:
+	get:
+		return notices.items
+## Sales pop-ups, one per register: text, yen, count, register_id, age, ttl.
 var floats: Array[Dictionary] = []
 var particles: Array[Dictionary] = []
 var glows: Array[Dictionary] = []
@@ -61,16 +66,23 @@ func _play_one(r: Dictionary) -> void:
 	if handled.size() > 256:
 		handled.pop_front()
 	var payload: Dictionary = r["payload"]
-	var text := CueText.toast_text(r["cue_id"], payload, _fixture_name(String(payload.get("fixture_id", ""))))
-	if text != "":
-		_add_toast(text, r["priority"], maxf(float(r["duration_seconds"]), 1.5))
-	match r["cue_id"]:
+	var cue_id: String = r["cue_id"]
+	var fixture_name := _fixture_name(String(payload.get("fixture_id", "")))
+	if CueText.toast_text(cue_id, {}) != "":
+		var text_for := func(amount: int, count: int) -> String:
+			var merged := payload.duplicate()
+			merged["qty"] = amount
+			merged["count"] = count
+			return CueText.toast_text(cue_id, merged, fixture_name)
+		notices.offer(cue_id, CueText.level_of(cue_id, String(r["priority"])), int(payload.get("qty", 1)), text_for)
+	match cue_id:
 		"checkout_success":
 			glows.append({"register_id": payload.get("register_id", ""), "age": 0.0, "ttl": float(r["duration_seconds"])})
 			if glows.size() > MAX_FLOATS:
 				glows.pop_front()
-			if not reduce_motion:
-				_add_float("+¥%s" % GameHud.format_yen(int(payload.get("revenue_yen", 0))).trim_prefix("¥"), String(payload.get("register_id", "")), float(r["duration_seconds"]) + 0.5)
+			NotificationPolicy.add_sale(floats, String(payload.get("register_id", "")), int(payload.get("revenue_yen", 0)))
+			while floats.size() > MAX_FLOATS:
+				floats.pop_front()
 		"customer_enter":
 			door_flash = float(r["duration_seconds"])
 		"product_pickup":
@@ -84,26 +96,10 @@ func _play_one(r: Dictionary) -> void:
 		_sfx(String(r["sfx_key"]), r["priority"])
 
 
-func _add_toast(text: String, priority: String, ttl: float) -> void:
-	# The same notice is not stacked twice.
-	for t in toasts:
-		if t["text"] == text:
-			t["age"] = 0.0
-			return
-	toasts.append({"text": text, "priority": priority, "age": 0.0, "ttl": ttl})
-	while toasts.size() > MAX_TOASTS:
-		# Drop the lowest-priority (oldest on ties) toast; a critical one is only dropped by another critical.
-		var victim := 0
-		for i in toasts.size() - 1:   # the one just added is never the victim
-			if PRIORITY_RANK[toasts[i]["priority"]] < PRIORITY_RANK[toasts[victim]["priority"]]:
-				victim = i
-		toasts.remove_at(victim)
-
-
-func _add_float(text: String, register_id: String, ttl: float) -> void:
-	floats.append({"text": text, "register_id": register_id, "age": 0.0, "ttl": ttl})
-	while floats.size() > MAX_FLOATS:
-		floats.pop_front()
+## Closes one error toast (a click on it). Other levels are not dismissed by hand.
+func dismiss_toast(item: Dictionary) -> void:
+	if item.get("level", "") == "error":
+		notices.dismiss(item)
 
 
 func _add_mark(kind: String, customer_id: String, ttl: float) -> void:
@@ -124,7 +120,8 @@ func _confetti() -> void:
 
 ## Real-time step of every decoration.
 func advance(delta: float) -> void:
-	for list in [toasts, floats, glows, marks, particles]:
+	notices.advance(delta)
+	for list in [floats, glows, marks, particles]:
 		for item in list:
 			item["age"] += delta
 			if item.has("vel"):

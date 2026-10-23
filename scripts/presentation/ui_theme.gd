@@ -169,7 +169,27 @@ static func build() -> Theme:
 	theme.set_color("font_color", "SummaryValue", GOLD)
 	theme.set_font_size("font_size", "SummaryValue", FONT_SUMMARY)
 	_outline(theme, "SummaryValue", 3)
+	# Notification column: the 在庫アラート count badge (a small red pill with a white count).
+	theme.add_type("AlertBadge")
+	theme.set_type_variation("AlertBadge", "PanelContainer")
+	theme.set_stylebox("panel", "AlertBadge", alert_badge_box())
+	theme.add_type("AlertCount")
+	theme.set_type_variation("AlertCount", "Label")
+	theme.set_color("font_color", "AlertCount", Color.WHITE)
+	theme.set_font_size("font_size", "AlertCount", FONT_SMALL)
 	return theme
+
+
+## The alert count badge: a red pill, sized to its number.
+static func alert_badge_box() -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = DANGER_RED
+	b.set_corner_radius_all(9)
+	b.content_margin_left = 7.0
+	b.content_margin_right = 7.0
+	b.content_margin_top = 0.0
+	b.content_margin_bottom = 0.0
+	return b
 
 
 ## Toast pill (CueLayer draws it with draw_style_box). The caller fades it by setting bg/border alpha.
