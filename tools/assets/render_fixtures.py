@@ -19,6 +19,7 @@ import bpy
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import blueprints  # noqa: E402
+import fixture_looks  # noqa: E402
 import iso2x  # noqa: E402
 
 CANVAS = 1600
@@ -131,6 +132,8 @@ def material(mid):
         emit.inputs[1].default_value = 1.0
         out = nodes.new("ShaderNodeOutputMaterial")
         mat.node_tree.links.new(emit.outputs[0], out.inputs[0])
+    elif fixture_looks.build(mid, mat):
+        pass    # procedural node look (fixture_looks.py); the flat PALETTE below stays for other types
     else:
         spec = PALETTE[mid]
         bsdf = nodes["Principled BSDF"]
@@ -147,7 +150,7 @@ def material(mid):
     return mat
 
 
-def add_box(name, x0, y0, z0, x1, y1, z1, mat_id):
+def add_box(name, x0, y0, z0, x1, y1, z1, mat_id, bevel=0.0):
     bm = bmesh.new()
     bmesh.ops.create_cube(bm, size=1.0)
     cx, cy, cz = (x0 + x1) / 2.0, (y0 + y1) / 2.0, (z0 + z1) / 2.0
@@ -161,6 +164,14 @@ def add_box(name, x0, y0, z0, x1, y1, z1, mat_id):
     me.materials.append(material(mat_id))
     obj = bpy.data.objects.new(name, me)
     bpy.context.scene.collection.objects.link(obj)
+    if bevel > 0.0:
+        # Bevel softens the edges (highlights only); the outer planes stay put, so the measured
+        # bounding box and the silhouette do not move.
+        mod = obj.modifiers.new("Bevel", "BEVEL")
+        mod.width = bevel
+        mod.segments = 2
+        mod.limit_method = "ANGLE"
+        mod.angle_limit = math.radians(40.0)
     return obj
 
 
@@ -249,7 +260,7 @@ def main():
             rot = blueprints.rotated(bp, d, r)
             objs = {"body": [], "glass_front": [], "shadow": []}
             for i, b in enumerate(rot["boxes"]):
-                objs[b.layer].append(add_box("%s_r%d_%d" % (type_id, r, i), b.x0, b.y0, b.z0, b.x1, b.y1, b.z1, b.material))
+                objs[b.layer].append(add_box("%s_r%d_%d" % (type_id, r, i), b.x0, b.y0, b.z0, b.x1, b.y1, b.z1, b.material, b.bevel))
             sx0, sy0, sx1, sy1 = rot["shadow"]
             objs["shadow"].append(add_box("%s_r%d_shadow" % (type_id, r), sx0, sy0, 0.0, sx1, sy1, 0.002, "shadow"))
             everything = [o for group in objs.values() for o in group]

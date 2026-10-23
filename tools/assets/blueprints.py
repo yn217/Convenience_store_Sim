@@ -20,7 +20,12 @@ LAYERS = ("body", "shadow", "glass_front")
 MATERIALS = (
     "frame_metal", "shelf_white", "clear_glass", "cool_white_led",
     "dark_polymer", "label_rail", "product_surface",
+    # procedural looks (fixture_looks.py, Issue #61 Phase B)
+    "wood_laminate", "stainless", "pegboard", "slotted_upright", "glass_gradient",
+    "pos_screen", "header_emit", "accent_strip", "price_rail", "cabinet_grey",
 )
+BEVEL_TINY = 0.003         # edge bevel radii for small parts / standards (m)
+BEVEL_SMALL = 0.006        # edge bevel for panels, boards and tops (m)
 BODY_INSET = 0.04          # body stays 0.04 m inside the footprint on every side
 SHADOW_GROW = 0.12         # shadow may extend <= 0.15 m past the footprint (02 §B)
 
@@ -35,11 +40,12 @@ class Box:
     z1: float
     material: str
     layer: str = "body"
+    bevel: float = 0.0     # edge bevel radius in metres (render only; never moves the outer planes)
 
     def rotated(self, w, h, rotation):
         ax, ay = iso2x.transform_point(self.x0, self.y0, w, h, rotation)
         bx, by = iso2x.transform_point(self.x1, self.y1, w, h, rotation)
-        return Box(min(ax, bx), min(ay, by), self.z0, max(ax, bx), max(ay, by), self.z1, self.material, self.layer)
+        return Box(min(ax, bx), min(ay, by), self.z0, max(ax, bx), max(ay, by), self.z1, self.material, self.layer, self.bevel)
 
     def corners(self):
         return [(x, y, z) for x in (self.x0, self.x1) for y in (self.y0, self.y1) for z in (self.z0, self.z1)]
@@ -69,7 +75,35 @@ def _rack(d, rows, trim=None, back=True):
 
 
 def _shelf_general(d):
-    return _rack(d, ROW_HEIGHTS["shelf_general"])
+    """Gondola: perforated pegboard back, slotted end uprights, bevelled boards, grey price rails
+    with a coloured strip, and a dark base plinth. Same rows and slots as the basic rack."""
+    x0, y0, x1, y1 = _body_rect(*_wh(d))
+    height = d["dimensions_m"]["height"]
+    boxes = [Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer", bevel=BEVEL_SMALL)]          # base plinth
+    boxes.append(Box(x0, y0, BASE, x0 + 0.02, y1, height - 0.02, "pegboard"))           # pegboard back
+    boxes += _uprights(x0, y0, x1, y1, BASE, height - 0.02, "slotted_upright")
+    boxes.append(Box(x0, y0, height - 0.02, x1, y1, height, "shelf_white", bevel=BEVEL_SMALL))  # top cap
+    for z in ROW_HEIGHTS["shelf_general"]:
+        boxes.append(Box(x0 + 0.02, y0, z - BOARD, x1, y1, z, "shelf_white", bevel=BEVEL_SMALL))
+        boxes += _price_rail(x0, y0, x1, y1, z - BOARD)
+    return boxes, []
+
+
+def _uprights(x0, y0, x1, y1, z0, z1, material):
+    """Four corner uprights (POST square) between z0 and z1."""
+    return [
+        Box(px, py, z0, px + POST, py + POST, z1, material, bevel=BEVEL_TINY)
+        for px in (x0, x1 - POST) for py in (y0, y1 - POST)
+    ]
+
+
+def _price_rail(x0, y0, x1, y1, shelf_underside):
+    """Shelf-edge price rail under a board: light grey rail with a thin coloured strip at its top."""
+    top = shelf_underside
+    return [
+        Box(x1 - 0.02, y0 + POST, top - 0.034, x1, y1 - POST, top - 0.006, "price_rail", bevel=BEVEL_TINY),
+        Box(x1 - 0.02, y0 + POST, top - 0.006, x1, y1 - POST, top, "accent_strip"),
+    ]
 
 
 def _shelf_onigiri(d):
@@ -118,14 +152,25 @@ def _freezer_ice(d):
 
 
 def _register_basic(d):
+    """Checkout counter: dark kick plate, wood-grain front, stainless top, POS terminal with a lit
+    screen, customer display, receipt printer, impulse-buy tray at the customer side and a teal stripe."""
     x0, y0, x1, y1 = _body_rect(*_wh(d))
     boxes = [
-        Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer"),
-        Box(x0, y0, BASE, x1, y1, 0.90, "shelf_white"),                       # counter body
-        Box(x0 - 0.0, y0, 0.90, x1, y1, 0.92, "frame_metal"),                  # service top (0.92 m)
-        Box(x1 - 0.02, y0 + 0.10, 0.55, x1, y1 - 0.10, 0.62, "label_rail"),    # customer-side trim
-        Box(x0 + 0.05, 0.25, 0.92, x0 + 0.40, 0.85, 1.10, "dark_polymer"),     # POS terminal
-        Box(x0 + 0.05, 0.28, 1.10, x0 + 0.12, 0.82, 1.20, "dark_polymer"),     # display on a stalk
+        Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer", bevel=BEVEL_SMALL),                 # kick plate
+        Box(x0, y0, BASE, x1, y1, 0.90, "wood_laminate", bevel=BEVEL_SMALL),               # counter front
+        Box(x0, y0, 0.90, x1, y1, 0.92, "stainless", bevel=BEVEL_SMALL),                   # service top (0.92 m)
+        Box(x1 - 0.02, y0 + 0.10, 0.60, x1, y1 - 0.10, 0.66, "accent_strip"),              # brand-neutral stripe
+        Box(x0 + 0.05, 0.25, 0.92, x0 + 0.40, 0.85, 1.10, "dark_polymer", bevel=BEVEL_TINY),  # POS terminal
+        Box(x0 + 0.40, 0.33, 0.97, x0 + 0.405, 0.77, 1.06, "pos_screen"),                   # POS screen (+X face)
+        Box(x0 + 0.05, 0.28, 1.10, x0 + 0.12, 0.82, 1.20, "dark_polymer", bevel=BEVEL_TINY),  # customer display stalk
+        Box(x0 + 0.12, 0.31, 1.13, x0 + 0.125, 0.79, 1.17, "pos_screen"),                   # customer display screen
+        Box(x0 + 0.12, 1.00, 0.92, x0 + 0.38, 1.28, 1.00, "dark_polymer", bevel=BEVEL_TINY),  # receipt printer
+        Box(x0 + 0.16, 1.04, 1.00, x0 + 0.34, 1.12, 1.03, "shelf_white"),                  # paper roll
+        # impulse-buy tray on the customer side: base, back lip and side lips
+        Box(x1 - 0.22, 0.30, 0.92, x1 - 0.04, 0.62, 0.94, "frame_metal"),
+        Box(x1 - 0.22, 0.30, 0.94, x1 - 0.20, 0.62, 1.00, "frame_metal"),
+        Box(x1 - 0.22, 0.30, 0.94, x1 - 0.04, 0.32, 0.97, "frame_metal"),
+        Box(x1 - 0.22, 0.60, 0.94, x1 - 0.04, 0.62, 0.97, "frame_metal"),
     ]
     return boxes, []
 
@@ -160,8 +205,46 @@ def _fridge(d, rows):
     return boxes, glass
 
 
+def _fridge_pro(d, rows):
+    """Drinks cooler: dark plinth and door frame, lit header sign, two vertical interior light strips
+    on the back wall, bevelled shelves, and two glass doors with vertical handles. The glass sits on
+    the glass_front layer with a gradient alpha (see fixture_looks.glass_gradient)."""
+    x0, y0, x1, y1 = _body_rect(*_wh(d))
+    height = d["dimensions_m"]["height"]
+    door_x0 = x1 - 0.03
+    top = height - 0.10
+    mid = (y0 + y1) / 2
+    boxes = [
+        Box(x0, y0, 0.0, x1, y1, BASE, "dark_polymer", bevel=BEVEL_SMALL),                  # dark plinth
+        Box(x0, y0, BASE, x0 + 0.06, y1, top, "cabinet_grey"),                             # back panel (W)
+        Box(x0, y0, BASE, door_x0, y0 + POST, top, "cabinet_grey", bevel=BEVEL_TINY),     # side panels
+        Box(x0, y1 - POST, BASE, door_x0, y1, top, "cabinet_grey", bevel=BEVEL_TINY),
+        Box(x0, y0, top, x1, y1, height - 0.03, "shelf_white", bevel=BEVEL_SMALL),         # top cap
+        Box(x0 + 0.03, y0 + 0.04, height - 0.03, x1, y1 - 0.04, height, "header_emit"),    # lit header sign
+        # interior light strips on the back wall (emissive, visible through the glass)
+        Box(x0 + 0.06, y0 + 0.10, BASE + 0.05, x0 + 0.075, y0 + 0.13, top - 0.05, "cool_white_led"),
+        Box(x0 + 0.06, y1 - 0.13, BASE + 0.05, x0 + 0.075, y1 - 0.10, top - 0.05, "cool_white_led"),
+        # dark door frame: stiles, centre mullion, top and bottom rails
+        Box(door_x0, y0, BASE, x1, y0 + POST, top, "dark_polymer", bevel=BEVEL_TINY),
+        Box(door_x0, y1 - POST, BASE, x1, y1, top, "dark_polymer", bevel=BEVEL_TINY),
+        Box(door_x0, mid - 0.02, BASE, x1, mid + 0.02, top, "dark_polymer"),
+        Box(door_x0, y0, top - 0.08, x1, y1, top, "dark_polymer", bevel=BEVEL_TINY),
+        Box(door_x0, y0, BASE, x1, y1, 0.10, "dark_polymer", bevel=BEVEL_TINY),
+        # vertical door handles, one each side of the mullion (inside the glass line)
+        Box(door_x0, mid - 0.09, 0.45, door_x0 + 0.012, mid - 0.06, top - 0.20, "frame_metal", bevel=BEVEL_TINY),
+        Box(door_x0, mid + 0.06, 0.45, door_x0 + 0.012, mid + 0.09, top - 0.20, "frame_metal", bevel=BEVEL_TINY),
+    ]
+    for z in rows:
+        boxes.append(Box(x0 + 0.06, y0 + POST, z - BOARD, door_x0, y1 - POST, z, "shelf_white", bevel=BEVEL_TINY))
+    glass = [
+        Box(x1 - GLASS, y0 + POST, 0.10, x1, mid - 0.02, top - 0.08, "glass_gradient", "glass_front"),
+        Box(x1 - GLASS, mid + 0.02, 0.10, x1, y1 - POST, top - 0.08, "glass_gradient", "glass_front"),
+    ]
+    return boxes, glass
+
+
 def _fridge_drink(d):
-    return _fridge(d, ROW_HEIGHTS["fridge_drink"])
+    return _fridge_pro(d, ROW_HEIGHTS["fridge_drink"])
 
 
 def _fridge_dessert(d):
