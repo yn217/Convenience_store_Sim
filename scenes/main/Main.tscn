@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/application/app_root.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/store/StoreWorld.tscn" id="2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/presentation/game_hud.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/presentation/build_controller.gd" id="5"]
 [ext_resource type="Script" path="res://scripts/presentation/price_controller.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/presentation/stock_controller.gd" id="7"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -176,6 +177,9 @@ cancel_button_text = "やめる"
 
 [node name="BuildController" type="Node" parent="."]
 script = ExtResource("5")
+
+[node name="StockController" type="Node" parent="."]
+script = ExtResource("7")
 
 [node name="PriceController" type="Node" parent="."]
 script = ExtResource("6")

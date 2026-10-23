@@ -30,6 +30,8 @@ var layout_history := LayoutHistory.new()
 var inventory_segments: Array[Dictionary] = []
 var reservations: Array[Dictionary] = []
 var next_fixture_seq: int = 0
+var next_lot_seq: int = 0
+var next_segment_seq: int = 0
 ## Player sell prices that differ from the SKU default {sku_id: yen}. Never touches lot costs
 ## or already snapshotted reservations/ledger rows.
 var product_price_overrides: Dictionary = {}
@@ -63,6 +65,15 @@ func sell_price(sku_id: String) -> int:
 	return int(products.get_sku(sku_id).get("default_sell_price_yen", 0))
 
 
+## Units of `sku_id` in the backroom that no reservation holds.
+func backroom_available(sku_id: String) -> int:
+	var n := 0
+	for seg in inventory_segments:
+		if seg["sku_id"] == sku_id and seg["location"]["kind"] == "BACKROOM":
+			n += int(seg["physical_qty"]) - int(seg["reserved_qty"])
+	return n
+
+
 func snapshot() -> Dictionary:
 	var ids := grid.instances.keys()
 	ids.sort()
@@ -81,6 +92,8 @@ func snapshot() -> Dictionary:
 		"entrance_tiles": grid.entrance_tiles.duplicate(),
 		"fixtures": placed,
 		"product_price_overrides": product_price_overrides.duplicate(),
+		"backroom_stock": _backroom_stock(),
+		"shelf_skus": _shelf_skus(),
 		"shelf_stock": ShelfDisplay.stock_by_slot(inventory_segments),
 		"can_undo": layout_history.can_undo(),
 		"can_redo": layout_history.can_redo(),
@@ -88,3 +101,23 @@ func snapshot() -> Dictionary:
 		"reputation": reputation,
 		"rng_states": rng_states.duplicate(),
 	}
+
+
+func _backroom_stock() -> Dictionary:
+	var out := {}
+	for seg in inventory_segments:
+		if seg["location"]["kind"] == "BACKROOM":
+			out[seg["sku_id"]] = int(out.get(seg["sku_id"], 0)) + int(seg["physical_qty"])
+	return out
+
+
+## {fixture_id: {slot_id: sku_id}} for slots that currently hold stock.
+func _shelf_skus() -> Dictionary:
+	var out := {}
+	for seg in inventory_segments:
+		var loc: Dictionary = seg["location"]
+		if loc["kind"] == "FIXTURE" and int(seg["physical_qty"]) > 0:
+			if not out.has(loc["fixture_id"]):
+				out[loc["fixture_id"]] = {}
+			out[loc["fixture_id"]][loc["slot_id"]] = seg["sku_id"]
+	return out

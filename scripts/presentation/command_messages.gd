@@ -20,6 +20,13 @@ const BY_KEY := {
 	&"unknown_instance": "対象の什器が見つかりません",
 	&"sku_unknown": "その商品は存在しません",
 	&"price_invalid": "価格は1〜99,999円の整数で入力してください",
+	&"qty_invalid": "数量は1〜9,999の整数で入力してください",
+	&"restock_needs_setup": "営業を終了して準備中に戻すと補充できます",
+	&"unknown_slot": "その段は存在しません",
+	&"category_mismatch": "この棚には置けないカテゴリの商品です",
+	&"slot_other_sku": "この段には別の商品が並んでいます",
+	&"capacity_exceeded": "棚の容量を超えるため補充できません",
+	&"not_enough_stock": "バックヤードの在庫が足りません",
 	&"unknown_type_or_rotation": "什器の種類または向きが不正です",
 }
 const BY_CODE := {
