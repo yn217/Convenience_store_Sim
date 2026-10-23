@@ -134,7 +134,7 @@ func test_everything_fits_1920x1080(t, tree) -> void:
 	t.eq(palette.size.x, 280.0)
 	var hud: Control = main.get_node("Layout/TopHUD")
 	t.ok(hud.get_combined_minimum_size().x <= 1920.0, "HUD labels and speed buttons fit one row")
-	t.ok(main.get_node("Layout/MainArea/StoreViewport").size.x >= 1200.0, "the store view keeps most of the width")
+	t.ok(main.get_node("Layout/MainArea/StoreViewport").size.x >= 1100.0, "the store view keeps most of the width (1920 - 200 nav - 280 - 320)")
 	r[0].queue_free()
 	await tree.process_frame
 

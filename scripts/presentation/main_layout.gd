@@ -5,6 +5,7 @@ extends Control
 enum SidePanel { PALETTE, INSPECTOR }
 
 var compact_panel: SidePanel = SidePanel.PALETTE
+var _nav: LeftNav
 
 @onready var _palette: Control = $Layout/MainArea/BuildPalette
 @onready var _inspector: Control = $Layout/MainArea/FixtureInspector
@@ -16,9 +17,9 @@ var compact_panel: SidePanel = SidePanel.PALETTE
 
 func _ready() -> void:
 	theme = UiTheme.build()
-	var nav := LeftNav.new()
-	$Layout/MainArea.add_child(nav)
-	$Layout/MainArea.move_child(nav, 0)
+	_nav = LeftNav.new()
+	$Layout/MainArea.add_child(_nav)
+	$Layout/MainArea.move_child(_nav, 0)
 	$Layout.add_child(CommandBar.new())
 	$Layout.add_child(MetricBar.new())
 	var floats := FloatCards.new()
@@ -98,6 +99,8 @@ func show_compact_panel(panel: SidePanel) -> void:
 
 func apply_layout() -> void:
 	var compact := is_compact()
+	if _nav != null:
+		_nav.set_compact(compact)
 	_tab_palette.visible = compact
 	_tab_inspector.visible = compact
 	_palette.visible = not compact or compact_panel == SidePanel.PALETTE
