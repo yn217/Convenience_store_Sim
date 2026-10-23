@@ -29,6 +29,7 @@ python tools/assets/build_sprites.py --catalog data/fixtures/mvp_v1.json --raw b
 
 # 3. gate (also part of tools\run_tests.ps1)
 python tools/assets/validate_manifests.py
+python tools/assets/validate_fixture_zoom.py
 
 # 4. eyeball check
 python tools/assets/contact_sheet.py --dir assets/generated/fixtures --out build/sheet.png
@@ -97,6 +98,8 @@ the generated fixtures expose those layers.
 product manifest, and the ID coverage index in `docs/ASSET_CREDITS.md`.
 `validate_product_lod.py` checks the 0/2/5/8 overlay counts for empty/low/medium/full across
 all four rotations. It does not prove fixture/customer occlusion or Godot runtime sorting.
+`validate_fixture_zoom.py` checks all fixture layers at zoom 0.5/1/2 for retained RGBA content
+and an in-bounds scaled anchor. It does not prove Godot camera, selection, or runtime sorting.
 
 ## Reproducibility and its limits
 
