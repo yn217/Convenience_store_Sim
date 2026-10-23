@@ -126,6 +126,9 @@ func _run() -> void:
 			await process_frame
 		presenter.draw_usec_total = 0
 		presenter.draw_count = 0
+		presenter.prof_compose = 0
+		presenter.prof_customers = 0
+		presenter.prof_fixtures = 0
 		var times: Array[float] = []
 		var last := Time.get_ticks_usec()
 		for i in FRAMES:
@@ -136,7 +139,7 @@ func _run() -> void:
 		times.sort()
 		var med: float = times[times.size() / 2]
 		var p95v: float = times[int(times.size() * 0.95)]
-		by_speed["x%d" % speed] = {"median_ms": med, "p95_ms": p95v, "max_ms": times[times.size() - 1], "fps_median": 1000.0 / med, "fps_p95": 1000.0 / p95v, "presenter_draw_ms": float(presenter.draw_usec_total) / 1000.0 / maxf(presenter.draw_count, 1), "customers": s.customers.size(), "draw_calls": RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME), "objects": RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_OBJECTS_IN_FRAME)}
+		by_speed["x%d" % speed] = {"median_ms": med, "p95_ms": p95v, "max_ms": times[times.size() - 1], "fps_median": 1000.0 / med, "fps_p95": 1000.0 / p95v, "presenter_draw_ms": float(presenter.draw_usec_total) / 1000.0 / maxf(presenter.draw_count, 1), "prof_ms": {"compose": float(presenter.prof_compose) / 1000.0 / maxf(presenter.draw_count, 1), "customers": float(presenter.prof_customers) / 1000.0 / maxf(presenter.draw_count, 1), "fixtures": float(presenter.prof_fixtures) / 1000.0 / maxf(presenter.draw_count, 1)}, "customers": s.customers.size(), "draw_calls": RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME), "objects": RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_OBJECTS_IN_FRAME)}
 	var info := {
 		"conditions": {"store": "16x12", "fixtures_placed": s.grid.instances.size(), "customers_in_store": s.customers.size(), "window": str(get_root().size), "speed": s.speed_setting, "frames": FRAMES},
 		"by_speed": by_speed,

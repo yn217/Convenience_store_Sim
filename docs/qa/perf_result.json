@@ -2,39 +2,54 @@
   "by_speed": {
     "x1": {
       "customers": 30,
-      "draw_calls": 553,
-      "fps_median": 54.2681934118413,
-      "fps_p95": 30.2078298695022,
-      "max_ms": 69.098,
-      "median_ms": 18.427,
-      "objects": 1202,
-      "p95_ms": 33.104,
-      "presenter_draw_ms": 8.255145
+      "draw_calls": 585,
+      "fps_median": 74.5656550592797,
+      "fps_p95": 37.5953983232452,
+      "max_ms": 53.632,
+      "median_ms": 13.411,
+      "objects": 1261,
+      "p95_ms": 26.599,
+      "presenter_draw_ms": 4.98620333333333,
+      "prof_ms": {
+        "compose": 2.049205,
+        "customers": 0.94924,
+        "fixtures": 1.704555
+      }
     },
     "x2": {
-      "customers": 29,
-      "draw_calls": 562,
-      "fps_median": 43.097875274749,
-      "fps_p95": 27.4627193584709,
-      "max_ms": 70.268,
-      "median_ms": 23.203,
-      "objects": 1202,
-      "p95_ms": 36.413,
-      "presenter_draw_ms": 8.39388333333333
+      "customers": 30,
+      "draw_calls": 587,
+      "fps_median": 55.1571980143409,
+      "fps_p95": 25.0482178193022,
+      "max_ms": 80.533,
+      "median_ms": 18.13,
+      "objects": 1258,
+      "p95_ms": 39.923,
+      "presenter_draw_ms": 5.41479333333333,
+      "prof_ms": {
+        "compose": 2.209525,
+        "customers": 1.03619,
+        "fixtures": 1.84953833333333
+      }
     },
     "x4": {
       "customers": 30,
-      "draw_calls": 559,
-      "fps_median": 30.8937563718373,
-      "fps_p95": 22.7386420482969,
-      "max_ms": 56.097,
-      "median_ms": 32.369,
-      "objects": 1177,
-      "p95_ms": 43.978,
-      "presenter_draw_ms": 8.09843166666667
+      "draw_calls": 596,
+      "fps_median": 42.7350427350427,
+      "fps_p95": 27.9025642456542,
+      "max_ms": 43.459,
+      "median_ms": 23.4,
+      "objects": 1259,
+      "p95_ms": 35.839,
+      "presenter_draw_ms": 5.03054,
+      "prof_ms": {
+        "compose": 2.07564166666667,
+        "customers": 0.956463333333333,
+        "fixtures": 1.71035333333333
+      }
     }
   },
-  "compose_ms": 0.6844,
+  "compose_ms": 0.819166666666667,
   "conditions": {
     "customers_in_store": 30,
     "fixtures_placed": 16,
@@ -51,8 +66,8 @@
     "renderer": "gl_compatibility",
     "threads": 20
   },
-  "publish_ms": 3.7184,
-  "sim_step_ms": 2.49061,
-  "snapshot_ms": 1.23946666666667,
-  "video_mem_mb": 117.402056694031
+  "publish_ms": 3.7145,
+  "sim_step_ms": 2.44611,
+  "snapshot_ms": 1.2382,
+  "video_mem_mb": 117.269919395447
 }

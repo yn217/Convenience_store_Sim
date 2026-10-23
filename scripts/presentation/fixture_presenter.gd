@@ -305,39 +305,62 @@ func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 	var def: Dictionary = it["def"]
 	var stock: Dictionary = _world.shelf_stock.get(it["inst"]["instance_id"], {})
 	var color := _color_for(def)
+	var lod := ShelfDisplay.lod(zoom)
+	var half := ITEM_W * 0.5 * s
+	var size := Vector2(ITEM_W * s, ITEM_H * s)
+	var outline := zoom >= OUTLINE_ZOOM   # the outline doubles the draw commands; small items read fine without it
+	var edge := Color(color.darkened(0.45), alpha)
+	var fill := Color(color, alpha)
+	var anchors := _slot_anchors(entry)
 	for slot in def["shelf_slots"]:
 		var sid: String = slot["slot_id"]
+		if not anchors.has(sid):
+			continue
+		var pts: PackedVector2Array = anchors[sid]
 		var qty := int(stock.get(sid, 0))
 		var cap := int(slot["capacity_units"])
-		if not slots.has("%s_item0" % sid):
+		if lod == "bar":
+			_draw_row_bar(pts, ShelfDisplay.fill_ratio(qty, cap), color, top_left, s, strip)
 			continue
-		if ShelfDisplay.lod(zoom) == "bar":
-			_draw_row_bar(slots, sid, ShelfDisplay.fill_ratio(qty, cap), color, top_left, s, strip)
-			continue
-		var n := mini(ShelfDisplay.visible_items(qty, cap, zoom), _anchor_count(slots, sid))
+		var n := mini(ShelfDisplay.visible_items(qty, cap, zoom), pts.size())
 		# Item 0 is the end nearest the viewer's right; draw far items first so near ones overlap.
 		for i in range(n - 1, -1, -1):
-			var a: Vector2 = top_left + slots["%s_item%d" % [sid, i]] * s
+			var a: Vector2 = top_left + pts[i] * s
 			if a.x < strip.x or a.x >= strip.y:
 				continue   # belongs to another column segment
-			var half := ITEM_W * 0.5 * s
-			var r := Rect2(a - Vector2(half, ITEM_H * s), Vector2(ITEM_W * s, ITEM_H * s))
-			draw_rect(r, Color(color, alpha))
-			if zoom >= OUTLINE_ZOOM:   # the outline doubles the draw commands; small items read fine without it
-				draw_rect(r, Color(color.darkened(0.45), alpha), false, 1.0)
+			var r := Rect2(a - Vector2(half, ITEM_H * s), size)
+			draw_rect(r, fill)
+			if outline:
+				draw_rect(r, edge, false, 1.0)
 
 
-func _anchor_count(slots: Dictionary, sid: String) -> int:
-	var n := 0
-	while slots.has("%s_item%d" % [sid, n]):
-		n += 1
-	return n
+## Slot anchors of a sprite entry as {slot_id: PackedVector2Array}, built once (the manifest never changes at runtime).
+func _slot_anchors(entry: Dictionary) -> Dictionary:
+	if entry.has("_anchors"):
+		return entry["_anchors"]
+	var out := {}
+	var slots: Dictionary = entry["slots"]
+	for key in slots:
+		var k: String = key
+		var cut := k.rfind("_item")
+		if cut < 0:
+			continue
+		var sid := k.substr(0, cut)
+		if not out.has(sid):
+			var pts := PackedVector2Array()
+			var n := 0
+			while slots.has("%s_item%d" % [sid, n]):
+				pts.append(slots["%s_item%d" % [sid, n]])
+				n += 1
+			out[sid] = pts
+	entry["_anchors"] = out
+	return out
 
 
-func _draw_row_bar(slots: Dictionary, sid: String, ratio: float, color: Color, top_left: Vector2, s: float, strip: Vector2) -> void:
-	var a: Vector2 = top_left + slots["%s_item0" % sid] * s
-	var last := _anchor_count(slots, sid) - 1
-	var b: Vector2 = top_left + slots["%s_item%d" % [sid, last]] * s
+func _draw_row_bar(pts: PackedVector2Array, ratio: float, color: Color, top_left: Vector2, s: float, strip: Vector2) -> void:
+	var a: Vector2 = top_left + pts[0] * s
+	var last := pts.size() - 1
+	var b: Vector2 = top_left + pts[last] * s
 	if last == 0:
 		b = a + Vector2(18.0 * s, 9.0 * s)   # single-cell slot: short bar along the +X screen direction
 	var mid := (a.x + b.x) * 0.5
