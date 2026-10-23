@@ -1,0 +1,31 @@
+{
+  "status": "review-only mapping; does not replace runtime manifest",
+  "fallback_policy": "keep existing procedural visual_id until human review and iso2x integration pass",
+  "candidates": [
+    {
+      "category": "rice",
+      "existing_visual_ids": ["rice_001_package", "rice_002_package"],
+      "source_variants": [
+        "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a_cutout_v02.png",
+        "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v02.png"
+      ]
+    },
+    {
+      "category": "drink",
+      "existing_visual_ids": ["drink_001_package", "drink_002_package"],
+      "source_variants": [
+        "assets/source/textures/packages/candidates/sku_tea_comparison_v01_a_cutout_v02.png",
+        "assets/source/textures/packages/candidates/sku_tea_comparison_v01_b_cutout_v02.png"
+      ]
+    },
+    {
+      "category": "noodle",
+      "existing_visual_ids": ["noodle_001_package", "noodle_002_package"],
+      "source_variants": [
+        "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_a_cutout_v02.png",
+        "assets/source/textures/packages/candidates/sku_cupnoodle_comparison_v01_b_cutout_v02.png"
+      ]
+    }
+  ],
+  "next_gate": "select one variant per visual_id, correct marks/text, render via iso2x_v1, then integrate through the existing slot overlay path"
+}
