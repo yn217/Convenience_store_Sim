@@ -67,6 +67,10 @@ func apply_snapshot(s: Dictionary) -> void:
 	var metrics := get_node_or_null("../MetricBar")
 	if metrics != null:
 		metrics.apply_snapshot(s)
+	# FloatCards is a child of Main, one level above Layout (where this HUD lives).
+	var floats := get_node_or_null("../../FloatCards")
+	if floats != null:
+		floats.apply_snapshot(s)
 	_cash.text = "所持金 " + format_yen(int(s["cash_yen"]))
 	var today: Dictionary = s.get("today", {"revenue_yen": 0, "gross_profit_yen": 0})
 	_sales.text = "本日の売上 " + format_yen(int(today["revenue_yen"]))

@@ -21,6 +21,9 @@ func _ready() -> void:
 	$Layout/MainArea.move_child(nav, 0)
 	$Layout.add_child(CommandBar.new())
 	$Layout.add_child(MetricBar.new())
+	var floats := FloatCards.new()
+	add_child(floats)
+	floats.setup(_store)
 	$Layout/TopHUD.custom_minimum_size.y = UiTheme.HUD_HEIGHT
 	_palette.custom_minimum_size.x = UiTheme.PALETTE_WIDTH
 	_inspector.custom_minimum_size.x = UiTheme.INSPECTOR_WIDTH
