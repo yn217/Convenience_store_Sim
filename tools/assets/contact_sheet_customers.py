@@ -14,7 +14,7 @@ from PIL import Image, ImageDraw
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DIR = ROOT / "assets" / "generated" / "characters"
 DEFAULT_OUT = ROOT / "build" / "asset_audit" / "customers_contact.png"
-ANIMS = ("walk", "idle", "inspect")
+ANIMS = ("walk", "idle", "inspect", "checkout")
 
 
 def main():
@@ -32,12 +32,12 @@ def main():
     target_anchor = (cw // 2, ch - 20)
     margin, label_h = 10, 22
     cell_w, cell_h = cw + margin * 2, ch + label_h + margin * 2
-    rows = len(manifests) * len(ANIMS)
+    rows = sum(len(m.get("animations", {})) for m in all_manifests)
     sheet = Image.new("RGBA", (4 * cell_w, rows * cell_h), (100, 108, 105, 255))
     draw = ImageDraw.Draw(sheet)
     row = 0
     for mpath, manifest in zip(manifests, all_manifests):
-        for anim in ANIMS:
+        for anim in manifest.get("animations", {}):
             for direction in range(4):
                 rel = manifest["directions"][str(direction)][anim][0]
                 image = Image.open(mpath.parent / rel).convert("RGBA")
