@@ -1,0 +1,36 @@
+{
+  "status": "source-only candidate set; not runtime-approved",
+  "tool": "Codex built-in image generation tool",
+  "model": "not exposed by tool",
+  "seed": null,
+  "license_status": "pending review under Issue #29; generic fictional material studies",
+  "fixtures": [
+    {
+      "fixture_type_id": "register_basic",
+      "source_board": "assets/source/textures/materials/register_basic_material_comparison_v01.png",
+      "variants": [
+        "assets/source/textures/materials/candidates/register_basic_material_comparison_v01_a.png",
+        "assets/source/textures/materials/candidates/register_basic_material_comparison_v01_b.png"
+      ],
+      "directions": ["brushed stainless + graphite polymer trim", "warm light-gray powder coat + charcoal trim + blank POP holder"]
+    },
+    {
+      "fixture_type_id": "shelf_general",
+      "source_board": "assets/source/textures/materials/shelf_general_material_comparison_v01.png",
+      "variants": [
+        "assets/source/textures/materials/candidates/shelf_general_material_comparison_v01_a.png",
+        "assets/source/textures/materials/candidates/shelf_general_material_comparison_v01_b.png"
+      ],
+      "directions": ["cool white powder-coated steel", "pale warm laminate + charcoal uprights"]
+    },
+    {
+      "fixture_type_id": "fridge_drink",
+      "source_board": "assets/source/textures/materials/fridge_drink_material_comparison_v01.png",
+      "variants": [
+        "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_a.png",
+        "assets/source/textures/materials/candidates/fridge_drink_material_comparison_v01_b.png"
+      ],
+      "directions": ["cool white metal + clear glass + cyan LED", "pale gray aluminum + neutral LED + transparent glass"]
+    }
+  ]
+}
