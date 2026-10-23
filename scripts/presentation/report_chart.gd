@@ -3,7 +3,7 @@ extends Control
 ## Bars of operating profit per day (green above zero, red below). Colour is never the only cue:
 ## the zero line is drawn and each bar carries its day number.
 
-const UP := Color("5cc98a")
+const UP := UiTheme.SUCCESS_GREEN
 const DOWN := Color("e07a7a")
 const AXIS := Color("42617b")
 

@@ -41,3 +41,15 @@ func test_start_needs_a_register_then_opens(t, tree) -> void:
 	t.eq(bc._status.text, CommandMessages.text(&"INVALID_OPERATION", &"ad_tier_invalid"))
 	main.queue_free()
 	await tree.process_frame
+
+
+func test_tier_item_text_and_plan_summary(t, _tree) -> void:
+	var tiers := [{"yen_per_day": 0, "arrival_multiplier": 1}, {"yen_per_day": 2000, "arrival_multiplier": 1.18}]
+	t.eq(BusinessController.tier_item_text(tiers[0]), "明日の広告: なし ×1.00")
+	t.eq(BusinessController.tier_item_text(tiers[1]), "明日の広告: ¥2,000 ×1.18")
+	var none := BusinessController.plan_summary_text(tiers, 0)
+	t.ok(none.contains("プラン: なし"), "no advertising: the plan is named なし")
+	t.ok(none.contains("広告費: ¥0"))
+	t.ok(none.contains("効果予測: 来店 ×1.00"))
+	t.eq(BusinessController.plan_summary_text(tiers, 2000), "プラン: ¥2,000/日\n広告費: ¥2,000\n効果予測: 来店 ×1.18")
+	t.ok(BusinessController.plan_summary_text(tiers, 777).contains("来店 ×1.00"), "a tier that is not listed counts as ×1.00")
