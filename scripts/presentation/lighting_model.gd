@@ -5,8 +5,8 @@ extends RefCounted
 ## separate). Night never goes darker than readable: shelf products and UI text stay legible.
 
 const DAY := Color(1.0, 0.975, 0.93)   # slightly warm even at noon (mockup: warm store light)
-const EVENING := Color(1.0, 0.86, 0.72)
-const NIGHT := Color(0.64, 0.70, 0.88)
+const EVENING := Color(1.0, 0.93, 0.84)   # indoor: the shop lights stay on, only a warm hint of dusk
+const NIGHT := Color(0.90, 0.92, 0.98)   # indoor at night: bright shop light, a cool hint only
 
 
 static func hour_of(time_sec: int) -> float:

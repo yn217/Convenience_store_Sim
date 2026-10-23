@@ -7,8 +7,6 @@ extends Node2D
 
 const DAY_FLOOR := 0.12   ## glow strength in full daylight
 const NIGHT_PEAK := 0.6   ## glow strength at night
-const DAY_LUMA := 0.977   ## luminance of LightingModel.DAY (night-ness 0)
-const NIGHT_LUMA := 0.702 ## luminance of LightingModel.NIGHT (night-ness 1)
 const FIXTURE_RADIUS_TILES := 1.1
 const ENTRANCE_RADIUS_TILES := 3.0
 const FIXTURE_LIFT_M := 0.4   ## glow source sits a little above the top of the fixture
@@ -35,8 +33,15 @@ func _ready() -> void:
 static func intensity(time_sec: int) -> float:
 	var tint := LightingModel.tint(time_sec)
 	var luma := 0.3 * tint.r + 0.59 * tint.g + 0.11 * tint.b
-	var night := clampf((DAY_LUMA - luma) / (DAY_LUMA - NIGHT_LUMA), 0.0, 1.0)
+	# The ends come from LightingModel itself, so retuning the tint keeps night-ness in 0..1.
+	var day_luma := _luma(LightingModel.DAY)
+	var night_luma := _luma(LightingModel.NIGHT)
+	var night := clampf((day_luma - luma) / maxf(day_luma - night_luma, 0.001), 0.0, 1.0)
 	return lerpf(DAY_FLOOR, NIGHT_PEAK, night)
+
+
+static func _luma(c: Color) -> float:
+	return 0.3 * c.r + 0.59 * c.g + 0.11 * c.b
 
 
 ## Called by StoreWorld when the clock changes.
