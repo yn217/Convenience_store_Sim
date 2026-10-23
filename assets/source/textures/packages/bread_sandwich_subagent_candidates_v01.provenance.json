@@ -1,0 +1,21 @@
+{
+  "asset_family": "bread_and_sandwich_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in image generation via subagent Ramanujan",
+  "prompt_summary": "Use case product-mockup; Japanese convenience-store single packaged item; transparent background; realistic 2.5D isometric; fictional brand colors; no readable text, letters, numbers, logos, barcode, watermark, or multiple products.",
+  "candidates": [
+    {
+      "asset_id": "sweetbread_melonpan_subagent_v02",
+      "source_file": "assets/source/textures/packages/sweetbread_melonpan_subagent_v02.png",
+      "sha256": "6A60202AF969A6FC812262A1712699905033A163F11649C5B5F75E653BFA1893"
+    },
+    {
+      "asset_id": "sandwich_egg_subagent_v01",
+      "source_file": "assets/source/textures/packages/sandwich_egg_subagent_v01.png",
+      "sha256": "1E26048341CCB8C5AA7A7334AF35E6640DA11A6BFE1F467F4F8476426B48A872"
+    }
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only PNGs; normalized game scale, 4-direction coverage, anchor calibration, and runtime integration remain open."
+}

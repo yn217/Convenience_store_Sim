@@ -1,0 +1,17 @@
+{
+  "asset_id": "sorting_bin_subagent_v01",
+  "source_file": "assets/source/textures/props/sorting_bin_subagent_v01.png",
+  "source_type": "subagent_image_generation_candidate",
+  "generator": "built-in image generation via subagent Bacon",
+  "prompt": "日本コンビニ向け、可燃/資源の2区画分別ゴミ箱、チャコール色筐体、ステンレス縁、赤/青アクセント、透明背景、余計な文字・ロゴ・背景なし",
+  "generation_conditions": {
+    "style": "realistic 2.5D isometric candidate",
+    "background": "transparent",
+    "text_policy": "no text; pictograms only",
+    "view": "front three-quarter"
+  },
+  "sha256": "4EAD94F0C191CC7672401F224A130E0B888EF88D728BD8AE519BB66A033874AF",
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate only; no Godot integration, anchor calibration, or depth-order validation performed."
+}

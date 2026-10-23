@@ -3,6 +3,12 @@
   "files": [
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/bread_sandwich_subagent_candidates_v01.provenance.json",
+      "sha256": "162abd6d5f9e189ba0b7a4b2283213e5aa15d6898879de66fd6e580bd28f313e",
+      "bytes": 1135
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/CANDIDATE_VISUAL_ID_MAP.json",
       "sha256": "5543322cc5ca3887a7080d33bb5622e66e2d61c628c1a7dcd1655c152d8face0",
       "bytes": 1372
@@ -417,6 +423,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/sandwich_egg_subagent_v01.png",
+      "sha256": "1e26048341ccb8c5aa7a7334af35e6640da11a6bfe1f467f4f8476426b48a872",
+      "bytes": 1689952
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/sku_cupnoodle_comparison_v01.png",
       "sha256": "f661b5b68ef3330998d2c805cb38fa0bcf8e012cf020969a6a661e7ec4ff71d0",
       "bytes": 2055275
@@ -432,6 +444,12 @@
       "path": "assets/source/textures/packages/sku_tea_comparison_v01.png",
       "sha256": "d443cf0e939cd10f63ff51881c538fd851c3f268399527fe1ff0215f98a0495d",
       "bytes": 2842623
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/sweetbread_melonpan_subagent_v02.png",
+      "sha256": "6a60202af969a6fc812262a1712699905033a163f11649c5b5f75e653bfa1893",
+      "bytes": 1588731
     },
     {
       "group": "materials",
