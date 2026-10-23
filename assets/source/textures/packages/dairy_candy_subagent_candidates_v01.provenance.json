@@ -1,0 +1,17 @@
+{
+  "asset_family": "fictional_dairy_and_candy_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Averroes and Epicurus",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single fictional Japanese convenience-store package, realistic 2.5D isometric, transparent RGBA background, category differences by shape and color, no real brand/trademark/logo/readable fine text/barcode/QR/watermark.",
+  "candidates": [
+    {"asset_id":"dairy_cup_mint_subagent_v01","source_file":"assets/source/textures/packages/dairy_cup_mint_subagent_v01.png","sha256":"07D5B15994CD728A01A9417D29D6E5FE71262457CAB07EFFE6329D9CB3A06106","category":"dairy/yogurt","palette":"mint and pale white"},
+    {"asset_id":"dairy_cup_lavender_subagent_v01","source_file":"assets/source/textures/packages/dairy_cup_lavender_subagent_v01.png","sha256":"50B0CD3A9DC914E9AF11F74CE7A10BFD3A1B149AFF3B6A67E4F8442CC64A5565","category":"dairy beverage","palette":"lavender and pale blue"},
+    {"asset_id":"candy_pouch_warm_subagent_v01","source_file":"assets/source/textures/packages/candy_pouch_warm_subagent_v01.png","sha256":"F9D731F15369ECE88531889B5D1C18A4FA20688676C62C783D44F26E94866D2E","category":"candy pouch","palette":"coral, tangerine and gold"},
+    {"asset_id":"gum_pouch_cool_subagent_v01","source_file":"assets/source/textures/packages/gum_pouch_cool_subagent_v01.png","sha256":"74C5EA6E8EB7F61EB30FCCD080792C6DA58A2168E54398F05CBDD050BA0E46AE","category":"gum pouch","palette":"cobalt, cyan, mint and violet"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only package PNGs; slot overlay, scale, anchor, LOD and inventory linkage remain open."
+}
