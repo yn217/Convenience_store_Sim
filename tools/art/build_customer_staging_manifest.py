@@ -22,6 +22,7 @@ def main() -> None:
             entries.append({
                 "variant_id": f"customer_{index:03d}",
                 "source": item["path"],
+                "normalized_source": f"assets/source/textures/characters/candidates/source_1024/{Path(item['path']).name.replace('_v01.png', '_source1024_v01.png')}",
                 "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
                 "canvas_px": [image.width, image.height],
                 "alpha_bbox": list(bbox) if bbox else None,

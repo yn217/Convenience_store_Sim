@@ -4,6 +4,7 @@
     {
       "variant_id": "customer_001",
       "source": "candidates/customer_casual_tote_cutout_v01.png",
+      "normalized_source": "assets/source/textures/characters/candidates/source_1024/customer_casual_tote_cutout_source1024_v01.png",
       "sha256": "85faeb59d6e968f0502d30a03bcc8d0453952bb86b7eb9180db1395fe8fd7c56",
       "canvas_px": [
         1024,
@@ -25,6 +26,7 @@
     {
       "variant_id": "customer_002",
       "source": "candidates/customer_office_shoulder_bag_cutout_v01.png",
+      "normalized_source": "assets/source/textures/characters/candidates/source_1024/customer_office_shoulder_bag_cutout_source1024_v01.png",
       "sha256": "7d9f5a154c1acedc1dd346b91ca7f9c515c4adc81870496648d6d62c61c41b82",
       "canvas_px": [
         1024,
@@ -46,6 +48,7 @@
     {
       "variant_id": "customer_003",
       "source": "candidates/customer_older_basket_cutout_v01.png",
+      "normalized_source": "assets/source/textures/characters/candidates/source_1024/customer_older_basket_cutout_source1024_v01.png",
       "sha256": "fb0f52d81c7f2ce6dcd706d6e9c130f961376104b6d3149e41e01fd6001ae1c6",
       "canvas_px": [
         1024,

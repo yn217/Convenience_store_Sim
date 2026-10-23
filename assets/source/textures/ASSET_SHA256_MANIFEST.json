@@ -447,6 +447,24 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/candidates/source_1024/customer_casual_tote_cutout_source1024_v01.png",
+      "sha256": "cd2ac3fe8c9a458a3dbe9b436b4fb67b1b17a22df4f91e6d0eeed1db39460db2",
+      "bytes": 1046653
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/source_1024/customer_office_shoulder_bag_cutout_source1024_v01.png",
+      "sha256": "48fc05b95d19105582ea54e8cbbf77c715cb0550198fccdc702697a12032ab59",
+      "bytes": 717245
+    },
+    {
+      "group": "characters",
+      "path": "assets/source/textures/characters/candidates/source_1024/customer_older_basket_cutout_source1024_v01.png",
+      "sha256": "973570baedd5e10bfc72565661e7df39d02f4311d5e380bce9b9e9147c86318d",
+      "bytes": 1015688
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/CUSTOMER_CUTOUT_VALIDATION.json",
       "sha256": "720bfa44500ecfba90d836b6c79960ab244478ebe1fba6198d3d1354f64418e0",
       "bytes": 2023
@@ -460,8 +478,8 @@
     {
       "group": "characters",
       "path": "assets/source/textures/characters/CUSTOMER_STAGING_MANIFEST.json",
-      "sha256": "a8666a1255b66ad82326385a75af9fe56b25cae9c5ea96d3ac4cf8d424d09ce1",
-      "bytes": 1815
+      "sha256": "9742ada03a6d34837f35362c2878d78fbac4dd09ec50e3ffd27e8d630c8b4fa1",
+      "bytes": 2229
     },
     {
       "group": "characters",
