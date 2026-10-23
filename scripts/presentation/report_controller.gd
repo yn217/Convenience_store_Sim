@@ -1,7 +1,7 @@
 class_name ReportController
 extends Node
 ## Daily report section of the inspector (SCR-04): the latest closed day with day-over-day change,
-## plus a bar chart of operating profit for the last 7 days. Reads snapshot["daily_reports"] only.
+## plus a grouped bar chart of revenue and gross profit for the last 7 days. Reads snapshot["daily_reports"] only.
 
 const CHART_DAYS := 7
 
@@ -44,8 +44,8 @@ func setup(_app: Node) -> void:
 ## Colour key for the chart bars: the same colours ReportChart draws with.
 static func legend_entries() -> Array[Dictionary]:
 	return [
-		{"color": ReportChart.UP, "text": "営業損益（黒字）"},
-		{"color": ReportChart.DOWN, "text": "営業損益（赤字）"},
+		{"color": ReportChart.REVENUE, "text": "売上"},
+		{"color": ReportChart.GROSS, "text": "粗利"},
 	]
 
 

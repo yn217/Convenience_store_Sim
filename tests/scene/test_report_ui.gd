@@ -65,10 +65,37 @@ func test_panel_updates_when_a_day_closes(t, tree) -> void:
 	await tree.process_frame
 
 
+## The chart changed from operating profit (green/red) to revenue and gross profit per day, so the
+## legend now names 売上 (INFO_CYAN) and 粗利 (SUCCESS_GREEN) instead of 黒字/赤字.
 func test_legend_matches_the_bar_colours(t, _tree) -> void:
 	var entries := ReportController.legend_entries()
 	t.eq(entries.size(), 2)
-	t.eq(entries[0]["color"], ReportChart.UP, "gain dot uses the bar colour")
-	t.eq(entries[1]["color"], ReportChart.DOWN, "loss dot uses the bar colour")
+	t.eq(entries[0]["color"], ReportChart.REVENUE, "revenue dot uses the bar colour")
+	t.eq(entries[1]["color"], ReportChart.GROSS, "gross profit dot uses the bar colour")
+	t.eq(entries[0]["text"], "売上")
+	t.eq(entries[1]["text"], "粗利")
 	t.eq(UiTheme.SUCCESS_GREEN, Color("43c67d"))
 	t.eq(UiTheme.INFO_CYAN, Color("5caefd"))
+
+
+func test_grouped_bars_put_revenue_and_gross_side_by_side(t, _tree) -> void:
+	var area := Rect2(0, 0, 70, 100)
+	var groups := ReportChart.grouped_bar_rects([[300, 0], [100, 0]], area)
+	t.eq(groups.size(), 2, "one group per day")
+	t.eq(groups[0].size(), 2, "one bar per series")
+	t.ok(groups[0][1].position.x > groups[0][0].position.x, "gross profit bar sits right of revenue")
+	t.ok(absf(groups[0][0].size.y) > absf(groups[0][1].size.y), "higher value is taller")
+	t.eq(groups[1][0].size.y, 0.0, "zero revenue is a flat bar")
+
+
+func test_axis_uses_nice_steps_and_yen_labels(t, _tree) -> void:
+	t.eq(ReportChart.axis_step(0.0), 1.0, "no sales: a small nice step, no division by zero")
+	t.eq(ReportChart.axis_step(900.0), 500.0, "900 yen fits in three 500 yen steps")
+	t.eq(ReportChart.axis_step(120000.0), 50000.0, "120000 yen fits in three 5万 steps")
+	t.eq(ReportChart.axis_label(500), "500円")
+	t.eq(ReportChart.axis_label(50000), "5万円")
+	t.eq(ReportChart.axis_label(25000), "2.5万円")
+	var lines := ReportChart.grid_lines([120000, 0], Rect2(0, 0, 70, 100))
+	t.eq(lines.size(), ReportChart.GRID_LINES, "three gridlines")
+	t.eq(lines[2]["text"], "15万円")
+	t.ok(absf(lines[2]["y"] - 0.0) < 1e-3, "top gridline sits at the top of the area")
