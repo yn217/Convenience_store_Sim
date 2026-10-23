@@ -8,5 +8,15 @@
   "license_status": "pending review under Issue #29; fictional abstract marks only",
   "runtime_adoption": false,
   "prompt_file": "assets/source/textures/PROMPTS_FULL.md",
+  "source_candidates": [
+    "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a.png",
+    "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b.png"
+  ],
+  "cutout_outputs": [
+    "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a_cutout_v01.png",
+    "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b_cutout_v01.png",
+    "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_a_cutout_v02.png",
+    "assets/source/textures/pop/candidates/shelf_pop_comparison_v01_b_cutout_v02.png"
+  ],
   "review_status": "source candidate; not runtime-approved"
 }
