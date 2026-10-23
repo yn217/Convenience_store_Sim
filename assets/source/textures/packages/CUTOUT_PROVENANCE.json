@@ -1,0 +1,30 @@
+{
+  "status": "source-only pilot; not runtime-approved",
+  "tool": "Codex built-in image generation edit",
+  "model": "not exposed by tool",
+  "seed": null,
+  "source_board": "assets/source/textures/packages/sku_onigiri_comparison_v01.png",
+  "source_candidates": [
+    "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a.png",
+    "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b.png"
+  ],
+  "outputs": [
+    {
+      "file": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_a_cutout_v01.png",
+      "mode": "RGBA",
+      "purpose": "transparent package cutout staging candidate"
+    },
+    {
+      "file": "assets/source/textures/packages/candidates/sku_onigiri_comparison_v01_b_cutout_v01.png",
+      "mode": "RGBA",
+      "purpose": "transparent package cutout staging candidate"
+    }
+  ],
+  "edit_constraints": [
+    "preserve the exact source candidate artwork and front-facing proportions",
+    "remove only the studio panel/background",
+    "do not add readable text, real brands, logos, or new product design",
+    "do not claim four-direction or iso2x compliance"
+  ],
+  "review_status": "pending human visual, trademark, and license review"
+}
