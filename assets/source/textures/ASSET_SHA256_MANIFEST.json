@@ -33,6 +33,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/butter_soy_crackers_teal_subagent_v01.png",
+      "sha256": "6eb6e851705437b50a573581aa41d69e53e33708c0e95c9d9654804b3c7aee04",
+      "bytes": 1888689
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/CANDIDATE_VISUAL_ID_MAP.json",
       "sha256": "5543322cc5ca3887a7080d33bb5622e66e2d61c628c1a7dcd1655c152d8face0",
       "bytes": 1372
@@ -429,6 +435,18 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/cupnoodle_seafood_salt_subagent_v01.png",
+      "sha256": "3ecf0cabb51c76b9266229e86ba9ba1815688c07e611e9cd3e80de9dc880c140",
+      "bytes": 2329842
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/cupnoodle_spicy_miso_subagent_v01.png",
+      "sha256": "434e59da97c531ac164ff9d14ba86d803a9127f4a786ce0eef6e982e150f89b3",
+      "bytes": 2172027
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/cupnoodle_subagent_candidates_v01.provenance.json",
       "sha256": "b639ea5b103d771db7db9ff964ee173903c6b2585b89b524600a1516adfe9dff",
       "bytes": 1248
@@ -657,6 +675,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/seaweed_chips_coral_subagent_v01.png",
+      "sha256": "18e720e99d847f1db47d0c94901cde19b417e6452419b08167646b044b59956f",
+      "bytes": 2122134
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/sku_cupnoodle_comparison_v01.png",
       "sha256": "f661b5b68ef3330998d2c805cb38fa0bcf8e012cf020969a6a661e7ec4ff71d0",
       "bytes": 2055275
@@ -672,6 +696,12 @@
       "path": "assets/source/textures/packages/sku_tea_comparison_v01.png",
       "sha256": "d443cf0e939cd10f63ff51881c538fd851c3f268399527fe1ff0215f98a0495d",
       "bytes": 2842623
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/snack_cupnoodle_subagent_candidates_v01.provenance.json",
+      "sha256": "19ab262ac31b53efcb315893dc528a9b157b4cced88bd4c5fa8c79877b52f8ed",
+      "bytes": 2082
     },
     {
       "group": "packages",

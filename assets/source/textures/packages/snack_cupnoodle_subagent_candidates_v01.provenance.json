@@ -1,0 +1,17 @@
+{
+  "asset_family": "fictional_snack_and_cupnoodle_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Boole the 2nd and Halley the 2nd",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single fictional Japanese convenience-store package, realistic 2.5D, front-oriented, transparent RGBA background, category-specific silhouette and palette, no real brand/trademark/logo/readable long text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"seaweed_chips_coral_subagent_v01","source_file":"assets/source/textures/packages/seaweed_chips_coral_subagent_v01.png","sha256":"18E720E99D847F1DB47D0C94901CDE19B417E6452419B08167646B044B59956F","category":"snack / seaweed potato chips","palette":"warm coral, cream and seaweed green","dimensions_px":[1254,1254]},
+    {"asset_id":"butter_soy_crackers_teal_subagent_v01","source_file":"assets/source/textures/packages/butter_soy_crackers_teal_subagent_v01.png","sha256":"6EB6E851705437B50A573581AA41D69E53E33708C0E95C9D9654804B3C7AEE04","category":"snack / butter soy crackers","palette":"cool teal, cream and caramel","dimensions_px":[1254,1254]},
+    {"asset_id":"cupnoodle_spicy_miso_subagent_v01","source_file":"assets/source/textures/packages/cupnoodle_spicy_miso_subagent_v01.png","sha256":"434E59DA97C531AC164FF9D14BA86D803A9127F4A786CE0EEF6E982E150F89B3","category":"cup noodle / spicy miso","palette":"red, black and gold","dimensions_px":[1254,1254]},
+    {"asset_id":"cupnoodle_seafood_salt_subagent_v01","source_file":"assets/source/textures/packages/cupnoodle_seafood_salt_subagent_v01.png","sha256":"3ECF0CABB51C76B9266229E86BA9BA1815688C07E611E9CD3E80DE9DC880C140","category":"cup noodle / seafood salt","palette":"navy, blue and cream","dimensions_px":[1254,1254]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only package PNGs. Slot overlay, normalized game scale, anchor, LOD, four-direction coverage and inventory linkage remain open."
+}
