@@ -37,7 +37,7 @@ var balance: Dictionary = {}
 ## Advertising tier (yen/day) in force today; the ad system (M4-01) changes it at day start.
 var applied_ad_tier_yen: int = 0
 ## Today's visitor counters, kept apart (03 §G): wished-to-visit / actually entered / turned away.
-var visit_stats := {"potential": 0, "entered": 0, "lost": 0}
+var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 ## Customers in the store (filled by M3-02) and arrivals waiting to be spawned as customers.
 var customers: Array[Dictionary] = []
 var arrival_queue: Array[Dictionary] = []

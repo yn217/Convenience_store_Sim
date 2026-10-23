@@ -32,6 +32,7 @@ func _store(qty: int = 5) -> GameState:
 	s.business_state = GameState.OPEN
 	s.speed_setting = 1
 	s.balance["base_potential_visitors_per_day"] = 0
+	s.balance["checkout_duration_game_seconds"] = 100000   # #15 tests stop before the till; #16 has its own
 	return s
 
 
@@ -89,7 +90,7 @@ func test_customer_walks_entrance_to_shelf_to_register(t, _tree) -> void:
 	var tiles: Array = []
 	_steps(s, ai, 80, tiles)
 	var c: Dictionary = s.customers[0]
-	t.eq(c["phase"], "QUEUE", "ends waiting in the register queue")
+	t.eq(c["phase"], "CHECKOUT", "first in line is served at the till")
 	t.ok(tiles.has(Vector2i(5, 5)) or tiles.has(Vector2i(5, 6)), "stood on the shelf's access tile")
 	t.eq(c["queue_slot"], 0)
 	t.eq(_reserved(s), 1, "one unit reserved")
@@ -102,7 +103,7 @@ func test_customer_walks_entrance_to_shelf_to_register(t, _tree) -> void:
 	# every step moved at most one tile (0.6 tiles/s * 2 s = 1.2 tiles per step, carried over)
 	for i in range(1, tiles.size()):
 		t.ok((tiles[i] - tiles[i - 1]).abs().x + (tiles[i] - tiles[i - 1]).abs().y <= 2, "no teleporting")
-	t.eq(s.snapshot()["customers"][0]["phase"], "QUEUE")
+	t.eq(s.snapshot()["customers"][0]["phase"], "CHECKOUT")
 
 
 func test_walk_speed_is_point_six_tiles_per_second(t, _tree) -> void:
@@ -168,7 +169,7 @@ func test_two_customers_one_unit_only_one_reserves(t, _tree) -> void:
 	t.eq(_physical(s), 1)
 	var in_queue := 0
 	for c in s.customers:
-		if c["phase"] == "QUEUE":
+		if c["phase"] == "QUEUE" or c["phase"] == "CHECKOUT":
 			in_queue += 1
 	t.eq(in_queue, 1)
 
@@ -179,10 +180,10 @@ func test_two_customers_take_different_queue_slots(t, _tree) -> void:
 	var ai := CustomerAI.new()
 	_arrive(s)
 	_arrive(s)
-	_steps(s, ai, 120)
+	_steps(s, ai, 45)
 	var slots := {}
 	for c in s.customers:
-		if c["phase"] == "QUEUE":
+		if c["phase"] == "QUEUE" or c["phase"] == "CHECKOUT":
 			slots[c["customer_id"]] = c["queue_slot"]
 	t.eq(slots.size(), 2, "both reached the queue (if both chose to buy)")
 	if slots.size() == 2:
@@ -197,7 +198,7 @@ func test_timed_out_reservation_makes_the_customer_leave_and_stock_stays(t, _tre
 	var ai := CustomerAI.new()
 	_arrive(s)
 	_steps(s, ai, 80)
-	t.eq(s.customers[0]["phase"], "QUEUE")
+	t.eq(s.customers[0]["phase"], "CHECKOUT")
 	s.time_sec += CustomerAI.RESERVATION_HOLD_SEC
 	t.eq(InventoryService.release_timed_out(s), 1)
 	t.eq(_reserved(s), 0, "units available again")

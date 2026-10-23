@@ -102,7 +102,7 @@ func test_paused_setup_and_closing_change_nothing(t, _tree) -> void:
 	s.speed_setting = 1
 	s.business_state = GameState.CLOSING
 	runner.process_frame(5.0)
-	t.eq(s.visit_stats, {"potential": 0, "entered": 0, "lost": 0}, "closing admits nobody")
+	t.eq(s.visit_stats, {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}, "closing admits nobody")
 	t.eq(s.rng_states["arrivals"], Seeds.ARRIVALS, "and draws nothing")
 	t.ok(s.time_sec > 0, "closing time still passes")
 
@@ -111,7 +111,7 @@ func test_full_store_loses_visitors_and_empty_store_does_not_crash(t, _tree) -> 
 	var s := _state()
 	s.balance["base_potential_visitors_per_day"] = 1.0e9   # p = 1 every step
 	for i in 30:
-		s.customers.append({"customer_id": "x%d" % i, "phase": "QUEUE", "reservation_id": "", "queue_slot": -1, "tile": Vector2i(1, 1)})
+		s.customers.append({"customer_id": "x%d" % i, "phase": "CHECKOUT", "checkout_left": 1000000000, "register_id": "r", "reservation_id": "", "queue_slot": -1, "tile": Vector2i(1, 1)})
 	var runner := _open(s)
 	runner.process_frame(1.0 / 3.0)   
 	t.eq(s.visit_stats["potential"], 10)

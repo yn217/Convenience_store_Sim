@@ -1,15 +1,18 @@
 class_name CustomerAI
 extends RefCounted
 ## Customer state machine (03 §D, 09 §3): SELECT -> WALK_SHELF -> (pick = reserve) ->
-## WALK_REGISTER -> QUEUE -> EXIT. Runs once per fixed step, customers in ascending id order,
-## so the same seeds and ticks always give the same walks and purchases. Checkout and queue
-## timeouts belong to M3-03/04; here a customer that reaches the queue waits there.
+## WALK_REGISTER -> QUEUE -> CHECKOUT -> EXIT. Runs once per fixed step, customers in ascending
+## id order, so the same seeds and ticks always give the same walks and purchases. One customer
+## is served per register at a time (30 game seconds); the others wait in queue slots 1..2 and
+## advance. A customer who has waited QUEUE_TIMEOUT_SEC since picking leaves and the
+## reservation is released. A full queue makes the customer wait (WAIT_QUEUE) until a slot frees.
 ## RNG use: `purchases` only — one draw to pick the shelf item, one for the buy decision
 ## (a single draw when there is no candidate at all).
 
 const WALK_TILES_PER_STEP_FALLBACK := 0.6
 const RESERVATION_HOLD_SEC := 600
 const MAX_RESELECT := 2
+const QUEUE_TIMEOUT_SEC := 120
 
 var _paths := PathService.new()
 
@@ -39,7 +42,7 @@ func _spawn(state: GameState) -> void:
 		var tile: Vector2i = entrances[int(String(arrival["customer_id"]).right(5).to_int()) % entrances.size()]
 		state.customers.append({
 			"customer_id": arrival["customer_id"], "phase": "SELECT", "tile": tile, "path": [] as Array[Vector2i],
-			"progress": 0.0, "fixture_id": "", "sku_id": "", "reservation_id": "", "queue_slot": -1, "retries": 0,
+			"progress": 0.0, "fixture_id": "", "sku_id": "", "reservation_id": "", "queue_slot": -1, "retries": 0, "queue_since": 0, "checkout_left": 0, "register_id": "",
 			"outcome": "",
 		})
 	state.arrival_queue.clear()
@@ -62,11 +65,16 @@ func _update(state: GameState, c: Dictionary) -> void:
 		"WALK_REGISTER":
 			if _reservation_lost(state, c):
 				_leave(state, c, "reservation_lost")
+			elif _timed_out(state, c):
+				_leave(state, c, "queue_timeout")
 			elif _walk(state, c):
 				c["phase"] = "QUEUE"
+		"WAIT_QUEUE":
+			_wait_for_slot(state, c)
 		"QUEUE":
-			if _reservation_lost(state, c):
-				_leave(state, c, "reservation_lost")
+			_queue(state, c)
+		"CHECKOUT":
+			_checkout(state, c)
 		"EXIT":
 			if _walk(state, c):
 				c["phase"] = "GONE"
@@ -112,6 +120,10 @@ func _leave(state: GameState, c: Dictionary, outcome: String) -> void:
 		c["reservation_id"] = ""
 	c["queue_slot"] = -1
 	c["outcome"] = outcome
+	_start_exit(state, c)
+
+
+func _start_exit(state: GameState, c: Dictionary) -> void:
 	var reach := _paths.current_distances(state.grid)
 	var goal := Vector2i(-1, -1)
 	var best := 1 << 30
@@ -216,23 +228,98 @@ func _pick(state: GameState, c: Dictionary) -> void:
 	if plan.is_empty():
 		_leave(state, c, "no_register")
 		return
-	var taken := {}
-	for other in state.customers:
-		if other["customer_id"] != c["customer_id"] and int(other["queue_slot"]) >= 0:
-			taken[int(other["queue_slot"])] = true
-	var slot := -1
-	for i in plan["queue_cells"].size():
-		if not taken.has(i):
-			slot = i
-			break
+	c["queue_since"] = state.time_sec
+	c["register_id"] = plan["register_id"]
+	c["phase"] = "WAIT_QUEUE"
+	_wait_for_slot(state, c)
+
+
+func _timed_out(state: GameState, c: Dictionary) -> bool:
+	return state.time_sec - int(c["queue_since"]) >= QUEUE_TIMEOUT_SEC
+
+
+## Takes the front-most free queue slot of the customer's register, or keeps waiting.
+func _wait_for_slot(state: GameState, c: Dictionary) -> void:
+	if _reservation_lost(state, c):
+		_leave(state, c, "reservation_lost")
+		return
+	var plan := _register_plan(state)
+	if plan.is_empty():
+		_leave(state, c, "no_register")
+		return
+	var slot := _free_slot(state, c, plan)
 	if slot < 0:
-		_leave(state, c, "queue_full")
+		if _timed_out(state, c):
+			_leave(state, c, "queue_timeout")
 		return
 	c["queue_slot"] = slot
 	if not _route(state, c, plan["queue_cells"][slot]):
 		_leave(state, c, "unreachable_register")
 		return
 	c["phase"] = "WALK_REGISTER"
+
+
+func _free_slot(state: GameState, c: Dictionary, plan: Dictionary) -> int:
+	var taken := {}
+	for other in state.customers:
+		if other["customer_id"] != c["customer_id"] and int(other["queue_slot"]) >= 0 and other["register_id"] == plan["register_id"]:
+			taken[int(other["queue_slot"])] = true
+	for i in plan["queue_cells"].size():
+		if not taken.has(i):
+			return i
+	return -1
+
+
+## Waiting in the line: start checkout at the service cell when the register is free, otherwise
+## step forward into a freed slot, otherwise give up after the timeout.
+func _queue(state: GameState, c: Dictionary) -> void:
+	if _reservation_lost(state, c):
+		_leave(state, c, "reservation_lost")
+		return
+	var plan := _register_plan(state)
+	if plan.is_empty():
+		_leave(state, c, "no_register")
+		return
+	if int(c["queue_slot"]) == 0:
+		var busy := false
+		for other in state.customers:
+			if other["phase"] == "CHECKOUT" and other["register_id"] == c["register_id"]:
+				busy = true
+		if not busy:
+			c["phase"] = "CHECKOUT"
+			c["checkout_left"] = int(state.balance.get("checkout_duration_game_seconds", 30))
+			return
+	elif int(c["queue_slot"]) > 0:
+		var ahead: int = int(c["queue_slot"]) - 1
+		var free := true
+		for other in state.customers:
+			if other["customer_id"] != c["customer_id"] and int(other["queue_slot"]) == ahead and other["register_id"] == c["register_id"]:
+				free = false
+		if free:
+			c["queue_slot"] = ahead
+			if _route(state, c, plan["queue_cells"][ahead]):
+				c["phase"] = "WALK_REGISTER"
+				return
+	if _timed_out(state, c):
+		_leave(state, c, "queue_timeout")
+
+
+func _checkout(state: GameState, c: Dictionary) -> void:
+	if _reservation_lost(state, c):
+		_leave(state, c, "reservation_lost")
+		return
+	c["checkout_left"] = int(c["checkout_left"]) - int(GameClock.STEP_GAME_SECONDS)
+	if int(c["checkout_left"]) > 0:
+		return
+	var sale := InventoryService.complete_sale(state, "sale:%s" % c["reservation_id"], c["reservation_id"])
+	c["queue_slot"] = -1
+	if sale["ok"]:
+		state.visit_stats["purchased"] += 1
+		c["reservation_id"] = ""
+		c["outcome"] = "purchased"
+		_start_exit(state, c)
+	else:
+		_leave(state, c, "sale_failed")
 
 
 ## First register (by instance id) that can form a queue: {service_cell, queue_cells} or {}.
@@ -248,5 +335,6 @@ func _register_plan(state: GameState) -> Dictionary:
 			continue
 		var plan := AccessService.register_plan(state.grid, def, inst["x"], inst["y"], inst["rotation"], blocked, reach)
 		if int(plan["slots"]) > 0:
+			plan["register_id"] = id
 			return plan
 	return {}
