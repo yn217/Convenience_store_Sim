@@ -29,3 +29,6 @@ Desktop.ini
 *.bak
 *.log
 # DON'T globally ignore assets/generated: approved runtime sprites should be version-controlled.
+
+# Claude Code local state (agent worktrees, scheduler lock): never commit
+.claude/
