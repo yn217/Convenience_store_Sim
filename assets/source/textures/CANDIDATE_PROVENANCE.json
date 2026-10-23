@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-10-23",
+  "tool": "Codex built-in image generation tool",
+  "model": "not exposed by tool",
+  "seed": null,
+  "license_status": "pending review under Issue #29; fictional marks only",
+  "runtime_adoption": false,
+  "candidates": [
+    {"id": "sku_onigiri_v01", "file": "assets/source/textures/packages/sku_onigiri_comparison_v01.png", "variants": 2, "prompt": "Fictional onigiri package comparison board, coral and cream plus teal and yellow, generic invented marks only, no real brands, readable text, logos, or watermark."},
+    {"id": "sku_tea_v01", "file": "assets/source/textures/packages/sku_tea_comparison_v01.png", "variants": 2, "prompt": "Fictional bottled tea label comparison board, deep green and cream plus plum and pale gold, invented abstract marks only, no real brands, readable text, logos, or watermark."},
+    {"id": "sku_cupnoodle_v01", "file": "assets/source/textures/packages/sku_cupnoodle_comparison_v01.png", "variants": 2, "prompt": "Fictional cup-noodle label comparison board, orange and cream plus deep blue and lime, generic invented marks only, no real brands, readable text, logos, or watermark."},
+    {"id": "register_basic_material_v01", "file": "assets/source/textures/materials/register_basic_material_comparison_v01.png", "variants": 2, "prompt": "Generic checkout register material comparison: brushed stainless with graphite trim versus warm light-gray powder-coated metal with charcoal trim, orthographic, no logos or readable text."},
+    {"id": "shelf_general_material_v01", "file": "assets/source/textures/materials/shelf_general_material_comparison_v01.png", "variants": 2, "prompt": "Generic gondola shelf material comparison: cool white powder-coated steel versus pale warm laminate and charcoal uprights, orthographic, no products, logos, or readable text."},
+    {"id": "fridge_drink_material_v01", "file": "assets/source/textures/materials/fridge_drink_material_comparison_v01.png", "variants": 2, "prompt": "Generic refrigerated drink-case material comparison: cool white metal and cyan LED versus pale gray aluminum and neutral LED, transparent glass, orthographic, no products, logos, or readable text."}
+  ]
+}
