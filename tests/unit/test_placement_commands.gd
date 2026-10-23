@@ -166,7 +166,7 @@ func test_preview_is_read_only(t, _tree) -> void:
 	t.ok(p.ok)
 	t.eq(p.cost_yen, 90000)
 	t.eq(p.cells, [Vector2i(6, 4), Vector2i(6, 5)] as Array[Vector2i])
-	t.eq(p.access_cells, [Vector2i(7, 4), Vector2i(7, 5)] as Array[Vector2i])
+	t.eq(p.access_cells, [Vector2i(7, 5), Vector2i(7, 4)] as Array[Vector2i], "access tiles ordered by entrance distance")
 	t.eq(s.cash_yen, 500000, "preview spends nothing")
 	t.eq(s.revision, 0)
 	t.eq(s.grid.instances.size(), 0)
@@ -386,5 +386,8 @@ func _assert_invariants(t, s: GameState, step: int) -> void:
 	for id in s.grid.instances:
 		var def := s.fixtures.get_type(s.grid.instances[id]["type_id"])
 		var inst: Dictionary = s.grid.instances[id]
-		var access := PlacementRules.walkable_access(s.grid, PlacementRules.access_candidates(def, inst["x"], inst["y"], inst["rotation"]), s.grid.blocked_cells())
-		t.ok(def["access_edges"].is_empty() or not access.is_empty(), "step %d: %s keeps an access tile" % [step, id])
+		var reach := PathService.distances(s.grid, s.grid.blocked_cells())
+		var access := AccessService.reachable_access(s.grid, def, inst["x"], inst["y"], inst["rotation"], reach)
+		t.ok(def["access_edges"].is_empty() or not access.is_empty(), "step %d: %s keeps a reachable access tile" % [step, id])
+		if AccessService.is_register(def):
+			t.ok(int(AccessService.register_plan(s.grid, def, inst["x"], inst["y"], inst["rotation"], s.grid.blocked_cells(), reach)["slots"]) >= 1, "step %d: register %s keeps a queue slot" % [step, id])

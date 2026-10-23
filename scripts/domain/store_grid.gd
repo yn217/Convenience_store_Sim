@@ -11,6 +11,8 @@ var height: int = 0
 var entrance_tiles: Array[Vector2i] = []
 var instances: Dictionary = {}
 var load_errors: Array[String] = []
+## Bumped on every structural change; PathService caches are keyed by it.
+var revision: int = 0
 var _occupancy: Dictionary = {}
 
 
@@ -84,6 +86,7 @@ func move_instance(instance_id: String, x: int, y: int, rotation: int, fixtures:
 	instances[instance_id]["x"] = x
 	instances[instance_id]["y"] = y
 	instances[instance_id]["rotation"] = rotation
+	revision += 1
 	return &"OK"
 
 
@@ -115,6 +118,7 @@ func add_instance(inst: Dictionary, fixtures: FixtureCatalog) -> StringName:
 	instances[rec["instance_id"]] = rec
 	for c in cells:
 		_occupancy[c] = rec["instance_id"]
+	revision += 1
 	return &"OK"
 
 
@@ -125,6 +129,7 @@ func remove_instance(instance_id: String) -> bool:
 		if _occupancy[c] == instance_id:
 			_occupancy.erase(c)
 	instances.erase(instance_id)
+	revision += 1
 	return true
 
 

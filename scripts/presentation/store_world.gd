@@ -141,7 +141,7 @@ func clear_selection() -> void:
 	_set_selected(NO_TILE)
 
 
-func set_ghost(cells: Array[Vector2i], access: Array[Vector2i], valid: bool) -> void:
+func set_ghost(cells: Array[Vector2i], access: Array[Vector2i], valid: bool, queue: Array[Vector2i] = []) -> void:
 	if _selection == null:
 		return
 	var cell_polys: Array = []
@@ -150,8 +150,11 @@ func set_ghost(cells: Array[Vector2i], access: Array[Vector2i], valid: bool) -> 
 	var access_polys: Array = []
 	for c in access:
 		access_polys.append(projection.tile_diamond(c))
-	_ghost = {"cells": cells, "access": access, "valid": valid}
-	_selection.show_ghost(cell_polys, access_polys, valid)
+	var queue_polys: Array = []
+	for c in queue:
+		queue_polys.append(projection.tile_diamond(c))
+	_ghost = {"cells": cells, "access": access, "valid": valid, "queue": queue}
+	_selection.show_ghost(cell_polys, access_polys, valid, queue_polys)
 
 
 func clear_ghost() -> void:
@@ -193,7 +196,7 @@ func _refresh() -> void:
 		if hover_tile != NO_TILE:
 			_selection.show_tile(projection.tile_diamond(hover_tile))
 		if not _ghost.is_empty():
-			set_ghost(_ghost["cells"], _ghost["access"], _ghost["valid"])
+			set_ghost(_ghost["cells"], _ghost["access"], _ghost["valid"], _ghost["queue"])
 	if _fixture_view != null:
 		_fixture_view.queue_redraw()
 	queue_redraw()

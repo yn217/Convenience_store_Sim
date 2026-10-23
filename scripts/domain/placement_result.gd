@@ -8,4 +8,6 @@ var message_key: StringName = &""
 var cells: Array[Vector2i] = []
 ## Walkable cells in front of the access edges after the placement (empty = unreachable).
 var access_cells: Array[Vector2i] = []
+## Register only: where the customer queue forms (service cell first).
+var queue_cells: Array[Vector2i] = []
 var cost_yen: int = 0

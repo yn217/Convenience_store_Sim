@@ -10,11 +10,14 @@ const GHOST_OK := Color(0.26, 0.78, 0.49, 0.55)
 const GHOST_BAD := Color(0.93, 0.56, 0.56, 0.60)
 const ACCESS_FILL := Color(1.0, 0.78, 0.45, 0.35)
 const ACCESS_EDGE := Color(1.0, 0.78, 0.45, 1.0)
+const QUEUE_FILL := Color(0.36, 0.68, 0.99, 0.30)
+const QUEUE_EDGE := Color(0.36, 0.68, 0.99, 0.9)
 
 var polygon: PackedVector2Array = PackedVector2Array()
 var selected_polygon: PackedVector2Array = PackedVector2Array()
 var ghost_cells: Array = []
 var ghost_access: Array = []
+var ghost_queue: Array = []
 var ghost_valid: bool = false
 
 
@@ -38,9 +41,10 @@ func clear_selected() -> void:
 	queue_redraw()
 
 
-func show_ghost(cells: Array, access: Array, valid: bool) -> void:
+func show_ghost(cells: Array, access: Array, valid: bool, queue: Array = []) -> void:
 	ghost_cells = cells
 	ghost_access = access
+	ghost_queue = queue
 	ghost_valid = valid
 	queue_redraw()
 
@@ -48,10 +52,13 @@ func show_ghost(cells: Array, access: Array, valid: bool) -> void:
 func clear_ghost() -> void:
 	ghost_cells = []
 	ghost_access = []
+	ghost_queue = []
 	queue_redraw()
 
 
 func _draw() -> void:
+	for poly in ghost_queue:
+		_draw_diamond(poly, QUEUE_FILL, QUEUE_EDGE, 2.0)
 	for poly in ghost_access:
 		_draw_diamond(poly, ACCESS_FILL, ACCESS_EDGE, 2.0)
 	for poly in ghost_cells:

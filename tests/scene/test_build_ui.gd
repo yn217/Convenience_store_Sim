@@ -233,3 +233,38 @@ func test_keyboard_reaches_the_store_through_the_window(t, tree) -> void:
 	await tree.process_frame
 	t.eq(bc.mode, 0, "Esc pressed in the window cancels")
 	await _end(tree, r)
+
+
+func _put(state: GameState, id: String, type_id: String, x: int, y: int) -> void:
+	state.grid.add_instance({"instance_id": id, "type_id": type_id, "x": x, "y": y, "rotation": 0, "enabled": true}, state.fixtures)
+
+
+func test_corridor_block_is_red_with_a_reason(t, tree) -> void:
+	var r := await _boot(tree)
+	var state: GameState = r["app"].state
+	var world: Node2D = r["world"]
+	for p in [["w1", 8, 0], ["w2", 8, 2], ["w3", 8, 8], ["w4", 8, 10], ["w5", 8, 4]]:
+		_put(state, p[0], "freezer_ice", p[1], p[2])
+	_put(state, "reg", "register_basic", 12, 5)
+	r["app"]._publish_snapshot()
+	r["bc"]._type_buttons["freezer_ice"].pressed.emit()
+	_hover(r, Vector2i(8, 6))
+	t.ok(not world._ghost["valid"], "sealing the last gap is red")
+	t.ok(_preview(r).contains("塞ぐ"), "reason in text: " + _preview(r))
+	_click(r, Vector2i(8, 6))
+	t.eq(state.grid.instances.size(), 6, "refused at commit")
+	_hover(r, Vector2i(3, 2))
+	t.ok(world._ghost["valid"], "somewhere harmless is fine")
+	await _end(tree, r)
+
+
+func test_register_preview_shows_its_queue(t, tree) -> void:
+	var r := await _boot(tree)
+	var world: Node2D = r["world"]
+	r["bc"]._type_buttons["register_basic"].pressed.emit()
+	_hover(r, Vector2i(6, 4))
+	t.eq(world._ghost["queue"], [Vector2i(7, 5), Vector2i(8, 5), Vector2i(9, 5)] as Array[Vector2i], "3-slot queue line")
+	_hover(r, Vector2i(15, 4))
+	t.ok(not world._ghost["valid"], "register facing the wall is refused")
+	t.ok(_preview(r).contains("前が空いていない") or _preview(r).contains("待機列"), "reason: " + _preview(r))
+	await _end(tree, r)

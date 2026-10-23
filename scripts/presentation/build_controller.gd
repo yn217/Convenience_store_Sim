@@ -199,7 +199,7 @@ func _update_ghost() -> void:
 		return
 	var t: Vector2i = _world.hover_tile
 	var res: PlacementResult = _app.commands.validate_placement(pending_type, t.x, t.y, preview_rotation, moving_id)
-	_world.set_ghost(res.cells, res.access_cells, res.ok)
+	_world.set_ghost(res.cells, res.access_cells, res.ok, res.queue_cells)
 	if res.ok:
 		_preview_label.text = "設置できます ¥%s" % GameHud.format_yen(res.cost_yen).trim_prefix("¥") if mode == 1 else "移動できます（費用なし）"
 	else:
