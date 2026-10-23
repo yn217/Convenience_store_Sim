@@ -159,6 +159,18 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/candidates/oden_generated_cutout_v02.png",
+      "sha256": "c81a4a626ad6e14411d7294193382da4c5800f9f6c86a91965c1015faabab99d",
+      "bytes": 2372872
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/oden_snack_alt_subagent_candidates_v01.provenance.json",
+      "sha256": "5dfdb643bfb6792cb1bd0eb336ffac8d13e188ffe845ab71c4d59ce83dec7ded",
+      "bytes": 805
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/candidates/onigiri_generated_cutout_v01.png",
       "sha256": "fc34cb2a4569caf17f156caee11d5c514bb38384784ba6e203de392adfe74ce1",
       "bytes": 1804683
@@ -306,6 +318,12 @@
       "path": "assets/source/textures/packages/candidates/snack_generated_cutout_v01.provenance.json",
       "sha256": "c59c057b4815168c8294e7108eda7b45c96504163be2a41b6a67de8805370057",
       "bytes": 925
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/snack_generated_cutout_v02.png",
+      "sha256": "ca2692a6dbeeef7a12de83be4037fd89037e8bec64d92aa9b2ca56b78034fd6d",
+      "bytes": 2516767
     },
     {
       "group": "packages",

@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {"id": "oden_alt", "category": "oden", "file": "assets/source/textures/packages/candidates/oden_generated_cutout_v02.png", "sha256": "C81A4A626AD6E14411D7294193382DA4C5800F9F6C86A91965C1015FAABAB99D"},
+    {"id": "snack_alt", "category": "snack", "file": "assets/source/textures/packages/candidates/snack_generated_cutout_v02.png", "sha256": "CA2692A6DBEEEF7A12DE83BE4037FD89037E8BEC64D92AA9B2CA56B78034FD6D"}
+  ],
+  "generation_method": "built-in OpenAI ImageGen via subagents",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Alternate candidates. Verify edge halo, common scale, anchor, iso2x, LOD, four directions, and SKU/visual_id mapping before adoption."
+}
