@@ -441,6 +441,24 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/hot_coffee_black_orange_subagent_v01.png",
+      "sha256": "1a4703aa8045753a58887665f08a22c238e87e0e441f4475882f67e6e670f0b4",
+      "bytes": 1122043
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/hot_coffee_subagent_candidates_v01.provenance.json",
+      "sha256": "50f1152db53484a5248f561139b08670d1e0133df319a04d90b5683f0da7c977",
+      "bytes": 1286
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/hot_coffee_white_brown_subagent_v01.png",
+      "sha256": "31c29e21e0e601b14926e6f6aa521eba4df3f8fa4b214613ac0820b560b54591",
+      "bytes": 1387687
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/icecream_blueberry_yogurt_subagent_v01.png",
       "sha256": "8a8f337d881389839a2eb34e013474af086ea37dfa619933476666e5b6da97c8",
       "bytes": 1764180

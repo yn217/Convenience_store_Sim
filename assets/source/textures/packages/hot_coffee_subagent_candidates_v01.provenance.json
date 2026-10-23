@@ -1,0 +1,15 @@
+{
+  "asset_family": "fictional_hot_coffee_cup_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagent Parfit",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single Japanese convenience-store hot coffee paper cup with lid and sleeve, realistic 2.5D isometric, transparent background, light contact shadow, no text/logo/trademark/barcode/real manufacturer.",
+  "candidates": [
+    {"asset_id":"hot_coffee_white_brown_subagent_v01","source_file":"assets/source/textures/packages/hot_coffee_white_brown_subagent_v01.png","sha256":"31C29E21E0E601B14926E6F6AA521EBA4DF3F8FA4B214613AC0820B560B54591","palette":"white and brown"},
+    {"asset_id":"hot_coffee_black_orange_subagent_v01","source_file":"assets/source/textures/packages/hot_coffee_black_orange_subagent_v01.png","sha256":"1A4703AA8045753A58887665F08A22C238E87E0E441F4475882F67E6E670F0B4","palette":"black and orange"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only package PNGs; slot overlay, scale, anchor, LOD and inventory linkage remain open. A separate publication-rack generation was not imported because its reported output was in the shared folder."
+}
