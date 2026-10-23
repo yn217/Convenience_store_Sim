@@ -12,7 +12,7 @@ const LABELS := {
 	"rice_ball": "おにぎり", "oden": "おでん", "instant_noodle": "カップ麺", "bread": "パン",
 	"drink": "飲料", "snack": "おかし", "dessert": "デザート", "ice_cream": "アイス",
 }
-const MIN_ZOOM := 0.6
+const MIN_ZOOM := 0.5
 const TEXT_COLOR := Color.WHITE
 const DARKEN := 0.45          ## board fill = category colour darkened by this amount
 const BORDER_LIGHTEN := 0.25  ## 1 px border = category colour lightened by this amount
