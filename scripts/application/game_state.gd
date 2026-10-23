@@ -36,6 +36,10 @@ var next_customer_seq: int = 0
 var balance: Dictionary = {}
 ## Advertising tier (yen/day) in force today; the ad system (M4-01) changes it at day start.
 var applied_ad_tier_yen: int = 0
+## Budget chosen for the next game day; it is charged and applied when that day is first charged.
+var next_day_ad_yen: int = 0
+## Costs recognised but not paid because cash ran out (shown separately from cash).
+var unpaid_cost_yen: int = 0
 ## Today's visitor counters, kept apart (03 §G): wished-to-visit / actually entered / turned away.
 var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 ## Customers in the store (filled by M3-02) and arrivals waiting to be spawned as customers.
@@ -67,6 +71,7 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 	s.reputation = int(balance["starting_reputation"])
 	s.rng_states = seeds.duplicate()
 	s.balance = balance.duplicate(true)
+	s.next_day_ad_yen = int(balance.get("starting_ad_budget_yen_per_day", 0))
 	return s
 
 
@@ -115,6 +120,9 @@ func snapshot() -> Dictionary:
 		"cash_yen": ledger.cash_yen,
 		"reputation": reputation,
 		"rng_states": rng_states.duplicate(),
+		"next_day_ad_yen": next_day_ad_yen,
+		"applied_ad_tier_yen": applied_ad_tier_yen,
+		"unpaid_cost_yen": unpaid_cost_yen,
 		"visit_stats": visit_stats.duplicate(),
 		"customers": _customer_views(),
 	}

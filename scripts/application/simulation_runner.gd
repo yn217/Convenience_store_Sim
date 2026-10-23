@@ -27,8 +27,23 @@ func process_frame(delta: float) -> int:
 ## One fixed step in the order of 03 §B: expiry sweep first, then new arrivals, then customers. The customer AI
 ## runs after these; checkout and queue timeouts (M3-03/04) slot in next.
 func _run_step() -> void:
+	var prev_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
 	_state.time_sec += int(GameClock.STEP_GAME_SECONDS)
 	InventoryService.sweep_expired(_state)
 	InventoryService.release_timed_out(_state)
 	DemandGenerator.step(_state)
 	_customers.step(_state)
+	var new_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
+	if new_day != prev_day:
+		_state.day = new_day
+		_charge_new_day()
+	BusinessService.finish_closing_if_empty(_state)
+
+
+## Midnight while OPEN/CLOSING: the new day's costs are recognised once and paid as far as cash
+## allows; any remainder becomes unpaid cost and blocks the store (03 §5).
+func _charge_new_day() -> void:
+	var unpaid := BusinessService.charge_day(_state, _state.day, true)
+	if unpaid > 0:
+		_state.business_state = GameState.PAYMENT_BLOCKED
+		_state.speed_setting = 0

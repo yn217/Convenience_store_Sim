@@ -1,7 +1,8 @@
 class_name GameCommands
 extends RefCounted
 ## CommandBus entry point (08 §1.1, §2). Runs in the command phase, so it works while the
-## game clock is stopped (speed 0). Implemented: SET_SPEED, SET_PRICE, ORDER_STOCK, RESTOCK and the layout commands
+## game clock is stopped (speed 0). Implemented: SET_SPEED, SET_PRICE, ORDER_STOCK, RESTOCK, SET_NEXT_DAY_AD, START_BUSINESS,
+## REQUEST_CLOSE and the layout commands
 ## PLACE/MOVE/REMOVE_FIXTURE + UNDO/REDO_LAYOUT. Other kinds return INVALID_OPERATION until
 ## their Issues land. Every command validates first and mutates only when it cannot fail.
 
@@ -48,6 +49,12 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _remove(command_id, command)
 		&"SET_PRICE":
 			result = _set_price(command_id, command)
+		&"SET_NEXT_DAY_AD":
+			result = _set_next_day_ad(command_id, command)
+		&"START_BUSINESS":
+			result = _start_business(command_id)
+		&"REQUEST_CLOSE":
+			result = _request_close(command_id)
 		&"ORDER_STOCK":
 			result = _stock_result(command_id, StockOps.order(_state, command_id, command.get("sku_id"), command.get("qty")))
 		&"RESTOCK":
@@ -110,6 +117,54 @@ func _set_speed(command_id: String, command: Dictionary) -> CommandResult:
 	if speed != 0:
 		_state.last_nonzero_speed = speed
 	var events: Array[String] = ["%s:SPEED_CHANGED" % command_id]
+	return _commit(command_id, events)
+
+
+# ---------------------------------------------------------------- business lifecycle / advertising
+
+## Only the five tiers are valid. Choosing one never moves cash: it is charged (once) when the
+## next game day is first charged. A tier the cash could not cover today is refused.
+func _set_next_day_ad(command_id: String, command: Dictionary) -> CommandResult:
+	var tier = command.get("tier_yen")
+	var known := false
+	for t in _state.balance.get("advertising_tiers", []):
+		if typeof(tier) == TYPE_INT and int(t["yen_per_day"]) == tier:
+			known = true
+	if not known:
+		return _fail(&"INVALID_OPERATION", &"ad_tier_invalid")
+	if tier > _state.cash_yen:
+		return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+	_state.next_day_ad_yen = tier
+	var events: Array[String] = ["%s:AD_BUDGET_SCHEDULED" % command_id]
+	return _commit(command_id, events, {"tier_yen": tier})
+
+
+## SETUP -> OPEN at speed 1. All checks and the day's charges are one atomic commit: any failure
+## leaves state, cash and ledger exactly as they were. Charges already booked today are not repeated.
+func _start_business(command_id: String) -> CommandResult:
+	if _state.business_state != GameState.SETUP:
+		return _fail(&"INVALID_OPERATION", &"already_open")
+	var problem := BusinessService.opening_problem(_state)
+	if problem != &"":
+		return _fail(problem, StringName(String(problem).to_lower()))
+	if not BusinessService.day_charged(_state, _state.day):
+		if BusinessService.total(BusinessService.day_costs(_state)) > _state.cash_yen:
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+		BusinessService.charge_day(_state, _state.day, false)
+	_state.business_state = GameState.OPEN
+	_state.speed_setting = 1
+	_state.last_nonzero_speed = 1
+	var events: Array[String] = ["%s:BUSINESS_STARTED" % command_id]
+	return _commit(command_id, events)
+
+
+func _request_close(command_id: String) -> CommandResult:
+	if _state.business_state != GameState.OPEN:
+		return _fail(&"INVALID_OPERATION", &"not_open")
+	_state.business_state = GameState.CLOSING
+	if _state.speed_setting == 0:
+		_state.speed_setting = _state.last_nonzero_speed
+	var events: Array[String] = ["%s:BUSINESS_CLOSING_REQUESTED" % command_id]
 	return _commit(command_id, events)
 
 
