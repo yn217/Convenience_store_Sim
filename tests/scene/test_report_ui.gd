@@ -63,3 +63,12 @@ func test_panel_updates_when_a_day_closes(t, tree) -> void:
 	t.ok(rc._label.text.contains("DAY 9"))
 	main.queue_free()
 	await tree.process_frame
+
+
+func test_legend_matches_the_bar_colours(t, _tree) -> void:
+	var entries := ReportController.legend_entries()
+	t.eq(entries.size(), 2)
+	t.eq(entries[0]["color"], ReportChart.UP, "gain dot uses the bar colour")
+	t.eq(entries[1]["color"], ReportChart.DOWN, "loss dot uses the bar colour")
+	t.eq(UiTheme.SUCCESS_GREEN, Color("43c67d"))
+	t.eq(UiTheme.INFO_CYAN, Color("5caefd"))

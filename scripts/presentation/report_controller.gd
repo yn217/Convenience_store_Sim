@@ -11,18 +11,57 @@ var _chart: ReportChart
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
 
+var _detail_button: Button
+
+
 func setup(_app: Node) -> void:
 	var title := Label.new()
 	title.text = "日次レポート"
 	title.add_theme_font_size_override("font_size", 20)
 	_body.add_child(title)
+	var head := HBoxContainer.new()   # the 詳細 toggle sits on the row under the title, at the right
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(spacer)
+	_detail_button = Button.new()
+	_detail_button.text = "詳細"
+	_detail_button.toggle_mode = true
+	_detail_button.button_pressed = true
+	_detail_button.add_theme_font_size_override("font_size", 13)
+	_detail_button.toggled.connect(func(shown: bool): _label.visible = shown)
+	head.add_child(_detail_button)
+	_body.add_child(head)
 	_label = Label.new()
 	_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_label)
 	_chart = ReportChart.new()
 	_chart.custom_minimum_size = Vector2(0, 90)
 	_body.add_child(_chart)
+	_body.add_child(_legend())
 	apply_snapshot({})
+
+
+## Colour key for the chart bars: the same colours ReportChart draws with.
+static func legend_entries() -> Array[Dictionary]:
+	return [
+		{"color": ReportChart.UP, "text": "営業損益（黒字）"},
+		{"color": ReportChart.DOWN, "text": "営業損益（赤字）"},
+	]
+
+
+func _legend() -> HBoxContainer:
+	var row := HBoxContainer.new()
+	for entry in legend_entries():
+		var dot := ColorRect.new()
+		dot.color = entry["color"]
+		dot.custom_minimum_size = Vector2(10, 10)
+		dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(dot)
+		var text := Label.new()
+		text.text = entry["text"]
+		text.add_theme_font_size_override("font_size", 12)
+		row.add_child(text)
+	return row
 
 
 func apply_snapshot(snap: Dictionary) -> void:

@@ -12,6 +12,8 @@ var _seq: int = 0
 var _start: Button
 var _close: Button
 var _ad: OptionButton
+var _ad_change: Button
+var _ad_summary: Label
 var _ad_info: Label
 var _status: Label
 var _checklist: Label
@@ -41,12 +43,26 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_checklist = Label.new()
 	_checklist.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_checklist)
+	var ad_head := HBoxContainer.new()
+	var ad_title := Label.new()
+	ad_title.text = "明日の広告・予定"
+	ad_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ad_head.add_child(ad_title)
+	_ad_change = Button.new()
+	_ad_change.text = "変更"
+	_ad_change.add_theme_font_size_override("font_size", 13)
+	_ad_change.pressed.connect(open_ad_picker)
+	ad_head.add_child(_ad_change)
+	_body.add_child(ad_head)
+	_ad_summary = Label.new()
+	_ad_summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_ad_summary)
 	_ad = OptionButton.new()
 	_ad.clip_text = true
 	_ad.fit_to_longest_item = false
 	_ad.custom_minimum_size = Vector2(60, 0)
 	for tier in _tiers:
-		_ad.add_item("明日の広告: %s ×%.2f" % [GameHud.format_yen(int(tier["yen_per_day"])) if int(tier["yen_per_day"]) > 0 else "なし", float(tier["arrival_multiplier"])])
+		_ad.add_item(tier_item_text(tier))
 		_ad.set_item_metadata(_ad.item_count - 1, int(tier["yen_per_day"]))
 	_ad.item_selected.connect(func(i): set_next_day_ad(_ad.get_item_metadata(i)))
 	_body.add_child(_ad)
@@ -68,11 +84,33 @@ func apply_snapshot(snap: Dictionary) -> void:
 	for i in _ad.item_count:
 		if _ad.get_item_metadata(i) == int(snap.get("next_day_ad_yen", 0)):
 			_ad.select(i)
+	var planned := int(snap.get("next_day_ad_yen", 0))
+	_ad_summary.text = plan_summary_text(_tiers, planned)
 	var today := int(snap.get("applied_ad_tier_yen", 0))
 	_ad_info.text = "今日の広告: %s ／ 明日の予約: %s（翌日の開始時に請求）" % [_yen_or_none(today), _yen_or_none(int(snap.get("next_day_ad_yen", 0)))]
 	var unpaid := int(snap.get("unpaid_cost_yen", 0))
 	if state == "PAYMENT_BLOCKED":
 		_status.text = "費用を支払えず営業を停止しました（未払い %s）。セーブからやり直してください。" % GameHud.format_yen(unpaid)
+
+
+## One dropdown row, e.g. "明日の広告: なし ×1.00" or "明日の広告: ¥2,000 ×1.18".
+static func tier_item_text(tier: Dictionary) -> String:
+	var yen := int(tier["yen_per_day"])
+	return "明日の広告: %s ×%.2f" % [GameHud.format_yen(yen) if yen > 0 else "なし", float(tier["arrival_multiplier"])]
+
+
+## Summary of tomorrow's planned tier (SCR-17): plan, advertising cost and the traffic forecast.
+## A tier that is not in the list counts as no advertising (×1.00).
+static func plan_summary_text(tiers: Array, tier_yen: int) -> String:
+	var tier: Dictionary = {}
+	for t in tiers:
+		if int(t["yen_per_day"]) == tier_yen:
+			tier = t
+	var multiplier := float(tier.get("arrival_multiplier", 1.0))
+	var plan := "なし" if tier_yen <= 0 else GameHud.format_yen(tier_yen) + "/日"
+	return "プラン: %s
+広告費: %s
+効果予測: 来店 ×%.2f" % [plan, GameHud.format_yen(maxi(tier_yen, 0)), multiplier]
 
 
 ## SCR-09: every opening condition with a mark, so a disabled button always says why.
@@ -102,6 +140,12 @@ func start_business() -> CommandResult:
 
 func request_close() -> CommandResult:
 	return _send({"kind": &"REQUEST_CLOSE"})
+
+
+## The 変更 button: opens the tomorrow-tier dropdown; the choice itself still goes through set_next_day_ad.
+func open_ad_picker() -> void:
+	_ad.grab_focus()
+	_ad.show_popup()
 
 
 func set_next_day_ad(tier_yen: int) -> CommandResult:

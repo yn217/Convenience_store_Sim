@@ -11,6 +11,8 @@ const TEXT_PRIMARY := Color("edf5fb")
 const TEXT_SECONDARY := Color("adc4d5")
 
 const WARM := Color("ffc873")
+const SUCCESS_GREEN := Color("43c67d")
+const INFO_CYAN := Color("5caefd")
 const CARD := Color("1b3248")
 const RADIUS := 8
 const HUD_RADIUS := 14
