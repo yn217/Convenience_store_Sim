@@ -43,3 +43,36 @@ func test_presenter_draws_all_rotations_and_zooms(t, tree) -> void:
 		t.ok(true, "drew at zoom %s" % str(zoom))
 	world.queue_free()
 	await tree.process_frame
+
+
+func test_customers_and_fixture_segments_compose_front_to_back(t, tree) -> void:
+	var fixtures := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
+	var world: Node2D = load("res://scenes/store/StoreWorld.tscn").instantiate()
+	tree.root.add_child(world)
+	world.fixture_catalog = fixtures
+	var customers: Array = [
+		{"customer_id": "front", "tile": Vector2i(5, 5), "phase": "SELECT"},
+		{"customer_id": "back", "tile": Vector2i(3, 5), "phase": "SELECT"},
+		{"customer_id": "past_end", "tile": Vector2i(4, 8), "phase": "SELECT"},
+	]
+	world.apply_snapshot({
+		"store_width": 20, "store_height": 12, "revision": 1,
+		"entrance_tiles": [Vector2i(0, 5), Vector2i(0, 6)] as Array[Vector2i],
+		"fixtures": [{"instance_id": "s1", "type_id": "shelf_general", "x": 4, "y": 5, "rotation": 0, "enabled": true}],
+		"customers": customers, "shelf_stock": {},
+	})
+	var presenter: Node2D = world.get_node("ObjectSortRoot/FixturePresenter")
+	var order: Array = []
+	for it in presenter.compose():
+		order.append(it["customer"]["customer_id"] if it["kind"] == "customer" else "seg%d" % it["column"])
+	t.eq(order.size(), 5, "two shelf segments + three customers")
+	t.ok(order.find("back") < order.find("seg-2") and order.find("back") < order.find("seg-1"), "the customer behind is drawn first: %s" % str(order))
+	t.ok(order.find("front") > order.find("seg-2") and order.find("front") > order.find("seg-1"), "the customer in front is drawn last")
+	t.ok(order.find("past_end") > order.find("seg-1"), "past the near end: in front of the shelf")
+	for zoom in [0.5, 1.0, 2.0]:
+		world.projection.set_zoom(zoom)
+		presenter.queue_redraw()
+		await tree.process_frame
+	t.ok(true)
+	world.queue_free()
+	await tree.process_frame

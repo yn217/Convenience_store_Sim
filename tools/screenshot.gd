@@ -33,6 +33,11 @@ func _demo(main: Node, world: Node2D) -> void:
 		n += 1
 		app.run_command({"command_id": "demo%d" % n, "kind": &"PLACE_FIXTURE", "type_id": p[0], "x": p[1], "y": p[2], "rotation": p[3]})
 	_fake_stock(world)
+	# Customers around the shelf at (6,3) (1x2 along y): in front, behind, and past each end.
+	world.customers = [
+		{"customer_id": "c1", "tile": Vector2i(7, 3), "phase": "SELECT"}, {"customer_id": "c2", "tile": Vector2i(5, 4), "phase": "SELECT"},
+		{"customer_id": "c3", "tile": Vector2i(6, 5), "phase": "SELECT"}, {"customer_id": "c4", "tile": Vector2i(6, 2), "phase": "SELECT"},
+	]
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("zoom="):
 			world.projection.set_zoom(float(a.substr(5)))
