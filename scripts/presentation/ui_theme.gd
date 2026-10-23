@@ -13,6 +13,7 @@ const TEXT_SECONDARY := Color("adc4d5")
 const WARM := Color("ffc873")
 const CARD := Color("1b3248")
 const RADIUS := 8
+const HUD_RADIUS := 14
 
 const HUD_HEIGHT := 64
 const PALETTE_WIDTH := 280
@@ -43,6 +44,19 @@ static func build() -> Theme:
 	theme.set_type_variation("CardValue", "Label")
 	theme.set_color("font_color", "CardValue", WARM)
 	theme.set_font_size("font_size", "CardValue", 24)
+	theme.add_type("HudValue")
+	theme.set_type_variation("HudValue", "Label")
+	theme.set_color("font_color", "HudValue", WARM)
+	theme.set_font_size("font_size", "HudValue", FONT_HUD)
+	theme.add_type("HudSpeedButton")
+	theme.set_type_variation("HudSpeedButton", "Button")
+	theme.set_stylebox("normal", "HudSpeedButton", _hud_button_box(PANEL_ELEVATED, BORDER))
+	theme.set_stylebox("hover", "HudSpeedButton", _hud_button_box(PANEL_ELEVATED, WARM))
+	theme.set_stylebox("disabled", "HudSpeedButton", _hud_button_box(PANEL, BORDER))
+	theme.set_stylebox("pressed", "HudSpeedButton", _hud_button_box(BRAND_BLUE, WARM))
+	theme.set_stylebox("hover_pressed", "HudSpeedButton", _hud_button_box(BRAND_BLUE, WARM))
+	theme.set_color("font_color", "HudSpeedButton", TEXT_PRIMARY)
+	theme.set_font_size("font_size", "HudSpeedButton", FONT_HUD)
 	theme.set_color("font_color", "Label", TEXT_PRIMARY)
 	theme.set_color("font_color", "Button", TEXT_PRIMARY)
 	theme.set_font_size("font_size", "Label", FONT_BODY)
@@ -57,4 +71,10 @@ static func _box(color: Color, radius: int = 0) -> StyleBoxFlat:
 	b.border_color = BORDER
 	b.set_border_width_all(1)
 	b.set_content_margin_all(8)
+	return b
+
+
+static func _hud_button_box(color: Color, border: Color) -> StyleBoxFlat:
+	var b := _box(color, HUD_RADIUS)
+	b.border_color = border
 	return b
