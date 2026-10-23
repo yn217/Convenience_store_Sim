@@ -4,7 +4,7 @@ extends RefCounted
 ## blends. A function of the game clock only and presentation only (the hour weights of demand are
 ## separate). Night never goes darker than readable: shelf products and UI text stay legible.
 
-const DAY := Color(1.0, 1.0, 1.0)
+const DAY := Color(1.0, 0.975, 0.93)   # slightly warm even at noon (mockup: warm store light)
 const EVENING := Color(1.0, 0.86, 0.72)
 const NIGHT := Color(0.64, 0.70, 0.88)
 
