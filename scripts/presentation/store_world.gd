@@ -59,6 +59,7 @@ var safe_inset := Vector4.ZERO
 @onready var _light_glow: LightGlow = get_node_or_null("LightGlow") as LightGlow
 @onready var _sign_layer: SignLayer = get_node_or_null("SignLayer") as SignLayer
 @onready var _walls: WallLayer = get_node_or_null("WallLayer") as WallLayer
+@onready var _backdrop: BackdropLayer = get_node_or_null("BackdropLayer") as BackdropLayer
 
 
 func _ready() -> void:
@@ -343,6 +344,8 @@ func _on_viewport_resized() -> void:
 ## Re-derive highlight polygons after any camera/state change so they stay on their tiles.
 func _refresh() -> void:
 	_refresh_objects()
+	if _backdrop != null and store_width > 0:
+		_backdrop.sync(store_width, store_height, entrance_tiles, projection, viewport_size())
 	if _walls != null and store_width > 0:
 		_walls.sync(store_width, store_height, entrance_tiles, projection, viewport_size())
 	queue_redraw()
@@ -365,7 +368,8 @@ func _refresh_objects() -> void:
 func _draw() -> void:
 	if store_width <= 0:
 		return
-	draw_rect(Rect2(Vector2.ZERO, viewport_size()), OUTSIDE)
+	if _backdrop == null:   # the BackdropLayer (drawn behind this node) paints the ground around the store
+		draw_rect(Rect2(Vector2.ZERO, viewport_size()), OUTSIDE)
 	for y in store_height:
 		for x in store_width:
 			var c := Vector2i(x, y)

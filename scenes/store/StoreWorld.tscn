@@ -9,9 +9,15 @@
 [ext_resource type="Script" path="res://scripts/presentation/cue_layer.gd" id="6"]
 [ext_resource type="Script" path="res://scripts/presentation/sign_layer.gd" id="9"]
 [ext_resource type="Script" path="res://scripts/presentation/wall_layer.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/presentation/backdrop_layer.gd" id="10"]
 
 [node name="StoreWorld" type="Node2D"]
 script = ExtResource("1")
+
+
+[node name="BackdropLayer" type="Node2D" parent="."]
+show_behind_parent = true
+script = ExtResource("10")
 
 [node name="FloorLayer" type="Node2D" parent="."]
 
