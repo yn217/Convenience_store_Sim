@@ -135,3 +135,16 @@ tests/scenario/events/                 # same-seed daily roll/reload/cue replay
 - `scenes/main/TitleScreen.tscn`はタイトルのみ独立。ほかは`Main.tscn`にModalRoot、Panel、Bannerとして実装する。UIイベント遮断はControl/Containerの階層とmouse_filterで行う。
 - `scripts/application/ui_router.gd`に画面遷移と前後focus復帰。シミュレーション値はread-only snapshotから取得。
 - 画像は`docs/design/mockups`のレビュー用SVGとして管理し、実際のGodot向けゲーム素材は`assets/source`→`assets/generated`のBlenderパイプラインから製造する。
+
+## 依存方向（Issue #2 / M0-01で固定）
+```text
+presentation  ──読取──▶  application  ──呼出──▶  domain
+(Node2D/UI)             (GameState,               (純粋GDScript,
+                         GameCommands,             SceneTree非依存,
+                         SimulationRunner)         Lcg32 / GameClock …)
+```
+- `scripts/domain` は `application` / `presentation` / SceneTree / Node API / Godot全体乱数（`randf`等）を参照しない。
+- `scripts/application` は `presentation` を参照しない。Node APIを使えるのは起動とDIを担う `app_root.gd` だけ。
+- `scripts/presentation` は `GameState.snapshot()` の読取専用コピーだけを受け取り、状態変更は `GameCommands.execute()` へのコマンドだけで行う。
+- 経営計算は `SimulationRunner` の固定ステップだけで進め、`_process` に売上・現金計算を置かない。
+- 上記は `tools/validation/check_layering.py` が静的に検査する（`tools/run_tests.ps1` から実行）。

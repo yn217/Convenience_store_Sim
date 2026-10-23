@@ -117,3 +117,15 @@
 新規SVG: [タイトル](docs/design/mockups/05_title_new_game.svg) / [チュートリアル](docs/design/mockups/06_first_day_tutorial.svg) / [発注](docs/design/mockups/07_purchase_order.svg) / [補充](docs/design/mockups/08_shelf_restock.svg) / [開店](docs/design/mockups/09_opening_checklist.svg) / [閉店](docs/design/mockups/10_closing_in_progress.svg) / [イベント](docs/design/mockups/11_daily_event_festival.svg) / [初売上](docs/design/mockups/12_first_sale_achievement.svg) / [日次まとめ](docs/design/mockups/13_day_end_summary.svg) / [支払不能](docs/design/mockups/14_payment_blocked.svg) / [店舗分析](docs/design/mockups/15_store_heatmap.svg) / [セーブ](docs/design/mockups/16_save_load_settings.svg) / [広告](docs/design/mockups/17_next_day_advertising.svg) / [実績](docs/design/mockups/18_milestones_and_challenges.svg)。
 
 **注意:** SVGは構図/画面遷移の参考画像。実際の透過PNG/Blenderアセットや動作するGodotのゲームは制作中ではなく未実装。数値/経済/回転は`docs/implementation`の正式契約が優先します。
+
+
+## 開発手順（M0-01 / Windows）
+1. Godot **4.7.2-stable**（標準版）を用意する。`$env:GODOT` に `Godot_v4.7.2-stable_win64_console.exe` を指定するか、リポジトリの親フォルダの `_tools\godot-4.7.2\` に置く。
+2. 起動: `Godot_v4.7.2-stable_win64.exe --path .`（空店舗 16×12、SETUP、一時停止状態で開く）。
+3. 検証一式（依存方向チェック、GDScript構文検査、headlessテスト）:
+   ```powershell
+   .\tools\run_tests.ps1
+   ```
+4. headlessテストだけ: `godot --headless --path . --script res://tests/run_all.gd`（終了コード0=成功）。
+- テストの乱数seedは `tests/support/test_seeds.gd`（arrivals=1234, purchases=5678, visuals=9012）に固定。
+- 依存方向は [docs/design/PROJECT_DIRECTORY_STRUCTURE.md](docs/design/PROJECT_DIRECTORY_STRUCTURE.md) を参照。GitHub Actionsは使わない。
