@@ -1,0 +1,17 @@
+{
+  "asset_family": "fictional_frozen_food_and_daily_necessity_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Boole and Ampere",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single fictional Japanese convenience-store package or sleeve, realistic 2.5D isometric, transparent RGBA background, category-specific silhouette and palette, no real brand/trademark/logo/readable fine text/barcode/QR/watermark.",
+  "candidates": [
+    {"asset_id":"frozen_gyoza_teal_subagent_v01","source_file":"assets/source/textures/packages/frozen_gyoza_teal_subagent_v01.png","sha256":"C4FBC2742A7064629F5D8861F9D4A83EC7858785C2927EB9D1984F01B76418F1","category":"frozen food / gyoza","palette":"teal, cream and gold","dimensions_px":[1254,1254]},
+    {"asset_id":"frozen_fried_rice_orange_subagent_v01","source_file":"assets/source/textures/packages/frozen_fried_rice_orange_subagent_v01.png","sha256":"4B283570386D460E30D780C5C1971FF11528C8A98B245EA5F4F9FA0529280CD3","category":"frozen food / fried rice","palette":"orange, red and cream","dimensions_px":[1254,1254]},
+    {"asset_id":"pocket_tissue_soft_blue_subagent_v01","source_file":"assets/source/textures/packages/pocket_tissue_soft_blue_subagent_v01.png","sha256":"37509E3D8BBF81AFB8A36B7F0561969D3ABFE78E0668C6F079EFA8DECBEADB5A","category":"daily necessity / pocket tissue","palette":"soft blue and white","dimensions_px":[1536,1024]},
+    {"asset_id":"plastic_umbrella_clear_navy_subagent_v01","source_file":"assets/source/textures/packages/plastic_umbrella_clear_navy_subagent_v01.png","sha256":"FF3A54C66243CEBDFD0D42E11CC3871837C9C5DB69A13E1282DA2105B066D2FE","category":"daily necessity / clear plastic umbrella","palette":"clear, silver and navy","dimensions_px":[1024,1536]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only PNGs. Slot overlay, normalized game scale, anchor, LOD, four-direction coverage and inventory linkage remain open; no runtime files were changed."
+}

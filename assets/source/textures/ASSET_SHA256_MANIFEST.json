@@ -489,6 +489,24 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/frozen_daily_subagent_candidates_v01.provenance.json",
+      "sha256": "8f9745344247a51b4e13cbe827e7599aa7610c29a95fd34aa122a98c761b880d",
+      "bytes": 2111
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/frozen_fried_rice_orange_subagent_v01.png",
+      "sha256": "4b283570386d460e30d780c5c1971ff11528c8a98b245ea5f4f9fa0529280cd3",
+      "bytes": 2222434
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/frozen_gyoza_teal_subagent_v01.png",
+      "sha256": "c4fbc2742a7064629f5d8861f9d4a83ec7858785c2927eb9d1984f01b76418f1",
+      "bytes": 2337500
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/gum_pouch_cool_subagent_v01.png",
       "sha256": "74c5ea6e8eb7f61eb30fccd080792c6da58a2168e54398f05cbdd050ba0e46ae",
       "bytes": 1989795
@@ -552,6 +570,18 @@
       "path": "assets/source/textures/packages/PACKAGE_VISUAL_COVERAGE.json",
       "sha256": "0760520d9fa3dfd2aa443f457082db50ee20fbdecd1c71a721257ded76686d6b",
       "bytes": 5657
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/plastic_umbrella_clear_navy_subagent_v01.png",
+      "sha256": "ff3a54c66243cebdfd0d42e11cc3871837c9c5db69a13e1282da2105b066d2fe",
+      "bytes": 1489393
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/pocket_tissue_soft_blue_subagent_v01.png",
+      "sha256": "37509e3d8bbf81afb8a36b7f0561969d3abfe78e0668c6f079efa8decbeadb5a",
+      "bytes": 1837841
     },
     {
       "group": "packages",
