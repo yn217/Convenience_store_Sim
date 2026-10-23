@@ -1,7 +1,9 @@
 {
   "assets": [
     {"id": "beverage_cooler", "file": "assets/source/textures/fixtures/beverage_cooler_subagent_v01.png", "sha256": "CBB95E65B57C38F610F943938741D12F9221D79898612B6796D92AA4EA47D7EE"},
-    {"id": "oden_warmer", "file": "assets/source/textures/fixtures/oden_warmer_subagent_v01.png", "sha256": "ABA343BED7E7FDEEAAFFD6C3494C3C61D17F2A4624EA8F6A9372BEAD80E1BFC6"}
+    {"id": "oden_warmer", "file": "assets/source/textures/fixtures/oden_warmer_subagent_v01.png", "sha256": "ABA343BED7E7FDEEAAFFD6C3494C3C61D17F2A4624EA8F6A9372BEAD80E1BFC6"},
+    {"id": "register_counter", "file": "assets/source/textures/fixtures/register_counter_subagent_v01.png", "sha256": "996CE5773CD02FA9D112FC18585C9E7FBD2F508C6B4B113AC323B6F704DBA81E"},
+    {"id": "frozen_case", "file": "assets/source/textures/fixtures/frozen_case_subagent_v01.png", "sha256": "28DC9DFAC45E9B18E891717D6BC524FE26F7C2E7CC6058C19B3AB2D3DC8722E6"}
   ],
   "generation_method": "built-in OpenAI ImageGen via subagents",
   "selection_status": "review-only",
