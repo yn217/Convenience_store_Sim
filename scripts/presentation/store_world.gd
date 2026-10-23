@@ -31,6 +31,7 @@ var entrance_tiles: Array[Vector2i] = []
 var _floor_key: Array = []   # what the floor and walls were last drawn from (layout, camera, viewport)
 var _shadows: Array = []     # fixture contact shadows in world space, cached by _shadow_sig (layout signature)
 var _shadow_sig: Array = []
+var _debug_paths: DebugPathLayer   # customer path overlay (F3); draws nothing while disabled
 var fixtures: Array = []
 var fixture_catalog: FixtureCatalog
 var shelf_stock: Dictionary = {}
@@ -64,6 +65,23 @@ var safe_inset := Vector4.ZERO
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(_on_viewport_resized)
+	_debug_paths = DebugPathLayer.new()
+	_debug_paths.name = "DebugPathLayer"
+	add_child(_debug_paths)   # last child: drawn over the fixtures and customers, off until F3
+	_debug_paths.attach(self, _fixture_view)
+
+
+## Customer path overlay on/off (F3 or --debug-paths). Off in normal play: nothing is drawn or computed.
+func set_debug_paths(on: bool) -> void:
+	_debug_paths.enabled = on
+	queue_redraw()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key := event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode == KEY_F3:
+		set_debug_paths(not _debug_paths.enabled)
+		get_viewport().set_input_as_handled()
 
 
 func apply_snapshot(snapshot: Dictionary) -> void:

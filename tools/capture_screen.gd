@@ -67,6 +67,9 @@ func _run() -> void:
 		if a.begins_with("--zoom="):
 			var store: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 			store.zoom_at(store.viewport_size() * 0.5, float(a.trim_prefix("--zoom=")))
+	if OS.get_cmdline_user_args().has("--debug-paths"):   # --debug-paths: customer path overlay on (DebugPathLayer, F3 in game)
+		var store_dbg: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+		store_dbg.set_debug_paths(true)
 	for a in OS.get_cmdline_user_args():   # --hour=12: capture at that game clock (daylight tint, #61)
 		if a.begins_with("--hour="):
 			s.time_sec = int(float(a.trim_prefix("--hour=")) * 3600.0)
