@@ -1,0 +1,15 @@
+{
+  "asset_family": "fictional_icecream_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagent Kierkegaard",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single fictional ice cream cup, transparent background, realistic 2.5D isometric, frozen category identifiable by color and snowflake motif, no real brand/trademark/logo/barcode/readable fine text/watermark/background/multiple products.",
+  "candidates": [
+    {"asset_id":"icecream_blueberry_yogurt_subagent_v01","source_file":"assets/source/textures/packages/icecream_blueberry_yogurt_subagent_v01.png","sha256":"8A8F337D881389839A2EB34E013474AF086EA37DFA619933476666E5B6DA97C8","palette":"blue and lavender"},
+    {"asset_id":"icecream_strawberry_milk_subagent_v01","source_file":"assets/source/textures/packages/icecream_strawberry_milk_subagent_v01.png","sha256":"1A4EE2383A61D2F9C01386598F039FEFB314A4FD3A29FD0B7A5C4038A3CE082A","palette":"coral and pale pink"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only product PNGs; slot overlay, scale, anchor, LOD and inventory linkage remain open."
+}

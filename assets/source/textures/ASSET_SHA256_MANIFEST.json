@@ -441,6 +441,24 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/icecream_blueberry_yogurt_subagent_v01.png",
+      "sha256": "8a8f337d881389839a2eb34e013474af086ea37dfa619933476666e5b6da97c8",
+      "bytes": 1764180
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/icecream_strawberry_milk_subagent_v01.png",
+      "sha256": "1a4ee2383a61d2f9c01386598f039fefb314a4fd3a29fd0b7a5c4038a3ce082a",
+      "bytes": 2242881
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/icecream_subagent_candidates_v01.provenance.json",
+      "sha256": "6b6f7655bc704620af9566d226635a49e775ee4c46c597a5e5210106533aa7b9",
+      "bytes": 1235
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/oden_bread_snack_comparison_v01.png",
       "sha256": "87d749ec79d3a943879ecf31cd19d293477783b5ccdef98cba23035273424458",
       "bytes": 2012246
