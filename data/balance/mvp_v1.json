@@ -40,5 +40,34 @@
     1,
     2,
     4
-  ]
+  ],
+  "demand_model": {
+    "base_purchase_probability": 0.8,
+    "purchase_probability_min": 0.05,
+    "purchase_probability_max": 0.95,
+    "price_elasticity": 1.0,
+    "price_factor_min": 0.3,
+    "price_factor_max": 2.0,
+    "reputation_base": 0.75,
+    "reputation_per_point": 0.005,
+    "assortment_base": 0.75,
+    "assortment_span": 0.25,
+    "category_preference": {
+      "rice_ball": 1.0,
+      "oden": 1.0,
+      "instant_noodle": 1.0,
+      "bread": 1.0,
+      "drink": 1.0,
+      "snack": 1.0,
+      "dessert": 1.0,
+      "ice_cream": 1.0
+    },
+    "reputation_update": {
+      "purchase_rate_center": 0.5,
+      "purchase_rate_weight": 2.0,
+      "queue_abandon_weight": 2.0,
+      "stockout_weight": 1.0,
+      "max_daily_change": 3
+    }
+  }
 }

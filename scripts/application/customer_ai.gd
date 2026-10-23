@@ -120,6 +120,10 @@ func _leave(state: GameState, c: Dictionary, outcome: String) -> void:
 		c["reservation_id"] = ""
 	c["queue_slot"] = -1
 	c["outcome"] = outcome
+	if outcome == "queue_timeout":
+		state.rate_stats["abandoned"] += 1
+	elif outcome == "no_candidate" or outcome == "stockout":
+		state.rate_stats["stockouts"] += 1
 	_start_exit(state, c)
 
 
@@ -142,7 +146,7 @@ func _start_exit(state: GameState, c: Dictionary) -> void:
 # ---------------------------------------------------------------- SELECT
 
 func _select(state: GameState, c: Dictionary) -> void:
-	var cands := candidates(state)
+	var cands := candidates(state).filter(func(k): return k["weight"] > 0.0)   # preference 0 = never picked
 	var rng := Lcg32.new(int(state.rng_states["purchases"]))
 	if cands.is_empty():
 		rng.next_state()   # a draw is consumed even without candidates (09 §3)
@@ -160,8 +164,7 @@ func _select(state: GameState, c: Dictionary) -> void:
 		if pick < acc:
 			chosen = k
 			break
-	var price_factor := _price_factor(state, chosen["sku_id"])
-	var buy_p := clampf(0.80 * price_factor, 0.05, 0.95)
+	var buy_p := DemandModel.purchase_probability(_price_factor(state, chosen["sku_id"]), state.balance)
 	var buys := rng.uniform_0_1() < buy_p
 	state.rng_states["purchases"] = rng.state
 	if not buys:
@@ -180,8 +183,7 @@ func _select(state: GameState, c: Dictionary) -> void:
 
 
 func _price_factor(state: GameState, sku_id: String) -> float:
-	var ref := float(state.products.get_sku(sku_id)["default_sell_price_yen"])
-	return clampf(ref / float(maxi(state.sell_price(sku_id), 1)), 0.3, 2.0)
+	return DemandModel.price_factor(int(state.products.get_sku(sku_id)["default_sell_price_yen"]), state.sell_price(sku_id), state.balance)
 
 
 ## (sku_id, fixture_id) pairs a customer could buy right now, sorted by sku then fixture id,
@@ -207,7 +209,8 @@ func candidates(state: GameState) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for k in keys:
 		var e: Dictionary = seen[k]
-		e["weight"] = float(state.products.get_sku(e["sku_id"])["demand_weight"]) * _price_factor(state, e["sku_id"])
+		var sku := state.products.get_sku(e["sku_id"])
+		e["weight"] = DemandModel.category_preference(sku["category"], state.balance) * float(sku["demand_weight"]) * _price_factor(state, e["sku_id"])
 		out.append(e)
 	return out
 

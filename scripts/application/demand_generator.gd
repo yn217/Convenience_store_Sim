@@ -18,7 +18,8 @@ static func step(state: GameState) -> bool:
 		float(state.balance.get("base_potential_visitors_per_day", 100)),
 		DemandModel.ad_multiplier(state.balance.get("advertising_tiers", []), state.applied_ad_tier_yen),
 		state.reputation,
-		stocked_category_count(state))
+		stocked_category_count(state),
+		state.balance)
 	if roll >= p:
 		return false
 	state.visit_stats["potential"] += 1

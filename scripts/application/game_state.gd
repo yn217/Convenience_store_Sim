@@ -42,6 +42,8 @@ var next_day_ad_yen: int = 0
 var unpaid_cost_yen: int = 0
 ## Today's visitor counters, kept apart (03 §G): wished-to-visit / actually entered / turned away.
 var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
+## Inputs of the daily reputation update: customers who gave up in the queue / found nothing to buy.
+var rate_stats := {"abandoned": 0, "stockouts": 0}
 ## Customers in the store (filled by M3-02) and arrivals waiting to be spawned as customers.
 var customers: Array[Dictionary] = []
 var arrival_queue: Array[Dictionary] = []
@@ -96,7 +98,9 @@ func close_day_once(day_index: int) -> bool:
 		if r["day_index"] == day_index:
 			return false
 	daily_reports.append(DailyReport.build(day_index, ledger, visit_stats, reputation, ledger.cash_yen))
+	reputation = ReputationModel.next_reputation(reputation, visit_stats, rate_stats, balance)
 	visit_stats = {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
+	rate_stats = {"abandoned": 0, "stockouts": 0}
 	return true
 
 
@@ -166,6 +170,7 @@ func snapshot() -> Dictionary:
 		"daily_reports": daily_reports.duplicate(true),
 		"today": today_summary(),
 		"visit_stats": visit_stats.duplicate(),
+		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
 	}
 

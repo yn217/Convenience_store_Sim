@@ -79,6 +79,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 				"segment": state.next_segment_seq, "customer": state.next_customer_seq,
 			},
 			"visit_stats": state.visit_stats.duplicate(),
+			"rate_stats": state.rate_stats.duplicate(),
 			"last_nonzero_speed": state.last_nonzero_speed,
 		},
 	}
@@ -294,6 +295,12 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			errs.append("runtime_state.visit_stats.%s: invalid" % k)
 		else:
 			s.visit_stats[k] = int(vs[k])
+	var rs = rt.get("rate_stats", s.rate_stats)
+	for k in s.rate_stats:
+		if typeof(rs) != TYPE_DICTIONARY or not rs.has(k) or not JsonCheck.is_int(rs[k]) or int(rs[k]) < 0:
+			errs.append("runtime_state.rate_stats.%s: invalid" % k)
+		else:
+			s.rate_stats[k] = int(rs[k])
 	var ln = rt.get("last_nonzero_speed", 1)
 	if not JsonCheck.is_int(ln) or not [1, 2, 4].has(int(ln)):
 		errs.append("runtime_state.last_nonzero_speed: invalid")

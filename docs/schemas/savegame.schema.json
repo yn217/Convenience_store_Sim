@@ -872,6 +872,20 @@
             2,
             4
           ]
+        },
+        "rate_stats": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "abandoned": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "stockouts": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
         }
       }
     }

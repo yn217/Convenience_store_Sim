@@ -89,6 +89,88 @@
         2,
         4
       ]
+    },
+    "demand_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Tunable demand coefficients (03 §F, 09 §3). Optional: missing keys use the built-in defaults.",
+      "properties": {
+        "base_purchase_probability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "purchase_probability_min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "purchase_probability_max": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "price_elasticity": {
+          "type": "number",
+          "minimum": 0
+        },
+        "price_factor_min": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "price_factor_max": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "reputation_base": {
+          "type": "number",
+          "minimum": 0
+        },
+        "reputation_per_point": {
+          "type": "number",
+          "minimum": 0
+        },
+        "assortment_base": {
+          "type": "number",
+          "minimum": 0
+        },
+        "assortment_span": {
+          "type": "number",
+          "minimum": 0
+        },
+        "category_preference": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "reputation_update": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "purchase_rate_center": {
+              "type": "number"
+            },
+            "purchase_rate_weight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "queue_abandon_weight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "stockout_weight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max_daily_change": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
     }
   },
   "required": [
