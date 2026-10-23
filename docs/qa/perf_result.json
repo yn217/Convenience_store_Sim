@@ -1,57 +1,57 @@
 {
   "by_speed": {
     "x1": {
-      "customers": 29,
-      "draw_calls": 597,
-      "fps_median": 59.9952003839693,
-      "fps_p95": 50.761421319797,
-      "max_ms": 46.915,
-      "median_ms": 16.668,
-      "objects": 1308,
-      "p95_ms": 19.7,
-      "presenter_draw_ms": 3.44460666666667,
+      "customers": 30,
+      "draw_calls": 600,
+      "fps_median": 59.9736116108912,
+      "fps_p95": 59.580552907531,
+      "max_ms": 43.657,
+      "median_ms": 16.674,
+      "objects": 1303,
+      "p95_ms": 16.784,
+      "presenter_draw_ms": 3.37813833333333,
       "prof_ms": {
-        "compose": 1.56018833333333,
-        "customers": 0.719985,
-        "fixtures": 0.882093333333333
+        "compose": 1.51264,
+        "customers": 0.709826666666667,
+        "fixtures": 0.873808333333333
       }
     },
     "x2": {
       "customers": 30,
-      "draw_calls": 619,
-      "fps_median": 60.0564530658819,
-      "fps_p95": 38.1330079316657,
-      "max_ms": 67.87,
-      "median_ms": 16.651,
-      "objects": 1342,
-      "p95_ms": 26.224,
-      "presenter_draw_ms": 3.38612333333333,
+      "draw_calls": 628,
+      "fps_median": 60.020406938359,
+      "fps_p95": 32.2820156890596,
+      "max_ms": 54.948,
+      "median_ms": 16.661,
+      "objects": 1360,
+      "p95_ms": 30.977,
+      "presenter_draw_ms": 3.351605,
       "prof_ms": {
-        "compose": 1.50365833333333,
-        "customers": 0.723395,
-        "fixtures": 0.880246666666667
+        "compose": 1.48427333333333,
+        "customers": 0.71322,
+        "fixtures": 0.874783333333333
       }
     },
     "x4": {
-      "customers": 30,
-      "draw_calls": 629,
-      "fps_median": 50.9268690160929,
-      "fps_p95": 32.7471591839408,
-      "max_ms": 47.649,
-      "median_ms": 19.636,
-      "objects": 1367,
-      "p95_ms": 30.537,
-      "presenter_draw_ms": 3.56860833333333,
+      "customers": 29,
+      "draw_calls": 628,
+      "fps_median": 60.0276127018428,
+      "fps_p95": 45.9326627164577,
+      "max_ms": 33.473,
+      "median_ms": 16.659,
+      "objects": 1372,
+      "p95_ms": 21.771,
+      "presenter_draw_ms": 3.29800833333333,
       "prof_ms": {
-        "compose": 1.56836833333333,
-        "customers": 0.771355,
-        "fixtures": 0.926378333333333
+        "compose": 1.47103333333333,
+        "customers": 0.703163333333333,
+        "fixtures": 0.85308
       }
     }
   },
-  "compose_ms": 0.436666666666667,
+  "compose_ms": 0.224766666666667,
   "conditions": {
-    "customers_in_store": 30,
+    "customers_in_store": 29,
     "fixtures_placed": 16,
     "frames": 600,
     "speed": 4,
@@ -66,8 +66,8 @@
     "renderer": "gl_compatibility",
     "threads": 20
   },
-  "publish_ms": 3.1109,
-  "sim_step_ms": 2.70435,
-  "snapshot_ms": 1.037,
-  "video_mem_mb": 116.997040748596
+  "publish_ms": 2.7418,
+  "sim_step_ms": 1.65873,
+  "snapshot_ms": 0.913933333333333,
+  "video_mem_mb": 116.998047828674
 }
