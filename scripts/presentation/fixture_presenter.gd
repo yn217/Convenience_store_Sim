@@ -26,6 +26,7 @@ var _people := CustomerSprites.new()
 var _pos: Dictionary = {}
 var _facing: Dictionary = {}
 var _alive: Dictionary = {}   # ids seen by the current _sync_customers call (reused, not reallocated)
+var _look: Dictionary = {}    # customer_id -> [sheet, variant_id, time offset]; fixed per customer, so computed once
 var anim_time: float = 0.0
 
 
@@ -52,6 +53,7 @@ static func target_pos(c: Dictionary) -> Vector2:
 ## Eases the shown positions toward the simulation's and keeps each person's facing.
 func _sync_customers(dt: float) -> void:
 	_alive.clear()
+	var ease_k := 1.0 - exp(-dt * 3.0)   # same for every customer this call
 	for c in _world.customers:
 		var id: String = c["customer_id"]
 		_alive[id] = true
@@ -62,25 +64,34 @@ func _sync_customers(dt: float) -> void:
 				_facing[id] = CustomerSprites.facing_for(Vector2(c.get("next", c["tile"]) - c["tile"]), CustomerSprites.FACING_E)
 		else:
 			var old: Vector2 = _pos[id]
-			var now := old.lerp(target, 1.0 - exp(-dt * 3.0))
 			_facing[id] = CustomerSprites.facing_for(target - old, int(_facing.get(id, CustomerSprites.FACING_E)))
-			_pos[id] = now
+			_pos[id] = old.lerp(target, ease_k)
 	for id in _pos.keys():
 		if not _alive.has(id):
 			_pos.erase(id)
 			_facing.erase(id)
+			_look.erase(id)
+
+
+## Sprite sheet, variant id and animation time offset of a customer, looked up once per id (not per frame).
+func _look_for(id: String) -> Array:
+	if not _look.has(id):
+		var variant_id := CustomerSprites.variant_for(id)
+		_look[id] = [_people.variant(variant_id), variant_id, float(id.hash() % 7) * 0.37]
+	return _look[id]
 
 
 ## What is drawn for a customer now: {"pos", "facing", "anim", "frame", "variant"}.
 func customer_view(c: Dictionary) -> Dictionary:
 	var id: String = c["customer_id"]
 	var anim := CustomerSprites.anim_for(c["phase"])
-	var variant_id := CustomerSprites.variant_for(id)
-	var sheet := _people.variant(variant_id)
+	var look := _look_for(id)
+	var sheet: Dictionary = look[0]
 	var frame := 0
 	if not sheet.is_empty():
-		frame = CustomerSprites.frame_index(sheet["animations"][anim], anim_time + float(id.hash() % 7) * 0.37)
-	return {"pos": _pos.get(id, target_pos(c)), "facing": int(_facing.get(id, CustomerSprites.FACING_E)), "anim": anim, "frame": frame, "variant": variant_id}
+		frame = CustomerSprites.frame_index(sheet["animations"][anim], anim_time + float(look[2]))
+	var pos: Vector2 = _pos[id] if _pos.has(id) else target_pos(c)
+	return {"pos": pos, "facing": int(_facing.get(id, CustomerSprites.FACING_E)), "anim": anim, "frame": frame, "variant": look[1]}
 
 
 const CUSTOMER_HEIGHT_M := 1.6
