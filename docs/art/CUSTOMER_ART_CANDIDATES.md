@@ -18,6 +18,8 @@ Transparent cutout pilots are stored at `assets/source/textures/characters/candi
 - [ ] Validate zoom 0.5/1/2 and front/back occlusion in the game.
 - [ ] Record focused Godot screenshots/tests before claiming completion.
 
+`tools/art/validate_customer_cutouts.py` records dimensions, alpha bounding boxes, and the last row containing alpha in `CUSTOMER_CUTOUT_VALIDATION.json`. This is a source-art check only; it does not prove a common world anchor, 4-direction consistency, or runtime readiness.
+
 ## Prompt record
 
 `Create a clean game-asset concept comparison board for a realistic-leaning 2.5D isometric Japanese convenience-store simulation. Show three distinct fictional adult customer character variants standing separately on a neutral light background: (A) casual young adult with hoodie and tote bag, (B) office worker with neat shirt and shoulder bag, (C) older adult with cardigan and shopping basket. Each character should be shown in a consistent 3/4 isometric standing pose with clear feet contact, readable silhouette, modest natural proportions, soft studio lighting, muted convenience-store palette, no readable text, no logos, no copyrighted characters. Arrange as three equal columns with large spacing, front-facing toward camera, suitable as an art-direction reference board. Square 1024x1024 composition.`

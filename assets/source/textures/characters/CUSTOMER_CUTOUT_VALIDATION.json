@@ -1,0 +1,23 @@
+{
+  "status": "source-art pilot; anchor and direction still require review",
+  "results": [
+    {
+      "path": "candidates/customer_casual_tote_cutout_v01.png",
+      "expected_dimensions": "1024x1536",
+      "expected_mode": "RGBA",
+      "status": "missing"
+    },
+    {
+      "path": "candidates/customer_office_shoulder_bag_cutout_v01.png",
+      "expected_dimensions": "1024x1536",
+      "expected_mode": "RGBA",
+      "status": "missing"
+    },
+    {
+      "path": "candidates/customer_older_basket_cutout_v01.png",
+      "expected_dimensions": "1024x1536",
+      "expected_mode": "RGBA",
+      "status": "missing"
+    }
+  ]
+}

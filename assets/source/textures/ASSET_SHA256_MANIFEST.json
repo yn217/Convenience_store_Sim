@@ -447,6 +447,12 @@
     },
     {
       "group": "characters",
+      "path": "assets/source/textures/characters/CUSTOMER_CUTOUT_VALIDATION.json",
+      "sha256": "62490d30bce3580a9b3d0389aa38e11d0ca51ea50cf8970bfd2be36b142196a9",
+      "bytes": 657
+    },
+    {
+      "group": "characters",
       "path": "assets/source/textures/characters/CUSTOMER_PROVENANCE.json",
       "sha256": "07253aa9bd2be6cabfe318191ae49b3a1c1a9cb75db3ebf98c1039c9520d4ee9",
       "bytes": 1161
