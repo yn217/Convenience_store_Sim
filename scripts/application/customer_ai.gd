@@ -385,7 +385,7 @@ func _make_room(state: GameState, c: Dictionary, plan: Dictionary) -> void:
 
 
 static func _is_standing_in_line(c: Dictionary) -> bool:
-	return (c["path"] as Array).is_empty() and c["phase"] in ["WAIT_QUEUE", "QUEUE", "CHECKOUT"]
+	return (c.get("path", []) as Array).is_empty() and c["phase"] in ["WAIT_QUEUE", "QUEUE", "CHECKOUT"]   # hand-made test customers may have no path
 
 
 func _free_slot(state: GameState, c: Dictionary, plan: Dictionary) -> int:
