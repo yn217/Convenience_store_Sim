@@ -6,7 +6,7 @@ This board is a source-art candidate for the customer sprite work in Issue #23. 
 
 The equal-third crops are reproducible with `tools/art/split_customer_candidates.py` and are listed in `assets/source/textures/characters/CANDIDATE_CROPS.json`.
 
-A first transparent cutout pilot is stored at `assets/source/textures/characters/candidates/customer_casual_tote_cutout_v01.png` (1024x1536 RGBA). It is a source-art pilot, not a production sprite: scale, anchor, shadow, and direction consistency still require review.
+Transparent cutout pilots are stored at `assets/source/textures/characters/candidates/customer_casual_tote_cutout_v01.png` and `customer_office_shoulder_bag_cutout_v01.png` (both 1024x1536 RGBA). They are source-art pilots, not production sprites: scale, anchor, shadow, and direction consistency still require review.
 
 ## Prompt record
 
