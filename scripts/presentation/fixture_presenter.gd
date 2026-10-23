@@ -25,6 +25,7 @@ var _people := CustomerSprites.new()
 ## smoothed tile position, last facing, and the animation clock in game seconds (frozen at speed 0).
 var _pos: Dictionary = {}
 var _facing: Dictionary = {}
+var _alive: Dictionary = {}   # ids seen by the current _sync_customers call (reused, not reallocated)
 var anim_time: float = 0.0
 
 
@@ -50,10 +51,10 @@ static func target_pos(c: Dictionary) -> Vector2:
 
 ## Eases the shown positions toward the simulation's and keeps each person's facing.
 func _sync_customers(dt: float) -> void:
-	var alive := {}
+	_alive.clear()
 	for c in _world.customers:
 		var id: String = c["customer_id"]
-		alive[id] = true
+		_alive[id] = true
 		var target := target_pos(c)
 		if not _pos.has(id) or (_pos[id] as Vector2).distance_to(target) > 2.5:
 			_pos[id] = target
@@ -65,7 +66,7 @@ func _sync_customers(dt: float) -> void:
 			_facing[id] = CustomerSprites.facing_for(target - old, int(_facing.get(id, CustomerSprites.FACING_E)))
 			_pos[id] = now
 	for id in _pos.keys():
-		if not alive.has(id):
+		if not _alive.has(id):
 			_pos.erase(id)
 			_facing.erase(id)
 
@@ -92,29 +93,35 @@ const XRAY_ALPHA := 0.5
 
 ## The draw list in back-to-front order: {"kind": "fixture"|"customer", "rect": Rect2, ...}.
 func compose() -> Array:
-	var items: Array = _fixture_items().duplicate()
-	for it in items:
-		it.erase("fade")
+	var fixture_items := _fixture_items()   # refreshes _fixed when the layout changed
+	var fixed := _fixed
+	_clear_fade()
 	_sync_customers(0.0)
+	var items: Array = fixture_items.duplicate()
+	var cells: Array[Vector2i] = []
 	for c in _world.customers:
 		var shown: Vector2 = _pos.get(c["customer_id"], target_pos(c))
 		var cell := Vector2i(roundi(shown.x), roundi(shown.y))
 		items.append({"kind": "customer", "rect": DrawOrder.cell_rect(cell), "customer": c, "pos": shown})
-	var sorted := DrawOrder.sorted(items)
+		cells.append(cell)
+	var sorted := DrawOrder.sorted_fixed(items, fixed, cells)
 	_mark_see_through(sorted)
 	return sorted
 
 
 ## Segment items of the fixtures; rebuilt only when the layout revision changes.
 var _fixture_items_cache: Array = []
-var _fixture_items_key := [-1, -1]
+var _fixture_revision := -2
+var _fixture_count := -1
+var _fixed: DrawOrder.FixedSet   # the fixture segments in their depth order, rebuilt with them
+var _faded: Array = []           # items given "fade" by the last compose, cleared by the next one
 
 
 func _fixture_items() -> Array:
-	var key := [_world.revision, _world.fixtures.size()]
-	if key == _fixture_items_key:
+	if _world.revision == _fixture_revision and _world.fixtures.size() == _fixture_count:
 		return _fixture_items_cache
-	_fixture_items_key = key
+	_fixture_revision = _world.revision
+	_fixture_count = _world.fixtures.size()
 	_fixture_items_cache = []
 	for inst in _world.fixtures:
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
@@ -130,7 +137,17 @@ func _fixture_items() -> Array:
 				"kind": "fixture", "rect": segs[k]["rect"], "inst": inst, "def": def, "lo": lo, "hi": hi,
 				"column": segs[k]["column"], "first": k == 0, "last": k == segs.size() - 1,
 			})
+	var rects: Array[Rect2] = []
+	for it in _fixture_items_cache:
+		rects.append(it["rect"])
+	_fixed = DrawOrder.FixedSet.new(rects)
 	return _fixture_items_cache
+
+
+func _clear_fade() -> void:
+	for it in _faded:
+		it.erase("fade")
+	_faded.clear()
 
 
 ## Things that stand in front of the selected fixture / customer and cover it are drawn translucent,
@@ -141,6 +158,8 @@ func _mark_see_through(items: Array) -> void:
 	var bounds := Rect2()
 	var found := false
 	var sel_id: String = _world.selected_fixture_id()   # once per draw, not once per item
+	if sel_id == "" and _world.selected_customer == "":
+		return   # nothing selected: nothing can be in front of it
 	for it in items:
 		if it["kind"] == "fixture" and sel_id == it["inst"]["instance_id"]:
 			rect = it["rect"] if not found else rect.merge(it["rect"])
@@ -157,6 +176,7 @@ func _mark_see_through(items: Array) -> void:
 			continue
 		if DrawOrder.is_behind(rect, it["rect"]) and _fixture_bounds(proj, it).intersects(bounds):
 			it["fade"] = true
+			_faded.append(it)
 
 
 func _fixture_bounds(proj: IsoProjection, it: Dictionary) -> Rect2:
