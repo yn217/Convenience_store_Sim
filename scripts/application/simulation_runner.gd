@@ -16,8 +16,16 @@ func process_frame(delta: float) -> int:
 	if _state.business_state == GameState.SETUP or _state.business_state == GameState.PAYMENT_BLOCKED:
 		return 0
 	var steps := _clock.advance(delta, _state.speed_setting)
-	_state.time_sec += steps * int(GameClock.STEP_GAME_SECONDS)
+	for i in steps:
+		_run_step()
 	if steps > 0:
-		InventoryService.sweep_expired(_state)   # before any checkout of this step (03 §B.2)
 		_state.layout_history.clear()   # time passing ends the editing session (04 §8)
 	return steps
+
+
+## One fixed step in the order of 03 §B: expiry sweep first, then new arrivals. The customer AI
+## and checkout (M3-02..04) slot in after these.
+func _run_step() -> void:
+	_state.time_sec += int(GameClock.STEP_GAME_SECONDS)
+	InventoryService.sweep_expired(_state)
+	DemandGenerator.step(_state)

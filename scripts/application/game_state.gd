@@ -31,6 +31,16 @@ var inventory_segments: Array[Dictionary] = []
 var reservations: Array[Dictionary] = []
 var next_fixture_seq: int = 0
 var next_lot_seq: int = 0
+var next_customer_seq: int = 0
+## Balance config the simulation reads (demand base, ad tiers, customer cap).
+var balance: Dictionary = {}
+## Advertising tier (yen/day) in force today; the ad system (M4-01) changes it at day start.
+var applied_ad_tier_yen: int = 0
+## Today's visitor counters, kept apart (03 §G): wished-to-visit / actually entered / turned away.
+var visit_stats := {"potential": 0, "entered": 0, "lost": 0}
+## Customers in the store (filled by M3-02) and arrivals waiting to be spawned as customers.
+var customers: Array[Dictionary] = []
+var arrival_queue: Array[Dictionary] = []
 var next_segment_seq: int = 0
 ## Player sell prices that differ from the SKU default {sku_id: yen}. Never touches lot costs
 ## or already snapshotted reservations/ledger rows.
@@ -56,7 +66,12 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 	s.ledger.cash_yen = int(balance["starting_cash_yen"])
 	s.reputation = int(balance["starting_reputation"])
 	s.rng_states = seeds.duplicate()
+	s.balance = balance.duplicate(true)
 	return s
+
+
+func active_customer_count() -> int:
+	return customers.size()
 
 
 func sell_price(sku_id: String) -> int:
@@ -100,6 +115,7 @@ func snapshot() -> Dictionary:
 		"cash_yen": ledger.cash_yen,
 		"reputation": reputation,
 		"rng_states": rng_states.duplicate(),
+		"visit_stats": visit_stats.duplicate(),
 	}
 
 
