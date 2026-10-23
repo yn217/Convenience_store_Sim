@@ -78,6 +78,11 @@ python tools/assets/compose_product_lod.py
 python tools/assets/audit_occlusion_contract.py
 ```
 
+For the repeatable non-Godot asset-only audit set, run
+`powershell -File tools/assets/run_asset_audits.ps1`. Add `-RequireOcclusionSplit` only when
+the fixture generator has been upgraded to emit explicit back/front body layers; it is expected
+to fail against the current single-body manifests.
+
 `validate_products.py` checks the 8 shapes, RGBA 256×256 source canvases, four directions,
 all 24 catalog visual IDs, and every referenced file. `compose_product_lod.py` creates an
 asset-only preview for `empty/low/medium/full` display states using the fixture manifest's
