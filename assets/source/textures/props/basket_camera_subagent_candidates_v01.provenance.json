@@ -1,0 +1,17 @@
+{
+  "asset_family": "shopping_basket_and_security_camera_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Carson and Singer",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single Japanese convenience-store prop, realistic 2.5D isometric, transparent RGBA background, no real chain/trademark/logo/readable text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"shopping_basket_blue_subagent_v01","source_file":"assets/source/textures/props/shopping_basket_blue_subagent_v01.png","sha256":"C1A8FB9B84DA2EEB70DC7504FE614459499F18F609EA1224C2C26D4E4FDC9B56","category":"shopping basket","notes":"dark blue resin, slotted, folding handle"},
+    {"asset_id":"shopping_basket_amber_subagent_v01","source_file":"assets/source/textures/props/shopping_basket_amber_subagent_v01.png","sha256":"2922E478268B3FE422E209E0324812EAF7AA3BAACB9897E60281C6074CEFC477","category":"shopping basket","notes":"translucent amber resin, tapered, dark handle"},
+    {"asset_id":"security_camera_dome_subagent_v01","source_file":"assets/source/textures/props/security_camera_dome_subagent_v01.png","sha256":"87D98124971118171C0D0C78403101CEB75997CB571FA1D7C8AE043C1669DBE7","category":"security camera","notes":"white/gray dome"},
+    {"asset_id":"security_camera_turret_subagent_v01","source_file":"assets/source/textures/props/security_camera_turret_subagent_v01.png","sha256":"2C97E9E7502835278F69D3430DC88EE7BB4B0A0385FCA4EEBC23BDB8243EDDE7","category":"security camera","notes":"black/white turret"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only props; footprint, anchor, occlusion, placement and runtime integration remain open."
+}
