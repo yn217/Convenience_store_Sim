@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / "docs" / "art" / "subagent_package_candidate_contact_sheet_v01.png"
+OUT = ROOT / "docs" / "art" / "subagent_package_candidate_contact_sheet_v02.png"
 ITEMS = [
     ("Bento / salmon", ROOT / "assets/source/textures/packages/bento_orange_salmon_subagent_v01.png"),
     ("Bento / chicken", ROOT / "assets/source/textures/packages/bento_teal_chicken_subagent_v01.png"),
@@ -18,6 +18,18 @@ ITEMS = [
     ("Candy / warm", ROOT / "assets/source/textures/packages/candy_pouch_warm_subagent_v01.png"),
     ("Ice cream / blueberry", ROOT / "assets/source/textures/packages/icecream_blueberry_yogurt_subagent_v01.png"),
     ("Hot coffee / white", ROOT / "assets/source/textures/packages/hot_coffee_white_brown_subagent_v01.png"),
+    ("Green tea / jade", ROOT / "assets/source/textures/packages/green_tea_jade_subagent_v01.png"),
+    ("Strawberry milk / pink", ROOT / "assets/source/textures/packages/strawberry_milk_pink_subagent_v01.png"),
+    ("Curry bread / warm", ROOT / "assets/source/textures/packages/curry_bread_warm_subagent_v01.png"),
+    ("Fruit jelly / pink", ROOT / "assets/source/textures/packages/fruit_jelly_pink_subagent_v01.png"),
+    ("Tuna sandwich / cool", ROOT / "assets/source/textures/packages/sandwich_tuna_cool_subagent_v01.png"),
+    ("Egg sandwich / warm", ROOT / "assets/source/textures/packages/sandwich_egg_warm_subagent_v01.png"),
+    ("Custard pudding / yellow", ROOT / "assets/source/textures/packages/custard_pudding_yellow_subagent_v01.png"),
+    ("Blueberry ice cream / lavender", ROOT / "assets/source/textures/packages/blueberry_icecream_lavender_subagent_v01.png"),
+    ("Seaweed chips / coral", ROOT / "assets/source/textures/packages/seaweed_chips_coral_subagent_v01.png"),
+    ("Soy crackers / teal", ROOT / "assets/source/textures/packages/butter_soy_crackers_teal_subagent_v01.png"),
+    ("Spicy miso cup noodle", ROOT / "assets/source/textures/packages/cupnoodle_spicy_miso_subagent_v01.png"),
+    ("Seafood salt cup noodle", ROOT / "assets/source/textures/packages/cupnoodle_seafood_salt_subagent_v01.png"),
 ]
 
 
