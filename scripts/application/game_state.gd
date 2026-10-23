@@ -20,6 +20,8 @@ var applied_command_ids: Array[String] = []
 var rng_states: Dictionary = {}
 var store_width: int = 16
 var store_height: int = 12
+## Fixed west-wall door (00_BASELINE §2.1); players cannot move or remove it.
+var entrance_tiles: Array[Vector2i] = [Vector2i(0, 5), Vector2i(0, 6)]
 var cash_yen: int = 0
 var reputation: int = 0
 
@@ -44,6 +46,7 @@ func snapshot() -> Dictionary:
 		"speed_setting": speed_setting,
 		"store_width": store_width,
 		"store_height": store_height,
+		"entrance_tiles": entrance_tiles.duplicate(),
 		"cash_yen": cash_yen,
 		"reputation": reputation,
 		"rng_states": rng_states.duplicate(),
