@@ -6,13 +6,14 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 PROV = ROOT / "assets/source/textures/characters/CUSTOMER_PROVENANCE.json"
 OUT = ROOT / "assets/source/textures/characters/CUSTOMER_CUTOUT_VALIDATION.json"
+CHAR_ROOT = PROV.parent
 
 def main() -> None:
     data = json.loads(PROV.read_text(encoding="utf-8"))
     results = []
     problems = []
     for item in data.get("cutouts", []):
-        path = ROOT / item["path"]
+        path = ROOT / item["path"] if item["path"].startswith("assets/") else CHAR_ROOT / item["path"]
         result = {"path": item["path"], "expected_dimensions": item["dimensions"], "expected_mode": item["alpha"]}
         if not path.is_file():
             problems.append(f"missing: {item['path']}")

@@ -5,19 +5,46 @@
       "path": "candidates/customer_casual_tote_cutout_v01.png",
       "expected_dimensions": "1024x1536",
       "expected_mode": "RGBA",
-      "status": "missing"
+      "dimensions": "1024x1536",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        980,
+        1536
+      ],
+      "bottom_alpha_row": 1535,
+      "status": "pass"
     },
     {
       "path": "candidates/customer_office_shoulder_bag_cutout_v01.png",
       "expected_dimensions": "1024x1536",
       "expected_mode": "RGBA",
-      "status": "missing"
+      "dimensions": "1024x1536",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        27,
+        13,
+        971,
+        1520
+      ],
+      "bottom_alpha_row": 1519,
+      "status": "pass"
     },
     {
       "path": "candidates/customer_older_basket_cutout_v01.png",
       "expected_dimensions": "1024x1536",
       "expected_mode": "RGBA",
-      "status": "missing"
+      "dimensions": "1024x1536",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        31,
+        15,
+        966,
+        1510
+      ],
+      "bottom_alpha_row": 1509,
+      "status": "pass"
     }
   ]
 }
