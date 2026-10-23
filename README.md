@@ -5,9 +5,27 @@
 店舗の棚・レジ・冷蔵ケースなどをタイル単位で配置し、8カテゴリの商品を仕入れ・陳列。顧客行動、レジ会計、粗利・廃棄・広告費の収支を改善しながら経営する。
 
 ## 状態
-- **仕様書・GitHub Issue登録済み、ゲーム本体は未実装**。
-- 初期技術方針: Godot 4 / GDScript / Blender Python → PNG透明スプライト。
+- **MVPの縦断スライスが動作**（空の店舗 → 仕入れ → 陳列 → 営業 → 会計 → 日次レポート → セーブ/ロード）。Godot 4.7.2 / GDScript。
+- 図形（什器10種・客3種）はBlender生成の**仮アセット**（箱ベース）。リアル寄りの素材への差し替えは #12。
+- 受入結果・性能測定・既知の問題: [docs/qa/MVP_ACCEPTANCE_RESULTS.md](docs/qa/MVP_ACCEPTANCE_RESULTS.md)
 - ローカル開発・テスト中心（GitHub Actionsは使用しない）。
+
+## 遊び方・起動（Windows）
+```powershell
+$env:GODOT = "<...>\Godot_v4.7.2-stable_win64.exe"   # GUI版
+toolsun_game.ps1             # ソースから起動
+tools\package_windows.ps1      # dist\ConvenienceStoreSim\Play.bat と zip を作る（Godot同梱、エクスポートテンプレート不要）
+```
+- 左のパレットで レジ → 棚 を置き、右の「商品」から発注・補充、「営業」で開始。P=一時停止、O=表示モード、F=全景、右クリック/Esc=取消。
+- 1日目は右の「はじめかた」に従うと初回の会計と日次レポートまで進める。
+
+## テスト・検証
+```powershell
+toolsun_tests.ps1            # 構成検査・カタログ整合・アセット検査・Python試験・GDScript構文・headless試験（全件）
+Godot --path . --resolution 1920x1080 --script res://tools/perf_bench.gd -- docs/qa/perf_result.json   # 性能（実描画が必要）
+Godot --path . --script res://tools/screenshot.gd -- out.png demo zoom=1.5 [overlay=1|2] [cues]       # 目視確認用
+```
+- アセット再生成（Blender 2.91）は [tools/assets/README.md](tools/assets/README.md)。
 
 ## 設計文書
 1. [全体ゲーム仕様](docs/GAME_DESIGN_SPEC.md)
@@ -32,7 +50,7 @@
 4. Blenderからレジ/棚/飲料ケースの4方向スプライトを自動生成。
 5. 商品を仕入れ、補充し、客が会計して日次決算まで動く縦断スライスを構築。
 
-現時点で動くゲームや実画像アセットは含まれません。
+仮アセットの差し替え前提で、実画像素材（#12）と出典台帳（#29）は未完了です。
 
 
 ## 実装詳細規約（2026-10-22に追加）

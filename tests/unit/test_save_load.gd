@@ -285,3 +285,25 @@ func test_file_store_reports_corruption_and_never_overwrites_silently(t, _tree) 
 	t.eq(SaveStore.read("nope", false, TMP_DIR)["error"], "unknown_slot")
 	t.eq(SaveStore.write("nope", {}, TMP_DIR)["error"], "unknown_slot")
 	_clean()
+
+
+func test_a_closed_day_survives_a_trip_through_the_file(t, _tree) -> void:
+	# Regression (found by the #25 scenario): JSON gives whole numbers back as floats, and a saved
+	# daily report used to be rejected as "not_integer", so no save made after a day closed could load.
+	var s := _busy()
+	s.close_day_once(0)
+	t.eq(s.daily_reports.size(), 1)
+	var written := SaveStore.write("slot_3", SaveGame.to_dict(s, "slot_3", "2026-01-01T00:00:00Z"), TMP_DIR)
+	t.ok(written["ok"], str(written))
+	var read := SaveStore.read("slot_3", false, TMP_DIR)
+	t.ok(read["ok"])
+	var back := SaveGame.from_dict(read["data"], _balance, _fx, _pr)
+	t.ok(back["ok"], str(back.get("errors", "")))
+	if back["ok"]:
+		t.eq(back["state"].daily_reports, s.daily_reports)
+		for k in DailyReport.FIELDS:
+			t.eq(typeof(back["state"].daily_reports[0][k]), TYPE_INT, "%s is an int again" % k)
+	for ext in [".json", ".json.bak", ".json.tmp"]:
+		if FileAccess.file_exists("%s/slot_3%s" % [TMP_DIR, ext]):
+			DirAccess.remove_absolute("%s/slot_3%s" % [TMP_DIR, ext])
+	t.ok(not DailyReport.errors({"day_index": 1.5}).is_empty(), "a real fraction is still rejected")

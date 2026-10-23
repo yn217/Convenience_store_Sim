@@ -59,7 +59,7 @@ static func errors(report) -> Array[String]:
 	for f in FIELDS:
 		if not report.has(f):
 			errs.append("%s: missing" % f)
-		elif typeof(report[f]) != TYPE_INT:
+		elif not JsonCheck.is_int(report[f]):   # a saved report comes back from JSON as exact-integer floats
 			errs.append("%s: not_integer" % f)
 	if errs.is_empty():
 		for f in ["wastage_yen", "advertising_yen", "electricity_yen", "fixed_cost_yen", "cogs_yen", "revenue_yen", "potential_customers", "visitors", "purchasing_customers", "lost_customers", "units_sold", "cash_end_yen"]:

@@ -85,27 +85,16 @@ func customer_view(c: Dictionary) -> Dictionary:
 const CUSTOMER_HEIGHT_M := 1.6
 const CUSTOMER_HALF_W_M := 0.16
 const CUSTOMER_COLOR := Color("3d6fb5")
+const OUTLINE_ZOOM := 1.5
 const FADE_ALPHA := 0.35
 const XRAY_ALPHA := 0.5
 
 
 ## The draw list in back-to-front order: {"kind": "fixture"|"customer", "rect": Rect2, ...}.
 func compose() -> Array:
-	var items: Array = []
-	for inst in _world.fixtures:
-		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
-		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
-		var lo := Vector2i(1 << 20, 1 << 20)
-		var hi := Vector2i(-1, -1)
-		for c in cells:
-			lo = Vector2i(mini(lo.x, c.x), mini(lo.y, c.y))
-			hi = Vector2i(maxi(hi.x, c.x), maxi(hi.y, c.y))
-		var segs := DrawOrder.column_segments(cells)
-		for k in segs.size():
-			items.append({
-				"kind": "fixture", "rect": segs[k]["rect"], "inst": inst, "def": def, "lo": lo, "hi": hi,
-				"column": segs[k]["column"], "first": k == 0, "last": k == segs.size() - 1,
-			})
+	var items: Array = _fixture_items().duplicate()
+	for it in items:
+		it.erase("fade")
 	_sync_customers(0.0)
 	for c in _world.customers:
 		var shown: Vector2 = _pos.get(c["customer_id"], target_pos(c))
@@ -116,6 +105,34 @@ func compose() -> Array:
 	return sorted
 
 
+## Segment items of the fixtures; rebuilt only when the layout revision changes.
+var _fixture_items_cache: Array = []
+var _fixture_items_key := [-1, -1]
+
+
+func _fixture_items() -> Array:
+	var key := [_world.revision, _world.fixtures.size()]
+	if key == _fixture_items_key:
+		return _fixture_items_cache
+	_fixture_items_key = key
+	_fixture_items_cache = []
+	for inst in _world.fixtures:
+		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
+		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
+		var lo := Vector2i(1 << 20, 1 << 20)
+		var hi := Vector2i(-1, -1)
+		for c in cells:
+			lo = Vector2i(mini(lo.x, c.x), mini(lo.y, c.y))
+			hi = Vector2i(maxi(hi.x, c.x), maxi(hi.y, c.y))
+		var segs := DrawOrder.column_segments(cells)
+		for k in segs.size():
+			_fixture_items_cache.append({
+				"kind": "fixture", "rect": segs[k]["rect"], "inst": inst, "def": def, "lo": lo, "hi": hi,
+				"column": segs[k]["column"], "first": k == 0, "last": k == segs.size() - 1,
+			})
+	return _fixture_items_cache
+
+
 ## Things that stand in front of the selected fixture / customer and cover it are drawn translucent,
 ## so what the player picked stays readable behind a tall case (#24).
 func _mark_see_through(items: Array) -> void:
@@ -123,8 +140,9 @@ func _mark_see_through(items: Array) -> void:
 	var rect := Rect2()
 	var bounds := Rect2()
 	var found := false
+	var sel_id: String = _world.selected_fixture_id()   # once per draw, not once per item
 	for it in items:
-		if it["kind"] == "fixture" and _world.selected_fixture_id() == it["inst"]["instance_id"]:
+		if it["kind"] == "fixture" and sel_id == it["inst"]["instance_id"]:
 			rect = it["rect"] if not found else rect.merge(it["rect"])
 			bounds = _fixture_bounds(proj, it) if not found else bounds.merge(_fixture_bounds(proj, it))
 			found = true
@@ -135,7 +153,7 @@ func _mark_see_through(items: Array) -> void:
 	if not found:
 		return
 	for it in items:
-		if it["kind"] != "fixture" or _world.selected_fixture_id() == it["inst"]["instance_id"]:
+		if it["kind"] != "fixture" or sel_id == it["inst"]["instance_id"]:
 			continue
 		if DrawOrder.is_behind(rect, it["rect"]) and _fixture_bounds(proj, it).intersects(bounds):
 			it["fade"] = true
@@ -164,16 +182,37 @@ func hidden_customers(items: Array) -> Array:
 func _draw() -> void:
 	if _world == null or _world.fixture_catalog == null:
 		return
+	var t0 := Time.get_ticks_usec()
+	_draw_all()
+	draw_usec_total += Time.get_ticks_usec() - t0
+	draw_count += 1
+
+
+## Cost of the script side of drawing (for tools/perf_bench.gd).
+var draw_usec_total := 0
+var draw_count := 0
+var prof_compose := 0
+var prof_customers := 0
+var prof_fixtures := 0
+
+
+func _draw_all() -> void:
 	var proj: IsoProjection = _world.projection
 	var boxes_done := {}
+	var q0 := Time.get_ticks_usec()
 	var ordered := compose()
+	prof_compose += Time.get_ticks_usec() - q0
 	for it in ordered:
 		if it["kind"] == "customer":
+			q0 = Time.get_ticks_usec()
 			_draw_customer(proj, it["customer"])
+			prof_customers += Time.get_ticks_usec() - q0
 			continue
 		var entry := _sprites.rotation_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))
 		if not entry.is_empty():
+			q0 = Time.get_ticks_usec()
 			_draw_sprite(proj, it, entry)
+			prof_fixtures += Time.get_ticks_usec() - q0
 		elif not boxes_done.has(it["inst"]["instance_id"]):
 			boxes_done[it["inst"]["instance_id"]] = true   # the placeholder is one box, drawn with its first segment in order
 			_draw_box(proj, it)
@@ -284,7 +323,8 @@ func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 			var half := ITEM_W * 0.5 * s
 			var r := Rect2(a - Vector2(half, ITEM_H * s), Vector2(ITEM_W * s, ITEM_H * s))
 			draw_rect(r, Color(color, alpha))
-			draw_rect(r, Color(color.darkened(0.45), alpha), false, 1.0)
+			if zoom >= OUTLINE_ZOOM:   # the outline doubles the draw commands; small items read fine without it
+				draw_rect(r, Color(color.darkened(0.45), alpha), false, 1.0)
 
 
 func _anchor_count(slots: Dictionary, sid: String) -> int:

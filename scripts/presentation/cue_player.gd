@@ -13,7 +13,8 @@ const CONFETTI_PER_CUE := 40
 const PRIORITY_RANK := {"critical": 3, "important": 2, "normal": 1, "ambient": 0}
 const SETTINGS_VERSION := 1
 
-var muted := false
+## Sounds start OFF: the player turns them on once to hear them, and the choice is saved.
+var muted := true
 var reduce_motion := false
 var sfx_volume := 0.8
 var settings_path := "user://settings.json"
@@ -180,7 +181,7 @@ func load_settings() -> void:
 	var data = JSON.parse_string(FileAccess.get_file_as_string(settings_path))
 	if typeof(data) != TYPE_DICTIONARY or int(data.get("version", 0)) != SETTINGS_VERSION:
 		return
-	muted = bool(data.get("muted", false))
+	muted = bool(data.get("muted", true))
 	reduce_motion = bool(data.get("reduce_motion", false))
 	sfx_volume = clampf(float(data.get("sfx_volume", 0.8)), 0.0, 1.0)
 

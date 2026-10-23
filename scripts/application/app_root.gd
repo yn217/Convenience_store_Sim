@@ -20,6 +20,9 @@ var save_dir: String = SaveStore.DIR
 var _balance: Dictionary
 var _fixtures: FixtureCatalog
 var cue_bridge := PresentationEventBridge.new()
+const PUBLISH_INTERVAL := 0.05
+var _since_publish := 0.0
+var _publish_pending := false
 var _products: ProductCatalog
 
 
@@ -80,7 +83,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if runner == null:
 		return
+	_since_publish += delta
 	if runner.process_frame(delta) > 0:
+		_publish_pending = true
+	# The views are refreshed at most 20 times a second: at x4 several steps land in one frame anyway.
+	if _publish_pending and _since_publish >= PUBLISH_INTERVAL:
+		_since_publish = 0.0
+		_publish_pending = false
 		_publish_snapshot()
 
 

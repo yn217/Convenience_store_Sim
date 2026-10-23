@@ -48,42 +48,70 @@ static func is_behind(a: Rect2, b: Rect2) -> bool:
 
 
 ## Stable topological sort of items (each has "rect"); returns a new back-to-front array.
+## Ready items (everything behind them is already out) are taken in depth-key order.
 static func sorted(items: Array) -> Array:
 	var n := items.size()
-	var behind: Array = []   # behind[i] = indices that must be drawn before i
+	var after: Array = []        # after[j] = items that must come later than j
 	var pending := PackedInt32Array()
+	var keys := PackedFloat64Array()
+	pending.resize(n)
+	keys.resize(n)
+	var x0 := PackedFloat64Array()
+	var y0 := PackedFloat64Array()
+	var x1 := PackedFloat64Array()
+	var y1 := PackedFloat64Array()
+	var person := PackedByteArray()
 	for i in n:
-		var list: Array[int] = []
-		for j in n:
-			if j != i and is_behind(items[j]["rect"], items[i]["rect"]):
-				list.append(j)
-		behind.append(list)
-		pending.append(list.size())
+		after.append([] as Array[int])
+		var r: Rect2 = items[i]["rect"]
+		x0.append(r.position.x)
+		y0.append(r.position.y)
+		x1.append(r.end.x)
+		y1.append(r.end.y)
+		keys[i] = r.get_center().x + r.get_center().y
+		person.append(1 if items[i].get("kind", "") == "customer" else 0)
+	for i in n:
+		for j in range(i + 1, n):
+			if person[i] == 1 and person[j] == 1:
+				continue   # two people never share a cell; the depth key orders them
+			# j behind i: j lies wholly on the smaller-x or smaller-y side of i (and i is not the reverse, diagonal case)
+			var jx := x1[j] <= x0[i] + EPS
+			var jy := y1[j] <= y0[i] + EPS
+			var ix := x1[i] <= x0[j] + EPS
+			var iy := y1[i] <= y0[j] + EPS
+			if (jx and iy) or (jy and ix):
+				continue   # diagonal neighbours: no shared screen area
+			if jx or jy:
+				after[j].append(i)
+				pending[i] += 1
+			elif ix or iy:
+				after[i].append(j)
+				pending[j] += 1
+	var ready: Array[int] = []
+	for i in n:
+		if pending[i] == 0:
+			ready.append(i)
 	var done := PackedByteArray()
 	done.resize(n)
 	var out: Array = []
 	while out.size() < n:
 		var pick := -1
-		var best := 0.0
-		for i in n:
-			if done[i] == 1 or pending[i] != 0:
-				continue
-			var r: Rect2 = items[i]["rect"]
-			var key := r.get_center().x + r.get_center().y
-			if pick < 0 or key < best:
+		var at := -1
+		for k in ready.size():
+			var i := ready[k]
+			if pick < 0 or keys[i] < keys[pick] or (keys[i] == keys[pick] and i < pick):
 				pick = i
-				best = key
-		if pick < 0:   # a cycle cannot happen for disjoint boxes; fall back to depth order anyway
+				at = k
+		if pick >= 0:
+			ready.remove_at(at)
+		else:   # a cycle cannot happen for disjoint boxes; fall back to depth order anyway
 			for i in n:
-				if done[i] == 0:
-					var r2: Rect2 = items[i]["rect"]
-					var k2 := r2.get_center().x + r2.get_center().y
-					if pick < 0 or k2 < best:
-						pick = i
-						best = k2
+				if done[i] == 0 and (pick < 0 or keys[i] < keys[pick]):
+					pick = i
 		done[pick] = 1
 		out.append(items[pick])
-		for i in n:
-			if done[i] == 0 and behind[i].has(pick):
-				pending[i] -= 1
+		for s in after[pick]:
+			pending[s] -= 1
+			if pending[s] == 0 and done[s] == 0:
+				ready.append(s)
 	return out

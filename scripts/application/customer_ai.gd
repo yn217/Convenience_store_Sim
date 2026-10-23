@@ -18,13 +18,39 @@ const LONG_QUEUE_SLOT := 2
 const LOW_STOCK_RATIO := 0.25
 
 var _paths := PathService.new()
+## The layout cannot change inside one fixed step, so the blocked set and the register plan are built once per step.
+var _blocked_cache: Dictionary = {}
+var _plan_cache: Dictionary = {}
+var _cache_fresh := false
+var _by_id: Dictionary = {}
+var _taken: Dictionary = {}        # register id -> {queue slot: true}; rebuilt when a slot changes
+var _taken_dirty := true
+var _res_ids: Dictionary = {}      # reservation ids that exist; rebuilt when one is made / released / sold
+var _res_dirty := true
+var _in_step := false
+var _access_cache: Dictionary = {}   # fixture id -> reachable access tiles (layout is fixed within a step)
+
+
+func _blocked(state: GameState) -> Dictionary:
+	if not _cache_fresh:
+		_blocked_cache = state.grid.blocked_cells()
+		_plan_cache = _build_register_plan(state)
+		_cache_fresh = true
+	return _blocked_cache
 
 
 func step(state: GameState) -> void:
+	_cache_fresh = false
+	_access_cache.clear()
+	_in_step = true
 	_spawn(state)
+	_taken_dirty = true
+	_res_dirty = true
+	_by_id.clear()
 	var ids: Array[String] = []
 	for c in state.customers:
 		ids.append(c["customer_id"])
+		_by_id[c["customer_id"]] = c
 	ids.sort()
 	for id in ids:
 		var c := _find(state, id)
@@ -35,6 +61,7 @@ func step(state: GameState) -> void:
 		if c["phase"] != "GONE":
 			alive.append(c)
 	state.customers = alive
+	_in_step = false
 
 
 # ---------------------------------------------------------------- spawn / helpers
@@ -53,7 +80,9 @@ func _spawn(state: GameState) -> void:
 
 
 func _find(state: GameState, id: String) -> Dictionary:
-	for c in state.customers:
+	if _by_id.has(id):
+		return _by_id[id]
+	for c in state.customers:   # outside step() (tests)
 		if c["customer_id"] == id:
 			return c
 	return {}
@@ -99,7 +128,7 @@ func _walk(state: GameState, c: Dictionary) -> bool:
 
 
 func _route(state: GameState, c: Dictionary, goal: Vector2i) -> bool:
-	var found := PathService.find_path(state.grid, state.grid.blocked_cells(), c["tile"], goal)
+	var found := PathService.find_path(state.grid, _blocked(state), c["tile"], goal)
 	if found.is_empty():
 		return false
 	found.pop_front()   # already standing on the first tile
@@ -111,10 +140,12 @@ func _route(state: GameState, c: Dictionary, goal: Vector2i) -> bool:
 func _reservation_lost(state: GameState, c: Dictionary) -> bool:
 	if c["reservation_id"] == "":
 		return false
-	for r in state.reservations:
-		if r["reservation_id"] == c["reservation_id"]:
-			return false
-	return true
+	if _res_dirty:
+		_res_ids.clear()
+		for r in state.reservations:
+			_res_ids[r["reservation_id"]] = true
+		_res_dirty = false
+	return not _res_ids.has(c["reservation_id"])
 
 
 ## Leaves the store: the reservation (if any) goes back to the shelf, stock stays untouched.
@@ -122,7 +153,9 @@ func _leave(state: GameState, c: Dictionary, outcome: String) -> void:
 	if c["reservation_id"] != "":
 		InventoryService.release_reservation(state, c["reservation_id"])
 		c["reservation_id"] = ""
+		_res_dirty = true
 	c["queue_slot"] = -1
+	_taken_dirty = true
 	c["outcome"] = outcome
 	state.emit_event("CUSTOMER_EXITED_NO_PURCHASE", {"customer_id": c["customer_id"], "outcome": outcome})
 	if outcome == "queue_timeout":
@@ -137,7 +170,7 @@ func _start_exit(state: GameState, c: Dictionary) -> void:
 	var goal := Vector2i(-1, -1)
 	var best := 1 << 30
 	for e in state.grid.entrance_tiles:
-		var path := PathService.find_path(state.grid, state.grid.blocked_cells(), c["tile"], e)
+		var path := PathService.find_path(state.grid, _blocked(state), c["tile"], e)
 		if not path.is_empty() and path.size() < best:
 			best = path.size()
 			goal = e
@@ -206,7 +239,12 @@ func candidates(state: GameState) -> Array[Dictionary]:
 		if not inst.get("enabled", true):
 			continue
 		var def := state.fixtures.get_type(inst["type_id"])
-		if AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach).is_empty():
+		var access: Array = _access_cache.get(loc["fixture_id"], []) if _in_step else []
+		if not _in_step or not _access_cache.has(loc["fixture_id"]):
+			access = AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach)
+			if _in_step:
+				_access_cache[loc["fixture_id"]] = access
+		if access.is_empty():
 			continue
 		seen["%s|%s" % [seg["sku_id"], loc["fixture_id"]]] = {"sku_id": seg["sku_id"], "fixture_id": loc["fixture_id"]}
 	var fx := EventService.effects(state)   # the active event's category weights, applied once here
@@ -233,6 +271,7 @@ func _pick(state: GameState, c: Dictionary) -> void:
 			c["phase"] = "SELECT"
 		return
 	c["reservation_id"] = res["reservation_id"]
+	_res_dirty = true
 	state.emit_event("CUSTOMER_RESERVED_ITEM", {"customer_id": c["customer_id"], "reservation_id": res["reservation_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"]})
 	var plan := _register_plan(state)
 	if plan.is_empty():
@@ -263,6 +302,7 @@ func _wait_for_slot(state: GameState, c: Dictionary) -> void:
 			_leave(state, c, "queue_timeout")
 		return
 	c["queue_slot"] = slot
+	_taken_dirty = true
 	if slot >= LONG_QUEUE_SLOT:
 		state.emit_event("QUEUE_TOO_LONG", {"register_id": plan["register_id"]})
 	if not _route(state, c, plan["queue_cells"][slot]):
@@ -272,14 +312,24 @@ func _wait_for_slot(state: GameState, c: Dictionary) -> void:
 
 
 func _free_slot(state: GameState, c: Dictionary, plan: Dictionary) -> int:
-	var taken := {}
-	for other in state.customers:
-		if other["customer_id"] != c["customer_id"] and int(other["queue_slot"]) >= 0 and other["register_id"] == plan["register_id"]:
-			taken[int(other["queue_slot"])] = true
 	for i in plan["queue_cells"].size():
-		if not taken.has(i):
+		if not _slot_taken(state, plan["register_id"], i, c["customer_id"]):
 			return i
 	return -1
+
+
+## Is queue slot `slot` of that register held by someone other than `except_id`?
+func _slot_taken(state: GameState, register_id: String, slot: int, except_id: String) -> bool:
+	if _taken_dirty:
+		_taken.clear()
+		for other in state.customers:
+			if int(other["queue_slot"]) >= 0:
+				if not _taken.has(other["register_id"]):
+					_taken[other["register_id"]] = {}
+				_taken[other["register_id"]][int(other["queue_slot"])] = other["customer_id"]
+		_taken_dirty = false
+	var holder = _taken.get(register_id, {}).get(slot)
+	return holder != null and holder != except_id
 
 
 ## Waiting in the line: start checkout at the service cell when the register is free, otherwise
@@ -303,12 +353,9 @@ func _queue(state: GameState, c: Dictionary) -> void:
 			return
 	elif int(c["queue_slot"]) > 0:
 		var ahead: int = int(c["queue_slot"]) - 1
-		var free := true
-		for other in state.customers:
-			if other["customer_id"] != c["customer_id"] and int(other["queue_slot"]) == ahead and other["register_id"] == c["register_id"]:
-				free = false
-		if free:
+		if not _slot_taken(state, c["register_id"], ahead, c["customer_id"]):
 			c["queue_slot"] = ahead
+			_taken_dirty = true
 			if _route(state, c, plan["queue_cells"][ahead]):
 				c["phase"] = "WALK_REGISTER"
 				return
@@ -326,6 +373,8 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 	var reservation_id_of_sale: String = c["reservation_id"]
 	var sale := InventoryService.complete_sale(state, "sale:%s" % reservation_id_of_sale, reservation_id_of_sale)
 	c["queue_slot"] = -1
+	_taken_dirty = true
+	_res_dirty = true
 	if sale["ok"]:
 		state.visit_stats["purchased"] += 1
 		c["reservation_id"] = ""
@@ -340,8 +389,13 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 
 ## First register (by instance id) that can form a queue: {service_cell, queue_cells} or {}.
 func _register_plan(state: GameState) -> Dictionary:
+	_blocked(state)
+	return _plan_cache
+
+
+func _build_register_plan(state: GameState) -> Dictionary:
 	var reach := _paths.current_distances(state.grid)
-	var blocked := state.grid.blocked_cells()
+	var blocked: Dictionary = _blocked_cache
 	var ids := state.grid.instances.keys()
 	ids.sort()
 	for id in ids:
