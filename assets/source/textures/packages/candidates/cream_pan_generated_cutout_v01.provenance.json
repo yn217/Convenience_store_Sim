@@ -1,0 +1,13 @@
+{
+  "asset": "assets/source/textures/packages/candidates/cream_pan_generated_cutout_v01.png",
+  "family": "bread",
+  "generation_method": "built-in OpenAI ImageGen via subagent",
+  "sha256": "AF4CECDE1AFD3E6B4400534A975DA2FD0A1329A7577DA85AAC067A48B960E546",
+  "format": "PNG RGBA",
+  "dimensions": [1024, 1536],
+  "corner_alpha": [0, 0, 0, 0],
+  "selection_status": "needs_human_review",
+  "runtime_approved": false,
+  "license_status": "generated_by_OpenAI_tool; repository redistribution review pending",
+  "notes": "Subagent-generated candidate. Verify edge halo, scale, anchor, iso2x, LOD, four directions, and SKU/visual_id mapping before adoption."
+}
