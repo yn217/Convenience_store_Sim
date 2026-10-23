@@ -78,7 +78,12 @@ python tools/assets/compose_product_lod.py
 all 24 catalog visual IDs, and every referenced file. `compose_product_lod.py` creates an
 asset-only preview for `empty/low/medium/full` display states using the fixture manifest's
 slot anchors. Runtime integration should use `ProductSprites` and `ProductOverlayPlan`; the
-preview does not alter game state and does not replace the Godot presenter.
+preview does not alter game state and does not replace the Godot presenter. Because the current
+fixture manifests keep most opaque fixture geometry in one `body` layer, the preview is a slot
+placement diagnostic, not an occlusion acceptance image: rear-facing rotations can visibly
+place products over opaque geometry. The final gate is the Godot compositor with body/products/
+glass depth ordering (Issue #26), or a later fixture render that supplies explicit back/front
+body layers.
 `validate_provenance.py` checks the three ledger rows, referenced generator/manifest paths,
 and the JSON provenance manifests used for redistribution review.
 
