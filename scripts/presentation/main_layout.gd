@@ -27,6 +27,25 @@ func _ready() -> void:
 	resized.connect(apply_layout)
 	show_selection(Vector2i(-1, -1))
 	apply_layout()
+	style_sections.call_deferred()
+
+
+## Section headings of the side panels (the 20 px title labels the controllers add) get the warm heading style
+## and a rule above them, so the inspector reads as stacked cards without moving any node.
+func style_sections() -> void:
+	for body in [$Layout/MainArea/FixtureInspector/Scroll/Body, $Layout/MainArea/BuildPalette/Body]:
+		var first := true
+		for child in body.get_children():
+			if not (child is Label) or child.theme_type_variation == &"SectionTitle":
+				continue
+			if not child.has_theme_font_size_override("font_size") or child.get_theme_font_size("font_size") != 20:
+				continue
+			child.theme_type_variation = &"SectionTitle"
+			if not first:
+				var rule := HSeparator.new()
+				body.add_child(rule)
+				body.move_child(rule, child.get_index())
+			first = false
 
 
 func is_compact() -> bool:
