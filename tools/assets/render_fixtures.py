@@ -19,6 +19,7 @@ import bpy
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import blueprints  # noqa: E402
+import fixture_looks  # noqa: E402
 import iso2x  # noqa: E402
 
 CANVAS = 1600
@@ -131,6 +132,8 @@ def material(mid):
         emit.inputs[1].default_value = 1.0
         out = nodes.new("ShaderNodeOutputMaterial")
         mat.node_tree.links.new(emit.outputs[0], out.inputs[0])
+    elif fixture_looks.build(mid, mat):
+        pass    # procedural node look (fixture_looks.py); the flat PALETTE below stays for other types
     else:
         spec = PALETTE[mid]
         bsdf = nodes["Principled BSDF"]
@@ -147,7 +150,7 @@ def material(mid):
     return mat
 
 
-def add_box(name, x0, y0, z0, x1, y1, z1, mat_id):
+def add_box(name, x0, y0, z0, x1, y1, z1, mat_id, bevel=0.0):
     bm = bmesh.new()
     bmesh.ops.create_cube(bm, size=1.0)
     cx, cy, cz = (x0 + x1) / 2.0, (y0 + y1) / 2.0, (z0 + z1) / 2.0
@@ -161,6 +164,14 @@ def add_box(name, x0, y0, z0, x1, y1, z1, mat_id):
     me.materials.append(material(mat_id))
     obj = bpy.data.objects.new(name, me)
     bpy.context.scene.collection.objects.link(obj)
+    if bevel > 0.0:
+        # Bevel softens the edges (highlights only); the outer planes stay put, so the measured
+        # bounding box and the silhouette do not move.
+        mod = obj.modifiers.new("Bevel", "BEVEL")
+        mod.width = bevel
+        mod.segments = 2
+        mod.limit_method = "ANGLE"
+        mod.angle_limit = math.radians(40.0)
     return obj
 
 
@@ -178,6 +189,17 @@ def render_to(path, visible):
         obj.hide_render = not show
     sc.render.filepath = path
     bpy.ops.render.render(write_still=True)
+
+
+# Types whose glass is culled on the far side (Issue #61 Phase B). Other types keep every glass box.
+FAR_GLASS_CULLED = {"fridge_drink"}
+
+
+def glass_faces_camera(box, centre):
+    """The camera looks from +X/+Y (game coordinates), so glass on the +X/+Y half of the body is the
+    visible front. The glass layer is composited over the body, so far-side glass must be left out."""
+    gx, gy = (box.x0 + box.x1) / 2.0, (box.y0 + box.y1) / 2.0
+    return (gx - centre[0]) + (gy - centre[1]) > 0.0
 
 
 def mesh_bbox_game(objs):
@@ -248,8 +270,12 @@ def main():
             clear_models()
             rot = blueprints.rotated(bp, d, r)
             objs = {"body": [], "glass_front": [], "shadow": []}
+            centre = blueprints.mesh_bbox(rot["boxes"], layers=("body",))
+            centre = [(centre[0][k] + centre[1][k]) / 2.0 for k in (0, 1)]
             for i, b in enumerate(rot["boxes"]):
-                objs[b.layer].append(add_box("%s_r%d_%d" % (type_id, r, i), b.x0, b.y0, b.z0, b.x1, b.y1, b.z1, b.material))
+                if type_id in FAR_GLASS_CULLED and b.layer == "glass_front" and not glass_faces_camera(b, centre):
+                    continue    # far-side glass would be composited over the opaque housing; omit it
+                objs[b.layer].append(add_box("%s_r%d_%d" % (type_id, r, i), b.x0, b.y0, b.z0, b.x1, b.y1, b.z1, b.material, b.bevel))
             sx0, sy0, sx1, sy1 = rot["shadow"]
             objs["shadow"].append(add_box("%s_r%d_shadow" % (type_id, r), sx0, sy0, 0.0, sx1, sy1, 0.002, "shadow"))
             everything = [o for group in objs.values() for o in group]

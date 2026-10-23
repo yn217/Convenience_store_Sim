@@ -529,8 +529,8 @@
  },
  "generator_sha256_16": {
   "iso2x.py": "7b3bc87687fad84f",
-  "blueprints.py": "3f1743b2b29e6c1b",
-  "render_fixtures.py": "e449144fd51076fe",
+  "blueprints.py": "6affb2a12479d183",
+  "render_fixtures.py": "90023bb9972ed7dc",
   "build_sprites.py": "83855c9466920189"
  },
  "calibration": {
