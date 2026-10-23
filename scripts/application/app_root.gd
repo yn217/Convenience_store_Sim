@@ -5,6 +5,7 @@ const BALANCE_PATH := "res://data/balance/mvp_v1.json"
 const FIXTURES_PATH := "res://data/fixtures/mvp_v1.json"
 const PRODUCTS_PATH := "res://data/products/mvp_v1.json"
 const MILESTONES_PATH := "res://data/progression/mvp_v1.milestones.json"
+const CUES_PATH := "res://data/presentation/cues_v1.json"
 const REQUIRED_BALANCE_KEYS := [
 	"store_width_tiles", "store_height_tiles", "starting_cash_yen", "starting_reputation",
 ]
@@ -17,6 +18,7 @@ var runner: SimulationRunner
 var save_dir: String = SaveStore.DIR
 var _balance: Dictionary
 var _fixtures: FixtureCatalog
+var cue_bridge := PresentationEventBridge.new()
 var _products: ProductCatalog
 
 
@@ -36,6 +38,7 @@ func _ready() -> void:
 	_products = products
 	state = GameState.from_balance(balance, DEFAULT_SEEDS, fixtures, products)
 	state.milestones = _load_milestones()
+	_load_cues()
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
 	var world := _world()
@@ -79,6 +82,24 @@ func _process(delta: float) -> void:
 		_publish_snapshot()
 
 
+## Cue definitions -> the bridge. A bad file only costs the decoration (reported once), never the game.
+func _load_cues() -> void:
+	var problems: Array[String] = []
+	var cues := PresentationEventBridge.load_cues(JSON.parse_string(FileAccess.get_file_as_string(CUES_PATH)), problems)
+	if not problems.is_empty():
+		push_error("presentation cues invalid: " + str(problems))
+		cues = []
+	cue_bridge.setup(cues)
+
+
+## Domain events since the last snapshot -> cue requests -> CuePlayer. The player cannot answer back.
+func _deliver_cues() -> void:
+	var requests := cue_bridge.map(state.take_events(), state.time_sec)
+	var player := get_node_or_null("../CuePlayer")
+	if player != null and player.has_method("play") and not requests.is_empty():
+		player.play(requests)
+
+
 func _load_milestones() -> Array[Dictionary]:
 	var problems: Array[String] = []
 	var list := ProgressionService.load_milestones(JSON.parse_string(FileAccess.get_file_as_string(MILESTONES_PATH)), problems)
@@ -110,6 +131,7 @@ func run_command(command: Dictionary) -> CommandResult:
 			return _load_game(String(command.get("slot_id", "")), bool(command.get("use_backup", false)))
 	var result := commands.execute(command)
 	if result.ok:
+		state.emit_event("UI_COMMAND_SUCCEEDED", {"command_id": String(command.get("command_id", ""))})
 		_publish_snapshot()
 	return result
 
@@ -163,6 +185,7 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 	fresh.revision = state.revision + 1
 	fresh.milestones = state.milestones
 	state = fresh
+	cue_bridge.reset()   # a loaded game never replays what was announced before
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
 	_publish_snapshot()
@@ -207,3 +230,4 @@ func _publish_snapshot() -> void:
 	var hud := get_node_or_null("../Layout/TopHUD")
 	if hud != null and hud.has_method("apply_snapshot"):
 		hud.apply_snapshot(snap)
+	_deliver_cues()

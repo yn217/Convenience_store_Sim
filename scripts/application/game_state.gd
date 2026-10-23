@@ -98,6 +98,27 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 
 ## Closes `day_index` exactly once: the report is built from that day's ledger rows and the
 ## per-day visitor counters restart. A day that already has a report is left untouched.
+## Facts for the presentation (14 §5): EventEnvelope {id, tick, type, payload}. Transient: never saved,
+## never read by the simulation; losing or ignoring them changes no money, stock or customer.
+const EVENT_LOG_CAP := 512
+var event_log: Array[Dictionary] = []
+var _next_event_seq: int = 0
+
+
+func emit_event(type: String, payload: Dictionary) -> void:
+	_next_event_seq += 1
+	event_log.append({"id": "ev_%06d" % _next_event_seq, "tick": time_sec, "type": type, "payload": payload})
+	if event_log.size() > EVENT_LOG_CAP:
+		event_log.pop_front()
+
+
+## Events since the last call; the cue bridge turns each one into at most one cue request.
+func take_events() -> Array[Dictionary]:
+	var out := event_log.duplicate()
+	event_log.clear()
+	return out
+
+
 func close_day_once(day_index: int) -> bool:
 	for r in daily_reports:
 		if r["day_index"] == day_index:
@@ -106,6 +127,7 @@ func close_day_once(day_index: int) -> bool:
 	reputation = ReputationModel.next_reputation(reputation, visit_stats, rate_stats, balance)
 	visit_stats = {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 	rate_stats = {"abandoned": 0, "stockouts": 0}
+	emit_event("DAILY_CLOSED", {"day_index": day_index})
 	return true
 
 

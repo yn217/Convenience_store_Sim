@@ -194,6 +194,7 @@ static func _milestones(state: GameState, events: Array[Dictionary]) -> void:
 		if metric_value(state, m["metric"], m["threshold"]) >= int(m["threshold"]):
 			done.append(m["milestone_id"])
 			events.append({"kind": "MILESTONE", "id": m["milestone_id"], "badge_id": m["reward"]["badge_id"]})
+			state.emit_event("MILESTONE_REACHED", {"milestone_id": m["milestone_id"], "name_ja": m["name_ja"]})
 
 
 ## Every milestone with its current value, for the achievements page (SCR-18).

@@ -37,6 +37,7 @@ static func sweep_expired(state: GameState) -> Array[String]:
 				{"segment_id": seg["segment_id"], "lot_id": seg["lot_id"], "sku_id": seg["sku_id"], "qty": qty},
 				{"expense": cost})
 			booked.append(event_id)
+			state.emit_event("STOCK_EXPIRED", {"segment_id": seg["segment_id"], "sku_id": seg["sku_id"], "qty": qty})
 		seg["physical_qty"] = 0
 	var alive: Array[Dictionary] = []
 	for seg in state.inventory_segments:
@@ -140,4 +141,21 @@ static func complete_sale(state: GameState, transaction_id: String, reservation_
 	seg["physical_qty"] = int(seg["physical_qty"]) - qty
 	seg["reserved_qty"] = int(seg["reserved_qty"]) - qty
 	state.reservations.remove_at(index)
-	return {"ok": true, "reason": ""}
+	return {"ok": true, "reason": "", "revenue_yen": revenue, "fixture_id": seg["location"].get("fixture_id", "")}
+
+
+## Units on a fixture's shelves over its slot capacity (0..1); 1.0 for a fixture without slots.
+static func fixture_fill_ratio(state: GameState, fixture_id: String) -> float:
+	if not state.grid.instances.has(fixture_id):
+		return 1.0
+	var def := state.fixtures.get_type(state.grid.instances[fixture_id]["type_id"])
+	var cap := 0
+	for slot in def["shelf_slots"]:
+		cap += int(slot["capacity_units"])
+	if cap <= 0:
+		return 1.0
+	var qty := 0
+	for seg in state.inventory_segments:
+		if seg["location"]["kind"] == "FIXTURE" and seg["location"]["fixture_id"] == fixture_id:
+			qty += int(seg["physical_qty"])
+	return float(qty) / float(cap)

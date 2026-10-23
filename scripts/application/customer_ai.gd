@@ -13,6 +13,9 @@ const WALK_TILES_PER_STEP_FALLBACK := 0.6
 const RESERVATION_HOLD_SEC := 600
 const MAX_RESELECT := 2
 const QUEUE_TIMEOUT_SEC := 120
+## The third customer in line (slot 2) makes the queue "long" for the notice.
+const LONG_QUEUE_SLOT := 2
+const LOW_STOCK_RATIO := 0.25
 
 var _paths := PathService.new()
 
@@ -45,6 +48,7 @@ func _spawn(state: GameState) -> void:
 			"progress": 0.0, "fixture_id": "", "sku_id": "", "reservation_id": "", "queue_slot": -1, "retries": 0, "queue_since": 0, "checkout_left": 0, "register_id": "",
 			"outcome": "",
 		})
+		state.emit_event("CUSTOMER_ENTERED", {"customer_id": arrival["customer_id"]})
 	state.arrival_queue.clear()
 
 
@@ -120,6 +124,7 @@ func _leave(state: GameState, c: Dictionary, outcome: String) -> void:
 		c["reservation_id"] = ""
 	c["queue_slot"] = -1
 	c["outcome"] = outcome
+	state.emit_event("CUSTOMER_EXITED_NO_PURCHASE", {"customer_id": c["customer_id"], "outcome": outcome})
 	if outcome == "queue_timeout":
 		state.rate_stats["abandoned"] += 1
 	elif outcome == "no_candidate" or outcome == "stockout":
@@ -227,6 +232,7 @@ func _pick(state: GameState, c: Dictionary) -> void:
 			c["phase"] = "SELECT"
 		return
 	c["reservation_id"] = res["reservation_id"]
+	state.emit_event("CUSTOMER_RESERVED_ITEM", {"customer_id": c["customer_id"], "reservation_id": res["reservation_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"]})
 	var plan := _register_plan(state)
 	if plan.is_empty():
 		_leave(state, c, "no_register")
@@ -256,6 +262,8 @@ func _wait_for_slot(state: GameState, c: Dictionary) -> void:
 			_leave(state, c, "queue_timeout")
 		return
 	c["queue_slot"] = slot
+	if slot >= LONG_QUEUE_SLOT:
+		state.emit_event("QUEUE_TOO_LONG", {"register_id": plan["register_id"]})
 	if not _route(state, c, plan["queue_cells"][slot]):
 		_leave(state, c, "unreachable_register")
 		return
@@ -314,12 +322,16 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 	c["checkout_left"] = int(c["checkout_left"]) - int(GameClock.STEP_GAME_SECONDS)
 	if int(c["checkout_left"]) > 0:
 		return
-	var sale := InventoryService.complete_sale(state, "sale:%s" % c["reservation_id"], c["reservation_id"])
+	var reservation_id_of_sale: String = c["reservation_id"]
+	var sale := InventoryService.complete_sale(state, "sale:%s" % reservation_id_of_sale, reservation_id_of_sale)
 	c["queue_slot"] = -1
 	if sale["ok"]:
 		state.visit_stats["purchased"] += 1
 		c["reservation_id"] = ""
 		c["outcome"] = "purchased"
+		state.emit_event("SALE_COMMITTED", {"transaction_id": "sale:%s" % reservation_id_of_sale, "customer_id": c["customer_id"], "revenue_yen": sale["revenue_yen"], "register_id": c["register_id"], "fixture_id": sale["fixture_id"]})
+		if InventoryService.fixture_fill_ratio(state, sale["fixture_id"]) < LOW_STOCK_RATIO:
+			state.emit_event("STOCK_LOW", {"fixture_id": sale["fixture_id"]})
 		_start_exit(state, c)
 	else:
 		_leave(state, c, "sale_failed")

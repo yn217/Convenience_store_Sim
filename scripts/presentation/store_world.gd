@@ -69,6 +69,9 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	customers = snapshot.get("customers", [])
 	speed_setting = int(snapshot.get("speed_setting", 0))
 	fixture_sales = snapshot.get("fixture_sales", {})
+	var tint := get_node_or_null("TimeTint")
+	if tint != null and snapshot.has("time_sec"):
+		tint.color = LightingModel.tint(int(snapshot["time_sec"]))
 	if selected_customer != "" and not customers.any(func(c): return c["customer_id"] == selected_customer):
 		selected_customer = ""
 		customer_selected.emit("")

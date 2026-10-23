@@ -44,6 +44,14 @@ func _demo(main: Node, world: Node2D) -> void:
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("overlay="):
 			world.set_overlay_mode(int(a.substr(8)))
+	if OS.get_cmdline_user_args().has("cues"):
+		var cp := main.get_node("CuePlayer")
+		cp.settings_path = "user://screenshot_settings.json"
+		var mk := func(id, pr, payload): return {"cue_id": id, "source_event_id": "e", "tick": 0, "priority": pr, "animation_id": "x", "sfx_key": null, "duration_seconds": 2.0, "payload": payload}
+		cp.play([mk.call("milestone_celebrate", "important", {"name_ja": "はじめての会計"}), mk.call("low_stock_notice", "normal", {"fixture_id": "fx_0002"}), mk.call("long_queue", "normal", {}),
+				mk.call("checkout_success", "normal", {"revenue_yen": 150, "register_id": "fx_0001"}), mk.call("customer_enter", "ambient", {"customer_id": "cust_000001"})])
+		cp.advance(0.25)
+		world.get_node("TimeTint").color = LightingModel.tint(18 * 3600)
 	world.select_screen(world.projection.tile_center(Vector2i(6, 3)))
 	var bc := main.get_node("BuildController")
 	bc.begin_place("shelf_snack")
