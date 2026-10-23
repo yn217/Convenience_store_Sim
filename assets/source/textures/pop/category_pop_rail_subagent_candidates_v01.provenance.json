@@ -1,0 +1,15 @@
+{
+  "asset_family": "fictional_convenience_category_pop_and_price_rail_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Schrodinger the 2nd and Planck the 2nd",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Transparent comparison boards for fictional Japanese convenience-store shelf category POP and price rails, realistic game-ready surface treatment, short abstract/category labels only, no real brand/trademark/logo/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"category_rail_price_label_board_subagent_v01","source_file":"assets/source/textures/pop/category_rail_price_label_board_subagent_v01.png","sha256":"8E14F4B76491D8E4F7B292CEC82CF0590CECC4C242E300C987C1A98EA5BA4AAA","variants":["pale aqua beverage/refrigerated rail","purple-gold snack/cup noodle rail"],"dimensions_px":[1983,793]},
+    {"asset_id":"food_category_pop_board_subagent_v01","source_file":"assets/source/textures/pop/food_category_pop_board_subagent_v01.png","sha256":"D6625D31B5A4AB055550CAF736AAC56B5E16BD07016D5A38FAA0ED8B7C6987DA","variants":["warm orange-red onigiri/bento POP","blue-yellow sandwich/bread POP"],"dimensions_px":[1774,887]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Comparison boards only; individual transparent cutouts, shelf anchor, crop, text localization, slot linkage and runtime integration remain open."
+}

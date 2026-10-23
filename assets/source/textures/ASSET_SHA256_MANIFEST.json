@@ -981,6 +981,24 @@
     },
     {
       "group": "pop",
+      "path": "assets/source/textures/pop/category_pop_rail_subagent_candidates_v01.provenance.json",
+      "sha256": "28e838972d73e30758cdd1d69ee52750103428eaa2065842422081a50612fd61",
+      "bytes": 1491
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/category_rail_price_label_board_subagent_v01.png",
+      "sha256": "8e14f4b76491d8e4f7b292cec82cf0590cecc4c242e300c987c1a98ea5ba4aaa",
+      "bytes": 1227323
+    },
+    {
+      "group": "pop",
+      "path": "assets/source/textures/pop/food_category_pop_board_subagent_v01.png",
+      "sha256": "d6625d31b5a4ab055550caf736aac56b5e16bd07016d5a38faa0ed8b7c6987da",
+      "bytes": 1716832
+    },
+    {
+      "group": "pop",
       "path": "assets/source/textures/pop/hot_snack_category_pop_subagent_v01.png",
       "sha256": "20a92442fabba2cb69154d452463e863914ee9c5b664a8e6adc670368d632fd6",
       "bytes": 2140243
