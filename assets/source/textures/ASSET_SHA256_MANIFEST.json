@@ -321,6 +321,12 @@
     },
     {
       "group": "materials",
+      "path": "assets/source/textures/materials/MATERIAL_FIXTURE_COVERAGE.json",
+      "sha256": "35bf03103774a266dcd1cd7033f59e977f976b90f89b12e357e90971a493c27e",
+      "bytes": 2493
+    },
+    {
+      "group": "materials",
       "path": "assets/source/textures/materials/MATERIAL_PROVENANCE.json",
       "sha256": "dcd93efd8b59a9059eb4d7f39a7aef3e0f0da25673400ef3cff92511a59ae11b",
       "bytes": 1770

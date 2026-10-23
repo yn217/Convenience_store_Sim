@@ -1,0 +1,86 @@
+{
+  "status": "coverage report only; no runtime adoption",
+  "total_catalog_fixtures": 10,
+  "covered_baseline_fixtures": 3,
+  "rows": [
+    {
+      "fixture_type_id": "register_basic",
+      "catalog_visual_id": "register_basic_a",
+      "candidate_visual_ids": [
+        "register_basic_a",
+        "register_basic_b"
+      ],
+      "candidate_status": "review-only",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "shelf_general",
+      "catalog_visual_id": "shelf_general_a",
+      "candidate_visual_ids": [
+        "shelf_general_a",
+        "shelf_general_b"
+      ],
+      "candidate_status": "review-only",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "shelf_onigiri",
+      "catalog_visual_id": "shelf_onigiri_a",
+      "candidate_visual_ids": [],
+      "candidate_status": "not_registered",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "warmer_oden",
+      "catalog_visual_id": "warmer_oden_a",
+      "candidate_visual_ids": [],
+      "candidate_status": "not_registered",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "shelf_noodle",
+      "catalog_visual_id": "shelf_noodle_a",
+      "candidate_visual_ids": [],
+      "candidate_status": "not_registered",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "shelf_bread",
+      "catalog_visual_id": "shelf_bread_a",
+      "candidate_visual_ids": [],
+      "candidate_status": "not_registered",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "fridge_drink",
+      "catalog_visual_id": "fridge_drink_a",
+      "candidate_visual_ids": [
+        "fridge_drink_a",
+        "fridge_drink_b"
+      ],
+      "candidate_status": "review-only",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "shelf_snack",
+      "catalog_visual_id": "shelf_snack_a",
+      "candidate_visual_ids": [],
+      "candidate_status": "not_registered",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "fridge_dessert",
+      "catalog_visual_id": "fridge_dessert_a",
+      "candidate_visual_ids": [],
+      "candidate_status": "not_registered",
+      "runtime_approved": false
+    },
+    {
+      "fixture_type_id": "freezer_ice",
+      "catalog_visual_id": "freezer_ice_a",
+      "candidate_visual_ids": [],
+      "candidate_status": "not_registered",
+      "runtime_approved": false
+    }
+  ]
+}
