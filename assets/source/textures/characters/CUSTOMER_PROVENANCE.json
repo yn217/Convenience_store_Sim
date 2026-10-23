@@ -1,0 +1,10 @@
+{
+  "asset": "customer_variants_comparison_v01.png",
+  "purpose": "Issue #23 art-direction candidate board for three fictional adult customer variants",
+  "source": "OpenAI image generation tool",
+  "model": "unavailable in tool result",
+  "seed": "unavailable in tool result",
+  "prompt_record": "docs/art/CUSTOMER_ART_CANDIDATES.md",
+  "license": "Generated for this project; final adoption requires repository licensing review",
+  "runtime_status": "reference candidate only; not wired into Godot"
+}
