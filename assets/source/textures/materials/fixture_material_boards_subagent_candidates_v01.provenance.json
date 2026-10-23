@@ -1,0 +1,15 @@
+{
+  "asset_family": "fixture_material_comparison_boards",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Laplace the 2nd and Wegener the 2nd",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Comparison board of realistic Japanese convenience-store fixture surface candidates, no real logo/trademark/readable text/watermark; intended as review input for controllable material/POP texture authoring, not direct runtime sprite.",
+  "candidates": [
+    {"asset_id":"pos_cooler_material_board_subagent_v01","source_file":"assets/source/textures/materials/pos_cooler_material_board_subagent_v01.png","sha256":"8C8FAFBDF54E393ED5A8B5254F4E71756EAE0640F964F2818CD83C1C96170A95","targets":["POS register","beverage cooler"],"variants":["stainless steel + black resin","clear glass + white painted metal + light condensation"],"dimensions_px":[2048,1365]},
+    {"asset_id":"shelf_hotfood_material_board_subagent_v01","source_file":"assets/source/textures/materials/shelf_hotfood_material_board_subagent_v01.png","sha256":"E8BA50B40C775436AB6356271B750E5A5786036BB5ACC62F5C323A7F27B19D88","targets":["general shelf","hot food fixture"],"variants":["white resin + powder-coated metal","wood grain + stainless trim + warm lighting"],"dimensions_px":[1672,941]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Review boards only; they are not direct runtime textures. Material crops, Blender mapping, four-direction rendering, footprint/anchor and Godot integration remain open."
+}

@@ -753,6 +753,12 @@
     },
     {
       "group": "materials",
+      "path": "assets/source/textures/materials/fixture_material_boards_subagent_candidates_v01.provenance.json",
+      "sha256": "df5534193c627c4e879ed83ce86ef9ceefdb372d5947bb874fc4cfb2f24df0dc",
+      "bytes": 1618
+    },
+    {
+      "group": "materials",
       "path": "assets/source/textures/materials/fridge_drink_material_comparison_v01.png",
       "sha256": "d99a7dc143f527fbeef3ac4442096e75dc860ee14ddc06845bc055100fa897ab",
       "bytes": 1773336
@@ -777,6 +783,12 @@
     },
     {
       "group": "materials",
+      "path": "assets/source/textures/materials/pos_cooler_material_board_subagent_v01.png",
+      "sha256": "8c8fafbdf54e393ed5a8b5254f4e71756eae0640f964f2818cd83c1c96170a95",
+      "bytes": 5918740
+    },
+    {
+      "group": "materials",
       "path": "assets/source/textures/materials/register_basic_material_comparison_v01.png",
       "sha256": "370c6d9396ee4d1e4d75f3fdca63fcf075473338b0f93824655149fc13aba081",
       "bytes": 2049939
@@ -786,6 +798,12 @@
       "path": "assets/source/textures/materials/shelf_general_material_comparison_v01.png",
       "sha256": "a7412ac60cd6a6d61442de536d998cd3b91436407d7c5a42f8a2b6dc805c5d7d",
       "bytes": 2047769
+    },
+    {
+      "group": "materials",
+      "path": "assets/source/textures/materials/shelf_hotfood_material_board_subagent_v01.png",
+      "sha256": "e8ba50b40c775436ab6356271b750e5a5786036bb5acc62f5c323a7f27b19d88",
+      "bytes": 2205830
     },
     {
       "group": "materials",
