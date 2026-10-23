@@ -39,7 +39,7 @@ Main (Control, IGNORE)
 │  │  ├─ LeftNav (PanelContainer, 左端 80px のレール, STOP)  … HUD/ナビ層
 │  │  ├─ BuildPalette (PanelContainer 280px, 左の浮遊窓, BUILD のみ表示)
 │  │  └─ FixtureInspector (PanelContainer 320px, 右の浮遊窓, SELECTED のみ) > Scroll > Body
-│  │     └─ インスペクタ / 選択中の什器 (+ 客の行) のみ
+│  │     └─ 1 枚の窓「インスペクタ」: 什器ブロック (FixtureCard) / 詳細 (折りたたみ) / 移動・回転・撤去 / 客の行
 │  ├─ TopHUD (PanelContainer 全幅 64px, 上端, STOP)          … HUD 層
 │  └─ MetricBar (下端の細い帯, 幅はレール右〜右端)            … サマリー層
 ├─ FloatCards (全面 IGNORE, カードのみ STOP)                 … 通知層 (トースト / 浮遊カード)
@@ -85,5 +85,5 @@ Main (Control, IGNORE)
 
 ## 6. テスト
 - 追加: `tests/unit/test_ui_mode.gd` (遷移), `tests/scene/test_panel_modes.gd` (モードごとの表示, ワールドの大きさ不変, カメラ不変, 入力の遮断, 閉じた後の遮断なし, Esc/B, 営業状態バッジ)。
-- 更新: `test_left_nav.gd` (5 項目・id 発信), `test_section_cards.gd` (インスペクタ 2 枚 / 管理タブ 9 枚), `test_ui_integration.gd` (幅の試験を BUILD 中の寸法試験へ, 配置クリック試験は BUILD を開いてから), `test_shell_camera_input.gd` (コンパクト試験を削除), `test_build_ui.gd` / `test_metric_bar.gd` (パレットの幅を offset で判定)。
+- 更新: `test_left_nav.gd` (5 項目・id 発信), `test_section_cards.gd` (インスペクタ 1 枚 / 管理タブ 9 枚), `test_ui_integration.gd` (幅の試験を BUILD 中の寸法試験へ, 配置クリック試験は BUILD を開いてから), `test_shell_camera_input.gd` (コンパクト試験を削除), `test_build_ui.gd` / `test_metric_bar.gd` (パレットの幅を offset で判定)。
 - 削除: `test_command_grid.gd`, `test_command_bar.gd`。

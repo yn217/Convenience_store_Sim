@@ -21,7 +21,11 @@ func test_card_follows_selection(t, tree) -> void:
 	world.select_screen(world.projection.tile_center(Vector2i(3, 2)))
 	await tree.process_frame
 	t.eq(card._name.text, "汎用棚", "the selected shelf is named")
-	t.eq(card._price.text, "¥40,000 ・ 1×2", "price and footprint")
+	t.eq(card._price.text, "¥40,000", "price tile")
+	t.eq(card._size.text, "1×2", "size tile")
+	t.eq(card._status.text, "設置中", "status chip: the store is still in setup")
+	t.eq(card._category.text, "おかし・カップ麺・パン", "category chip: the shelf's allowed categories, in Japanese")
+	t.ok(card._category.get_parent().visible, "the chip shows for a shelf")
 	t.eq(card._rows[0]["value"].text, "0 / 48", "empty shelf: nothing stocked yet")
 	t.eq(card._rows[1]["value"].text, "¥500", "today's sales of this shelf come from the ledger")
 	t.eq(card._rows[1]["bar"].value, 1.0, "it is the whole store's sales today")

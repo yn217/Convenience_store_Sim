@@ -27,10 +27,10 @@ var _products: ProductCatalog
 @onready var _redo: Button = $"../Layout/MainArea/BuildPalette/Body/UndoRow/RedoButton"
 @onready var _preview_label: Label = $"../Layout/MainArea/BuildPalette/Body/PreviewLabel"
 @onready var _status_label: Label = $"../Layout/MainArea/BuildPalette/Body/StatusLabel"
-@onready var _fixture_label: Label = $"../Layout/MainArea/FixtureInspector/Scroll/Body/FixtureLabel"
-@onready var _move_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/MoveButton"
-@onready var _rotate_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/RotateButton"
-@onready var _remove_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/RemoveButton"
+@onready var _fixture_label: Label = $"../Layout/MainArea/FixtureInspector/Scroll/Body/Details/FixtureLabel"
+@onready var _move_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/Actions/MoveButton"
+@onready var _rotate_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/Actions/RotateButton"
+@onready var _remove_button: Button = $"../Layout/MainArea/FixtureInspector/Scroll/Body/Actions/RemoveButton"
 @onready var _remove_dialog: ConfirmationDialog = $"../RemoveDialog"
 
 

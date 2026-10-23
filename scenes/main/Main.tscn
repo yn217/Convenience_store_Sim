@@ -148,7 +148,7 @@ render_target_update_mode = 4
 [node name="StoreWorld" parent="Layout/MainArea/StoreViewport/SubViewport" instance=ExtResource("2")]
 
 [node name="FixtureInspector" type="PanelContainer" parent="Layout/MainArea"]
-custom_minimum_size = Vector2(320, 0)
+custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
 
 [node name="Scroll" type="ScrollContainer" parent="Layout/MainArea/FixtureInspector"]
@@ -164,26 +164,41 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "インスペクタ"
 
-[node name="SelectionLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
+[node name="Details" type="VBoxContainer" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
+visible = false
 layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SelectionLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Scroll/Body/Details"]
+layout_mode = 2
+theme_type_variation = &"CardTitle"
 text = "未選択"
 
-[node name="FixtureLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
+[node name="FixtureLabel" type="Label" parent="Layout/MainArea/FixtureInspector/Scroll/Body/Details"]
 layout_mode = 2
+theme_type_variation = &"CardTitle"
 autowrap_mode = 3
 
-[node name="MoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
+[node name="Actions" type="HBoxContainer" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
 disabled = true
 text = "移動"
 
-[node name="RotateButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
+[node name="RotateButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body/Actions"]
 layout_mode = 2
+size_flags_horizontal = 3
 disabled = true
-text = "回転 (90°)"
+text = "回転"
 
-[node name="RemoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body"]
+[node name="RemoveButton" type="Button" parent="Layout/MainArea/FixtureInspector/Scroll/Body/Actions"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"DangerButton"
 disabled = true
 text = "撤去"
 

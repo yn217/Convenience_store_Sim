@@ -56,7 +56,7 @@ const SPACE_L := 16
 const HUD_HEIGHT := 64
 const BAR_HEIGHT := 8
 const PALETTE_WIDTH := 280
-const INSPECTOR_WIDTH := 320
+const INSPECTOR_WIDTH := 340
 const STORE_MIN_WIDTH := 640
 const COMPACT_WIDTH := 1280
 
@@ -76,6 +76,32 @@ static func build() -> Theme:
 	_variation_button(theme, "PrimaryButton", BRAND_BLUE, Color("0b3f91"), Color("2a7cf0"), Color("8fc4ff"))
 	_variation_button(theme, "ConfirmButton", CONFIRM_GREEN, Color("0a4a2b"), Color("1f9159"), Color("8ff0b8"))
 	_variation_button(theme, "DangerButton", DANGER_RED, Color("6e1c21"), Color("dd4a4f"), Color("ffb3b3"))
+	# A disabled danger button keeps a muted red face, so 撤去 still reads as destructive when it cannot be used.
+	theme.set_stylebox("disabled", "DangerButton", _button(Color("4a2226"), Color("2a1214")))
+	# Inspector window: framed info tiles, pill chips (plain and green status) and the name / value type scale.
+	theme.add_type("InfoTile")
+	theme.set_type_variation("InfoTile", "PanelContainer")
+	theme.set_stylebox("panel", "InfoTile", _tile_box())
+	theme.add_type("Chip")
+	theme.set_type_variation("Chip", "PanelContainer")
+	theme.set_stylebox("panel", "Chip", chip_box())
+	theme.add_type("StatusChip")
+	theme.set_type_variation("StatusChip", "PanelContainer")
+	theme.set_stylebox("panel", "StatusChip", badge_box())
+	theme.add_type("ChipLabel")
+	theme.set_type_variation("ChipLabel", "Label")
+	theme.set_color("font_color", "ChipLabel", TEXT_PRIMARY)
+	theme.set_font_size("font_size", "ChipLabel", FONT_SMALL)
+	theme.add_type("InspectorName")
+	theme.set_type_variation("InspectorName", "Label")
+	theme.set_color("font_color", "InspectorName", TEXT_PRIMARY)
+	theme.set_font_size("font_size", "InspectorName", FONT_VALUE)
+	_outline(theme, "InspectorName", 2)
+	theme.add_type("TileValue")
+	theme.set_type_variation("TileValue", "Label")
+	theme.set_color("font_color", "TileValue", GOLD)
+	theme.set_font_size("font_size", "TileValue", FONT_TITLE)
+	_outline(theme, "TileValue", 2)
 	# Speed control: one segmented pill, the selected segment filled blue with a soft glow.
 	_segment_type(theme, "SegmentLeft", true, false)
 	_segment_type(theme, "SegmentMid", false, false)
@@ -150,6 +176,20 @@ static func toast_box(edge: Color, achievement: bool) -> StyleBoxFlat:
 	b.shadow_color = Color(0, 0, 0, 0.4)
 	b.shadow_size = 6
 	b.shadow_offset = Vector2(0, 3)
+	return b
+
+
+## Inspector info tile: a small rounded face in the chip colour with a thin card-rim edge.
+static func _tile_box() -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = Color(CHIP_FACE, 0.85)
+	b.border_color = Color(CARD_RIM, 0.6)
+	b.set_border_width_all(1)
+	b.set_corner_radius_all(10)
+	b.content_margin_left = 10.0
+	b.content_margin_right = 10.0
+	b.content_margin_top = 6.0
+	b.content_margin_bottom = 6.0
 	return b
 
 

@@ -14,7 +14,6 @@ const TAB_OF_SECTION := {
 	"日次レポート": "データ",
 	"演出・音": "設定", "表示モード (O)": "設定", "セーブ / ロード": "設定",
 }
-const SELECTION_CARD := "選択中の什器"
 const INSPECTOR_CARD := "インスペクタ"
 const BOTTOM_HEIGHT := 72
 const WINDOW_SIZE := Vector2(780, 600)
@@ -44,7 +43,7 @@ func _ready() -> void:
 	_store = $Layout/MainArea/StoreViewport
 	_world = $Layout/MainArea/StoreViewport/SubViewport/StoreWorld
 	_state_label = $Layout/TopHUD/Row/StateLabel
-	_selection_label = $Layout/MainArea/FixtureInspector/Scroll/Body/SelectionLabel
+	_selection_label = $Layout/MainArea/FixtureInspector/Scroll/Body/Details/SelectionLabel
 	_nav = LeftNav.new()
 	$Layout/MainArea.add_child(_nav)
 	_nav.item_pressed.connect(_on_rail_pressed)
@@ -288,11 +287,12 @@ func _organize_panels() -> void:
 			card.reparent(_pages[TAB_OF_SECTION[title]])
 	var overlay := get_node_or_null("OverlayController")
 	var customer: Variant = overlay.get("_customer") if overlay != null else null
-	var selection_card := _find_card(body, SELECTION_CARD)
-	if customer is Node and selection_card != null:
-		(customer as Node).reparent(selection_card.get_child(0))   # the selected customer's line lives under the fixture
 	var inspector_card := _find_card(body, INSPECTOR_CARD)
+	if customer is Node and inspector_card != null:
+		(customer as Node).reparent(inspector_card.get_child(0))   # the selected customer's line lives in the window
 	if inspector_card != null:
+		# The window is the inspector frame itself: the card inside it is transparent so there is one frame, not two.
+		inspector_card.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 		_add_close_button(inspector_card.find_children("*", "Label", true, false)[0], close_inspector)
 	_add_close_button($Layout/MainArea/BuildPalette/Body/Title, close_build)
 

@@ -41,6 +41,7 @@ func _ready() -> void:
 	_stack.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_stack)
 	_customer = Label.new()
+	_customer.theme_type_variation = &"CardTitle"   # the customer's line sits inside the inspector window, as a detail
 	_customer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_customer)
 	if _world != null:

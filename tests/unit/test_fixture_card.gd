@@ -23,7 +23,7 @@ func test_capacity_sums_the_slots(t, _tree) -> void:
 func test_rows_stock_and_sales_shares(t, _tree) -> void:
 	var rows := Card.rows(_shelf(), {"row0": 70, "row1": 70}, {"revenue_yen": 250, "gross_profit_yen": 100}, {"revenue_yen": 1000, "gross_profit_yen": 400})
 	t.eq(rows.size(), 3)
-	t.eq(rows[0]["label"], "在庫数")
+	t.eq(rows[0]["label"], "在庫・陳列状況")
 	t.eq(rows[0]["value_text"], "140 / 180")
 	t.ok(absf(float(rows[0]["ratio"]) - 140.0 / 180.0) < 0.0001, "stock ratio is units over capacity")
 	t.eq(rows[1]["label"], "本日の売上")
@@ -46,6 +46,27 @@ func test_register_without_shelves(t, _tree) -> void:
 	var rows := Card.rows({"placement_cost_yen": 90000, "footprint": {"w": 1, "h": 2}, "capacity_units": 0, "shelf_slots": []}, {}, {"revenue_yen": 0, "gross_profit_yen": 0}, {})
 	t.eq(rows[0]["value_text"], "棚なし")
 	t.eq(rows[0]["ratio"], 0.0)
+
+
+func test_status_chip_follows_the_business_state(t, _tree) -> void:
+	t.eq(Card.status_text("SETUP"), "設置中")
+	t.eq(Card.status_text("OPEN"), "営業中")
+	t.eq(Card.status_text("CLOSING"), "閉店中")
+	t.eq(Card.status_text("UNKNOWN"), "", "an unknown state shows no chip")
+
+
+func test_category_chip_names(t, _tree) -> void:
+	t.eq(Card.category_names({"allowed_categories": ["drink", "ice_cream"]}), ["飲料", "アイス"])
+	t.eq(Card.category_text({"allowed_categories": ["rice_ball"]}), "おにぎり")
+	t.eq(Card.category_text({"allowed_categories": ["bread", "dessert"]}), "パン・デザート", "several categories joined with ・")
+	t.eq(Card.category_text({"allowed_categories": []}), "", "a register allows no category: no chip")
+	t.eq(Card.category_text({"allowed_categories": ["unknown_thing"]}), "unknown_thing", "an unmapped id is shown as is")
+
+
+func test_stock_text_shows_units_over_capacity(t, _tree) -> void:
+	t.eq(Card.stock_text(180, 140), "140 / 180")
+	t.eq(Card.stock_text(0, 0), "棚なし", "no room for stock: 棚なし, and the bar is hidden")
+	t.eq(Card.stock_text(12, 0), "0 / 12", "an empty shelf still shows its room")
 
 
 func test_share_is_clamped(t, _tree) -> void:

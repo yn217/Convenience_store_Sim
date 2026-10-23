@@ -19,7 +19,7 @@ func test_sections_are_cards_in_the_right_place(t, tree) -> void:
 		else:
 			loose += 1
 	t.eq(loose, 0, "the inspector body holds only cards")
-	t.eq(selection_titles, ["インスペクタ", "選択中の什器"], "inspector keeps only the selection cards")
+	t.eq(selection_titles, ["インスペクタ"], "the inspector is one window card: title, fixture block, actions, customer line")
 	var tab_cards := 0
 	var tabs: Node = main.find_child("ScreenTabs", true, false)
 	t.ok(tabs != null, "management window has tabs")
