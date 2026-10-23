@@ -1,0 +1,17 @@
+{
+  "asset_family": "receipt_terminal_and_floor_warning_sign_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Planck and Ptolemy",
+  "generation_date": "2026-10-23",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single Japanese convenience-store prop, realistic 2.5D isometric, transparent RGBA background, light contact shadow, no real manufacturer/trademark/logo/readable fine text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"receipt_terminal_subagent_a_v01","source_file":"assets/source/textures/props/receipt_terminal_subagent_a_v01.png","sha256":"6C5551645EBB2DC282E68900EF496F633A9544487316C93C5A4FC1D333BA8AFA","category":"receipt/payment terminal","notes":"white/gray integrated terminal with receipt slot"},
+    {"asset_id":"receipt_terminal_subagent_b_v01","source_file":"assets/source/textures/props/receipt_terminal_subagent_b_v01.png","sha256":"47D904CB6716C4DDA306128AD11E050958FF2E0B8288A866352D2F26FEC91395","category":"receipt/payment terminal","notes":"white/black upright touch terminal"},
+    {"asset_id":"wet_floor_warning_subagent_v01","source_file":"assets/source/textures/props/wet_floor_warning_subagent_v01.png","sha256":"3361942336BF31E54F3853693FAFE9E20B5AA532C5E6B0A25468EB9400FBE5DD","category":"wet floor warning sign","notes":"yellow/black folding stand with droplet symbol"},
+    {"asset_id":"cleaning_sign_subagent_v01","source_file":"assets/source/textures/props/cleaning_sign_subagent_v01.png","sha256":"4F8A6440B51382901F835F96078076D35CBFD4A2184D0818B2D6147BE88DE4E7","category":"cleaning sign","notes":"blue/white folding stand with broom/sparkle symbol"}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only props; footprint, anchor, placement, occlusion and runtime integration remain open."
+}
