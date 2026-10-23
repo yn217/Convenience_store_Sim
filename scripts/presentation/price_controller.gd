@@ -47,6 +47,12 @@ func setup(app: Node, products: ProductCatalog) -> void:
 		name_label.clip_text = true
 		list.add_child(name_label)
 		var row := HBoxContainer.new()
+		var icon := TextureRect.new()
+		icon.texture = ProductIcons.texture(sku, 32)
+		icon.custom_minimum_size = Vector2(32, 32)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		row.add_child(icon)
 		var edit := LineEdit.new()
 		edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		edit.text = str(sku["default_sell_price_yen"])
