@@ -21,6 +21,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/blueberry_icecream_lavender_subagent_v01.png",
+      "sha256": "9c5f27134e06db16d01ea4f533dd9b3d4785ca813f37ec5717016ba502e2c30c",
+      "bytes": 1250977
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/bread_sandwich_subagent_candidates_v01.provenance.json",
       "sha256": "162abd6d5f9e189ba0b7a4b2283213e5aa15d6898879de66fd6e580bd28f313e",
       "bytes": 1135
@@ -441,6 +447,12 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/custard_pudding_yellow_subagent_v01.png",
+      "sha256": "5b1bb62605d7298ba86fd6e36c9771b68435b171be9e87de77e0fcc83841da6a",
+      "bytes": 1588497
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/CUTOUT_PROVENANCE.json",
       "sha256": "4eb4714ad49839ff385a8d4b6c73849fbc51c09ac7a94fb0e9248d9c621a9ab2",
       "bytes": 2809
@@ -615,15 +627,33 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/sandwich_dessert_subagent_candidates_v01.provenance.json",
+      "sha256": "1297903027a57365a230d950e2f86511a271ba4b90737c8b099d398cf215e105",
+      "bytes": 2077
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/sandwich_egg_subagent_v01.png",
       "sha256": "1e26048341ccb8c5aa7a7334af35e6640da11a6bfe1f467f4f8476426b48a872",
       "bytes": 1689952
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/sandwich_egg_warm_subagent_v01.png",
+      "sha256": "0ea5ef969b748ea58f0c84b1e43bb99f4e3d8944fb8198ae0af2a1aad1a7d787",
+      "bytes": 1339526
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/sandwich_onigiri_subagent_candidates_v02.provenance.json",
       "sha256": "53f36429147ed3dfe16d3b2eb7eb40da7bbd3f32ff3beaee896b3ff5be072392",
       "bytes": 1931
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/sandwich_tuna_cool_subagent_v01.png",
+      "sha256": "d39bb1fbae0dfafa804ebff93827073c16bba8a24f44ae5431be43404b4b833e",
+      "bytes": 1558817
     },
     {
       "group": "packages",

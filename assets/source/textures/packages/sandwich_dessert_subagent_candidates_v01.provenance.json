@@ -1,0 +1,17 @@
+{
+  "asset_family": "fictional_sandwich_and_dessert_package_candidates",
+  "source_type": "subagent_image_generation_candidates",
+  "generator": "built-in ImageGen via subagents Ampere the 2nd and Kepler the 2nd",
+  "generation_date": "2026-10-24",
+  "generation_model": "not exposed by tool",
+  "prompt_summary": "Single fictional Japanese convenience-store package, realistic 2.5D, front-oriented, transparent RGBA background, category-specific silhouette and palette, no real brand/trademark/logo/readable long text/barcode/watermark.",
+  "candidates": [
+    {"asset_id":"sandwich_tuna_cool_subagent_v01","source_file":"assets/source/textures/packages/sandwich_tuna_cool_subagent_v01.png","sha256":"D39BB1FBAE0DFAFA804EBFF93827073C16BBA8A24F44AE5431BE43404B4B833E","category":"sandwich / tuna mayo","palette":"cool blue and coral","dimensions_px":[1254,1254]},
+    {"asset_id":"sandwich_egg_warm_subagent_v01","source_file":"assets/source/textures/packages/sandwich_egg_warm_subagent_v01.png","sha256":"0EA5EF969B748EA58F0C84B1E43BB99F4E3D8944FB8198AE0AF2A1AAD1A7D787","category":"sandwich / egg salad","palette":"warm yellow and teal","dimensions_px":[1254,1254]},
+    {"asset_id":"custard_pudding_yellow_subagent_v01","source_file":"assets/source/textures/packages/custard_pudding_yellow_subagent_v01.png","sha256":"5B1BB62605D7298BA86FD6E36C9771B68435B171BE9E87DE77E0FCC83841DA6A","category":"dessert / custard pudding","palette":"pale yellow, caramel and clear cup","dimensions_px":[1254,1254]},
+    {"asset_id":"blueberry_icecream_lavender_subagent_v01","source_file":"assets/source/textures/packages/blueberry_icecream_lavender_subagent_v01.png","sha256":"9C5F27134E06DB16D01EA4F533DD9B3D4785CA813F37EC5717016BA502E2C30C","category":"dessert / blueberry ice cream bar","palette":"lavender, blueberry and cream","dimensions_px":[1254,1254]}
+  ],
+  "runtime_approved": false,
+  "review_status": "needs_human_review",
+  "notes": "Candidate-only package PNGs. Slot overlay, normalized game scale, anchor, LOD, four-direction coverage and inventory linkage remain open."
+}
