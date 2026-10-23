@@ -72,6 +72,7 @@ python tools/assets/build_products.py
 python tools/assets/validate_products.py
 python tools/assets/validate_provenance.py
 python tools/assets/validate_provenance_coverage.py
+python tools/assets/validate_product_lod.py
 python tools/assets/compose_product_lod.py
 python tools/assets/audit_occlusion_contract.py
 ```
@@ -94,6 +95,8 @@ pipeline; `--require-split` is the adoption gate for Issue #26 and intentionally
 the generated fixtures expose those layers.
 `validate_provenance_coverage.py` cross-checks the fixture catalog, product catalog, generated
 product manifest, and the ID coverage index in `docs/ASSET_CREDITS.md`.
+`validate_product_lod.py` checks the 0/2/5/8 overlay counts for empty/low/medium/full across
+all four rotations. It does not prove fixture/customer occlusion or Godot runtime sorting.
 
 ## Reproducibility and its limits
 
