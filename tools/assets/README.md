@@ -70,6 +70,7 @@ Each shape has four deterministic direction variants and generic fictional label
 ```powershell
 python tools/assets/build_products.py
 python tools/assets/validate_products.py
+python tools/assets/validate_provenance.py
 python tools/assets/compose_product_lod.py
 ```
 
@@ -78,6 +79,8 @@ all 24 catalog visual IDs, and every referenced file. `compose_product_lod.py` c
 asset-only preview for `empty/low/medium/full` display states using the fixture manifest's
 slot anchors. Runtime integration should use `ProductSprites` and `ProductOverlayPlan`; the
 preview does not alter game state and does not replace the Godot presenter.
+`validate_provenance.py` checks the three ledger rows, referenced generator/manifest paths,
+and the JSON provenance manifests used for redistribution review.
 
 ## Reproducibility and its limits
 
