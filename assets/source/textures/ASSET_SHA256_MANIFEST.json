@@ -255,6 +255,18 @@
     },
     {
       "group": "packages",
+      "path": "assets/source/textures/packages/oden_bread_snack_comparison_v01.png",
+      "sha256": "87d749ec79d3a943879ecf31cd19d293477783b5ccdef98cba23035273424458",
+      "bytes": 2012246
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/oden_bread_snack_comparison_v01.provenance.json",
+      "sha256": "075da972840542407ff57e3a3791fd4d2ab4ac64d242fb7bf12166bf2890b232",
+      "bytes": 999
+    },
+    {
+      "group": "packages",
       "path": "assets/source/textures/packages/PACKAGE_VISUAL_COVERAGE.json",
       "sha256": "0760520d9fa3dfd2aa443f457082db50ee20fbdecd1c71a721257ded76686d6b",
       "bytes": 5657

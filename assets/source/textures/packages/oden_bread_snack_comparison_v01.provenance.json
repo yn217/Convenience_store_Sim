@@ -1,0 +1,11 @@
+{
+  "asset": "oden_bread_snack_comparison_v01.png",
+  "purpose": "review-only source comparison board for uncovered package families",
+  "generation_method": "OpenAI image generation tool",
+  "prompt": "Create a clean square comparison board for a Japanese convenience-store management game, realistic stylized 2.5D isometric asset reference, three fictional product package candidates arranged left-to-right with generous spacing on a neutral light gray background: Japanese oden cup, individually wrapped sweet bread, colorful potato snack bag; no real trademarks or readable real-world brands.",
+  "source_license_status": "generated_by_OpenAI_tool; verify repository redistribution policy before adoption",
+  "sha256": "87D749EC79D3A943879ECF31CD19D293477783B5CCDEF98CBA23035273424458",
+  "selection_status": "review-only",
+  "runtime_approved": false,
+  "notes": "Board is not a runtime texture. Split, clean, normalize, LOD, anchor, slot compatibility, and human review are still required."
+}
