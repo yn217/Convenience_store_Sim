@@ -4,8 +4,44 @@
     {
       "group": "packages",
       "path": "assets/source/textures/packages/CANDIDATE_VISUAL_ID_MAP.json",
-      "sha256": "5543322cc5ca3887a7080d33bb5622e66e2d61c628c1a7dcd1655c152d8face0",
-      "bytes": 1372
+      "sha256": "0ad365de218321f7b92f011ab97cf0531c2633ff31ca415601c6a87cb36f72e4",
+      "bytes": 1403
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review.manifest.json",
+      "sha256": "aa1505f3935bb06d5d43dcb414ac74d22d4d4906ddfc869232572e715827f6bb",
+      "bytes": 1202
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review.provenance.json",
+      "sha256": "4d565cf24ca806060a14affd641544d72228d5b49347476f3570f5446e1ba7de",
+      "bytes": 681
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_0.png",
+      "sha256": "36caf3d3770d1be94df2db7c045e3a40218a3e691b4ded739e92844c0a1ddd14",
+      "bytes": 1371
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_1.png",
+      "sha256": "88ca546af8c6f22c2926a098b1ebbd356398b81e3ff8f87c652bdc59193dcb50",
+      "bytes": 1366
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_2.png",
+      "sha256": "88ca546af8c6f22c2926a098b1ebbd356398b81e3ff8f87c652bdc59193dcb50",
+      "bytes": 1366
+    },
+    {
+      "group": "packages",
+      "path": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/bottle_500_iso2x_review_3.png",
+      "sha256": "36caf3d3770d1be94df2db7c045e3a40218a3e691b4ded739e92844c0a1ddd14",
+      "bytes": 1371
     },
     {
       "group": "packages",
@@ -244,8 +280,8 @@
     {
       "group": "packages",
       "path": "assets/source/textures/packages/CUTOUT_PROVENANCE.json",
-      "sha256": "4eb4714ad49839ff385a8d4b6c73849fbc51c09ac7a94fb0e9248d9c621a9ab2",
-      "bytes": 2809
+      "sha256": "5d019d556a327c955c42a623d4d7c132b7cef2f4a6592ba4a82db7c8842ef408",
+      "bytes": 2874
     },
     {
       "group": "packages",
@@ -322,8 +358,8 @@
     {
       "group": "materials",
       "path": "assets/source/textures/materials/MATERIAL_PROVENANCE.json",
-      "sha256": "dcd93efd8b59a9059eb4d7f39a7aef3e0f0da25673400ef3cff92511a59ae11b",
-      "bytes": 1770
+      "sha256": "c4f72d2a4e4099658c59ea75d982a609f3020a4a3dc238ab70a0761648e33630",
+      "bytes": 1806
     },
     {
       "group": "materials",
@@ -394,8 +430,8 @@
     {
       "group": "pop",
       "path": "assets/source/textures/pop/POP_PROVENANCE.json",
-      "sha256": "60b9b1d1f40e41a017962839da2b8e7100fa0182490a40c79e255729b5b43c30",
-      "bytes": 1010
+      "sha256": "e601044b2513cc6357189f8d41afc213accc1754aeedb656d1563768f3dcb44d",
+      "bytes": 1032
     },
     {
       "group": "pop",
@@ -406,8 +442,8 @@
     {
       "group": "characters",
       "path": "assets/source/textures/characters/CANDIDATE_CROPS.json",
-      "sha256": "c3c4b0bb8175a707715e01719f0da45abffb12fe343717d37c48edb0e99b1d42",
-      "bytes": 373
+      "sha256": "a743baff7873552c777017d052df7acb9246f87abd4be0256914c0ba767356ab",
+      "bytes": 383
     },
     {
       "group": "characters",
@@ -478,8 +514,8 @@
     {
       "group": "characters",
       "path": "assets/source/textures/characters/CUSTOMER_PROVENANCE.json",
-      "sha256": "07253aa9bd2be6cabfe318191ae49b3a1c1a9cb75db3ebf98c1039c9520d4ee9",
-      "bytes": 1161
+      "sha256": "22ab3a123216ab338bb5af176bbed5e4d6fcf9885485af64f0498956107ee3d6",
+      "bytes": 1191
     },
     {
       "group": "characters",

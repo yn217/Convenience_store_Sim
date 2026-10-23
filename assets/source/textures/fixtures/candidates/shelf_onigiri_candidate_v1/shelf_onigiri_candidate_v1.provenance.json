@@ -1,0 +1,28 @@
+{
+  "asset_id": "shelf_onigiri_candidate_v1",
+  "runtime_approved": false,
+  "generator": "regenerate_shelf_onigiri.py",
+  "generator_mode": "deterministic_pillow",
+  "seed": "shelf_onigiri_candidate_v1_pillow_deterministic",
+  "projection_id": "iso2x_v1",
+  "source_px_per_tile": [
+    256,
+    128
+  ],
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.4
+  },
+  "access_edge": "E",
+  "files": {
+    "shelf_onigiri_0_body.png": "bd37af97681bae9fd61f3df7b72447e4e1253c8b73fce907bea387432d42f0e8",
+    "shelf_onigiri_0_shadow.png": "101d78d7b30974a5fd76dfd9bed2b0317d49eda25806b462dffcf61344c26fa1",
+    "shelf_onigiri_1_body.png": "a6562405738c7697166097e3c935162588d550a3f017469a546e8d8c6a5c95b4",
+    "shelf_onigiri_1_shadow.png": "b6273b37f43241ce0f745ce687c28e4c403e0c91e59bc9a4c7000c5d9fd6428a",
+    "shelf_onigiri_2_body.png": "4715b36bb34647f13f9d2bd79a20229b2c5c19a6adc75b9a45f1e4fdd686b8bc",
+    "shelf_onigiri_2_shadow.png": "101d78d7b30974a5fd76dfd9bed2b0317d49eda25806b462dffcf61344c26fa1",
+    "shelf_onigiri_3_body.png": "e94574b48aa1617e60891512d57d6e70403f88e689dc5d2f6a24cae6b5414295",
+    "shelf_onigiri_3_shadow.png": "b6273b37f43241ce0f745ce687c28e4c403e0c91e59bc9a4c7000c5d9fd6428a"
+  }
+}

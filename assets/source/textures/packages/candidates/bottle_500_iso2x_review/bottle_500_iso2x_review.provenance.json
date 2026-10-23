@@ -1,0 +1,15 @@
+{
+  "status": "review-only",
+  "runtime_approved": false,
+  "pipeline": "existing iso2x_v1 asset-stage contract; Blender-compatible dimensions and camera metadata",
+  "source_baseline": null,
+  "generator": "assets/source/textures/packages/candidates/bottle_500_iso2x_review/generate_bottle_500_iso2x_review.py",
+  "generator_sha256": "f4bcaca1315b006f128f7e85885c3d01a6bd9c25a3495ca3dc910359e4c4915d",
+  "directions": [
+    "bottle_500_iso2x_review_0.png",
+    "bottle_500_iso2x_review_1.png",
+    "bottle_500_iso2x_review_2.png",
+    "bottle_500_iso2x_review_3.png"
+  ],
+  "notes": "Fictional generic label; no runtime wiring; candidate for visual review only."
+}

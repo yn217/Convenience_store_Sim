@@ -1,0 +1,750 @@
+{
+  "manifest_version": 1,
+  "visual_id": "shelf_onigiri_candidate_v1",
+  "fixture_type_id": "shelf_onigiri",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.4
+  },
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        512,
+        640
+      ],
+      "anchor_px": [
+        256.0,
+        420.0
+      ],
+      "layers": {
+        "body": "shelf_onigiri_0_body.png",
+        "shadow": "shelf_onigiri_0_shadow.png"
+      },
+      "slot_anchors_px": {
+        "row0_item0": [
+          265,
+          360
+        ],
+        "row0_item1": [
+          274,
+          364
+        ],
+        "row0_item2": [
+          283,
+          369
+        ],
+        "row0_item3": [
+          291,
+          373
+        ],
+        "row0_item4": [
+          300,
+          378
+        ],
+        "row0_item5": [
+          309,
+          382
+        ],
+        "row0_item6": [
+          318,
+          386
+        ],
+        "row0_item7": [
+          327,
+          391
+        ],
+        "row0_item8": [
+          336,
+          395
+        ],
+        "row0_item9": [
+          345,
+          400
+        ],
+        "row0_item10": [
+          353,
+          404
+        ],
+        "row0_item11": [
+          362,
+          409
+        ],
+        "row1_item0": [
+          265,
+          303
+        ],
+        "row1_item1": [
+          274,
+          308
+        ],
+        "row1_item2": [
+          283,
+          312
+        ],
+        "row1_item3": [
+          291,
+          317
+        ],
+        "row1_item4": [
+          300,
+          321
+        ],
+        "row1_item5": [
+          309,
+          326
+        ],
+        "row1_item6": [
+          318,
+          330
+        ],
+        "row1_item7": [
+          327,
+          334
+        ],
+        "row1_item8": [
+          336,
+          339
+        ],
+        "row1_item9": [
+          345,
+          343
+        ],
+        "row1_item10": [
+          353,
+          348
+        ],
+        "row1_item11": [
+          362,
+          352
+        ],
+        "row2_item0": [
+          265,
+          247
+        ],
+        "row2_item1": [
+          274,
+          251
+        ],
+        "row2_item2": [
+          283,
+          256
+        ],
+        "row2_item3": [
+          291,
+          260
+        ],
+        "row2_item4": [
+          300,
+          265
+        ],
+        "row2_item5": [
+          309,
+          269
+        ],
+        "row2_item6": [
+          318,
+          274
+        ],
+        "row2_item7": [
+          327,
+          278
+        ],
+        "row2_item8": [
+          336,
+          282
+        ],
+        "row2_item9": [
+          345,
+          287
+        ],
+        "row2_item10": [
+          353,
+          291
+        ],
+        "row2_item11": [
+          362,
+          296
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          256,
+          356
+        ],
+        [
+          384,
+          420
+        ],
+        [
+          128,
+          548
+        ],
+        [
+          0,
+          484
+        ]
+      ],
+      "sorting_anchor_px": [
+        256.0,
+        420.0
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        512,
+        640
+      ],
+      "anchor_px": [
+        256.0,
+        420.0
+      ],
+      "layers": {
+        "body": "shelf_onigiri_1_body.png",
+        "shadow": "shelf_onigiri_1_shadow.png"
+      },
+      "slot_anchors_px": {
+        "row0_item0": [
+          140,
+          414
+        ],
+        "row0_item1": [
+          148,
+          409
+        ],
+        "row0_item2": [
+          157,
+          405
+        ],
+        "row0_item3": [
+          166,
+          400
+        ],
+        "row0_item4": [
+          175,
+          396
+        ],
+        "row0_item5": [
+          184,
+          392
+        ],
+        "row0_item6": [
+          193,
+          387
+        ],
+        "row0_item7": [
+          201,
+          383
+        ],
+        "row0_item8": [
+          210,
+          378
+        ],
+        "row0_item9": [
+          219,
+          374
+        ],
+        "row0_item10": [
+          228,
+          369
+        ],
+        "row0_item11": [
+          237,
+          365
+        ],
+        "row1_item0": [
+          140,
+          357
+        ],
+        "row1_item1": [
+          148,
+          353
+        ],
+        "row1_item2": [
+          157,
+          348
+        ],
+        "row1_item3": [
+          166,
+          344
+        ],
+        "row1_item4": [
+          175,
+          340
+        ],
+        "row1_item5": [
+          184,
+          335
+        ],
+        "row1_item6": [
+          193,
+          331
+        ],
+        "row1_item7": [
+          201,
+          326
+        ],
+        "row1_item8": [
+          210,
+          322
+        ],
+        "row1_item9": [
+          219,
+          317
+        ],
+        "row1_item10": [
+          228,
+          313
+        ],
+        "row1_item11": [
+          237,
+          309
+        ],
+        "row2_item0": [
+          140,
+          301
+        ],
+        "row2_item1": [
+          148,
+          296
+        ],
+        "row2_item2": [
+          157,
+          292
+        ],
+        "row2_item3": [
+          166,
+          288
+        ],
+        "row2_item4": [
+          175,
+          283
+        ],
+        "row2_item5": [
+          184,
+          279
+        ],
+        "row2_item6": [
+          193,
+          274
+        ],
+        "row2_item7": [
+          201,
+          270
+        ],
+        "row2_item8": [
+          210,
+          265
+        ],
+        "row2_item9": [
+          219,
+          261
+        ],
+        "row2_item10": [
+          228,
+          257
+        ],
+        "row2_item11": [
+          237,
+          252
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          0,
+          484
+        ],
+        [
+          128,
+          420
+        ],
+        [
+          384,
+          548
+        ],
+        [
+          256,
+          612
+        ]
+      ],
+      "sorting_anchor_px": [
+        256.0,
+        420.0
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        512,
+        640
+      ],
+      "anchor_px": [
+        256.0,
+        420.0
+      ],
+      "layers": {
+        "body": "shelf_onigiri_2_body.png",
+        "shadow": "shelf_onigiri_2_shadow.png"
+      },
+      "slot_anchors_px": {
+        "row0_item0": [
+          119,
+          540
+        ],
+        "row0_item1": [
+          110,
+          536
+        ],
+        "row0_item2": [
+          101,
+          532
+        ],
+        "row0_item3": [
+          93,
+          527
+        ],
+        "row0_item4": [
+          84,
+          523
+        ],
+        "row0_item5": [
+          75,
+          518
+        ],
+        "row0_item6": [
+          66,
+          514
+        ],
+        "row0_item7": [
+          57,
+          509
+        ],
+        "row0_item8": [
+          48,
+          505
+        ],
+        "row0_item9": [
+          39,
+          501
+        ],
+        "row0_item10": [
+          31,
+          496
+        ],
+        "row0_item11": [
+          22,
+          492
+        ],
+        "row1_item0": [
+          119,
+          484
+        ],
+        "row1_item1": [
+          110,
+          480
+        ],
+        "row1_item2": [
+          101,
+          475
+        ],
+        "row1_item3": [
+          93,
+          471
+        ],
+        "row1_item4": [
+          84,
+          466
+        ],
+        "row1_item5": [
+          75,
+          462
+        ],
+        "row1_item6": [
+          66,
+          457
+        ],
+        "row1_item7": [
+          57,
+          453
+        ],
+        "row1_item8": [
+          48,
+          449
+        ],
+        "row1_item9": [
+          39,
+          444
+        ],
+        "row1_item10": [
+          31,
+          440
+        ],
+        "row1_item11": [
+          22,
+          435
+        ],
+        "row2_item0": [
+          119,
+          428
+        ],
+        "row2_item1": [
+          110,
+          423
+        ],
+        "row2_item2": [
+          101,
+          419
+        ],
+        "row2_item3": [
+          93,
+          414
+        ],
+        "row2_item4": [
+          84,
+          410
+        ],
+        "row2_item5": [
+          75,
+          405
+        ],
+        "row2_item6": [
+          66,
+          401
+        ],
+        "row2_item7": [
+          57,
+          397
+        ],
+        "row2_item8": [
+          48,
+          392
+        ],
+        "row2_item9": [
+          39,
+          388
+        ],
+        "row2_item10": [
+          31,
+          383
+        ],
+        "row2_item11": [
+          22,
+          379
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          128,
+          676
+        ],
+        [
+          0,
+          612
+        ],
+        [
+          256,
+          484
+        ],
+        [
+          384,
+          548
+        ]
+      ],
+      "sorting_anchor_px": [
+        256.0,
+        420.0
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        512,
+        640
+      ],
+      "anchor_px": [
+        256.0,
+        420.0
+      ],
+      "layers": {
+        "body": "shelf_onigiri_3_body.png",
+        "shadow": "shelf_onigiri_3_shadow.png"
+      },
+      "slot_anchors_px": {
+        "row0_item0": [
+          500,
+          487
+        ],
+        "row0_item1": [
+          492,
+          491
+        ],
+        "row0_item2": [
+          483,
+          495
+        ],
+        "row0_item3": [
+          474,
+          500
+        ],
+        "row0_item4": [
+          465,
+          504
+        ],
+        "row0_item5": [
+          456,
+          509
+        ],
+        "row0_item6": [
+          447,
+          513
+        ],
+        "row0_item7": [
+          439,
+          518
+        ],
+        "row0_item8": [
+          430,
+          522
+        ],
+        "row0_item9": [
+          421,
+          526
+        ],
+        "row0_item10": [
+          412,
+          531
+        ],
+        "row0_item11": [
+          403,
+          535
+        ],
+        "row1_item0": [
+          500,
+          430
+        ],
+        "row1_item1": [
+          492,
+          435
+        ],
+        "row1_item2": [
+          483,
+          439
+        ],
+        "row1_item3": [
+          474,
+          443
+        ],
+        "row1_item4": [
+          465,
+          448
+        ],
+        "row1_item5": [
+          456,
+          452
+        ],
+        "row1_item6": [
+          447,
+          457
+        ],
+        "row1_item7": [
+          439,
+          461
+        ],
+        "row1_item8": [
+          430,
+          466
+        ],
+        "row1_item9": [
+          421,
+          470
+        ],
+        "row1_item10": [
+          412,
+          474
+        ],
+        "row1_item11": [
+          403,
+          479
+        ],
+        "row2_item0": [
+          500,
+          374
+        ],
+        "row2_item1": [
+          492,
+          378
+        ],
+        "row2_item2": [
+          483,
+          383
+        ],
+        "row2_item3": [
+          474,
+          387
+        ],
+        "row2_item4": [
+          465,
+          391
+        ],
+        "row2_item5": [
+          456,
+          396
+        ],
+        "row2_item6": [
+          447,
+          400
+        ],
+        "row2_item7": [
+          439,
+          405
+        ],
+        "row2_item8": [
+          430,
+          409
+        ],
+        "row2_item9": [
+          421,
+          414
+        ],
+        "row2_item10": [
+          412,
+          418
+        ],
+        "row2_item11": [
+          403,
+          422
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          640,
+          548
+        ],
+        [
+          512,
+          612
+        ],
+        [
+          256,
+          484
+        ],
+        [
+          384,
+          420
+        ]
+      ],
+      "sorting_anchor_px": [
+        256.0,
+        420.0
+      ]
+    }
+  }
+}
