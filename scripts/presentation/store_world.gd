@@ -52,6 +52,7 @@ var user_moved := false
 @onready var _selection: Node2D = $SelectionOverlay
 @onready var _fixture_view: Node2D = $ObjectSortRoot/FixturePresenter
 @onready var _light_glow: LightGlow = get_node_or_null("LightGlow") as LightGlow
+@onready var _sign_layer: SignLayer = get_node_or_null("SignLayer") as SignLayer
 
 
 func _ready() -> void:
@@ -246,6 +247,8 @@ func cycle_overlay_mode() -> void:
 func _redraw_objects() -> void:
 	if _fixture_view != null:
 		_fixture_view.queue_redraw()
+	if _sign_layer != null:
+		_sign_layer.queue_redraw()
 	if _light_glow != null:
 		_light_glow.queue_redraw()
 	var layer := get_node_or_null("OverlayLayer")

@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/presentation/fixture_presenter.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/presentation/overlay_layer.gd" id="5"]
 [ext_resource type="Script" path="res://scripts/presentation/cue_layer.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/presentation/sign_layer.gd" id="8"]
 
 [node name="StoreWorld" type="Node2D"]
 script = ExtResource("1")
@@ -20,6 +21,9 @@ y_sort_enabled = true
 
 [node name="FixturePresenter" type="Node2D" parent="ObjectSortRoot"]
 script = ExtResource("4")
+
+[node name="SignLayer" type="Node2D" parent="."]
+script = ExtResource("8")
 
 [node name="LightGlow" type="Node2D" parent="."]
 script = ExtResource("7")
