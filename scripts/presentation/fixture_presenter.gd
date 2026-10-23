@@ -123,6 +123,7 @@ func _fixture_items() -> Array:
 	_fixture_revision = _world.revision
 	_fixture_count = _world.fixtures.size()
 	_fixture_items_cache = []
+	_seg_cache.clear()   # segment keys and commands belong to the item list that was just rebuilt
 	for inst in _world.fixtures:
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
 		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
@@ -291,10 +292,43 @@ func _strip(proj: IsoProjection, it: Dictionary) -> Vector2:
 	return Vector2(x0, x1)
 
 
+## Retained draw commands of fixture segments (#25), keyed "instance_id/column". A segment's commands
+## depend only on zoom, its screen ground point, its stock and its fade state, so they are rebuilt when
+## one of those changes and replayed otherwise. Customers moving never invalidate them, and compose()
+## order is unchanged because replay happens at the same point of the back-to-front loop.
+var _seg_cache: Dictionary = {}
+
+
 ## Layers back to front: shadow, body, products, glass_front, each cut to this segment's column.
 func _draw_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary) -> void:
 	var lo: Vector2i = it["lo"]
 	var ground := proj.world_to_screen(lo.x, lo.y)
+	var stock: Dictionary = _world.shelf_stock.get(it["inst"]["instance_id"], {})
+	var fade: bool = it.get("fade", false)
+	var key := "%s/%d" % [it["inst"]["instance_id"], int(it["column"])]
+	var hit: Dictionary = _seg_cache.get(key, {})
+	if hit.is_empty() or hit["zoom"] != proj.zoom or hit["ground"] != ground or hit["fade"] != fade or hit["stock"] != stock:
+		var cmds: Array = []
+		_emit_sprite(proj, it, entry, ground, stock, cmds)
+		hit = {"zoom": proj.zoom, "ground": ground, "fade": fade, "stock": stock.duplicate(true), "cmds": cmds}
+		_seg_cache[key] = hit
+	_replay(hit["cmds"])
+
+
+## Command = [type, args...]: 0 texture region (tex, dst, src, tint), 1 rect (rect, color, filled, width),
+## 2 line (a, b, color, width). Emitting in the original order keeps the output identical.
+func _replay(cmds: Array) -> void:
+	for c in cmds:
+		match c[0]:
+			0:
+				draw_texture_rect_region(c[1], c[2], c[3], c[4])
+			1:
+				draw_rect(c[1], c[2], c[3], c[4])
+			_:
+				draw_line(c[1], c[2], c[3], c[4])
+
+
+func _emit_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary, ground: Vector2, stock: Dictionary, cmds: Array) -> void:
 	var top_left := proj.sprite_top_left(ground, entry["anchor"])
 	var s := proj.zoom / IsoProjection.SOURCE_SCALE
 	var strip := _strip(proj, it)
@@ -302,28 +336,27 @@ func _draw_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary) -> voi
 	var layers: Dictionary = entry["layers"]
 	for name in FixtureSprites.LAYER_ORDER_BELOW:
 		if layers.has(name):
-			_blit(layers[name], top_left, s, strip, tint)
-	_draw_products(it, entry, top_left, s, proj.zoom, strip, tint.a)
+			_blit(layers[name], top_left, s, strip, tint, cmds)
+	_emit_products(it, entry, top_left, s, proj.zoom, strip, stock, tint.a, cmds)
 	for name in FixtureSprites.LAYER_ORDER_ABOVE:
 		if layers.has(name):
-			_blit(layers[name], top_left, s, strip, tint)
+			_blit(layers[name], top_left, s, strip, tint, cmds)
 
 
-func _blit(tex: Texture2D, top_left: Vector2, s: float, strip: Vector2, tint: Color = Color.WHITE) -> void:
+func _blit(tex: Texture2D, top_left: Vector2, s: float, strip: Vector2, tint: Color, cmds: Array) -> void:
 	var size := tex.get_size()
 	var u0 := clampf((strip.x - top_left.x) / s, 0.0, size.x)
 	var u1 := clampf((strip.y - top_left.x) / s, 0.0, size.x)
 	if u1 - u0 < 0.5:
 		return
-	draw_texture_rect_region(tex, Rect2(top_left + Vector2(u0 * s, 0.0), Vector2(u1 - u0, size.y) * s), Rect2(u0, 0.0, u1 - u0, size.y), tint)
+	cmds.append([0, tex, Rect2(top_left + Vector2(u0 * s, 0.0), Vector2(u1 - u0, size.y) * s), Rect2(u0, 0.0, u1 - u0, size.y), tint])
 
 
-func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: float, zoom: float, strip: Vector2, alpha: float = 1.0) -> void:
+func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: float, zoom: float, strip: Vector2, stock: Dictionary, alpha: float, cmds: Array) -> void:
 	var slots: Dictionary = entry["slots"]
 	if slots.is_empty():
 		return
 	var def: Dictionary = it["def"]
-	var stock: Dictionary = _world.shelf_stock.get(it["inst"]["instance_id"], {})
 	var color := _color_for(def)
 	var lod := ShelfDisplay.lod(zoom)
 	var half := ITEM_W * 0.5 * s
@@ -340,7 +373,7 @@ func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 		var qty := int(stock.get(sid, 0))
 		var cap := int(slot["capacity_units"])
 		if lod == "bar":
-			_draw_row_bar(pts, ShelfDisplay.fill_ratio(qty, cap), color, top_left, s, strip)
+			_emit_row_bar(pts, ShelfDisplay.fill_ratio(qty, cap), color, top_left, s, strip, cmds)
 			continue
 		var n := mini(ShelfDisplay.visible_items(qty, cap, zoom), pts.size())
 		# Item 0 is the end nearest the viewer's right; draw far items first so near ones overlap.
@@ -349,9 +382,9 @@ func _draw_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 			if a.x < strip.x or a.x >= strip.y:
 				continue   # belongs to another column segment
 			var r := Rect2(a - Vector2(half, ITEM_H * s), size)
-			draw_rect(r, fill)
+			cmds.append([1, r, fill, true, -1.0])
 			if outline:
-				draw_rect(r, edge, false, 1.0)
+				cmds.append([1, r, edge, false, 1.0])
 
 
 ## Slot anchors of a sprite entry as {slot_id: PackedVector2Array}, built once (the manifest never changes at runtime).
@@ -377,7 +410,7 @@ func _slot_anchors(entry: Dictionary) -> Dictionary:
 	return out
 
 
-func _draw_row_bar(pts: PackedVector2Array, ratio: float, color: Color, top_left: Vector2, s: float, strip: Vector2) -> void:
+func _emit_row_bar(pts: PackedVector2Array, ratio: float, color: Color, top_left: Vector2, s: float, strip: Vector2, cmds: Array) -> void:
 	var a: Vector2 = top_left + pts[0] * s
 	var last := pts.size() - 1
 	var b: Vector2 = top_left + pts[last] * s
@@ -386,9 +419,9 @@ func _draw_row_bar(pts: PackedVector2Array, ratio: float, color: Color, top_left
 	var mid := (a.x + b.x) * 0.5
 	if mid < strip.x or mid >= strip.y:
 		return   # the bar is drawn by the segment that holds its middle
-	draw_line(a, b, Color(0, 0, 0, 0.25), 4.0)
+	cmds.append([2, a, b, Color(0, 0, 0, 0.25), 4.0])
 	if ratio > 0.0:
-		draw_line(a, a.lerp(b, ratio), color, 4.0)
+		cmds.append([2, a, a.lerp(b, ratio), color, 4.0])
 
 
 func _color_for(def: Dictionary) -> Color:
