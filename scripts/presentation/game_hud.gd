@@ -37,7 +37,7 @@ func _ready() -> void:
 	for speed in [0, 1, 2, 4]:
 		var b := Button.new()
 		b.text = speed_text(speed)
-		b.theme_type_variation = &"HudSpeedButton"
+		b.theme_type_variation = &"SegmentLeft" if speed == 0 else (&"SegmentRight" if speed == 4 else &"SegmentMid")
 		b.toggle_mode = true
 		b.focus_mode = Control.FOCUS_NONE
 		b.pressed.connect(func(): speed_requested.emit(speed))

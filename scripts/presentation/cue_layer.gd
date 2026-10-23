@@ -4,12 +4,19 @@ extends Node2D
 ## toasts (top centre), "+¥" floats above the register, register glow, door flash, confetti and
 ## the small pickup / empty-handed marks over customers. Read-only.
 
-const TOAST_BG := Color(0.08, 0.10, 0.14, 0.88)
 const PRIORITY_EDGE := {"critical": Color("ff8a80"), "important": Color("ffd54f"), "normal": Color("90caf9"), "ambient": Color("b0bec5")}
 const PRIORITY_MARK := {"critical": "‼", "important": "★", "normal": "●", "ambient": "・"}
+const TOAST_FONT := 17
+const TOAST_MAX_WIDTH := 420.0
+const TOAST_PAD := 32.0
+const TOAST_GAP := 6.0
+const TOAST_POP_SECONDS := 0.18
 
 var _world: Node2D
 var _player: CuePlayer
+## Toast pills, built once per priority (UiTheme.toast_box); alpha is set per frame, no allocation.
+var _toast_boxes: Dictionary = {}
+var _achievement_box: StyleBoxFlat
 
 
 func _ready() -> void:
@@ -71,14 +78,38 @@ func _draw() -> void:
 		draw_rect(Rect2(pos, Vector2(8, 5)), Color.from_hsv(p["hue"], 0.6, 1.0, 1.0 - p["age"] / p["ttl"]))
 	var y := 14.0
 	for t in _player.toasts:
-		var text := "%s %s" % [PRIORITY_MARK[t["priority"]], t["text"]]
-		var ext := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 18)
-		var r := Rect2(Vector2((size.x - ext.x) * 0.5 - 12.0, y), ext + Vector2(24.0, 12.0))
+		var ach := CueText.is_achievement(String(t["text"]))
+		var priority: String = t["priority"]
+		var text := "%s %s" % [PRIORITY_MARK[priority], t["text"]]
+		var ext := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, TOAST_FONT)
+		var w := minf(ext.x + TOAST_PAD, TOAST_MAX_WIDTH)
+		var h := ext.y + 12.0
 		var fade := 1.0 if _player.reduce_motion else clampf((t["ttl"] - t["age"]) / 0.3, 0.0, 1.0)
-		draw_rect(r, Color(TOAST_BG, TOAST_BG.a * fade))
-		draw_rect(r, Color(PRIORITY_EDGE[t["priority"]], fade), false, 2.0)
-		draw_string(font, r.position + Vector2(12.0, ext.y + 1.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1, 1, 1, fade))
-		y += r.size.y + 6.0
+		var pop := 1.0 if _player.reduce_motion else clampf(float(t["age"]) / TOAST_POP_SECONDS, 0.0, 1.0)
+		var pop_scale := 0.9 + 0.1 * (1.0 - pow(1.0 - pop, 3.0))   # scale-in 0.9 -> 1.0, eased; no tween objects
+		var alpha := fade * pop
+		var box := _toast_box(priority, ach)
+		var edge: Color = UiTheme.WARM if ach else PRIORITY_EDGE[priority]
+		box.bg_color = Color(UiTheme.TOAST_BG, UiTheme.TOAST_BG.a * alpha)
+		box.border_color = Color(edge, (1.0 if ach else 0.7) * alpha)
+		draw_set_transform(Vector2(size.x * 0.5, y + h * 0.5), 0.0, Vector2(pop_scale, pop_scale))
+		draw_style_box(box, Rect2(Vector2(-w * 0.5, -h * 0.5), Vector2(w, h)))
+		var ink: Color = UiTheme.WARM if ach else Color.WHITE
+		var baseline := Vector2(-w * 0.5 + 16.0, -h * 0.5 + (h - ext.y) * 0.5 + font.get_ascent(TOAST_FONT))
+		draw_string_outline(font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, w - TOAST_PAD, TOAST_FONT, 3, Color(0, 0, 0, 0.6 * alpha))
+		draw_string(font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, w - TOAST_PAD, TOAST_FONT, Color(ink, alpha))
+		y += h + TOAST_GAP
+	draw_set_transform(Vector2.ZERO)
+
+
+func _toast_box(priority: String, achievement: bool) -> StyleBoxFlat:
+	if achievement:
+		if _achievement_box == null:
+			_achievement_box = UiTheme.toast_box(PRIORITY_EDGE["important"], true)
+		return _achievement_box
+	if not _toast_boxes.has(priority):
+		_toast_boxes[priority] = UiTheme.toast_box(PRIORITY_EDGE[priority], false)
+	return _toast_boxes[priority]
 
 
 func _customer_head(presenter: Node2D, customer_id: String) -> Vector2:

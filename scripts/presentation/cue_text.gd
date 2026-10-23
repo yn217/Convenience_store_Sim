@@ -4,6 +4,14 @@ extends RefCounted
 ## the sound or turning off the motion never hides information.
 
 
+const ACHIEVEMENT_PREFIX := "称号を獲得"
+
+
+## Achievement toasts get the warm-bordered pill (ToastAchievement look in CueLayer).
+static func is_achievement(toast: String) -> bool:
+	return toast.begins_with(ACHIEVEMENT_PREFIX)
+
+
 static func toast_text(cue_id: String, payload: Dictionary, fixture_name: String = "") -> String:
 	match cue_id:
 		"low_stock_notice":
@@ -15,7 +23,7 @@ static func toast_text(cue_id: String, payload: Dictionary, fixture_name: String
 		"daily_recap":
 			return "営業日が終わりました。日次レポートを確認しましょう"
 		"milestone_celebrate":
-			return "称号を獲得: %s" % String(payload.get("name_ja", ""))
+			return "%s: %s" % [ACHIEVEMENT_PREFIX, String(payload.get("name_ja", ""))]
 		"daily_event_start":
 			return "今日のイベント: %s" % String(payload.get("name_ja", ""))
 		"daily_event_end":
