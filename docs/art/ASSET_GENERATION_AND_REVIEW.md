@@ -14,6 +14,8 @@ Issue #61の画風検討用に、組み込み用途ではない参考ボード�
 - 内容: レジ・汎用棚・飲料冷蔵ケースを同一構図で3パネル比較
 - A: 白色低ポリ、B: 実物感のある材質差、C: 夜間高コントラスト
 - 生成条件: built-in image generation、2026-10-23、実在ブランド/ロゴ/人物なし
+- Prompt summary: "three-panel isometric comparison of the same convenience-store fixtures; minimal, grounded, evening; no logos or real brands"
+- Model version / seed: built-in tool outputでは取得できないため未記録
 - 採用範囲: 画風方針の参考のみ。PNG、形状、ラベル、テクスチャをruntimeへ流用しない
 
 視認性と昼夜の汎用性を比較し、暫定方針はBとします。実際の4方向・寸法・接地・レイヤーは引き続きBlender手続き生成器を正本とし、概念画像を本番素材の証跡やライセンス承認とは扱いません。
