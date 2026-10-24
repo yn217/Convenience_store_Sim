@@ -8,7 +8,7 @@ extends Node2D
 ##                  beyond the back and entrance sides.
 ##   LAYER_FRONT    (FrontDecor, over the floor, under the fixtures): trees, flower beds and planters on the near
 ##                  sides, which sit in front of the store.
-##   LAYER_REG_BACK / LAYER_REG_FLOOR / LAYER_REG_TOP (#113, RegisterBackDecor, RegisterFloorDecor, RegisterTopDecor):
+##   LAYER_REG_FLOOR / LAYER_REG_TOP (#113, RegisterFloorDecor, RegisterTopDecor):
 ##                  the checkout area, built by RegisterDecor from the registers (back-counter props, queue markings,
 ##                  counter-top items). Their items are computed from the fixtures, not the wall or exterior layouts.
 ## Every item stands outside the walkable floor, or inside the register's own footprint (RegisterDecor). sync() rebuilds
@@ -18,7 +18,6 @@ extends Node2D
 const LAYER_WALL := 0
 const LAYER_EXTERIOR := 1
 const LAYER_FRONT := 2
-const LAYER_REG_BACK := 3
 const LAYER_REG_FLOOR := 4
 const LAYER_REG_TOP := 5
 
@@ -70,7 +69,7 @@ func sync(width: int, height: int, entrances: Array, fixtures: Array, catalog: F
 	if key == _key:
 		return
 	_key = key
-	if layer >= LAYER_REG_BACK:
+	if layer >= LAYER_REG_FLOOR:
 		_items = RegisterDecor.layer_items(layer, width, height, entrances, fixtures, catalog)
 	else:
 		_items = _layer_items(width, height, entrances, occupied_cells(fixtures, catalog), layer)
@@ -127,7 +126,7 @@ func _build_ops(proj: IsoProjection) -> void:
 			var at: Vector3 = it["at"]
 			var size_px := maxi(10, roundi(14.0 * proj.zoom))
 			var width := font.get_string_size(it["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
-			var pos := proj.world_to_screen(at.x, at.y, at.z) + Vector2(-width * 0.5, size_px * 0.35)
+			var pos := proj.world_to_screen(at.x, at.y, at.z) + Vector2(-width * 0.5, size_px * 0.35 + float(it.get("dy", 0.0)) * proj.zoom)
 			_ops.append([OP_TEXT, pos, it["text"], size_px, it["color"]])
 
 
