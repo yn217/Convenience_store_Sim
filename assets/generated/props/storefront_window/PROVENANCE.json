@@ -1,20 +1,19 @@
 {
- "asset_id": "storefront_window",
- "source_type": "project_generated",
- "generator": "tools/assets/generate_props.py",
- "tool": "Pillow fallback; Blender 2.91 unavailable in build environment",
- "projection_id": "iso2x_v1",
- "redistribution": "yes",
- "fictional_brands_only": true,
- "footprint_tiles": [
-  1,
-  1
- ],
- "height_m": 2.4,
- "directions": [
-  0,
-  1,
-  2,
-  3
- ]
+  "asset_id": "storefront_window_painted_v1",
+  "source_type": "AI",
+  "tool": "OpenAI built-in image_gen",
+  "model": "built-in image generation",
+  "prompt": "Painted storefront piece, blue/white fascia and warm glass, fictional NOVA MART only, matching iso2x_v1 guide; no real logos.",
+  "guide_images": [
+    "assets\\generated\\props\\storefront_window\\storefront_window_3_body.png"
+  ],
+  "edit_steps": [
+    "generated 4-view sheet",
+    "cropped direction cells",
+    "fit to guide alpha bounding box",
+    "reused contract shadow/glass layers"
+  ],
+  "license_or_usage_terms": "AI-generated project asset; fictional brands only",
+  "generation_date": "2026-10-24",
+  "runtime_approved": false
 }

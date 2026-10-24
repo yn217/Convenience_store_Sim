@@ -1,0 +1,19 @@
+{
+  "asset_id": "shelf_general_painted_v1",
+  "source_type": "AI",
+  "tool": "OpenAI built-in image_gen",
+  "model": "built-in image generation",
+  "prompt": "Painted FULL shelf_general, soft anime convenience-store illustration, dense fictional products, matching iso2x_v1 guide silhouette; no readable brands or logos.",
+  "guide_images": [
+    "assets\\generated\\fixtures\\shelf_general\\shelf_general_0_body.png"
+  ],
+  "edit_steps": [
+    "generated 4-view sheet",
+    "cropped direction cells",
+    "fit to guide alpha bounding box",
+    "reused contract shadow/glass layers"
+  ],
+  "license_or_usage_terms": "AI-generated project asset; fictional brands only",
+  "generation_date": "2026-10-24",
+  "runtime_approved": false
+}

@@ -28,6 +28,16 @@
         128
       ]
     },
+    "variant": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "state": {
+      "enum": ["FULL"]
+    },
+    "runtime_approved": {
+      "type": "boolean"
+    },
     "footprint": {
       "type": "object",
       "additionalProperties": false,
