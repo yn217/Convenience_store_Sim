@@ -40,6 +40,8 @@ func test_sections_are_cards_in_the_right_place(t, tree) -> void:
 func _title_of(card: Node) -> String:
 	var column: Node = card.get_child(0)
 	var first: Node = column.get_child(0)
-	if first is HBoxContainer:   # the heading row with the × button
-		first = first.get_child(0)
+	if first is HBoxContainer:   # the heading row: a heading icon, the title, the × button
+		for n in first.get_children():
+			if n is Label:
+				return (n as Label).text
 	return (first as Label).text

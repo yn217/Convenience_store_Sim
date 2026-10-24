@@ -228,16 +228,17 @@ func test_summary_cards_are_a_centred_row_above_the_bottom(t, tree) -> void:
 	t.eq(metrics.size(), 4, "four metric cards")
 	var first: Rect2 = goal.get_global_rect()
 	var last: Rect2 = event.get_global_rect()
-	t.ok(absf(window.y - 12.0 - first.end.y) <= 1.0, "cards end 12 px above the bottom edge")
-	t.ok(absf(window.y - 12.0 - last.end.y) <= 1.0, "the event card ends at the same line")
-	var group_centre := (first.position.x + last.end.x) * 0.5
-	t.ok(absf(group_centre - window.x * 0.5) <= 2.0, "the card row is centred in the window")
+	t.ok(absf(window.y - 16.0 - first.end.y) <= 1.0, "the cards sit inside the band (4 px in, the band ends 12 px above the edge)")
+	t.ok(absf(window.y - 16.0 - last.end.y) <= 1.0, "the event card ends at the same line")
+	var band_rect: Rect2 = bar.get_global_rect()
+	t.ok(absf(band_rect.position.x - 12.0) <= 1.0 and absf(window.x - 12.0 - band_rect.end.x) <= 1.0, "one band spans the window with 12 px sides")
+	t.ok(first.position.x - band_rect.position.x <= 20.0 and band_rect.end.x - last.end.x <= 20.0, "the goal card and the event card sit at the band's two ends")
 	for c in [goal, event] + metrics:
 		var card := c as Control
 		t.eq(card.mouse_filter, Control.MOUSE_FILTER_STOP, "cards stop the mouse")
 	for c in metrics:
-		t.ok((c as Control).get_global_rect().size.x >= 150.0 and (c as Control).get_global_rect().size.x <= 220.0, "metric card width 150..220 px")
-	t.eq(bar.mouse_filter, Control.MOUSE_FILTER_IGNORE, "the summary strip itself passes the mouse through")
+		t.ok((c as Control).get_global_rect().size.x >= 150.0 and (c as Control).get_global_rect().size.x <= 220.0, "KPI tile is at least 150 px wide")
+	t.eq(bar.mouse_filter, Control.MOUSE_FILTER_STOP, "the band is one strip that takes the mouse")
 	t.ok(_blockers_at(main, Vector2(window.x * 0.5, window.y - 130.0)).is_empty(), "the space just above the cards is not blocked")
 	main.queue_free()
 	await tree.process_frame

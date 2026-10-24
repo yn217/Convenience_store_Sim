@@ -1,25 +1,28 @@
 class_name MetricBar
-extends Control
-## Bottom summary (mockup #105 B5): three floating groups in one centred row. Left: 本日の目標 (the first milestone not
-## yet reached, with a progress bar and a %). Centre: 本日の売上 / 本日の粗利 / 来店客数 / 客単価 (売上 ÷ 購入客数, "—"
-## with no purchases). Right: 本日のイベント, today's event as a short timeline. Display only, fed by the same snapshot as
-## the top HUD. The row takes no mouse input; only the cards stop it. Repeat rate is not in the model, so it is not shown.
+extends PanelContainer
+## Bottom band (GUI v3, #112): ONE translucent band under the store. Left: 本日の目標 (the first milestone not yet reached,
+## with a progress bar and a %). Centre: 本日の売上 / 本日の粗利 / 来店客数 / 客単価 (売上 ÷ 購入客数, "—" with no purchases),
+## each with a large coloured icon. Right: 本日のイベント, today's event as a timeline of up to three rows (clock icons; a row
+## that is too long is trimmed with an ellipsis and its full text is the tooltip). Display only, fed by the same snapshot as
+## the top HUD. The band stops the mouse (it is a real strip, not a click-through overlay). Repeat rate is not in the model.
 ## A changed number pops (presentation only).
 
 const METRICS := [
-	{"id": "sales", "title": "本日の売上", "icon": "cart", "tint": UiTheme.INFO_CYAN},
-	{"id": "profit", "title": "本日の粗利", "icon": "bar-chart", "tint": UiTheme.SUCCESS_GREEN},
-	{"id": "customers", "title": "来店客数", "icon": "users", "tint": UiTheme.WARM},
-	{"id": "unit_price", "title": "客単価", "tip": "売上 ÷ 購入客数", "icon": "tag", "tint": Color("ff7a9c")},
+	{"id": "sales", "title": "本日の売上", "icon": "bar-chart", "tint": UiTheme.SUCCESS_GREEN},
+	{"id": "profit", "title": "本日の粗利", "icon": "coin", "tint": UiTheme.GOLD},
+	{"id": "customers", "title": "来店客数", "icon": "users", "tint": UiTheme.INFO_CYAN},
+	{"id": "unit_price", "title": "客単価", "tip": "売上 ÷ 購入客数", "icon": "cart", "tint": UiTheme.TEXT_PRIMARY},
 ]
-const HEIGHT := 96          # card height (the summary strip is this plus the gap under it, see MainLayout.BOTTOM_HEIGHT)
+const HEIGHT := 96          # band height (the summary strip is this plus the gap under it, see MainLayout.BOTTOM_HEIGHT)
+const CARD_HEIGHT := 88     # the tiles inside the band: the band's 4 px top and bottom margins come off HEIGHT
 const GAP := 12             # space between the groups
-const GOAL_WIDTH := 216     # 216 + 4 x 180 + 272 + the gaps = 1256 px: the whole strip fits a 1280 px window
-const EVENT_WIDTH := 272
-const METRIC_MIN := 180     # each of the four metric cards (min width; the row never stretches them)
-const ICON_SIZE := 20
-const BADGE_SIZE := 36
+const GOAL_WIDTH := 200     # 200 + 4 x 168 + 260 + the gaps and band padding = 1204 px: the band fits a 1280 px window
+const EVENT_WIDTH := 260
+const METRIC_MIN := 168     # each KPI tile (min width; the tiles share the spare width of a wide window)
+const ICON_SIZE := 32       # the KPI icons: large and coloured (bar chart green, coin gold, people blue, cart white)
+const HEADING_ICON := 16
 const TIMELINE_ROWS := 3
+const CLOCK_ICON := 14
 const NONE := "—"
 
 var _values: Dictionary = {}   # id -> value Label
@@ -32,10 +35,10 @@ var _timeline: Array = []      # per row: {box, time, text}
 
 func _ready() -> void:
 	name = "MetricBar"
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	theme_type_variation = &"BottomBand"
+	mouse_filter = Control.MOUSE_FILTER_STOP
 	custom_minimum_size.y = HEIGHT
 	var row := HBoxContainer.new()
-	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", GAP)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -44,6 +47,7 @@ func _ready() -> void:
 	var metrics := HBoxContainer.new()
 	metrics.name = "Metrics"
 	metrics.add_theme_constant_override("separation", 8)
+	metrics.size_flags_horizontal = Control.SIZE_EXPAND_FILL   # the KPI tiles take the band's spare width
 	metrics.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(metrics)
 	for c in METRICS:
@@ -87,6 +91,7 @@ func _goal_card() -> PanelContainer:
 ## 本日のイベント: a title with its icon and up to TIMELINE_ROWS timeline rows (time, then text).
 func _event_card() -> PanelContainer:
 	var card := _summary_card("EventCard", EVENT_WIDTH)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL   # a wide window gives the timeline room: fewer ellipses
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 2)
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -95,17 +100,29 @@ func _event_card() -> PanelContainer:
 	for i in TIMELINE_ROWS:
 		var line := HBoxContainer.new()
 		line.add_theme_constant_override("separation", 6)
-		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line.mouse_filter = Control.MOUSE_FILTER_PASS   # passes the mouse on, but keeps the row's tooltip
 		column.add_child(line)
+		var clock := TextureRect.new()
+		clock.texture = UiIcons.texture("clock", CLOCK_ICON)
+		clock.custom_minimum_size = Vector2(CLOCK_ICON, CLOCK_ICON)
+		clock.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		clock.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		clock.modulate = UiTheme.WARM
+		clock.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		clock.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line.add_child(clock)
 		var time := Label.new()
 		time.theme_type_variation = &"CardTitle"
 		time.add_theme_color_override("font_color", UiTheme.WARM)
 		time.custom_minimum_size.x = 40
+		time.mouse_filter = Control.MOUSE_FILTER_PASS
 		line.add_child(time)
 		var text := Label.new()
 		text.clip_text = true
+		text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS   # never a hard cut: an ellipsis, the full text in the tooltip
 		text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		text.add_theme_font_size_override("font_size", UiTheme.FONT_SMALL)
+		text.mouse_filter = Control.MOUSE_FILTER_PASS
 		line.add_child(text)
 		_timeline.append({"box": line, "time": time, "text": text})
 	return card
@@ -116,7 +133,7 @@ func _summary_card(card_name: String, width: float) -> PanelContainer:
 	card.name = card_name
 	card.theme_type_variation = &"SummaryCard"
 	card.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	card.custom_minimum_size = Vector2(width, HEIGHT)
+	card.custom_minimum_size = Vector2(width, CARD_HEIGHT)
 	return card
 
 
@@ -126,8 +143,8 @@ func _heading(title: String, icon_name: String, tint: Color) -> HBoxContainer:
 	row.add_theme_constant_override("separation", 6)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var icon := TextureRect.new()
-	icon.texture = UiIcons.texture(icon_name, ICON_SIZE - 4)
-	icon.custom_minimum_size = Vector2(ICON_SIZE - 4, ICON_SIZE - 4)
+	icon.texture = UiIcons.texture(icon_name, HEADING_ICON)
+	icon.custom_minimum_size = Vector2(HEADING_ICON, HEADING_ICON)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.modulate = tint
@@ -142,23 +159,19 @@ func _heading(title: String, icon_name: String, tint: Color) -> HBoxContainer:
 	return row
 
 
-## One metric card: badge | title over value | (sales) sparkline.
+## One KPI tile: a large coloured icon | title over value.
 func _add_metric(row: HBoxContainer, c: Dictionary) -> void:
 	var card := PanelContainer.new()
 	card.name = "Metric_" + c["id"]
 	card.theme_type_variation = &"SummaryCard"
 	card.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	card.custom_minimum_size = Vector2(METRIC_MIN, HEIGHT)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(METRIC_MIN, CARD_HEIGHT)
 	var line := HBoxContainer.new()
 	line.add_theme_constant_override("separation", UiTheme.SPACE_S)
+	line.alignment = BoxContainer.ALIGNMENT_CENTER
 	card.add_child(line)
-	var badge := PanelContainer.new()
-	badge.name = "Badge"
-	badge.custom_minimum_size = Vector2(BADGE_SIZE, BADGE_SIZE)
-	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	badge.add_theme_stylebox_override("panel", UiTheme.badge_circle(c["tint"], BADGE_SIZE / 2))
-	line.add_child(badge)
+	# A large coloured icon with no disc behind it: the icon itself is the colour cue (GUI v3).
 	var icon := TextureRect.new()
 	icon.name = "Icon"
 	icon.texture = UiIcons.texture(c["icon"], ICON_SIZE)
@@ -169,7 +182,7 @@ func _add_metric(row: HBoxContainer, c: Dictionary) -> void:
 	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	icon.modulate = c["tint"]
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	badge.add_child(icon)
+	line.add_child(icon)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 0)
 	box.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -190,6 +203,12 @@ func _add_metric(row: HBoxContainer, c: Dictionary) -> void:
 	box.add_child(value)
 	row.add_child(card)
 	_values[c["id"]] = value
+
+
+## The narrowest width the band can take: the goal card, the four KPI tiles at their minimum, the event card, and the gaps
+## and margins between them. The band must fit the window minus its side gaps (1280 px window: 1256 px).
+static func band_budget_width() -> float:
+	return GOAL_WIDTH + EVENT_WIDTH + METRIC_MIN * 4 + GAP * 2 + 8 * 3 + 12 * 2
 
 
 static func texts(s: Dictionary) -> Dictionary:
@@ -289,4 +308,6 @@ func _apply_timeline(s: Dictionary) -> void:
 			(row["time"] as Label).text = rows[i]["time"]
 			(row["time"] as Label).visible = rows[i]["time"] != ""
 			(row["text"] as Label).text = rows[i]["text"]
+			(row["text"] as Label).tooltip_text = rows[i]["text"]   # the full line, when the ellipsis trims it
+			(row["box"] as Control).tooltip_text = rows[i]["text"]
 

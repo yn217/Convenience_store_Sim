@@ -12,7 +12,7 @@ func test_rail_entries_are_short_and_ordered(t, tree) -> void:
 	for i in nav.entry_count():
 		titles.append(nav.entry_title(i))
 	t.eq(titles, ["店舗", "商品", "発注", "経営", "データ", "設定"], "entry labels in order (no スタッフ)")
-	t.eq(nav.custom_minimum_size.x, 72.0, "rail is 72 px wide")
+	t.eq(nav.custom_minimum_size.x, float(LeftNav.WIDTH), "rail is the compact width")
 	nav.free()
 
 

@@ -85,9 +85,10 @@ static func _set_state(b: BaseButton, hovered: bool, pressed: bool) -> void:
 		b.scale = Vector2.ONE
 		b.modulate = tint
 		return
-	var old: Variant = b.get_meta(META_TWEEN, null)
-	if old is Tween and (old as Tween).is_valid():
-		(old as Tween).kill()
+	if b.has_meta(META_TWEEN):
+		var old: Variant = b.get_meta(META_TWEEN)
+		if old is Tween and (old as Tween).is_valid():
+			(old as Tween).kill()
 	var tw := b.create_tween().set_parallel(true)
 	tw.tween_property(b, "scale", Vector2.ONE * scale, TWEEN_SECONDS).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tw.tween_property(b, "modulate", tint, TWEEN_SECONDS)
@@ -101,9 +102,10 @@ static func pop(label: Label, dir: int) -> void:
 		return
 	# A pop that starts during another one replaces it: the old flash is cancelled first, so the resting colour is read
 	# from the theme and not from the flash still on the label.
-	var old: Variant = label.get_meta(META_POP, null)
-	if old is Tween and (old as Tween).is_valid():
-		(old as Tween).kill()
+	if label.has_meta(META_POP):
+		var old: Variant = label.get_meta(META_POP)
+		if old is Tween and (old as Tween).is_valid():
+			(old as Tween).kill()
 	label.remove_theme_color_override("font_color")
 	var base := label.get_theme_color("font_color")
 	label.pivot_offset = label.size * 0.5

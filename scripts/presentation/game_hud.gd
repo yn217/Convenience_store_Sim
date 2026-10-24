@@ -24,6 +24,7 @@ var _day: Label
 var _clock: Label
 var _date: Label
 var _season_icon: TextureRect
+var _season: Label
 var _cash: Label
 var _sales: Label
 var _profit: Label
@@ -39,6 +40,7 @@ var _last_cash := NO_CASH
 
 
 func _ready() -> void:
+	theme_type_variation = &"TopBand"   # one translucent band across the top (no separate chips)
 	_row = $Row
 	_row.add_theme_constant_override("separation", 14)
 	_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -62,40 +64,59 @@ func _build_left() -> void:
 	_row.add_child(_date)
 	_season_icon = _icon("sakura")
 	_row.add_child(_season_icon)
+	_season = _text_label("SeasonLabel", &"HudDay")   # the season word (春 夏 秋 冬) after its icon
+	_row.add_child(_season)
 
 
+## The centre of the band: four groups (caption, value) divided by thin rules. No chips: one strip, values in gold and green.
 func _build_centre() -> void:
 	var caption_value := [
 		["CashGroup", "所持金", "CashLabel"], ["SalesGroup", "本日の売上", "SalesLabel"],
 		["ProfitGroup", "本日の粗利", "ProfitLabel"], ["CustomersGroup", "来店客数", "CustomersLabel"],
 	]
-	for entry in caption_value:
-		var chip := PanelContainer.new()
-		chip.name = entry[0]
-		chip.theme_type_variation = &"HudChip"
-		chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for i in caption_value.size():
+		var entry: Array = caption_value[i]
+		if i > 0:
+			_row.add_child(_divider())
 		var line := HBoxContainer.new()
+		line.name = entry[0]
 		line.add_theme_constant_override("separation", 8)
 		line.alignment = BoxContainer.ALIGNMENT_CENTER
+		line.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		chip.add_child(line)
 		var caption := Label.new()
 		caption.text = entry[1]
-		caption.theme_type_variation = &"CardTitle"
+		caption.theme_type_variation = &"HudGroupCaption"
 		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		line.add_child(caption)
 		var value := Label.new()
 		value.name = entry[2]
-		value.theme_type_variation = &"HudCash"
+		value.theme_type_variation = value_variation(entry[2])
 		value.text = NONE
 		value.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		line.add_child(value)
-		_row.add_child(chip)
+		_row.add_child(line)
 		match entry[2]:
 			"CashLabel": _cash = value
 			"SalesLabel": _sales = value
 			"ProfitLabel": _profit = value
 			"CustomersLabel": _customers = value
+
+
+## Gold for the money, green for the gross profit, white for the visitor count (theme variations, so the value pop keeps them).
+static func value_variation(label_name: String) -> StringName:
+	match label_name:
+		"ProfitLabel": return &"HudProfit"
+		"CustomersLabel": return &"HudCustomers"
+	return &"HudCash"
+
+
+func _divider() -> VSeparator:
+	var rule := VSeparator.new()
+	rule.custom_minimum_size = Vector2(1, 34)
+	rule.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return rule
 
 
 func _build_right() -> void:
@@ -281,6 +302,7 @@ func apply_snapshot(s: Dictionary) -> void:
 	_date.text = short_date_text(day)
 	_season_icon.texture = UiIcons.texture(season_icon(int(md[0])) if not md.is_empty() else "sakura", HUD_ICON_SIZE)
 	_season_icon.tooltip_text = date_text(day)
+	_season.text = season_text(int(md[0])) if not md.is_empty() else "春"
 	_speed.text = "速度 " + speed_text(int(s["speed_setting"]))
 	_state.text = STATE_TEXT.get(s["business_state"], String(s["business_state"]))
 	_is_open = s["business_state"] == "OPEN"

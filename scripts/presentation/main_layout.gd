@@ -109,7 +109,7 @@ func _layout_overlay() -> void:
 	_summary.offset_right = -GAP
 	_summary.offset_top = -BOTTOM_HEIGHT
 	_summary.offset_bottom = -GAP
-	_summary.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_summary.mouse_filter = Control.MOUSE_FILTER_STOP   # the band is one real strip: it takes the mouse (it sits outside the store's safe area)
 	# Camera safe area: the store is fitted between the rail and the right edge, under the HUD and above the summary,
 	# so it sits centred in the space the floating UI leaves. Panels that open later overlay the store.
 	_world.safe_inset = Vector4(rail_right + GAP, UiTheme.HUD_HEIGHT + GAP, GAP, BOTTOM_HEIGHT)
@@ -431,8 +431,40 @@ func _organize_panels() -> void:
 	if inspector_card != null:
 		# The window is the inspector frame itself: the card inside it is transparent so there is one frame, not two.
 		inspector_card.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-		_add_close_button(inspector_card.find_children("*", "Label", true, false)[0], close_inspector)
-	_add_close_button($Layout/MainArea/BuildPalette/Body/Title, close_build)
+		var inspector_title := inspector_card.find_children("*", "Label", true, false)[0] as Label
+		_add_close_button(inspector_title, close_inspector)
+		_add_heading_icon(inspector_title, "person")
+	var palette_title := $Layout/MainArea/BuildPalette/Body/Title as Label
+	_add_close_button(palette_title, close_build)
+	_add_heading_icon(palette_title, "store")
+	_style_action_buttons()
+
+
+## Puts a small icon in front of a window heading (GUI v3: header with icon). The heading keeps its node and its row.
+func _add_heading_icon(title: Label, icon_name: String) -> void:
+	var row := title.get_parent()
+	var icon := TextureRect.new()
+	icon.name = "HeadingIcon"
+	icon.texture = UiIcons.texture(icon_name, 20)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(20, 20)
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon.modulate = UiTheme.WARM
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(icon)
+	row.move_child(icon, title.get_index())
+
+
+## Move / rotate / remove in the inspector get their icons (the actions keep their behaviour and disabled states).
+func _style_action_buttons() -> void:
+	for pair in [["MoveButton", "move"], ["RotateButton", "rotate"], ["RemoveButton", "trash"]]:
+		var b := find_child(pair[0], true, false) as Button
+		if b == null:
+			continue
+		b.icon = UiIcons.texture(pair[1], 18)
+		b.expand_icon = false
+		b.custom_minimum_size.y = 36
 
 
 func close_inspector() -> void:

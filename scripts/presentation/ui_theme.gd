@@ -49,7 +49,11 @@ const FONT_BODY := 15
 const FONT_TITLE := 18
 const FONT_VALUE := 24
 const FONT_SUMMARY := 22
+const FONT_HUD_VALUE := 22   # top bar money / figures (GUI v3, #112)
 const FONT_HUD := FONT_BODY
+const BAND_FACE := Color(0.04, 0.09, 0.15, 0.86)   # the top and bottom bands: one translucent strip each (GUI v3)
+const BAND_RIM := Color(0.36, 0.52, 0.70, 0.55)
+const DIVIDER := Color(0.55, 0.72, 0.90, 0.35)
 const SPACE_S := 8
 const SPACE_M := 12
 const SPACE_L := 16
@@ -131,11 +135,27 @@ static func build() -> Theme:
 	theme.set_color("font_color", "HudValue", TEXT_PRIMARY)
 	theme.set_font_size("font_size", "HudValue", FONT_HUD)
 	_outline(theme, "HudValue", 2)
-	theme.add_type("HudCash")   # the money chip's value: a larger gold figure
+	theme.add_type("HudCash")   # the money group's value: a larger gold figure
 	theme.set_type_variation("HudCash", "Label")
 	theme.set_color("font_color", "HudCash", GOLD)
-	theme.set_font_size("font_size", "HudCash", FONT_TITLE)
-	_outline(theme, "HudCash", 3)
+	theme.set_font_size("font_size", "HudCash", FONT_HUD_VALUE)
+	_outline(theme, "HudCash", 2)
+	for variant in [["HudProfit", SUCCESS_GREEN], ["HudCustomers", TEXT_PRIMARY]]:
+		theme.add_type(variant[0])
+		theme.set_type_variation(variant[0], "HudCash")
+		theme.set_color("font_color", variant[0], variant[1])
+	theme.add_type("HudGroupCaption")   # the small caption before a top bar value (所持金 / 本日の売上 …)
+	theme.set_type_variation("HudGroupCaption", "Label")
+	theme.set_color("font_color", "HudGroupCaption", TEXT_SECONDARY)
+	theme.set_font_size("font_size", "HudGroupCaption", FONT_SMALL)
+	theme.add_type("TopBand")   # the one band across the top: a translucent strip, no separate chips
+	theme.set_type_variation("TopBand", "PanelContainer")
+	theme.set_stylebox("panel", "TopBand", band_box(false))
+	theme.add_type("BottomBand")   # the one band under the store: goal, KPI tiles and today's event
+	theme.set_type_variation("BottomBand", "PanelContainer")
+	theme.set_stylebox("panel", "BottomBand", band_box(true))
+	theme.set_stylebox("separator", "VSeparator", divider_box())
+	theme.set_constant("separation", "VSeparator", 1)
 	# Top HUD (#105 B1): the time-of-day clock, the DAY label, the date line and the centre chips.
 	theme.add_type("HudClock")
 	theme.set_type_variation("HudClock", "Label")
@@ -367,6 +387,39 @@ static func badge_circle(tint: Color, size: int) -> StyleBoxFlat:
 	return b
 
 
+## One translucent band (GUI v3, #112). `bottom` = the floating bottom band (rounded all round); otherwise the top band,
+## square at the top edge and rounded at the bottom. Content margins keep the groups off the edges.
+static func band_box(bottom: bool) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = BAND_FACE
+	b.border_color = BAND_RIM
+	b.set_border_width_all(1)
+	var r := 16 if bottom else 0
+	b.corner_radius_top_left = r
+	b.corner_radius_top_right = r
+	b.corner_radius_bottom_left = 14
+	b.corner_radius_bottom_right = 14
+	if not bottom:
+		b.border_width_top = 0
+	b.content_margin_left = 12.0
+	b.content_margin_right = 12.0
+	b.content_margin_top = 4.0
+	b.content_margin_bottom = 4.0
+	b.shadow_color = Color(0, 0, 0, 0.35)
+	b.shadow_size = 8
+	b.shadow_offset = Vector2(0, 3)
+	return b
+
+
+## The thin vertical rule between the groups of a band (VSeparator stylebox).
+static func divider_box() -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = DIVIDER
+	b.content_margin_left = 0.0
+	b.content_margin_right = 0.0
+	return b
+
+
 ## Floating left rail: a translucent dark panel with a soft shadow, rounded all round.
 static func rail_box() -> StyleBoxFlat:
 	var b := StyleBoxFlat.new()
@@ -404,8 +457,8 @@ static func summary_card_box() -> StyleBoxFlat:
 	b.border_color = Color(CARD_RIM, 0.7)
 	b.content_margin_left = 8.0
 	b.content_margin_right = 10.0
-	b.content_margin_top = 6.0
-	b.content_margin_bottom = 6.0
+	b.content_margin_top = 4.0
+	b.content_margin_bottom = 4.0
 	b.shadow_color = Color(0, 0, 0, 0.4)
 	b.shadow_size = 8
 	b.shadow_offset = Vector2(0, 3)
