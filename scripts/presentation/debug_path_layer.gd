@@ -2,9 +2,12 @@ class_name DebugPathLayer
 extends Node2D
 ## Debug overlay for customer paths (issue #26). Off by default and read-only: it draws nothing unless
 ## `enabled` (StoreWorld toggles it with F3, tools/capture_screen.gd with --debug-paths). For every customer:
-## the cell it stands on (white), its next cell (green), the remaining path (magenta), the shown position
-## the presenter draws (red dot, with a line back to the cell), and the target fixture with its access tiles
-## (yellow; the goal tile is ringed). Fixture footprints are outlined in cyan.
+## the cell it stands on (white), its next cell (green), the route the drawn figure still walks (magenta, a
+## polyline through tile centres: from the shown position along the walked trail and the remaining path, so it
+## only ever runs over walkable tiles), the shown position the presenter draws (red dot), a thin dashed LAG line
+## from the shown position straight to the logical cell (a distance indicator only: a straight line in screen
+## space is NOT a walking route and may cross shelves, so it is not a path), and the target fixture with its
+## access tiles (yellow; the goal tile is ringed). Fixture footprints are outlined in cyan.
 
 const FOOT_FILL := Color(0.30, 0.85, 1.00, 0.18)
 const FOOT_EDGE := Color(0.30, 0.85, 1.00, 0.90)
@@ -13,6 +16,7 @@ const CUR := Color(1.00, 1.00, 1.00, 0.95)
 const NEXT := Color(0.35, 1.00, 0.45, 0.95)
 const PATH := Color(1.00, 0.35, 0.85, 0.90)
 const SHOWN := Color(1.00, 0.20, 0.20, 0.95)
+const LAG := Color(1.00, 0.20, 0.20, 0.55)   # dashed: the straight distance from the shown figure to its logical cell
 const LABEL := Color(1.00, 1.00, 1.00, 0.95)
 
 var enabled := false
@@ -54,9 +58,18 @@ func _draw_customer(proj: IsoProjection, c: Dictionary, by_id: Dictionary) -> vo
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
 		for a in PlacementRules.access_candidates(def, inst["x"], inst["y"], inst["rotation"]):
 			_cell_dot(proj, a, ACCESS)
-	var pts := PackedVector2Array([proj.tile_center(cur)])
-	for p in path:
-		pts.append(proj.tile_center(p))
+	# The route the drawn figure still walks: from its shown position through the tile centres after it.
+	var route: PackedVector2Array = _presenter.shown_route(c)
+	var shown: Vector2 = _presenter.customer_view(c)["pos"]
+	var shown_px := proj.world_to_screen(shown.x, shown.y)
+	var pts := PackedVector2Array()
+	if route.size() > 1:
+		for p in route:
+			pts.append(proj.world_to_screen(p.x, p.y))
+	else:   # not tracked by the presenter (no shown walk): the simulation's own remaining path
+		pts.append(proj.tile_center(cur))
+		for p in path:
+			pts.append(proj.tile_center(p))
 	if pts.size() > 1:
 		draw_polyline(pts, PATH, 2.0)
 	_cell_shape(proj, cur, Color(CUR, 0.10), CUR)
@@ -64,9 +77,10 @@ func _draw_customer(proj: IsoProjection, c: Dictionary, by_id: Dictionary) -> vo
 		_cell_dot(proj, path[0], NEXT)
 	if goal != cur:
 		draw_arc(proj.tile_center(goal), 9.0, 0.0, TAU, 16, ACCESS, 2.0)
-	var shown: Vector2 = _presenter.customer_view(c)["pos"]
-	var shown_px := proj.world_to_screen(shown.x, shown.y)
-	draw_line(proj.tile_center(cur), shown_px, SHOWN, 1.0)
+	# Lag: a straight, dashed distance indicator from the shown position to the logical cell (not a route).
+	var lag_px := proj.tile_center(cur)
+	if shown_px.distance_to(lag_px) > 1.0:
+		draw_dashed_line(shown_px, lag_px, LAG, 1.0, 4.0)
 	draw_circle(shown_px, 3.5, SHOWN)
 	var text := "%s %s %s" % [str(c["customer_id"]).right(5), c["phase"], fixture_id]
 	draw_string(ThemeDB.fallback_font, shown_px + Vector2(6, -10), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, LABEL)
