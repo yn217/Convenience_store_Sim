@@ -270,7 +270,7 @@ func open_goods_order() -> void:
 		_reveal.call_deferred(stock.order_section())
 
 
-## 商品を設定 / 商品を補充 in the inspector: the 商品 tab, scrolled to the restock section of the selected fixture.
+## 商品を補充 in the inspector: the 商品 tab, scrolled to the restock section of the selected fixture.
 func open_restock_section() -> void:
 	open_screen_tab("商品")
 	var stock := get_node_or_null("StockController")
@@ -285,6 +285,18 @@ func open_price_for(sku_id: String) -> void:
 	if pricer != null and pricer.has_method("focus_sku"):
 		pricer.focus_sku(sku_id)
 		_reveal.call_deferred(pricer.price_field(sku_id))
+
+
+## 価格を設定 in the inspector: the 商品 tab, scrolled to the price field of the first SKU in `sku_ids` (the fixture's
+## shelf products), which takes focus. The other fields of the price list stay where they are.
+func open_prices_for(sku_ids: Array) -> void:
+	open_screen_tab("商品")
+	var pricer := get_node_or_null("PriceController")
+	if pricer == null or sku_ids.is_empty():
+		return
+	var first := String(sku_ids[0])
+	pricer.focus_sku(first)
+	_reveal.call_deferred(pricer.price_field(first))
 
 
 ## Scrolls every ScrollContainer above `control` so the control is in view. Runs deferred, after the layout is up.

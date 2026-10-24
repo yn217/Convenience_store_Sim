@@ -77,10 +77,10 @@ func _ready() -> void:
 	_restock.pressed.connect(_open_restock)
 	actions.add_child(_restock)
 	_set_goods = Button.new()
-	_set_goods.name = "SetGoodsButton"
-	_set_goods.text = "商品を設定"
+	_set_goods.name = "PriceSetButton"
+	_set_goods.text = "価格を設定"
 	_set_goods.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_set_goods.pressed.connect(_open_restock)
+	_set_goods.pressed.connect(_open_prices)
 	actions.add_child(_set_goods)
 	_details_toggle = Button.new()
 	_details_toggle.flat = true
@@ -244,7 +244,16 @@ func _toggle_details() -> void:
 	_render()
 
 
-## 商品を補充 / 商品を設定: opens the 商品 tab at the restock section of the selected fixture.
+## 価格を設定: opens the 商品 tab's price section scrolled to the first SKU on this fixture's shelves.
+func _open_prices() -> void:
+	var fid: String = _world.selected_fixture_id() if _world != null else ""
+	var skus: Array = _snap.get("shelf_skus", {}).get(fid, {}).values()
+	var main := get_parent()
+	if main != null and main.has_method("open_prices_for"):
+		main.open_prices_for(skus)
+
+
+## 商品を補充: opens the 商品 tab at the restock section of the selected fixture.
 func _open_restock() -> void:
 	var main := get_parent()
 	if main != null and main.has_method("open_restock_section"):

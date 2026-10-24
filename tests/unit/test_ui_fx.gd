@@ -44,3 +44,35 @@ func test_selected_row_has_glow(t, _tree) -> void:
 	var box := UiTheme.selected_row_box()
 	t.ok(box.shadow_size > 0, "selected palette row glows")
 	t.eq(box.border_color, UiTheme.HIGHLIGHT_BLUE, "selected row has the blue rim")
+
+
+## Value pops: after the flash ends the label is back in its resting colour, also when pops overlap (the cash label
+## pops on every change, so a second pop can start while the first flash is still running).
+func _label_in_tree(tree) -> Label:
+	var label := Label.new()
+	label.theme_type_variation = &"HudCash"
+	tree.root.add_child(label)
+	return label
+
+
+func test_pop_returns_to_the_resting_colour(t, tree) -> void:
+	var label := _label_in_tree(tree)
+	await tree.process_frame
+	var rest: Color = label.get_theme_color("font_color")
+	Fx.pop(label, -1)
+	await tree.create_timer(Fx.POP_SECONDS + 0.2).timeout
+	t.eq(label.get_theme_color("font_color"), rest, "after one red pop the colour is the resting one")
+	t.eq(label.scale, Vector2.ONE, "and the label is back to full size")
+	label.queue_free()
+
+
+func test_overlapping_pops_do_not_capture_the_flash_colour(t, tree) -> void:
+	var label := _label_in_tree(tree)
+	await tree.process_frame
+	var rest: Color = label.get_theme_color("font_color")
+	Fx.pop(label, -1)
+	await tree.create_timer(0.05).timeout
+	Fx.pop(label, -1)   # starts while the first red flash is still on the label
+	await tree.create_timer(Fx.POP_SECONDS + 0.2).timeout
+	t.eq(label.get_theme_color("font_color"), rest, "a second pop still settles on the gold, not on the red flash")
+	label.queue_free()
