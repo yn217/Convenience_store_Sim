@@ -100,7 +100,7 @@ func test_place_flow_ghost_rotate_commit(t, tree) -> void:
 	t.eq(state.cash_yen, 460000)
 	t.eq(_status(r), "設置しました")
 	t.eq(world.fixtures.size(), 1, "world got the new snapshot")
-	t.ok((r["main"].get_node("Layout/TopHUD/Row/CashLabel") as Label).text.contains("¥460,000"), "HUD updated")
+	t.ok((r["main"].get_node("Layout/TopHUD").find_child("CashLabel", true, false) as Label).text.contains("¥460,000"), "HUD updated")
 	t.eq(bc.mode, 1, "stays in PLACE mode for the next fixture")
 	await _end(tree, r)
 
