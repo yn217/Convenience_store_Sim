@@ -40,13 +40,13 @@ layer = 0
 script = ExtResource("11")
 layer = 2
 
-[node name="RegisterFloorDecor" type="Node2D" parent="."]
-script = ExtResource("11")
-layer = 4
-
 [node name="RegisterBackDecor" type="Node2D" parent="."]
 script = ExtResource("11")
 layer = 3
+
+[node name="RegisterFloorDecor" type="Node2D" parent="."]
+script = ExtResource("11")
+layer = 4
 
 [node name="ObjectSortRoot" type="Node2D" parent="."]
 y_sort_enabled = true

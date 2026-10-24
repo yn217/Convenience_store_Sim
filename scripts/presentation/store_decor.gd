@@ -112,7 +112,7 @@ func _build_ops(proj: IsoProjection) -> void:
 		var info := _sprites.texture(it["id"], int(it.get("rot", 0)))
 		if info.is_empty():
 			continue
-		var ground := proj.world_to_screen(it["x"], it["y"], 0.0)
+		var ground := proj.world_to_screen(it["x"], it["y"], float(it.get("z", 0.0)))   ## z: an item standing on a counter top
 		var top_left := proj.sprite_top_left(ground, info["anchor"])
 		var size: Vector2 = info["size"]
 		for tex in info["layers"]:
