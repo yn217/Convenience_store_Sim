@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/presentation/store_world.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/presentation/light_glow.gd" id="7"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/presentation/sign_layer.gd" id="9"]
 [ext_resource type="Script" path="res://scripts/presentation/wall_layer.gd" id="8"]
 [ext_resource type="Script" path="res://scripts/presentation/backdrop_layer.gd" id="10"]
+[ext_resource type="Script" path="res://scripts/presentation/store_decor.gd" id="11"]
 
 [node name="StoreWorld" type="Node2D"]
 script = ExtResource("1")
@@ -19,12 +20,25 @@ script = ExtResource("1")
 show_behind_parent = true
 script = ExtResource("10")
 
+[node name="ExteriorDecor" type="Node2D" parent="."]
+show_behind_parent = true
+script = ExtResource("11")
+layer = 1
+
 [node name="FloorLayer" type="Node2D" parent="."]
 
 [node name="ArchitectureLayer" type="Node2D" parent="."]
 
 [node name="WallLayer" type="Node2D" parent="."]
 script = ExtResource("8")
+
+[node name="WallDecor" type="Node2D" parent="."]
+script = ExtResource("11")
+layer = 0
+
+[node name="FrontDecor" type="Node2D" parent="."]
+script = ExtResource("11")
+layer = 2
 
 [node name="ObjectSortRoot" type="Node2D" parent="."]
 y_sort_enabled = true

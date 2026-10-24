@@ -49,12 +49,14 @@ var _texts: Array = []        # text ops, drawn after the mesh
 
 
 ## Recomputes the backdrop when the layout, camera or viewport changed; otherwise does nothing.
-func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewport: Vector2) -> void:
-	var key := [width, height, entrances.duplicate(), proj.origin, proj.zoom, viewport]
+## `dressed` (issue #110): the StoreDecor exterior layer draws the A-board, planters and trees, so the code-drawn
+## ones are left out.
+func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewport: Vector2, dressed: bool = false) -> void:
+	var key := [width, height, entrances.duplicate(), proj.origin, proj.zoom, viewport, dressed]
 	if key == _key:
 		return
 	_key = key
-	_ops = layout_items(proj, width, height, entrances, viewport)
+	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_build_mesh()
 	queue_redraw()
 
@@ -94,7 +96,7 @@ func _build_mesh() -> void:
 ## Every piece of the street, in paint order. Each entry is {"kind": &"poly"|&"gradient"|&"text", ...}:
 ## polys carry "points" and "color", gradients carry "points" and per-vertex "colors", text carries "pos",
 ## "text", "size", "width" and "color". Points are screen coordinates. Empty for a store without a floor.
-static func layout_items(proj: IsoProjection, width: int, height: int, entrances: Array, viewport: Vector2) -> Array:
+static func layout_items(proj: IsoProjection, width: int, height: int, entrances: Array, viewport: Vector2, dressed: bool = false) -> Array:
 	var out: Array = []
 	if width <= 0 or height <= 0:
 		return out
@@ -141,18 +143,19 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	# The apron itself sits behind the entrance-side wall, so the A-board stands on the visible pavement at the
 	# front corner of that side (the end of the edge that is closest to the viewer).
 	var front := float(height - 1) + 0.7 if side == SIDE_WEST or side == SIDE_EAST else float(width - 1) + 0.7
-	out.append_array(_a_board(proj, side_point(side, 1.2, front, width, height)))
+	if not dressed:
+		out.append_array(_a_board(proj, side_point(side, 1.2, front, width, height)))
 
-	# Planters at the outer corners and trees beyond the paving.
-	var s := proj.zoom
-	var x0 := -0.5
-	var y0 := -0.5
-	var x1 := width - 0.5
-	var y1 := height - 0.5
-	for corner in [Vector2(x1 + 1.0, y1 + 1.0), Vector2(x1 + 1.0, y0 - 1.0)]:
-		out.append_array(_planter(proj.world_to_screen(corner.x, corner.y), s))
-	for tree in [Vector2(x1 + 3.6, y1 + 3.4), Vector2(x1 + 3.4, y0 - 3.2), Vector2(x0 - 7.0, y0 + 1.5)]:
-		out.append_array(_tree(proj.world_to_screen(tree.x, tree.y), s))
+		# Planters at the outer corners and trees beyond the paving.
+		var s := proj.zoom
+		var x0 := -0.5
+		var y0 := -0.5
+		var x1 := width - 0.5
+		var y1 := height - 0.5
+		for corner in [Vector2(x1 + 1.0, y1 + 1.0), Vector2(x1 + 1.0, y0 - 1.0)]:
+			out.append_array(_planter(proj.world_to_screen(corner.x, corner.y), s))
+		for tree in [Vector2(x1 + 3.6, y1 + 3.4), Vector2(x1 + 3.4, y0 - 3.2), Vector2(x0 - 7.0, y0 + 1.5)]:
+			out.append_array(_tree(proj.world_to_screen(tree.x, tree.y), s))
 
 	out.append_array(_vignette(viewport))
 	return out

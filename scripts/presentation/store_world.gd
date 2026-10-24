@@ -62,6 +62,9 @@ var safe_inset := Vector4.ZERO
 @onready var _sign_layer: SignLayer = get_node_or_null("SignLayer") as SignLayer
 @onready var _walls: WallLayer = get_node_or_null("WallLayer") as WallLayer
 @onready var _backdrop: BackdropLayer = get_node_or_null("BackdropLayer") as BackdropLayer
+@onready var _ext_decor: StoreDecor = get_node_or_null("ExteriorDecor") as StoreDecor   # #110 static dressing
+@onready var _wall_decor: StoreDecor = get_node_or_null("WallDecor") as StoreDecor
+@onready var _front_decor: StoreDecor = get_node_or_null("FrontDecor") as StoreDecor
 
 
 func _ready() -> void:
@@ -365,9 +368,16 @@ func _on_viewport_resized() -> void:
 func _refresh() -> void:
 	_refresh_objects()
 	if _backdrop != null and store_width > 0:
-		_backdrop.sync(store_width, store_height, entrance_tiles, projection, viewport_size())
+		_backdrop.sync(store_width, store_height, entrance_tiles, projection, viewport_size(), PropSprites.is_available("cherry_tree_a"))
 	if _walls != null and store_width > 0:
 		_walls.sync(store_width, store_height, entrance_tiles, projection, viewport_size())
+	if store_width > 0:
+		if _ext_decor != null:
+			_ext_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _wall_decor != null:
+			_wall_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _front_decor != null:
+			_front_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 	queue_redraw()
 
 
