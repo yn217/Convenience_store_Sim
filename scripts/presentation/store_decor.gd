@@ -30,7 +30,10 @@ const WALL_OFFSET := -0.62     ## back-wall items stand just behind the wall pla
 const STOREFRONT_OUT := -1.0   ## storefront boxes stand one tile outside the entrance-side wall
 const FASCIA_Z0 := 2.4
 const FASCIA_Z1 := 3.0         ## the sign band rises a little above the wall top (2.6 m)
-const SILL_H := 0.9
+const SILL_H := 0.45           ## near-side sill height (m)
+const NEAR_FRAME_TOP := 1.0    ## near-side window frames stop here (m)
+const NEAR_CAP_Z0 := 1.0       ## thin fascia cap on the near front, on top of the frames
+const NEAR_CAP_Z1 := 1.2
 const COOLER_COUNT := 6
 const COOLER_START := 2
 const TREE_STRIDE := 6
@@ -252,21 +255,31 @@ static func _far_storefront(width: int, height: int, entrances: Array, side: int
 	return out
 
 
-## Near walls (east or south) get a low front: a sill and window frames up to 0.9 m, the entrance left open, and the
-## same fascia band. Full-height glass here would hide the customers and fixtures, so it stays low.
+## Near walls (east or south) get a LOW cut-away front: a sill (SILL_H), short window frames with a mullion every
+## other tile up to NEAR_FRAME_TOP, and a thin fascia cap on top (NEAR_CAP_Z0..NEAR_CAP_Z1). Nothing rises above
+## ~1.2 m, so the interior stays visible. The entrance is a clear opening with no sill or frame in front of it.
+## Sill and frames are merged into one polygon per run, which keeps the draw-op count low.
 static func _near_low_front(width: int, height: int, entrances: Array, side: int) -> Array:
 	var out: Array = []
 	var n := _edge_len(side, width, height)
 	var plane := float(width) - 0.5 if side == SIDE_EAST else float(height) - 0.5
-	for a in n:
-		if _is_entrance_at(entrances, side, a, width, height):
-			continue
-		out.append({"kind": &"poly", "points": _band(side, plane, float(a) - 0.5, float(a) + 0.5, 0.0, SILL_H), "color": SILL})
-	for b in n + 1:
+	var run_start := -1
+	for a in range(n + 1):
+		var open := a < n and not _is_entrance_at(entrances, side, a, width, height)
+		if open and run_start < 0:
+			run_start = a
+		elif not open and run_start >= 0:
+			out.append({"kind": &"poly", "points": _band(side, plane, float(run_start) - 0.5, float(a) - 0.5, 0.0, SILL_H), "color": SILL})
+			run_start = -1
+	for b in range(0, n + 1, 2):
 		var fb := float(b) - 0.5
-		out.append({"kind": &"poly", "points": _band(side, plane, fb - 0.04, fb + 0.04, 0.0, SILL_H + 1.2), "color": FRAME})
-	out.append(_fascia(side, plane, n))
-	out.append(fascia_label(side, width, height, plane))
+		out.append({"kind": &"poly", "points": _band(side, plane, fb - 0.04, fb + 0.04, 0.0, NEAR_FRAME_TOP), "color": FRAME})
+	out.append({"kind": &"poly", "points": _band(side, plane, -0.5, float(n) - 0.5, NEAR_CAP_Z0, NEAR_CAP_Z1), "color": FASCIA})
+	var label := fascia_label(side, width, height, plane)
+	var at: Vector3 = label["at"]
+	at.z = (NEAR_CAP_Z0 + NEAR_CAP_Z1) * 0.5
+	label["at"] = at
+	out.append(label)
 	return out
 
 
