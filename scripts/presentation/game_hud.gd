@@ -1,103 +1,172 @@
 class_name GameHud
 extends PanelContainer
-## Top HUD (04 §1). Formats the GameState snapshot; the only thing it sends is the speed the
-## player picked (`speed_requested`), which AppRoot turns into a SET_SPEED command.
-## Today's sales / gross profit come from the ledger rows of the current day.
+## Top HUD (mockup #105 B1). Left: time-of-day icon, DAY n, the large clock, the date and a season icon. Centre: the
+## money and today's figures, each a small chip with a gold value. Right: the 営業中 badge, a pause / play button and
+## the ×1 ×2 ×4 speed segments. Formats the GameState snapshot; the only thing it sends is the speed the player picked
+## (`speed_requested`), which AppRoot turns into a SET_SPEED command. Today's sales / gross profit come from the ledger.
 
 signal speed_requested(speed: int)
 
 const NONE := "—"
-const HUD_ICON_SIZE := 22
+const HUD_ICON_SIZE := 24
+const PAUSE_ICON_SIZE := 18
 const NO_CASH := -2147483648   # sentinel: no snapshot seen yet, so the first cash value does not pop
 ## (month, days) in calendar order from April; the sum is the 365-day year.
 const CALENDAR := [[4, 30], [5, 31], [6, 30], [7, 31], [8, 31], [9, 30], [10, 31], [11, 30], [12, 31], [1, 31], [2, 28], [3, 31]]
 const STATE_TEXT := {
 	"SETUP": "準備中", "OPEN": "営業中", "CLOSING": "閉店処理中", "PAYMENT_BLOCKED": "支払不能",
 }
+const SPEEDS := [1, 2, 4]
 
-@onready var _cash: Label = $Row/CashLabel
-@onready var _sales: Label = $Row/SalesLabel
-@onready var _profit: Label = $Row/ProfitLabel
-@onready var _customers: Label = $Row/CustomersLabel
-@onready var _clock: Label = $Row/ClockLabel
-@onready var _speed: Label = $Row/SpeedLabel
-@onready var _state: Label = $Row/StateLabel
+var _row: HBoxContainer
+var _time_icon: TextureRect
+var _day: Label
+var _clock: Label
 var _date: Label
+var _season_icon: TextureRect
+var _cash: Label
+var _sales: Label
+var _profit: Label
+var _customers: Label
+var _state: Label
+var _state_box: PanelContainer
+var _pause: Button
+var _speed: Label   # hidden: the "速度 ×4" text the mockup drops; kept so the speed text stays testable
 var _speed_buttons: Dictionary = {}
 var _is_open := false
+var _stopped := true
 var _last_cash := NO_CASH
 
 
 func _ready() -> void:
-	var row: HBoxContainer = $Row
-	_date = Label.new()
-	_date.name = "DateLabel"
-	row.add_child(_date)
-	row.move_child(_date, _clock.get_index() + 1)
-	var anchor := _speed.get_index()
-	for lbl in [_sales, _profit, _customers, _clock, _date, _speed, _state]:
-		lbl.theme_type_variation = &"HudValue"
-	_cash.theme_type_variation = &"HudCash"
-	for speed in [0, 1, 2, 4]:
+	_row = $Row
+	_row.add_theme_constant_override("separation", 14)
+	_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_build_left()
+	_row.add_child(_spacer())
+	_build_centre()
+	_row.add_child(_spacer())
+	_build_right()
+	for lbl in [_clock, _day, _date]:
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+func _build_left() -> void:
+	_time_icon = _icon("sun")
+	_row.add_child(_time_icon)
+	_day = _text_label("DayLabel", &"HudDay")
+	_row.add_child(_day)
+	_clock = _text_label("ClockLabel", &"HudClock")
+	_row.add_child(_clock)
+	_date = _text_label("DateLabel", &"HudDate")
+	_row.add_child(_date)
+	_season_icon = _icon("sakura")
+	_row.add_child(_season_icon)
+
+
+func _build_centre() -> void:
+	var caption_value := [
+		["CashGroup", "所持金", "CashLabel"], ["SalesGroup", "本日の売上", "SalesLabel"],
+		["ProfitGroup", "本日の粗利", "ProfitLabel"], ["CustomersGroup", "来店客数", "CustomersLabel"],
+	]
+	for entry in caption_value:
+		var chip := PanelContainer.new()
+		chip.name = entry[0]
+		chip.theme_type_variation = &"HudChip"
+		chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var line := HBoxContainer.new()
+		line.add_theme_constant_override("separation", 8)
+		line.alignment = BoxContainer.ALIGNMENT_CENTER
+		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		chip.add_child(line)
+		var caption := Label.new()
+		caption.text = entry[1]
+		caption.theme_type_variation = &"CardTitle"
+		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line.add_child(caption)
+		var value := Label.new()
+		value.name = entry[2]
+		value.theme_type_variation = &"HudCash"
+		value.text = NONE
+		value.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line.add_child(value)
+		_row.add_child(chip)
+		match entry[2]:
+			"CashLabel": _cash = value
+			"SalesLabel": _sales = value
+			"ProfitLabel": _profit = value
+			"CustomersLabel": _customers = value
+
+
+func _build_right() -> void:
+	_state_box = PanelContainer.new()
+	_state_box.name = "StateBadge"
+	_state_box.theme_type_variation = &"HudChip"
+	_state_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_state = Label.new()
+	_state.name = "StateLabel"
+	_state.theme_type_variation = &"HudValue"
+	_state.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_state_box.add_child(_state)
+	_row.add_child(_state_box)
+	_pause = Button.new()
+	_pause.name = "PauseButton"
+	_pause.theme_type_variation = &"SegmentLeft"
+	_pause.icon = UiIcons.texture("pause", PAUSE_ICON_SIZE)
+	_pause.expand_icon = false
+	_pause.focus_mode = Control.FOCUS_NONE
+	_pause.custom_minimum_size = Vector2(44, 0)
+	_pause.pressed.connect(_on_pause_pressed)
+	UiFx.attach(_pause)
+	_row.add_child(_pause)
+	for speed in SPEEDS:
 		var b := Button.new()
+		b.name = "Speed%d" % speed
 		b.text = speed_text(speed)
-		b.theme_type_variation = &"SegmentLeft" if speed == 0 else (&"SegmentRight" if speed == 4 else &"SegmentMid")
+		b.theme_type_variation = &"SegmentRight" if speed == SPEEDS[-1] else &"SegmentMid"
 		b.toggle_mode = true
 		b.focus_mode = Control.FOCUS_NONE
 		b.pressed.connect(func(): speed_requested.emit(speed))
 		UiFx.attach(b)
-		row.add_child(b)
-		row.move_child(b, anchor + 1 + _speed_buttons.size())
+		_row.add_child(b)
 		_speed_buttons[speed] = b
-	# Icons sit in their own TextureRects right before each value label; the label texts stay as they are.
-	for pair in [[_cash, "cash"], [_sales, "cart"], [_profit, "bar-chart"], [_customers, "users"]]:
-		_add_icon_before(pair[0], pair[1])
-	# The chips are painted by the row itself, behind its children, so the labels keep their places in the tree.
-	row.draw.connect(_draw_chips.bind(row))
-	row.sort_children.connect(row.queue_redraw)
+	_speed = Label.new()
+	_speed.name = "SpeedLabel"
+	_speed.visible = false
+	_row.add_child(_speed)
 
 
-## Chip groups as [icon, value] or [value, value] node names, in row order. Each group gets one pill behind it.
-const CHIP_GROUPS := [
-	["CashLabelIcon", "CashLabel"], ["SalesLabelIcon", "SalesLabel"], ["ProfitLabelIcon", "ProfitLabel"],
-	["CustomersLabelIcon", "CustomersLabel"], ["ClockLabel", "DateLabel"],
-]
+func _on_pause_pressed() -> void:
+	# Stopped: the same button resumes at ×1. Running: it stops the clock.
+	speed_requested.emit(1 if _stopped else 0)
 
 
-## Paints the pills: one per CHIP_GROUPS entry, and a green badge around the state label while the shop is open.
-func _draw_chips(row: Control) -> void:
-	for names in CHIP_GROUPS:
-		var rect := _group_rect(row, names)
-		if rect.size.x > 0.0:
-			row.draw_style_box(UiTheme.chip_box(), rect)
-	var state_rect := _group_rect(row, ["StateLabel"])
-	if state_rect.size.x > 0.0:
-		row.draw_style_box(UiTheme.badge_box() if _is_open else UiTheme.chip_box(), state_rect)
+func _spacer() -> Control:
+	var s := Control.new()
+	s.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	s.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return s
 
 
-func _group_rect(row: Control, names: Array) -> Rect2:
-	var rect := Rect2()
-	var first := true
-	for node_name in names:
-		var c := row.get_node_or_null(node_name) as Control
-		if c == null or not c.is_visible_in_tree():
-			continue
-		rect = c.get_rect() if first else rect.merge(c.get_rect())
-		first = false
-	return rect.grow_individual(8, 4, 8, 4) if not first else Rect2()
-
-
-func _add_icon_before(label: Label, icon_name: String) -> void:
+func _icon(icon_name: String) -> TextureRect:
 	var icon := TextureRect.new()
-	icon.name = label.name + "Icon"
 	icon.texture = UiIcons.texture(icon_name, HUD_ICON_SIZE)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.custom_minimum_size = Vector2(HUD_ICON_SIZE, HUD_ICON_SIZE)
 	icon.modulate = UiTheme.WARM
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label.get_parent().add_child(icon)
-	label.get_parent().move_child(icon, label.get_index())
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return icon
+
+
+func _text_label(node_name: String, variation: StringName) -> Label:
+	var lbl := Label.new()
+	lbl.name = node_name
+	lbl.theme_type_variation = variation
+	lbl.text = NONE
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return lbl
 
 
 static func format_yen(amount: int) -> String:
@@ -119,23 +188,60 @@ static func speed_text(speed: int) -> String:
 	return "停止" if speed == 0 else "×%d" % speed
 
 
+## Time-of-day icon name for the game clock: sun from 05:00, sunset from 16:00, moon from 19:00 (until 05:00).
+## Presentation only; the weather is not in the model, so there is no weather icon.
+static func time_icon(time_sec: int) -> String:
+	var hour := posmod(time_sec, 86400) / 3600
+	if hour >= 5 and hour < 16:
+		return "sun"
+	if hour >= 16 and hour < 19:
+		return "sunset"
+	return "moon"
+
+
+## Season icon name for a calendar month (1..12): sakura in spring, leaf in summer, maple in autumn, snowflake in winter.
+static func season_icon(month: int) -> String:
+	if month >= 3 and month <= 5:
+		return "sakura"
+	if month >= 6 and month <= 8:
+		return "leaf"
+	if month >= 9 and month <= 11:
+		return "maple"
+	return "snowflake"
+
+
 ## Day 0 is a Monday (the game calendar starts on 月曜日).
 static func weekday_text(day: int) -> String:
 	const NAMES := ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"]
 	return NAMES[posmod(day, 7)]
 
 
-## Calendar date for the mockup HUD, e.g. "春 4月1日(月)". DAY 0 is 4月1日 of a non-leap 365-day year;
-## the weekday comes from weekday_text so both labels agree. Pure: no randomness, no state.
-static func date_text(day: int) -> String:
+## Month and day of month for a game day (DAY 0 is 4月1日 of a non-leap 365-day year). Returns [] past the year.
+static func calendar_of(day: int) -> Array:
 	var rest := posmod(day, 365)
 	for entry in CALENDAR:
 		var month: int = entry[0]
 		var length: int = entry[1]
 		if rest < length:
-			return "%s %d月%d日(%s)" % [season_text(month), month, rest + 1, weekday_text(day).substr(0, 1)]
+			return [month, rest + 1]
 		rest -= length
-	return ""
+	return []
+
+
+## Date without the season, for the HUD date line, e.g. "4月1日(月)".
+static func short_date_text(day: int) -> String:
+	var md := calendar_of(day)
+	if md.is_empty():
+		return ""
+	return "%d月%d日(%s)" % [md[0], md[1], weekday_text(day).substr(0, 1)]
+
+
+## Calendar date with the season, e.g. "春 4月1日(月)". Pure: no randomness, no state.
+static func date_text(day: int) -> String:
+	var md := calendar_of(day)
+	if md.is_empty():
+		return ""
+	return "%s %s" % [season_text(md[0]), short_date_text(day)]
 
 
 static func season_text(month: int) -> String:
@@ -157,25 +263,35 @@ func apply_snapshot(s: Dictionary) -> void:
 	if floats != null:
 		floats.apply_snapshot(s)
 	var cash := int(s["cash_yen"])
-	_cash.text = "所持金 " + format_yen(cash)
+	_cash.text = format_yen(cash)
 	if _last_cash != NO_CASH and cash != _last_cash:
 		UiFx.pop(_cash, UiFx.direction(_last_cash, cash))
 	_last_cash = cash
 	var today: Dictionary = s.get("today", {"revenue_yen": 0, "gross_profit_yen": 0})
-	_sales.text = "本日の売上 " + format_yen(int(today["revenue_yen"]))
-	_profit.text = "本日の粗利 " + format_yen(int(today["gross_profit_yen"]))
-	_customers.text = "店内客 %d" % s.get("customers", []).size()
+	_sales.text = format_yen(int(today["revenue_yen"]))
+	_profit.text = format_yen(int(today["gross_profit_yen"]))
+	_customers.text = "%d 人" % int(s.get("visit_stats", {}).get("entered", 0))
 	var day := int(s["day"])
-	_clock.text = "DAY %d  %s" % [day, format_clock(int(s["time_sec"]))]
+	var time_sec := int(s["time_sec"])
+	_time_icon.texture = UiIcons.texture(time_icon(time_sec), HUD_ICON_SIZE)
+	_day.text = "DAY %d" % day
+	_clock.text = format_clock(time_sec)
 	_clock.tooltip_text = "%s（%d日目）" % [weekday_text(day), day + 1]
-	_date.text = date_text(day)
+	var md := calendar_of(day)
+	_date.text = short_date_text(day)
+	_season_icon.texture = UiIcons.texture(season_icon(int(md[0])) if not md.is_empty() else "sakura", HUD_ICON_SIZE)
+	_season_icon.tooltip_text = date_text(day)
 	_speed.text = "速度 " + speed_text(int(s["speed_setting"]))
 	_state.text = STATE_TEXT.get(s["business_state"], String(s["business_state"]))
 	_is_open = s["business_state"] == "OPEN"
 	_state.add_theme_color_override("font_color", Color.WHITE if _is_open else UiTheme.TEXT_SECONDARY)
-	($Row as Control).queue_redraw()
+	_state_box.add_theme_stylebox_override("panel", UiTheme.hud_badge_box() if _is_open else UiTheme.hud_chip_box())
 	var running: bool = s["business_state"] == "OPEN" or s["business_state"] == "CLOSING"
+	_stopped = int(s["speed_setting"]) == 0
+	_pause.icon = UiIcons.texture("play" if _stopped else "pause", PAUSE_ICON_SIZE)
+	_pause.tooltip_text = "再開 (×1)" if _stopped else "一時停止"
+	_pause.disabled = not running   # SETUP has no clock; PAYMENT_BLOCKED stays stopped
 	for speed in _speed_buttons:
 		var b: Button = _speed_buttons[speed]
 		b.button_pressed = int(s["speed_setting"]) == speed
-		b.disabled = not running and speed != 0   # SETUP has no clock; PAYMENT_BLOCKED stays stopped
+		b.disabled = not running   # SETUP has no clock to speed up

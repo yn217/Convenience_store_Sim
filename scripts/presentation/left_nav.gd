@@ -14,6 +14,7 @@ const LABEL_SIZE := 13
 const ITEMS := [
 	{"id": "store", "title": "店舗", "icon": "store"},
 	{"id": "goods", "title": "商品", "icon": "box"},
+	{"id": "order", "title": "発注", "icon": "truck"},   # opens the 商品 tab at the order section (MainLayout)
 	{"id": "management", "title": "経営", "icon": "megaphone"},
 	{"id": "data", "title": "データ", "icon": "bar-chart"},
 	{"id": "settings", "title": "設定", "icon": "gear"},

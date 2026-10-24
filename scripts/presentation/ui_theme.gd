@@ -136,6 +136,24 @@ static func build() -> Theme:
 	theme.set_color("font_color", "HudCash", GOLD)
 	theme.set_font_size("font_size", "HudCash", FONT_TITLE)
 	_outline(theme, "HudCash", 3)
+	# Top HUD (#105 B1): the time-of-day clock, the DAY label, the date line and the centre chips.
+	theme.add_type("HudClock")
+	theme.set_type_variation("HudClock", "Label")
+	theme.set_color("font_color", "HudClock", TEXT_PRIMARY)
+	theme.set_font_size("font_size", "HudClock", FONT_VALUE)
+	_outline(theme, "HudClock", 3)
+	theme.add_type("HudDay")
+	theme.set_type_variation("HudDay", "Label")
+	theme.set_color("font_color", "HudDay", WARM)
+	theme.set_font_size("font_size", "HudDay", FONT_BODY)
+	_outline(theme, "HudDay", 2)
+	theme.add_type("HudDate")
+	theme.set_type_variation("HudDate", "Label")
+	theme.set_color("font_color", "HudDate", TEXT_SECONDARY)
+	theme.set_font_size("font_size", "HudDate", FONT_SMALL)
+	theme.add_type("HudChip")
+	theme.set_type_variation("HudChip", "PanelContainer")
+	theme.set_stylebox("panel", "HudChip", hud_chip_box())
 	# Toggles: pill track with a white knob (blue when on).
 	theme.set_icon("checked", "CheckButton", _toggle_texture(true))
 	theme.set_icon("checked_disabled", "CheckButton", _toggle_texture(true))
@@ -307,6 +325,26 @@ static func chip_box(edge: Color = BORDER) -> StyleBoxFlat:
 	b.border_color = Color(edge, 0.7)
 	b.set_border_width_all(1)
 	b.set_corner_radius_all(14)
+	return b
+
+
+## HUD chip: the pill with room around its caption and value (the top bar's centre groups and the state badge).
+static func hud_chip_box() -> StyleBoxFlat:
+	var b := chip_box()
+	b.content_margin_left = 12.0
+	b.content_margin_right = 12.0
+	b.content_margin_top = 4.0
+	b.content_margin_bottom = 4.0
+	return b
+
+
+## The HUD's open-for-business badge: the green pill with the same margins as hud_chip_box.
+static func hud_badge_box() -> StyleBoxFlat:
+	var b := badge_box()
+	b.content_margin_left = 12.0
+	b.content_margin_right = 12.0
+	b.content_margin_top = 4.0
+	b.content_margin_bottom = 4.0
 	return b
 
 

@@ -19,6 +19,7 @@ var _restock_sku: OptionButton
 var _restock_qty: LineEdit
 var _restock_info: Label
 var _status: Label
+var _order_row: HBoxContainer
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -54,6 +55,7 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 	order_row.add_child(_order_qty)
 	order_row.add_child(order_btn)
 	_body.add_child(order_row)
+	_order_row = order_row
 	_restock_box = VBoxContainer.new()
 	_restock_info = Label.new()
 	_restock_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -105,6 +107,16 @@ static func parse_qty_text(text: String) -> int:
 func apply_snapshot(snap: Dictionary) -> void:
 	_snap = snap
 	_refresh()
+
+
+## The 発注 row (the order section), for MainLayout to scroll into view.
+func order_section() -> Control:
+	return _order_row
+
+
+## The restock box of the selected fixture (hidden until a shelf is selected), for MainLayout to scroll into view.
+func restock_section() -> Control:
+	return _restock_box
 
 
 func _selected_fixture() -> Dictionary:

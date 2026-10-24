@@ -1,17 +1,16 @@
 extends RefCounted
-## Issue #61 (GUI side): the bottom metric cards show the same numbers as the top HUD.
+## Issue #61 (GUI side) and #105 B5: the bottom summary shows the same numbers as the top HUD.
 
 
 func test_metric_texts_from_snapshot(t, _tree) -> void:
-	var s := {"today": {"revenue_yen": 12345, "gross_profit_yen": 4000}, "customers": [1, 2, 3], "reputation": 57}
+	var s := {"today": {"revenue_yen": 12345, "gross_profit_yen": 4000}, "visit_stats": {"entered": 3, "purchased": 1}}
 	var m := MetricBar.texts(s)
 	t.eq(m["sales"], "¥12,345")
 	t.eq(m["profit"], "¥4,000")
-	t.eq(m["customers"], "3 人")
-	t.eq(m["satisfaction"], "57%")
-	t.eq(MetricBar.texts({"reputation": 150})["satisfaction"], "100%", "clamped to 100")
-	t.eq(MetricBar.satisfaction_percent(-5), 0, "clamped to 0")
+	t.eq(m["customers"], "3 人", "the day's visits, not the people inside now")
+	t.eq(m["unit_price"], "¥12,345", "sales per buyer")
 	t.eq(MetricBar.texts({})["sales"], "¥0", "empty snapshot is a real zero")
+	t.eq(MetricBar.texts({})["unit_price"], "—", "no buyers, no price")
 
 
 func test_cards_follow_the_snapshot_on_the_real_scene(t, tree) -> void:
@@ -20,11 +19,12 @@ func test_cards_follow_the_snapshot_on_the_real_scene(t, tree) -> void:
 	await tree.process_frame
 	await tree.process_frame
 	var bar: MetricBar = main.find_child("MetricBar", true, false)
-	t.eq(bar.get_child(0).get_child_count(), 4, "four cards")
+	var metrics: Node = bar.find_child("Metrics", true, false)
+	t.eq(metrics.get_child_count(), 4, "four metric cards")
 	var app: Node = main.get_node("AppRoot")
 	app._publish_snapshot()
 	var values: Array = []
-	for card in bar.get_child(0).get_children():
+	for card in metrics.get_children():
 		var labels := card.find_children("*", "Label", true, false)   # title first, value second
 		values.append((labels[1] as Label).text)
 		t.ok(card.find_child("Icon", true, false) is TextureRect, "every card has an icon")

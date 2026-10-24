@@ -23,6 +23,20 @@ static func effect_text(view: Dictionary) -> String:
 	return "・".join(parts)
 
 
+## Timeline rows for the 本日のイベント card: [{time, text}], at most three. A day without an event gives one row with no
+## time. `stocked` as in lines().
+static func timeline(view: Dictionary, time_sec: int, stocked: Array) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if view.get("status", "no_data") in ["scheduled", "active", "ended", "missed"]:
+		out.append({"time": clock(int(view["start_sec"])), "text": "%s（%s）" % [view["name_ja"], STATUS_JA[view["status"]]]})
+		out.append({"time": "", "text": view["description_ja"]})
+		out.append({"time": clock(int(view["end_sec"])), "text": "終了 ・ 効果 " + (effect_text(view) if effect_text(view) != "" else "なし")})
+		return out
+	for line in lines(view, time_sec, stocked).slice(0, 1):
+		out.append({"time": "", "text": line})
+	return out
+
+
 ## Lines for the panel; `stocked` = category ids that have stock on a shelf now.
 static func lines(view: Dictionary, time_sec: int, stocked: Array) -> Array[String]:
 	var out: Array[String] = []

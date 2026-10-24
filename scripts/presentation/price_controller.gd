@@ -82,6 +82,19 @@ func apply_snapshot(snap: Dictionary) -> void:
 			edit.text = shown
 
 
+## The price field of one SKU (null for an unknown SKU), for MainLayout to scroll to.
+func price_field(sku_id: String) -> LineEdit:
+	return _rows.get(sku_id)
+
+
+## 価格変更 from the inspector: the field of this SKU takes focus with its text selected. Unknown SKUs do nothing.
+func focus_sku(sku_id: String) -> void:
+	var edit := price_field(sku_id)
+	if edit != null:
+		edit.grab_focus()
+		edit.select_all()
+
+
 func submit(sku_id: String, edit: LineEdit) -> CommandResult:
 	var price := parse_price_text(edit.text)
 	if price < 1:

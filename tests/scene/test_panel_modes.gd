@@ -69,7 +69,7 @@ func test_normal_shows_only_the_store_hud_rail_and_summary(t, tree) -> void:
 	t.ok(main.get_node("Layout/TopHUD").is_visible_in_tree(), "HUD shown")
 	t.ok(main.get_node("Layout/MainArea/LeftNav").is_visible_in_tree(), "rail shown")
 	t.ok(main.find_child("MetricBar", true, false).is_visible_in_tree(), "summary shown")
-	t.eq(main.get_node("Layout/MainArea/LeftNav").entry_count(), 5, "rail has its entries")
+	t.eq(main.get_node("Layout/MainArea/LeftNav").entry_count(), 6, "rail has its entries")
 	main.queue_free()
 	await tree.process_frame
 
@@ -222,18 +222,22 @@ func test_summary_cards_are_a_centred_row_above_the_bottom(t, tree) -> void:
 	var main := await _boot(tree)
 	var bar := main.find_child("MetricBar", true, false) as Control
 	var window: Vector2 = main.get_viewport_rect().size
-	var cards: Array = bar.get_child(0).get_children()
-	t.eq(cards.size(), 4, "four cards")
-	var first: Rect2 = (cards[0] as Control).get_global_rect()
-	var last: Rect2 = (cards[3] as Control).get_global_rect()
+	var goal := bar.find_child("GoalCard", true, false) as Control
+	var event := bar.find_child("EventCard", true, false) as Control
+	var metrics: Array = bar.find_child("Metrics", true, false).get_children()
+	t.eq(metrics.size(), 4, "four metric cards")
+	var first: Rect2 = goal.get_global_rect()
+	var last: Rect2 = event.get_global_rect()
 	t.ok(absf(window.y - 12.0 - first.end.y) <= 1.0, "cards end 12 px above the bottom edge")
+	t.ok(absf(window.y - 12.0 - last.end.y) <= 1.0, "the event card ends at the same line")
 	var group_centre := (first.position.x + last.end.x) * 0.5
 	t.ok(absf(group_centre - window.x * 0.5) <= 2.0, "the card row is centred in the window")
-	for c in cards:
+	for c in [goal, event] + metrics:
 		var card := c as Control
-		t.ok(card.get_global_rect().size.x >= 170.0 and card.get_global_rect().size.x <= 220.0, "card width 170..220 px")
 		t.eq(card.mouse_filter, Control.MOUSE_FILTER_STOP, "cards stop the mouse")
+	for c in metrics:
+		t.ok((c as Control).get_global_rect().size.x >= 150.0 and (c as Control).get_global_rect().size.x <= 220.0, "metric card width 150..220 px")
 	t.eq(bar.mouse_filter, Control.MOUSE_FILTER_IGNORE, "the summary strip itself passes the mouse through")
-	t.ok(_blockers_at(main, Vector2(window.x * 0.5, window.y - 90.0)).is_empty(), "the space just above the cards is not blocked")
+	t.ok(_blockers_at(main, Vector2(window.x * 0.5, window.y - 130.0)).is_empty(), "the space just above the cards is not blocked")
 	main.queue_free()
 	await tree.process_frame

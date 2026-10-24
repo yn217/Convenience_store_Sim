@@ -48,6 +48,28 @@ static func notice(event: Dictionary, milestones: Array) -> String:
 	return ""
 
 
+## The goal sentence for the 本日の目標 card: what the next milestone asks for, e.g. "累計 10 件の会計を達成しよう".
+static func goal_text(metric: String, threshold: int) -> String:
+	match metric:
+		"total_sales_count":
+			return "累計 %d 件の会計を達成しよう" % threshold
+		"total_revenue_yen":
+			return "累計売上 %s にしよう" % GameHud.format_yen(threshold)
+		"total_customers_entered":
+			return "累計 %d 人のお客様を迎えよう" % threshold
+		"unique_categories_stocked":
+			return "%d カテゴリの品揃えにしよう" % threshold
+		"fixtures_installed_count":
+			return "什器を %d 台に増やそう" % threshold
+		"day_closed_count":
+			return "%d 日間の営業を続けよう" % threshold
+		"reputation_at_least":
+			return "評判を %d 点まで上げよう" % threshold
+		"daily_operating_profit_at_least":
+			return "1日の営業利益 %s を目指そう" % GameHud.format_yen(threshold)
+	return ""
+
+
 static func metric_unit(metric: String) -> String:
 	match metric:
 		"total_sales_count":

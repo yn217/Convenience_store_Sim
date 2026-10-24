@@ -43,44 +43,6 @@ script = ExtResource("4")
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="CashLabel" type="Label" parent="Layout/TopHUD/Row"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-
-[node name="SalesLabel" type="Label" parent="Layout/TopHUD/Row"]
-layout_mode = 2
-
-[node name="ProfitLabel" type="Label" parent="Layout/TopHUD/Row"]
-layout_mode = 2
-
-[node name="CustomersLabel" type="Label" parent="Layout/TopHUD/Row"]
-layout_mode = 2
-
-[node name="Spacer" type="Control" parent="Layout/TopHUD/Row"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="PaletteTab" type="Button" parent="Layout/TopHUD/Row"]
-visible = false
-layout_mode = 2
-text = "建設"
-
-[node name="InspectorTab" type="Button" parent="Layout/TopHUD/Row"]
-visible = false
-layout_mode = 2
-text = "情報"
-
-[node name="ClockLabel" type="Label" parent="Layout/TopHUD/Row"]
-layout_mode = 2
-
-[node name="SpeedLabel" type="Label" parent="Layout/TopHUD/Row"]
-layout_mode = 2
-
-[node name="StateLabel" type="Label" parent="Layout/TopHUD/Row"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-
 [node name="MainArea" type="Control" parent="Layout"]
 layout_mode = 1
 anchors_preset = 15
