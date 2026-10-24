@@ -119,7 +119,9 @@ func test_empty_store_to_second_day_with_save_and_load(t, tree) -> void:
 		if tx["event_type"] == "SALE":
 			sold_total += int(tx["details"]["qty"])
 	t.eq(_units_on_hand(s), 36 - sold_total, "no unit appears or disappears except by a sale")
-	t.eq(report["purchasing_customers"], sold_total, "one unit per visit")
+	# Issue #128: a buying customer may take several items, so buyers <= units; the report's units are the ledger's.
+	t.eq(report["units_sold"], sold_total, "the report's units are the ledger's items")
+	t.ok(report["purchasing_customers"] <= sold_total and report["purchasing_customers"] >= 1, "buyers take at least one item each")
 	t.eq(report["revenue_yen"] - report["cogs_yen"], report["gross_profit_yen"])
 	t.ok(report["visitors"] >= report["purchasing_customers"])
 	var rep_revenue := 0

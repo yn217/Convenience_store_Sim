@@ -1,0 +1,3648 @@
+{
+	"advertising": {
+		"last_charged_day": 0,
+		"next_day_budget_yen": 0,
+		"today_budget_yen": 0
+	},
+	"applied_command_ids": [
+		"pf1",
+		"pf2",
+		"pf3",
+		"pf4",
+		"pf5",
+		"pf6",
+		"pf7",
+		"pf8",
+		"pf9",
+		"pf10",
+		"pf11",
+		"pf12",
+		"pf13",
+		"pf14",
+		"pf15",
+		"pf16",
+		"pf17",
+		"pf18",
+		"pf19",
+		"pf20",
+		"po21",
+		"pr21",
+		"po22",
+		"pr22",
+		"po23",
+		"pr23",
+		"po24",
+		"pr24",
+		"po25",
+		"pr25",
+		"po26",
+		"pr26",
+		"po27",
+		"pr27",
+		"po28",
+		"pr28",
+		"po29",
+		"pr29",
+		"po30",
+		"pr30",
+		"po31",
+		"pr31",
+		"po32",
+		"pr32",
+		"po33",
+		"pr33",
+		"po34",
+		"pr34",
+		"po35",
+		"pr35",
+		"po36",
+		"pr36",
+		"po37",
+		"pr37",
+		"po38",
+		"pr38",
+		"po39",
+		"pr39",
+		"po40",
+		"pr40",
+		"po41",
+		"pr41",
+		"po42",
+		"pr42",
+		"po43",
+		"pr43",
+		"po44",
+		"pr44",
+		"po45",
+		"pr45",
+		"po46",
+		"pr46",
+		"po47",
+		"pr47",
+		"po48",
+		"pr48",
+		"po49",
+		"pr49",
+		"po50",
+		"pr50",
+		"po51",
+		"pr51",
+		"po52",
+		"pr52",
+		"po53",
+		"pr53",
+		"po54",
+		"pr54",
+		"po55",
+		"pr55",
+		"po56",
+		"pr56",
+		"po57",
+		"pr57",
+		"po58",
+		"pr58",
+		"po59",
+		"pr59",
+		"po60",
+		"pr60",
+		"po61",
+		"pr61",
+		"po62",
+		"pr62",
+		"po63",
+		"pr63",
+		"po64",
+		"pr64",
+		"po65",
+		"pr65",
+		"po66",
+		"pr66",
+		"po67",
+		"pr67",
+		"po68",
+		"pr68",
+		"po69",
+		"pr69",
+		"po70",
+		"pr70",
+		"po71",
+		"pr71",
+		"po72",
+		"pr72",
+		"po73",
+		"pr73",
+		"po74",
+		"pr74",
+		"po75",
+		"pr75",
+		"po76",
+		"pr76",
+		"po77",
+		"pr77",
+		"po78",
+		"pr78",
+		"po79",
+		"pr79",
+		"po80",
+		"pr80",
+		"po81",
+		"pr81",
+		"po82",
+		"pr82",
+		"po83",
+		"pr83",
+		"po84",
+		"pr84",
+		"po85",
+		"pr85",
+		"po86",
+		"pr86",
+		"po87",
+		"pr87",
+		"po88",
+		"pr88",
+		"po89",
+		"pr89",
+		"start"
+	],
+	"applied_event_ids": [
+		"0:AD",
+		"0:DAILY_FIXED",
+		"0:ELECTRICITY",
+		"pf10:FIXTURE_PURCHASE",
+		"pf11:FIXTURE_PURCHASE",
+		"pf12:FIXTURE_PURCHASE",
+		"pf13:FIXTURE_PURCHASE",
+		"pf14:FIXTURE_PURCHASE",
+		"pf15:FIXTURE_PURCHASE",
+		"pf16:FIXTURE_PURCHASE",
+		"pf17:FIXTURE_PURCHASE",
+		"pf18:FIXTURE_PURCHASE",
+		"pf19:FIXTURE_PURCHASE",
+		"pf1:FIXTURE_PURCHASE",
+		"pf20:FIXTURE_PURCHASE",
+		"pf2:FIXTURE_PURCHASE",
+		"pf3:FIXTURE_PURCHASE",
+		"pf4:FIXTURE_PURCHASE",
+		"pf5:FIXTURE_PURCHASE",
+		"pf6:FIXTURE_PURCHASE",
+		"pf7:FIXTURE_PURCHASE",
+		"pf8:FIXTURE_PURCHASE",
+		"pf9:FIXTURE_PURCHASE",
+		"po21:STOCK_PURCHASED",
+		"po22:STOCK_PURCHASED",
+		"po23:STOCK_PURCHASED",
+		"po24:STOCK_PURCHASED",
+		"po25:STOCK_PURCHASED",
+		"po26:STOCK_PURCHASED",
+		"po27:STOCK_PURCHASED",
+		"po28:STOCK_PURCHASED",
+		"po29:STOCK_PURCHASED",
+		"po30:STOCK_PURCHASED",
+		"po31:STOCK_PURCHASED",
+		"po32:STOCK_PURCHASED",
+		"po33:STOCK_PURCHASED",
+		"po34:STOCK_PURCHASED",
+		"po35:STOCK_PURCHASED",
+		"po36:STOCK_PURCHASED",
+		"po37:STOCK_PURCHASED",
+		"po38:STOCK_PURCHASED",
+		"po39:STOCK_PURCHASED",
+		"po40:STOCK_PURCHASED",
+		"po41:STOCK_PURCHASED",
+		"po42:STOCK_PURCHASED",
+		"po43:STOCK_PURCHASED",
+		"po44:STOCK_PURCHASED",
+		"po45:STOCK_PURCHASED",
+		"po46:STOCK_PURCHASED",
+		"po47:STOCK_PURCHASED",
+		"po48:STOCK_PURCHASED",
+		"po49:STOCK_PURCHASED",
+		"po50:STOCK_PURCHASED",
+		"po51:STOCK_PURCHASED",
+		"po52:STOCK_PURCHASED",
+		"po53:STOCK_PURCHASED",
+		"po54:STOCK_PURCHASED",
+		"po55:STOCK_PURCHASED",
+		"po56:STOCK_PURCHASED",
+		"po57:STOCK_PURCHASED",
+		"po58:STOCK_PURCHASED",
+		"po59:STOCK_PURCHASED",
+		"po60:STOCK_PURCHASED",
+		"po61:STOCK_PURCHASED",
+		"po62:STOCK_PURCHASED",
+		"po63:STOCK_PURCHASED",
+		"po64:STOCK_PURCHASED",
+		"po65:STOCK_PURCHASED",
+		"po66:STOCK_PURCHASED",
+		"po67:STOCK_PURCHASED",
+		"po68:STOCK_PURCHASED",
+		"po69:STOCK_PURCHASED",
+		"po70:STOCK_PURCHASED",
+		"po71:STOCK_PURCHASED",
+		"po72:STOCK_PURCHASED",
+		"po73:STOCK_PURCHASED",
+		"po74:STOCK_PURCHASED",
+		"po75:STOCK_PURCHASED",
+		"po76:STOCK_PURCHASED",
+		"po77:STOCK_PURCHASED",
+		"po78:STOCK_PURCHASED",
+		"po79:STOCK_PURCHASED",
+		"po80:STOCK_PURCHASED",
+		"po81:STOCK_PURCHASED",
+		"po82:STOCK_PURCHASED",
+		"po83:STOCK_PURCHASED",
+		"po84:STOCK_PURCHASED",
+		"po85:STOCK_PURCHASED",
+		"po86:STOCK_PURCHASED",
+		"po87:STOCK_PURCHASED",
+		"po88:STOCK_PURCHASED",
+		"po89:STOCK_PURCHASED",
+		"sale:res_cust_00001_0",
+		"sale:res_cust_00003_0",
+		"sale:res_cust_00004_0",
+		"sale:res_cust_00005_0",
+		"sale:res_cust_00006_0",
+		"sale:res_cust_00007_0",
+		"sale:res_cust_00008_0",
+		"sale:res_cust_00009_0",
+		"sale:res_cust_00010_0",
+		"sale:res_cust_00011_0",
+		"sale:res_cust_00012_0",
+		"sale:res_cust_00014_0",
+		"sale:res_cust_00015_0",
+		"sale:res_cust_00017_0",
+		"sale:res_cust_00019_0",
+		"sale:res_cust_00020_0",
+		"sale:res_cust_00021_0",
+		"sale:res_cust_00022_0",
+		"sale:res_cust_00023_0",
+		"sale:res_cust_00024_0",
+		"sale:res_cust_00025_0",
+		"sale:res_cust_00026_0",
+		"sale:res_cust_00027_0",
+		"sale:res_cust_00028_0",
+		"sale:res_cust_00030_0",
+		"sale:res_cust_00031_0",
+		"sale:res_cust_00032_0",
+		"sale:res_cust_00036_0",
+		"sale:res_cust_00037_0",
+		"sale:res_cust_00038_0",
+		"sale:res_cust_00039_0",
+		"sale:res_cust_00040_0",
+		"sale:res_cust_00041_0",
+		"sale:res_cust_00042_0",
+		"sale:res_cust_00044_0",
+		"sale:res_cust_00045_0",
+		"sale:res_cust_00047_0",
+		"sale:res_cust_00048_0",
+		"sale:res_cust_00050_0",
+		"sale:res_cust_00051_0",
+		"sale:res_cust_00052_0",
+		"sale:res_cust_00053_0",
+		"sale:res_cust_00054_0",
+		"sale:res_cust_00055_0",
+		"sale:res_cust_00056_0"
+	],
+	"business_state": "OPEN",
+	"customers": [
+		{
+			"checkout_remaining_sec": 4,
+			"customer_id": "cust_00059",
+			"outcome": "",
+			"patience_remaining_sec": 72,
+			"phase": "CHECKOUT",
+			"position": {
+				"x": 10,
+				"y": 10
+			},
+			"queue_since_sec": 22688,
+			"queue_slot": 0,
+			"register_id": "fx_0018",
+			"reservation_ids": [
+				"res_cust_00059_0"
+			],
+			"retries": 0,
+			"route": [],
+			"route_index": 0,
+			"target_fixture_id": "fx_0012",
+			"target_sku_id": "snack_001",
+			"walk_progress": 0.0
+		},
+		{
+			"checkout_remaining_sec": 0,
+			"customer_id": "cust_00060",
+			"outcome": "",
+			"patience_remaining_sec": 84,
+			"phase": "QUEUE",
+			"position": {
+				"x": 9,
+				"y": 10
+			},
+			"queue_since_sec": 22700,
+			"queue_slot": 1,
+			"register_id": "fx_0018",
+			"reservation_ids": [
+				"res_cust_00060_0"
+			],
+			"retries": 0,
+			"route": [],
+			"route_index": 0,
+			"target_fixture_id": "fx_0002",
+			"target_sku_id": "drink_001",
+			"walk_progress": 0.0
+		},
+		{
+			"checkout_remaining_sec": 0,
+			"customer_id": "cust_00061",
+			"outcome": "",
+			"patience_remaining_sec": 120,
+			"phase": "WALK_TO_ACCESS",
+			"position": {
+				"x": 9,
+				"y": 11
+			},
+			"queue_since_sec": 0,
+			"queue_slot": -1,
+			"register_id": "",
+			"reservation_ids": [],
+			"retries": 0,
+			"route": [
+				{
+					"x": 9,
+					"y": 10
+				},
+				{
+					"x": 9,
+					"y": 9
+				},
+				{
+					"x": 9,
+					"y": 8
+				},
+				{
+					"x": 9,
+					"y": 7
+				},
+				{
+					"x": 9,
+					"y": 6
+				},
+				{
+					"x": 9,
+					"y": 5
+				},
+				{
+					"x": 9,
+					"y": 4
+				},
+				{
+					"x": 9,
+					"y": 3
+				},
+				{
+					"x": 9,
+					"y": 2
+				},
+				{
+					"x": 9,
+					"y": 1
+				}
+			],
+			"route_index": 0,
+			"target_fixture_id": "fx_0004",
+			"target_sku_id": "drink_001",
+			"walk_progress": 0.0
+		}
+	],
+	"daily_reports": [],
+	"economy": {
+		"cash_yen": 3558065,
+		"ledger_transactions": [
+			{
+				"cash_delta_yen": -120000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0001",
+					"type_id": "fridge_drink"
+				},
+				"event_id": "pf1:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -120000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0002",
+					"type_id": "fridge_drink"
+				},
+				"event_id": "pf2:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -120000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0003",
+					"type_id": "fridge_drink"
+				},
+				"event_id": "pf3:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -120000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0004",
+					"type_id": "fridge_drink"
+				},
+				"event_id": "pf4:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -42000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0005",
+					"type_id": "shelf_noodle"
+				},
+				"event_id": "pf5:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -42000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0006",
+					"type_id": "shelf_noodle"
+				},
+				"event_id": "pf6:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -40000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0007",
+					"type_id": "shelf_snack"
+				},
+				"event_id": "pf7:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -40000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0008",
+					"type_id": "shelf_snack"
+				},
+				"event_id": "pf8:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -40000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0009",
+					"type_id": "shelf_general"
+				},
+				"event_id": "pf9:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -40000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0010",
+					"type_id": "shelf_general"
+				},
+				"event_id": "pf10:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -40000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0011",
+					"type_id": "shelf_snack"
+				},
+				"event_id": "pf11:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -40000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0012",
+					"type_id": "shelf_general"
+				},
+				"event_id": "pf12:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -40000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0013",
+					"type_id": "shelf_bread"
+				},
+				"event_id": "pf13:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -45000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0014",
+					"type_id": "shelf_onigiri"
+				},
+				"event_id": "pf14:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -45000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0015",
+					"type_id": "shelf_onigiri"
+				},
+				"event_id": "pf15:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -110000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0016",
+					"type_id": "fridge_dessert"
+				},
+				"event_id": "pf16:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -40000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0017",
+					"type_id": "shelf_bread"
+				},
+				"event_id": "pf17:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -90000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0018",
+					"type_id": "register_basic"
+				},
+				"event_id": "pf18:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -60000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0019",
+					"type_id": "warmer_oden"
+				},
+				"event_id": "pf19:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -130000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"instance_id": "fx_0020",
+					"type_id": "freezer_ice"
+				},
+				"event_id": "pf20:FIXTURE_PURCHASE",
+				"event_type": "FIXTURE_PURCHASE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po21:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po22:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po23:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po24:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po25:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po26:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po27:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po28:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po29:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po30:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po31:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1500,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 20,
+					"sku_id": "drink_001"
+				},
+				"event_id": "po32:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1430,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 11,
+					"sku_id": "noodle_001"
+				},
+				"event_id": "po33:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1430,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 11,
+					"sku_id": "noodle_001"
+				},
+				"event_id": "po34:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1300,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 10,
+					"sku_id": "noodle_001"
+				},
+				"event_id": "po35:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1300,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 10,
+					"sku_id": "noodle_001"
+				},
+				"event_id": "po36:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1430,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 11,
+					"sku_id": "noodle_001"
+				},
+				"event_id": "po37:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1430,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 11,
+					"sku_id": "noodle_001"
+				},
+				"event_id": "po38:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1300,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 10,
+					"sku_id": "noodle_001"
+				},
+				"event_id": "po39:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1300,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 10,
+					"sku_id": "noodle_001"
+				},
+				"event_id": "po40:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1330,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 14,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po41:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1330,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 14,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po42:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1235,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 13,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po43:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1235,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 13,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po44:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1330,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 14,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po45:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1330,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 14,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po46:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1235,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 13,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po47:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1235,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 13,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po48:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po49:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po50:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po51:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po52:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po53:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po54:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po55:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po56:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1330,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 14,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po57:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1330,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 14,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po58:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1235,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 13,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po59:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1235,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 13,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po60:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po61:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po62:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po63:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1140,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "snack_001"
+				},
+				"event_id": "po64:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1080,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "bread_001"
+				},
+				"event_id": "po65:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1080,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "bread_001"
+				},
+				"event_id": "po66:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1080,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "bread_001"
+				},
+				"event_id": "po67:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1200,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "rice_001"
+				},
+				"event_id": "po68:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1200,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "rice_001"
+				},
+				"event_id": "po69:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1200,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "rice_001"
+				},
+				"event_id": "po70:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1200,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "rice_001"
+				},
+				"event_id": "po71:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1200,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "rice_001"
+				},
+				"event_id": "po72:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1200,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "rice_001"
+				},
+				"event_id": "po73:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1440,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "dessert_001"
+				},
+				"event_id": "po74:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1440,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "dessert_001"
+				},
+				"event_id": "po75:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1440,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "dessert_001"
+				},
+				"event_id": "po76:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1080,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "bread_001"
+				},
+				"event_id": "po77:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1080,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "bread_001"
+				},
+				"event_id": "po78:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1080,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "bread_001"
+				},
+				"event_id": "po79:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -220,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 4,
+					"sku_id": "oden_001"
+				},
+				"event_id": "po80:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -220,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 4,
+					"sku_id": "oden_001"
+				},
+				"event_id": "po81:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -220,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 4,
+					"sku_id": "oden_001"
+				},
+				"event_id": "po82:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -220,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 4,
+					"sku_id": "oden_001"
+				},
+				"event_id": "po83:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -220,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 4,
+					"sku_id": "oden_001"
+				},
+				"event_id": "po84:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -220,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 4,
+					"sku_id": "oden_001"
+				},
+				"event_id": "po85:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1320,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "ice_001"
+				},
+				"event_id": "po86:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1320,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "ice_001"
+				},
+				"event_id": "po87:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1320,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "ice_001"
+				},
+				"event_id": "po88:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1320,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"qty": 12,
+					"sku_id": "ice_001"
+				},
+				"event_id": "po89:STOCK_PURCHASED",
+				"event_type": "ORDER",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": 0,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"cost_yen": 0
+				},
+				"event_id": "0:AD",
+				"event_type": "AD",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1000,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"cost_yen": 1000
+				},
+				"event_id": "0:DAILY_FIXED",
+				"event_type": "DAILY_FIXED",
+				"expense_delta_yen": 1000,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": -1310,
+				"cogs_delta_yen": 0,
+				"day_index": 0,
+				"details": {
+					"cost_yen": 1310
+				},
+				"event_id": "0:ELECTRICITY",
+				"event_type": "ELECTRICITY",
+				"expense_delta_yen": 1310,
+				"revenue_delta_yen": 0,
+				"time_sec": 0
+			},
+			{
+				"cash_delta_yen": 210,
+				"cogs_delta_yen": 130,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0005",
+					"qty": 1,
+					"reservation_id": "res_cust_00001_0",
+					"sku_id": "noodle_001"
+				},
+				"event_id": "sale:res_cust_00001_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 210,
+				"time_sec": 272
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0008",
+					"qty": 1,
+					"reservation_id": "res_cust_00004_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00004_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 648
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 100,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0014",
+					"qty": 1,
+					"reservation_id": "res_cust_00003_0",
+					"sku_id": "rice_001"
+				},
+				"event_id": "sale:res_cust_00003_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 684
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0012",
+					"qty": 1,
+					"reservation_id": "res_cust_00005_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00005_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 1188
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 90,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0013",
+					"qty": 1,
+					"reservation_id": "res_cust_00006_0",
+					"sku_id": "bread_001"
+				},
+				"event_id": "sale:res_cust_00006_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 1274
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0002",
+					"qty": 1,
+					"reservation_id": "res_cust_00007_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00007_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 1364
+			},
+			{
+				"cash_delta_yen": 210,
+				"cogs_delta_yen": 130,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0005",
+					"qty": 1,
+					"reservation_id": "res_cust_00008_0",
+					"sku_id": "noodle_001"
+				},
+				"event_id": "sale:res_cust_00008_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 210,
+				"time_sec": 1470
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0004",
+					"qty": 1,
+					"reservation_id": "res_cust_00009_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00009_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 2226
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0008",
+					"qty": 1,
+					"reservation_id": "res_cust_00010_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00010_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 2586
+			},
+			{
+				"cash_delta_yen": 210,
+				"cogs_delta_yen": 130,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0006",
+					"qty": 1,
+					"reservation_id": "res_cust_00011_0",
+					"sku_id": "noodle_001"
+				},
+				"event_id": "sale:res_cust_00011_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 210,
+				"time_sec": 3044
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0012",
+					"qty": 1,
+					"reservation_id": "res_cust_00012_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00012_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 3290
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0012",
+					"qty": 1,
+					"reservation_id": "res_cust_00014_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00014_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 4720
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0009",
+					"qty": 1,
+					"reservation_id": "res_cust_00015_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00015_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 4788
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 90,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0017",
+					"qty": 1,
+					"reservation_id": "res_cust_00017_0",
+					"sku_id": "bread_001"
+				},
+				"event_id": "sale:res_cust_00017_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 4952
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0002",
+					"qty": 1,
+					"reservation_id": "res_cust_00019_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00019_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 5700
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0004",
+					"qty": 1,
+					"reservation_id": "res_cust_00020_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00020_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 6390
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0004",
+					"qty": 1,
+					"reservation_id": "res_cust_00021_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00021_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 6910
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0011",
+					"qty": 1,
+					"reservation_id": "res_cust_00022_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00022_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 7010
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0001",
+					"qty": 1,
+					"reservation_id": "res_cust_00023_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00023_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 7708
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0001",
+					"qty": 1,
+					"reservation_id": "res_cust_00024_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00024_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 7742
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 100,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0014",
+					"qty": 1,
+					"reservation_id": "res_cust_00025_0",
+					"sku_id": "rice_001"
+				},
+				"event_id": "sale:res_cust_00025_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 7824
+			},
+			{
+				"cash_delta_yen": 210,
+				"cogs_delta_yen": 120,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0016",
+					"qty": 1,
+					"reservation_id": "res_cust_00026_0",
+					"sku_id": "dessert_001"
+				},
+				"event_id": "sale:res_cust_00026_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 210,
+				"time_sec": 8426
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0003",
+					"qty": 1,
+					"reservation_id": "res_cust_00027_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00027_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 9370
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0002",
+					"qty": 1,
+					"reservation_id": "res_cust_00028_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00028_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 10150
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0007",
+					"qty": 1,
+					"reservation_id": "res_cust_00030_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00030_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 10854
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0009",
+					"qty": 1,
+					"reservation_id": "res_cust_00031_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00031_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 11674
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 100,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0015",
+					"qty": 1,
+					"reservation_id": "res_cust_00032_0",
+					"sku_id": "rice_001"
+				},
+				"event_id": "sale:res_cust_00032_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 12762
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0009",
+					"qty": 1,
+					"reservation_id": "res_cust_00036_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00036_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 15212
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0010",
+					"qty": 1,
+					"reservation_id": "res_cust_00037_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00037_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 16130
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0010",
+					"qty": 1,
+					"reservation_id": "res_cust_00038_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00038_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 16322
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 100,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0014",
+					"qty": 1,
+					"reservation_id": "res_cust_00039_0",
+					"sku_id": "rice_001"
+				},
+				"event_id": "sale:res_cust_00039_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 16356
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0011",
+					"qty": 1,
+					"reservation_id": "res_cust_00040_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00040_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 16550
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 90,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0013",
+					"qty": 1,
+					"reservation_id": "res_cust_00041_0",
+					"sku_id": "bread_001"
+				},
+				"event_id": "sale:res_cust_00041_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 16834
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0008",
+					"qty": 1,
+					"reservation_id": "res_cust_00042_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00042_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 17276
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0002",
+					"qty": 1,
+					"reservation_id": "res_cust_00044_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00044_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 18684
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0012",
+					"qty": 1,
+					"reservation_id": "res_cust_00045_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00045_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 18718
+			},
+			{
+				"cash_delta_yen": 95,
+				"cogs_delta_yen": 55,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0019",
+					"qty": 1,
+					"reservation_id": "res_cust_00047_0",
+					"sku_id": "oden_001"
+				},
+				"event_id": "sale:res_cust_00047_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 95,
+				"time_sec": 20174
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0008",
+					"qty": 1,
+					"reservation_id": "res_cust_00048_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00048_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 20550
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0009",
+					"qty": 1,
+					"reservation_id": "res_cust_00050_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00050_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 21582
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 90,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0017",
+					"qty": 1,
+					"reservation_id": "res_cust_00051_0",
+					"sku_id": "bread_001"
+				},
+				"event_id": "sale:res_cust_00051_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 21772
+			},
+			{
+				"cash_delta_yen": 150,
+				"cogs_delta_yen": 100,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0015",
+					"qty": 1,
+					"reservation_id": "res_cust_00052_0",
+					"sku_id": "rice_001"
+				},
+				"event_id": "sale:res_cust_00052_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 150,
+				"time_sec": 22368
+			},
+			{
+				"cash_delta_yen": 130,
+				"cogs_delta_yen": 75,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0001",
+					"qty": 1,
+					"reservation_id": "res_cust_00053_0",
+					"sku_id": "drink_001"
+				},
+				"event_id": "sale:res_cust_00053_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 130,
+				"time_sec": 22426
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0011",
+					"qty": 1,
+					"reservation_id": "res_cust_00054_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00054_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 22516
+			},
+			{
+				"cash_delta_yen": 210,
+				"cogs_delta_yen": 130,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0005",
+					"qty": 1,
+					"reservation_id": "res_cust_00055_0",
+					"sku_id": "noodle_001"
+				},
+				"event_id": "sale:res_cust_00055_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 210,
+				"time_sec": 22574
+			},
+			{
+				"cash_delta_yen": 160,
+				"cogs_delta_yen": 95,
+				"day_index": 0,
+				"details": {
+					"fixture_id": "fx_0012",
+					"qty": 1,
+					"reservation_id": "res_cust_00056_0",
+					"sku_id": "snack_001"
+				},
+				"event_id": "sale:res_cust_00056_0",
+				"event_type": "SALE",
+				"expense_delta_yen": 0,
+				"revenue_delta_yen": 160,
+				"time_sec": 22640
+			}
+		],
+		"unpaid_cost_yen": 0
+	},
+	"fixture_instances": [
+		{
+			"enabled": true,
+			"instance_id": "fx_0001",
+			"rotation": 1,
+			"type_id": "fridge_drink",
+			"x": 3,
+			"y": 0
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0002",
+			"rotation": 1,
+			"type_id": "fridge_drink",
+			"x": 5,
+			"y": 0
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0003",
+			"rotation": 1,
+			"type_id": "fridge_drink",
+			"x": 7,
+			"y": 0
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0004",
+			"rotation": 1,
+			"type_id": "fridge_drink",
+			"x": 9,
+			"y": 0
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0005",
+			"rotation": 2,
+			"type_id": "shelf_noodle",
+			"x": 4,
+			"y": 2
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0006",
+			"rotation": 0,
+			"type_id": "shelf_noodle",
+			"x": 5,
+			"y": 2
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0007",
+			"rotation": 2,
+			"type_id": "shelf_snack",
+			"x": 4,
+			"y": 4
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0008",
+			"rotation": 0,
+			"type_id": "shelf_snack",
+			"x": 5,
+			"y": 4
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0009",
+			"rotation": 2,
+			"type_id": "shelf_general",
+			"x": 4,
+			"y": 6
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0010",
+			"rotation": 0,
+			"type_id": "shelf_general",
+			"x": 5,
+			"y": 6
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0011",
+			"rotation": 2,
+			"type_id": "shelf_snack",
+			"x": 12,
+			"y": 2
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0012",
+			"rotation": 0,
+			"type_id": "shelf_general",
+			"x": 13,
+			"y": 2
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0013",
+			"rotation": 2,
+			"type_id": "shelf_bread",
+			"x": 12,
+			"y": 4
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0014",
+			"rotation": 2,
+			"type_id": "shelf_onigiri",
+			"x": 15,
+			"y": 1
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0015",
+			"rotation": 2,
+			"type_id": "shelf_onigiri",
+			"x": 15,
+			"y": 3
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0016",
+			"rotation": 2,
+			"type_id": "fridge_dessert",
+			"x": 15,
+			"y": 5
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0017",
+			"rotation": 2,
+			"type_id": "shelf_bread",
+			"x": 15,
+			"y": 7
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0018",
+			"rotation": 2,
+			"type_id": "register_basic",
+			"x": 11,
+			"y": 9
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0019",
+			"rotation": 0,
+			"type_id": "warmer_oden",
+			"x": 11,
+			"y": 8
+		},
+		{
+			"enabled": true,
+			"instance_id": "fx_0020",
+			"rotation": 0,
+			"type_id": "freezer_ice",
+			"x": 13,
+			"y": 9
+		}
+	],
+	"game_tick": 11368,
+	"game_time_seconds": 22736,
+	"gameplay_event_state": {
+		"ended": false,
+		"event_end_sec": null,
+		"event_start_sec": null,
+		"last_selected_day": -1,
+		"selected_event_id": null,
+		"selection_event_id": null,
+		"shown_notice_ids": [],
+		"started": false
+	},
+	"inventory_segments": [
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0001",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0001",
+			"physical_qty": 17,
+			"reserved_qty": 0,
+			"segment_id": "seg_0001",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0001",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0002",
+			"physical_qty": 20,
+			"reserved_qty": 0,
+			"segment_id": "seg_0002",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0001",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0003",
+			"physical_qty": 20,
+			"reserved_qty": 0,
+			"segment_id": "seg_0003",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0002",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0004",
+			"physical_qty": 16,
+			"reserved_qty": 1,
+			"segment_id": "seg_0004",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0002",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0005",
+			"physical_qty": 20,
+			"reserved_qty": 0,
+			"segment_id": "seg_0005",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0002",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0006",
+			"physical_qty": 20,
+			"reserved_qty": 0,
+			"segment_id": "seg_0006",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0003",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0007",
+			"physical_qty": 19,
+			"reserved_qty": 0,
+			"segment_id": "seg_0007",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0003",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0008",
+			"physical_qty": 20,
+			"reserved_qty": 0,
+			"segment_id": "seg_0008",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0003",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0009",
+			"physical_qty": 20,
+			"reserved_qty": 0,
+			"segment_id": "seg_0009",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0004",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0010",
+			"physical_qty": 17,
+			"reserved_qty": 0,
+			"segment_id": "seg_0010",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0004",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0011",
+			"physical_qty": 20,
+			"reserved_qty": 0,
+			"segment_id": "seg_0011",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0004",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0012",
+			"physical_qty": 20,
+			"reserved_qty": 0,
+			"segment_id": "seg_0012",
+			"sku_id": "drink_001",
+			"unit_cost_yen": 75
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0005",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0013",
+			"physical_qty": 8,
+			"reserved_qty": 0,
+			"segment_id": "seg_0013",
+			"sku_id": "noodle_001",
+			"unit_cost_yen": 130
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0005",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0014",
+			"physical_qty": 11,
+			"reserved_qty": 0,
+			"segment_id": "seg_0014",
+			"sku_id": "noodle_001",
+			"unit_cost_yen": 130
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0005",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0015",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0015",
+			"sku_id": "noodle_001",
+			"unit_cost_yen": 130
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0005",
+				"kind": "FIXTURE",
+				"slot_id": "row3"
+			},
+			"lot_id": "lot_0016",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0016",
+			"sku_id": "noodle_001",
+			"unit_cost_yen": 130
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0006",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0017",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0017",
+			"sku_id": "noodle_001",
+			"unit_cost_yen": 130
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0006",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0018",
+			"physical_qty": 11,
+			"reserved_qty": 0,
+			"segment_id": "seg_0018",
+			"sku_id": "noodle_001",
+			"unit_cost_yen": 130
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0006",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0019",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0019",
+			"sku_id": "noodle_001",
+			"unit_cost_yen": 130
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0006",
+				"kind": "FIXTURE",
+				"slot_id": "row3"
+			},
+			"lot_id": "lot_0020",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0020",
+			"sku_id": "noodle_001",
+			"unit_cost_yen": 130
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0007",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0021",
+			"physical_qty": 13,
+			"reserved_qty": 0,
+			"segment_id": "seg_0021",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0007",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0022",
+			"physical_qty": 14,
+			"reserved_qty": 0,
+			"segment_id": "seg_0022",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0007",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0023",
+			"physical_qty": 13,
+			"reserved_qty": 0,
+			"segment_id": "seg_0023",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0007",
+				"kind": "FIXTURE",
+				"slot_id": "row3"
+			},
+			"lot_id": "lot_0024",
+			"physical_qty": 13,
+			"reserved_qty": 0,
+			"segment_id": "seg_0024",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0008",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0025",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0025",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0008",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0026",
+			"physical_qty": 14,
+			"reserved_qty": 0,
+			"segment_id": "seg_0026",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0008",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0027",
+			"physical_qty": 13,
+			"reserved_qty": 0,
+			"segment_id": "seg_0027",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0008",
+				"kind": "FIXTURE",
+				"slot_id": "row3"
+			},
+			"lot_id": "lot_0028",
+			"physical_qty": 13,
+			"reserved_qty": 0,
+			"segment_id": "seg_0028",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0009",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0029",
+			"physical_qty": 8,
+			"reserved_qty": 0,
+			"segment_id": "seg_0029",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0009",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0030",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0030",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0009",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0031",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0031",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0009",
+				"kind": "FIXTURE",
+				"slot_id": "row3"
+			},
+			"lot_id": "lot_0032",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0032",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0010",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0033",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0033",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0010",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0034",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0034",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0010",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0035",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0035",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0010",
+				"kind": "FIXTURE",
+				"slot_id": "row3"
+			},
+			"lot_id": "lot_0036",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0036",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0011",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0037",
+			"physical_qty": 11,
+			"reserved_qty": 0,
+			"segment_id": "seg_0037",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0011",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0038",
+			"physical_qty": 14,
+			"reserved_qty": 0,
+			"segment_id": "seg_0038",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0011",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0039",
+			"physical_qty": 13,
+			"reserved_qty": 0,
+			"segment_id": "seg_0039",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0011",
+				"kind": "FIXTURE",
+				"slot_id": "row3"
+			},
+			"lot_id": "lot_0040",
+			"physical_qty": 13,
+			"reserved_qty": 0,
+			"segment_id": "seg_0040",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0012",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0041",
+			"physical_qty": 7,
+			"reserved_qty": 1,
+			"segment_id": "seg_0041",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0012",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0042",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0042",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0012",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0043",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0043",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0012",
+				"kind": "FIXTURE",
+				"slot_id": "row3"
+			},
+			"lot_id": "lot_0044",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0044",
+			"sku_id": "snack_001",
+			"unit_cost_yen": 95
+		},
+		{
+			"expires_at_sec": 172800,
+			"location": {
+				"fixture_id": "fx_0013",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0045",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0045",
+			"sku_id": "bread_001",
+			"unit_cost_yen": 90
+		},
+		{
+			"expires_at_sec": 172800,
+			"location": {
+				"fixture_id": "fx_0013",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0046",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0046",
+			"sku_id": "bread_001",
+			"unit_cost_yen": 90
+		},
+		{
+			"expires_at_sec": 172800,
+			"location": {
+				"fixture_id": "fx_0013",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0047",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0047",
+			"sku_id": "bread_001",
+			"unit_cost_yen": 90
+		},
+		{
+			"expires_at_sec": 86400,
+			"location": {
+				"fixture_id": "fx_0014",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0048",
+			"physical_qty": 9,
+			"reserved_qty": 0,
+			"segment_id": "seg_0048",
+			"sku_id": "rice_001",
+			"unit_cost_yen": 100
+		},
+		{
+			"expires_at_sec": 86400,
+			"location": {
+				"fixture_id": "fx_0014",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0049",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0049",
+			"sku_id": "rice_001",
+			"unit_cost_yen": 100
+		},
+		{
+			"expires_at_sec": 86400,
+			"location": {
+				"fixture_id": "fx_0014",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0050",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0050",
+			"sku_id": "rice_001",
+			"unit_cost_yen": 100
+		},
+		{
+			"expires_at_sec": 86400,
+			"location": {
+				"fixture_id": "fx_0015",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0051",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0051",
+			"sku_id": "rice_001",
+			"unit_cost_yen": 100
+		},
+		{
+			"expires_at_sec": 86400,
+			"location": {
+				"fixture_id": "fx_0015",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0052",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0052",
+			"sku_id": "rice_001",
+			"unit_cost_yen": 100
+		},
+		{
+			"expires_at_sec": 86400,
+			"location": {
+				"fixture_id": "fx_0015",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0053",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0053",
+			"sku_id": "rice_001",
+			"unit_cost_yen": 100
+		},
+		{
+			"expires_at_sec": 259200,
+			"location": {
+				"fixture_id": "fx_0016",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0054",
+			"physical_qty": 11,
+			"reserved_qty": 0,
+			"segment_id": "seg_0054",
+			"sku_id": "dessert_001",
+			"unit_cost_yen": 120
+		},
+		{
+			"expires_at_sec": 259200,
+			"location": {
+				"fixture_id": "fx_0016",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0055",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0055",
+			"sku_id": "dessert_001",
+			"unit_cost_yen": 120
+		},
+		{
+			"expires_at_sec": 259200,
+			"location": {
+				"fixture_id": "fx_0016",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0056",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0056",
+			"sku_id": "dessert_001",
+			"unit_cost_yen": 120
+		},
+		{
+			"expires_at_sec": 172800,
+			"location": {
+				"fixture_id": "fx_0017",
+				"kind": "FIXTURE",
+				"slot_id": "row0"
+			},
+			"lot_id": "lot_0057",
+			"physical_qty": 10,
+			"reserved_qty": 0,
+			"segment_id": "seg_0057",
+			"sku_id": "bread_001",
+			"unit_cost_yen": 90
+		},
+		{
+			"expires_at_sec": 172800,
+			"location": {
+				"fixture_id": "fx_0017",
+				"kind": "FIXTURE",
+				"slot_id": "row1"
+			},
+			"lot_id": "lot_0058",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0058",
+			"sku_id": "bread_001",
+			"unit_cost_yen": 90
+		},
+		{
+			"expires_at_sec": 172800,
+			"location": {
+				"fixture_id": "fx_0017",
+				"kind": "FIXTURE",
+				"slot_id": "row2"
+			},
+			"lot_id": "lot_0059",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0059",
+			"sku_id": "bread_001",
+			"unit_cost_yen": 90
+		},
+		{
+			"expires_at_sec": 43200,
+			"location": {
+				"fixture_id": "fx_0019",
+				"kind": "FIXTURE",
+				"slot_id": "cell0"
+			},
+			"lot_id": "lot_0060",
+			"physical_qty": 3,
+			"reserved_qty": 0,
+			"segment_id": "seg_0060",
+			"sku_id": "oden_001",
+			"unit_cost_yen": 55
+		},
+		{
+			"expires_at_sec": 43200,
+			"location": {
+				"fixture_id": "fx_0019",
+				"kind": "FIXTURE",
+				"slot_id": "cell1"
+			},
+			"lot_id": "lot_0061",
+			"physical_qty": 4,
+			"reserved_qty": 0,
+			"segment_id": "seg_0061",
+			"sku_id": "oden_001",
+			"unit_cost_yen": 55
+		},
+		{
+			"expires_at_sec": 43200,
+			"location": {
+				"fixture_id": "fx_0019",
+				"kind": "FIXTURE",
+				"slot_id": "cell2"
+			},
+			"lot_id": "lot_0062",
+			"physical_qty": 4,
+			"reserved_qty": 0,
+			"segment_id": "seg_0062",
+			"sku_id": "oden_001",
+			"unit_cost_yen": 55
+		},
+		{
+			"expires_at_sec": 43200,
+			"location": {
+				"fixture_id": "fx_0019",
+				"kind": "FIXTURE",
+				"slot_id": "cell3"
+			},
+			"lot_id": "lot_0063",
+			"physical_qty": 4,
+			"reserved_qty": 0,
+			"segment_id": "seg_0063",
+			"sku_id": "oden_001",
+			"unit_cost_yen": 55
+		},
+		{
+			"expires_at_sec": 43200,
+			"location": {
+				"fixture_id": "fx_0019",
+				"kind": "FIXTURE",
+				"slot_id": "cell4"
+			},
+			"lot_id": "lot_0064",
+			"physical_qty": 4,
+			"reserved_qty": 0,
+			"segment_id": "seg_0064",
+			"sku_id": "oden_001",
+			"unit_cost_yen": 55
+		},
+		{
+			"expires_at_sec": 43200,
+			"location": {
+				"fixture_id": "fx_0019",
+				"kind": "FIXTURE",
+				"slot_id": "cell5"
+			},
+			"lot_id": "lot_0065",
+			"physical_qty": 4,
+			"reserved_qty": 0,
+			"segment_id": "seg_0065",
+			"sku_id": "oden_001",
+			"unit_cost_yen": 55
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0020",
+				"kind": "FIXTURE",
+				"slot_id": "cell0"
+			},
+			"lot_id": "lot_0066",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0066",
+			"sku_id": "ice_001",
+			"unit_cost_yen": 110
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0020",
+				"kind": "FIXTURE",
+				"slot_id": "cell1"
+			},
+			"lot_id": "lot_0067",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0067",
+			"sku_id": "ice_001",
+			"unit_cost_yen": 110
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0020",
+				"kind": "FIXTURE",
+				"slot_id": "cell2"
+			},
+			"lot_id": "lot_0068",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0068",
+			"sku_id": "ice_001",
+			"unit_cost_yen": 110
+		},
+		{
+			"expires_at_sec": null,
+			"location": {
+				"fixture_id": "fx_0020",
+				"kind": "FIXTURE",
+				"slot_id": "cell3"
+			},
+			"lot_id": "lot_0069",
+			"physical_qty": 12,
+			"reserved_qty": 0,
+			"segment_id": "seg_0069",
+			"sku_id": "ice_001",
+			"unit_cost_yen": 110
+		}
+	],
+	"product_price_overrides": {},
+	"progression_state": {
+		"active_daily_challenge_day": -1,
+		"active_daily_challenge_id": null,
+		"challenge_stock_qualified": false,
+		"completed_daily_challenge_ids": [],
+		"completed_milestone_ids": [],
+		"dismissed_story_cue_ids": [],
+		"tutorial_skipped": false,
+		"tutorial_step_index": 6
+	},
+	"reservations": [
+		{
+			"cost_unit_yen_snapshot": 95,
+			"customer_id": "cust_00059",
+			"qty": 1,
+			"reservation_expires_at_sec": 23288,
+			"reservation_id": "res_cust_00059_0",
+			"segment_id": "seg_0041",
+			"sell_unit_yen_snapshot": 160
+		},
+		{
+			"cost_unit_yen_snapshot": 75,
+			"customer_id": "cust_00060",
+			"qty": 1,
+			"reservation_expires_at_sec": 23300,
+			"reservation_id": "res_cust_00060_0",
+			"segment_id": "seg_0004",
+			"sell_unit_yen_snapshot": 130
+		}
+	],
+	"rng_states": {
+		"arrivals": 37308314,
+		"events": 345678,
+		"purchases": 1875802984,
+		"visuals": 9012
+	},
+	"runtime_state": {
+		"id_counters": {
+			"customer": 61,
+			"fixture": 20,
+			"lot": 69,
+			"segment": 69
+		},
+		"last_nonzero_speed": 1,
+		"rate_stats": {
+			"abandoned": 0,
+			"stockouts": 0
+		},
+		"visit_stats": {
+			"entered": 61,
+			"lost": 0,
+			"potential": 61,
+			"purchased": 45
+		}
+	},
+	"save_id": "probe_save",
+	"saved_at_utc": "2026-10-24T00:00:00Z",
+	"schema_version": 1,
+	"speed_setting": 1,
+	"store": {
+		"entrance_tiles": [
+			{
+				"x": 8,
+				"y": 11
+			},
+			{
+				"x": 9,
+				"y": 11
+			}
+		],
+		"height": 12,
+		"store_id": "store_001",
+		"width": 16
+	},
+	"store_reputation": 50
+}

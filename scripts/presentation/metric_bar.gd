@@ -10,7 +10,7 @@ extends PanelContainer
 const METRICS := [
 	{"id": "sales", "title": "本日の売上", "icon": "bar-chart", "tint": UiTheme.SUCCESS_GREEN},
 	{"id": "profit", "title": "本日の粗利", "icon": "coin", "tint": UiTheme.GOLD},
-	{"id": "customers", "title": "来店客数", "icon": "users", "tint": UiTheme.INFO_CYAN},
+	{"id": "customers", "title": "来店客数", "tip": "店に入った人数（1人が複数点を買うことがあります。購入客数は日報）", "icon": "users", "tint": UiTheme.INFO_CYAN},
 	{"id": "unit_price", "title": "客単価", "tip": "売上 ÷ 購入客数", "icon": "cart", "tint": UiTheme.TEXT_PRIMARY},
 ]
 const HEIGHT := 96          # band height (the summary strip is this plus the gap under it, see MainLayout.BOTTOM_HEIGHT)

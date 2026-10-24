@@ -146,7 +146,7 @@ func test_request_close_and_return_to_setup(t, _tree) -> void:
 	t.ok(_run(cmds, &"REQUEST_CLOSE").ok)
 	t.eq(s.business_state, GameState.CLOSING)
 	t.eq(s.speed_setting, 2, "resumes at the last non-zero speed")
-	s.customers.append({"customer_id": "c1", "phase": "CHECKOUT", "checkout_left": 100000, "register_id": "x", "reservation_id": "", "queue_slot": -1, "tile": Vector2i(1, 1)})
+	s.customers.append({"customer_id": "c1", "phase": "CHECKOUT", "checkout_left": 100000, "register_id": "x", "reservation_ids": [], "queue_slot": -1, "tile": Vector2i(1, 1)})
 	var runner := SimulationRunner.new(s)
 	runner.process_frame(1.0)
 	t.eq(s.business_state, GameState.CLOSING, "a customer is still inside")

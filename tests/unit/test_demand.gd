@@ -111,7 +111,7 @@ func test_full_store_loses_visitors_and_empty_store_does_not_crash(t, _tree) -> 
 	var s := _state()
 	s.balance["base_potential_visitors_per_day"] = 1.0e9   # p = 1 every step
 	for i in 30:
-		s.customers.append({"customer_id": "x%d" % i, "phase": "CHECKOUT", "checkout_left": 1000000000, "register_id": "r", "reservation_id": "", "queue_slot": -1, "tile": Vector2i(1, 1)})
+		s.customers.append({"customer_id": "x%d" % i, "phase": "CHECKOUT", "checkout_left": 1000000000, "register_id": "r", "reservation_ids": [], "queue_slot": -1, "tile": Vector2i(1, 1)})
 	var runner := _open(s)
 	runner.process_frame(1.0 / 3.0)   
 	t.eq(s.visit_stats["potential"], 10)

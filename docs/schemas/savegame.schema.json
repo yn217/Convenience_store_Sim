@@ -6,7 +6,8 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": 1
+      "description": "2 = basket purchases (issue #128). 1 = single item per visit; loaded as basket_size 1 with no basket_wishes.",
+      "enum": [1, 2]
     },
     "save_id": {
       "type": "string",
@@ -443,6 +444,25 @@
           },
           "outcome": {
             "type": "string"
+          },
+          "basket_size": {
+            "description": "Items the customer came in for (1..4). Absent in schema 1 saves = 1.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "basket_wishes": {
+            "description": "Items still to walk to, nearest first when visited (issue #128). Absent in schema 1 saves = [].",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "sku_id": {"type": "string", "minLength": 1},
+                "fixture_id": {"type": "string", "minLength": 1}
+              },
+              "required": ["sku_id", "fixture_id"]
+            }
           }
         },
         "required": [

@@ -35,7 +35,7 @@ func test_hud_shows_real_sales_and_customers(t, tree) -> void:
 	for i in 2:
 		InventoryService.reserve(app.state, "r%d" % i, "c%d" % i, "rice_001", 600)
 		InventoryService.complete_sale(app.state, "tx%d" % i, "r%d" % i)
-	app.state.customers.append({"customer_id": "x", "phase": "CHECKOUT", "checkout_left": 1000, "register_id": "z", "reservation_id": "", "queue_slot": -1, "tile": Vector2i(1, 1)})
+	app.state.customers.append({"customer_id": "x", "phase": "CHECKOUT", "checkout_left": 1000, "register_id": "z", "reservation_ids": [], "queue_slot": -1, "tile": Vector2i(1, 1)})
 	app.state.visit_stats["entered"] = 1   # the day's visit count (a customer who came in today), not the ones inside now
 	app._publish_snapshot()
 	t.eq((row.find_child("SalesLabel", true, false) as Label).text, "¥300")

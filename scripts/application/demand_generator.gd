@@ -33,7 +33,11 @@ static func step(state: GameState) -> bool:
 		return true
 	state.visit_stats["entered"] += 1
 	state.next_customer_seq += 1
-	state.arrival_queue.append({"customer_id": "cust_%05d" % state.next_customer_seq, "arrived_at_sec": state.time_sec})
+	# Basket size is decided at arrival (issue #128): one more `arrivals` draw, only for a visitor who comes in.
+	var basket_rng := Lcg32.new(int(state.rng_states["arrivals"]))
+	var basket_size := BasketModel.draw_size(basket_rng, state.balance)
+	state.rng_states["arrivals"] = basket_rng.state
+	state.arrival_queue.append({"customer_id": "cust_%05d" % state.next_customer_seq, "arrived_at_sec": state.time_sec, "basket_size": basket_size})
 	return true
 
 

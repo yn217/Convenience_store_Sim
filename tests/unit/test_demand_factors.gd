@@ -181,7 +181,7 @@ func test_reputation_moves_the_next_day_and_is_reproducible(t, _tree) -> void:
 
 func test_queue_giveups_and_stockouts_are_counted_separately(t, _tree) -> void:
 	var s := _store()
-	s.balance["checkout_duration_game_seconds"] = 100000
+	s.balance["checkout_base_game_seconds"] = 100000
 	var ai := CustomerAI.new()
 	_arrive(s, 3)
 	for i in 120:

@@ -149,6 +149,18 @@ func today_summary() -> Dictionary:
 	return {"revenue_yen": revenue, "gross_profit_yen": revenue - cogs}
 
 
+## Items sold today (sum of SALE qty; a basket of 3 items is 3). Same backwards walk as today_summary().
+func units_sold_today() -> int:
+	var units := 0
+	for i in range(ledger.transactions.size() - 1, -1, -1):
+		var tx: Dictionary = ledger.transactions[i]
+		if int(tx["day_index"]) < day:
+			break
+		if tx["event_type"] == "SALE":
+			units += int(tx["details"].get("qty", 1))
+	return units
+
+
 ## Units sold today per fixture id (SALE rows carry the fixture they were taken from).
 func fixture_sales_today() -> Dictionary:
 	var out := {}
@@ -235,6 +247,7 @@ func snapshot() -> Dictionary:
 		"unpaid_cost_yen": unpaid_cost_yen,
 		"daily_reports": daily_reports.duplicate(true),
 		"today": today_summary(),
+		"units_sold_today": units_sold_today(),
 		"progression": progression_state.duplicate(true),
 		"story_cue": AssistantService.current(self),
 		"milestone_progress": ProgressionService.milestone_progress(self, stocked.size()),
@@ -242,7 +255,7 @@ func snapshot() -> Dictionary:
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
-		"checkout_duration_sec": int(balance.get("checkout_duration_game_seconds", 30)),
+		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
 		"fixture_sales": fixture_sales_today(),
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
@@ -280,7 +293,8 @@ func _customer_views() -> Array:
 			"path": path.duplicate(), "trail": c.get("trail", []).duplicate(), "moved": int(c.get("moved", 0)),
 			"fixture_id": c.get("fixture_id", ""),
 			# Read-only copies for the presentation (what the customer is doing now); never read back by the simulation.
-			"sku_id": c.get("sku_id", ""), "reserved": c.get("reservation_id", "") != "",
+			"sku_id": c.get("sku_id", ""), "reserved": not (c.get("reservation_ids", []) as Array).is_empty(),
+				"basket_size": int(c.get("basket_size", 1)), "items_reserved": (c.get("reservation_ids", []) as Array).size(),
 			"register_id": c.get("register_id", ""), "queue_slot": int(c.get("queue_slot", -1)),
 			"checkout_left": int(c.get("checkout_left", 0)),
 			"target_tile": path[path.size() - 1] if not path.is_empty() else c["tile"],

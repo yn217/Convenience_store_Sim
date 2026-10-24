@@ -225,7 +225,7 @@ func test_broken_files_are_rejected(t, _tree) -> void:
 	_bad(t, "SETUP with customers", func(d): d["business_state"] = "SETUP")
 	_bad(t, "customer unknown phase", func(d): d["customers"][0]["phase"] = "DANCING")
 	var future := SaveGame.to_dict(s, "s", "t")
-	future["schema_version"] = 2
+	future["schema_version"] = SaveGame.SCHEMA_VERSION + 1   # schema 2 is the current one (issue #128); 3 is newer
 	var r := SaveGame.from_dict(_json_roundtrip(future), _balance, _fx, _pr)
 	t.ok(not r["ok"])
 	t.ok(r["unsupported_version"], "a newer version is flagged, not guessed at")

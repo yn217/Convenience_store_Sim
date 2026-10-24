@@ -5,12 +5,19 @@
   "tile_meters": 1,
   "starting_cash_yen": 500000,
   "starting_reputation": 50,
-  "base_potential_visitors_per_day": 100,
+  "base_potential_visitors_per_day": 50,
   "game_seconds_per_real_second": 60,
   "simulation_step_game_seconds": 2,
   "max_active_customers": 30,
   "customer_walk_tiles_per_game_second": 0.6,
-  "checkout_duration_game_seconds": 30,
+  "checkout_base_game_seconds": 20,
+  "checkout_per_item_game_seconds": 8,
+  "basket_size_distribution": [
+    {"basket_size": 1, "weight": 40},
+    {"basket_size": 2, "weight": 35},
+    {"basket_size": 3, "weight": 20},
+    {"basket_size": 4, "weight": 5}
+  ],
   "daily_fixed_cost_yen": 1000,
   "advertising_tiers": [
     {

@@ -1,13 +1,17 @@
 class_name CustomerAI
 extends RefCounted
-## Customer state machine (03 §D, 09 §3): SELECT -> WALK_SHELF -> (pick = reserve) ->
+## Customer state machine (03 §D, 09 §3): SELECT -> WALK_SHELF -> (pick = reserve) -> WALK_SHELF ... ->
 ## WALK_REGISTER -> QUEUE -> CHECKOUT -> EXIT. Runs once per fixed step, customers in ascending
 ## id order, so the same seeds and ticks always give the same walks and purchases. One customer
-## is served per register at a time (30 game seconds); the others wait in queue slots 1..2 and
-## advance. A customer who has waited QUEUE_TIMEOUT_SEC since picking leaves and the
-## reservation is released. A full queue makes the customer wait (WAIT_QUEUE) until a slot frees.
-## RNG use: `purchases` only — one draw to pick the shelf item, one for the buy decision
-## (a single draw when there is no candidate at all).
+## is served per register at a time; the others wait in queue slots 1..2 and advance. A customer who
+## has waited QUEUE_TIMEOUT_SEC since reaching the line leaves and every reservation is released. A
+## full queue makes the customer wait (WAIT_QUEUE) until a slot frees.
+## Baskets (issue #128): a customer with basket_size N chooses N categories in SELECT, runs the buy
+## decision for each (skipped when not bought), then visits the shelves nearest-first and reserves one
+## unit per item. A stocked-out item is skipped. Checkout takes checkout_base + per_item * items seconds
+## and commits all reserved items under one basket transaction id.
+## RNG use: `purchases` only — per basket item one draw to pick the category and one for the buy decision
+## (for basket_size 1 that is exactly the single-item model; a single draw when there is no candidate).
 
 const WALK_TILES_PER_STEP_FALLBACK := 0.6
 const RESERVATION_HOLD_SEC := 600
@@ -100,8 +104,8 @@ func _spawn(state: GameState) -> void:
 		var tile: Vector2i = entrances[int(String(arrival["customer_id"]).right(5).to_int()) % entrances.size()]
 		state.customers.append({
 			"customer_id": arrival["customer_id"], "phase": "SELECT", "tile": tile, "path": [] as Array[Vector2i],
-			"progress": 0.0, "fixture_id": "", "sku_id": "", "reservation_id": "", "queue_slot": -1, "retries": 0, "queue_since": 0, "checkout_left": 0, "register_id": "",
-			"outcome": "",
+			"progress": 0.0, "fixture_id": "", "sku_id": "", "reservation_ids": [], "queue_slot": -1, "retries": 0, "queue_since": 0, "checkout_left": 0, "register_id": "",
+			"outcome": "", "basket_size": clampi(int(arrival.get("basket_size", 1)), BasketModel.MIN_SIZE, BasketModel.MAX_SIZE), "wishes": [],
 		})
 		state.emit_event("CUSTOMER_ENTERED", {"customer_id": arrival["customer_id"]})
 	state.arrival_queue.clear()
@@ -121,7 +125,9 @@ func _update(state: GameState, c: Dictionary) -> void:
 		"SELECT":
 			_select(state, c)
 		"WALK_SHELF":
-			if _walk(state, c):
+			if _reservation_lost(state, c):   # an earlier item of the basket timed out on the way
+				_leave(state, c, "reservation_lost")
+			elif _walk(state, c):
 				_pick(state, c)
 		"WALK_REGISTER":
 			if _reservation_lost(state, c):
@@ -182,22 +188,27 @@ func _route(state: GameState, c: Dictionary, goal: Vector2i) -> bool:
 	return true
 
 
+## True when one of the customer's reservations no longer exists (expired, released or sold).
 func _reservation_lost(state: GameState, c: Dictionary) -> bool:
-	if c["reservation_id"] == "":
+	if (c["reservation_ids"] as Array).is_empty():
 		return false
 	if _res_dirty:
 		_res_ids.clear()
 		for r in state.reservations:
 			_res_ids[r["reservation_id"]] = true
 		_res_dirty = false
-	return not _res_ids.has(c["reservation_id"])
+	for id in c["reservation_ids"]:
+		if not _res_ids.has(id):
+			return true
+	return false
 
 
-## Leaves the store: the reservation (if any) goes back to the shelf, stock stays untouched.
+## Leaves the store: every reservation goes back to its shelf, stock stays untouched.
 func _leave(state: GameState, c: Dictionary, outcome: String) -> void:
-	if c["reservation_id"] != "":
-		InventoryService.release_reservation(state, c["reservation_id"])
-		c["reservation_id"] = ""
+	if not (c["reservation_ids"] as Array).is_empty():
+		for id in c["reservation_ids"]:
+			InventoryService.release_reservation(state, id)
+		c["reservation_ids"] = []
 		_res_dirty = true
 	c["queue_slot"] = -1
 	_taken_dirty = true
@@ -229,40 +240,96 @@ func _start_exit(state: GameState, c: Dictionary) -> void:
 # ---------------------------------------------------------------- SELECT
 
 func _select(state: GameState, c: Dictionary) -> void:
-	var cands := candidates(state).filter(func(k): return k["weight"] > 0.0)   # preference 0 = never picked
-	var rng := Lcg32.new(int(state.rng_states["purchases"]))
-	if cands.is_empty():
-		rng.next_state()   # a draw is consumed even without candidates (09 §3)
-		state.rng_states["purchases"] = rng.state
+	var plan := _plan_basket(state, c)
+	if plan["no_candidate"]:
 		_leave(state, c, "no_candidate")
 		return
-	var total := 0.0
-	for k in cands:
-		total += k["weight"]
-	var pick := rng.uniform_0_1() * total
-	var chosen: Dictionary = cands[cands.size() - 1]
-	var acc := 0.0
-	for k in cands:
-		acc += k["weight"]
-		if pick < acc:
-			chosen = k
-			break
-	var buy_p := DemandModel.purchase_probability(_price_factor(state, chosen["sku_id"]), state.balance)
-	var buys := rng.uniform_0_1() < buy_p
-	state.rng_states["purchases"] = rng.state
-	if not buys:
+	var wishes: Array = plan["wishes"]
+	if wishes.is_empty():
 		_leave(state, c, "declined")
 		return
-	var inst: Dictionary = state.grid.instances[chosen["fixture_id"]]
-	var def := state.fixtures.get_type(inst["type_id"])
-	var reach := _paths.current_distances(state.grid)
-	var access := AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach)
-	c["fixture_id"] = chosen["fixture_id"]
-	c["sku_id"] = chosen["sku_id"]
-	if access.is_empty() or not _route(state, c, access[0]):
+	c["wishes"] = wishes
+	if not _next_wish(state, c):
 		_leave(state, c, "unreachable")
-		return
-	c["phase"] = "WALK_SHELF"
+
+
+## Chooses the basket (issue #128): for each of basket_size items one category pick (weighted over the
+## candidates, categories already in the basket excluded) and one buy decision, in that order. The buy
+## decision of an item that is not bought is final for this visit. With basket_size 1 these are exactly the
+## two draws of the single-item model. Returns {"wishes": [{sku_id, fixture_id}], "no_candidate": bool}.
+func _plan_basket(state: GameState, c: Dictionary) -> Dictionary:
+	var rng := Lcg32.new(int(state.rng_states["purchases"]))
+	var wishes: Array = []
+	var taken := {}
+	var size := clampi(int(c.get("basket_size", 1)), BasketModel.MIN_SIZE, BasketModel.MAX_SIZE)
+	for k in size:
+		var cands := candidates(state).filter(func(x): return x["weight"] > 0.0 and not taken.has(state.products.get_sku(x["sku_id"])["category"]))   # preference 0 = never picked
+		if cands.is_empty():
+			if k == 0:
+				rng.next_state()   # a draw is consumed even without candidates (09 §3)
+				state.rng_states["purchases"] = rng.state
+				return {"wishes": [], "no_candidate": true}
+			break
+		var total := 0.0
+		for x in cands:
+			total += x["weight"]
+		var pick := rng.uniform_0_1() * total
+		var chosen: Dictionary = cands[cands.size() - 1]
+		var acc := 0.0
+		for x in cands:
+			acc += x["weight"]
+			if pick < acc:
+				chosen = x
+				break
+		var buy_p := DemandModel.purchase_probability(_price_factor(state, chosen["sku_id"]), state.balance)
+		var buys := rng.uniform_0_1() < buy_p
+		taken[state.products.get_sku(chosen["sku_id"])["category"]] = true
+		if buys:
+			wishes.append({"sku_id": chosen["sku_id"], "fixture_id": chosen["fixture_id"]})
+	state.rng_states["purchases"] = rng.state
+	return {"wishes": wishes, "no_candidate": false}
+
+
+## Heads for the nearest wish that can be reached (nearest-first, measured from where the customer stands).
+## Unreachable wishes are dropped. Returns false when no wish is left to walk to.
+func _next_wish(state: GameState, c: Dictionary) -> bool:
+	var wishes: Array = c["wishes"]
+	while not wishes.is_empty():
+		var best := -1
+		var best_len := 1 << 30
+		var best_goal := Vector2i(-1, -1)
+		for i in wishes.size():
+			var access := _shelf_access(state, wishes[i]["fixture_id"])
+			if access.is_empty():
+				continue
+			var path := _path(state, c["tile"], access[0])
+			if not path.is_empty() and path.size() < best_len:
+				best_len = path.size()
+				best = i
+				best_goal = access[0]
+		if best < 0:
+			wishes.clear()
+			return false
+		var w: Dictionary = wishes[best]
+		wishes.remove_at(best)
+		c["fixture_id"] = w["fixture_id"]
+		c["sku_id"] = w["sku_id"]
+		if _route(state, c, best_goal):
+			c["phase"] = "WALK_SHELF"
+			return true
+	return false
+
+
+## Reachable access tiles of a placed fixture (layout-derived, cached until the layout changes); [] if gone.
+func _shelf_access(state: GameState, fixture_id: String) -> Array:
+	if not state.grid.instances.has(fixture_id):
+		return []
+	_sync_layout(state)
+	if not _access_cache.has(fixture_id):
+		var inst: Dictionary = state.grid.instances[fixture_id]
+		var def := state.fixtures.get_type(inst["type_id"])
+		_access_cache[fixture_id] = AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], _paths.current_distances(state.grid))
+	return _access_cache[fixture_id]
 
 
 func _price_factor(state: GameState, sku_id: String) -> float:
@@ -305,24 +372,46 @@ func candidates(state: GameState) -> Array[Dictionary]:
 
 # ---------------------------------------------------------------- PICK / register
 
+## Reserves the unit of the current wish. The first item of an attempt keeps the id res_<customer>_<retries>;
+## later items of the same basket add their index. A failed item is skipped (see _on_pick_failed).
 func _pick(state: GameState, c: Dictionary) -> void:
-	var res := InventoryService.reserve(state, "res_%s_%d" % [c["customer_id"], c["retries"]], c["customer_id"], c["sku_id"], RESERVATION_HOLD_SEC, c["fixture_id"])
+	var held: Array = c["reservation_ids"]
+	var res_id := "res_%s_%d" % [c["customer_id"], c["retries"]] if held.is_empty() else "res_%s_%d_%d" % [c["customer_id"], c["retries"], held.size()]
+	var res := InventoryService.reserve(state, res_id, c["customer_id"], c["sku_id"], RESERVATION_HOLD_SEC, c["fixture_id"])
 	if res.is_empty():
-		c["retries"] = int(c["retries"]) + 1
-		if int(c["retries"]) > MAX_RESELECT:
-			_leave(state, c, "stockout")
-		else:
-			c["phase"] = "SELECT"
+		_on_pick_failed(state, c)
 		return
-	c["reservation_id"] = res["reservation_id"]
+	held.append(res["reservation_id"])
 	_res_dirty = true
 	var sku := state.products.get_sku(c["sku_id"])
 	state.emit_event("CUSTOMER_RESERVED_ITEM", {"customer_id": c["customer_id"], "reservation_id": res["reservation_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"], "category": sku.get("category", ""), "name": sku.get("display_name", "")})
+	if not (c["wishes"] as Array).is_empty() and _next_wish(state, c):
+		return   # the rest of the basket first
+	_go_to_register(state, c)
+
+
+## An item that is out of stock is skipped. When nothing at all was reserved and no item is left, the
+## customer reselects (up to MAX_RESELECT times, as in the single-item model) and then leaves.
+func _on_pick_failed(state: GameState, c: Dictionary) -> void:
+	if not (c["wishes"] as Array).is_empty() and _next_wish(state, c):
+		return
+	if not (c["reservation_ids"] as Array).is_empty():
+		_go_to_register(state, c)
+		return
+	c["retries"] = int(c["retries"]) + 1
+	if int(c["retries"]) > MAX_RESELECT:
+		_leave(state, c, "stockout")
+	else:
+		c["phase"] = "SELECT"
+
+
+## Every item is reserved (or skipped): the customer joins the line of the first register that has a plan.
+func _go_to_register(state: GameState, c: Dictionary) -> void:
 	var plan := _register_plan(state)
 	if plan.is_empty():
 		_leave(state, c, "no_register")
 		return
-	c["queue_since"] = state.time_sec
+	c["queue_since"] = state.time_sec   # the patience clock starts when the customer reaches the line
 	c["register_id"] = plan["register_id"]
 	c["phase"] = "WAIT_QUEUE"
 	_wait_for_slot(state, c)
@@ -426,7 +515,7 @@ func _queue(state: GameState, c: Dictionary) -> void:
 				busy = true
 		if not busy:
 			c["phase"] = "CHECKOUT"
-			c["checkout_left"] = int(state.balance.get("checkout_duration_game_seconds", 30))
+			c["checkout_left"] = BasketModel.checkout_seconds(state.balance, (c["reservation_ids"] as Array).size())
 			return
 	elif int(c["queue_slot"]) > 0:
 		var ahead: int = int(c["queue_slot"]) - 1
@@ -447,22 +536,54 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 	c["checkout_left"] = int(c["checkout_left"]) - int(GameClock.STEP_GAME_SECONDS)
 	if int(c["checkout_left"]) > 0:
 		return
-	var reservation_id_of_sale: String = c["reservation_id"]
-	var sale := InventoryService.complete_sale(state, "sale:%s" % reservation_id_of_sale, reservation_id_of_sale)
+	var ids: Array = c["reservation_ids"].duplicate()
+	if ids.is_empty():
+		_leave(state, c, "sale_failed")
+		return
+	# One basket transaction: every item is its own ledger row (event id = its sale id), all sharing the
+	# first item's sale id as basket id (issue #128). The first row's event id is therefore the basket id.
+	var basket_id := "sale:%s" % ids[0]
 	c["queue_slot"] = -1
+	c["reservation_ids"] = []
 	_taken_dirty = true
 	_res_dirty = true
-	if sale["ok"]:
-		state.visit_stats["purchased"] += 1
-		c["reservation_id"] = ""
-		c["outcome"] = "purchased"
-		var sold_sku := state.products.get_sku(c["sku_id"])
-		state.emit_event("SALE_COMMITTED", {"transaction_id": "sale:%s" % reservation_id_of_sale, "customer_id": c["customer_id"], "revenue_yen": sale["revenue_yen"], "register_id": c["register_id"], "fixture_id": sale["fixture_id"], "sku_id": c["sku_id"], "name": sold_sku.get("display_name", "")})
+	var sold := 0
+	var revenue := 0
+	var first_sku := ""
+	var first_fixture := ""
+	for res_id in ids:
+		var sku_id := _reservation_sku(state, res_id)
+		var sale := InventoryService.complete_sale(state, "sale:%s" % res_id, res_id, basket_id)
+		if not sale["ok"]:
+			InventoryService.release_reservation(state, res_id)
+			continue
+		sold += 1
+		revenue += int(sale["revenue_yen"])
+		if first_sku == "":
+			first_sku = sku_id
+			first_fixture = sale["fixture_id"]
 		if InventoryService.fixture_fill_ratio(state, sale["fixture_id"]) < LOW_STOCK_RATIO:
 			state.emit_event("STOCK_LOW", {"fixture_id": sale["fixture_id"]})
-		_start_exit(state, c)
-	else:
+	if sold == 0:
 		_leave(state, c, "sale_failed")
+		return
+	state.visit_stats["purchased"] += 1   # a buying customer, however many items (issue #128)
+	c["outcome"] = "purchased"
+	var name := String(state.products.get_sku(first_sku).get("display_name", ""))
+	if sold > 1:
+		name = "%s 他%d点" % [name, sold - 1]   # the checkout pop: "おにぎり 他2点 ¥480"
+	state.emit_event("SALE_COMMITTED", {"transaction_id": basket_id, "customer_id": c["customer_id"], "revenue_yen": revenue, "register_id": c["register_id"], "fixture_id": first_fixture, "sku_id": first_sku, "name": name, "items": sold})
+	_start_exit(state, c)
+
+
+## SKU of a live reservation (read before the sale removes it); "" when unknown.
+func _reservation_sku(state: GameState, reservation_id: String) -> String:
+	for r in state.reservations:
+		if r["reservation_id"] == reservation_id:
+			for seg in state.inventory_segments:
+				if seg["segment_id"] == r["segment_id"]:
+					return String(seg["sku_id"])
+	return ""
 
 
 ## First register (by instance id) that can form a queue: {service_cell, queue_cells} or {}.
