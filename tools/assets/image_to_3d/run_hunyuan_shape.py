@@ -15,6 +15,8 @@ def main():
     p.add_argument('--image',required=True)
     p.add_argument('--out',required=True)
     p.add_argument('--seed',type=int,default=42)
+    p.add_argument('--shelf-only',action='store_true',help='Only after official sample inference has succeeded')
+    p.add_argument('--weights-revision',default='0b94677654c57bb9a6b6845cd7b704ccf551d327')
     args=p.parse_args()
     out=Path(args.out); out.mkdir(parents=True,exist_ok=True)
     os.environ.setdefault('HF_HOME','/home/inayut/pixal3d-cache/huggingface')
@@ -29,23 +31,28 @@ def main():
     try:
         import torch
         from PIL import Image
-        from huggingface_hub import HfApi, snapshot_download
+        from huggingface_hub import snapshot_download
         from hy3dshape.pipelines import Hunyuan3DDiTFlowMatchingPipeline
         report.update(torch=torch.__version__,gpu=torch.cuda.get_device_name(0))
         torch.cuda.reset_peak_memory_stats()
         load_start=time.monotonic()
-        revision=HfApi().model_info('tencent/Hunyuan3D-2.1').sha
+        revision=args.weights_revision
         report['weights_revision']=revision
         local=snapshot_download('tencent/Hunyuan3D-2.1',revision=revision,
             allow_patterns=['hunyuan3d-dit-v2-1/config.yaml','hunyuan3d-dit-v2-1/model.fp16.ckpt'])
         pipeline=Hunyuan3DDiTFlowMatchingPipeline.from_pretrained(local,use_safetensors=False)
         report['load_seconds']=time.monotonic()-load_start
         report['runs']=[]
-        for name,path in [('official_sample',Path(args.source)/'assets/demo.png'),('shelf_general_FULL',Path(args.image))]:
+        runs=[('shelf_general_FULL',Path(args.image))]
+        if not args.shelf_only:
+            runs.insert(0,('official_sample',Path(args.source)/'assets/demo.png'))
+        report['settings']={'steps':30,'octree_resolution':384,'shelf_only':args.shelf_only}
+        for name,path in runs:
             image=Image.open(path).convert('RGBA')
             if image.getchannel('A').getextrema()[0]==255:
                 raise ValueError(f'{name}: needs reviewed foreground alpha; background model was not enabled')
             t=time.monotonic()
+            torch.cuda.reset_peak_memory_stats()
             mesh=pipeline(image=image,num_inference_steps=30,octree_resolution=384,
                           generator=torch.Generator(device='cuda').manual_seed(args.seed))[0]
             target=out/name;target.mkdir(exist_ok=True)
@@ -54,6 +61,8 @@ def main():
                 'seconds':time.monotonic()-t,'vertices':len(mesh.vertices),'faces':len(mesh.faces),
                 'bounds':mesh.bounds.tolist(),'glb':str(raw),'bytes':raw.stat().st_size,
                 'sha256':hashlib.sha256(raw.read_bytes()).hexdigest(),'texture_stage':'NOT_RUN'})
+            report['runs'][-1].update(peak_allocated_bytes=torch.cuda.max_memory_allocated(),
+                                      peak_reserved_bytes=torch.cuda.max_memory_reserved())
             (out/'inference_report.json').write_text(json.dumps(report,indent=2)+'\n')
         torch.cuda.synchronize()
         report['peak_allocated_bytes']=torch.cuda.max_memory_allocated()
