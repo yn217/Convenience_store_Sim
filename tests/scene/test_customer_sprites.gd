@@ -52,6 +52,7 @@ func test_presenter_moves_smoothly_and_pauses_at_speed_zero(t, tree) -> void:
 	var fixtures := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var world: Node2D = load("res://scenes/store/StoreWorld.tscn").instantiate()
 	tree.root.add_child(world)
+	await tree.process_frame   # the presenter finds its world in _ready (issue #117: this test used to run without it)
 	world.fixture_catalog = fixtures
 	var c := {"customer_id": "cust_000001", "tile": Vector2i(2, 2), "phase": "WALK_SHELF", "next": Vector2i(3, 2), "progress": 0.0}
 	var snap := {"store_width": 20, "store_height": 12, "revision": 1, "entrance_tiles": [Vector2i(0, 5)] as Array[Vector2i],
