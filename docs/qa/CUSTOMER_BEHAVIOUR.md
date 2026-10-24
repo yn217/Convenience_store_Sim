@@ -6,21 +6,24 @@
 
 | フェーズ | 入る条件 | 中で起きること | 出る条件 |
 |---|---|---|---|
-| SELECT | 入店（`arrival_queue` から生成） | 棚の候補（在庫・到達可能なアクセスタイル・嗜好・価格）から1つを抽選（RNG `purchases`）。購入しなければ `declined` で退店 | 候補あり＋購入決定 → WALK_SHELF。なし／不購入 → EXIT |
-| WALK_SHELF | SELECT で棚の正面（到達可能なアクセスタイル）を経路に設定 | 経路を歩く | 到着 → `_pick`（予約 1 件）。予約失敗は SELECT に戻る（最大 `MAX_RESELECT` 回） |
-| WAIT_QUEUE | `_pick` の後 | 空きのある列の枠（スロット）を探す。空きがなければ待つ（下記 §3） | 空きスロットに経路を取る → WALK_REGISTER |
+| SELECT | 入店（`arrival_queue` から生成。かごの点数 `basket_size` は入店時に決まる） | かごの点数ぶん、カテゴリを1つずつ抽選（RNG `purchases`、既に入ったカテゴリは除外）し、その品ごとに購入判定を行う。購入しない品はその来店では諦める。購入する品が1つもなければ `declined` で退店 | 購入する品あり → 最寄りの棚から WALK_SHELF。なし → EXIT |
+| WALK_SHELF | 次に近い棚の正面（到達可能なアクセスタイル）を経路に設定 | 経路を歩く | 到着 → `_pick`（品1つの予約）。品切れならその品だけ飛ばして次の棚へ。何も予約がなく残りの品もなければ SELECT に戻る（最大 `MAX_RESELECT` 回） |
+| WAIT_QUEUE | 全品の予約（または飛ばし）が終わった後 | 空きのある列の枠（スロット）を探す。空きがなければ待つ（下記 §3）。待ち時間の計測はここから始まる | 空きスロットに経路を取る → WALK_REGISTER |
 | WALK_REGISTER | スロットが決まった | 列の枠へ歩く（予約が切れる／待ちすぎると退店） | 到着 → QUEUE |
 | QUEUE | 列の枠に着いた | スロット 0 で、そのレジが空いていれば CHECKOUT へ。スロット k>0 は前（k-1）が空けば一歩進む | CHECKOUT、または待ち時間超過で退店 |
-| CHECKOUT | スロット 0 でレジが空き | `checkout_duration_game_seconds`（既定 30 秒）を 2 秒刻みで減らす | 0 秒で `complete_sale` → 成功なら `SALE_COMMITTED` → EXIT |
+| CHECKOUT | スロット 0 でレジが空き | 会計時間 = `checkout_base_game_seconds`（20 秒）＋ `checkout_per_item_game_seconds`（8 秒）× 予約した点数（既定: 1点 28 秒、3点 44 秒）を 2 秒刻みで減らす | 0 秒で全品を `complete_sale`（台帳は1品1行、取引IDを共有）→ 成功なら `SALE_COMMITTED`（1来店につき1件）→ EXIT |
 | EXIT | 退店が決まった | 最寄りの入口へ歩く | 到着 → GONE（リストから消える） |
 
 ルール（仕様どおり）:
-- 1 来店 = 1 商品（予約 1 件、販売 1 件）。
+- 1 来店 = かご 1〜4 点（`basket_size`、入店時に決定論的に決まる。分布 1点 40% / 2点 35% / 3点 20% / 4点 5%、`data/balance/mvp_v1.json`）。
+  予約は品ごとに 1 件、販売も品ごとに 1 件。かごの中の品は別カテゴリで、近い棚から順に回る。
+- 来店数（`base_potential_visitors_per_day`）は 100 → 50 に半減。平均 約1.9点 × 50 来店で、現行の販売点数と売上の規模を保つ（§6）。
+- 1来店が購入客 1 人。客単価 = 売上 ÷ 購入客数。
 - レジの列は 1 レジにつき最大 3 人（`AccessService.QUEUE_MAX`）。スロット 0 がサービス位置（レジのアクセスタイル）。
 - 列の待ち時間の上限は、棚を選んでから 120 秒（`QUEUE_TIMEOUT_SEC`）。超えると予約を戻して退店。
 - 予約の保持は 600 秒（`RESERVATION_HOLD_SEC`）。
 
-RNG の使用は `SELECT` の 2 回の抽選だけ。列・会計・歩行に乱数はない。
+RNG の使用: 入店時の `arrivals` の抽選（かごの点数。入店した客だけ、固定点数を指定したテストでは抽選しない）と、`SELECT` での品ごとの 2 回の抽選（カテゴリ、購入判定）。かご 1 点のときは従来のモデルと同じ抽選列になる（`tests/unit/test_basket.gd` で旧モデルの数値と一致することを確認）。列・会計・歩行に乱数はない。
 
 ## 2. 表示に渡す値（読み取り専用）
 
@@ -28,13 +31,15 @@ RNG の使用は `SELECT` の 2 回の抽選だけ。列・会計・歩行に乱
 
 - 既存: `customer_id`, `tile`, `phase`, `next`, `progress`, `path`, `trail`, `moved`, `fixture_id`
 - 追加（今回）: `sku_id`（選んだ商品）, `reserved`（予約を持つか）, `register_id`（列を作るレジ）, `queue_slot`（-1 = 枠なし、0 = サービス位置）, `checkout_left`（会計の残り秒）, `target_tile`（経路の終点。経路がなければ現在地）
-- スナップショット全体: `checkout_duration_sec`（会計時間。待ち時間の見積りに使う）
+- 追加（#128）: `basket_size`（かごの点数）, `items_reserved`（予約済みの点数）
+- スナップショット全体: `checkout_duration_sec`（平均かごの会計時間。待ち時間の見積りに使う）, `units_sold_today`（今日の販売点数）
 
 これらはコピーで、シミュレーションは読み返さない（セーブにも入らない）。
 
 イベント（表示の元）:
 - `CUSTOMER_RESERVED_ITEM`: `customer_id, reservation_id, fixture_id, sku_id, category, name`（今回 `category`, `name` を追加）→ 拾う演出（`product_pickup`）
-- `SALE_COMMITTED`: `transaction_id, customer_id, revenue_yen, register_id, fixture_id, sku_id, name`（今回 `sku_id`, `name` を追加）→ 会計ポップ（`checkout_success`）。台帳の `SALE` 行と 1 対 1 で対応する。
+- `SALE_COMMITTED`: `transaction_id, customer_id, revenue_yen, register_id, fixture_id, sku_id, name, items`（#128: 1来店1件。`name` は先頭の商品名、2点以上は「<商品名> 他N点」、例「おにぎり 他2点」→ ポップは「おにぎり 他2点 ¥480」）→ 会計ポップ（`checkout_success`）。`transaction_id` の台帳行（`details.transaction_id` が同じ SALE 行）が `items` 件ある。
+- `CUSTOMER_RESERVED_ITEM`: かごの品ごとに 1 件（拾う演出も品ごと）。
 
 ## 3. 列の見え方と、見つかった問題
 
