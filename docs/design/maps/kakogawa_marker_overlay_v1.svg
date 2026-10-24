@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="940" viewBox="0 0 1672 940">
+<title>加古川市マップ POI・出店候補 overlay（1672x940 image pixel）</title>
+<desc>Transparent overlay for the concept map background. Coordinates are illustrative, not geographic.</desc>
+<style>text{font-family:'Noto Sans CJK JP','Yu Gothic',sans-serif;fill:#fff;paint-order:stroke;stroke:#13273a;stroke-width:3px;stroke-linejoin:round} .poi{fill:#317fd9;stroke:#fff;stroke-width:3} .plot{fill:#e83b6d;stroke:#fff;stroke-width:4} .label{font-size:16px;font-weight:bold}.small{font-size:13px}</style>
+<g id="pois">
+<g data-id="ST01" data-type="station"><circle class="poi" cx="540" cy="374" r="13"/><text class="small" x="557" y="379">ST01 加古川駅</text></g>
+<g data-id="ST02" data-type="station"><circle class="poi" cx="1115" cy="460" r="13"/><text class="small" x="1132" y="465">ST02 東加古川駅</text></g>
+<g data-id="ST03" data-type="station"><circle class="poi" cx="820" cy="223" r="13"/><text class="small" x="837" y="228">ST03 日岡駅</text></g>
+<g data-id="ST04" data-type="station"><circle class="poi" cx="1353" cy="627" r="13"/><text class="small" x="1370" y="632">ST04 別府駅</text></g>
+<g data-id="ST05" data-type="station"><circle class="poi" cx="932" cy="651" r="13"/><text class="small" x="949" y="656">ST05 浜の宮駅</text></g>
+<g data-id="ST06" data-type="station"><circle class="poi" cx="542" cy="636" r="13"/><text class="small" x="559" y="641">ST06 尾上の松駅</text></g>
+<g data-id="RV01" data-type="leisure"><circle class="poi" cx="301" cy="400" r="13"/><text class="small" x="318" y="405">RV01 加古川河川敷</text></g>
+<g data-id="PK01" data-type="leisure"><circle class="poi" cx="973" cy="174" r="13"/><text class="small" x="990" y="179">PK01 日岡山公園</text></g>
+<g data-id="SC01" data-type="school"><circle class="poi" cx="729" cy="279" r="13"/><text class="small" x="746" y="284">SC01 学校エリア</text></g>
+<g data-id="OF01" data-type="office"><circle class="poi" cx="633" cy="366" r="13"/><text class="small" x="650" y="371">OF01 駅前オフィス</text></g>
+<g data-id="CM01" data-type="commercial"><circle class="poi" cx="840" cy="420" r="13"/><text class="small" x="857" y="425">CM01 駅前商業施設</text></g>
+<g data-id="HP01" data-type="medical"><circle class="poi" cx="1236" cy="356" r="13"/><text class="small" x="1253" y="361">HP01 医療エリア</text></g>
+<g data-id="CT01" data-type="office"><circle class="poi" cx="902" cy="542" r="13"/><text class="small" x="919" y="547">CT01 公共施設エリア</text></g>
+<g data-id="RS01" data-type="residential"><circle class="poi" cx="1260" cy="263" r="13"/><text class="small" x="1277" y="268">RS01 北東住宅地</text></g>
+<g data-id="RS02" data-type="residential"><circle class="poi" cx="1200" cy="635" r="13"/><text class="small" x="1217" y="640">RS02 沿岸住宅地</text></g>
+<g data-id="HT01" data-type="hotel"><circle class="poi" cx="667" cy="300" r="13"/><text class="small" x="684" y="305">HT01 駅前ホテル想定地</text></g>
+<g data-id="LG01" data-type="industrial"><circle class="poi" cx="1230" cy="758" r="13"/><text class="small" x="1247" y="763">LG01 沿岸物流・工業</text></g>
+<g data-id="PT01" data-type="industrial"><circle class="poi" cx="512" cy="784" r="13"/><text class="small" x="529" y="789">PT01 河口・港湾</text></g>
+<g data-id="TO01" data-type="tourism"><circle class="poi" cx="1006" cy="533" r="13"/><text class="small" x="1023" y="538">TO01 鶴林寺風観光地</text></g>
+<g data-id="FM01" data-type="agriculture"><circle class="poi" cx="1429" cy="142" r="13"/><text class="small" x="1446" y="147">FM01 郊外農業地域</text></g>
+</g><g id="plots">
+<g data-id="P01" data-location="station"><circle class="plot" cx="605" cy="354" r="19"/><circle cx="605" cy="354" r="5" fill="white"/><text class="label" x="629" y="343">P01 加古川駅前</text></g>
+<g data-id="P02" data-location="station"><circle class="plot" cx="1132" cy="505" r="19"/><circle cx="1132" cy="505" r="5" fill="white"/><text class="label" x="1156" y="494">P02 東加古川駅前</text></g>
+<g data-id="P03" data-location="school"><circle class="plot" cx="734" cy="320" r="19"/><circle cx="734" cy="320" r="5" fill="white"/><text class="label" x="758" y="309">P03 学校前</text></g>
+<g data-id="P04" data-location="residential"><circle class="plot" cx="1338" cy="345" r="19"/><circle cx="1338" cy="345" r="5" fill="white"/><text class="label" x="1362" y="334">P04 住宅街</text></g>
+<g data-id="P05" data-location="tourism"><circle class="plot" cx="361" cy="521" r="19"/><circle cx="361" cy="521" r="5" fill="white"/><text class="label" x="385" y="510">P05 河川敷周辺</text></g>
+<g data-id="P06" data-location="industrial"><circle class="plot" cx="1270" cy="752" r="19"/><circle cx="1270" cy="752" r="5" fill="white"/><text class="label" x="1294" y="741">P06 物流工場前</text></g>
+<g data-id="P07" data-location="commercial"><circle class="plot" cx="945" cy="450" r="19"/><circle cx="945" cy="450" r="5" fill="white"/><text class="label" x="969" y="439">P07 商業施設前</text></g>
+<g data-id="P08" data-location="residential"><circle class="plot" cx="1370" cy="663" r="19"/><circle cx="1370" cy="663" r="5" fill="white"/><text class="label" x="1394" y="652">P08 沿岸住宅地</text></g>
+<g data-id="P09" data-location="roadside"><circle class="plot" cx="1543" cy="551" r="19"/><circle cx="1543" cy="551" r="5" fill="white"/><text class="label" x="1567" y="540">P09 幹線道路沿い</text></g>
+</g></svg>
