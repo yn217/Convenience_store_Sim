@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "map_id": "kobe_awaji_concept_v1",
+  "display_name": "神戸・淡路エリア",
+  "reference_region": "兵庫県神戸市・明石市・淡路島",
+  "representation": "stylized_isometric_concept_not_georeferenced",
+  "gps_coordinates": false,
+  "coordinate_system": {
+    "type": "image_pixel_anchor",
+    "origin": "top_left",
+    "x_direction": "right",
+    "y_direction": "down",
+    "width": 1672,
+    "height": 941,
+    "unit": "px",
+    "normalize": "u=x/1672;v=y/941",
+    "distance_unit": null
+  },
+  "asset": {
+    "expected_path": "docs/design/maps/kobe_awaji_isometric_concept.jpg",
+    "image_status": "separate_download_package_pending_binary_git_upload",
+    "width": 1672,
+    "height": 941,
+    "approved_for_runtime": false,
+    "visual_qa_required": true
+  },
+  "geography_constraints": [
+    "本州沿岸の西→東に明石・舞子・神戸",
+    "明石海峡大橋は舞子と淡路の岩屋を結ぶ",
+    "淡路島内は道路・バス・港が主体で鉄道駅・線路なし",
+    "南あわじから鳴門海峡・四国方面へ",
+    "神戸空港は神戸港南方の海上"
+  ],
+  "pois": [
+    {
+      "id": "AK01",
+      "name": "明石駅",
+      "type": "rail_station",
+      "region": "mainland",
+      "anchor_px": {
+        "x": 664,
+        "y": 218
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "MA01",
+      "name": "舞子・明石海峡大橋 本州側",
+      "type": "rail_station",
+      "region": "mainland",
+      "anchor_px": {
+        "x": 946,
+        "y": 280
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "KB01",
+      "name": "三ノ宮駅",
+      "type": "rail_station",
+      "region": "kobe_city",
+      "anchor_px": {
+        "x": 1191,
+        "y": 283
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "SK01",
+      "name": "新神戸駅",
+      "type": "rail_station",
+      "region": "kobe_city",
+      "anchor_px": {
+        "x": 1360,
+        "y": 151
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "RO01",
+      "name": "六甲山",
+      "type": "mountain",
+      "region": "north_kobe",
+      "anchor_px": {
+        "x": 1154,
+        "y": 91
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "AR01",
+      "name": "有馬温泉",
+      "type": "hot_spring",
+      "region": "north_kobe",
+      "anchor_px": {
+        "x": 1491,
+        "y": 65
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "HL01",
+      "name": "神戸ハーバーランド",
+      "type": "shopping_tourism",
+      "region": "kobe_city",
+      "anchor_px": {
+        "x": 1377,
+        "y": 320
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "PI01",
+      "name": "ポートアイランド",
+      "type": "port_business",
+      "region": "kobe_port",
+      "anchor_px": {
+        "x": 1466,
+        "y": 422
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "AP01",
+      "name": "神戸空港",
+      "type": "airport",
+      "region": "kobe_port",
+      "anchor_px": {
+        "x": 1455,
+        "y": 527
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "HW01",
+      "name": "明石海峡大橋",
+      "type": "bridge",
+      "region": "strait",
+      "anchor_px": {
+        "x": 824,
+        "y": 355
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "IW01",
+      "name": "岩屋港",
+      "type": "ferry_port",
+      "region": "awaji_north",
+      "anchor_px": {
+        "x": 898,
+        "y": 396
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "AS01",
+      "name": "淡路サービスエリア",
+      "type": "road_service",
+      "region": "awaji_north",
+      "anchor_px": {
+        "x": 486,
+        "y": 555
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "YD01",
+      "name": "淡路夢舞台",
+      "type": "tourism",
+      "region": "awaji_north",
+      "anchor_px": {
+        "x": 971,
+        "y": 478
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "SU01",
+      "name": "洲本",
+      "type": "bus_terminal",
+      "region": "awaji_central",
+      "anchor_px": {
+        "x": 795,
+        "y": 630
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "NA01",
+      "name": "南あわじ",
+      "type": "local_center",
+      "region": "awaji_south",
+      "anchor_px": {
+        "x": 445,
+        "y": 733
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "UZ01",
+      "name": "鳴門海峡方面",
+      "type": "road_hub",
+      "region": "awaji_south",
+      "anchor_px": {
+        "x": 149,
+        "y": 846
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "OC01",
+      "name": "神戸オフィス街",
+      "type": "office",
+      "region": "kobe_city",
+      "anchor_px": {
+        "x": 1344,
+        "y": 212
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "AK02",
+      "name": "明石沿岸住宅地",
+      "type": "residential",
+      "region": "mainland",
+      "anchor_px": {
+        "x": 536,
+        "y": 194
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "AW02",
+      "name": "淡路島の農業地帯",
+      "type": "agriculture",
+      "region": "awaji_south",
+      "anchor_px": {
+        "x": 573,
+        "y": 689
+      },
+      "verified_gps": false
+    },
+    {
+      "id": "HT01",
+      "name": "三宮ビジネスホテル街",
+      "type": "hotel",
+      "region": "kobe_city",
+      "anchor_px": {
+        "x": 1237,
+        "y": 243
+      },
+      "verified_gps": false
+    }
+  ],
+  "plots": [
+    {
+      "id": "P01",
+      "name": "明石駅前",
+      "location_id": "station",
+      "anchor_px": {
+        "x": 519,
+        "y": 193
+      },
+      "status": "available",
+      "verified_gps": false
+    },
+    {
+      "id": "P02",
+      "name": "舞子・橋付近",
+      "location_id": "station",
+      "anchor_px": {
+        "x": 990,
+        "y": 287
+      },
+      "status": "available",
+      "verified_gps": false
+    },
+    {
+      "id": "P03",
+      "name": "神戸・三宮",
+      "location_id": "office",
+      "anchor_px": {
+        "x": 1104,
+        "y": 240
+      },
+      "status": "available",
+      "verified_gps": false
+    },
+    {
+      "id": "P04",
+      "name": "港・東灘",
+      "location_id": "logistics",
+      "anchor_px": {
+        "x": 1498,
+        "y": 199
+      },
+      "status": "available",
+      "verified_gps": false
+    },
+    {
+      "id": "P05",
+      "name": "淡路・岩屋",
+      "location_id": "tourism",
+      "anchor_px": {
+        "x": 893,
+        "y": 384
+      },
+      "status": "locked",
+      "verified_gps": false
+    },
+    {
+      "id": "P06",
+      "name": "淡路SA・観光",
+      "location_id": "tourism",
+      "anchor_px": {
+        "x": 482,
+        "y": 551
+      },
+      "status": "locked",
+      "verified_gps": false
+    },
+    {
+      "id": "P07",
+      "name": "洲本市街",
+      "location_id": "residential",
+      "anchor_px": {
+        "x": 787,
+        "y": 606
+      },
+      "status": "locked",
+      "verified_gps": false
+    },
+    {
+      "id": "P08",
+      "name": "南あわじ",
+      "location_id": "residential",
+      "anchor_px": {
+        "x": 441,
+        "y": 730
+      },
+      "status": "locked",
+      "verified_gps": false
+    },
+    {
+      "id": "P09",
+      "name": "神戸空港付近",
+      "location_id": "tourism",
+      "anchor_px": {
+        "x": 1454,
+        "y": 524
+      },
+      "status": "locked",
+      "verified_gps": false
+    }
+  ],
+  "render_contract": {
+    "image_to_screen": "screen_pos=map_container_top_left+image_anchor_px*displayed_scale+pan_offset",
+    "screen_to_image": "image_px=(screen_pos-map_container_top_left-pan_offset)/displayed_scale",
+    "click_radius_source_px": 24
+  },
+  "related_issues": [
+    150,
+    148,
+    146,
+    149,
+    151,
+    129
+  ],
+  "limitations": [
+    "Art-direction concept, not GIS or survey map",
+    "All anchors manually placed from image, relative only",
+    "Image missing from PR until source pixels imported",
+    "Confirm Akashi Bridge coastline positions and adjacency before runtime",
+    "No multilingual POP"
+  ],
+  "runtime_approved": false
+}
