@@ -1,19 +1,20 @@
 {
-  "asset_id": "fridge_drink_painted_v1",
-  "source_type": "AI",
-  "tool": "OpenAI built-in image_gen",
+  "asset_id": "fridge_drink_painted_v2",
+  "source_type": "AI_EDITED",
+  "tool": "OpenAI built-in image_gen + guide alignment",
   "model": "built-in image generation",
-  "prompt": "Painted FULL fridge_drink, soft anime convenience-store illustration, dense fictional products, matching iso2x_v1 guide silhouette; no readable brands or logos.",
-  "guide_images": [
-    "assets\\generated\\fixtures\\fridge_drink\\fridge_drink_0_body.png"
-  ],
+  "prompt": "Painted fridge_drink; preserve guide geometry and transparent silhouette; products only on access side; no black background.",
   "edit_steps": [
-    "generated 4-view sheet",
-    "cropped direction cells",
-    "fit to guide alpha bounding box",
-    "reused contract shadow/glass layers"
+    "edited from guide silhouette and existing painted material reference",
+    "aligned to guide alpha bbox",
+    "cut with painted alpha after alignment",
+    "verified overlay and footprint"
   ],
   "license_or_usage_terms": "AI-generated project asset; fictional brands only",
   "generation_date": "2026-10-24",
-  "runtime_approved": false
+  "runtime_approved": false,
+  "fit_metrics": {
+    "alpha_iou": 1.0,
+    "max_footprint_corner_error_px": 0.0
+  }
 }
