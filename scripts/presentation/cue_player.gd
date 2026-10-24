@@ -186,12 +186,19 @@ func load_settings() -> void:
 	reduce_motion = bool(data.get("reduce_motion", false))
 	UiFx.reduced = reduce_motion
 	sfx_volume = clampf(float(data.get("sfx_volume", 0.8)), 0.0, 1.0)
+	VisualVariants.set_test_images(bool(data.get("test_images", false)))
 
 
 func save_settings() -> void:
 	var f := FileAccess.open(settings_path, FileAccess.WRITE)
 	if f != null:
-		f.store_string(JSON.stringify({"version": SETTINGS_VERSION, "muted": muted, "reduce_motion": reduce_motion, "sfx_volume": sfx_volume}))
+		f.store_string(JSON.stringify({"version": SETTINGS_VERSION, "muted": muted, "reduce_motion": reduce_motion, "sfx_volume": sfx_volume, "test_images": VisualVariants.test_images()}))
+
+
+## 'テスト用の画像を使う': switches the sprites to the painted pilot variant (dev only, see VisualVariants).
+func set_test_images(value: bool) -> void:
+	VisualVariants.set_test_images(value)
+	save_settings()
 
 
 func set_muted(value: bool) -> void:
@@ -231,6 +238,11 @@ func _build_settings_ui() -> void:
 	calm.button_pressed = reduce_motion
 	calm.toggled.connect(set_reduce_motion)
 	body.add_child(calm)
+	var test_images := CheckButton.new()
+	test_images.text = "テスト用の画像を使う"
+	test_images.button_pressed = VisualVariants.test_images()
+	test_images.toggled.connect(set_test_images)
+	body.add_child(test_images)
 	var vol := HSlider.new()
 	vol.min_value = 0.0
 	vol.max_value = 1.0
