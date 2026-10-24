@@ -203,7 +203,7 @@ func _fixture_center(fixture_id: String) -> Vector2:
 ## Sprite sheet, variant id and animation time offset of a customer, looked up once per id (not per frame).
 func _look_for(id: String) -> Array:
 	if not _look.has(id):
-		var variant_id := CustomerSprites.variant_for(id)
+		var variant_id := _people.resolve(CustomerSprites.variant_for(id))
 		_look[id] = [_people.variant(variant_id), variant_id, float(id.hash() % 7) * 0.37]
 	return _look[id]
 
@@ -230,7 +230,17 @@ const XRAY_ALPHA := 0.5
 
 
 ## The draw list in back-to-front order: {"kind": "fixture"|"customer", "rect": Rect2, ...}.
+## Clerks (#104) are drawn in the same order but are left out here: picking reads this list and a clerk is not a target.
 func compose() -> Array:
+	var out: Array = []
+	for it in _compose_all():
+		if it["kind"] != "clerk":
+			out.append(it)
+	return out
+
+
+## compose() plus the clerks, back to front (the drawing order).
+func _compose_all() -> Array:
 	var fixture_items := _fixture_items()   # refreshes _fixed when the layout changed
 	var fixed := _fixed
 	_clear_fade()
@@ -242,9 +252,35 @@ func compose() -> Array:
 		var cell := Vector2i(roundi(shown.x), roundi(shown.y))
 		items.append({"kind": "customer", "rect": DrawOrder.cell_rect(cell), "customer": c, "pos": shown})
 		cells.append(cell)
+	for clerk in _clerks():
+		items.append(clerk)
+		cells.append(clerk["cell"])
 	var sorted := DrawOrder.sorted_fixed(items, fixed, cells)
 	_mark_see_through(sorted)
 	return sorted
+
+
+## One clerk per register on the layout (#104): {"kind": "clerk", "rect", "cell", "pos", "facing", "register_id", "busy", "offset"}.
+## "busy" is true while a customer of that register is in CHECKOUT (per the snapshot); the clerk then runs its checkout pose.
+func _clerks() -> Array:
+	var busy := {}
+	for c in _world.customers:
+		if c["phase"] == "CHECKOUT" and str(c.get("register_id", "")) != "":
+			busy[c["register_id"]] = true
+	var out: Array = []
+	for inst in _world.fixtures:
+		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
+		if def.is_empty() or not ClerkPlacement.is_register(def):
+			continue
+		var p := ClerkPlacement.placement(def, int(inst["x"]), int(inst["y"]), int(inst["rotation"]))
+		if p.is_empty() or not _world.in_store(p["cell"]):
+			continue
+		var id: String = inst["instance_id"]
+		var is_busy: bool = busy.has(id)
+		out.append({"kind": "clerk", "rect": DrawOrder.cell_rect(p["cell"]), "cell": p["cell"], "pos": p["pos"],
+			"facing": p["facing"], "register_id": id, "busy": is_busy, "anim": ClerkPlacement.anim_for(is_busy),
+			"offset": float(id.hash() % 7) * 0.37})
+	return out
 
 
 ## Segment items of the fixtures; rebuilt only when the layout revision changes.
@@ -359,13 +395,16 @@ func _draw_all() -> void:
 	var proj: IsoProjection = _world.projection
 	var boxes_done := {}
 	var q0 := Time.get_ticks_usec()
-	var ordered := compose()
+	var ordered := _compose_all()
 	prof_compose += Time.get_ticks_usec() - q0
 	for it in ordered:
 		if it["kind"] == "customer":
 			q0 = Time.get_ticks_usec()
 			_draw_customer(proj, it["customer"])
 			prof_customers += Time.get_ticks_usec() - q0
+			continue
+		if it["kind"] == "clerk":
+			_draw_clerk(proj, it)
 			continue
 		var entry := _sprites.rotation_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))
 		if not entry.is_empty():
@@ -383,17 +422,35 @@ func _draw_all() -> void:
 ## Sprite person (#23); a plain bar stands in when the art is missing. Anchor = feet, shared by all frames.
 func _draw_customer(proj: IsoProjection, c: Dictionary, alpha: float = 1.0) -> void:
 	var view := customer_view(c)
-	var pos: Vector2 = view["pos"]
 	var sheet := _people.variant(view["variant"])
 	if sheet.is_empty():
-		_draw_customer_bar(proj, pos)
+		_draw_customer_bar(proj, view["pos"])
 		return
+	_draw_figure(proj, sheet, view["pos"], view["facing"], view["anim"], view["frame"], alpha)
+
+
+## The clerk behind a register (#104): idle while the register is free, looping the checkout pose while a
+## customer of that register is in CHECKOUT. Its clock is the game clock, like the customers (frozen at speed 0).
+func _draw_clerk(proj: IsoProjection, it: Dictionary) -> void:
+	var sheet := _people.variant(CustomerSprites.CLERK)
+	if sheet.is_empty():
+		return   # no art: the register alone, as before
+	var anim: String = it["anim"]
+	var spec: Dictionary = sheet["animations"][anim]
+	if anim == "checkout":
+		spec = {"frames": spec["frames"], "fps": spec["fps"], "loop": true}
+	var frame := CustomerSprites.frame_index(spec, anim_time + float(it["offset"]))
+	_draw_figure(proj, sheet, it["pos"], int(it["facing"]), anim, frame, 1.0)
+
+
+## One sprite figure with its shadow, feet at `pos` (tile units). Every frame shares the canvas and anchor.
+func _draw_figure(proj: IsoProjection, sheet: Dictionary, pos: Vector2, facing: int, anim: String, frame: int, alpha: float) -> void:
 	var s := proj.zoom / IsoProjection.SOURCE_SCALE
 	var top_left := proj.sprite_top_left(proj.world_to_screen(pos.x, pos.y), sheet["anchor"])
 	var shadow: Texture2D = sheet["shadow"]
 	var tint := Color(1, 1, 1, alpha)
 	draw_texture_rect(shadow, Rect2(top_left, shadow.get_size() * s), false, tint)
-	var tex: Texture2D = sheet["frames"][view["facing"]][view["anim"]][view["frame"]]
+	var tex: Texture2D = sheet["frames"][facing][anim][frame]
 	draw_texture_rect(tex, Rect2(top_left, tex.get_size() * s), false, tint)
 
 

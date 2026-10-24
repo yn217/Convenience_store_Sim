@@ -44,9 +44,14 @@ class FakeWorld extends Node2D:
 	var selected_customer := ""
 	var shelf_stock: Dictionary = {}
 	var shelf_skus: Dictionary = {}
+	var store_width := 20
+	var store_height := 12
 
 	func selected_fixture_id() -> String:
 		return ""
+
+	func in_store(c: Vector2i) -> bool:
+		return c.x >= 0 and c.y >= 0 and c.x < store_width and c.y < store_height
 
 
 func _state() -> GameState:

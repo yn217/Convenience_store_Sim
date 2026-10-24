@@ -1,11 +1,16 @@
 class_name CustomerSprites
 extends RefCounted
-## Manifest-driven customer sprites (#23). Three variants x 4 facings x walk 6 / idle 2 / inspect 4
+## Manifest-driven customer sprites (#23, #104). Variants x 4 facings x walk 6 / idle 2 / inspect 4
 ## frames, all cropped to one canvas and one anchor (the feet), so facing or frame changes never
 ## move the ground contact. Missing art returns {} and the caller draws a plain placeholder.
+## The clerk (#104) is a separate sheet with idle 2 / checkout 4 frames, drawn behind each register.
 
 const DIR := "res://assets/generated/characters"
-const VARIANTS: Array[String] = ["customer_a", "customer_b", "customer_c"]
+## The customer pool (#104): a customer id picks one of these by its numeric tail.
+const VARIANTS: Array[String] = ["office_worker", "student_uniform", "casual_woman", "casual_man", "older_person", "parent"]
+## Earlier generic figures, used only when a pool variant fails to load (see resolve()).
+const LEGACY_VARIANTS: Array[String] = ["customer_a", "customer_b", "customer_c"]
+const CLERK := "clerk"
 ## Facing index = clockwise quarter turns from +x (E, S, W, N), as in the manifests.
 const FACING_E := 0
 const FACING_S := 1
@@ -23,7 +28,8 @@ func variant(variant_id: String) -> Dictionary:
 	return _cache[variant_id]
 
 
-## Stable variant for a customer id: the numeric tail picks one of the three looks.
+## Stable variant for a customer id: the numeric tail picks one look from the pool (presentation only;
+## the id is never changed, so the same customer keeps its look for its whole visit).
 static func variant_for(customer_id: String) -> String:
 	var digits := ""
 	for i in range(customer_id.length() - 1, -1, -1):
@@ -31,7 +37,27 @@ static func variant_for(customer_id: String) -> String:
 		if ch < "0" or ch > "9":
 			break
 		digits = ch + digits
-	return VARIANTS[(digits.to_int() if digits != "" else customer_id.hash()) % VARIANTS.size()]
+	var index := digits.to_int() if digits != "" else _stable_hash(customer_id)
+	return VARIANTS[index % VARIANTS.size()]
+
+
+## A hash that does not depend on the process (String.hash() is stable within a run; this is stable everywhere).
+static func _stable_hash(text: String) -> int:
+	var h := 5381
+	for i in text.length():
+		h = (h * 33 + text.unicode_at(i)) & 0x7fffffff
+	return h
+
+
+## The variant to draw for a pool id: itself when its art loads, else the first legacy figure that does,
+## else "" (the caller then draws the plain placeholder).
+func resolve(variant_id: String) -> String:
+	if not variant(variant_id).is_empty():
+		return variant_id
+	for legacy in LEGACY_VARIANTS:
+		if not variant(legacy).is_empty():
+			return legacy
+	return ""
 
 
 ## Facing for a movement vector in tile units (dominant axis); `keep` when there is no movement.

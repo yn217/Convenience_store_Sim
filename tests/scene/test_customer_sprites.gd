@@ -2,10 +2,10 @@ extends RefCounted
 ## Issue #23: customer sprite manifests, facing/animation choice and the shared ground anchor.
 
 
-func test_manifests_load_for_three_variants(t, _tree) -> void:
+func test_manifests_load_for_the_pool(t, _tree) -> void:
 	var sprites := CustomerSprites.new()
 	var anchors := {}
-	for vid in CustomerSprites.VARIANTS:
+	for vid in CustomerSprites.VARIANTS + CustomerSprites.LEGACY_VARIANTS:
 		var v := sprites.variant(vid)
 		t.ok(not v.is_empty(), "%s loads" % vid)
 		anchors[vid] = v["anchor"]
@@ -24,7 +24,7 @@ func test_variant_choice_is_stable_and_mixed(t, _tree) -> void:
 	var seen := {}
 	for i in 12:
 		seen[CustomerSprites.variant_for("cust_%06d" % i)] = true
-	t.eq(seen.size(), 3, "several customers in a row look different")
+	t.eq(seen.size(), CustomerSprites.VARIANTS.size(), "several customers in a row look different")
 
 
 func test_facing_follows_movement(t, _tree) -> void:
@@ -52,6 +52,7 @@ func test_presenter_moves_smoothly_and_pauses_at_speed_zero(t, tree) -> void:
 	var fixtures := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var world: Node2D = load("res://scenes/store/StoreWorld.tscn").instantiate()
 	tree.root.add_child(world)
+	await tree.process_frame   # the presenter's _ready (which finds the world) runs once the node is in the tree
 	world.fixture_catalog = fixtures
 	var c := {"customer_id": "cust_000001", "tile": Vector2i(2, 2), "phase": "WALK_SHELF", "next": Vector2i(3, 2), "progress": 0.0}
 	var snap := {"store_width": 20, "store_height": 12, "revision": 1, "entrance_tiles": [Vector2i(0, 5)] as Array[Vector2i],
