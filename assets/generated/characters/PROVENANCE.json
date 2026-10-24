@@ -30,7 +30,7 @@
   "figures.py": "146d674521f13799",
   "render_customers.py": "3560176ed171f927",
     "build_customers.py": "d374c9ba5822fbac",
-    "generate_character_variants.py": "issue-104-deterministic-pillow"
+    "generate_character_variants.py": "e2274df931f5f80e"
  },
  "calibration": {
   "file": "calibration/iso2x_v1_calibration.png",
