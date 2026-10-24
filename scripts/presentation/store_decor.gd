@@ -8,13 +8,19 @@ extends Node2D
 ##                  beyond the back and entrance sides.
 ##   LAYER_FRONT    (FrontDecor, over the floor, under the fixtures): trees, flower beds and planters on the near
 ##                  sides, which sit in front of the store.
-## Every item stands outside the walkable floor (on a wall plane or on the paving). sync() rebuilds the draw list
-## only when the layout, the fixtures' footprints, the camera or the viewport changes; _draw() replays it.
+##   LAYER_REG_BACK / LAYER_REG_FLOOR / LAYER_REG_TOP (#113, RegisterBackDecor, RegisterFloorDecor, RegisterTopDecor):
+##                  the checkout area, built by RegisterDecor from the registers (back-counter props, queue markings,
+##                  counter-top items). Their items are computed from the fixtures, not the wall or exterior layouts.
+## Every item stands outside the walkable floor, or inside the register's own footprint (RegisterDecor). sync() rebuilds
+## the draw list only when the layout, the fixtures' footprints, the camera or the viewport changes; _draw() replays it.
 ## Nothing here takes input, blocks pathing or moves with the panels. A prop whose asset is missing is skipped.
 
 const LAYER_WALL := 0
 const LAYER_EXTERIOR := 1
 const LAYER_FRONT := 2
+const LAYER_REG_BACK := 3
+const LAYER_REG_FLOOR := 4
+const LAYER_REG_TOP := 5
 
 const SIDE_WEST := 0
 const SIDE_NORTH := 1
@@ -64,8 +70,10 @@ func sync(width: int, height: int, entrances: Array, fixtures: Array, catalog: F
 	if key == _key:
 		return
 	_key = key
-	var occupied := occupied_cells(fixtures, catalog)
-	_items = _layer_items(width, height, entrances, occupied, layer)
+	if layer >= LAYER_REG_BACK:
+		_items = RegisterDecor.layer_items(layer, width, height, entrances, fixtures, catalog)
+	else:
+		_items = _layer_items(width, height, entrances, occupied_cells(fixtures, catalog), layer)
 	_build_ops(proj)
 	queue_redraw()
 
@@ -98,10 +106,10 @@ func _build_ops(proj: IsoProjection) -> void:
 			sprites.append(it)
 		else:
 			others.append(it)
-	sprites.sort_custom(func(a, b): return a["x"] + a["y"] < b["x"] + b["y"])
+	sprites.sort_custom(func(a, b): return _sprite_before(a, b))
 	var s := proj.zoom / IsoProjection.SOURCE_SCALE
 	for it in sprites:
-		var info := _sprites.texture(it["id"])
+		var info := _sprites.texture(it["id"], int(it.get("rot", 0)))
 		if info.is_empty():
 			continue
 		var ground := proj.world_to_screen(it["x"], it["y"], 0.0)
@@ -121,6 +129,15 @@ func _build_ops(proj: IsoProjection) -> void:
 			var width := font.get_string_size(it["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 			var pos := proj.world_to_screen(at.x, at.y, at.z) + Vector2(-width * 0.5, size_px * 0.35)
 			_ops.append([OP_TEXT, pos, it["text"], size_px, it["color"]])
+
+
+## Sprite order: lower rank first (a counter's appliances have rank 1, so they draw over the counter), then back to front.
+static func _sprite_before(a: Dictionary, b: Dictionary) -> bool:
+	var ra: int = a.get("rank", 0)
+	var rb: int = b.get("rank", 0)
+	if ra != rb:
+		return ra < rb
+	return a["x"] + a["y"] < b["x"] + b["y"]
 
 
 ## Number of draw ops currently cached (tests and the perf notes).

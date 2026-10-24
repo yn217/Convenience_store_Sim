@@ -20,22 +20,24 @@ static func is_available(prop_id: String) -> bool:
 
 
 ## {"layers": Array[Texture2D] (shadow first), "anchor": Vector2 (source px), "size": Vector2 (source px)} or {}.
-func texture(prop_id: String) -> Dictionary:
-	if _cache.has(prop_id):
-		return _cache[prop_id]
-	var entry := _load(prop_id)
-	_cache[prop_id] = entry
+## `rotation` 0..3 picks that art direction (props that line up along a wall or a counter, #113); 0 by default.
+func texture(prop_id: String, rotation: int = 0) -> Dictionary:
+	var key := "%s#%d" % [prop_id, rotation]
+	if _cache.has(key):
+		return _cache[key]
+	var entry := _load(prop_id, rotation)
+	_cache[key] = entry
 	return entry
 
 
-func _load(prop_id: String) -> Dictionary:
+func _load(prop_id: String, rotation: int) -> Dictionary:
 	var path := manifest_path(prop_id)
 	if not FileAccess.file_exists(path):
 		return {}
 	var json := JSON.new()
 	if json.parse(FileAccess.get_file_as_string(path)) != OK or typeof(json.data) != TYPE_DICTIONARY:
 		return {}
-	var rot: Dictionary = json.data.get("rotations", {}).get("0", {})
+	var rot: Dictionary = json.data.get("rotations", {}).get(str(rotation), {})
 	if rot.is_empty() or not rot.has("layers") or not rot.has("anchor_px"):
 		return {}
 	var layers: Array = []

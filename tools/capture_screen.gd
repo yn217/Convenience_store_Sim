@@ -80,6 +80,12 @@ func _run() -> void:
 		if a.begins_with("--zoom="):
 			var store: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 			store.zoom_at(store.viewport_size() * 0.5, float(a.trim_prefix("--zoom=")))
+	if OS.get_cmdline_user_args().has("--focus=register"):   # --focus=register: zoom 1.6 centred on the first register (#113)
+		var store_f: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+		var reg_tile := _first_register_tile(s)
+		if reg_tile != Vector2i(-1, -1):
+			store_f.zoom_at(store_f.viewport_size() * 0.5, 1.6)
+			store_f.pan_by(store_f.viewport_size() * 0.5 - store_f.projection.tile_center(reg_tile))
 	if OS.get_cmdline_user_args().has("--debug-paths"):   # --debug-paths: customer path overlay on (DebugPathLayer, F3 in game)
 		var store_dbg: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 		store_dbg.set_debug_paths(true)
@@ -98,6 +104,17 @@ func _run() -> void:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)
 	quit(0)
+
+
+## Origin tile of the first register (by instance id), or (-1, -1) when the store has none.
+func _first_register_tile(s: GameState) -> Vector2i:
+	var ids: Array = s.grid.instances.keys()
+	ids.sort()
+	for id in ids:
+		var inst: Dictionary = s.grid.instances[id]
+		if AccessService.is_register(s.fixtures.get_type(inst["type_id"])):
+			return Vector2i(inst["x"], inst["y"])
+	return Vector2i(-1, -1)
 
 
 ## Waits until a pick bubble, a queue of two or more and a checkout pop are on screen (each one at most once) and

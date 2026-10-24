@@ -67,6 +67,9 @@ var safe_inset := Vector4.ZERO
 @onready var _ext_decor: StoreDecor = get_node_or_null("ExteriorDecor") as StoreDecor   # #110 static dressing
 @onready var _wall_decor: StoreDecor = get_node_or_null("WallDecor") as StoreDecor
 @onready var _front_decor: StoreDecor = get_node_or_null("FrontDecor") as StoreDecor
+@onready var _reg_floor: StoreDecor = get_node_or_null("RegisterFloorDecor") as StoreDecor   # #113 checkout area
+@onready var _reg_back: StoreDecor = get_node_or_null("RegisterBackDecor") as StoreDecor
+@onready var _reg_top: StoreDecor = get_node_or_null("RegisterTopDecor") as StoreDecor
 
 
 func _ready() -> void:
@@ -417,6 +420,9 @@ func _refresh() -> void:
 			_wall_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 		if _front_decor != null:
 			_front_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		for reg in [_reg_floor, _reg_back, _reg_top]:
+			if reg != null:
+				reg.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 	queue_redraw()
 
 
