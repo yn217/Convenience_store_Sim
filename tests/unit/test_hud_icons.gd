@@ -1,7 +1,8 @@
 extends RefCounted
-## #105 B1: the HUD's time-of-day and season icons and the short date line. Pure functions of the game clock / day.
+## #105 B1: the HUD's time-of-day and season icons. Pure functions of the game clock and the calendar season word (#135).
 
 const Hud := preload("res://scripts/presentation/game_hud.gd")
+const Cal := preload("res://scripts/domain/game_calendar.gd")
 
 
 func test_time_icon_follows_the_game_hour(t, _tree) -> void:
@@ -21,26 +22,15 @@ func test_time_icon_never_shows_weather(t, _tree) -> void:
 		t.ok(icon_name in ["sun", "sunset", "moon"], "hour %d uses a time-of-day icon" % hour)
 
 
-func test_season_icon_per_season(t, _tree) -> void:
-	t.eq(Hud.season_icon(3), "sakura", "spring starts in March")
-	t.eq(Hud.season_icon(5), "sakura", "May is spring")
-	t.eq(Hud.season_icon(7), "leaf", "summer")
-	t.eq(Hud.season_icon(10), "maple", "autumn")
-	t.eq(Hud.season_icon(12), "snowflake", "winter")
-	t.eq(Hud.season_icon(2), "snowflake", "February is winter")
+func test_season_icon_per_season_word(t, _tree) -> void:
+	t.eq(Hud.season_icon("春"), "sakura", "spring")
+	t.eq(Hud.season_icon("夏"), "leaf", "summer")
+	t.eq(Hud.season_icon("秋"), "maple", "autumn")
+	t.eq(Hud.season_icon("冬"), "snowflake", "winter")
 
 
-func test_season_icon_matches_season_text(t, _tree) -> void:
-	for month in range(1, 13):
-		var text := Hud.season_text(month)
-		var icon_name := Hud.season_icon(month)
-		t.ok((text == "春") == (icon_name == "sakura"), "month %d spring icon" % month)
-		t.ok((text == "冬") == (icon_name == "snowflake"), "month %d winter icon" % month)
-
-
-func test_short_date_and_full_date(t, _tree) -> void:
-	t.eq(Hud.short_date_text(0), "4月1日(月)", "DAY 0 is 4月1日 of a Monday")
-	t.eq(Hud.date_text(0), "春 4月1日(月)", "full line keeps the season")
-	t.eq(Hud.short_date_text(29), "4月30日(火)", "last day of April")
-	t.eq(Hud.short_date_text(30), "5月1日(水)", "May starts the next day")
-	t.eq(Hud.date_text(365), "春 4月1日(火)", "the year repeats the dates; the weekday keeps counting")
+func test_season_icon_follows_the_calendar_season(t, _tree) -> void:
+	# DAY 0 is 4月 (春), DAY 8 is 6月 (夏), DAY 36 is 1月 (冬)
+	t.eq(Hud.season_icon(Cal.season_of(0)), "sakura", "DAY 0 shows sakura")
+	t.eq(Hud.season_icon(Cal.season_of(8)), "leaf", "DAY 8 shows leaf")
+	t.eq(Hud.season_icon(Cal.season_of(36)), "snowflake", "DAY 36 shows snowflake")

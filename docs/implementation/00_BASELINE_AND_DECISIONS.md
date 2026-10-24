@@ -92,3 +92,10 @@
 - 既存24SKU/10什器/1顧客1個/Day0 tutorial方針を維持したまま、**12の日替わりイベント**、**15のPresentation Cue**、**12の成長実績**、**3日ローテーションの日次目標**を追加（すべて初期チューニング値）。
 - Domainの制約・金銭の正本は変えず、イベントによるゲーム効果は来店/商品カテゴリー人気の倍率に限定。イベントによる在庫や現金の無条件生成は禁止。
 - 正本は[13 EventDirector](13_EVENT_DIRECTOR_AND_GAMEPLAY_EVENTS.md)、[14 映像/音](14_ANIMATION_AUDIO_VFX_CONTRACT.md)、[15 成長/ストーリー](15_PROGRESSION_STORY_AND_SCENARIOS.md)、[16 QA](16_EVENT_QA_AND_ASSET_CHECKLIST.md)と`docs/examples/mvp_v1.{gameplay_events,presentation_cues,milestones}.json`。
+
+## 8. ゲーム内暦の圧縮（#135、ユーザー決定 2026-10-24 案A）
+- 1か月 = 4ゲーム日（各日が1週: 第1週〜第4週）、1年 = 12か月 = 48日。DAY 0 = 春 4月 第1週。表示は『春 4月 第1週』。
+- 曜日は表示しない（1日=1週のため）。季節は月から決める（春3〜5月、夏6〜8月、秋9〜11月、冬12〜2月）。
+- 値は `data/balance/mvp_v1.json` の `days_per_month`（既定4、欠落時も4）。暦の変換は `scripts/domain/game_calendar.gd`（GameCalendar）が唯一の正本で、HUDの日付・季節アイコン/文字・ツールチップはすべてこれを使う。
+- 暦は日番号（`day`）から導出するため保存項目は増えず、既存セーブはそのまま読める（移行なし）。
+- 経済・商品期限・広告・日報はゲーム内日数基準のまま変更なし。イベント抽選は日番号のみに依存し暦に依存しないため、固定seed 345678のゴールデン値（DAY1 → evt_after_work）は変わらない。

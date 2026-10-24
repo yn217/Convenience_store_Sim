@@ -20,10 +20,10 @@ func test_top_bar_values_take_gold_green_and_white(t, _tree) -> void:
 
 
 func test_season_word_for_each_season(t, _tree) -> void:
-	t.eq(Hud.season_text(4), "春", "April is spring")
-	t.eq(Hud.season_text(7), "夏", "July is summer")
-	t.eq(Hud.season_text(10), "秋", "October is autumn")
-	t.eq(Hud.season_text(1), "冬", "January is winter")
+	t.eq(GameCalendar.season_of_month(4), "春", "April is spring")
+	t.eq(GameCalendar.season_of_month(7), "夏", "July is summer")
+	t.eq(GameCalendar.season_of_month(10), "秋", "October is autumn")
+	t.eq(GameCalendar.season_of_month(1), "冬", "January is winter")
 
 
 func test_new_band_icons_exist_and_rasterise(t, _tree) -> void:

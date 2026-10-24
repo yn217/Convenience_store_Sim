@@ -11,8 +11,6 @@ const NONE := "—"
 const HUD_ICON_SIZE := 24
 const PAUSE_ICON_SIZE := 18
 const NO_CASH := -2147483648   # sentinel: no snapshot seen yet, so the first cash value does not pop
-## (month, days) in calendar order from April; the sum is the 365-day year.
-const CALENDAR := [[4, 30], [5, 31], [6, 30], [7, 31], [8, 31], [9, 30], [10, 31], [11, 30], [12, 31], [1, 31], [2, 28], [3, 31]]
 const STATE_TEXT := {
 	"SETUP": "準備中", "OPEN": "営業中", "CLOSING": "閉店処理中", "PAYMENT_BLOCKED": "支払不能",
 }
@@ -37,6 +35,8 @@ var _speed_buttons: Dictionary = {}
 var _is_open := false
 var _stopped := true
 var _last_cash := NO_CASH
+## Game days per month for the calendar label (GameCalendar); AppRoot sets it from the balance config.
+var days_per_month := GameCalendar.DEFAULT_DAYS_PER_MONTH
 
 
 func _ready() -> void:
@@ -220,59 +220,13 @@ static func time_icon(time_sec: int) -> String:
 	return "moon"
 
 
-## Season icon name for a calendar month (1..12): sakura in spring, leaf in summer, maple in autumn, snowflake in winter.
-static func season_icon(month: int) -> String:
-	if month >= 3 and month <= 5:
-		return "sakura"
-	if month >= 6 and month <= 8:
-		return "leaf"
-	if month >= 9 and month <= 11:
-		return "maple"
+## Season icon name for a season word from GameCalendar: sakura in 春, leaf in 夏, maple in 秋, snowflake in 冬.
+static func season_icon(season: String) -> String:
+	match season:
+		"春": return "sakura"
+		"夏": return "leaf"
+		"秋": return "maple"
 	return "snowflake"
-
-
-## Day 0 is a Monday (the game calendar starts on 月曜日).
-static func weekday_text(day: int) -> String:
-	const NAMES := ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"]
-	return NAMES[posmod(day, 7)]
-
-
-## Month and day of month for a game day (DAY 0 is 4月1日 of a non-leap 365-day year). Returns [] past the year.
-static func calendar_of(day: int) -> Array:
-	var rest := posmod(day, 365)
-	for entry in CALENDAR:
-		var month: int = entry[0]
-		var length: int = entry[1]
-		if rest < length:
-			return [month, rest + 1]
-		rest -= length
-	return []
-
-
-## Date without the season, for the HUD date line, e.g. "4月1日(月)".
-static func short_date_text(day: int) -> String:
-	var md := calendar_of(day)
-	if md.is_empty():
-		return ""
-	return "%d月%d日(%s)" % [md[0], md[1], weekday_text(day).substr(0, 1)]
-
-
-## Calendar date with the season, e.g. "春 4月1日(月)". Pure: no randomness, no state.
-static func date_text(day: int) -> String:
-	var md := calendar_of(day)
-	if md.is_empty():
-		return ""
-	return "%s %s" % [season_text(md[0]), short_date_text(day)]
-
-
-static func season_text(month: int) -> String:
-	if month >= 3 and month <= 5:
-		return "春"
-	if month >= 6 and month <= 8:
-		return "夏"
-	if month >= 9 and month <= 11:
-		return "秋"
-	return "冬"
 
 
 func apply_snapshot(s: Dictionary) -> void:
@@ -299,12 +253,12 @@ func apply_snapshot(s: Dictionary) -> void:
 	_time_icon.texture = UiIcons.texture(time_icon(time_sec), HUD_ICON_SIZE)
 	_day.text = "DAY %d" % day
 	_clock.text = format_clock(time_sec)
-	_clock.tooltip_text = "%s（%d日目）" % [weekday_text(day), day + 1]
-	var md := calendar_of(day)
-	_date.text = short_date_text(day)
-	_season_icon.texture = UiIcons.texture(season_icon(int(md[0])) if not md.is_empty() else "sakura", HUD_ICON_SIZE)
-	_season_icon.tooltip_text = date_text(day)
-	_season.text = season_text(int(md[0])) if not md.is_empty() else "春"
+	_clock.tooltip_text = "%s（%d日目）" % [GameCalendar.label(day, days_per_month), day + 1]
+	var season := GameCalendar.season_of(day, days_per_month)
+	_date.text = GameCalendar.month_week_text(day, days_per_month)
+	_season_icon.texture = UiIcons.texture(season_icon(season), HUD_ICON_SIZE)
+	_season_icon.tooltip_text = GameCalendar.label(day, days_per_month)
+	_season.text = season
 	_speed.text = "速度 " + speed_text(int(s["speed_setting"]))
 	_state.text = STATE_TEXT.get(s["business_state"], String(s["business_state"]))
 	_is_open = s["business_state"] == "OPEN"

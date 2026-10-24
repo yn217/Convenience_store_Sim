@@ -59,6 +59,7 @@ func _ready() -> void:
 	var hud := get_node_or_null("../Layout/TopHUD")
 	if hud != null and hud.has_signal("speed_requested"):
 		hud.speed_requested.connect(set_speed)
+		hud.days_per_month = GameCalendar.days_per_month(balance)
 	var business := get_node_or_null("../BusinessController")
 	if business != null:
 		business.setup(self, balance)
