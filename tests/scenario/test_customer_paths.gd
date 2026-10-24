@@ -4,7 +4,7 @@ extends RefCounted
 ## deltas, the calm #117 pace that lags the simulation). Variants (QA 2026-10-24, docs/qa/CUSTOMER_PATH_VERIFY_2026-10-24.md):
 ##   lab      the 7-fixture test store (forced arrivals), 1.5 game hours
 ##   sample   data/layouts/sample_store_v1.json (20 fixtures, the bench layout), 2 game hours:
-##            crowd  = the bench's crowded demand (200000 visitors/day, max 30 active)
+##            crowd  = the bench's crowded demand (200000 visitors/day, max 30 active; 1 game hour at x1 and x2)
 ##            normal = the balance file's own demand
 ##            hitch  = crowd with a 0.5 s real stall every HITCH_EVERY frames (catch-up after a long lag)
 ## Logical checks, every fixed step:
@@ -30,6 +30,9 @@ const HITCH_EVERY := 400    # every this many frames
 const RADIUS := 0.2         # customer body radius in tiles
 const RUN_UNTIL_SEC := 5400 # lab: game seconds per run (1.5 game hours)
 const SAMPLE_UNTIL_SEC := 7200 # sample layout: 2 game hours
+## The crowd at x1 and x2 runs 1 game hour: the simulation is the same at every speed (same seeds, same steps), so the
+## logic checks repeat x4's; only the per-frame presentation differs, and x1 renders 4x the frames of x4 (it took 2 min).
+const CROWD_SLOW_UNTIL_SEC := 3600
 const ARRIVE_EVERY_STEPS := 6
 const OVERFLOW_EVERY := 30
 const CROWD_VISITORS := 200000   # the bench's crowded demand (tools/perf_bench.gd)
@@ -411,7 +414,8 @@ func test_customer_paths_speed_4(t, _tree) -> void:
 
 func _sample(t, speed: int, demand: String, hitch: bool) -> void:
 	var label := "sample_%s%s" % [demand, "_hitch" if hitch else ""]
-	var st := _run_speed(t, speed, {"layout": "sample", "demand": demand, "until": SAMPLE_UNTIL_SEC, "hitch": hitch})
+	var until := CROWD_SLOW_UNTIL_SEC if demand == "crowd" and speed < 4 else SAMPLE_UNTIL_SEC
+	var st := _run_speed(t, speed, {"layout": "sample", "demand": demand, "until": until, "hitch": hitch})
 	_report(label, speed, st)
 	_assert_clean(t, label, speed, st)
 
