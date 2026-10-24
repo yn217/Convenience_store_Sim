@@ -1,0 +1,170 @@
+{
+ "manifest_version": 1,
+ "visual_id": "copier_a",
+ "fixture_type_id": "copier",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 1,
+  "h": 1
+ },
+ "dimensions_m": {
+  "width": 0.92,
+  "depth": 0.92,
+  "height": 1.2
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    328,
+    321
+   ],
+   "anchor_px": [
+    164.0,
+    226.82
+   ],
+   "layers": {
+    "body": "copier_0_body.png",
+    "shadow": "copier_0_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     162.82
+    ],
+    [
+     292.0,
+     226.82
+    ],
+    [
+     164.0,
+     290.82
+    ],
+    [
+     36.0,
+     226.82
+    ]
+   ],
+   "sorting_anchor_px": [
+    164.0,
+    226.82
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    328,
+    316
+   ],
+   "anchor_px": [
+    164.0,
+    221.82
+   ],
+   "layers": {
+    "body": "copier_1_body.png",
+    "shadow": "copier_1_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     157.82
+    ],
+    [
+     292.0,
+     221.82
+    ],
+    [
+     164.0,
+     285.82
+    ],
+    [
+     36.0,
+     221.82
+    ]
+   ],
+   "sorting_anchor_px": [
+    164.0,
+    221.82
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    328,
+    314
+   ],
+   "anchor_px": [
+    164.0,
+    219.82
+   ],
+   "layers": {
+    "body": "copier_2_body.png",
+    "shadow": "copier_2_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     155.82
+    ],
+    [
+     292.0,
+     219.82
+    ],
+    [
+     164.0,
+     283.82
+    ],
+    [
+     36.0,
+     219.82
+    ]
+   ],
+   "sorting_anchor_px": [
+    164.0,
+    219.82
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    328,
+    333
+   ],
+   "anchor_px": [
+    164.0,
+    238.82
+   ],
+   "layers": {
+    "body": "copier_3_body.png",
+    "shadow": "copier_3_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     174.82
+    ],
+    [
+     292.0,
+     238.82
+    ],
+    [
+     164.0,
+     302.82
+    ],
+    [
+     36.0,
+     238.82
+    ]
+   ],
+   "sorting_anchor_px": [
+    164.0,
+    238.82
+   ]
+  }
+ }
+}

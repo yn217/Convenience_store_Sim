@@ -38,6 +38,9 @@ TOP_KEYS = {"manifest_version", "visual_id", "fixture_type_id", "projection_id",
 TOP_REQUIRED = {"manifest_version", "visual_id", "fixture_type_id", "projection_id", "world_units_per_tile",
                 "source_px_per_tile_diamond"}
 GROUND_TOL_PX = 2.0     # source px; 1 screen px at zoom 1.0
+## Model-derived fixtures: feet, casters and plinths sit inside the envelope's front corner (about 0.1-0.2 m), so the
+## lowest silhouette pixel may stay this far above it. The model itself is placed on z = 0 by render_fixture.py.
+MODEL_GROUND_TOL_PX = 32.0
 PADDING_PX = 8
 
 
@@ -173,6 +176,14 @@ def silhouette_errors(d, r, rot, base):
     ax, ay = rot["anchor_px"]
     got = (xs.min() - ax, ys.min() - ay, xs.max() + 1 - ax, ys.max() + 1 - ay)
     errs = []
+    if blueprints.is_model_type(d["type_id"]):
+        # a model cut to its envelope: inside it on every side, and standing on the floor (bottom edge close)
+        for name, g, w, sign in zip(("left", "top", "right", "bottom"), got, want, (1, 1, -1, -1)):
+            if sign * (g - w) < -GROUND_TOL_PX:
+                errs.append("%s r%d: %s edge %.1f px outside the body envelope" % (d["type_id"], r, name, g - w))
+        if want[3] - got[3] > MODEL_GROUND_TOL_PX:
+            errs.append("%s r%d: bottom edge %.1f px above the ground point (> %.1f)" % (d["type_id"], r, want[3] - got[3], MODEL_GROUND_TOL_PX))
+        return errs
     for name, g, w in zip(("left", "top", "right", "bottom"), got, want):
         if abs(g - w) > GROUND_TOL_PX:
             errs.append("%s r%d: %s edge %.1f px from the projected blueprint (> %.1f)" % (d["type_id"], r, name, g - w, GROUND_TOL_PX))

@@ -8,11 +8,12 @@ const ALL := &"all"
 const SHELF := &"shelf"
 const COLD := &"cold"
 const COUNTER := &"counter"
-const TABS := [[ALL, "すべて"], [SHELF, "棚"], [COLD, "冷蔵・冷凍"], [COUNTER, "カウンター"]]
+const SERVICE := &"service"
+const TABS := [[ALL, "すべて"], [SHELF, "棚"], [COLD, "冷蔵・冷凍"], [COUNTER, "カウンター"], [SERVICE, "サービス"]]
 
 ## Product categories (fixture allowed_categories) that mark a cold case, and the ones that mark a counter appliance.
 ## A fixture that holds a cold product is 冷蔵・冷凍; one that holds only counter products (or none, the register) is
-## カウンター; every other shelf is 棚.
+## カウンター; every other shelf is 棚. A fixture with no products that is not a register (ATM, copier) is サービス.
 const COLD_PRODUCTS := ["drink", "dessert", "ice_cream"]
 const COUNTER_PRODUCTS := ["oden"]
 
@@ -181,6 +182,8 @@ func _label(text: String, color: Color, node_name: String, font_size: int = UiTh
 ## Category of a fixture definition, from its allowed product categories (see COLD_PRODUCTS / COUNTER_PRODUCTS).
 static func category_of(def: Dictionary) -> StringName:
 	var cats: Array = def.get("allowed_categories", [])
+	if cats.is_empty() and not def.has("register_queue_max_tiles"):
+		return SERVICE
 	if cats.any(func(c): return COLD_PRODUCTS.has(c)):
 		return COLD
 	if cats.all(func(c): return COUNTER_PRODUCTS.has(c)):
@@ -190,7 +193,7 @@ static func category_of(def: Dictionary) -> StringName:
 
 ## Type ids of each tab, in catalog order. ALL holds every type.
 static func group(catalog: FixtureCatalog) -> Dictionary:
-	var out := {ALL: [], SHELF: [], COLD: [], COUNTER: []}
+	var out := {ALL: [], SHELF: [], COLD: [], COUNTER: [], SERVICE: []}
 	for type_id in catalog.types:
 		var category := category_of(catalog.get_type(type_id))
 		out[ALL].append(type_id)

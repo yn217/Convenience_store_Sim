@@ -30,9 +30,9 @@ class Credits(unittest.TestCase):
     def test_repo_passes(self):
         self.assertEqual(cc.problems(ROOT), [])
 
-    def test_all_ten_fixtures_and_three_customers_are_listed(self):
+    def test_all_twelve_fixtures_and_three_customers_are_listed(self):
         ids = {r["asset_id"] for r in cc.parse(ROOT)}
-        self.assertEqual(len([i for i in ids if i.startswith("fixture_")]), 10)
+        self.assertEqual(len([i for i in ids if i.startswith("fixture_")]), 12)
         self.assertEqual(len([i for i in ids if i.startswith("customer_")]), 3)
 
     def test_unlisted_asset_is_found(self):

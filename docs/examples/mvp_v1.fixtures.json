@@ -507,5 +507,51 @@
         ]
       }
     ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "atm",
+    "display_name": "ATM",
+    "footprint": {
+      "w": 1,
+      "h": 1
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 0.92,
+      "height": 1.75
+    },
+    "placement_cost_yen": 30000,
+    "electricity_cost_yen_per_day": 30,
+    "capacity_units": 0,
+    "allowed_categories": [],
+    "access_edges": [
+      "S"
+    ],
+    "visual_id": "atm_a",
+    "shelf_slots": []
+  },
+  {
+    "schema_version": 1,
+    "type_id": "copier",
+    "display_name": "マルチコピー機",
+    "footprint": {
+      "w": 1,
+      "h": 1
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 0.92,
+      "height": 1.2
+    },
+    "placement_cost_yen": 70000,
+    "electricity_cost_yen_per_day": 40,
+    "capacity_units": 0,
+    "allowed_categories": [],
+    "access_edges": [
+      "S"
+    ],
+    "visual_id": "copier_a",
+    "shelf_slots": []
   }
 ]

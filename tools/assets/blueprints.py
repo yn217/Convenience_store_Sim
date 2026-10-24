@@ -285,9 +285,25 @@ def supported_types():
     return sorted(BUILDERS)
 
 
+# Model-derived fixtures (#125: Pixal3D image-to-3D, rendered by F:/WSL/pixal3d-pilot/scripts/render_fixture.py, not by
+# render_fixtures.py). Their blueprint is only the body envelope (the body box, full height): the scaled model is cut
+# to it, so its silhouette lies inside the projected envelope instead of matching box edges.
+MODEL_TYPES = ("atm", "copier")
+
+
+def is_model_type(type_id):
+    return type_id in MODEL_TYPES
+
+
+def _model_envelope(d):
+    x0, y0, x1, y1 = _body_rect(*_wh(d))
+    return [Box(x0, y0, 0.0, x1, y1, d["dimensions_m"]["height"], "cabinet_grey")], []
+
+
 def build(d):
     """-> {boxes, shadow (x0,y0,x1,y1), slots {slot_id: [(item_id, (x,y,z))]}} in rotation-0 coords."""
-    boxes, glass = BUILDERS[d["type_id"]](d)
+    builder = _model_envelope if is_model_type(d["type_id"]) else BUILDERS[d["type_id"]]
+    boxes, glass = builder(d)
     w, h = _wh(d)
     x0, y0, x1, y1 = _body_rect(w, h)
     shadow = (x0 - SHADOW_GROW, y0 - SHADOW_GROW, x1 + SHADOW_GROW, y1 + SHADOW_GROW)
