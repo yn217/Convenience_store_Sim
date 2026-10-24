@@ -6,7 +6,10 @@ extends RefCounted
 ## changes nothing. Fields the schema has no slot for live in the optional `runtime_state`
 ## object and in optional customer keys (docs/schemas/savegame.schema.json, added with #20).
 
-const SCHEMA_VERSION := 1
+## 2 = basket purchases (issue #128): customers may hold several reservations and carry basket_size /
+## basket_wishes. Schema 1 files still load: every customer gets basket_size 1 and no wishes.
+const SCHEMA_VERSION := 2
+const OLDEST_LOADABLE_VERSION := 1
 const DEFAULT_EVENTS_SEED := 345678
 const REQUIRED := [
 	"schema_version", "save_id", "saved_at_utc", "game_tick", "game_time_seconds", "speed_setting",
@@ -96,8 +99,10 @@ static func _customer_out(c: Dictionary, now_sec: int) -> Dictionary:
 		"position": {"x": tile.x, "y": tile.y},
 		"route": route,
 		"route_index": 0,
-		"reservation_ids": [] if c["reservation_id"] == "" else [c["reservation_id"]],
-		"patience_remaining_sec": maxi(CustomerAI.QUEUE_TIMEOUT_SEC - (now_sec - int(c["queue_since"])), 0) if c["reservation_id"] != "" else CustomerAI.QUEUE_TIMEOUT_SEC,
+		"reservation_ids": (c["reservation_ids"] as Array).duplicate(),
+		"patience_remaining_sec": maxi(CustomerAI.QUEUE_TIMEOUT_SEC - (now_sec - int(c["queue_since"])), 0) if not (c["reservation_ids"] as Array).is_empty() else CustomerAI.QUEUE_TIMEOUT_SEC,
+		"basket_size": int(c.get("basket_size", 1)),
+		"basket_wishes": (c.get("wishes", []) as Array).map(func(w): return {"sku_id": w["sku_id"], "fixture_id": w["fixture_id"]}),
 		"target_fixture_id": null if c["fixture_id"] == "" else c["fixture_id"],
 		"checkout_remaining_sec": maxi(int(c["checkout_left"]), 0),
 		"target_sku_id": c["sku_id"] if c["sku_id"] != "" else null,
@@ -124,7 +129,7 @@ static func from_dict(data, balance: Dictionary, fixtures: FixtureCatalog, produ
 	errs.append_array(JsonCheck.key_errors(data, REQUIRED, OPTIONAL, "$"))
 	if not errs.is_empty():
 		return _bad(errs)
-	if not JsonCheck.is_int(data["schema_version"]) or int(data["schema_version"]) != SCHEMA_VERSION:
+	if not JsonCheck.is_int(data["schema_version"]) or int(data["schema_version"]) < OLDEST_LOADABLE_VERSION or int(data["schema_version"]) > SCHEMA_VERSION:
 		return _bad(["schema_version: invalid_schema_version"])
 	_check_scalars(data, errs)
 	if not errs.is_empty():
@@ -380,7 +385,7 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		errs.append("%s: not_object" % path)
 		return
 	var required := ["customer_id", "phase", "position", "route", "route_index", "reservation_ids", "patience_remaining_sec", "target_fixture_id", "checkout_remaining_sec"]
-	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome"]
+	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome", "basket_size", "basket_wishes"]
 	var k_errs := JsonCheck.key_errors(c, required, optional, path)
 	errs.append_array(k_errs)
 	if not k_errs.is_empty():
@@ -408,13 +413,33 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 	var slot: int = int(c.get("queue_slot", -1))
 	if phase == "QUEUE" and slot < 0:
 		phase = "WAIT_QUEUE"
+	var ids: Array[String] = []
+	for id in c["reservation_ids"]:
+		if not JsonCheck.is_nonempty_string(id):
+			errs.append("%s.reservation_ids: invalid" % path)
+			return
+		ids.append(id)
+	# Schema 1 has no basket keys: one item and no wishes (issue #128).
+	var basket_size := 1
+	if c.has("basket_size"):
+		if not JsonCheck.is_int(c["basket_size"]) or int(c["basket_size"]) < BasketModel.MIN_SIZE or int(c["basket_size"]) > BasketModel.MAX_SIZE:
+			errs.append("%s.basket_size: invalid" % path)
+			return
+		basket_size = int(c["basket_size"])
+	var wishes: Array = []
+	for w in c.get("basket_wishes", []):
+		if typeof(w) != TYPE_DICTIONARY or not JsonCheck.is_nonempty_string(w.get("sku_id")) or not JsonCheck.is_nonempty_string(w.get("fixture_id")):
+			errs.append("%s.basket_wishes: invalid" % path)
+			return
+		wishes.append({"sku_id": String(w["sku_id"]), "fixture_id": String(w["fixture_id"])})
 	s.customers.append({
 		"customer_id": c["customer_id"], "phase": phase, "tile": Vector2i(int(pos["x"]), int(pos["y"])), "path": path_tiles,
 		"progress": float(c.get("walk_progress", 0.0)), "fixture_id": "" if c["target_fixture_id"] == null else c["target_fixture_id"],
 		"sku_id": "" if c.get("target_sku_id") == null else c["target_sku_id"],
-		"reservation_id": "" if c["reservation_ids"].is_empty() else c["reservation_ids"][0],
+		"reservation_ids": ids,
 		"queue_slot": slot, "retries": int(c.get("retries", 0)), "queue_since": int(c.get("queue_since_sec", 0)),
 		"checkout_left": int(c["checkout_remaining_sec"]), "register_id": c.get("register_id", ""), "outcome": c.get("outcome", ""),
+		"basket_size": basket_size, "wishes": wishes,
 	})
 
 
@@ -451,8 +476,9 @@ static func semantic_errors(s: GameState) -> Array[String]:
 		if seen.has(c["customer_id"]):
 			errs.append("%s: duplicate_customer" % c["customer_id"])
 		seen[c["customer_id"]] = true
-		if c["reservation_id"] != "" and not res_ids.has(c["reservation_id"]):
-			errs.append("%s: unknown_reservation" % c["customer_id"])
+		for id in c["reservation_ids"]:
+			if not res_ids.has(id):
+				errs.append("%s: unknown_reservation" % c["customer_id"])
 		if c["fixture_id"] != "" and not s.grid.instances.has(c["fixture_id"]):
 			errs.append("%s: unknown_fixture" % c["customer_id"])
 		if c["sku_id"] != "" and not s.products.has_sku(c["sku_id"]):
