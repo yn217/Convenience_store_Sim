@@ -32,6 +32,7 @@ var entrance_tiles: Array[Vector2i] = []
 var _floor_key: Array = []   # what the floor and walls were last drawn from (layout, camera, viewport)
 var _shadows: Array = []     # fixture contact shadows in world space, cached by _shadow_sig (layout signature)
 var _shadow_sig: Array = []
+var _time_sec := -1          # game clock of the last snapshot (presentation light only), -1 before the first one
 var _debug_paths: DebugPathLayer   # customer path overlay (F3); draws nothing while disabled
 var fixtures: Array = []
 var fixture_catalog: FixtureCatalog
@@ -61,6 +62,7 @@ var safe_inset := Vector4.ZERO
 @onready var _selection: Node2D = $SelectionOverlay
 @onready var _fixture_view: Node2D = $ObjectSortRoot/FixturePresenter
 @onready var _light_glow: LightGlow = get_node_or_null("LightGlow") as LightGlow
+@onready var _light_spill: LightSpill = get_node_or_null("LightSpill") as LightSpill   # #114 storefront spill, lamps
 @onready var _sign_layer: SignLayer = get_node_or_null("SignLayer") as SignLayer
 @onready var _walls: WallLayer = get_node_or_null("WallLayer") as WallLayer
 @onready var _backdrop: BackdropLayer = get_node_or_null("BackdropLayer") as BackdropLayer
@@ -114,11 +116,12 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	checkout_duration_sec = int(snapshot.get("checkout_duration_sec", 0))
 	speed_setting = int(snapshot.get("speed_setting", 0))
 	fixture_sales = snapshot.get("fixture_sales", {})
-	var tint := get_node_or_null("TimeTint")
-	if tint != null and snapshot.has("time_sec"):
-		tint.color = LightingModel.tint(int(snapshot["time_sec"]))
-	if _light_glow != null and snapshot.has("time_sec"):
-		_light_glow.set_time(int(snapshot["time_sec"]))
+	if snapshot.has("time_sec"):
+		_time_sec = int(snapshot["time_sec"])
+		_apply_time_tint()
+		if _light_glow != null:
+			_light_glow.set_time(_time_sec)
+		_sync_light_spill()
 	if selected_customer != "" and not customers.any(func(c): return c["customer_id"] == selected_customer):
 		selected_customer = ""
 		customer_selected.emit("")
@@ -410,6 +413,7 @@ func _refresh() -> void:
 	_refresh_objects()
 	if _backdrop != null and store_width > 0:
 		_backdrop.sync(store_width, store_height, entrance_tiles, projection, viewport_size(), PropSprites.is_available("cherry_tree_a"))
+	_sync_light_spill()
 	if _walls != null and store_width > 0:
 		_walls.sync(store_width, store_height, entrance_tiles, projection, viewport_size())
 	if store_width > 0:
@@ -423,6 +427,28 @@ func _refresh() -> void:
 			if reg != null:
 				reg.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 	queue_redraw()
+
+
+## Issue #114: the CanvasModulate carries the indoor tint over the whole world (the UI is not in this canvas), and the
+## outdoor layers (street, pavement, trees, parked cars, exterior props) multiply by their own modulate so they land on
+## LightingModel.outdoor() exactly. Assigned only when the value changes, so a publish does not touch them each time.
+func _apply_time_tint() -> void:
+	if _time_sec < 0:
+		return
+	var indoor := get_node_or_null("TimeTint") as CanvasModulate
+	if indoor != null:
+		indoor.color = LightingModel.indoor(_time_sec)
+	var outdoor := LightingModel.outdoor_modulate(_time_sec)
+	for layer in [_backdrop, _ext_decor, _front_decor]:
+		if layer != null and layer.modulate != outdoor:
+			layer.modulate = outdoor
+
+
+## Storefront spill and lamp glows (LightSpill); it rebuilds only when its own key changes (see LightSpill.sync).
+func _sync_light_spill() -> void:
+	if _light_spill == null or store_width <= 0 or _time_sec < 0:
+		return
+	_light_spill.sync(_time_sec, store_width, store_height, entrance_tiles, projection, viewport_size())
 
 
 ## Selection, ghost and the object layers. The floor and walls (this node's own _draw) are left alone.

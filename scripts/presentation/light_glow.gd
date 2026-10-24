@@ -1,7 +1,7 @@
 class_name LightGlow
 extends Node2D
 ## Issue #61 (light): warm additive glow pooled above each store fixture and a larger one at the
-## entrance. Its strength follows the night-ness of LightingModel.tint(), so the store reads lit at
+## entrance. Its strength follows the night-ness of the outdoor light (LightingModel.dusk_amount, #114), so the store reads lit at
 ## night and nearly unlit at noon. Static (no animation, so reduce_motion has nothing to tone down),
 ## presentation only, drawn between the fixtures and the overlay layers, and it never takes input.
 
@@ -31,17 +31,8 @@ func _ready() -> void:
 
 ## Glow strength for a game clock value in seconds: DAY_FLOOR in daylight, rising to NIGHT_PEAK at night.
 static func intensity(time_sec: int) -> float:
-	var tint := LightingModel.tint(time_sec)
-	var luma := 0.3 * tint.r + 0.59 * tint.g + 0.11 * tint.b
-	# The ends come from LightingModel itself, so retuning the tint keeps night-ness in 0..1.
-	var day_luma := _luma(LightingModel.DAY)
-	var night_luma := _luma(LightingModel.NIGHT)
-	var night := clampf((day_luma - luma) / maxf(day_luma - night_luma, 0.001), 0.0, 1.0)
-	return lerpf(DAY_FLOOR, NIGHT_PEAK, night)
-
-
-static func _luma(c: Color) -> float:
-	return 0.3 * c.r + 0.59 * c.g + 0.11 * c.b
+	# Night-ness comes from the outdoor light (#114): the glows show more as the street gets dark.
+	return lerpf(DAY_FLOOR, NIGHT_PEAK, LightingModel.dusk_amount(time_sec))
 
 
 ## Called by StoreWorld when the clock changes.
