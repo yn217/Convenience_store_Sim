@@ -142,9 +142,24 @@ static func interior_origin(area: Rect2, zoom: float, width: int, height: int, s
 
 
 ## Applies the interior fit to this projection: zoom from the area, origin centred on the shifted floor centre.
+## The shift toward the entrances may move the floor past the area's edge (the floor fills 90% of the limiting axis,
+## so there is little slack on the other one); the origin is then pulled back so the whole floor stays inside `area`.
+## The storefront stays in view because the floor's near edge is what remains at the bottom.
 func fit_interior(area: Rect2, width: int, height: int, shift: Vector2 = Vector2.ZERO) -> void:
 	set_zoom(interior_zoom(area.size, width, height))
 	origin = interior_origin(area, zoom, width, height, shift)
+	var b := floor_bounds(width, height)
+	if b.size.x <= area.size.x and b.size.y <= area.size.y:
+		origin += Vector2(_pull_into(b.position.x, b.end.x, area.position.x, area.end.x), _pull_into(b.position.y, b.end.y, area.position.y, area.end.y))
+
+
+## Offset that moves a span [lo, hi] back inside [a0, a1] (0 when it already fits).
+static func _pull_into(lo: float, hi: float, a0: float, a1: float) -> float:
+	if lo < a0:
+		return a0 - lo
+	if hi > a1:
+		return a1 - hi
+	return 0.0
 
 
 ## Moves the origin so the floor is centred in `viewport_size` (zoom unchanged).

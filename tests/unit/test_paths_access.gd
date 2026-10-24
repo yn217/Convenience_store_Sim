@@ -4,7 +4,18 @@ extends RefCounted
 const Seeds := preload("res://tests/support/test_seeds.gd")
 
 
+## The layouts below are drawn around the west door (0,5)-(0,6), so this fixture pins that door explicitly.
+## The default door is on the south wall and is covered by test_default_entrance_on_the_south_wall.
+const WEST_DOOR: Array[Vector2i] = [Vector2i(0, 5), Vector2i(0, 6)]
+
+
 func _state() -> GameState:
+	var s := _default_state()
+	s.grid.entrance_tiles = WEST_DOOR.duplicate()
+	return s
+
+
+func _default_state() -> GameState:
 	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
@@ -39,6 +50,20 @@ func test_distances_from_the_entrance(t, _tree) -> void:
 	t.eq(d[Vector2i(0, 6)], 0, "second entrance tile")
 	t.eq(d[Vector2i(3, 5)], 3)
 	t.eq(d[Vector2i(15, 11)], 15 + 5, "far corner: 15 east, 5 south of the nearest entrance tile")
+	t.eq(d.size(), 192, "every cell of an empty store is reachable")
+
+
+## The new-game door is on the south wall (y = 11). Golden values for the default store: the door tiles are 0 steps,
+## the cell straight in front of the first one is 1 step, the far corner (0,0) is 8 + 11 = 19 steps from the nearest
+## door tile (8,11), and the whole 16x12 floor is reachable.
+func test_default_entrance_on_the_south_wall(t, _tree) -> void:
+	var s := _default_state()
+	t.eq(s.grid.entrance_tiles, [Vector2i(8, 11), Vector2i(9, 11)] as Array[Vector2i], "default door on the south wall")
+	var d := PathService.distances(s.grid, {})
+	t.eq(d[Vector2i(8, 11)], 0, "door tile")
+	t.eq(d[Vector2i(9, 11)], 0, "second door tile")
+	t.eq(d[Vector2i(8, 10)], 1, "one step in from the door")
+	t.eq(d[Vector2i(0, 0)], 8 + 11, "far corner (0,0): 8 west and 11 north of the door tile (8,11)")
 	t.eq(d.size(), 192, "every cell of an empty store is reachable")
 
 

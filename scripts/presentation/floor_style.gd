@@ -49,20 +49,60 @@ static func aisle_rows(entrances: Array) -> Array:
 	return rows
 
 
-## "mat" for entrance tiles, "aisle" for the walkway band (east of the entrance), otherwise "tile".
-static func tile_kind(c: Vector2i, entrances: Array) -> StringName:
+## Entrance coordinates along the entrance wall (rows for west/east, columns for north/south), widened to two
+## lines for a single entrance tile. Empty without entrances.
+static func aisle_lines(entrances: Array, width: int, height: int) -> Array:
+	var side := BackdropLayer.entrance_side(width, height, entrances)
+	var vals: Array = []
+	for e in entrances:
+		var t: Vector2i = e
+		if BackdropLayer._on_side(side, t, width, height):
+			vals.append(BackdropLayer._along_coord(side, t))
+	if vals.is_empty():
+		return vals
+	var lo: int = vals.min()
+	var hi: int = vals.max()
+	if lo == hi:
+		hi += 1
+	var out: Array = []
+	for v in range(lo, hi + 1):
+		out.append(v)
+	return out
+
+
+## "mat" for entrance tiles, "aisle" for the walkway band running from the entrance into the store, otherwise "tile".
+## The band follows the entrance side (west/east: rows, north/south: columns). Without a store size (width = 0) the
+## west layout is assumed, as before.
+static func tile_kind(c: Vector2i, entrances: Array, width: int = 0, height: int = 0) -> StringName:
 	for e in entrances:
 		if e == c:
 			return &"mat"
-	if c.x >= 1 and aisle_rows(entrances).has(c.y):
-		return &"aisle"
+	if width <= 0 or height <= 0:
+		if c.x >= 1 and aisle_rows(entrances).has(c.y):
+			return &"aisle"
+		return &"tile"
+	var side := BackdropLayer.entrance_side(width, height, entrances)
+	var lines := aisle_lines(entrances, width, height)
+	match side:
+		BackdropLayer.SIDE_WEST:
+			if c.x >= 1 and lines.has(c.y):
+				return &"aisle"
+		BackdropLayer.SIDE_NORTH:
+			if c.y >= 1 and lines.has(c.x):
+				return &"aisle"
+		BackdropLayer.SIDE_EAST:
+			if c.x <= width - 2 and lines.has(c.y):
+				return &"aisle"
+		_:
+			if c.y <= height - 2 and lines.has(c.x):
+				return &"aisle"
 	return &"tile"
 
 
 ## Fill colour of one floor tile: the kind's base colour with a +-VARIATION shift from the tile hash.
-static func tile_color(c: Vector2i, entrances: Array) -> Color:
+static func tile_color(c: Vector2i, entrances: Array, width: int = 0, height: int = 0) -> Color:
 	var base: Color = TILE_BASE
-	match tile_kind(c, entrances):
+	match tile_kind(c, entrances, width, height):
 		&"mat":
 			base = TILE_MAT
 		&"aisle":

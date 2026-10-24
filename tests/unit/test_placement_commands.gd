@@ -89,7 +89,7 @@ func test_place_rejection_table_changes_nothing(t, _tree) -> void:
 		["outside east", "shelf_general", 16, 2, 0, &"OUT_OF_BOUNDS"],
 		["1x2 past bottom", "shelf_general", 8, 11, 0, &"OUT_OF_BOUNDS"],
 		["rotated past right", "shelf_general", 15, 2, 1, &"OUT_OF_BOUNDS"],
-		["entrance tile", "shelf_general", 0, 5, 0, &"ENTRANCE_BLOCKED"],
+		["entrance tile", "shelf_general", 8, 10, 0, &"ENTRANCE_BLOCKED"],   # 1x2 covers (8,10) and the south door (8,11)
 		["no money", "fridge_drink", 9, 2, 0, &"INSUFFICIENT_CASH"],
 		["unknown type", "vending", 9, 2, 0, &"INVALID_OPERATION"],
 		["bad rotation", "shelf_general", 9, 2, 4, &"INVALID_OPERATION"],

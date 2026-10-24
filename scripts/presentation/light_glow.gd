@@ -72,7 +72,7 @@ func _draw() -> void:
 		_draw_glow(proj.world_to_screen(centre.x, centre.y, height), FIXTURE_RADIUS_TILES * tile_px, color)
 	var entrance_color := Color(GLOW_COLOR, _intensity * 0.8)
 	for t in _world.entrance_tiles:
-		_draw_glow(proj.world_to_screen(0.0, float(t.y), 1.2), ENTRANCE_RADIUS_TILES * tile_px, entrance_color)
+		_draw_glow(proj.world_to_screen(float(t.x), float(t.y), 1.2), ENTRANCE_RADIUS_TILES * tile_px, entrance_color)
 
 
 func _draw_glow(centre: Vector2, radius: float, color: Color) -> void:

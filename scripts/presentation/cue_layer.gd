@@ -89,7 +89,8 @@ func _draw() -> void:
 	var size := Vector2(_world.viewport_size())
 	if _player.door_flash > 0.0:
 		for t in _world.entrance_tiles:
-			draw_line(proj.world_to_screen(-0.5, t.y - 0.5), proj.world_to_screen(-0.5, t.y + 0.5), Color(1, 1, 0.6, minf(_player.door_flash / 0.35, 1.0)), 8.0 * maxf(proj.zoom, 0.75))
+			var seg := BackdropLayer.door_segment(t, _world.store_width, _world.store_height)
+			draw_line(proj.world_to_screen(seg[0].x, seg[0].y), proj.world_to_screen(seg[1].x, seg[1].y), Color(1, 1, 0.6, minf(_player.door_flash / 0.35, 1.0)), 8.0 * maxf(proj.zoom, 0.75))
 	for g in _player.glows:
 		var p := _register_pos(g["register_id"])
 		if p != Vector2.ZERO:
