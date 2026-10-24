@@ -275,18 +275,63 @@ func _take_steps(tr: Walk, c: Dictionary) -> void:
 	var still: bool = new_steps == 0 and hist.back() == tile
 	var walked: bool = new_steps > 0 and new_steps <= trail.size() and trail.back() == tile
 	if not (still or walked):
-		hist.clear()
-		hist.append(tile)
-		tr.s = 0.0
-		tr.v = 0.0
-		tr.run = Vector2.ZERO
-		tr.placed = true
+		# The simulation walked more steps than its trail keeps (a stall longer than the trail: at x4 about 0.3 s of
+		# frames). The figure walks the free tiles between its last shown tile and the simulation's tile (catch-up),
+		# never a straight jump. Any other change of tile is a placement (spawn, teleport), as before.
+		var gap: Array = []
+		if new_steps > 0 and not trail.is_empty() and trail.back() == tile:
+			gap = _route_gap(hist.back(), tile)
+		if gap.is_empty():
+			hist.clear()
+			hist.append(tile)
+			tr.s = 0.0
+			tr.v = 0.0
+			tr.run = Vector2.ZERO
+			tr.placed = true
+			return
+		for g in gap:
+			hist.append(g)
 		return
 	for i in range(trail.size() - new_steps, trail.size()):   # only the steps since the last frame (usually one)
 		hist.append(trail[i])
 	while hist.size() > TRACK_KEEP and tr.s >= 1.0:
 		hist.pop_front()
 		tr.s -= 1.0
+
+
+## Free tiles of the store for the catch-up route (fixture footprints only, as the simulation's paths see them).
+var _blocked_cache: Dictionary = {}
+const GAP_MARGIN := 12   # the catch-up search stays this many tiles around the two ends
+const GAP_MAX := 400     # and gives up beyond this many visited tiles (then the figure is placed, as before)
+
+
+## Shortest walk on free tiles from a to b (4-connected, exclusive of a, inclusive of b), or [] when there is none
+## in the search box. Presentation only: it only decides how a stalled figure catches up.
+func _route_gap(a: Vector2i, b: Vector2i) -> Array:
+	_fixture_items()   # keeps _blocked_cache in step with the layout
+	var lo := Vector2i(mini(a.x, b.x) - GAP_MARGIN, mini(a.y, b.y) - GAP_MARGIN)
+	var hi := Vector2i(maxi(a.x, b.x) + GAP_MARGIN, maxi(a.y, b.y) + GAP_MARGIN)
+	var prev := {a: a}
+	var queue: Array[Vector2i] = [a]
+	var head := 0
+	var dirs := [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
+	while head < queue.size() and head < GAP_MAX and not prev.has(b):
+		var c: Vector2i = queue[head]
+		head += 1
+		for d in dirs:
+			var n: Vector2i = c + d
+			if n.x < lo.x or n.y < lo.y or n.x > hi.x or n.y > hi.y or _blocked_cache.has(n) or prev.has(n):
+				continue
+			prev[n] = c
+			queue.append(n)
+	if not prev.has(b):
+		return []
+	var out: Array = []
+	var cur := b
+	while cur != a:
+		out.push_front(cur)
+		cur = prev[cur]
+	return out
 
 
 ## The chain is the history followed by the remaining path, read by index without building a joined array
@@ -375,6 +420,24 @@ func _look_for(id: String) -> Array:
 	return _look[id]
 
 
+## Debug overlay only: the route the drawn figure still walks, as tile-unit points: its shown position, then every
+## tile after it on the chain (walked trail first, then the remaining path). Empty when the figure is not tracked.
+func shown_route(c: Dictionary) -> PackedVector2Array:
+	var id: String = c["customer_id"]
+	if not _track.has(id):
+		return PackedVector2Array()
+	var tr: Walk = _track[id]
+	var hist: Array[Vector2i] = tr.hist
+	var path: Array = c.get("path", [])
+	var size := hist.size() + path.size()
+	var out := PackedVector2Array([_pos[id] if _pos.has(id) else Vector2(hist.back())])
+	var i := int(floor(tr.s)) + 1
+	while i < size:
+		out.append(Vector2(_chain_at(hist, path, i)))
+		i += 1
+	return out
+
+
 ## What is drawn for a customer now: {"pos", "facing", "anim", "frame", "variant"}.
 func customer_view(c: Dictionary) -> Dictionary:
 	var id: String = c["customer_id"]
@@ -439,9 +502,12 @@ func _fixture_items() -> Array:
 	_fixture_count = _world.fixtures.size()
 	_fixture_items_cache = []
 	_seg_cache.clear()   # segment keys and commands belong to the item list that was just rebuilt
+	_blocked_cache = {}
 	for inst in _world.fixtures:
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
 		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
+		for c in cells:
+			_blocked_cache[c] = true
 		var lo := Vector2i(1 << 20, 1 << 20)
 		var hi := Vector2i(-1, -1)
 		for c in cells:
