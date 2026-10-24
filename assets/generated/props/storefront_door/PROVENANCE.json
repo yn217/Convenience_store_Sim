@@ -1,19 +1,18 @@
 {
-  "asset_id": "storefront_door_painted_v1",
-  "source_type": "AI",
+  "asset_id": "storefront_door_painted_v3",
+  "source_type": "AI texture applied to existing project geometry",
   "tool": "OpenAI built-in image_gen",
-  "model": "built-in image generation",
-  "prompt": "Painted storefront piece, blue/white fascia and warm glass, fictional NOVA MART only, matching iso2x_v1 guide; no real logos.",
-  "guide_images": [
-    "assets\\generated\\props\\storefront_door\\storefront_door_3_body.png"
-  ],
-  "edit_steps": [
-    "generated 4-view sheet",
-    "cropped direction cells",
-    "fit to guide alpha bounding box",
-    "reused contract shadow/glass layers"
-  ],
-  "license_or_usage_terms": "AI-generated project asset; fictional brands only",
+  "source_texture": "storefront_door_painted_v3_source.png",
+  "source_generation_file": "C:\\Users\\yuuna\\.codex\\generated_images\\01a16bb7-5a14-77a3-9a09-e07c377b0241\\exec-6af9bb18-6db5-4b3a-939f-cf30165e6d7d.png",
+  "prompt_summary": "flat front-on cool glass with fictional OPEN 24時間 decal",
+  "application": "Existing storefront piece alpha geometry and iso2x_v1 canvas/anchor retained; texture fitted inside guide silhouette for all four directions.",
   "generation_date": "2026-10-24",
-  "runtime_approved": false
+  "runtime_approved": false,
+  "sha256_16": {
+    "storefront_door_painted_v3_0_body.png": "99c797490438ece6",
+    "storefront_door_painted_v3_1_body.png": "99c797490438ece6",
+    "storefront_door_painted_v3_2_body.png": "99c797490438ece6",
+    "storefront_door_painted_v3_3_body.png": "99c797490438ece6"
+  },
+  "license_or_usage_terms": "AI-generated project asset; fictional generic signage only; no real brands or logos."
 }

@@ -1,0 +1,168 @@
+{
+  "manifest_version": 1,
+  "visual_id": "storefront_door_painted_v3",
+  "fixture_type_id": "storefront_door",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 0.92,
+    "height": 2.5
+  },
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        320,
+        320
+      ],
+      "anchor_px": [
+        160,
+        210
+      ],
+      "layers": {
+        "body": "storefront_door_painted_v3_0_body.png"
+      },
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          160,
+          210
+        ],
+        [
+          288,
+          274
+        ],
+        [
+          160,
+          338
+        ],
+        [
+          32,
+          274
+        ]
+      ],
+      "sorting_anchor_px": [
+        160,
+        210
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        320,
+        320
+      ],
+      "anchor_px": [
+        160,
+        210
+      ],
+      "layers": {
+        "body": "storefront_door_painted_v3_1_body.png"
+      },
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          160,
+          210
+        ],
+        [
+          288,
+          274
+        ],
+        [
+          160,
+          338
+        ],
+        [
+          32,
+          274
+        ]
+      ],
+      "sorting_anchor_px": [
+        160,
+        210
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        320,
+        320
+      ],
+      "anchor_px": [
+        160,
+        210
+      ],
+      "layers": {
+        "body": "storefront_door_painted_v3_2_body.png"
+      },
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          160,
+          210
+        ],
+        [
+          288,
+          274
+        ],
+        [
+          160,
+          338
+        ],
+        [
+          32,
+          274
+        ]
+      ],
+      "sorting_anchor_px": [
+        160,
+        210
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        320,
+        320
+      ],
+      "anchor_px": [
+        160,
+        210
+      ],
+      "layers": {
+        "body": "storefront_door_painted_v3_3_body.png"
+      },
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          160,
+          210
+        ],
+        [
+          288,
+          274
+        ],
+        [
+          160,
+          338
+        ],
+        [
+          32,
+          274
+        ]
+      ],
+      "sorting_anchor_px": [
+        160,
+        210
+      ]
+    }
+  },
+  "variant": "painted_v3",
+  "runtime_approved": false
+}
