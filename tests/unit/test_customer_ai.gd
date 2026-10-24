@@ -32,7 +32,7 @@ func _store(qty: int = 5) -> GameState:
 	s.business_state = GameState.OPEN
 	s.speed_setting = 1
 	s.balance["base_potential_visitors_per_day"] = 0
-	s.balance["checkout_duration_game_seconds"] = 100000   # #15 tests stop before the till; #16 has its own
+	s.balance["checkout_base_game_seconds"] = 100000   # #15 tests stop before the till; #16 has its own
 	return s
 
 

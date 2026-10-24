@@ -85,23 +85,30 @@ func _check_pick(s: GameState, payload: Dictionary, st: Dictionary) -> void:
 	st["picks"] = int(st["picks"]) + 1
 	for c in s.customers:
 		if c["customer_id"] == payload.get("customer_id", ""):
-			if c["reservation_id"] == payload.get("reservation_id", "") and c["fixture_id"] == payload.get("fixture_id", "") and c["sku_id"] == payload.get("sku_id", ""):
+			# Issue #128: a basket holds several reservations; the pick is one of them (the customer's current
+			# target has moved on to the next item by the time the pick cue is read in the same step).
+			if (c["reservation_ids"] as Array).has(payload.get("reservation_id", "")):
 				return
 	st["pick_orphans"] = int(st["pick_orphans"]) + 1
 
 
 ## (b) one SALE row per committed sale, same price and product; the pop's text names the same product and price.
 func _check_sale_row(s: GameState, payload: Dictionary, st: Dictionary) -> void:
+	# Issue #128: one basket = one row per item, all carrying the basket's transaction id in details.
 	var rows := 0
-	var row: Dictionary = {}
+	var revenue := 0
+	var first: Dictionary = {}
 	for tx in s.ledger.transactions:
-		if tx["event_id"] == payload.get("transaction_id", ""):
+		if tx["event_type"] == "SALE" and String(tx["details"].get("transaction_id", "")) == String(payload.get("transaction_id", "")):
 			rows += 1
-			row = tx
+			revenue += int(tx["cash_delta_yen"])
+			if first.is_empty():
+				first = tx
 	var name := String(payload.get("name", ""))
-	var ok: bool = rows == 1 and String(row.get("event_type", "")) == "SALE" and int(row.get("cash_delta_yen", 0)) == int(payload["revenue_yen"])
-	ok = ok and String(row.get("details", {}).get("sku_id", "")) == String(payload.get("sku_id", ""))
-	ok = ok and name == String(s.products.get_sku(payload.get("sku_id", ""))["display_name"])
+	var display := String(s.products.get_sku(payload.get("sku_id", ""))["display_name"])
+	var ok: bool = rows == int(payload.get("items", 1)) and rows >= 1 and revenue == int(payload["revenue_yen"])
+	ok = ok and String(first.get("details", {}).get("sku_id", "")) == String(payload.get("sku_id", ""))
+	ok = ok and (name == display or name.begins_with("%s 他" % display))
 	if not ok:
 		(st["sale_mismatch"] as Array).append(payload)
 

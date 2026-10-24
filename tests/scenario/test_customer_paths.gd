@@ -91,7 +91,8 @@ func _store(t, speed: int) -> GameState:
 		t.ok(rr.ok, "restocked %s: %s %s" % [row[0], rr.code, rr.message_key])
 	s.business_state = GameState.OPEN
 	s.speed_setting = speed
-	s.balance["checkout_duration_game_seconds"] = 30
+	s.balance["checkout_base_game_seconds"] = 30   # the old single-item checkout time (issue #128 keeps it for this path test)
+	s.balance["checkout_per_item_game_seconds"] = 0
 	return s
 
 
