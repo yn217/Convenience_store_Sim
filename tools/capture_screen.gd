@@ -2,6 +2,7 @@ extends SceneTree
 ## Saves a screenshot of the running game with a stocked store and customers (visual review, #61).
 ##   Godot --path . --resolution 1920x1080 --script res://tools/capture_screen.gd -- build/shot.png
 ## --calm: keep the balance's normal arrival rate (no forced crowd) so the shot is representative.
+## --visual-variant=NAME: sprites use that visual variant (e.g. painted_v1) even when not runtime_approved (dev override).
 
 const PLAN := [
 	["register_basic", 13, 5, 0], ["shelf_general", 3, 2, 0], ["shelf_onigiri", 3, 5, 0], ["shelf_noodle", 3, 8, 0],
@@ -17,7 +18,14 @@ func _initialize() -> void:
 
 
 func _run() -> void:
-	var out_png := OS.get_cmdline_user_args()[0] if OS.get_cmdline_user_args().size() > 0 else "user://shot.png"
+	var out_png := "user://shot.png"
+	for a in OS.get_cmdline_user_args():   # the output path is the first .png argument (flags such as --visual-variant= come first or last)
+		if a.ends_with(".png"):
+			out_png = a
+			break
+	var variant := VisualVariants.override()
+	if variant != "":
+		print("visual variant override: ", variant)
 	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
 	root.add_child(main)
 	for i in 5:
