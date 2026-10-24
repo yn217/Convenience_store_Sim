@@ -87,14 +87,17 @@ func test_place_flow_ghost_rotate_commit(t, tree) -> void:
 	t.eq(world.mode, 1, "world knows the mode")
 	_hover(r, Vector2i(5, 5))
 	t.eq(world._ghost["cells"], [Vector2i(5, 5), Vector2i(5, 6)] as Array[Vector2i], "ghost shows the 1x2 footprint")
-	t.eq(world._ghost["access"], [Vector2i(6, 5), Vector2i(6, 6)] as Array[Vector2i], "ghost shows the E-side access tiles")
+	# Access tiles are ordered by walking distance from the door. The door moved to (8,11): (6,6) is 2+5 = 7 steps,
+	# (6,5) is 2+6 = 8, so (6,6) now comes first (was [(6,5),(6,6)] with the west door at (0,5)).
+	t.eq(world._ghost["access"], [Vector2i(6, 6), Vector2i(6, 5)] as Array[Vector2i], "ghost shows the E-side access tiles")
 	t.ok(world._ghost["valid"], "valid placement is green")
 	t.ok(_preview(r).contains("設置できます") and _preview(r).contains("¥40,000"), "cost shown: " + _preview(r))
 	t.eq(state.cash_yen, 500000, "preview spends nothing")
 	r["ctl"].handle_event(_key(KEY_R))
 	t.eq(bc.preview_rotation, 1, "R rotates the preview")
 	t.eq(world._ghost["cells"], [Vector2i(5, 5), Vector2i(6, 5)] as Array[Vector2i], "ghost became 2x1")
-	t.eq(world._ghost["access"], [Vector2i(5, 6), Vector2i(6, 6)] as Array[Vector2i], "front moved to the S side")
+	# Same ordering rule: (6,6) is 7 steps from the south door (8,11), (5,6) is 8.
+	t.eq(world._ghost["access"], [Vector2i(6, 6), Vector2i(5, 6)] as Array[Vector2i], "front moved to the S side")
 	_click(r, Vector2i(5, 5))
 	t.eq(state.grid.instances.size(), 1, "click commits")
 	t.eq(state.cash_yen, 460000)
@@ -117,7 +120,7 @@ func test_invalid_placement_is_red_with_reason_and_refused(t, tree) -> void:
 	_click(r, Vector2i(5, 6))
 	t.eq(state.grid.instances.size(), 1, "refused at commit")
 	t.ok(_status(r).contains("重なる"))
-	_hover(r, Vector2i(0, 5))
+	_hover(r, Vector2i(8, 10))   # a 1x2 shelf here covers the south door (8,11) (the default door is on the south wall)
 	t.ok(_preview(r).contains("入口"), "entrance reason: " + _preview(r))
 	_hover(r, Vector2i(15, 11))
 	t.ok(_preview(r).contains("外"), "outside reason: " + _preview(r))
@@ -243,6 +246,8 @@ func test_corridor_block_is_red_with_a_reason(t, tree) -> void:
 	var r := await _boot(tree)
 	var state: GameState = r["app"].state
 	var world: Node2D = r["world"]
+	# The ice wall at x = 8 is a corridor across the west door (0,5)-(0,6); pin that door for this layout.
+	state.grid.entrance_tiles = [Vector2i(0, 5), Vector2i(0, 6)] as Array[Vector2i]
 	for p in [["w1", 8, 0], ["w2", 8, 2], ["w3", 8, 8], ["w4", 8, 10], ["w5", 8, 4]]:
 		_put(state, p[0], "freezer_ice", p[1], p[2])
 	_put(state, "reg", "register_basic", 12, 5)
