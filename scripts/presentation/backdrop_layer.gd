@@ -218,6 +218,21 @@ static func _along_coord(side: int, t: Vector2i) -> int:
 	return t.y if side == SIDE_WEST or side == SIDE_EAST else t.x
 
 
+## The outer edge of an entrance tile as two ground points (tile-unit world coordinates), on the wall it sits on.
+## Used for the door line and anything that must sit at the threshold, whatever side the entrance is on.
+static func door_segment(t: Vector2i, width: int, height: int) -> Array:
+	var side := entrance_side(width, height, [t])
+	var a := float(_along_coord(side, t))
+	match side:
+		SIDE_WEST:
+			return [Vector2(-0.5, a - 0.5), Vector2(-0.5, a + 0.5)]
+		SIDE_NORTH:
+			return [Vector2(a - 0.5, -0.5), Vector2(a + 0.5, -0.5)]
+		SIDE_EAST:
+			return [Vector2(width - 0.5, a - 0.5), Vector2(width - 0.5, a + 0.5)]
+	return [Vector2(a - 0.5, height - 0.5), Vector2(a + 0.5, height - 0.5)]
+
+
 ## Quad on the ground plane between two depths and two along-edge positions, projected to screen points.
 static func _side_quad(proj: IsoProjection, side: int, width: int, height: int, d0: float, d1: float, a0: float, a1: float) -> PackedVector2Array:
 	var pts := PackedVector2Array([

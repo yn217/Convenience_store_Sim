@@ -442,7 +442,7 @@ func _draw() -> void:
 	for y in store_height:
 		for x in store_width:
 			var c := Vector2i(x, y)
-			draw_colored_polygon(projection.tile_diamond(c), FloorStyle.tile_color(c, entrance_tiles))
+			draw_colored_polygon(projection.tile_diamond(c), FloorStyle.tile_color(c, entrance_tiles, store_width, store_height))
 	draw_multiline(FloorStyle.grout_segments(projection, store_width, store_height), FloorStyle.GROUT, maxf(1.0, projection.zoom))
 	var s := FloorStyle.sheen(projection, store_width, store_height)
 	draw_polygon(s["points"], s["colors"])
@@ -456,8 +456,8 @@ func _draw() -> void:
 	_draw_perimeter()
 
 
-## Walls are edges of the outer cells (they never occupy a cell); the west entrance
-## tiles are drawn as door segments on the x = -0.5 edge.
+## Walls are edges of the outer cells (they never occupy a cell); each entrance tile is drawn as a door segment on
+## the outer edge of its tile, on whichever wall it sits (see BackdropLayer.door_segment).
 func _draw_perimeter() -> void:
 	var w := store_width - 0.5
 	var h := store_height - 0.5
@@ -469,4 +469,5 @@ func _draw_perimeter() -> void:
 	for i in 4:
 		draw_line(corners[i], corners[(i + 1) % 4], WALL, line_w)
 	for t in entrance_tiles:
-		draw_line(projection.world_to_screen(-0.5, t.y - 0.5), projection.world_to_screen(-0.5, t.y + 0.5), DOOR, line_w * 1.5)
+		var seg := BackdropLayer.door_segment(t, store_width, store_height)
+		draw_line(projection.world_to_screen(seg[0].x, seg[0].y), projection.world_to_screen(seg[1].x, seg[1].y), DOOR, line_w * 1.5)

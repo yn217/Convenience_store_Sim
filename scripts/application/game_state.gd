@@ -9,8 +9,9 @@ const OPEN := &"OPEN"
 const CLOSING := &"CLOSING"
 const PAYMENT_BLOCKED := &"PAYMENT_BLOCKED"
 const SPEED_OPTIONS: Array[int] = [0, 1, 2, 4]
-## Fixed west-wall door (00_BASELINE §2.1); players cannot move or remove it.
-const ENTRANCE_TILES: Array[Vector2i] = [Vector2i(0, 5), Vector2i(0, 6)]
+## Default door: two tiles on the south wall (y = 11), the long near edge that faces the default camera. Saves carry
+## their own entrance_tiles, so older saves keep the west door they were made with (00_BASELINE §2.1).
+const ENTRANCE_TILES: Array[Vector2i] = [Vector2i(8, 11), Vector2i(9, 11)]
 
 var revision: int = 0
 var time_sec: int = 0
