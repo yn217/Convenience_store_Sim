@@ -8,7 +8,10 @@ extends RefCounted
 
 ## 2 = basket purchases (issue #128): customers may hold several reservations and carry basket_size /
 ## basket_wishes. Schema 1 files still load: every customer gets basket_size 1 and no wishes.
-const SCHEMA_VERSION := 2
+## 3 = visit purposes (issue #141): customers carry an optional `visit` object (purpose, budget, wallet, basket
+## log, impulse state); rng_states gain `visits` and `impulse`. Schema 1/2 files still load: their customers have
+## no purpose (they finish the visit with the #128 basket) and the new streams start from the default seeds.
+const SCHEMA_VERSION := 3
 const OLDEST_LOADABLE_VERSION := 1
 const DEFAULT_EVENTS_SEED := 345678
 const REQUIRED := [
@@ -88,6 +91,20 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 	}
 
 
+## The #141 part of a customer (empty purpose = a customer without one).
+static func _visit_out(c: Dictionary) -> Dictionary:
+	var log: Array = []
+	for e in c.get("basket_log", []):
+		log.append({"sku_id": e["sku_id"], "price_yen": int(e["price"]), "kind": e["kind"], "state": e["state"]})
+	return {
+		"purpose_id": String(c.get("purpose_id", "")), "budget_yen": int(c.get("budget_yen", 0)),
+		"wallet_yen": int(c.get("wallet_yen", 0)), "planned_yen": int(c.get("planned_yen", 0)),
+		"impulse_count": int(c.get("impulse_count", 0)), "basket_log": log,
+		"seen_categories": (c.get("seen_categories", []) as Array).duplicate(),
+		"impulse_tried": (c.get("impulse_tried", []) as Array).duplicate(),
+	}
+
+
 static func _customer_out(c: Dictionary, now_sec: int, patience_sec: int) -> Dictionary:
 	var route: Array = []
 	for p in c["path"]:
@@ -105,6 +122,7 @@ static func _customer_out(c: Dictionary, now_sec: int, patience_sec: int) -> Dic
 		"basket_wishes": (c.get("wishes", []) as Array).map(func(w): return {"sku_id": w["sku_id"], "fixture_id": w["fixture_id"]}),
 		"target_fixture_id": null if c["fixture_id"] == "" else c["fixture_id"],
 		"browse_remaining_sec": maxi(int(c.get("browse_left", -1)), -1),
+		"visit": _visit_out(c),
 		"checkout_remaining_sec": maxi(int(c["checkout_left"]), 0),
 		"target_sku_id": c["sku_id"] if c["sku_id"] != "" else null,
 		"queue_slot": c["queue_slot"],
@@ -386,7 +404,7 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		errs.append("%s: not_object" % path)
 		return
 	var required := ["customer_id", "phase", "position", "route", "route_index", "reservation_ids", "patience_remaining_sec", "target_fixture_id", "checkout_remaining_sec"]
-	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome", "basket_size", "basket_wishes", "browse_remaining_sec"]
+	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome", "basket_size", "basket_wishes", "browse_remaining_sec", "visit"]
 	var k_errs := JsonCheck.key_errors(c, required, optional, path)
 	errs.append_array(k_errs)
 	if not k_errs.is_empty():
@@ -433,6 +451,9 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 			errs.append("%s.basket_wishes: invalid" % path)
 			return
 		wishes.append({"sku_id": String(w["sku_id"]), "fixture_id": String(w["fixture_id"])})
+	var visit := _visit_in(c.get("visit", {}), path, errs)
+	if visit.is_empty():
+		return
 	s.customers.append({
 		"customer_id": c["customer_id"], "phase": phase, "tile": Vector2i(int(pos["x"]), int(pos["y"])), "path": path_tiles,
 		"progress": float(c.get("walk_progress", 0.0)), "fixture_id": "" if c["target_fixture_id"] == null else c["target_fixture_id"],
@@ -442,7 +463,47 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		"checkout_left": int(c["checkout_remaining_sec"]), "register_id": c.get("register_id", ""), "outcome": c.get("outcome", ""),
 		"browse_left": int(c.get("browse_remaining_sec", -1)),
 		"basket_size": basket_size, "wishes": wishes,
+		"purpose_id": visit["purpose_id"], "budget_yen": visit["budget_yen"], "wallet_yen": visit["wallet_yen"],
+		"planned_yen": visit["planned_yen"], "impulse_count": visit["impulse_count"], "basket_log": visit["basket_log"],
+		"seen_categories": visit["seen_categories"], "impulse_tried": visit["impulse_tried"],
 	})
+
+
+## The optional `visit` object (schema 3, #141); absent (schema 1/2) = no purpose. {} with an error when invalid.
+static func _visit_in(v, path: String, errs: Array[String]) -> Dictionary:
+	var out := {"purpose_id": "", "budget_yen": 0, "wallet_yen": 0, "planned_yen": 0, "impulse_count": 0,
+		"basket_log": [], "seen_categories": [], "impulse_tried": []}
+	if typeof(v) != TYPE_DICTIONARY:
+		errs.append("%s.visit: not_object" % path)
+		return {}
+	if v.is_empty():
+		return out
+	var k_errs := JsonCheck.key_errors(v, ["purpose_id", "budget_yen", "wallet_yen", "planned_yen", "impulse_count", "basket_log", "seen_categories", "impulse_tried"], [], path + ".visit")
+	if not k_errs.is_empty():
+		errs.append_array(k_errs)
+		return {}
+	for k in ["budget_yen", "wallet_yen", "planned_yen", "impulse_count"]:
+		if not JsonCheck.is_int(v[k]) or int(v[k]) < 0:
+			errs.append("%s.visit.%s: invalid" % [path, k])
+			return {}
+		out[k] = int(v[k])
+	if typeof(v["purpose_id"]) != TYPE_STRING or typeof(v["basket_log"]) != TYPE_ARRAY or typeof(v["seen_categories"]) != TYPE_ARRAY or typeof(v["impulse_tried"]) != TYPE_ARRAY:
+		errs.append("%s.visit: invalid_shape" % path)
+		return {}
+	out["purpose_id"] = String(v["purpose_id"])
+	for e in v["basket_log"]:
+		if typeof(e) != TYPE_DICTIONARY or not JsonCheck.is_nonempty_string(e.get("sku_id")) or not JsonCheck.is_int(e.get("price_yen")) \
+				or not ["target", "impulse"].has(e.get("kind")) or not ["planned", "taken", "not_bought", "too_expensive", "stockout"].has(e.get("state")):
+			errs.append("%s.visit.basket_log: invalid" % path)
+			return {}
+		out["basket_log"].append({"sku_id": String(e["sku_id"]), "price": int(e["price_yen"]), "kind": String(e["kind"]), "state": String(e["state"])})
+	for k in ["seen_categories", "impulse_tried"]:
+		for x in v[k]:
+			if not JsonCheck.is_nonempty_string(x):
+				errs.append("%s.visit.%s: invalid" % [path, k])
+				return {}
+			(out[k] as Array).append(String(x))
+	return out
 
 
 # ---------------------------------------------------------------- cross-reference invariants (12 §5)

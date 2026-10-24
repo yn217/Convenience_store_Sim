@@ -69,6 +69,16 @@ func _run() -> void:
 			var first: Dictionary = s.grid.instances[pick]
 			world.select_screen(world.projection.tile_center(Vector2i(first["x"], first["y"])))
 			app._publish_snapshot()
+	if OS.get_cmdline_user_args().has("--select-customer"):   # --select-customer: pause and select the customer with the fullest basket (#141 panel)
+		var best: Dictionary = {}
+		for c in s.customers:
+			if best.is_empty() or (c.get("basket_log", []) as Array).size() > (best.get("basket_log", []) as Array).size():
+				best = c
+		if not best.is_empty():
+			s.speed_setting = 0
+			var cw: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+			cw._set_customer(best["customer_id"])
+			app._publish_snapshot()
 	for a in OS.get_cmdline_user_args():   # --build: build mode (palette at the left); --screen=商品: management window on that tab
 		if a == "--build":
 			main.call("toggle_build")

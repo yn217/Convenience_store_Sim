@@ -43,6 +43,11 @@ var _taken_dirty := true
 var _res_ids: Dictionary = {}      # reservation ids that exist; rebuilt when one is made / released / sold
 var _res_dirty := true
 var _access_cache: Dictionary = {}   # fixture id -> reachable access tiles (layout-derived)
+var _owners: Dictionary = {}         # access tile -> [fixture ids it serves] (layout-derived, for impulse checks)
+var _owners_fresh := false
+var _all_categories: Array = []
+var _step_cands: Array = []          # candidates(state) for this step (impulse checks), computed on demand
+var _step_cands_fresh := false
 var _held: Dictionary = {}           # tile -> id of the customer standing still on it (line/till), rebuilt each step
 const MAX_ROOM_RADIUS := 6   # #117 v2: overflow waits gather at the end of the line, so the search reaches further
 
@@ -54,6 +59,7 @@ func _sync_layout(state: GameState) -> void:
 		_cache_fresh = false
 		_access_cache.clear()
 		_path_cache.clear()
+		_owners_fresh = false
 
 
 func _blocked(state: GameState) -> Dictionary:
@@ -80,6 +86,7 @@ func step(state: GameState) -> void:
 	_spawn(state)
 	_taken_dirty = true
 	_res_dirty = true
+	_step_cands_fresh = false
 	_held.clear()
 	for c in state.customers:
 		if _is_standing_in_line(c) and not _held.has(c["tile"]):   # the first one on a tile keeps it
@@ -111,6 +118,11 @@ func _spawn(state: GameState) -> void:
 			"customer_id": arrival["customer_id"], "phase": "SELECT", "tile": tile, "path": [] as Array[Vector2i],
 			"progress": 0.0, "fixture_id": "", "sku_id": "", "reservation_ids": [], "queue_slot": -1, "retries": 0, "queue_since": 0, "checkout_left": 0, "register_id": "",
 			"outcome": "", "basket_size": clampi(int(arrival.get("basket_size", 1)), BasketModel.MIN_SIZE, BasketModel.MAX_SIZE), "wishes": [],
+			# #141: why the customer came, its budget for the visit and the cash it carries; the basket log
+			# (planned / taken / declined / impulse items) and the categories already considered.
+			"purpose_id": String(arrival.get("purpose_id", "")), "budget_yen": int(arrival.get("budget_yen", 0)),
+			"wallet_yen": int(arrival.get("wallet_yen", 0)), "planned_yen": 0, "impulse_count": 0, "basket_log": [],
+			"seen_categories": [], "impulse_tried": [],
 		})
 		state.emit_event("CUSTOMER_ENTERED", {"customer_id": arrival["customer_id"]})
 	state.arrival_queue.clear()
@@ -168,6 +180,8 @@ func _walk(state: GameState, c: Dictionary) -> bool:
 		c["progress"] = float(c["progress"]) - 1.0
 		c["tile"] = path.pop_front()
 		_record_step(c)
+		if c["phase"] == "WALK_SHELF" and not path.is_empty() and _try_impulse(state, c):
+			path.clear()   # stops here: the shelf it walks past is the next stop
 	if path.is_empty():
 		c["progress"] = 0.0
 		return true
@@ -175,9 +189,6 @@ func _walk(state: GameState, c: Dictionary) -> bool:
 
 
 ## Game seconds a picked item stays reserved for the customer (until it is paid or released).
-## In front of the shelf the customer looks over the goods for a while before taking one (#117 v2): the first
-## arrival sets browse_left from the balance range (fixed per customer and shelf, no random draw), later steps
-## count it down. True once the time is over (and the shelf is reset for the next wish).
 static func reservation_hold_sec(balance: Dictionary) -> int:
 	return int(balance.get("reservation_hold_game_seconds", RESERVATION_HOLD_SEC))
 
@@ -187,6 +198,79 @@ static func queue_timeout_sec(balance: Dictionary) -> int:
 	return int(balance.get("queue_patience_game_seconds", QUEUE_TIMEOUT_SEC))
 
 
+## Impulse pick-up (#141): a customer on its way to a shelf who steps onto the access tile of another shelf may
+## take something from it. Each shelf is tried once per visit: the most attractive item there of a category not
+## yet considered, if it fits the cash left (wallet minus everything planned), with one `impulse` draw against
+## VisitPurpose.impulse_probability. On success the item it was heading for goes back to the front of the wishes
+## and the customer stops here to browse this shelf. True when it stops.
+func _try_impulse(state: GameState, c: Dictionary) -> bool:
+	var purpose := String(c.get("purpose_id", ""))
+	if purpose == "" or int(c["impulse_count"]) >= VisitPurpose.max_impulse(state.balance):
+		return false
+	var owners: Array = _access_owners(state).get(c["tile"], [])
+	if owners.is_empty():
+		return false
+	var tried: Array = c["impulse_tried"]
+	var seen: Array = c["seen_categories"]
+	var best := {}
+	for x in _candidates_this_step(state):
+		if not owners.has(x["fixture_id"]) or tried.has(x["fixture_id"]) or x["weight"] <= 0.0:
+			continue
+		if x["fixture_id"] == c["fixture_id"] or seen.has(state.products.get_sku(x["sku_id"])["category"]):
+			continue
+		if best.is_empty() or x["weight"] > best["weight"]:
+			best = x
+	if best.is_empty():
+		return false
+	tried.append(best["fixture_id"])
+	var price := state.sell_price(best["sku_id"])
+	if int(c["planned_yen"]) + price > int(c["wallet_yen"]):
+		return false
+	var cat: String = state.products.get_sku(best["sku_id"])["category"]
+	var p := VisitPurpose.impulse_probability(state.balance, purpose, DemandModel.category_preference(cat, state.balance), _price_factor(state, best["sku_id"]))
+	var rng := Lcg32.new(int(state.rng_states["impulse"]))
+	var hit := rng.uniform_0_1() < p
+	state.rng_states["impulse"] = rng.state
+	if not hit:
+		return false
+	(c["wishes"] as Array).insert(0, {"sku_id": c["sku_id"], "fixture_id": c["fixture_id"]})
+	c["fixture_id"] = best["fixture_id"]
+	c["sku_id"] = best["sku_id"]
+	c["impulse_count"] = int(c["impulse_count"]) + 1
+	c["planned_yen"] = int(c["planned_yen"]) + price
+	seen.append(cat)
+	(c["basket_log"] as Array).append({"sku_id": best["sku_id"], "price": price, "kind": "impulse", "state": "planned"})
+	var sku := state.products.get_sku(best["sku_id"])
+	state.emit_event("CUSTOMER_IMPULSE", {"customer_id": c["customer_id"], "fixture_id": best["fixture_id"], "sku_id": best["sku_id"], "category": cat, "name": sku.get("display_name", "")})
+	return true
+
+
+## Access tile -> fixture ids whose (reachable) access side it is (layout-derived, rebuilt after a layout change).
+func _access_owners(state: GameState) -> Dictionary:
+	_sync_layout(state)
+	if not _owners_fresh:
+		_owners.clear()
+		var ids := state.grid.instances.keys()
+		ids.sort()
+		for id in ids:
+			for t in _shelf_access(state, id):
+				if not _owners.has(t):
+					_owners[t] = []
+				(_owners[t] as Array).append(id)
+		_owners_fresh = true
+	return _owners
+
+
+func _candidates_this_step(state: GameState) -> Array:
+	if not _step_cands_fresh:
+		_step_cands = candidates(state)
+		_step_cands_fresh = true
+	return _step_cands
+
+
+## In front of the shelf the customer looks over the goods for a while before taking one (#117 v2): the first
+## arrival sets browse_left from the balance range (fixed per customer and shelf, no random draw), later steps
+## count it down. True once the time is over (and the shelf is reset for the next wish).
 func _browsed(state: GameState, c: Dictionary) -> bool:
 	if int(c.get("browse_left", -1)) < 0:
 		c["browse_left"] = browse_seconds(state.balance, String(c["customer_id"]), String(c["fixture_id"]))
@@ -310,6 +394,8 @@ func _select(state: GameState, c: Dictionary) -> void:
 ## decision of an item that is not bought is final for this visit. With basket_size 1 these are exactly the
 ## two draws of the single-item model. Returns {"wishes": [{sku_id, fixture_id}], "no_candidate": bool}.
 func _plan_basket(state: GameState, c: Dictionary) -> Dictionary:
+	if String(c.get("purpose_id", "")) != "":
+		return _plan_purpose(state, c)
 	var rng := Lcg32.new(int(state.rng_states["purchases"]))
 	var wishes: Array = []
 	var taken := {}
@@ -340,6 +426,92 @@ func _plan_basket(state: GameState, c: Dictionary) -> Dictionary:
 			wishes.append({"sku_id": chosen["sku_id"], "fixture_id": chosen["fixture_id"]})
 	state.rng_states["purchases"] = rng.state
 	return {"wishes": wishes, "no_candidate": false}
+
+
+## The basket of a customer with a purpose (#141): one item per target slot of the purpose, from the slot's
+## categories (not one already considered), weighted like the #128 basket, then the buy decision (the same two
+## `purchases` draws per slot). A bought item that does not fit the rest of the budget is declined ("too
+## expensive"). A reselect after a stockout plans again from what is already taken.
+func _plan_purpose(state: GameState, c: Dictionary) -> Dictionary:
+	var rng := Lcg32.new(int(state.rng_states["purchases"]))
+	var log: Array = (c["basket_log"] as Array).filter(func(e): return e["state"] != "planned")
+	c["basket_log"] = log
+	c["planned_yen"] = _sum_yen(log, ["taken"])
+	var seen := {}
+	for cat in c["seen_categories"]:
+		seen[cat] = true
+	var all_cands := candidates(state).filter(func(x): return x["weight"] > 0.0)
+	var wishes: Array = []
+	var found := false
+	var purpose := String(c["purpose_id"])
+	for k in int(c["basket_size"]):
+		var cats := VisitPurpose.slot_categories(state.balance, purpose, k, _categories(state))
+		var cands: Array = []
+		for x in all_cands:
+			var xc: String = state.products.get_sku(x["sku_id"])["category"]
+			if cats.has(xc) and not seen.has(xc):
+				cands.append(x)
+		if cands.is_empty():
+			continue
+		found = true
+		var total := 0.0
+		for x in cands:
+			total += x["weight"]
+		var pick := rng.uniform_0_1() * total
+		var chosen: Dictionary = cands[cands.size() - 1]
+		var acc := 0.0
+		for x in cands:
+			acc += x["weight"]
+			if pick < acc:
+				chosen = x
+				break
+		var buy_p := DemandModel.purchase_probability(_price_factor(state, chosen["sku_id"]), state.balance)
+		var buys := rng.uniform_0_1() < buy_p
+		var cat: String = state.products.get_sku(chosen["sku_id"])["category"]
+		seen[cat] = true
+		var price := state.sell_price(chosen["sku_id"])
+		if not buys:
+			log.append({"sku_id": chosen["sku_id"], "price": price, "kind": "target", "state": "not_bought"})
+		elif int(c["planned_yen"]) + price > int(c["budget_yen"]):
+			log.append({"sku_id": chosen["sku_id"], "price": price, "kind": "target", "state": "too_expensive"})
+		else:
+			wishes.append({"sku_id": chosen["sku_id"], "fixture_id": chosen["fixture_id"]})
+			log.append({"sku_id": chosen["sku_id"], "price": price, "kind": "target", "state": "planned"})
+			c["planned_yen"] = int(c["planned_yen"]) + price
+	if not found:
+		rng.next_state()   # a draw is consumed even without candidates (as in the #128 model)
+	state.rng_states["purchases"] = rng.state
+	var seen_list: Array = seen.keys()
+	seen_list.sort()
+	c["seen_categories"] = seen_list
+	return {"wishes": wishes, "no_candidate": not found}
+
+
+## Every product category of the catalog, sorted (the "any" slots of a purpose).
+func _categories(state: GameState) -> Array:
+	if _all_categories.is_empty():
+		var seen := {}
+		for sku in state.products.skus.values():
+			seen[sku["category"]] = true
+		_all_categories = seen.keys()
+		_all_categories.sort()
+	return _all_categories
+
+
+static func _sum_yen(log: Array, states: Array) -> int:
+	var total := 0
+	for e in log:
+		if states.has(e["state"]):
+			total += int(e["price"])
+	return total
+
+
+## Marks the first basket-log entry of `sku_id` in `from_state` as `to_state` (no-op without a log).
+static func _mark(c: Dictionary, sku_id: String, from_state: String, to_state: String) -> void:
+	for e in c.get("basket_log", []):
+		if e["sku_id"] == sku_id and e["state"] == from_state:
+			e["state"] = to_state
+			return
 
 
 ## Heads for the nearest wish that can be reached (nearest-first, measured from where the customer stands).
@@ -435,6 +607,7 @@ func _pick(state: GameState, c: Dictionary) -> void:
 		return
 	held.append(res["reservation_id"])
 	_res_dirty = true
+	_mark(c, c["sku_id"], "planned", "taken")
 	var sku := state.products.get_sku(c["sku_id"])
 	state.emit_event("CUSTOMER_RESERVED_ITEM", {"customer_id": c["customer_id"], "reservation_id": res["reservation_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"], "category": sku.get("category", ""), "name": sku.get("display_name", "")})
 	if not (c["wishes"] as Array).is_empty() and _next_wish(state, c):
@@ -445,6 +618,11 @@ func _pick(state: GameState, c: Dictionary) -> void:
 ## An item that is out of stock is skipped. When nothing at all was reserved and no item is left, the
 ## customer reselects (up to MAX_RESELECT times, as in the single-item model) and then leaves.
 func _on_pick_failed(state: GameState, c: Dictionary) -> void:
+	for e in c.get("basket_log", []):
+		if e["sku_id"] == c["sku_id"] and e["state"] == "planned":
+			e["state"] = "stockout"
+			c["planned_yen"] = int(c["planned_yen"]) - int(e["price"])
+			break
 	if not (c["wishes"] as Array).is_empty() and _next_wish(state, c):
 		return
 	if not (c["reservation_ids"] as Array).is_empty():

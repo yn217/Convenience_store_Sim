@@ -60,6 +60,19 @@ func _draw_selected_customer() -> void:
 			pts.append(foot + Vector2(cos(a) * 26.0, sin(a) * 13.0) * proj.zoom)
 		draw_polyline(pts, Color("5cc8ff"), 3.0)
 		_label(_font(), foot + Vector2(0, 26.0 * proj.zoom), "選択中", int(round(13.0 * maxf(proj.zoom, 0.8))))
+		# #141: where it is heading — the route ahead and a ring on the goal tile.
+		var route: PackedVector2Array = presenter.shown_route(c)
+		if route.size() >= 2:
+			var screen := PackedVector2Array()
+			for p in route:
+				screen.append(proj.world_to_screen(p.x, p.y))
+			draw_polyline(screen, Color(0.36, 0.78, 1.0, 0.75), 2.5 * maxf(proj.zoom, 0.8))
+			var goal := screen[screen.size() - 1]
+			var ring := PackedVector2Array()
+			for i in 17:
+				var a := TAU * i / 16.0
+				ring.append(goal + Vector2(cos(a) * 18.0, sin(a) * 9.0) * proj.zoom)
+			draw_polyline(ring, Color(1.0, 0.85, 0.3, 0.9), 2.5)
 
 
 func _cells(inst: Dictionary, def: Dictionary) -> Array[Vector2i]:

@@ -137,7 +137,7 @@ func test_schema_one_save_loads_as_single_item_baskets(t, _tree) -> void:
 func test_halved_visitors_with_baskets_keep_units_and_revenue(t, _tree) -> void:
 	var old_state := _single_item_state()
 	var old := Run.run_days(old_state, Run.place_layout(old_state), 3)
-	var new_state := Run.new_state(50.0)
+	var new_state := Run.new_state(50.0, {"visit_purposes": []})   # the #128 basket model (purposes, #141, are tested in test_visit_purpose.gd)
 	var new := Run.run_days(new_state, Run.place_layout(new_state), 3)
 	var old_units := _sum(old["units"])
 	var new_units := _sum(new["units"])

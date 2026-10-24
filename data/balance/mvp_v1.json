@@ -23,6 +23,23 @@
     {"basket_size": 3, "weight": 20},
     {"basket_size": 4, "weight": 5}
   ],
+  "visit_purposes": [
+    {"purpose_id": "breakfast", "display_name": "朝食", "targets": [["bread", "rice_ball"], ["drink"]], "budget_yen": [300, 700], "wallet_factor": [1.2, 2.5], "impulse": 0.6,
+     "hour_weights": [0, 0, 0, 0, 0, 1, 4, 6, 6, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+    {"purpose_id": "lunch", "display_name": "昼食", "targets": [["rice_ball", "instant_noodle"], ["drink"], ["dessert", "snack", "oden"]], "budget_yen": [600, 1200], "wallet_factor": [1.2, 2.5], "impulse": 1.0,
+     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 8, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+    {"purpose_id": "drink_only", "display_name": "飲み物", "targets": [["drink"]], "budget_yen": [150, 400], "wallet_factor": [1.5, 4.0], "impulse": 0.6,
+     "hour_weights": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]},
+    {"purpose_id": "snack_time", "display_name": "おやつ", "targets": [["snack", "dessert", "ice_cream"], ["drink"]], "budget_yen": [200, 700], "wallet_factor": [1.2, 3.0], "impulse": 1.5,
+     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 3, 5, 5, 3, 1, 1, 1, 0, 0, 0]},
+    {"purpose_id": "late_night", "display_name": "夜食", "targets": [["instant_noodle", "oden"], ["drink", "ice_cream", "snack"]], "budget_yen": [300, 900], "wallet_factor": [1.2, 2.5], "impulse": 1.0,
+     "hour_weights": [4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 4, 5, 5]},
+    {"purpose_id": "stock_up", "display_name": "まとめ買い", "targets": [["any"], ["any"], ["any"]], "budget_yen": [1500, 3500], "wallet_factor": [1.1, 1.8], "impulse": 1.5,
+     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0]},
+    {"purpose_id": "browse", "display_name": "なんとなく", "targets": [["any"]], "budget_yen": [200, 800], "wallet_factor": [1.5, 4.0], "impulse": 2.0,
+     "hour_weights": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+  ],
+  "impulse": {"base_probability": 0.12, "max_per_visit": 2},
   "daily_fixed_cost_yen": 1000,
   "advertising_tiers": [
     {

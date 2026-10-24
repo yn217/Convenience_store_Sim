@@ -94,6 +94,10 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 	s.rng_states = seeds.duplicate()
 	if not s.rng_states.has("events"):
 		s.rng_states["events"] = 345678   # separate stream for the event director (09 §1)
+	if not s.rng_states.has("visits"):
+		s.rng_states["visits"] = 246813   # budget and wallet of each visit (#141)
+	if not s.rng_states.has("impulse"):
+		s.rng_states["impulse"] = 135792   # impulse pick-ups on the way (#141)
 	s.balance = balance.duplicate(true)
 	s.next_day_ad_yen = int(balance.get("starting_ad_budget_yen_per_day", 0))
 	return s
@@ -284,6 +288,15 @@ func _shelf_skus() -> Dictionary:
 	return out
 
 
+func _log_view(log: Array) -> Array:
+	var out: Array = []
+	for e in log:
+		var sku := products.get_sku(e["sku_id"]) if products != null else {}
+		out.append({"sku_id": e["sku_id"], "name": sku.get("display_name", e["sku_id"]), "category": sku.get("category", ""),
+			"price": int(e["price"]), "kind": e["kind"], "state": e["state"]})
+	return out
+
+
 func _customer_views() -> Array:
 	var out: Array = []
 	for c in customers:
@@ -299,6 +312,10 @@ func _customer_views() -> Array:
 			"register_id": c.get("register_id", ""), "queue_slot": int(c.get("queue_slot", -1)),
 			"checkout_left": int(c.get("checkout_left", 0)),
 			"browse_left": int(c.get("browse_left", -1)),
+			# #141: purpose, money and the basket log (names and prices for the customer panel).
+			"purpose_id": String(c.get("purpose_id", "")), "purpose_name": VisitPurpose.display_name(balance, String(c.get("purpose_id", ""))),
+			"budget_yen": int(c.get("budget_yen", 0)), "wallet_yen": int(c.get("wallet_yen", 0)), "planned_yen": int(c.get("planned_yen", 0)),
+			"impulse_count": int(c.get("impulse_count", 0)), "basket_log": _log_view(c.get("basket_log", [])),
 			"target_tile": path[path.size() - 1] if not path.is_empty() else c["tile"],
 		})
 	return out

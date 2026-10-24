@@ -84,6 +84,49 @@ static func phase_text(phase: String) -> String:
 	return PHASE_TEXT.get(phase, phase)
 
 
+## The customer panel (#141): purpose, money, basket and what the customer is doing, one line each, in Japanese.
+## Read-only from the snapshot's customer view. A customer without a purpose (old save) shows its basket size only.
+static func customer_panel_lines(c: Dictionary, fixture_name: String) -> Array[String]:
+	var out: Array[String] = []
+	var purpose := String(c.get("purpose_name", ""))
+	out.append("客 %s　来店目的：%s" % [c.get("customer_id", ""), purpose if purpose != "" else "（記録なし）"])
+	if purpose != "":
+		out.append("所持金 %s　予算 %s　予定 %s" % [yen(int(c.get("wallet_yen", 0))), yen(int(c.get("budget_yen", 0))), yen(int(c.get("planned_yen", 0)))])
+	var items: Array[String] = []
+	var passed: Array[String] = []
+	for e in c.get("basket_log", []):
+		var star := "★" if e.get("kind", "") == "impulse" else ""
+		var label := "%s%s %s" % [star, e.get("name", e.get("sku_id", "")), yen(int(e.get("price", 0)))]
+		match String(e.get("state", "")):
+			"taken":
+				items.append("✔" + label)
+			"planned":
+				items.append("・" + label)
+			"too_expensive":
+				passed.append(label + "（予算オーバー）")
+			"not_bought":
+				passed.append(label + "（見送り）")
+			"stockout":
+				passed.append(label + "（品切れ）")
+	out.append("かご：" + ("、".join(items) if not items.is_empty() else "なし"))
+	if not passed.is_empty():
+		out.append("買わなかった：" + "、".join(passed))
+	if int(c.get("impulse_count", 0)) > 0:
+		out.append("★ ついで買い %d点" % int(c.get("impulse_count", 0)))
+	out.append("状態：" + customer_action(c, fixture_name))
+	return out
+
+
+static func yen(v: int) -> String:
+	var s := str(absi(v))
+	var parts: Array[String] = []
+	while s.length() > 3:
+		parts.push_front(s.substr(s.length() - 3))
+		s = s.substr(0, s.length() - 3)
+	parts.push_front(s)
+	return ("-" if v < 0 else "") + "¥" + ",".join(parts)
+
+
 ## What the selected customer is doing now, in Japanese, from its phase and targets (read-only snapshot fields).
 ## `fixture_name` is the display name of the shelf it is heading to or picked from ("" when unknown).
 static func customer_action(c: Dictionary, fixture_name: String) -> String:

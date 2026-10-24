@@ -74,8 +74,7 @@ func refresh_customer() -> void:
 		return
 	for c in _world.customers:
 		if c["customer_id"] == _world.selected_customer:
-			var action := OverlayModel.customer_action(c, _shelf_name(String(c.get("fixture_id", ""))))
-			_customer.text = "選択中の客 %s\n状態: %s（%d, %d）" % [c["customer_id"], action, c["tile"].x, c["tile"].y]
+			_customer.text = "\n".join(OverlayModel.customer_panel_lines(c, _shelf_name(String(c.get("fixture_id", "")))))   # #141
 			return
 	_customer.text = ""
 

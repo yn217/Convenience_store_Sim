@@ -33,11 +33,20 @@ static func step(state: GameState) -> bool:
 		return true
 	state.visit_stats["entered"] += 1
 	state.next_customer_seq += 1
-	# Basket size is decided at arrival (issue #128): one more `arrivals` draw, only for a visitor who comes in.
-	var basket_rng := Lcg32.new(int(state.rng_states["arrivals"]))
-	var basket_size := BasketModel.draw_size(basket_rng, state.balance)
-	state.rng_states["arrivals"] = basket_rng.state
-	state.arrival_queue.append({"customer_id": "cust_%05d" % state.next_customer_seq, "arrived_at_sec": state.time_sec, "basket_size": basket_size})
+	var arrival := {"customer_id": "cust_%05d" % state.next_customer_seq, "arrived_at_sec": state.time_sec}
+	var pick_rng := Lcg32.new(int(state.rng_states["arrivals"]))
+	if VisitPurpose.enabled(state.balance):
+		# The purpose replaces the basket draw (issue #141): the same one `arrivals` draw picks it; budget and
+		# wallet come from the `visits` stream (two draws).
+		var money_rng := Lcg32.new(int(state.rng_states["visits"]))
+		var v := VisitPurpose.draw(pick_rng, money_rng, hour, state.balance)
+		state.rng_states["visits"] = money_rng.state
+		arrival.merge({"purpose_id": v["purpose_id"], "budget_yen": v["budget_yen"], "wallet_yen": v["wallet_yen"], "basket_size": v["slots"]})
+	else:
+		# Basket size is decided at arrival (issue #128): one more `arrivals` draw, only for a visitor who comes in.
+		arrival["basket_size"] = BasketModel.draw_size(pick_rng, state.balance)
+	state.rng_states["arrivals"] = pick_rng.state
+	state.arrival_queue.append(arrival)
 	return true
 
 
