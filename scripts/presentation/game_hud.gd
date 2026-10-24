@@ -291,7 +291,9 @@ func apply_snapshot(s: Dictionary) -> void:
 	var today: Dictionary = s.get("today", {"revenue_yen": 0, "gross_profit_yen": 0})
 	_sales.text = format_yen(int(today["revenue_yen"]))
 	_profit.text = format_yen(int(today["gross_profit_yen"]))
-	_customers.text = "%d 人" % int(s.get("visit_stats", {}).get("entered", 0))
+	var visit: Dictionary = s.get("visit_stats", {})
+	_customers.text = "%d 人" % int(visit.get("entered", 0))
+	_customers.tooltip_text = "来店 %d 人 ／ 購入 %d 人 ／ 販売 %d 点" % [int(visit.get("entered", 0)), int(visit.get("purchased", 0)), int(s.get("units_sold_today", 0))]
 	var day := int(s["day"])
 	var time_sec := int(s["time_sec"])
 	_time_icon.texture = UiIcons.texture(time_icon(time_sec), HUD_ICON_SIZE)

@@ -84,12 +84,19 @@ static func summary_text(reports: Array) -> String:
 	var r: Dictionary = reports[reports.size() - 1]
 	var margin = DailyReport.gross_margin_percent(r)
 	var margin_text := "—" if margin == null else "%.1f%%" % margin
-	return "DAY %d\n売上 %s（前日比 %s）\n売上原価 %s ／ 粗利 %s（粗利率 %s）\n廃棄 %s ／ 広告 %s ／ 電気 %s ／ 固定 %s\n営業損益 %s（前日比 %s）\n現金残高 %s（この日の増減 %s）※設備・仕入は損益に入りません\n来店希望 %d ／ 入店 %d ／ 購入 %d ／ 失客 %d ／ 販売 %d 個" % [
+	return "DAY %d\n売上 %s（前日比 %s）\n売上原価 %s ／ 粗利 %s（粗利率 %s）\n廃棄 %s ／ 広告 %s ／ 電気 %s ／ 固定 %s\n営業損益 %s（前日比 %s）\n現金残高 %s（この日の増減 %s）※設備・仕入は損益に入りません\n来店希望 %d ／ 来店客数 %d ／ 購入客数 %d ／ 失客 %d\n販売点数 %d 点 ／ 客単価 %s（売上 ÷ 購入客数）" % [
 		int(r["day_index"]), GameHud.format_yen(int(r["revenue_yen"])), _delta(reports, "revenue_yen"),
 		GameHud.format_yen(int(r["cogs_yen"])), GameHud.format_yen(int(r["gross_profit_yen"])), margin_text,
 		GameHud.format_yen(int(r["wastage_yen"])), GameHud.format_yen(int(r["advertising_yen"])),
 		GameHud.format_yen(int(r["electricity_yen"])), GameHud.format_yen(int(r["fixed_cost_yen"])),
 		GameHud.format_yen(int(r["operating_profit_yen"])), _delta(reports, "operating_profit_yen"),
 		GameHud.format_yen(int(r["cash_end_yen"])), GameHud.format_yen(int(r["net_cash_delta_yen"])),
-		int(r["potential_customers"]), int(r["visitors"]), int(r["purchasing_customers"]), int(r["lost_customers"]), int(r["units_sold"]),
+		int(r["potential_customers"]), int(r["visitors"]), int(r["purchasing_customers"]), int(r["lost_customers"]),
+		int(r["units_sold"]), _unit_price_text(r),
 	]
+
+
+## 客単価 of one closed day: revenue / buying customers, "—" when nobody bought.
+static func _unit_price_text(r: Dictionary) -> String:
+	var buyers := int(r["purchasing_customers"])
+	return "—" if buyers <= 0 else GameHud.format_yen(int(r["revenue_yen"]) / buyers)
