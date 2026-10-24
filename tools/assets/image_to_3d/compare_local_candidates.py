@@ -45,6 +45,7 @@ def main():
     p.add_argument('--ai', required=True)
     p.add_argument('--out', required=True)
     p.add_argument('--label', default='Hunyuan shape only / texture pending')
+    p.add_argument('--candidate-kind', default='Image-to-3D', help='Truthful method label for the right-hand candidate')
     args = p.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -52,7 +53,7 @@ def main():
     reference, procedural, ai = [Image.open(path).convert('RGBA') for path in paths]
     sheet = Image.new('RGBA', (1800, 1120), BG)
     draw = ImageDraw.Draw(sheet)
-    stamp(draw, (25, 18), 'shelf_general FULL: local Image-to-3D evaluation, NOT APPROVED', 27)
+    stamp(draw, (25, 18), 'shelf_general FULL: local 3D method evaluation, NOT APPROVED', 27)
     stamp(draw, (25, 60), 'Upper: individually fitted crops (NOT a scale comparison). Reference is art direction only.', 19)
     labels = ['User reference / uncalibrated', 'Conventional Blender comparator', args.label]
     for i, (im, label) in enumerate(zip((reference, procedural, ai), labels)):
@@ -73,7 +74,7 @@ def main():
         crops.append(panel)
     for i, im in enumerate(crops):
         x = 40+i*550
-        stamp(draw, (x, 635), ('Procedural' if i == 0 else 'Image-to-3D')+' / source 2x', 18)
+        stamp(draw, (x, 635), ('Procedural baseline' if i == 0 else args.candidate_kind)+' / source 2x', 18)
         sheet.alpha_composite(im, (x, 674))
         for zoom in (0.5, 1.0, 1.6, 2.0):
             factor = zoom/2
@@ -96,6 +97,7 @@ def main():
         'game_scale_preview': 'downsampled source render, NOT actual Godot screenshot',
         'semantic_measurements': {'product_front_area_px': 'UNKNOWN', 'shelf_exposure_px': 'UNKNOWN', 'category_readability': 'INDEPENDENT_REVIEW_REQUIRED'},
         'ai_label': args.label,
+        'candidate_method': args.candidate_kind,
     }
     (out/'comparison.json').write_text(json.dumps(report, indent=2)+'\n')
 
