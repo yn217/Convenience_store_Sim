@@ -53,6 +53,17 @@ static func anim_for(phase: String) -> String:
 	return "idle"
 
 
+## Animation for what the figure is doing on screen: walking only while its shown position moves, otherwise a
+## pose (inspect while choosing or while standing by a shelf after a pick), otherwise idle. Standing still never
+## plays the walk cycle (#117).
+static func anim_for_state(phase: String, moving: bool, posing: bool) -> String:
+	if moving:
+		return "walk"
+	if posing or phase == "SELECT":
+		return "inspect"
+	return "idle"
+
+
 ## Frame index for animation time in game seconds (never wall time: speed 0 freezes it).
 static func frame_index(spec: Dictionary, anim_time: float) -> int:
 	var n := int(spec["frames"])

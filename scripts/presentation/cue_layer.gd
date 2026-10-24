@@ -98,11 +98,13 @@ func _draw() -> void:
 			draw_circle(p, 26.0 * proj.zoom, Color(1.0, 0.95, 0.6, a))
 	_draw_sales(font, proj)
 	var presenter: Node2D = _world.get_node_or_null("ObjectSortRoot/FixturePresenter")
+	var bubbles := _pick_bubbles(presenter, size)
 	for m in _player.marks:
 		var where := _customer_head(presenter, m["customer_id"])
 		if where != Vector2.ZERO:
 			if m["kind"] == "pick":
-				_draw_pick_bubble(font, where, m)
+				if bubbles.has(m):
+					_draw_pick_bubble(font, where, m)
 			else:
 				draw_string_outline(font, where + Vector2(-8, -8), "×", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, 4, Color(0, 0, 0, 0.8))
 				draw_string(font, where + Vector2(-8, -8), "×", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("ff8a80"))
@@ -161,6 +163,28 @@ func _draw_pick_bubble(font: Font, where: Vector2, m: Dictionary) -> void:
 	var at := where + Vector2(18, -40 - (0.0 if _player.reduce_motion else 10.0 * k))
 	draw_string_outline(font, at, "+かご", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0, 0, 0, 0.8 * alpha))
 	draw_string(font, at, "+かご", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.7, 1.0, 0.75, alpha))
+
+
+## At most MAX_PICK_BUBBLES pick bubbles on screen at once (#117 clutter): the selected customer first, then the figures
+## nearest the middle of the store view. The others keep their timer and are not drawn.
+const MAX_PICK_BUBBLES := 3
+
+
+func _pick_bubbles(presenter: Node2D, size: Vector2) -> Array:
+	var cand: Array = []
+	for m in _player.marks:
+		if m["kind"] != "pick":
+			continue
+		var where := _customer_head(presenter, m["customer_id"])
+		if where == Vector2.ZERO:
+			continue
+		var selected: bool = _world.selected_customer != "" and m["customer_id"] == _world.selected_customer
+		cand.append({"m": m, "d": -1.0 if selected else where.distance_to(size * 0.5)})
+	cand.sort_custom(func(a, b): return a["d"] < b["d"])
+	var out: Array = []
+	for i in mini(cand.size(), MAX_PICK_BUBBLES):
+		out.append(cand[i]["m"])
+	return out
 
 
 ## Sales pop-ups: one "+¥" per register, rising and fading over its 0.8 s. Under reduce_motion it stays still.
