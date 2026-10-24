@@ -37,6 +37,10 @@ func _ready() -> void:
 	_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_hint.text = "配置: グリッド・通れない場所・客側 / 情報: 在庫と本日の売れ数"
 	_body.add_child(_hint)
+	var camera_hint := Label.new()
+	camera_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	camera_hint.text = "カメラ: ホイール=拡大縮小 / 中ドラッグ・Space+ドラッグ=移動 / F=店舗全体 / Shift+F=店内表示と全体表示を切替"
+	_body.add_child(camera_hint)
 	_stack = Label.new()
 	_stack.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_stack)

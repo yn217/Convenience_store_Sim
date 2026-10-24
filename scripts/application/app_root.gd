@@ -216,6 +216,9 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
 	_publish_snapshot()
+	var world := _world()
+	if world != null and world.has_method("reset_default_view"):
+		world.reset_default_view()   # a loaded save opens in the default interior view, like a new game
 	var events: Array[String] = []
 	return CommandResult.success(state.revision, events)
 

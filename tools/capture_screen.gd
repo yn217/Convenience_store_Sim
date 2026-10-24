@@ -72,6 +72,8 @@ func _run() -> void:
 			main.call("toggle_build")
 		elif a.begins_with("--screen="):
 			main.call("open_screen_tab", a.trim_prefix("--screen="))
+	if OS.get_cmdline_user_args().has("--whole"):   # --whole: the whole-store fit (F key) instead of the default interior fit (#109)
+		main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld").fit_whole()
 	for a in OS.get_cmdline_user_args():   # --zoom=1.2: capture at that camera zoom (package icons, #12)
 		if a.begins_with("--zoom="):
 			var store: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
