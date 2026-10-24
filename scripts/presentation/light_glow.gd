@@ -5,8 +5,10 @@ extends Node2D
 ## night and nearly unlit at noon. Static (no animation, so reduce_motion has nothing to tone down),
 ## presentation only, drawn between the fixtures and the overlay layers, and it never takes input.
 
-const DAY_FLOOR := 0.12   ## glow strength in full daylight
-const NIGHT_PEAK := 0.6   ## glow strength at night
+## The user found the indoor glows distracting (2026-10-24): the interior keeps its own bright tint at
+## night, so the glow over fixtures and the entrance is off. Kept as a node so it can be tuned back on.
+const DAY_FLOOR := 0.0    ## glow strength in full daylight
+const NIGHT_PEAK := 0.0   ## glow strength at night
 const FIXTURE_RADIUS_TILES := 1.1
 const ENTRANCE_RADIUS_TILES := 3.0
 const FIXTURE_LIFT_M := 0.4   ## glow source sits a little above the top of the fixture
@@ -45,7 +47,7 @@ func set_time(time_sec: int) -> void:
 
 
 func _draw() -> void:
-	if _world == null or _world.store_width <= 0 or _world.fixture_catalog == null:
+	if _intensity <= 0.0 or _world == null or _world.store_width <= 0 or _world.fixture_catalog == null:
 		return
 	var proj: IsoProjection = _world.projection
 	var tile_px := proj.world_to_screen(1.0, 0.0).distance_to(proj.world_to_screen(0.0, 0.0))

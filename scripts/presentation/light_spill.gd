@@ -8,7 +8,7 @@ extends Node2D
 
 const SPILL_COLOR := Color(1.0, 0.72, 0.42)
 const SPILL_DEPTH := 2.6          ## how far the spill reaches onto the pavement, in tiles, from the storefront
-const SPILL_STRENGTH := 0.9       ## alpha of the spill at the storefront at full night
+const SPILL_STRENGTH := 0.45      ## alpha of the spill at the storefront at full night
 const SPILL_DEPTHS := [0.0, 0.8, 1.7, SPILL_DEPTH]
 const CONE_APEX_ALPHA := 0.28
 const SPILL_DEPTH_ALPHA := [1.0, 0.55, 0.2, 0.0]
