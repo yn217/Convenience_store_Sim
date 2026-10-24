@@ -6,13 +6,7 @@ extends SceneTree
 
 const FRAMES := 600
 const WARMUP := 120
-const PLAN := [
-	["register_basic", 13, 5, 0], ["shelf_general", 3, 2, 0], ["shelf_onigiri", 3, 5, 0], ["shelf_noodle", 3, 8, 0],
-	["shelf_bread", 6, 2, 0], ["shelf_snack", 6, 5, 0], ["shelf_general", 6, 8, 0], ["fridge_drink", 9, 2, 0],
-	["fridge_dessert", 9, 5, 0], ["freezer_ice", 11, 9, 0], ["warmer_oden", 13, 2, 0], ["shelf_general", 1, 11, 1],
-	["shelf_onigiri", 4, 11, 1], ["shelf_snack", 12, 11, 1], ["shelf_bread", 10, 7, 1], ["shelf_noodle", 14, 9, 1],
-	["shelf_general", 14, 11, 1], ["fridge_drink", 1, 9, 1], ["shelf_snack", 12, 7, 1], ["fridge_dessert", 8, 9, 1],
-]
+const SampleLayout := preload("res://tools/sample_layout.gd")   # data/layouts/sample_store_v1.json (falls back to the old plan)
 
 
 func _initialize() -> void:
@@ -29,7 +23,7 @@ func _run() -> void:
 	var s: GameState = app.state
 	s.ledger.cash_yen = 5000000
 	var placed := 0
-	for p in (PLAN if not OS.get_cmdline_user_args().has("empty") else []):
+	for p in (SampleLayout.placements() if not OS.get_cmdline_user_args().has("empty") else []):
 		var r: CommandResult = app.run_command({"command_id": "pf%d" % placed, "kind": &"PLACE_FIXTURE", "type_id": p[0], "x": p[1], "y": p[2], "rotation": p[3]})
 		if r.ok:
 			placed += 1
