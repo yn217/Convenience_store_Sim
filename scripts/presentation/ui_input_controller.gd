@@ -2,7 +2,7 @@ class_name UiInputController
 extends Node
 ## Store viewport input (04 §2): wheel = pointer-centred zoom, middle drag or
 ## Space + left drag = pan, left click = select tile, right click / Esc = cancel,
-## F = fit whole store, O = overlay mode (normal / layout / info), P = pause / resume the clock, R = rotate preview, Delete = remove selected, Ctrl+Z / Ctrl+Y = undo / redo.
+## F = fit whole store, Shift+F = toggle interior fit / whole store (the default view is the interior fit), O = overlay mode (normal / layout / info), P = pause / resume the clock, R = rotate preview, Delete = remove selected, Ctrl+Z / Ctrl+Y = undo / redo.
 ## Space alone does nothing. Sits inside the SubViewport, so it only
 ## sees pointer events that really landed on the store view (UI panels never forward theirs).
 
@@ -78,7 +78,10 @@ func _on_key(event: InputEventKey) -> bool:
 			_world.cycle_overlay_mode()
 			return true
 		KEY_F:
-			_world.fit_view()
+			if event.shift_pressed:
+				_world.toggle_fit_mode()   # interior fit <-> whole store
+			else:
+				_world.fit_whole()
 			return true
 		KEY_R:
 			_world.rotate_requested.emit()
