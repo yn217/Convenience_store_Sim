@@ -91,21 +91,19 @@ func test_queue_marks_sit_on_the_queue_cells(t, _tree) -> void:
 	t.eq(seen.size(), queue.size(), "every queue cell gets a mark")
 
 
-func test_sticker_and_two_line_label_on_the_first_queue_cell(t, _tree) -> void:
+func test_sticker_with_footprint_icon_on_the_first_queue_cell(t, _tree) -> void:
 	var plans := _plans([_fixture("r", REG, 5, 4, 0)])
 	var queue: Array = plans[0]["queue"]
-	var stickers := _polys(RegisterDecor.floor_items(plans)).filter(func(it): return it["color"] == RegisterDecor.SIGN_FILL)
+	var floor := RegisterDecor.floor_items(plans)
+	t.eq(floor.filter(func(it): return it["kind"] == &"text").size(), 0, "no text on the floor sticker")
+	var stickers := _polys(floor).filter(func(it): return it["color"] == RegisterDecor.SIGN_FILL)
 	t.eq(stickers.size(), 1, "one sticker per line")
 	t.eq(_cell_of(_centre(stickers[0]["points"])), queue[0], "the sticker lies on the first queue cell only")
 	t.ok(absf(stickers[0]["points"][1].x - stickers[0]["points"][0].x - 0.6) < 1e-6, "the sticker is 0.6 tile wide")
-	var texts := RegisterDecor.floor_items(plans).filter(func(it): return it["kind"] == &"text")
-	t.eq(texts.size(), RegisterDecor.SIGN_LINES.size(), "one text item per label line")
-	var joined := ""
-	for tx in texts:
-		joined += tx["text"]
-		var at: Vector3 = tx["at"]
-		t.eq(_cell_of(Vector2(at.x, at.y)), queue[0], "label line sits on the sticker")
-	t.eq(joined, "こちらお並びください", "the label reads こちら / お並びください")
+	var icons := _polys(floor).filter(func(it): return it["color"] == RegisterDecor.SIGN_ICON)
+	t.eq(icons.size(), 2, "two footprint marks on the sticker")
+	for ic in icons:
+		t.eq(_cell_of(_centre(ic["points"])), queue[0], "the footprint mark lies on the sticker cell")
 
 
 func test_counter_top_items_stay_on_the_top_face(t, _tree) -> void:

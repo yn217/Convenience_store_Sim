@@ -15,10 +15,9 @@ const MARK_HALF := 0.42         ## a queue footprint is a square of this half-si
 const MARK_LINE := 0.07
 const MARK_COLOR := Color("f2c94c")
 const STICKER_HALF := 0.3       ## the floor sticker on the head of the line is 0.6 tile square
-const SIGN_LINES: Array[String] = ["こちら", "お並びください"]
-const SIGN_LINE_DY := [-6.0, 8.0]   ## screen px (at zoom 1) of each line, from the sticker centre
 const SIGN_FILL := Color("2f6db5")
-const SIGN_TEXT_COLOR := Color("ffffff")
+const SIGN_ICON := Color("ffffff")
+const ICON_FOOT := Vector2(0.09, 0.15)   ## half size of one footprint icon mark (tile units)
 
 ## Counter-top boxes: {u, v} centre across the register (u, along its long side) and toward the customers (v, along the
 ## access normal), half sizes su/sv, z0 above the register top, height h, and the base colour (top and faces are shaded).
@@ -144,13 +143,15 @@ static func _queue_mark(c: Vector2i) -> Array:
 	return out
 
 
-## The sticker lies on the head cell of the line (0.6 tile square). The two label lines are drawn flat on it, centred,
-## with a small vertical offset each, so the label stays on the floor in front of the register and never rises over it.
+## The sticker lies on the head cell of the line (0.6 tile square) with a small footprint icon (two white soles) on it.
+## No text: the label was clipped by the register at the default camera.
 static func _queue_sticker(c: Vector2i) -> Array:
 	var h := STICKER_HALF
 	var out: Array = [{"kind": &"poly", "points": _rect(c.x - h, c.x + h, c.y - h, c.y + h, MARK_Z), "color": SIGN_FILL}]
-	for i in SIGN_LINES.size():
-		out.append({"kind": &"text", "at": Vector3(c.x, c.y, MARK_Z), "text": SIGN_LINES[i], "color": SIGN_TEXT_COLOR, "dy": SIGN_LINE_DY[i]})
+	for dx in [-0.11, 0.11]:
+		var fx: float = c.x + dx
+		var fy: float = c.y
+		out.append({"kind": &"poly", "points": _rect(fx - ICON_FOOT.x, fx + ICON_FOOT.x, fy - ICON_FOOT.y, fy + ICON_FOOT.y, MARK_Z + 0.001), "color": SIGN_ICON})
 	return out
 
 
