@@ -171,6 +171,9 @@ const MAX_PICK_BUBBLES := 3
 
 
 func _pick_bubbles(presenter: Node2D, size: Vector2) -> Array:
+	var out: Array = []
+	if _player.marks.is_empty():
+		return out   # nothing to pick from: no list is built on the frames without pick cues
 	var cand: Array = []
 	for m in _player.marks:
 		if m["kind"] != "pick":
@@ -181,7 +184,6 @@ func _pick_bubbles(presenter: Node2D, size: Vector2) -> Array:
 		var selected: bool = _world.selected_customer != "" and m["customer_id"] == _world.selected_customer
 		cand.append({"m": m, "d": -1.0 if selected else where.distance_to(size * 0.5)})
 	cand.sort_custom(func(a, b): return a["d"] < b["d"])
-	var out: Array = []
 	for i in mini(cand.size(), MAX_PICK_BUBBLES):
 		out.append(cand[i]["m"])
 	return out

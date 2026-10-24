@@ -24,6 +24,13 @@ class FakeWorld extends Node2D:
 		return ""
 
 
+## A fresh walk state of one figure (as the presenter creates it), with the turn hold already expired or set.
+func _walk_state(face_age: float) -> Presenter.Walk:
+	var w := Presenter.Walk.new()
+	w.face_age = face_age
+	return w
+
+
 func _presenter(speed: int) -> Presenter:
 	var p: Presenter = Presenter.new()
 	var w := FakeWorld.new()
@@ -40,7 +47,7 @@ func _customer(id: String, tile: Vector2i, path: Array, phase: String, progress:
 ## Facing: a figure turns only after FACE_HYSTERESIS tiles of net movement in a new direction.
 func test_facing_turns_only_after_sustained_movement(t, _tree) -> void:
 	var p := _presenter(1)
-	var tr := {"run": Vector2.ZERO, "face_age": 10.0}
+	var tr := _walk_state(10.0)
 	p._facing["c1"] = CustomerSprites.FACING_E
 	for i in 2:
 		p._update_facing("c1", tr, Vector2(0.0, 0.1), Vector2.ZERO, FRAME)
@@ -52,7 +59,7 @@ func test_facing_turns_only_after_sustained_movement(t, _tree) -> void:
 ## A wobble that goes back and forth cancels out in the net movement: no turn at all.
 func test_back_and_forth_wobble_never_turns(t, _tree) -> void:
 	var p := _presenter(1)
-	var tr := {"run": Vector2.ZERO, "face_age": 10.0}
+	var tr := _walk_state(10.0)
 	p._facing["c1"] = CustomerSprites.FACING_E
 	for i in 40:
 		var d := Vector2(0.0, 0.05) if i % 2 == 0 else Vector2(0.0, -0.05)
@@ -63,7 +70,7 @@ func test_back_and_forth_wobble_never_turns(t, _tree) -> void:
 ## Right after a turn the figure does not turn straight back (staircase paths flicker otherwise).
 func test_no_immediate_reversal_after_a_turn(t, _tree) -> void:
 	var p := _presenter(1)
-	var tr := {"run": Vector2.ZERO, "face_age": 10.0, "prev_face": -1}
+	var tr := _walk_state(10.0)
 	p._facing["c1"] = CustomerSprites.FACING_E
 	p._update_facing("c1", tr, Vector2(0.4, 0.0), Vector2.ZERO, FRAME)
 	t.eq(p._facing["c1"], CustomerSprites.FACING_E)
@@ -73,7 +80,7 @@ func test_no_immediate_reversal_after_a_turn(t, _tree) -> void:
 	p._update_facing("c1", tr, Vector2(0.4, 0.0), Vector2.ZERO, FRAME)
 	t.eq(p._facing["c1"], CustomerSprites.FACING_S, "no turn back to the east within FACE_HOLD")
 	# After the hold has passed, the same move is allowed.
-	tr["face_age"] = Presenter.FACE_HOLD + 0.01
+	tr.face_age = Presenter.FACE_HOLD + 0.01
 	p._update_facing("c1", tr, Vector2(0.4, 0.0), Vector2.ZERO, FRAME)
 	t.eq(p._facing["c1"], CustomerSprites.FACING_E, "after the hold the figure turns east again")
 
@@ -108,7 +115,8 @@ func test_standing_figure_plays_idle_not_walk(t, _tree) -> void:
 func test_shown_speed_is_capped_and_follows_the_path(t, _tree) -> void:
 	for speed in [1, 2, 4]:
 		var p := _presenter(speed)
-		var tr := {"hist": [Vector2i(0, 0)], "seen": 0, "s": 0.0, "v": 0.0, "run": Vector2.ZERO, "hold": 0.0}
+		var tr := _walk_state(0.0)
+		tr.hist.append(Vector2i(0, 0))
 		p._track["c1"] = tr
 		var path: Array = []
 		for x in range(1, 4):
@@ -141,17 +149,18 @@ func test_pace_is_calm_and_grows_with_speed(t, _tree) -> void:
 		path.append(Vector2i(x, 0))
 	for speed in [1, 4]:
 		var p := _presenter(speed)
-		var tr := {"hist": [Vector2i(0, 0)], "seen": 0, "s": 0.0, "v": 0.0, "run": Vector2.ZERO, "hold": 0.0}
+		var tr := _walk_state(0.0)
+		tr.hist.append(Vector2i(0, 0))
 		p._track["c1"] = tr
 		var pace := Presenter.WALK_TILES_PER_SEC * sqrt(float(speed))
 		var sim := Presenter.WALK_LAG_FREE   # the simulation is that far ahead: inside the free lag, the figure keeps its pace
 		var last_second := 0.0
 		for f in 600:   # 10 s: the start-up lag settles first
 			sim += pace * FRAME   # the simulation walks at the same pace
-			var before: float = tr["s"]
+			var before: float = tr.s
 			p._walk("c1", tr, path, sim, FRAME, pace)
 			if f >= 540:
-				last_second += float(tr["s"]) - before
+				last_second += float(tr.s) - before
 		t.ok(absf(last_second - pace) < 0.25, "x%d: a figure at pace walks %.2f tiles per real second (expected %.2f)" % [speed, last_second, pace])
 	t.ok(Presenter.WALK_TILES_PER_SEC * sqrt(4.0) > Presenter.WALK_TILES_PER_SEC, "x4 walks faster than x1")
 	t.ok(Presenter.WALK_MAX < 36.0, "the shown speed stays far below the simulation's own pace (about 36 tiles per real second at x1)")
