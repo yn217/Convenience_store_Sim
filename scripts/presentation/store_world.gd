@@ -22,7 +22,8 @@ const NO_TILE := Vector2i(-1, -1)
 const WALL := Color(0.25, 0.25, 0.28)
 const DOOR := Color(0.25, 0.60, 0.85)
 const OUTSIDE := Color(0.55, 0.62, 0.50)
-const MIN_VISIBLE_PX := 128.0
+## Which refit fit_view() does: the default interior fit (floor fills the safe area) or the whole store (F / Shift+F).
+enum FitMode { INTERIOR, WHOLE }
 
 var store_width: int = 0
 var store_height: int = 0
@@ -52,6 +53,7 @@ var selected_tile := NO_TILE
 var mode: Mode = Mode.OBSERVE
 ## True once the player zoomed/panned; resizing then keeps their view instead of refitting.
 var user_moved := false
+var fit_mode: FitMode = FitMode.INTERIOR
 ## Screen px the UI covers around the viewport (x = left rail, y = top HUD, z = right, w = bottom summary).
 ## fit_view() centres the floor in what is left. Set by MainLayout; zero means the whole viewport.
 var safe_inset := Vector4.ZERO
@@ -142,31 +144,68 @@ func viewport_size() -> Vector2:
 	return get_viewport_rect().size
 
 
-## F key: whole floor visible and centred, forgetting manual zoom/pan.
+## Refits the camera in the current fit mode (game start, resize, after a load). Forgets manual zoom/pan.
 func fit_view() -> void:
+	if fit_mode == FitMode.WHOLE:
+		fit_whole()
+	else:
+		fit_interior()
+
+
+## Default view after a fresh start or a loaded save: interior fit, whatever mode the player had.
+func reset_default_view() -> void:
+	fit_mode = FitMode.INTERIOR
+	fit_view()
+
+
+## F key: whole floor (walls and exterior included) visible and centred, forgetting manual zoom/pan.
+func fit_whole() -> void:
+	fit_mode = FitMode.WHOLE
 	if store_width <= 0:
 		return
 	user_moved = false
 	# The store fits the part of the viewport that the UI does not cover (safe_inset), so a refit never hides it
 	# under the HUD, rail or summary. Panels that open later overlay the store and do not move the camera.
-	var inset := safe_inset
-	var area := viewport_size() - Vector2(inset.x + inset.z, inset.y + inset.w)
-	projection.fit_floor(area, store_width, store_height)
-	projection.origin += Vector2(inset.x, inset.y)
+	var area := _safe_area()
+	projection.fit_floor(area.size, store_width, store_height)
+	projection.origin += area.position
 	_refresh()
+
+
+## Shift+F: switches between the interior fit and the whole fit.
+func toggle_fit_mode() -> void:
+	fit_mode = FitMode.INTERIOR if fit_mode == FitMode.WHOLE else FitMode.WHOLE
+	fit_view()
+
+
+## Interior fit: the floor fills most of the safe area, centred 1.5 tiles toward the entrances (see IsoProjection).
+func fit_interior() -> void:
+	fit_mode = FitMode.INTERIOR
+	if store_width <= 0:
+		return
+	user_moved = false
+	projection.fit_interior(_safe_area(), store_width, store_height,
+		IsoProjection.entrance_shift(entrance_tiles, store_width, store_height))
+	_refresh()
+
+
+## The part of the viewport the UI leaves free (safe_inset), as a screen rect.
+func _safe_area() -> Rect2:
+	var inset := safe_inset
+	return Rect2(Vector2(inset.x, inset.y), viewport_size() - Vector2(inset.x + inset.z, inset.y + inset.w))
 
 
 func zoom_at(pivot: Vector2, new_zoom: float) -> void:
 	user_moved = true
 	projection.zoom_at(pivot, new_zoom)
-	projection.clamp_to_viewport(viewport_size(), store_width, store_height, MIN_VISIBLE_PX)
+	projection.clamp_to_store_area(viewport_size(), store_width, store_height)
 	_refresh()
 
 
 func pan_by(delta: Vector2) -> void:
 	user_moved = true
 	projection.pan(delta)
-	projection.clamp_to_viewport(viewport_size(), store_width, store_height, MIN_VISIBLE_PX)
+	projection.clamp_to_store_area(viewport_size(), store_width, store_height)
 	_refresh()
 
 
@@ -358,7 +397,7 @@ func _on_viewport_resized() -> void:
 	if store_width <= 0:
 		return
 	if user_moved:
-		projection.clamp_to_viewport(viewport_size(), store_width, store_height, MIN_VISIBLE_PX)
+		projection.clamp_to_store_area(viewport_size(), store_width, store_height)
 		_refresh()
 	else:
 		fit_view()

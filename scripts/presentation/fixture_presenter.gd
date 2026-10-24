@@ -44,6 +44,9 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if _sprites.refresh():   # the visual variant override changed: rebuild the sprites and their retained segments
+		_seg_cache.clear()
+		queue_redraw()
 	_age_pick_faces(delta)
 	if _world == null or _world.customers.is_empty() or _world.speed_setting <= 0:
 		return
@@ -476,7 +479,8 @@ func _emit_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary, ground
 	for name in FixtureSprites.LAYER_ORDER_BELOW:
 		if layers.has(name):
 			_blit(layers[name], top_left, s, strip, tint, cmds)
-	_emit_products(it, entry, top_left, s, proj.zoom, strip, stock, skus, tint.a, cmds)
+	if draws_products(entry):
+		_emit_products(it, entry, top_left, s, proj.zoom, strip, stock, skus, tint.a, cmds)
 	for name in FixtureSprites.LAYER_ORDER_ABOVE:
 		if layers.has(name):
 			_blit(layers[name], top_left, s, strip, tint, cmds)
@@ -489,6 +493,11 @@ func _blit(tex: Texture2D, top_left: Vector2, s: float, strip: Vector2, tint: Co
 	if u1 - u0 < 0.5:
 		return
 	cmds.append([0, tex, Rect2(top_left + Vector2(u0 * s, 0.0), Vector2(u1 - u0, size.y) * s), Rect2(u0, 0.0, u1 - u0, size.y), tint])
+
+
+## Items are drawn on top of the sprite unless the variant has its products baked in (painted FULL, issue #91).
+static func draws_products(entry: Dictionary) -> bool:
+	return not bool(entry.get("baked", false))
 
 
 ## True when shelf items are drawn as package icons: close zoom and not the far "bar" LOD. Otherwise rects.

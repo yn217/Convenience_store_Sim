@@ -132,7 +132,7 @@ func test_store_fit_keeps_clear_of_the_hud_rail_and_summary(t, tree) -> void:
 	t.ok(world.safe_inset.x >= 84.0 and world.safe_inset.y >= 64.0 and world.safe_inset.w >= 76.0, "safe area covers rail, HUD and summary")
 	world.fit_view()
 	var floor_rect: Rect2 = world.projection.floor_bounds(world.store_width, world.store_height)
-	var top_left: Vector2 = world.projection.origin + floor_rect.position * world.projection.zoom
+	var top_left: Vector2 = floor_rect.position   # floor_bounds is already in screen space
 	t.ok(top_left.x >= world.safe_inset.x - 1.0 and top_left.y >= world.safe_inset.y - 1.0, "fitted floor starts right of the rail and under the HUD")
 	main.queue_free()
 	await tree.process_frame
