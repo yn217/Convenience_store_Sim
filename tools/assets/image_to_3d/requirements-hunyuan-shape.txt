@@ -1,0 +1,10 @@
+# Shape-only subset of official Hunyuan3D-2.1 requirements.
+# Dedicated venv shares installed CUDA PyTorch 2.6.0+cu124 from the local base.
+transformers==4.46.0
+diffusers==0.30.0
+accelerate==1.1.1
+safetensors==0.4.4
+omegaconf==2.3.0
+einops==0.8.0
+scikit-image==0.24.0
+pymeshlab==2022.2.post3
