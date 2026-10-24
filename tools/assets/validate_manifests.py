@@ -33,7 +33,8 @@ ID = re.compile(r"^[a-z][a-z0-9_]*$")
 LAYER_KEYS = {"body", "shadow", "glass_front", "fixture_back", "fixture_front"}
 ROT_KEYS = {"canvas_px", "anchor_px", "layers", "slot_anchors_px", "selection_polygon_px", "sorting_anchor_px"}
 TOP_KEYS = {"manifest_version", "visual_id", "fixture_type_id", "projection_id", "world_units_per_tile",
-            "source_px_per_tile_diamond", "footprint", "dimensions_m", "rotations"}
+            "source_px_per_tile_diamond", "footprint", "dimensions_m", "rotations",
+            "variant", "state", "runtime_approved"}
 TOP_REQUIRED = {"manifest_version", "visual_id", "fixture_type_id", "projection_id", "world_units_per_tile",
                 "source_px_per_tile_diamond"}
 GROUND_TOL_PX = 2.0     # source px; 1 screen px at zoom 1.0
@@ -239,7 +240,7 @@ def manifest_errors(mpath, catalog, prov):
     d = catalog.get(m["fixture_type_id"])
     if d is None:
         return errs + ["%s: unknown fixture type %s" % (name, m["fixture_type_id"])]
-    if m["visual_id"] != d["visual_id"]:
+    if m["visual_id"] != d["visual_id"] and not m.get("variant"):
         errs.append("%s: visual_id %s != catalog %s" % (name, m["visual_id"], d["visual_id"]))
     if m.get("footprint") != d["footprint"]:
         errs.append("%s: footprint differs from the catalog" % name)
