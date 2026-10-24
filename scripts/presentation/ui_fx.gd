@@ -20,6 +20,7 @@ const META_TWEEN := &"ui_fx_tween"
 const META_STATE := &"ui_fx_state"
 const META_FX := &"ui_fx_wired"
 const META_ROW_BASE := &"ui_fx_row_base"
+const META_POP := &"ui_fx_pop"
 
 static var reduced := false
 
@@ -98,12 +99,22 @@ static func _set_state(b: BaseButton, hovered: bool, pressed: bool) -> void:
 static func pop(label: Label, dir: int) -> void:
 	if reduced or label == null or not label.is_inside_tree():
 		return
-	label.pivot_offset = label.size * 0.5
+	# A pop that starts during another one replaces it: the old flash is cancelled first, so the resting colour is read
+	# from the theme and not from the flash still on the label.
+	var old: Variant = label.get_meta(META_POP, null)
+	if old is Tween and (old as Tween).is_valid():
+		(old as Tween).kill()
+	label.remove_theme_color_override("font_color")
 	var base := label.get_theme_color("font_color")
+	label.pivot_offset = label.size * 0.5
 	label.add_theme_color_override("font_color", flash_color(dir))
 	var tw := label.create_tween().set_parallel(true)
 	tw.tween_method(func(t: float): label.scale = Vector2.ONE * pop_scale(t), 0.0, POP_SECONDS, POP_SECONDS)
-	tw.tween_property(label, "theme_override_colors/font_color", base, POP_SECONDS)
+	tw.tween_method(func(c: Color): label.add_theme_color_override("font_color", c), flash_color(dir), base, POP_SECONDS)
+	tw.finished.connect(func():
+		label.remove_theme_color_override("font_color")
+		label.scale = Vector2.ONE)
+	label.set_meta(META_POP, tw)
 
 
 ## Alternating row tint for a list button: odd rows get a lighter face. The base look is kept for un-selecting.

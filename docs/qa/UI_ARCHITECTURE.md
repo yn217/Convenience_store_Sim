@@ -41,7 +41,7 @@ Main (Control, IGNORE)
 │  │  └─ FixtureInspector (PanelContainer 320px, 右の浮遊窓, SELECTED のみ) > Scroll > Body
 │  │     └─ 1 枚の窓「インスペクタ」: 什器ブロック (FixtureCard) / 詳細 (折りたたみ) / 移動・回転・撤去 / 客の行
 │  ├─ TopHUD (PanelContainer 全幅 64px, 上端, STOP)          … HUD 層
-│  └─ MetricBar (下端から 12px の中央寄せ 4 枚のカード, 行自体は IGNORE) … サマリー層
+│  └─ MetricBar (下端から 12px の 3 群: 目標 / 4 枚の指標 / イベント, 行自体は IGNORE) … サマリー層
 ├─ FloatCards (全面 IGNORE, カードのみ STOP)                 … 通知層 (トースト / 浮遊カード)
 ├─ ScreenDimmer (全面, STOP, SCREEN のみ表示)                … モーダル層
 ├─ ManagementWindow (中央 PanelContainer 780x600, SCREEN のみ) … モーダル層

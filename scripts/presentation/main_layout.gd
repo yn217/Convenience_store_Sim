@@ -6,7 +6,7 @@ extends Control
 
 const SCREEN_TABS := ["商品", "経営", "データ", "設定"]
 ## Rail entry id -> management tab it opens. 店舗 is not here: it toggles build mode.
-const RAIL_TAB := {"goods": "商品", "management": "経営", "data": "データ", "settings": "設定"}
+const RAIL_TAB := {"goods": "商品", "order": "商品", "management": "経営", "data": "データ", "settings": "設定"}
 ## Section title text -> management tab. Cards not listed here stay in the selection inspector.
 const TAB_OF_SECTION := {
 	"在庫": "商品", "販売価格": "商品",
@@ -16,7 +16,7 @@ const TAB_OF_SECTION := {
 }
 const INSPECTOR_CARD := "インスペクタ"
 const GAP := 12                                  # floating gap: from the window edges and the HUD, and between floating panels
-const BOTTOM_HEIGHT := 76                        # the summary cards (64) plus the gap under them (12); see MetricBar.HEIGHT
+const BOTTOM_HEIGHT := 108                       # the summary cards (MetricBar.HEIGHT = 96) plus the gap under them (12)
 const WINDOW_SIZE := Vector2(780, 600)
 const NO_TILE := Vector2i(-1, -1)
 
@@ -43,7 +43,7 @@ func _ready() -> void:
 	_inspector = $Layout/MainArea/FixtureInspector
 	_store = $Layout/MainArea/StoreViewport
 	_world = $Layout/MainArea/StoreViewport/SubViewport/StoreWorld
-	_state_label = $Layout/TopHUD/Row/StateLabel
+	_state_label = $Layout/TopHUD.find_child("StateLabel", true, false) as Label   # inside the badge in the HUD row
 	_selection_label = $Layout/MainArea/FixtureInspector/Scroll/Body/Details/SelectionLabel
 	_nav = LeftNav.new()
 	$Layout/MainArea.add_child(_nav)
@@ -256,8 +256,58 @@ func mode_name() -> String:
 func _on_rail_pressed(id: String) -> void:
 	if id == "store":
 		toggle_build()
+	elif id == "order":
+		open_goods_order()
 	else:
 		open_screen_tab(RAIL_TAB[id])
+
+
+## 発注 (rail) and similar shortcuts: the 商品 tab, scrolled to the order section (StockController).
+func open_goods_order() -> void:
+	open_screen_tab("商品")
+	var stock := get_node_or_null("StockController")
+	if stock != null and stock.has_method("order_section"):
+		_reveal.call_deferred(stock.order_section())
+
+
+## 商品を補充 in the inspector: the 商品 tab, scrolled to the restock section of the selected fixture.
+func open_restock_section() -> void:
+	open_screen_tab("商品")
+	var stock := get_node_or_null("StockController")
+	if stock != null and stock.has_method("restock_section"):
+		_reveal.call_deferred(stock.restock_section())
+
+
+## 価格変更 on an inspector row: the 商品 tab, scrolled to that SKU's price field, which takes focus.
+func open_price_for(sku_id: String) -> void:
+	open_screen_tab("商品")
+	var pricer := get_node_or_null("PriceController")
+	if pricer != null and pricer.has_method("focus_sku"):
+		pricer.focus_sku(sku_id)
+		_reveal.call_deferred(pricer.price_field(sku_id))
+
+
+## 価格を設定 in the inspector: the 商品 tab, scrolled to the price field of the first SKU in `sku_ids` (the fixture's
+## shelf products), which takes focus. The other fields of the price list stay where they are.
+func open_prices_for(sku_ids: Array) -> void:
+	open_screen_tab("商品")
+	var pricer := get_node_or_null("PriceController")
+	if pricer == null or sku_ids.is_empty():
+		return
+	var first := String(sku_ids[0])
+	pricer.focus_sku(first)
+	_reveal.call_deferred(pricer.price_field(first))
+
+
+## Scrolls every ScrollContainer above `control` so the control is in view. Runs deferred, after the layout is up.
+func _reveal(control: Control) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+	var node := control.get_parent()
+	while node != null and node != self:
+		if node is ScrollContainer:
+			(node as ScrollContainer).ensure_control_visible(control)
+		node = node.get_parent()
 
 
 ## The 在庫アラート row's 選ぶ button: selects that fixture, as a click on it would (build mode gives way first).

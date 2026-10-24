@@ -28,18 +28,19 @@ func test_hud_shows_real_sales_and_customers(t, tree) -> void:
 	var main: Control = r[1]
 	var app: Node = r[3]
 	var row := main.get_node("Layout/TopHUD/Row")
-	t.eq((row.get_node("SalesLabel") as Label).text, "本日の売上 ¥0", "no dash: a real zero")
-	t.eq((row.get_node("CustomersLabel") as Label).text, "店内客 0")
+	t.eq((row.find_child("SalesLabel", true, false) as Label).text, "¥0", "no dash: a real zero")
+	t.eq((row.find_child("CustomersLabel", true, false) as Label).text, "0 人", "the day's visits")
 	_stock(app)
 	app.run_command({"command_id": "i5", "kind": &"START_BUSINESS"})
 	for i in 2:
 		InventoryService.reserve(app.state, "r%d" % i, "c%d" % i, "rice_001", 600)
 		InventoryService.complete_sale(app.state, "tx%d" % i, "r%d" % i)
 	app.state.customers.append({"customer_id": "x", "phase": "CHECKOUT", "checkout_left": 1000, "register_id": "z", "reservation_id": "", "queue_slot": -1, "tile": Vector2i(1, 1)})
+	app.state.visit_stats["entered"] = 1   # the day's visit count (a customer who came in today), not the ones inside now
 	app._publish_snapshot()
-	t.eq((row.get_node("SalesLabel") as Label).text, "本日の売上 ¥300")
-	t.eq((row.get_node("ProfitLabel") as Label).text, "本日の粗利 ¥100", "300 revenue - 200 cost")
-	t.eq((row.get_node("CustomersLabel") as Label).text, "店内客 1")
+	t.eq((row.find_child("SalesLabel", true, false) as Label).text, "¥300")
+	t.eq((row.find_child("ProfitLabel", true, false) as Label).text, "¥100", "300 revenue - 200 cost")
+	t.eq((row.find_child("CustomersLabel", true, false) as Label).text, "1 人", "one visit today (the snapshot's entered count)")
 	r[0].queue_free()
 	await tree.process_frame
 
@@ -50,8 +51,9 @@ func test_speed_buttons_and_p_key(t, tree) -> void:
 	var world: Node2D = r[2]
 	var app: Node = r[3]
 	var hud: GameHud = main.get_node("Layout/TopHUD")
-	t.eq(hud._speed_buttons.size(), 4)
-	t.ok(hud._speed_buttons[0].button_pressed, "stopped in SETUP")
+	t.eq(hud._speed_buttons.size(), 3, "three speed segments: x1 x2 x4")
+	t.ok(hud._stopped, "stopped in SETUP (the pause button shows play)")
+	t.ok(hud._pause.disabled, "no clock to start in SETUP")
 	t.ok(hud._speed_buttons[2].disabled, "no clock to speed up in SETUP")
 	var builder := main.get_node("BuildController")
 	hud.speed_requested.emit(2)

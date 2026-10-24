@@ -1,6 +1,7 @@
 extends SceneTree
 ## Saves a screenshot of the running game with a stocked store and customers (visual review, #61).
 ##   Godot --path . --resolution 1920x1080 --script res://tools/capture_screen.gd -- build/shot.png
+## --calm: keep the balance's normal arrival rate (no forced crowd) so the shot is representative.
 
 const PLAN := [
 	["register_basic", 13, 5, 0], ["shelf_general", 3, 2, 0], ["shelf_onigiri", 3, 5, 0], ["shelf_noodle", 3, 8, 0],
@@ -41,21 +42,29 @@ func _run() -> void:
 					app.run_command({"command_id": "pr%d" % n, "kind": &"RESTOCK", "instance_id": id, "slot_id": slot["slot_id"], "sku_id": sku["sku_id"], "qty": slot["capacity_units"]})
 					break
 	app.run_command({"command_id": "pstart", "kind": &"START_BUSINESS"})
-	s.balance["base_potential_visitors_per_day"] = 200000
-	s.balance["max_active_customers"] = 30
+	# --calm: the normal arrival rate of the balance file (no crowd forced in), so the shot shows a typical store (#105 B7).
+	var calm := OS.get_cmdline_user_args().has("--calm")
+	if not calm:
+		s.balance["base_potential_visitors_per_day"] = 200000
+		s.balance["max_active_customers"] = 30
 	s.speed_setting = 4
 	var guard := 0
-	while s.customers.size() < 30 and guard < 20000 and not OS.get_cmdline_user_args().has("empty") and not OS.get_cmdline_user_args().has("nocust"):
+	while not calm and s.customers.size() < 30 and guard < 20000 and not OS.get_cmdline_user_args().has("empty") and not OS.get_cmdline_user_args().has("nocust"):
 		app.runner.process_frame(1.0 / 15.0)
 		guard += 1
 	for i in 240:
 		app.runner.process_frame(1.0 / 15.0)
-	if OS.get_cmdline_user_args().has("--select"):   # --select: the first fixture is selected (inspector card)
+	if OS.get_cmdline_user_args().has("--select"):   # --select: the first shelf is selected (inspector card with its products)
 		var ids: Array = s.grid.instances.keys()
 		ids.sort()
-		if not ids.is_empty():
+		var pick: String = ids[0] if not ids.is_empty() else ""
+		for id in ids:
+			if not s.fixtures.get_type(s.grid.instances[id]["type_id"]).get("shelf_slots", []).is_empty():
+				pick = id
+				break
+		if pick != "":
 			var world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
-			var first: Dictionary = s.grid.instances[ids[0]]
+			var first: Dictionary = s.grid.instances[pick]
 			world.select_screen(world.projection.tile_center(Vector2i(first["x"], first["y"])))
 			app._publish_snapshot()
 	for a in OS.get_cmdline_user_args():   # --build: build mode (palette at the left); --screen=商品: management window on that tab
