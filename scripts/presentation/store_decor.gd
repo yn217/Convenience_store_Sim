@@ -180,10 +180,12 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 		return out
 	var side := BackdropLayer.entrance_side(width, height, entrances)
 	var n := _edge_len(side, width, height)
+	# Along the entrance side, the street items are placed from the door span, so they follow the entrance wherever it is.
+	var span := BackdropLayer.entrance_span(side, width, height, entrances)
 	_add(out, "nobori_banner_obento", side, width, height, 1.0, n + 0.4)
 	_add(out, "open_a_board", side, width, height, 1.0, n + 1.6)
-	_add(out, "vending_machine", side, width, height, 1.0, n + 2.8)
-	_add(out, "trash_recycle_bins", side, width, height, 1.0, n + 4.0)
+	_add(out, "vending_machine", side, width, height, 1.0, span.y + 1.5)   # beside the door
+	_add(out, "trash_recycle_bins", side, width, height, 1.0, span.y + 3.0)
 	_add(out, "bicycle_stand", side, width, height, 1.1, n + 5.2)
 	_add(out, "bench", side, width, height, 1.0, n + 6.3)
 	_add(out, "pole_sign", side, width, height, 1.6, -1.0)
@@ -191,21 +193,19 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	while a <= n + 6.0:
 		_add(out, "street_lamp", side, width, height, 2.0, a)
 		a += LAMP_STRIDE
-	# Parking lot on the side after the entrance side (clockwise): two rows of bays, wheel stops, two cars.
-	var side2 := (side + 1) % 4
-	var n2 := _edge_len(side2, width, height)
-	var last := mini(n2 - 2, PARK_MAX)
-	var a2 := 2.0
+	# Parking on the street side of the entrance wall, to the left of the door: two rows of bays, wheel stops, two cars.
+	var last := mini(int(span.x) - 1, PARK_MAX)
+	var a2 := 0.0
 	while a2 < last:
-		_add(out, "parking_lot_straight", side2, width, height, PARK_ROW_A, a2)
-		_add(out, "parking_lot_straight", side2, width, height, PARK_ROW_B, a2)
+		_add(out, "parking_lot_straight", side, width, height, PARK_ROW_A, a2)
+		_add(out, "parking_lot_straight", side, width, height, PARK_ROW_B, a2)
 		if int(a2) % 2 == 0:
-			_add(out, "car_stop_bollard", side2, width, height, PARK_BOLLARD, a2)
+			_add(out, "car_stop_bollard", side, width, height, PARK_BOLLARD, a2)
 		a2 += 1.0
-	if n2 > 4:
-		_add(out, "parked_car_blue", side2, width, height, PARK_ROW_A, 3.0)
-	if n2 > 7:
-		_add(out, "parked_car_red", side2, width, height, PARK_ROW_B, 6.0)
+	if last >= 2:
+		_add(out, "parked_car_blue", side, width, height, PARK_ROW_A, 1.0)
+	if last >= 4:
+		_add(out, "parked_car_red", side, width, height, PARK_ROW_B, 3.0)
 	# Back sides: cherry trees beyond the parking lot (behind the store, so they stay above the wall).
 	for back in _back_walls(side):
 		var nb := _edge_len(back, width, height)

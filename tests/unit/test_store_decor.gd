@@ -4,7 +4,8 @@ extends RefCounted
 
 const W := 16
 const H := 12
-const ENTR := [Vector2i(0, 5), Vector2i(0, 6)]
+const ENTR := [Vector2i(0, 5), Vector2i(0, 6)]          ## west door: the storefront-wall tests below use it
+const SOUTH_ENTR := [Vector2i(8, 11), Vector2i(9, 11)]  ## the new-game door (south wall)
 
 
 func _proj(zoom: float = 1.0) -> IsoProjection:
@@ -115,16 +116,20 @@ func test_exterior_is_outside_the_store_and_deterministic(t, _tree) -> void:
 
 
 func test_exterior_has_the_street_furniture(t, _tree) -> void:
-	var items := StoreDecor.exterior_items(W, H, ENTR)
+	# Default door on the south wall: the whole street set is placed in front of the storefront.
+	var items := StoreDecor.exterior_items(W, H, SOUTH_ENTR)
 	for id in ["open_a_board", "vending_machine", "trash_recycle_bins", "bicycle_stand", "bench", "nobori_banner_obento", "pole_sign", "street_lamp", "parking_lot_straight", "car_stop_bollard", "parked_car_blue", "cherry_tree_a", "flower_bed_planter", "potted_plant_large"]:
 		t.ok(_sprites(items, id).size() > 0, "%s is placed" % id)
 	t.eq(_sprites(items, "parked_car_blue").size() + _sprites(items, "parked_car_red").size(), 2, "two parked cars")
 
 
-func test_parking_lot_is_on_the_side_after_the_entrance(t, _tree) -> void:
-	# West entrance: the lot goes on the north side (y < -0.5), in front of the back wall and the store's paving.
+func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
+	# Parking used to go on the next side clockwise, which is a far wall (behind the store). It now stands on the
+	# entrance side itself, out on the street: west door -> x < -0.5, south door -> y > H - 0.5.
 	for it in _sprites(StoreDecor.exterior_items(W, H, ENTR), "parking_lot_straight"):
-		t.ok(it["y"] < -0.5, "parking tiles lie north of the store")
+		t.ok(it["x"] < -0.5, "west door: parking tiles lie west of the store")
+	for it in _sprites(StoreDecor.exterior_items(W, H, SOUTH_ENTR), "parking_lot_straight"):
+		t.ok(it["y"] > H - 0.5, "south door: parking tiles lie south of the store")
 
 
 func test_front_items_are_on_the_near_sides(t, _tree) -> void:
