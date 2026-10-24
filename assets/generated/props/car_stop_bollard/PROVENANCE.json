@@ -1,0 +1,20 @@
+{
+ "asset_id": "car_stop_bollard",
+ "source_type": "project_generated",
+ "generator": "tools/assets/generate_exterior_props.py",
+ "tool": "Pillow; deterministic primitives",
+ "projection_id": "iso2x_v1",
+ "redistribution": "yes",
+ "fictional_brands_only": true,
+ "footprint_tiles": [
+  2,
+  1
+ ],
+ "height_m": 0.35,
+ "directions": [
+  0,
+  1,
+  2,
+  3
+ ]
+}

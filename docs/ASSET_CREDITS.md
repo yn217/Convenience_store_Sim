@@ -100,6 +100,25 @@ UIアイコン（`assets/ui/icons/`、39点。内訳は README: store, box, pers
 |issue103-storefront_wall-v1|assets/generated/props/storefront_wall|code|tools/assets/generate_props.py|iso2x_v1 / Pillow fallback|Project-generated; fictional generic; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
 |issue103-storefront_window-v1|assets/generated/props/storefront_window|code|tools/assets/generate_props.py|iso2x_v1 / Pillow fallback|Project-generated; fictional generic; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
 
+### Issue #111 exterior props
+
+|issue111-vending_machine|assets/generated/props/vending_machine|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional NOVA DRINK branding; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-bench|assets/generated/props/bench|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-trash_recycle_bins|assets/generated/props/trash_recycle_bins|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; Japanese generic labels; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-nobori_banner_obento|assets/generated/props/nobori_banner_obento|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic Japanese label; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-nobori_banner_ice|assets/generated/props/nobori_banner_ice|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic Japanese label; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-nobori_banner_coffee|assets/generated/props/nobori_banner_coffee|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic Japanese label; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-car_stop_bollard|assets/generated/props/car_stop_bollard|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-parking_lot_straight|assets/generated/props/parking_lot_straight|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic road marking|2026-10-24|PROVENANCE.json|yes|
+|issue111-parking_lot_corner|assets/generated/props/parking_lot_corner|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic road marking|2026-10-24|PROVENANCE.json|yes|
+|issue111-parking_lot_end|assets/generated/props/parking_lot_end|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic road marking|2026-10-24|PROVENANCE.json|yes|
+|issue111-parking_lot_crosswalk|assets/generated/props/parking_lot_crosswalk|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic road marking|2026-10-24|PROVENANCE.json|yes|
+|issue111-pole_sign|assets/generated/props/pole_sign|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional コンビニ24-style NOVA sign; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-street_lamp|assets/generated/props/street_lamp|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional generic; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-parked_car_blue|assets/generated/props/parked_car_blue|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional compact hatchback; no real maker logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-parked_car_red|assets/generated/props/parked_car_red|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional compact hatchback; no real maker logos|2026-10-24|PROVENANCE.json|yes|
+|issue111-poster_board|assets/generated/props/poster_board|code|tools/assets/generate_exterior_props.py; PROVENANCE.json|iso2x_v1 / Pillow deterministic primitives|Project-generated; fictional 新生活フェア campaign; no real brands/logos|2026-10-24|PROVENANCE.json|yes|
+
 The three ledger scopes above cover the following generated IDs. This index is an inventory
 cross-check, not a license approval; the human review and redistribution fields remain pending.
 
