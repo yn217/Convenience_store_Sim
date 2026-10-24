@@ -61,7 +61,7 @@
 
 ## 5. 需要・客数と売れやすさ
 **MVPの調整可能な仮モデル**：
-- 1日来店希望数の期待値 = base_traffic(time, weekday) × ad_multiplier(ad_tier) × reputation_multiplier × assortment_multiplier。
+- 1日来店希望数の期待値 = base_traffic(time)（曜日は持たない: ゲーム内暦は1日=1週、[00 §8](implementation/00_BASELINE_AND_DECISIONS.md)） × ad_multiplier(ad_tier) × reputation_multiplier × assortment_multiplier。
 - 広告倍率のテーブル（初期仮値）: 0円→1.00、1,000円→1.10、2,000円→1.18、5,000円→1.30、10,000円→1.40。広告1万円で来店が無制限に増える設計にしない。
 - 商品購入候補の重み = category_preference × availability × price_attractiveness × placement_accessibility × appeal。正規化して抽選。商品の在庫がなければ重み0。
 - 価格魅力度例（仮） = clamp((reference_price / sell_price)^elasticity, 0.3, 2.0)。0円、負数を拒否。売価高いほど購入確率が下がる可能性を表現。

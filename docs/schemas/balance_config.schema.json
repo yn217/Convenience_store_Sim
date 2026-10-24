@@ -36,6 +36,11 @@
       "type": "integer",
       "minimum": 1
     },
+    "days_per_month": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "In-game calendar: game days per month (each day is one week). Default 4 when missing; 12 months per year."
+    },
     "simulation_step_game_seconds": {
       "type": "integer",
       "minimum": 1
