@@ -14,11 +14,16 @@ extends RefCounted
 ## (for basket_size 1 that is exactly the single-item model; a single draw when there is no candidate).
 
 const WALK_TILES_PER_STEP_FALLBACK := 0.6
+## Fallbacks for a balance without the keys below (old tests); the balance file sets them for the slow
+## #117 v2 pace (a visit lasts 20-30 game minutes, so the old 600 s hold and 120 s patience ran out mid-visit).
 const RESERVATION_HOLD_SEC := 600
 const MAX_RESELECT := 2
 const QUEUE_TIMEOUT_SEC := 120
 ## The third customer in line (slot 2) makes the queue "long" for the notice.
 const LONG_QUEUE_SLOT := 2
+## Within this many tiles (Manhattan) of the line's last cell a customer joins the line at once; farther away it
+## walks there first (#117 v2).
+const JOIN_RADIUS := 3
 const LOW_STOCK_RATIO := 0.25
 const TRAIL_MAX := 32   # presentation feed: recent tiles kept per customer (see _record_step)
 
@@ -39,7 +44,7 @@ var _res_ids: Dictionary = {}      # reservation ids that exist; rebuilt when on
 var _res_dirty := true
 var _access_cache: Dictionary = {}   # fixture id -> reachable access tiles (layout-derived)
 var _held: Dictionary = {}           # tile -> id of the customer standing still on it (line/till), rebuilt each step
-const MAX_ROOM_RADIUS := 3
+const MAX_ROOM_RADIUS := 6   # #117 v2: overflow waits gather at the end of the line, so the search reaches further
 
 
 func _sync_layout(state: GameState) -> void:
@@ -127,11 +132,14 @@ func _update(state: GameState, c: Dictionary) -> void:
 		"WALK_SHELF":
 			if _reservation_lost(state, c):   # an earlier item of the basket timed out on the way
 				_leave(state, c, "reservation_lost")
-			elif _walk(state, c):
+			elif _walk(state, c) and _browsed(state, c):
 				_pick(state, c)
 		"WALK_REGISTER":
 			if _reservation_lost(state, c):
 				_leave(state, c, "reservation_lost")
+			elif int(c["queue_slot"]) < 0:   # still walking to the line, no slot yet (#117 v2)
+				if _walk(state, c):
+					_join_line(state, c)
 			elif _timed_out(state, c):
 				_leave(state, c, "queue_timeout")
 			elif _walk(state, c):
@@ -166,6 +174,49 @@ func _walk(state: GameState, c: Dictionary) -> bool:
 	return false
 
 
+## Game seconds a picked item stays reserved for the customer (until it is paid or released).
+## In front of the shelf the customer looks over the goods for a while before taking one (#117 v2): the first
+## arrival sets browse_left from the balance range (fixed per customer and shelf, no random draw), later steps
+## count it down. True once the time is over (and the shelf is reset for the next wish).
+static func reservation_hold_sec(balance: Dictionary) -> int:
+	return int(balance.get("reservation_hold_game_seconds", RESERVATION_HOLD_SEC))
+
+
+## Game seconds a customer waits for the register (from joining the line) before giving up.
+static func queue_timeout_sec(balance: Dictionary) -> int:
+	return int(balance.get("queue_patience_game_seconds", QUEUE_TIMEOUT_SEC))
+
+
+func _browsed(state: GameState, c: Dictionary) -> bool:
+	if int(c.get("browse_left", -1)) < 0:
+		c["browse_left"] = browse_seconds(state.balance, String(c["customer_id"]), String(c["fixture_id"]))
+	c["browse_left"] = int(c["browse_left"]) - int(GameClock.STEP_GAME_SECONDS)
+	if int(c["browse_left"]) > 0:
+		return false
+	c["browse_left"] = -1
+	return true
+
+
+## Game seconds a customer spends at a shelf: balance browse_min..browse_max, chosen by a hash of the customer
+## and the shelf (deterministic and free of the random streams, so the purchase draws do not move).
+static func browse_seconds(balance: Dictionary, customer_id: String, fixture_id: String) -> int:
+	var lo := int(balance.get("browse_min_game_seconds", 0))
+	var hi := maxi(int(balance.get("browse_max_game_seconds", lo)), lo)
+	if hi <= 0:
+		return 0
+	return lo + absi(("%s|%s" % [customer_id, fixture_id]).hash()) % (hi - lo + 1)
+
+
+## A customer caught between two tiles (#117 v2: a step takes many frames) finishes that step before it turns,
+## so a new route never starts from the tile it already left (the figure would jump back across the gap).
+func _finish_step(c: Dictionary) -> void:
+	var path: Array = c["path"]
+	if float(c.get("progress", 0.0)) > 0.0 and not path.is_empty():
+		c["tile"] = path.pop_front()
+		_record_step(c)
+	c["progress"] = 0.0
+
+
 ## Presentation feed only (never read by the simulation): the last TRAIL_MAX tiles the customer entered and
 ## how many steps in total. The shown position in the store follows these tiles, so several steps in one
 ## frame are walked tile by tile instead of as one straight line (see FixturePresenter).
@@ -179,6 +230,7 @@ func _record_step(c: Dictionary) -> void:
 
 
 func _route(state: GameState, c: Dictionary, goal: Vector2i) -> bool:
+	_finish_step(c)
 	var found := _path(state, c["tile"], goal)
 	if found.is_empty():
 		return false
@@ -377,7 +429,7 @@ func candidates(state: GameState) -> Array[Dictionary]:
 func _pick(state: GameState, c: Dictionary) -> void:
 	var held: Array = c["reservation_ids"]
 	var res_id := "res_%s_%d" % [c["customer_id"], c["retries"]] if held.is_empty() else "res_%s_%d_%d" % [c["customer_id"], c["retries"], held.size()]
-	var res := InventoryService.reserve(state, res_id, c["customer_id"], c["sku_id"], RESERVATION_HOLD_SEC, c["fixture_id"])
+	var res := InventoryService.reserve(state, res_id, c["customer_id"], c["sku_id"], reservation_hold_sec(state.balance), c["fixture_id"])
 	if res.is_empty():
 		_on_pick_failed(state, c)
 		return
@@ -411,14 +463,28 @@ func _go_to_register(state: GameState, c: Dictionary) -> void:
 	if plan.is_empty():
 		_leave(state, c, "no_register")
 		return
-	c["queue_since"] = state.time_sec   # the patience clock starts when the customer reaches the line
 	c["register_id"] = plan["register_id"]
+	# #117 v2: the walk to the register takes minutes. A customer far from the line walks to its end first and
+	# only takes a slot there, so the line forms in the order people arrive (a slot held by someone still at
+	# the back of the store would block everyone standing behind it).
+	var tail: Vector2i = plan["queue_cells"][plan["queue_cells"].size() - 1]
+	var far := absi(tail.x - c["tile"].x) + absi(tail.y - c["tile"].y) > JOIN_RADIUS
+	c["queue_slot"] = -1
+	if far and _route(state, c, tail):
+		c["phase"] = "WALK_REGISTER"
+		return
+	_join_line(state, c)
+
+
+## At the line: the patience clock starts and the customer takes the front-most free slot (or waits nearby).
+func _join_line(state: GameState, c: Dictionary) -> void:
+	c["queue_since"] = state.time_sec   # the patience clock starts when the customer reaches the line
 	c["phase"] = "WAIT_QUEUE"
 	_wait_for_slot(state, c)
 
 
 func _timed_out(state: GameState, c: Dictionary) -> bool:
-	return state.time_sec - int(c["queue_since"]) >= QUEUE_TIMEOUT_SEC
+	return state.time_sec - int(c["queue_since"]) >= queue_timeout_sec(state.balance)
 
 
 ## Takes the front-most free queue slot of the customer's register, or keeps waiting.
@@ -453,10 +519,12 @@ func _wait_for_slot(state: GameState, c: Dictionary) -> void:
 func _make_room(state: GameState, c: Dictionary, plan: Dictionary) -> void:
 	var tile: Vector2i = c["tile"]
 	var me: String = c["customer_id"]
-	if _held.get(tile, me) == me:
+	var queue_cells: Array = plan["queue_cells"]
+	# A waiting customer never keeps a queue cell (it arrives on the line's last cell, #117 v2): a slot holder
+	# would step onto it.
+	if _held.get(tile, me) == me and not queue_cells.has(tile):
 		_held[tile] = me
 		return
-	var queue_cells: Array = plan["queue_cells"]
 	var blocked := _blocked(state)
 	var reach := _paths.current_distances(state.grid)
 	for r in range(1, MAX_ROOM_RADIUS + 1):

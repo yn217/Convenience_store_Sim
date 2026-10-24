@@ -256,6 +256,7 @@ func snapshot() -> Dictionary:
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
+		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),   # the figures walk at the simulation's pace (#117 v2)
 		"fixture_sales": fixture_sales_today(),
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
@@ -297,6 +298,7 @@ func _customer_views() -> Array:
 				"basket_size": int(c.get("basket_size", 1)), "items_reserved": (c.get("reservation_ids", []) as Array).size(),
 			"register_id": c.get("register_id", ""), "queue_slot": int(c.get("queue_slot", -1)),
 			"checkout_left": int(c.get("checkout_left", 0)),
+			"browse_left": int(c.get("browse_left", -1)),
 			"target_tile": path[path.size() - 1] if not path.is_empty() else c["tile"],
 		})
 	return out

@@ -39,7 +39,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			charged_day = maxi(charged_day, int(tx["day_index"]))
 	var customers: Array = []
 	for c in state.customers:
-		customers.append(_customer_out(c, state.time_sec))
+		customers.append(_customer_out(c, state.time_sec, CustomerAI.queue_timeout_sec(state.balance)))
 	var event_ids := state.ledger.applied_event_ids.keys()
 	event_ids.sort()
 	var rng := state.rng_states.duplicate()
@@ -88,7 +88,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 	}
 
 
-static func _customer_out(c: Dictionary, now_sec: int) -> Dictionary:
+static func _customer_out(c: Dictionary, now_sec: int, patience_sec: int) -> Dictionary:
 	var route: Array = []
 	for p in c["path"]:
 		route.append({"x": p.x, "y": p.y})
@@ -100,10 +100,11 @@ static func _customer_out(c: Dictionary, now_sec: int) -> Dictionary:
 		"route": route,
 		"route_index": 0,
 		"reservation_ids": (c["reservation_ids"] as Array).duplicate(),
-		"patience_remaining_sec": maxi(CustomerAI.QUEUE_TIMEOUT_SEC - (now_sec - int(c["queue_since"])), 0) if not (c["reservation_ids"] as Array).is_empty() else CustomerAI.QUEUE_TIMEOUT_SEC,
+		"patience_remaining_sec": maxi(patience_sec - (now_sec - int(c["queue_since"])), 0) if not (c["reservation_ids"] as Array).is_empty() else patience_sec,
 		"basket_size": int(c.get("basket_size", 1)),
 		"basket_wishes": (c.get("wishes", []) as Array).map(func(w): return {"sku_id": w["sku_id"], "fixture_id": w["fixture_id"]}),
 		"target_fixture_id": null if c["fixture_id"] == "" else c["fixture_id"],
+		"browse_remaining_sec": maxi(int(c.get("browse_left", -1)), -1),
 		"checkout_remaining_sec": maxi(int(c["checkout_left"]), 0),
 		"target_sku_id": c["sku_id"] if c["sku_id"] != "" else null,
 		"queue_slot": c["queue_slot"],
@@ -385,7 +386,7 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		errs.append("%s: not_object" % path)
 		return
 	var required := ["customer_id", "phase", "position", "route", "route_index", "reservation_ids", "patience_remaining_sec", "target_fixture_id", "checkout_remaining_sec"]
-	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome", "basket_size", "basket_wishes"]
+	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome", "basket_size", "basket_wishes", "browse_remaining_sec"]
 	var k_errs := JsonCheck.key_errors(c, required, optional, path)
 	errs.append_array(k_errs)
 	if not k_errs.is_empty():
@@ -439,6 +440,7 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		"reservation_ids": ids,
 		"queue_slot": slot, "retries": int(c.get("retries", 0)), "queue_since": int(c.get("queue_since_sec", 0)),
 		"checkout_left": int(c["checkout_remaining_sec"]), "register_id": c.get("register_id", ""), "outcome": c.get("outcome", ""),
+		"browse_left": int(c.get("browse_remaining_sec", -1)),
 		"basket_size": basket_size, "wishes": wishes,
 	})
 

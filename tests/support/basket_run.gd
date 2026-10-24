@@ -3,13 +3,15 @@ extends RefCounted
 ## stocked to capacity and opened on day 0; every later morning it is restocked, so demand rather than stock
 ## decides the sales. No scene and no presentation: GameState + GameCommands + SimulationRunner only.
 
+const LegacyPace := preload("res://tests/support/legacy_pace.gd")
+
 const SampleLayout := preload("res://tools/sample_layout.gd")
 const Seeds := preload("res://tests/support/test_seeds.gd")
 
 
 ## `extra` is merged into the balance (test overrides); `base` replaces base_potential_visitors_per_day.
 static func new_state(base: float, extra: Dictionary = {}) -> GameState:
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	balance["base_potential_visitors_per_day"] = base
 	balance.merge(extra, true)
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))

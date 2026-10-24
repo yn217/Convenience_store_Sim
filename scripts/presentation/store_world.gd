@@ -42,6 +42,7 @@ var product_catalog: ProductCatalog      # SKU lookup for the package icons (set
 var customers: Array = []
 var checkout_duration_sec: int = 0       # game seconds per checkout (balance), for the queue estimate
 var speed_setting: int = 0
+var walk_tiles_per_game_second: float = 0.0   # the simulation's walking speed: figures keep to it (#117 v2)
 var fixture_sales: Dictionary = {}
 var overlay_mode: int = OverlayModel.Mode.NORMAL
 var selected_customer: String = ""
@@ -115,6 +116,7 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	customers = snapshot.get("customers", [])
 	checkout_duration_sec = int(snapshot.get("checkout_duration_sec", 0))
 	speed_setting = int(snapshot.get("speed_setting", 0))
+	walk_tiles_per_game_second = float(snapshot.get("walk_tiles_per_game_second", 0.0))
 	fixture_sales = snapshot.get("fixture_sales", {})
 	if snapshot.has("time_sec"):
 		_time_sec = int(snapshot["time_sec"])

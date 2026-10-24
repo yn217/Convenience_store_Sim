@@ -1,6 +1,8 @@
 extends RefCounted
 ## Issue #30 (Domain / Application side): EventEnvelope stream and the PresentationEventBridge.
 
+const LegacyPace := preload("res://tests/support/legacy_pace.gd")
+
 const Seeds := preload("res://tests/support/test_seeds.gd")
 var _n := 0
 
@@ -69,7 +71,7 @@ func test_event_id_memory_is_bounded(t, _tree) -> void:
 # ---------------------------------------------------------------- Domain events
 
 func _state() -> GameState:
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	return GameState.from_balance(balance, Seeds.SEEDS, fx, pr)
@@ -154,7 +156,7 @@ func test_events_are_not_saved_and_do_not_replay_after_load(t, _tree) -> void:
 	t.ok(s.event_log.size() > 0)
 	var data := SaveGame.to_dict(s, "slot", "2026-01-01T00:00:00Z")
 	t.ok(not JSON.stringify(data).contains("ev_0000"), "no envelope in the save file")
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var loaded := SaveGame.from_dict(data, balance, s.fixtures, s.products)
 	t.ok(loaded["ok"])
 	t.eq(loaded["state"].take_events().size(), 0, "a loaded game starts with a silent log")

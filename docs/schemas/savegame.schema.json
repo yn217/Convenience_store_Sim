@@ -451,6 +451,11 @@
             "minimum": 1,
             "maximum": 4
           },
+          "browse_remaining_sec": {
+            "description": "Game seconds the customer still looks over the shelf it stands at before taking the item; -1 = not browsing (issue #117 v2). Absent = -1.",
+            "type": "integer",
+            "minimum": -1
+          },
           "basket_wishes": {
             "description": "Items still to walk to, nearest first when visited (issue #128). Absent in schema 1 saves = [].",
             "type": "array",

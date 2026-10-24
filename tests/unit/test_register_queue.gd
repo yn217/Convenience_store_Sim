@@ -1,12 +1,14 @@
 extends RefCounted
 ## Issue #16: one customer at the till at a time, queue advance, 120 s timeout, no register.
 
+const LegacyPace := preload("res://tests/support/legacy_pace.gd")
+
 const Seeds := preload("res://tests/support/test_seeds.gd")
 var _n := 0
 
 
 func _state() -> GameState:
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	return GameState.from_balance(balance, Seeds.SEEDS, fx, pr)
@@ -171,7 +173,7 @@ func test_queue_advances_and_full_queue_waits(t, _tree) -> void:
 		_tick(s, ai, 1)
 		var ph := _phases(s)
 		most_waiting = maxi(most_waiting, int(ph.get("WAIT_QUEUE", 0)))
-		var in_line := int(ph.get("QUEUE", 0)) + int(ph.get("CHECKOUT", 0)) + int(ph.get("WALK_REGISTER", 0))
+		var in_line := s.customers.filter(func(c): return int(c["queue_slot"]) >= 0 or c["phase"] == "CHECKOUT").size()   # slot holders (a walker on its way to the line holds none, #117 v2)
 		t.ok(in_line <= 3, "at most 3 queue slots are in use")
 	t.ok(most_waiting >= 1, "with 14 customers and 3 slots somebody had to wait for a slot")
 

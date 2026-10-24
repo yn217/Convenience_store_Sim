@@ -92,6 +92,8 @@ static func customer_action(c: Dictionary, fixture_name: String) -> String:
 		"SELECT":
 			return "商品を選択中"
 		"WALK_SHELF":
+			if int(c.get("browse_left", -1)) > 0:
+				return "%sで商品を見ている" % shelf
 			return "%sへ移動中" % shelf
 		"WALK_REGISTER":
 			return "レジへ移動中"

@@ -84,6 +84,12 @@ const WALK_TILES_PER_SEC := 5.0
 ## (A figure keeps its pace while it is that far behind: pace^2 / (2 * WALK_ACCEL) tiles, so the brake never bites.)
 const WALK_LAG_FREE := 6.0
 const WALK_MAX := 12.0   # 0.2 tile per frame at 60 fps: no jumps
+## #117 v2 (the simulation walks at the shown pace): the figure walks FOLLOW_PACE times the simulation's speed and
+## brakes so that it trails the simulation by at most about LAG_FOLLOW tiles (what a click shows is where it stands).
+const FOLLOW_PACE := 1.1
+const LAG_FOLLOW := 0.3
+var _follow := false
+var _accel := WALK_ACCEL
 ## Start and stop: the pace changes by at most this much per real second (tiles/s per s), so figures never snap.
 const WALK_ACCEL := 10.0
 ## Facing turns only after this many tiles of movement in the new direction (no flicker at corners or in queues).
@@ -135,6 +141,15 @@ func _sync_customers(dt: float) -> void:
 	_alive.clear()
 	var real := dt / float(maxi(_world.speed_setting, 1))
 	var pace := WALK_TILES_PER_SEC * sqrt(float(maxi(_world.speed_setting, 1)))
+	# #117 v2: the simulation itself walks slowly. The figure keeps to the simulation's own pace (a little
+	# faster, so it never falls behind) and accelerates hard enough to stay within LAG_FOLLOW tiles of it.
+	var sim_walk := float(_world.get("walk_tiles_per_game_second")) if _world.get("walk_tiles_per_game_second") != null else 0.0
+	_follow = sim_walk > 0.0
+	if _follow:
+		pace = sim_walk * GameClock.GAME_SECONDS_PER_REAL_SECOND * float(maxi(_world.speed_setting, 1)) * FOLLOW_PACE
+		_accel = maxf(WALK_ACCEL, pace * pace / (2.0 * LAG_FOLLOW))
+	else:
+		_accel = WALK_ACCEL
 	for c in _world.customers:
 		var id: String = c["customer_id"]
 		_alive[id] = true
@@ -153,6 +168,8 @@ func _sync_customers(dt: float) -> void:
 		else:
 			_take_steps(tr, c)
 		_walk(id, tr, path, float(c.get("progress", 0.0)), real, pace)
+		if int(c.get("browse_left", -1)) > 0 and not _pick_faces.has(id):
+			note_pick(id, String(c.get("fixture_id", "")))   # browsing a shelf (#117 v2): face it, as for a pick
 	# Visual budget only (#117): when more figures than FIGURE_BUDGET are on screen (fast speeds feed customers
 	# faster than they can walk out), departing figures fade GHOST_CROWD_RATE times faster. The simulation is untouched.
 	var ghosts := _track.size() - _alive.size()   # tracked figures the simulation no longer has (approximately)
@@ -193,9 +210,10 @@ func _walk(id: String, tr: Walk, path: Array, progress: float, real: float, pace
 		return
 	# Pace: walk at the calm pace while the simulation is ahead (faster only when far behind), and brake so the
 	# figure comes to rest on its position instead of stopping dead.
-	var goal := clampf(pace + maxf(want - WALK_LAG_FREE, 0.0) * 1.5, pace, WALK_MAX) if want > 0.001 else 0.0
-	var v := move_toward(tr.v, goal, WALK_ACCEL * real)
-	v = minf(v, sqrt(2.0 * WALK_ACCEL * want))
+	var lag_free := LAG_FOLLOW if _follow else WALK_LAG_FREE
+	var goal := clampf(pace + maxf(want - lag_free, 0.0) * 1.5, pace, WALK_MAX) if want > 0.001 else 0.0
+	var v := move_toward(tr.v, goal, _accel * real)
+	v = minf(v, sqrt(2.0 * _accel * want))
 	tr.v = v
 	var s := s0 + minf(v * real, want)
 	# Never past a turning tile in one frame (no corner cutting). A turn can only be passed when the step
@@ -441,7 +459,7 @@ func shown_route(c: Dictionary) -> PackedVector2Array:
 ## What is drawn for a customer now: {"pos", "facing", "anim", "frame", "variant"}.
 func customer_view(c: Dictionary) -> Dictionary:
 	var id: String = c["customer_id"]
-	var anim := CustomerSprites.anim_for_state(c["phase"], _is_moving(id), _pick_faces.has(id))
+	var anim := CustomerSprites.anim_for_state(c["phase"], _is_moving(id), _pick_faces.has(id) or int(c.get("browse_left", -1)) > 0)   # browsing at a shelf (#117 v2) poses too
 	var look := _look_for(id)
 	var sheet: Dictionary = look[0]
 	var frame := 0

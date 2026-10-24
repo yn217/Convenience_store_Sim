@@ -1,12 +1,14 @@
 extends RefCounted
 ## Issue #15: customer walks, shelf choice, reservation, register queue, leaving (03 §D, 09 §3).
 
+const LegacyPace := preload("res://tests/support/legacy_pace.gd")
+
 const Seeds := preload("res://tests/support/test_seeds.gd")
 var _n := 0
 
 
 func _state() -> GameState:
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	return GameState.from_balance(balance, Seeds.SEEDS, fx, pr)
