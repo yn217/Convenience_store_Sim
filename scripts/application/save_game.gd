@@ -92,6 +92,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"staff": state.staff.map(_staff_out),   # #143
 			"next_staff_seq": state.next_staff_seq,
 			"staff_candidates": state.staff_candidates.duplicate(true),   # #144
+			"location_id": state.location_id,   # #148
 		},
 	}
 
@@ -383,6 +384,11 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 		errs.append("runtime_state: not_object")
 		return
 	_staff_in(s, rt, errs)
+	var loc = rt.get("location_id", "")
+	if typeof(loc) != TYPE_STRING or (loc != "" and StoreLocation.find(loc).is_empty()):
+		errs.append("runtime_state.location_id: invalid")
+	else:
+		s.location_id = loc
 	var counters = rt.get("id_counters", {})
 	s.next_fixture_seq = _counter(counters, "fixture", _max_suffix(s.grid.instances.keys()), errs)
 	s.next_lot_seq = _counter(counters, "lot", _max_suffix(s.inventory_segments.map(func(x): return x["lot_id"])), errs)

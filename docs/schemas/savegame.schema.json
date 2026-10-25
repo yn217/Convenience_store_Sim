@@ -933,6 +933,8 @@
           "items": {"type": "object"}
         },
         "next_staff_seq": {"type": "integer", "minimum": 0},
+        "staff_candidates": {"description": "Today's hiring candidates (issue #144).", "type": "array", "items": {"type": "object"}},
+        "location_id": {"description": "Store location (issue #148): station / school / office / residential, or \"\" for the standard store.", "type": "string"},
         "last_nonzero_speed": {
           "type": "integer",
           "enum": [

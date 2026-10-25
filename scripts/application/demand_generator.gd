@@ -14,17 +14,18 @@ static func step(state: GameState) -> bool:
 	var roll := rng.uniform_0_1()
 	state.rng_states["arrivals"] = rng.state
 	var hour := DemandModel.hour_of_day(state.time_sec)
-	var base := float(state.balance.get("base_potential_visitors_per_day", 100))
+	var base := float(state.balance.get("base_potential_visitors_per_day", 100)) * StoreLocation.visitors_multiplier(state.location_id)
+	var curve: Array = [] if state.location_id == "" else StoreLocation.hour_weights(state.location_id)   # #148
 	var ad := DemandModel.ad_multiplier(state.balance.get("advertising_tiers", []), state.applied_ad_tier_yen)
 	var traffic := float(EventService.effects(state)["traffic"])
 	# The probability is monotone in the stocked-category count (0..CATEGORY_COUNT, clamped), so the
 	# extremes bound it: a roll at or above the upper bound is no visitor and the shelf scan is skipped.
 	var p_max := maxf(
-		DemandModel.step_probability(hour, base, ad, state.reputation, 0, state.balance, traffic),
-		DemandModel.step_probability(hour, base, ad, state.reputation, DemandModel.CATEGORY_COUNT, state.balance, traffic))
+		DemandModel.step_probability(hour, base, ad, state.reputation, 0, state.balance, traffic, curve),
+		DemandModel.step_probability(hour, base, ad, state.reputation, DemandModel.CATEGORY_COUNT, state.balance, traffic, curve))
 	if roll >= p_max:
 		return false
-	var p := DemandModel.step_probability(hour, base, ad, state.reputation, stocked_category_count(state), state.balance, traffic)
+	var p := DemandModel.step_probability(hour, base, ad, state.reputation, stocked_category_count(state), state.balance, traffic, curve)
 	if roll >= p:
 		return false
 	state.visit_stats["potential"] += 1
@@ -39,7 +40,7 @@ static func step(state: GameState) -> bool:
 		# The purpose replaces the basket draw (issue #141): the same one `arrivals` draw picks it; budget and
 		# wallet come from the `visits` stream (two draws).
 		var money_rng := Lcg32.new(int(state.rng_states["visits"]))
-		var v := VisitPurpose.draw(pick_rng, money_rng, hour, state.balance)
+		var v := VisitPurpose.draw(pick_rng, money_rng, hour, state.balance, state.location_id)
 		state.rng_states["visits"] = money_rng.state
 		arrival.merge({"purpose_id": v["purpose_id"], "budget_yen": v["budget_yen"], "wallet_yen": v["wallet_yen"], "basket_size": v["slots"]})
 	else:

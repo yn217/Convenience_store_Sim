@@ -65,6 +65,8 @@ func execute(command: Dictionary) -> CommandResult:
 			if not _require_setup():
 				return _fail(&"NOT_IN_SETUP", &"restock_needs_setup")
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
+		&"SET_LOCATION":
+			result = _set_location(command_id, String(command.get("location_id", "")))
 		&"HIRE_STAFF":
 			result = _staff_result(command_id, StaffMarket.hire(_state, String(command.get("candidate_id", ""))), "STAFF_HIRED")
 		&"FIRE_STAFF":
@@ -218,6 +220,17 @@ func _stock_result(command_id: String, r: Dictionary) -> CommandResult:
 
 ## Allowed in every business state. Only the override map changes: lot costs, open
 ## reservations and ledger rows keep the price they were snapshotted with (03).
+## SET_LOCATION (#148): only before the store first opens; "" = the standard store.
+func _set_location(command_id: String, location_id: String) -> CommandResult:
+	if _state.location_locked():
+		return _fail(&"INVALID_OPERATION", &"location_locked")
+	if location_id != "" and StoreLocation.find(location_id).is_empty():
+		return _fail(&"INVALID_OPERATION", &"unknown_location")
+	_state.location_id = location_id
+	var events: Array[String] = ["%s:LOCATION_SET" % command_id]
+	return _commit(command_id, events)
+
+
 ## HIRE_STAFF / FIRE_STAFF (#144): allowed in every business state and while paused.
 func _staff_result(command_id: String, err: String, event: String) -> CommandResult:
 	if not StaffAI.enabled(_state.balance):

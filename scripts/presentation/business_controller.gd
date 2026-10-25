@@ -17,6 +17,8 @@ var _ad_summary: Label
 var _ad_info: Label
 var _status: Label
 var _checklist: Label
+var _location: OptionButton
+var _location_info: Label
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -69,6 +71,22 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_ad_info = Label.new()
 	_ad_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_ad_info)
+	# #148: the store's location, chosen before the first opening.
+	var loc_title := Label.new()
+	loc_title.text = "立地（最初の営業開始まで選べます）"
+	_body.add_child(loc_title)
+	_location = OptionButton.new()
+	_location.name = "LocationPicker"
+	_location.add_item(StoreLocation.display_name(""))
+	_location.set_item_metadata(0, "")
+	for l in StoreLocation.all():
+		_location.add_item(String(l["display_name"]))
+		_location.set_item_metadata(_location.item_count - 1, String(l["location_id"]))
+	_location.item_selected.connect(func(i): set_location(String(_location.get_item_metadata(i))))
+	_body.add_child(_location)
+	_location_info = Label.new()
+	_location_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_location_info)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_status)
@@ -88,6 +106,12 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_ad_summary.text = plan_summary_text(_tiers, planned)
 	var today := int(snap.get("applied_ad_tier_yen", 0))
 	_ad_info.text = "今日の広告: %s ／ 明日の予約: %s（翌日の開始時に請求）" % [_yen_or_none(today), _yen_or_none(int(snap.get("next_day_ad_yen", 0)))]
+	var loc := String(snap.get("location_id", ""))
+	for i in _location.item_count:
+		if String(_location.get_item_metadata(i)) == loc:
+			_location.select(i)
+	_location.disabled = bool(snap.get("location_locked", true))
+	_location_info.text = location_text(loc)
 	var unpaid := int(snap.get("unpaid_cost_yen", 0))
 	if state == "PAYMENT_BLOCKED":
 		_status.text = "費用を支払えず営業を停止しました（未払い %s）。セーブからやり直してください。" % GameHud.format_yen(unpaid)
@@ -144,6 +168,18 @@ func request_close() -> CommandResult:
 func open_ad_picker() -> void:
 	_ad.grab_focus()
 	_ad.show_popup()
+
+
+func set_location(location_id: String) -> CommandResult:
+	return _send({"kind": &"SET_LOCATION", "location_id": location_id})
+
+
+## The chosen location's description (or the standard store's).
+static func location_text(location_id: String) -> String:
+	var l := StoreLocation.find(location_id)
+	if l.is_empty():
+		return "標準：時間帯・客層の偏りがない店。立地を選ぶと、来店の多い時間と売れる商品が変わります。"
+	return "%s：%s（来店 ×%.1f・予算 ×%.1f）" % [l["display_name"], l["description"], float(l["visitors_multiplier"]), float(l["budget_multiplier"])]
 
 
 func set_next_day_ad(tier_yen: int) -> CommandResult:

@@ -46,6 +46,7 @@ var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 var staff: Array = []          # #143: store staff (StaffAI)
 var next_staff_seq := 0
 var staff_candidates: Array = []        # #144: today's hiring candidates (StaffMarket)
+var location_id := ""                   # #148: station / school / office / residential; "" = the standard store
 var staff_metrics: Dictionary = {}      # #144: today's staffing figures (StaffMarket.record_step)
 var staff_metrics_yesterday: Dictionary = {}
 ## Inputs of the daily reputation update: customers who gave up in the queue / found nothing to buy.
@@ -276,6 +277,7 @@ func snapshot() -> Dictionary:
 		"customers": _customer_views() + _staff_views(),
 		"staff_count": staff.size(), "staff_cap": StaffAI.capacity(self) if StaffAI.enabled(balance) else 0,
 		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
+		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
 		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),
 		"passersby_per_day": int(balance.get("passersby_per_day", 0)) if bool(balance.get("outdoor_approach", false)) else 0,   # #142, presentation only   # the figures walk at the simulation's pace (#117 v2)
@@ -313,6 +315,11 @@ func _log_view(log: Array) -> Array:
 		out.append({"sku_id": e["sku_id"], "name": sku.get("display_name", e["sku_id"]), "category": sku.get("category", ""),
 			"price": int(e["price"]), "kind": e["kind"], "state": e["state"]})
 	return out
+
+
+## The location can be chosen until the store first opens (#148: no free move after it is built and running).
+func location_locked() -> bool:
+	return business_state != SETUP or time_sec > 0
 
 
 func _candidate_views() -> Array:

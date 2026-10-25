@@ -254,7 +254,8 @@ func _try_impulse(state: GameState, c: Dictionary) -> bool:
 	if int(c["planned_yen"]) + price > int(c["wallet_yen"]):
 		return false
 	var cat: String = state.products.get_sku(best["sku_id"])["category"]
-	var p := VisitPurpose.impulse_probability(state.balance, purpose, DemandModel.category_preference(cat, state.balance), _price_factor(state, best["sku_id"]))
+	var pref := DemandModel.category_preference(cat, state.balance) * StoreLocation.category_multiplier(state.location_id, cat)
+	var p := VisitPurpose.impulse_probability(state.balance, purpose, pref, _price_factor(state, best["sku_id"])) * StoreLocation.impulse_multiplier(state.location_id)
 	var rng := Lcg32.new(int(state.rng_states["impulse"]))
 	var hit := rng.uniform_0_1() < p
 	state.rng_states["impulse"] = rng.state
@@ -747,7 +748,7 @@ func candidates(state: GameState) -> Array[Dictionary]:
 	for k in keys:
 		var e: Dictionary = seen[k]
 		var sku := state.products.get_sku(e["sku_id"])
-		e["weight"] = DemandModel.category_preference(sku["category"], state.balance) * float(sku["demand_weight"]) * _price_factor(state, e["sku_id"]) * GameplayEventDirector.category_multiplier(fx, sku["category"])
+		e["weight"] = DemandModel.category_preference(sku["category"], state.balance) * StoreLocation.category_multiplier(state.location_id, sku["category"]) * float(sku["demand_weight"]) * _price_factor(state, e["sku_id"]) * GameplayEventDirector.category_multiplier(fx, sku["category"])
 		out.append(e)
 	return out
 

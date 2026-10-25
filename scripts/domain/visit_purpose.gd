@@ -27,22 +27,23 @@ static func display_name(balance: Dictionary, purpose_id: String) -> String:
 ## Purpose for an arrival at `hour`: one draw from `pick_rng` (weighted by the purposes' hour weights; when every
 ## weight is 0 the first purpose), then the budget and the wallet from `money_rng` (two draws). Budget and wallet
 ## are rounded to 10 yen. -> {purpose_id, budget_yen, wallet_yen, slots}.
-static func draw(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictionary) -> Dictionary:
+## The store location (#148) scales each purpose's weight and the budget.
+static func draw(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictionary, location_id: String = "") -> Dictionary:
 	var purposes: Array = balance["visit_purposes"]
 	var total := 0.0
 	for p in purposes:
-		total += float(p["hour_weights"][hour])
+		total += float(p["hour_weights"][hour]) * StoreLocation.purpose_multiplier(location_id, p["purpose_id"])
 	var roll := pick_rng.uniform_0_1() * total
 	var chosen: Dictionary = purposes[0]
 	var acc := 0.0
 	for p in purposes:
-		acc += float(p["hour_weights"][hour])
+		acc += float(p["hour_weights"][hour]) * StoreLocation.purpose_multiplier(location_id, p["purpose_id"])
 		if roll < acc:
 			chosen = p
 			break
 	var lo := int(chosen["budget_yen"][0])
 	var hi := int(chosen["budget_yen"][1])
-	var budget := _round10(lo + money_rng.uniform_0_1() * float(hi - lo))
+	var budget := _round10((lo + money_rng.uniform_0_1() * float(hi - lo)) * StoreLocation.budget_multiplier(location_id))
 	var f_lo := float(chosen["wallet_factor"][0])
 	var f_hi := float(chosen["wallet_factor"][1])
 	var wallet := maxi(_round10(budget * (f_lo + money_rng.uniform_0_1() * (f_hi - f_lo))), budget)
