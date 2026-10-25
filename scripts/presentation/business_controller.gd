@@ -19,6 +19,8 @@ var _status: Label
 var _checklist: Label
 var _location: OptionButton
 var _location_info: Label
+var _facility_boxes: Dictionary = {}   # facility id -> CheckBox (#149)
+var _facility_info: Label
 var _size: OptionButton
 var _expand: Button
 var _size_info: Label
@@ -90,6 +92,25 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_location_info = Label.new()
 	_location_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_location_info)
+	# #149: nearby facilities (up to NearbyFacility.max_count), chosen before the first opening like the location.
+	var fac_title := Label.new()
+	fac_title.text = "周辺施設（%dつまで・最初の営業開始まで選べます）" % NearbyFacility.max_count()
+	_body.add_child(fac_title)
+	var fac_grid := GridContainer.new()
+	fac_grid.name = "FacilityPicker"
+	fac_grid.columns = 3
+	for f in NearbyFacility.all():
+		var box := CheckBox.new()
+		box.name = "Facility_" + String(f["facility_id"])
+		box.text = String(f["display_name"])
+		box.tooltip_text = String(f["description"])
+		box.toggled.connect(func(_on): _send_facilities())
+		fac_grid.add_child(box)
+		_facility_boxes[f["facility_id"]] = box
+	_body.add_child(fac_grid)
+	_facility_info = Label.new()
+	_facility_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_facility_info)
 	# #145: the store's size (before the first opening) and extending it later (while closed).
 	var size_title := Label.new()
 	size_title.text = "店舗の大きさ"
@@ -136,6 +157,13 @@ func apply_snapshot(snap: Dictionary) -> void:
 			_location.select(i)
 	_location.disabled = bool(snap.get("location_locked", true))
 	_location_info.text = location_text(loc)
+	var chosen: Array = snap.get("facilities", [])
+	var locked := bool(snap.get("location_locked", true))
+	for fid in _facility_boxes:
+		var box: CheckBox = _facility_boxes[fid]
+		box.set_pressed_no_signal(chosen.has(fid))
+		box.disabled = locked or (not chosen.has(fid) and chosen.size() >= int(snap.get("max_facilities", 2)))
+	_facility_info.text = facility_text(chosen, snap.get("facility_visits", {}))
 	var size_id := String(snap.get("store_size_id", ""))
 	for i in _size.item_count:
 		if String(_size.get_item_metadata(i)) == size_id:
@@ -216,6 +244,29 @@ static func size_text(snap: Dictionary) -> String:
 	if not bool(snap.get("location_locked", true)):
 		return "最初の営業開始までは無料で選べます。大きい店ほど棚を多く置け、大きい控え室（店員の上限）も置けます。"
 	return "増築は閉店中（準備中）にできます。奥と横に床が広がり、入口の壁と什器の並びはそのまま残ります。"
+
+
+func set_facilities(ids: Array) -> CommandResult:
+	return _send({"kind": &"SET_FACILITIES", "facility_ids": ids})
+
+
+func _send_facilities() -> void:
+	var ids: Array = []
+	for f in NearbyFacility.all():
+		if (_facility_boxes[f["facility_id"]] as CheckBox).button_pressed:
+			ids.append(f["facility_id"])
+	set_facilities(ids)
+
+
+## The chosen facilities: who they bring, and how many came today.
+static func facility_text(chosen: Array, visits: Dictionary) -> String:
+	if chosen.is_empty():
+		return "周辺施設なし。施設を選ぶと、その施設の客（学生・宿泊客・交代勤務の人など）が決まった時間に来ます。"
+	var lines: Array[String] = []
+	for fid in chosen:
+		var f := NearbyFacility.find(fid)
+		lines.append("%s：%s（1日約%d人・今日 %d人）" % [f["display_name"], f["description"], int(f["visitors_per_day"]), int(visits.get(fid, 0))])
+	return "\n".join(lines)
 
 
 func set_location(location_id: String) -> CommandResult:

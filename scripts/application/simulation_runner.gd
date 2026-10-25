@@ -44,6 +44,7 @@ func _run_step() -> void:
 	if new_day != prev_day:
 		_state.close_day_once(prev_day)   # report before the new day's costs (12 §4)
 		_state.day = new_day
+		_state.facility_visits.clear()   # #149: today's visitors per facility
 		for s in _state.staff:
 			s["fatigue"] = 0.0   # a new day, a fresh shift (#143)
 		if StaffAI.enabled(_state.balance):

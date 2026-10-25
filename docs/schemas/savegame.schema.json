@@ -480,7 +480,8 @@
                 }
               },
               "seen_categories": {"type": "array", "items": {"type": "string", "minLength": 1}},
-              "impulse_tried": {"type": "array", "items": {"type": "string", "minLength": 1}}
+              "impulse_tried": {"type": "array", "items": {"type": "string", "minLength": 1}},
+              "segment_id": {"description": "Customer segment of a visitor sent by a nearby facility (issue #149); absent or \"\" for the location's own visitors.", "type": "string"}
             }
           },
           "browse_remaining_sec": {
@@ -940,6 +941,8 @@
         "promotions": {"description": "Promotions (issue #137): {promotion_id, def_id, start_day, end_day} (inclusive days), running and finished.", "type": "array", "items": {"type": "object"}},
         "next_promotion_seq": {"type": "integer", "minimum": 0},
         "promo_stats": {"description": "Results per promotion id (issue #137): {units, discount_yen}.", "type": "object"},
+        "facilities": {"description": "Nearby facility ids (issue #149), at most max_facilities.", "type": "array", "items": {"type": "string"}},
+        "facility_visits": {"description": "Visitors each facility sent today (issue #149).", "type": "object"},
         "location_id": {"description": "Store location (issue #148): station / school / office / residential, or \"\" for the standard store.", "type": "string"},
         "last_nonzero_speed": {
           "type": "integer",

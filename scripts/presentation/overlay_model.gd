@@ -95,6 +95,8 @@ static func customer_panel_lines(c: Dictionary, fixture_name: String) -> Array[S
 		return staff_panel_lines(c, fixture_name)
 	var purpose := String(c.get("purpose_name", ""))
 	out.append("客 %s　来店目的：%s" % [c.get("customer_id", ""), purpose if purpose != "" else "（記録なし）"])
+	if String(c.get("segment_name", "")) != "":
+		out.append("客層：%s" % c["segment_name"])   # #149: sent by a nearby facility
 	if purpose != "":
 		out.append("所持金 %s　予算 %s　予定 %s" % [yen(int(c.get("wallet_yen", 0))), yen(int(c.get("budget_yen", 0))), yen(int(c.get("planned_yen", 0)))])
 	var items: Array[String] = []

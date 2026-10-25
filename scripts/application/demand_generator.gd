@@ -7,9 +7,53 @@ extends RefCounted
 
 ## Runs the arrival draw for the step that ended at `state.time_sec`. Returns true when a
 ## potential visitor was drawn. Does nothing unless the store is OPEN (no draw, no RNG use).
+## Nearby facilities (#149) draw after the location's visitor, one `arrivals` value each, so a store without
+## facilities keeps exactly the arrivals it had.
 static func step(state: GameState) -> bool:
 	if state.business_state != GameState.OPEN:
 		return false
+	var drawn := _location_step(state)
+	for fid in state.facilities:
+		if _facility_step(state, NearbyFacility.find(fid)):
+			drawn = true
+	return drawn
+
+
+## A visitor sent by a nearby facility (#149): one `arrivals` draw for "does someone come", and for someone who
+## does two more (segment, purpose) plus the `visits` money draws. The visitor counts as a potential visitor like
+## any other and is refused at max_active_customers.
+static func _facility_step(state: GameState, f: Dictionary) -> bool:
+	if f.is_empty():
+		return false
+	var rng := Lcg32.new(int(state.rng_states["arrivals"]))
+	var roll := rng.uniform_0_1()
+	state.rng_states["arrivals"] = rng.state
+	var hour := DemandModel.hour_of_day(state.time_sec)
+	if roll >= NearbyFacility.step_probability(f, hour, float(EventService.effects(state)["traffic"])):
+		return false
+	var pick_rng := Lcg32.new(int(state.rng_states["arrivals"]))
+	var who := NearbyFacility.draw_visitor(pick_rng, f, state.balance, stocked_categories(state))
+	state.rng_states["arrivals"] = pick_rng.state
+	if who.is_empty():
+		return false   # nothing on the shelves for them
+	state.visit_stats["potential"] += 1
+	if state.active_customer_count() >= int(state.balance.get("max_active_customers", 30)):
+		state.visit_stats["lost"] += 1
+		return true
+	state.visit_stats["entered"] += 1
+	state.facility_visits[f["facility_id"]] = int(state.facility_visits.get(f["facility_id"], 0)) + 1
+	state.next_customer_seq += 1
+	var money_rng := Lcg32.new(int(state.rng_states["visits"]))
+	var v := VisitPurpose.money(money_rng, VisitPurpose.find(state.balance, who["purpose_id"]), state.location_id)
+	state.rng_states["visits"] = money_rng.state
+	state.arrival_queue.append({"customer_id": "cust_%05d" % state.next_customer_seq, "arrived_at_sec": state.time_sec,
+		"purpose_id": v["purpose_id"], "budget_yen": v["budget_yen"], "wallet_yen": v["wallet_yen"], "basket_size": v["slots"],
+		"segment_id": who["segment_id"]})
+	return true
+
+
+## The location's own visitor (09 §2, #148).
+static func _location_step(state: GameState) -> bool:
 	var rng := Lcg32.new(int(state.rng_states["arrivals"]))
 	var roll := rng.uniform_0_1()
 	state.rng_states["arrivals"] = rng.state

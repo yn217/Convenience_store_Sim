@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "_comment": "Nearby facilities (issue #149 phase 1): up to max_facilities are chosen for the store before it first opens (later the world map #150 derives them from the store's surroundings). Each facility adds its own visitors on top of the location (#148): visitors_per_day spread over hour_weights, each visitor one of its customer segments, the segment's visit purposes (balance visit_purposes; facility-only purposes have zero hour weights there). Segments are statistical groups of the surroundings, not looks, nationality or age. Initial values, to be tuned by play.",
+  "max_facilities": 2,
+  "facilities": [
+    {
+      "facility_id": "university",
+      "display_name": "大学・学生寮",
+      "description": "昼と夕方から深夜に学生が来る。カップ麺・お菓子・夜食。",
+      "visitors_per_day": 50,
+      "hour_weights": [2, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 4, 3, 2, 2, 3, 4, 4, 4, 4, 4, 4, 3],
+      "segments": [
+        {"segment_id": "students", "display_name": "大学生・寮生活客", "weight": 1, "purposes": {"late_night": 3, "snack_time": 2, "lunch": 2, "browse": 2, "drink_only": 1}}
+      ]
+    },
+    {
+      "facility_id": "hotel",
+      "display_name": "ホテル",
+      "description": "早朝と夜に宿泊客と出張客が来る。朝食・コーヒー・夜食。",
+      "visitors_per_day": 40,
+      "hour_weights": [2, 1, 0, 0, 0, 1, 4, 5, 4, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 4, 4, 3],
+      "segments": [
+        {"segment_id": "hotel_guests", "display_name": "ホテル宿泊客", "weight": 3, "purposes": {"breakfast": 3, "late_night": 3, "drink_only": 2, "browse": 1}},
+        {"segment_id": "business_travelers", "display_name": "出張客", "weight": 2, "purposes": {"coffee_only": 3, "breakfast": 2, "drink_only": 1, "late_night": 1}}
+      ]
+    },
+    {
+      "facility_id": "hospital",
+      "display_name": "病院",
+      "description": "診療時間に通院の人と付き添いが来る。飲み物・軽食・お見舞いのお菓子。",
+      "visitors_per_day": 45,
+      "hour_weights": [0, 0, 0, 0, 0, 0, 0, 1, 3, 5, 5, 5, 4, 4, 4, 4, 3, 2, 1, 1, 0, 0, 0, 0],
+      "segments": [
+        {"segment_id": "hospital_visitors", "display_name": "病院利用者・付き添い", "weight": 1, "purposes": {"hospital_visit": 4, "drink_only": 3, "lunch": 2, "snack_time": 1}}
+      ]
+    },
+    {
+      "facility_id": "factory",
+      "display_name": "工場・物流センター",
+      "description": "交代の前後（朝・昼過ぎ・夜）に勤務の人がまとめて来る。弁当・おにぎり・コーヒー。",
+      "visitors_per_day": 60,
+      "hour_weights": [1, 0, 0, 0, 1, 5, 6, 2, 0, 0, 1, 2, 2, 5, 6, 2, 0, 0, 1, 1, 2, 5, 6, 2],
+      "segments": [
+        {"segment_id": "shift_workers", "display_name": "工場・物流の交代勤務客", "weight": 1, "purposes": {"shift_meal": 5, "coffee_only": 2, "drink_only": 2}}
+      ]
+    },
+    {
+      "facility_id": "highway",
+      "display_name": "幹線道路・駐車場",
+      "description": "早朝と夜にドライバーや配送の人が立ち寄る。コーヒー・飲み物・おにぎり。",
+      "visitors_per_day": 45,
+      "hour_weights": [2, 2, 2, 2, 3, 4, 5, 4, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 4, 4, 3, 3, 3, 2],
+      "segments": [
+        {"segment_id": "drivers", "display_name": "ドライバー・配送客", "weight": 1, "purposes": {"driver_meal": 4, "coffee_only": 3, "drink_only": 3}}
+      ]
+    },
+    {
+      "facility_id": "tourist_spot",
+      "display_name": "観光地",
+      "description": "昼間に日帰りの観光客が来る。アイス・お菓子・飲み物。",
+      "visitors_per_day": 50,
+      "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 4, 5, 5, 5, 5, 4, 3, 2, 1, 0, 0, 0, 0, 0],
+      "segments": [
+        {"segment_id": "day_tourists", "display_name": "日帰り観光客", "weight": 1, "purposes": {"sightseeing": 5, "drink_only": 3, "lunch": 2}}
+      ]
+    }
+  ]
+}

@@ -73,6 +73,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _set_store_size(command_id, String(command.get("size_id", "")))
 		&"EXPAND_STORE":
 			result = _expand_store(command_id)
+		&"SET_FACILITIES":
+			result = _set_facilities(command_id, command.get("facility_ids", []))
 		&"SET_LOCATION":
 			result = _set_location(command_id, String(command.get("location_id", "")))
 		&"HIRE_STAFF":
@@ -269,6 +271,22 @@ func _resize(command_id: String, size: Dictionary, cost: int, event: String) -> 
 	_state.apply_resized(res)
 	var events: Array[String] = ["%s:%s" % [command_id, event]]
 	return _commit(command_id, events, {"size_id": size["size_id"]})
+
+
+## SET_FACILITIES (#149): the store's nearby facilities, until it first opens (like the location).
+func _set_facilities(command_id: String, ids) -> CommandResult:
+	if _state.location_locked():
+		return _fail(&"INVALID_OPERATION", &"facilities_locked")
+	if typeof(ids) != TYPE_ARRAY or (ids as Array).size() > NearbyFacility.max_count():
+		return _fail(&"INVALID_OPERATION", &"too_many_facilities")
+	var out: Array = []
+	for id in ids:
+		if NearbyFacility.find(String(id)).is_empty() or out.has(String(id)):
+			return _fail(&"INVALID_OPERATION", &"unknown_facility")
+		out.append(String(id))
+	_state.facilities = out
+	var events: Array[String] = ["%s:FACILITIES_SET" % command_id]
+	return _commit(command_id, events)
 
 
 ## SET_LOCATION (#148): only before the store first opens; "" = the standard store.

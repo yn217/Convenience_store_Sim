@@ -66,7 +66,11 @@
     {"purpose_id": "dinner_addon", "display_name": "夕飯の買い足し", "targets": [["daily_fresh"], ["daily_fresh", "bento", "dessert"]], "budget_yen": [400, 1200], "wallet_factor": [1.2, 2.5], "impulse": 1.0,
      "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 4, 4, 2, 1, 0, 0, 0]},
     {"purpose_id": "school_snack", "display_name": "下校の買い食い", "targets": [["snack", "ice_cream"], ["drink"]], "budget_yen": [150, 400], "wallet_factor": [1.0, 2.0], "impulse": 1.4,
-     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 2, 1, 0, 0, 0, 0, 0]}
+     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 2, 1, 0, 0, 0, 0, 0]},
+    {"purpose_id": "shift_meal", "display_name": "勤務前後の食事", "facility_only": true, "targets": [["bento", "rice_ball"], ["drink", "coffee"]], "budget_yen": [500, 1000], "wallet_factor": [1.2, 2.5], "impulse": 0.8, "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+    {"purpose_id": "driver_meal", "display_name": "運転の合間の軽食", "facility_only": true, "targets": [["rice_ball", "bread", "oden", "bento"], ["drink", "coffee"]], "budget_yen": [300, 800], "wallet_factor": [1.2, 3.0], "impulse": 0.8, "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+    {"purpose_id": "hospital_visit", "display_name": "通院・お見舞い", "facility_only": true, "targets": [["dessert", "snack", "bread"], ["drink"]], "budget_yen": [300, 900], "wallet_factor": [1.2, 2.5], "impulse": 0.8, "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+    {"purpose_id": "sightseeing", "display_name": "観光の休憩", "facility_only": true, "targets": [["ice_cream", "dessert", "snack"], ["drink"]], "budget_yen": [300, 900], "wallet_factor": [1.3, 3.0], "impulse": 1.4, "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
   ],
   "impulse": {"base_probability": 0.12, "max_per_visit": 2},
   "daily_fixed_cost_yen": 1000,

@@ -93,6 +93,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"next_staff_seq": state.next_staff_seq,
 			"staff_candidates": state.staff_candidates.duplicate(true),   # #144
 			"location_id": state.location_id,   # #148
+			"facilities": state.facilities.duplicate(), "facility_visits": state.facility_visits.duplicate(),   # #149
 			"promotions": state.promotions.duplicate(true), "next_promotion_seq": state.next_promotion_seq,   # #137
 			"promo_stats": state.promo_stats.duplicate(true),
 		},
@@ -110,6 +111,7 @@ static func _visit_out(c: Dictionary) -> Dictionary:
 		"impulse_count": int(c.get("impulse_count", 0)), "basket_log": log,
 		"seen_categories": (c.get("seen_categories", []) as Array).duplicate(),
 		"impulse_tried": (c.get("impulse_tried", []) as Array).duplicate(),
+		"segment_id": String(c.get("segment_id", "")),   # #149
 	}
 
 
@@ -398,6 +400,17 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			for k in st:
 				if typeof(st[k]) == TYPE_DICTIONARY:
 					s.promo_stats[k] = {"units": int(st[k].get("units", 0)), "discount_yen": int(st[k].get("discount_yen", 0))}
+	if typeof(rt.get("facilities")) == TYPE_ARRAY:   # #149 (absent in older saves)
+		for fid in rt["facilities"]:
+			if NearbyFacility.find(String(fid)).is_empty() or s.facilities.has(String(fid)) or s.facilities.size() >= NearbyFacility.max_count():
+				errs.append("runtime_state.facilities: invalid")
+				break
+			s.facilities.append(String(fid))
+		var fv = rt.get("facility_visits", {})
+		if typeof(fv) == TYPE_DICTIONARY:
+			for k in fv:
+				if JsonCheck.is_int(fv[k]) and int(fv[k]) >= 0:
+					s.facility_visits[String(k)] = int(fv[k])
 	var loc = rt.get("location_id", "")
 	if typeof(loc) != TYPE_STRING or (loc != "" and StoreLocation.find(loc).is_empty()):
 		errs.append("runtime_state.location_id: invalid")
@@ -565,6 +578,7 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		"purpose_id": visit["purpose_id"], "budget_yen": visit["budget_yen"], "wallet_yen": visit["wallet_yen"],
 		"planned_yen": visit["planned_yen"], "impulse_count": visit["impulse_count"], "basket_log": visit["basket_log"],
 		"seen_categories": visit["seen_categories"], "impulse_tried": visit["impulse_tried"],
+		"segment_id": visit.get("segment_id", ""),
 	})
 
 
@@ -577,7 +591,7 @@ static func _visit_in(v, path: String, errs: Array[String]) -> Dictionary:
 		return {}
 	if v.is_empty():
 		return out
-	var k_errs := JsonCheck.key_errors(v, ["purpose_id", "budget_yen", "wallet_yen", "planned_yen", "impulse_count", "basket_log", "seen_categories", "impulse_tried"], [], path + ".visit")
+	var k_errs := JsonCheck.key_errors(v, ["purpose_id", "budget_yen", "wallet_yen", "planned_yen", "impulse_count", "basket_log", "seen_categories", "impulse_tried"], ["segment_id"], path + ".visit")
 	if not k_errs.is_empty():
 		errs.append_array(k_errs)
 		return {}
@@ -590,6 +604,7 @@ static func _visit_in(v, path: String, errs: Array[String]) -> Dictionary:
 		errs.append("%s.visit: invalid_shape" % path)
 		return {}
 	out["purpose_id"] = String(v["purpose_id"])
+	out["segment_id"] = String(v.get("segment_id", ""))
 	for e in v["basket_log"]:
 		if typeof(e) != TYPE_DICTIONARY or not JsonCheck.is_nonempty_string(e.get("sku_id")) or not JsonCheck.is_int(e.get("price_yen")) \
 				or not ["target", "impulse"].has(e.get("kind")) or not ["planned", "taken", "not_bought", "too_expensive", "stockout"].has(e.get("state")):

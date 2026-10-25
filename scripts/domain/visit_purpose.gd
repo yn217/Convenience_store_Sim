@@ -43,6 +43,12 @@ static func draw(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictiona
 		if roll < acc:
 			chosen = p
 			break
+	return money(money_rng, chosen, location_id)
+
+
+## Budget and wallet of a visitor with purpose `chosen` (two draws from `money_rng`), rounded to 10 yen.
+## -> {purpose_id, budget_yen, wallet_yen, slots}.
+static func money(money_rng: Lcg32, chosen: Dictionary, location_id: String) -> Dictionary:
 	var lo := int(chosen["budget_yen"][0])
 	var hi := int(chosen["budget_yen"][1])
 	var budget := _round10((lo + money_rng.uniform_0_1() * float(hi - lo)) * StoreLocation.budget_multiplier(location_id))
@@ -52,11 +58,17 @@ static func draw(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictiona
 	return {"purpose_id": chosen["purpose_id"], "budget_yen": budget, "wallet_yen": wallet, "slots": (chosen["targets"] as Array).size()}
 
 
+## Can the store serve this purpose: its first target is "any" or a category on the shelves (empty = no filter).
+static func serves(p: Dictionary, stocked: Array) -> bool:
+	if stocked.is_empty():
+		return true
+	var first: Array = p["targets"][0]
+	return first.has(ANY) or first.any(func(c): return stocked.has(c))
+
+
 static func _weight(p: Dictionary, hour: int, location_id: String, stocked: Array) -> float:
-	if not stocked.is_empty():
-		var first: Array = p["targets"][0]
-		if not first.has(ANY) and not first.any(func(c): return stocked.has(c)):
-			return 0.0
+	if not serves(p, stocked):
+		return 0.0
 	return float(p["hour_weights"][hour]) * StoreLocation.purpose_multiplier(location_id, p["purpose_id"])
 
 

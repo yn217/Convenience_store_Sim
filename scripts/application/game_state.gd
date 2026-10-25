@@ -49,6 +49,8 @@ var staff_candidates: Array = []        # #144: today's hiring candidates (Staff
 var promotions: Array = []      # #137: running and finished promotions (Promotions)
 var next_promotion_seq := 0
 var promo_stats: Dictionary = {}  # promotion id -> {units, discount_yen}
+var facilities: Array = []             # #149: nearby facility ids (NearbyFacility), chosen before the first opening
+var facility_visits: Dictionary = {}   # facility id -> visitors it sent today
 var location_id := ""                   # #148: station / school / office / residential; "" = the standard store
 var staff_metrics: Dictionary = {}      # #144: today's staffing figures (StaffMarket.record_step)
 var staff_metrics_yesterday: Dictionary = {}
@@ -292,6 +294,7 @@ func snapshot() -> Dictionary:
 		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
 		"promotions": _promotion_views(),
+		"facilities": facilities.duplicate(), "facility_visits": facility_visits.duplicate(), "max_facilities": NearbyFacility.max_count(),
 		"store_size_id": String(StoreSize.of_grid(balance, grid).get("size_id", "")), "store_sizes": StoreSize.all(balance),
 		"next_store_size": StoreSize.next(balance, grid),
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
@@ -445,6 +448,7 @@ func _customer_views() -> Array:
 			"browse_left": int(c.get("browse_left", -1)), "outcome": String(c.get("outcome", "")),
 			# #141: purpose, money and the basket log (names and prices for the customer panel).
 			"purpose_id": String(c.get("purpose_id", "")), "purpose_name": VisitPurpose.display_name(balance, String(c.get("purpose_id", ""))),
+			"segment_name": NearbyFacility.segment_name(String(c.get("segment_id", ""))),   # #149
 			"budget_yen": int(c.get("budget_yen", 0)), "wallet_yen": int(c.get("wallet_yen", 0)), "planned_yen": int(c.get("planned_yen", 0)),
 			"impulse_count": int(c.get("impulse_count", 0)), "basket_log": _log_view(c.get("basket_log", [])),
 			"target_tile": path[path.size() - 1] if not path.is_empty() else c["tile"],

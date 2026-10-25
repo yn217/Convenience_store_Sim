@@ -140,6 +140,7 @@ func _spawn(state: GameState) -> void:
 			"purpose_id": String(arrival.get("purpose_id", "")), "budget_yen": int(arrival.get("budget_yen", 0)),
 			"wallet_yen": int(arrival.get("wallet_yen", 0)), "planned_yen": 0, "impulse_count": 0, "basket_log": [],
 			"seen_categories": [], "impulse_tried": [],
+			"segment_id": String(arrival.get("segment_id", "")),   # #149: sent by a nearby facility
 		})
 		if approach.is_empty():
 			state.emit_event("CUSTOMER_ENTERED", {"customer_id": arrival["customer_id"]})
