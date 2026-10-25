@@ -4,7 +4,7 @@ extends RefCounted
 
 const STEPS_PER_DAY := 43200
 const SECONDS_PER_DAY := 86400
-const CATEGORY_COUNT := 8
+const CATEGORY_COUNT := 8   # the assortment bonus counts up to 8 stocked categories (more do not add, #147)
 ## 09 §2: raw weight per hour of day.
 const RAW_HOUR_WEIGHTS: Array[float] = [
 	0.5, 0.5, 0.5, 0.5, 0.5, 0.5,

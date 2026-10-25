@@ -7,7 +7,7 @@ const Paths := preload("res://tests/scenario/test_customer_paths.gd")
 const Presenter := preload("res://scripts/presentation/fixture_presenter.gd")
 const FRAME := 1.0 / 60.0
 const RUN_UNTIL_SEC := 1800
-const ARRIVE_EVERY_STEPS := 4
+const ARRIVE_EVERY_STEPS := 20   # #117 v2: visits are long, so fewer arrivals keep a busy store
 
 
 func _run(t, speed: int, presentation: bool) -> Dictionary:

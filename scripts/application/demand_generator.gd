@@ -40,7 +40,7 @@ static func step(state: GameState) -> bool:
 		# The purpose replaces the basket draw (issue #141): the same one `arrivals` draw picks it; budget and
 		# wallet come from the `visits` stream (two draws).
 		var money_rng := Lcg32.new(int(state.rng_states["visits"]))
-		var v := VisitPurpose.draw(pick_rng, money_rng, hour, state.balance, state.location_id)
+		var v := VisitPurpose.draw(pick_rng, money_rng, hour, state.balance, state.location_id, stocked_categories(state))
 		state.rng_states["visits"] = money_rng.state
 		arrival.merge({"purpose_id": v["purpose_id"], "budget_yen": v["budget_yen"], "wallet_yen": v["wallet_yen"], "basket_size": v["slots"]})
 	else:

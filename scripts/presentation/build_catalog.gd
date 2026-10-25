@@ -14,8 +14,8 @@ const TABS := [[ALL, "すべて"], [SHELF, "棚"], [COLD, "冷蔵・冷凍"], [C
 ## Product categories (fixture allowed_categories) that mark a cold case, and the ones that mark a counter appliance.
 ## A fixture that holds a cold product is 冷蔵・冷凍; one that holds only counter products (or none, the register) is
 ## カウンター; every other shelf is 棚. A fixture with no products that is not a register (ATM, copier, staff rooms) is 設備.
-const COLD_PRODUCTS := ["drink", "dessert", "ice_cream"]
-const COUNTER_PRODUCTS := ["oden"]
+const COLD_PRODUCTS := ["drink", "dessert", "ice_cream", "daily_fresh"]
+const COUNTER_PRODUCTS := ["oden", "coffee"]
 
 const CARD_SIZE := Vector2(108, 130)
 const THUMB_SIZE := Vector2(100, 70)

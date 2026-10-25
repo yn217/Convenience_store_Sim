@@ -130,7 +130,8 @@ func _tire(state: GameState, s: Dictionary) -> void:
 		rate = 0.0   # no staff room: a pause, but no recovery until midnight
 	if rate > 0.0:
 		rate *= 1.0 / skill_factor(int(s["skills"]["stamina"]))   # stamina 5 tires 0.83x, stamina 1 1.25x
-	s["fatigue"] = clampf(float(s["fatigue"]) + rate * GameClock.STEP_GAME_SECONDS / 3600.0, 0.0, FORCED)
+	# Kept to 4 decimals so a save writes it exactly (JSON keeps 15 significant digits).
+	s["fatigue"] = snappedf(clampf(float(s["fatigue"]) + rate * GameClock.STEP_GAME_SECONDS / 3600.0, 0.0, FORCED), 0.0001)
 
 
 ## What the person should be doing now (only changes the phase and the route; _act moves).

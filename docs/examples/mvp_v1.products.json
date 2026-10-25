@@ -286,5 +286,113 @@
     "demand_weight": 1,
     "visual_id": "ice_003_package",
     "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "bento_001",
+    "display_name": "幕の内弁当",
+    "category": "bento",
+    "purchase_cost_yen": 360,
+    "default_sell_price_yen": 560,
+    "expires_after_seconds": 43200,
+    "demand_weight": 1.0,
+    "visual_id": "bento_001_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "bento_002",
+    "display_name": "唐揚げ弁当",
+    "category": "bento",
+    "purchase_cost_yen": 330,
+    "default_sell_price_yen": 520,
+    "expires_after_seconds": 43200,
+    "demand_weight": 1.2,
+    "visual_id": "bento_002_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "bento_003",
+    "display_name": "のり弁当",
+    "category": "bento",
+    "purchase_cost_yen": 260,
+    "default_sell_price_yen": 430,
+    "expires_after_seconds": 43200,
+    "demand_weight": 0.9,
+    "visual_id": "bento_003_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "fresh_001",
+    "display_name": "カット野菜",
+    "category": "daily_fresh",
+    "purchase_cost_yen": 110,
+    "default_sell_price_yen": 180,
+    "expires_after_seconds": 172800,
+    "demand_weight": 1.0,
+    "visual_id": "fresh_001_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "fresh_002",
+    "display_name": "絹豆腐",
+    "category": "daily_fresh",
+    "purchase_cost_yen": 55,
+    "default_sell_price_yen": 98,
+    "expires_after_seconds": 172800,
+    "demand_weight": 0.9,
+    "visual_id": "fresh_002_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "fresh_003",
+    "display_name": "牛乳1L",
+    "category": "daily_fresh",
+    "purchase_cost_yen": 150,
+    "default_sell_price_yen": 230,
+    "expires_after_seconds": 259200,
+    "demand_weight": 1.1,
+    "visual_id": "fresh_003_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "coffee_001",
+    "display_name": "ホットコーヒーS",
+    "category": "coffee",
+    "purchase_cost_yen": 40,
+    "default_sell_price_yen": 120,
+    "expires_after_seconds": 2592000,
+    "demand_weight": 1.2,
+    "visual_id": "coffee_001_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "coffee_002",
+    "display_name": "アイスコーヒーM",
+    "category": "coffee",
+    "purchase_cost_yen": 55,
+    "default_sell_price_yen": 180,
+    "expires_after_seconds": 2592000,
+    "demand_weight": 1.0,
+    "visual_id": "coffee_002_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "coffee_003",
+    "display_name": "カフェラテ",
+    "category": "coffee",
+    "purchase_cost_yen": 70,
+    "default_sell_price_yen": 200,
+    "expires_after_seconds": 2592000,
+    "demand_weight": 0.9,
+    "visual_id": "coffee_003_package",
+    "slot_units": 1
   }
 ]

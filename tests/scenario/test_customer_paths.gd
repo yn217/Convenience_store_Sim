@@ -33,7 +33,7 @@ const SAMPLE_UNTIL_SEC := 7200 # sample layout: 2 game hours
 ## The crowd at x1 and x2 runs 1 game hour: the simulation is the same at every speed (same seeds, same steps), so the
 ## logic checks repeat x4's; only the per-frame presentation differs, and x1 renders 4x the frames of x4 (it took 2 min).
 const CROWD_SLOW_UNTIL_SEC := 3600
-const ARRIVE_EVERY_STEPS := 6
+const ARRIVE_EVERY_STEPS := 30   # one a minute: a visit lasts 20-30 game minutes at the #117 v2 pace
 const OVERFLOW_EVERY := 30
 const CROWD_VISITORS := 200000   # the bench's crowded demand (tools/perf_bench.gd)
 

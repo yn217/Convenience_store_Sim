@@ -104,7 +104,8 @@
     "electricity_cost_yen_per_day": 15,
     "capacity_units": 36,
     "allowed_categories": [
-      "rice_ball"
+      "rice_ball",
+      "bento"
     ],
     "access_edges": [
       "E"
@@ -115,21 +116,24 @@
         "slot_id": "row0",
         "capacity_units": 12,
         "allowed_categories": [
-          "rice_ball"
+          "rice_ball",
+          "bento"
         ]
       },
       {
         "slot_id": "row1",
         "capacity_units": 12,
         "allowed_categories": [
-          "rice_ball"
+          "rice_ball",
+          "bento"
         ]
       },
       {
         "slot_id": "row2",
         "capacity_units": 12,
         "allowed_categories": [
-          "rice_ball"
+          "rice_ball",
+          "bento"
         ]
       }
     ]
@@ -628,5 +632,85 @@
     "shelf_slots": [],
     "staff_capacity": 10,
     "min_store_width": 20
+  },
+  {
+    "schema_version": 1,
+    "type_id": "fridge_daily",
+    "display_name": "日配ケース（野菜・豆腐・牛乳）",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.3
+    },
+    "placement_cost_yen": 100000,
+    "electricity_cost_yen_per_day": 140,
+    "capacity_units": 36,
+    "allowed_categories": [
+      "daily_fresh"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "fridge_daily_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "daily_fresh"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "daily_fresh"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 12,
+        "allowed_categories": [
+          "daily_fresh"
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "coffee_machine",
+    "display_name": "コーヒーマシン",
+    "footprint": {
+      "w": 1,
+      "h": 1
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 0.92,
+      "height": 1.5
+    },
+    "placement_cost_yen": 80000,
+    "electricity_cost_yen_per_day": 60,
+    "capacity_units": 40,
+    "allowed_categories": [
+      "coffee"
+    ],
+    "access_edges": [
+      "S"
+    ],
+    "visual_id": "coffee_machine_a",
+    "shelf_slots": [
+      {
+        "slot_id": "cups",
+        "capacity_units": 40,
+        "allowed_categories": [
+          "coffee"
+        ]
+      }
+    ]
   }
 ]

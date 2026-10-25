@@ -11,11 +11,13 @@ const _Presenter := preload("res://scripts/presentation/fixture_presenter.gd")
 const LABELS := {
 	"rice_ball": "おにぎり", "oden": "おでん", "instant_noodle": "カップ麺", "bread": "パン",
 	"drink": "飲料", "snack": "おかし", "dessert": "デザート", "ice_cream": "アイス",
+	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
 }
 ## Category icon (UiIcons name) shown on the left of the pill.
 const ICONS := {
 	"rice_ball": "onigiri", "oden": "bowl", "instant_noodle": "bowl", "bread": "bread",
 	"drink": "drink", "snack": "bag", "dessert": "cake", "ice_cream": "snowflake",
+	"bento": "box", "daily_fresh": "leaf", "coffee": "drop",
 }
 const MIN_ZOOM := 0.5
 const TEXT_COLOR := Color.WHITE

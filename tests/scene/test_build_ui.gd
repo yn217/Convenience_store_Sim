@@ -70,7 +70,7 @@ func _preview(r: Dictionary) -> String:
 func test_palette_lists_all_fixture_types(t, tree) -> void:
 	var r := await _boot(tree)
 	var list: GridContainer = r["main"].find_child("TypeList", true, false)
-	t.eq(list.get_child_count(), 15, "15 fixture types in the catalog")
+	t.eq(list.get_child_count(), 17, "17 fixture types in the catalog")
 	var price := (list.get_child(0) as Button).find_child("Price", true, false) as Label
 	t.ok(price != null and price.text == "¥90,000", "price shown: " + (price.text if price != null else "missing"))
 	t.eq(r["main"].get_node("Layout/MainArea/BuildPalette").offset_right - r["main"].get_node("Layout/MainArea/BuildPalette").offset_left, 380.0, "catalog is a 380 px floating window")

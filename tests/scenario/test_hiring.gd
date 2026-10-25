@@ -34,6 +34,7 @@ func test_candidates_are_drawn_from_the_archetypes(t, _tree) -> void:
 	# a new morning, new faces
 	var first := a.staff_candidates.duplicate(true)
 	var runner := SimulationRunner.new(a)
+	a.time_sec = DemandModel.SECONDS_PER_DAY - 20   # straight to the next morning
 	while a.day == 0:
 		runner._run_step()
 	t.ok(a.staff_candidates != first, "the next morning brings other candidates")

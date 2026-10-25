@@ -33,6 +33,9 @@ func test_order_then_restock_through_the_panel(t, tree) -> void:
 	sc._refresh()
 	t.ok(sc._restock_box.visible, "restock controls for the selected shelf")
 	t.ok(sc._restock_sku.item_count > 0)
+	for i in sc._restock_sku.item_count:   # the onigiri shelf also takes bento (#147): pick the rice ball
+		if sc._restock_sku.get_item_metadata(i) == "rice_001":
+			sc._restock_sku.select(i)
 	sc._restock_qty.text = "12"
 	t.ok(sc.submit_restock().ok)
 	t.eq(app.state.snapshot()["shelf_stock"][shelf]["row0"], 12)

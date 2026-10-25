@@ -172,6 +172,12 @@ func _fill_sku_choices() -> void:
 		if _fixtures.slot_accepts(inst["type_id"], slot_id, _products.get_sku(id)):
 			_restock_sku.add_icon_item(ProductIcons.texture(_products.get_sku(id), 32), _products.get_sku(id)["display_name"])
 			_restock_sku.set_item_metadata(_restock_sku.item_count - 1, id)
+	# A slot may take several categories (#147: onigiri or bento): start on the first SKU with backroom stock.
+	var stock: Dictionary = _snap.get("backroom_stock", {})
+	for i in _restock_sku.item_count:
+		if int(stock.get(_restock_sku.get_item_metadata(i), 0)) > 0:
+			_restock_sku.select(i)
+			break
 
 
 func submit_order() -> CommandResult:

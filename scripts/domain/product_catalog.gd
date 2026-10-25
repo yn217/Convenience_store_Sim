@@ -6,6 +6,7 @@ extends RefCounted
 const SUPPORTED_SCHEMA_VERSION := 1
 const CATEGORIES: Array[String] = [
 	"rice_ball", "oden", "instant_noodle", "bread", "drink", "snack", "dessert", "ice_cream",
+	"bento", "daily_fresh", "coffee",   # #147: lunch boxes, vegetables / dairy, counter coffee
 ]
 const REQUIRED := [
 	"schema_version", "sku_id", "display_name", "category", "purchase_cost_yen",

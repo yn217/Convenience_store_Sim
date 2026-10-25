@@ -28,16 +28,18 @@ static func display_name(balance: Dictionary, purpose_id: String) -> String:
 ## weight is 0 the first purpose), then the budget and the wallet from `money_rng` (two draws). Budget and wallet
 ## are rounded to 10 yen. -> {purpose_id, budget_yen, wallet_yen, slots}.
 ## The store location (#148) scales each purpose's weight and the budget.
-static func draw(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictionary, location_id: String = "") -> Dictionary:
+## `stocked` (#147): the categories on the shelves; a purpose whose first target the store does not carry (coffee
+## without a coffee machine) does not bring anyone. Empty = no filter.
+static func draw(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictionary, location_id: String = "", stocked: Array = []) -> Dictionary:
 	var purposes: Array = balance["visit_purposes"]
 	var total := 0.0
 	for p in purposes:
-		total += float(p["hour_weights"][hour]) * StoreLocation.purpose_multiplier(location_id, p["purpose_id"])
+		total += _weight(p, hour, location_id, stocked)
 	var roll := pick_rng.uniform_0_1() * total
 	var chosen: Dictionary = purposes[0]
 	var acc := 0.0
 	for p in purposes:
-		acc += float(p["hour_weights"][hour]) * StoreLocation.purpose_multiplier(location_id, p["purpose_id"])
+		acc += _weight(p, hour, location_id, stocked)
 		if roll < acc:
 			chosen = p
 			break
@@ -48,6 +50,14 @@ static func draw(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictiona
 	var f_hi := float(chosen["wallet_factor"][1])
 	var wallet := maxi(_round10(budget * (f_lo + money_rng.uniform_0_1() * (f_hi - f_lo))), budget)
 	return {"purpose_id": chosen["purpose_id"], "budget_yen": budget, "wallet_yen": wallet, "slots": (chosen["targets"] as Array).size()}
+
+
+static func _weight(p: Dictionary, hour: int, location_id: String, stocked: Array) -> float:
+	if not stocked.is_empty():
+		var first: Array = p["targets"][0]
+		if not first.has(ANY) and not first.any(func(c): return stocked.has(c)):
+			return 0.0
+	return float(p["hour_weights"][hour]) * StoreLocation.purpose_multiplier(location_id, p["purpose_id"])
 
 
 ## Categories a target slot accepts (every category of the catalog for "any").

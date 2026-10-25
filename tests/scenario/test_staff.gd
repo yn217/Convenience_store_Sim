@@ -84,6 +84,7 @@ func test_fatigue_rises_and_rest_recovers(t, _tree) -> void:
 	s.business_state = GameState.SETUP
 	t.ok(_cmd(s, &"PLACE_FIXTURE", {"type_id": "staff_room_s", "x": 1, "y": 1, "rotation": 0}).ok, "a staff room")
 	s.business_state = GameState.OPEN
+	s.balance["staff_fatigue_per_hour"] = {"register": 60, "restock": 60, "walk": 40, "idle": 20, "rest": -120}   # a quick day
 	var runner := SimulationRunner.new(s)
 	var rested := false
 	var peak := 0.0
@@ -108,6 +109,7 @@ func test_fatigue_rises_and_rest_recovers(t, _tree) -> void:
 			runner._run_step()
 		t.ok(float(resting["fatigue"]) < before, "resting lowers fatigue: %.1f -> %.1f" % [before, resting["fatigue"]])
 	# midnight
+	s.time_sec = DemandModel.SECONDS_PER_DAY - 20
 	while s.time_sec % DemandModel.SECONDS_PER_DAY != 0:
 		runner._run_step()
 	for st in s.staff:
@@ -149,6 +151,7 @@ func test_wages_are_a_daily_cost(t, _tree) -> void:
 	t.eq(int(costs["WAGES"]), expect, "wages = the sum of the daily wages")
 	t.eq(StaffAI.daily_wage(s.balance, s.staff[0]), int(s.balance["staff_wage_base_yen"]) + 12 * int(s.balance["staff_wage_per_skill_yen"]), "a balanced person's wage")
 	var runner := SimulationRunner.new(s)
+	s.time_sec = DemandModel.SECONDS_PER_DAY - 20   # straight to midnight
 	while s.day == 0:
 		runner._run_step()
 	var sum := LedgerSummary.summarize(s.ledger, 1)

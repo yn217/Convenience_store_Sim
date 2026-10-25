@@ -83,7 +83,7 @@ func test_purposes_follow_the_location(t, _tree) -> void:
 		return float(n) / 3000.0
 	t.ok(share.call("office", 12, "lunch") > share.call("residential", 12, "lunch"), "lunch is an office thing")
 	t.ok(share.call("residential", 17, "stock_up") > share.call("station", 17, "stock_up"), "stock-up shopping happens at home")
-	t.ok(share.call("school", 15, "snack_time") > share.call("office", 15, "snack_time"), "after-school snacks")
+	t.ok(share.call("school", 15, "snack_time") + share.call("school", 15, "school_snack") > share.call("office", 15, "snack_time") + share.call("office", 15, "school_snack"), "after-school snacks")
 	var budgets := func(loc: String) -> int:
 		var pick := Lcg32.new(1)
 		var money := Lcg32.new(2)

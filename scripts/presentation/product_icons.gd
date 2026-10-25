@@ -99,6 +99,26 @@ static func _hit(category: String, u: float, v: float) -> int:
 			if v < 0.42:
 				return 0
 			return 1 if pow((u - 0.5) / 0.46, 2.0) + pow((v - 0.42) / 0.48, 2.0) <= 1.0 else 0
+		"bento":   # a tray with a clear lid band and compartments
+			if u < 0.1 or u > 0.9 or v < 0.3 or v > 0.86:
+				return 0
+			if v < 0.4:
+				return 3
+			return 2 if absf(u - 0.5) < 0.02 or absf(v - 0.63) < 0.02 else 1
+		"daily_fresh":   # a round head of cabbage with leaf veins
+			var d := pow((u - 0.5) / 0.4, 2.0) + pow((v - 0.56) / 0.36, 2.0)
+			if d > 1.0:
+				return 0
+			return 2 if absf(u - 0.5) < 0.03 or absf((u - 0.5) - (v - 0.56) * 0.8) < 0.025 else 1
+		"coffee":   # a paper cup with a lid and a sleeve
+			if v < 0.14 or v > 0.92:
+				return 0
+			if v < 0.24:
+				return 3 if absf(u - 0.5) <= 0.36 else 0
+			var half_k := 0.32 - (v - 0.24) / 0.68 * 0.08
+			if absf(u - 0.5) > half_k:
+				return 0
+			return 2 if v >= 0.48 and v <= 0.66 else 1
 		"ice_cream":
 			if pow(u - 0.5, 2.0) + pow(v - 0.36, 2.0) <= 0.28 * 0.28:
 				return 1
@@ -129,6 +149,16 @@ static func _color_for(category: String, hit: int, body: Color) -> Color:
 			return BROTH_COLOR if hit == 3 else body
 		"ice_cream":
 			return CONE_COLOR if hit == 2 else body
+		"bento":
+			if hit == 3:
+				return body.lightened(0.6)
+			return body.darkened(0.35) if hit == 2 else body
+		"daily_fresh":
+			return body.darkened(0.3) if hit == 2 else body
+		"coffee":
+			if hit == 3:
+				return Color(0.95, 0.95, 0.92)
+			return body.darkened(0.4) if hit == 2 else body
 	return body
 
 
@@ -151,6 +181,12 @@ static func _plate_rect(category: String) -> Rect2:
 			return Rect2(0.34, 0.56, 0.32, 0.14)
 		"ice_cream":
 			return Rect2(0.36, 0.3, 0.28, 0.12)
+		"bento":
+			return Rect2(0.3, 0.7, 0.4, 0.12)
+		"daily_fresh":
+			return Rect2(0.34, 0.66, 0.32, 0.12)
+		"coffee":
+			return Rect2(0.36, 0.5, 0.28, 0.12)
 	return Rect2(0.3, 0.4, 0.4, 0.2)
 
 
@@ -189,6 +225,12 @@ static func _tint(category: String) -> Color:
 			return Color(0.72, 0.45, 0.25)
 		"ice_cream":
 			return Color(0.6, 0.85, 0.95)
+		"bento":
+			return Color(0.85, 0.35, 0.25)
+		"daily_fresh":
+			return Color(0.55, 0.8, 0.4)
+		"coffee":
+			return Color(0.92, 0.88, 0.8)
 	return Color(0.7, 0.7, 0.7)
 
 

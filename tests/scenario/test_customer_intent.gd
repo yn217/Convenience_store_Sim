@@ -13,7 +13,7 @@ extends RefCounted
 const Paths := preload("res://tests/scenario/test_customer_paths.gd")
 const CUES_PATH := "res://data/presentation/cues_v1.json"
 const RUN_UNTIL_SEC := 3600
-const ARRIVE_EVERY_STEPS := 3   # busier than the path test, so the register lines fill up
+const ARRIVE_EVERY_STEPS := 15   # busier than the path test, so the register lines fill up (#117 v2 pace)
 const PRESENT_EVERY_STEPS := 10 # the presenter's compose() is heavier than the logic step
 
 

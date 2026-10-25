@@ -28,6 +28,7 @@ const CATEGORY_TINT := {
 	"rice_ball": Color(1, 1, 1), "oden": Color(0.95, 0.8, 0.7), "instant_noodle": Color(1, 0.86, 0.5),
 	"bread": Color(1, 0.9, 0.72), "drink": Color(0.9, 0.97, 1), "snack": Color(1, 1, 1),
 	"dessert": Color(0.9, 0.84, 1), "ice_cream": Color(0.8, 1, 1),
+	"bento": Color(1, 0.92, 0.82), "daily_fresh": Color(0.88, 1, 0.85), "coffee": Color(0.95, 0.88, 0.8),
 }
 
 var _manifest: Dictionary = {}
