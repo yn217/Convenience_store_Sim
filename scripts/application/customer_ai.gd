@@ -35,7 +35,11 @@ var _paths := PathService.new()
 ## grid instance and its revision, which every structural change bumps, so they survive across fixed steps
 ## and are dropped by _sync_layout() when the layout changes.
 var _blocked_cache: Dictionary = {}
-var _plan_cache: Dictionary = {}
+var _plan_cache: Dictionary = {}       # the primary register's plan (the first of _plans_cache)
+var _plans_cache: Array = []           # every usable register's plan, in instance-id order (#multi-register)
+var _all_queue_cells: Dictionary = {}  # every register's queue cells (nobody waits on them)
+var _open_cache: Dictionary = {}       # register id -> true when a cashier stands at it or walks to it (per step)
+var _open_fresh := false
 var _cache_fresh := false
 var _path_cache: Dictionary = {}   # Vector4i(start, goal) -> Array[Vector2i] (empty when unreachable)
 var _layout_grid: StoreGrid = null
@@ -69,7 +73,12 @@ func _blocked(state: GameState) -> Dictionary:
 	_sync_layout(state)
 	if not _cache_fresh:
 		_blocked_cache = state.grid.blocked_cells()
-		_plan_cache = _build_register_plan(state)
+		_plans_cache = _build_register_plans(state)
+		_plan_cache = _plans_cache[0] if not _plans_cache.is_empty() else {}
+		_all_queue_cells.clear()
+		for plan in _plans_cache:
+			for cell in plan["queue_cells"]:
+				_all_queue_cells[cell] = true
 		_cache_fresh = true
 	return _blocked_cache
 
@@ -90,6 +99,7 @@ func step(state: GameState) -> void:
 	_taken_dirty = true
 	_res_dirty = true
 	_step_cands_fresh = false
+	_open_fresh = false
 	_held.clear()
 	for c in state.customers:
 		if _is_standing_in_line(c) and not _held.has(c["tile"]):   # the first one on a tile keeps it
@@ -794,9 +804,10 @@ func _on_pick_failed(state: GameState, c: Dictionary) -> void:
 		c["phase"] = "SELECT"
 
 
-## Every item is reserved (or skipped): the customer joins the line of the first register that has a plan.
+## Every item is reserved (or skipped): the customer heads for the open register with the shortest line
+## (_choose_register).
 func _go_to_register(state: GameState, c: Dictionary) -> void:
-	var plan := _register_plan(state)
+	var plan := _choose_register(state, c)
 	if plan.is_empty():
 		_leave(state, c, "no_register")
 		return
@@ -817,6 +828,9 @@ func _go_to_register(state: GameState, c: Dictionary) -> void:
 func _join_line(state: GameState, c: Dictionary) -> void:
 	c["queue_since"] = state.time_sec   # the patience clock starts when the customer reaches the line
 	c["phase"] = "WAIT_QUEUE"
+	var plan := _choose_register(state, c)   # the walk took minutes: another till may have opened meanwhile
+	if not plan.is_empty():
+		c["register_id"] = plan["register_id"]
 	_wait_for_slot(state, c)
 
 
@@ -835,12 +849,17 @@ func _wait_for_slot(state: GameState, c: Dictionary) -> void:
 	if _reservation_lost(state, c):
 		_leave(state, c, "reservation_lost")
 		return
-	var plan := _register_plan(state)
+	var plan := _plan_for(state, String(c["register_id"]))
 	if plan.is_empty():
-		_leave(state, c, "no_register")
-		return
+		plan = _choose_register(state, c)   # its register went away (layout change): the best one now
+		if plan.is_empty():
+			_leave(state, c, "no_register")
+			return
+		c["register_id"] = plan["register_id"]
 	var slot := _free_slot(state, c, plan)
 	if slot < 0:
+		if _switch_line(state, c, -1):
+			return
 		if _timed_out(state, c):
 			_leave(state, c, "queue_timeout")
 			return
@@ -865,11 +884,13 @@ func _make_room(state: GameState, c: Dictionary, plan: Dictionary) -> void:
 	var queue_cells: Array = plan["queue_cells"]
 	# A waiting customer never keeps a queue cell (it arrives on the line's last cell, #117 v2): a slot holder
 	# would step onto it.
-	if _held.get(tile, me) == me and not queue_cells.has(tile):
+	_blocked(state)
+	if _held.get(tile, me) == me and not queue_cells.has(tile) and not _all_queue_cells.has(tile):
 		_held[tile] = me
 		return
 	var blocked := _blocked(state)
 	var reach := _paths.current_distances(state.grid)
+	queue_cells = _all_queue_cells.keys()   # nobody waits in any register's line
 	for r in range(1, MAX_ROOM_RADIUS + 1):
 		for dy in range(-r, r + 1):
 			for dx in range(-r, r + 1):
@@ -915,9 +936,13 @@ func _queue(state: GameState, c: Dictionary) -> void:
 	if _reservation_lost(state, c):
 		_leave(state, c, "reservation_lost")
 		return
-	var plan := _register_plan(state)
+	var plan := _plan_for(state, String(c["register_id"]))
 	if plan.is_empty():
 		_leave(state, c, "no_register")
+		return
+	# "Next customer, this way please": a better place at another open till (a closed till, or a slot further
+	# forward than this one).
+	if (int(c["queue_slot"]) > 0 or not _open_registers(state).has(c["register_id"])) and _switch_line(state, c, int(c["queue_slot"])):
 		return
 	if int(c["queue_slot"]) == 0:
 		var busy := false
@@ -1020,15 +1045,21 @@ func _reservation_sku(state: GameState, reservation_id: String) -> String:
 	return ""
 
 
-## First register (by instance id) that can form a queue: {service_cell, queue_cells} or {}.
+## The primary register (the first by instance id that can form a queue): {service_cell, queue_cells, ...} or {}.
 func _register_plan(state: GameState) -> Dictionary:
 	_blocked(state)
 	return _plan_cache
 
 
-func _build_register_plan(state: GameState) -> Dictionary:
+## Every register that can form a queue, in instance-id order: {register_id, service_cell, queue_cells, slots,
+## cashier_cell}. A later register's line stops where it would run into an earlier one's (cells already used by
+## another line or another cashier), and a register left without a slot, or whose cashier would stand where
+## another one does, is not used.
+func _build_register_plans(state: GameState) -> Array:
 	var reach := _paths.current_distances(state.grid)
 	var blocked: Dictionary = _blocked_cache
+	var used := {}
+	var out: Array = []
 	var ids := state.grid.instances.keys()
 	ids.sort()
 	for id in ids:
@@ -1037,7 +1068,117 @@ func _build_register_plan(state: GameState) -> Dictionary:
 		if not AccessService.is_register(def) or not inst.get("enabled", true):
 			continue
 		var plan := AccessService.register_plan(state.grid, def, inst["x"], inst["y"], inst["rotation"], blocked, reach)
-		if int(plan["slots"]) > 0:
-			plan["register_id"] = id
+		if int(plan["slots"]) <= 0:
+			continue
+		var cells: Array = []
+		for cell in plan["queue_cells"]:
+			if used.has(cell):
+				break
+			cells.append(cell)
+		var cashier := StaffAI.cashier_cell(state, id)
+		if cells.is_empty() or (cashier.x >= 0 and used.has(cashier)):
+			continue
+		plan["queue_cells"] = cells
+		plan["slots"] = cells.size()
+		plan["register_id"] = id
+		plan["cashier_cell"] = cashier
+		for cell in cells:
+			used[cell] = true
+		if cashier.x >= 0:
+			used[cashier] = true
+		out.append(plan)
+	return out
+
+
+## Every usable register's plan (primary first): StaffAI staffs them.
+func register_plans_now(state: GameState) -> Array:
+	_sync_layout(state)
+	_blocked(state)
+	return _plans_cache
+
+
+func _plan_for(state: GameState, register_id: String) -> Dictionary:
+	_blocked(state)
+	for plan in _plans_cache:
+		if plan["register_id"] == register_id:
 			return plan
 	return {}
+
+
+## Registers a cashier stands at, for this step (a till someone is still walking to does not count yet: people
+## move over once it opens, _switch_line). Without the staff model every register counts as open.
+func _open_registers(state: GameState) -> Dictionary:
+	if _open_fresh:
+		return _open_cache
+	_blocked(state)
+	_open_cache = {}
+	for plan in _plans_cache:
+		if not StaffAI.enabled(state.balance):
+			_open_cache[plan["register_id"]] = true
+			continue
+		for st in state.staff:
+			if st["phase"] == "REGISTER" and st["tile"] == plan["cashier_cell"]:
+				_open_cache[plan["register_id"]] = true
+	_open_fresh = true
+	return _open_cache
+
+
+## People heading for, waiting at or paying at a register (not counting `except_id`).
+static func line_load(state: GameState, register_id: String, except_id: String = "") -> int:
+	var n := 0
+	for o in state.customers:
+		if o["register_id"] == register_id and o["customer_id"] != except_id and o["phase"] in ["WALK_REGISTER", "WAIT_QUEUE", "QUEUE", "CHECKOUT"]:
+			n += 1
+	return n
+
+
+## The register a customer goes to: among the open ones (a cashier standing there), the shortest line, then
+## the nearest; with no open till the primary one (a cashier comes to it). The old store (no staff model) always
+## uses the primary register.
+func _choose_register(state: GameState, c: Dictionary) -> Dictionary:
+	_blocked(state)
+	if _plans_cache.is_empty():
+		return {}
+	if not StaffAI.enabled(state.balance) or _plans_cache.size() == 1:
+		return _plan_cache
+	var open := _open_registers(state)
+	var best := {}
+	var best_key := []
+	for plan in _plans_cache:
+		if not open.has(plan["register_id"]):
+			continue
+		var tail: Vector2i = plan["queue_cells"][plan["queue_cells"].size() - 1]
+		var key := [line_load(state, plan["register_id"], c["customer_id"]), absi(tail.x - c["tile"].x) + absi(tail.y - c["tile"].y)]
+		if best.is_empty() or key < best_key:
+			best = plan
+			best_key = key
+	return best if not best.is_empty() else _plan_cache
+
+
+## Moves a waiting customer to another open till where it would stand further forward (any free slot when its own
+## till is closed, otherwise a slot ahead of `my_slot`; -1 = no slot yet). The patience clock keeps running.
+func _switch_line(state: GameState, c: Dictionary, my_slot: int) -> bool:
+	if not StaffAI.enabled(state.balance) or _plans_cache.size() < 2:
+		return false
+	var open := _open_registers(state)
+	var mine_open := open.has(c["register_id"])
+	var best := {}
+	var best_slot := -1
+	for plan in _plans_cache:
+		if plan["register_id"] == c["register_id"] or not open.has(plan["register_id"]):
+			continue
+		var fs := _free_slot(state, c, plan)
+		if fs < 0 or (mine_open and my_slot >= 0 and fs >= my_slot):
+			continue
+		if best.is_empty() or fs < best_slot:
+			best = plan
+			best_slot = fs
+	if best.is_empty():
+		return false
+	if not _route(state, c, best["queue_cells"][best_slot]):
+		return false
+	c["register_id"] = best["register_id"]
+	c["queue_slot"] = best_slot
+	c["phase"] = "WALK_REGISTER"
+	_taken_dirty = true
+	return true

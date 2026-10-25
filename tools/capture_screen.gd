@@ -53,6 +53,10 @@ func _run() -> void:
 					app.run_command({"command_id": "po%d" % n, "kind": &"ORDER_STOCK", "sku_id": sku["sku_id"], "qty": slot["capacity_units"]})
 					app.run_command({"command_id": "pr%d" % n, "kind": &"RESTOCK", "instance_id": id, "slot_id": slot["slot_id"], "sku_id": sku["sku_id"], "qty": slot["capacity_units"]})
 					break
+	for a in OS.get_cmdline_user_args():   # --staff=4: that many staff (extra balanced people at the first one's tile)
+		if a.begins_with("--staff="):
+			while s.staff.size() < int(a.trim_prefix("--staff=")) and not s.staff.is_empty():
+				s.staff.append(StaffAI.make(s, {"name": "応援%d" % s.staff.size(), "skills": {"register": 3, "restock": 3, "stamina": 3, "service": 3}}, s.staff[0]["tile"]))
 	app.run_command({"command_id": "pstart", "kind": &"START_BUSINESS"})
 	# --calm: the normal arrival rate of the balance file (no crowd forced in), so the shot shows a typical store (#105 B7).
 	var calm := OS.get_cmdline_user_args().has("--calm")

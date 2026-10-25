@@ -392,7 +392,7 @@ func closed_registers() -> Array:
 		var inst: Dictionary = grid.instances[id]
 		if not AccessService.is_register(fixtures.get_type(inst["type_id"])) or not inst.get("enabled", true):
 			continue
-		var cell := StaffAI.cashier_cell(self, id)
+		var cell := StaffAI.cashier_cell_cached(self, id)
 		if not staff.any(func(s): return s["phase"] == "REGISTER" and s["tile"] == cell):
 			out.append(id)
 	return out

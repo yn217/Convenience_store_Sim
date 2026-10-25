@@ -107,11 +107,13 @@ func test_staffing_figures_and_advice(t, _tree) -> void:
 
 func test_a_friendly_cashier_keeps_the_line_patient(t, _tree) -> void:
 	var s := _store(t)
-	var c := {"queue_since": 0, "register_id": "x"}
+	var reg := String(CustomerAI.new().register_plan_now(s)["register_id"])
+	var c := {"queue_since": 0, "register_id": reg}
 	s.time_sec = int(s.balance["queue_patience_game_seconds"]) + 10
 	var ai := CustomerAI.new()
 	t.ok(ai._timed_out(s, c), "nobody at the till: the base patience runs out")
 	s.staff[0]["phase"] = "REGISTER"
+	s.staff[0]["tile"] = StaffAI.cashier_cell(s, reg)   # the cashier of this till stands behind it
 	s.staff[0]["skills"]["service"] = 5
 	t.ok(not ai._timed_out(s, c), "a service-5 cashier keeps people waiting longer")
 	s.staff[0]["skills"]["service"] = 1

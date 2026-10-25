@@ -36,8 +36,7 @@ func _run_step() -> void:
 	EventService.step(_state)
 	DemandGenerator.step(_state)
 	if StaffAI.enabled(_state.balance):
-		var plan := _customers.register_plan_now(_state)
-		_staff.step(_state, {"register_id": plan.get("register_id", ""), "cashier_cell": StaffAI.cashier_cell(_state, String(plan.get("register_id", "")))})
+		_staff.step(_state, _customers.register_plans_now(_state))   # every usable register, primary first
 	_customers.step(_state)
 	if StaffAI.enabled(_state.balance):
 		StaffMarket.record_step(_state)

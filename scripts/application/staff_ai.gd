@@ -2,8 +2,12 @@ class_name StaffAI
 extends RefCounted
 ## Store staff (issue #143, docs/design/CUSTOMER_STAFF_V2.md §4). Runs once per fixed step before the customers,
 ## staff in ascending id order, no random draws (the same state always gives the same moves).
-##   - The register customers use (CustomerAI's register plan) is open only while a staff member stands at its
-##     cashier cell, the tile behind the counter. The checkout time divides by that person's register factor.
+##   - A register is open only while a staff member stands at its cashier cell, the tile behind the counter. The
+##     checkout time divides by that person's register factor. The primary register (the first by instance id) is
+##     always staffed; further registers open when the line grows beyond balance staff_customers_per_register per
+##     open till (keeping one person on the floor) and close again once their own line is empty and the store is
+##     quiet (registers_wanted). The free person nearest to a till that needs someone goes; customers pick the open
+##     till with the shortest line and move over when another till opens (CustomerAI).
 ##   - Staff with nothing else to do restock shelf slots below balance staff_restock_threshold: walk to the
 ##     pick-up point (the staff room's door tile, else the entrance), take up to the carry size, walk to the shelf
 ##     and put the units in (StockOps.restock, the same move as the player's RESTOCK).
@@ -19,6 +23,8 @@ const REST_UNTIL := 20.0          # a rest ends at this fatigue
 const FORCED := 100.0
 
 var _paths := PathService.new()
+static var _cells: Dictionary = {}   # register id -> cashier cell for the layout in _cells_key
+static var _cells_key := []
 var _stock_index: Array = []   # restock candidates for one step (see _restock_candidates); rebuilt after a put
 var _stock_index_key := []
 
@@ -84,31 +90,87 @@ static func make(state: GameState, entry: Dictionary, tile: Vector2i) -> Diction
 
 # ---------------------------------------------------------------- per step
 
-func step(state: GameState, register: Dictionary) -> void:
+## `registers`: the usable registers, primary first, as {register_id, cashier_cell} (CustomerAI.register_plans_now);
+## a single Dictionary is read as a one-register store.
+func step(state: GameState, registers) -> void:
 	if not enabled(state.balance) or state.staff.is_empty():
 		return
+	var regs: Array = []
+	if typeof(registers) == TYPE_DICTIONARY:
+		if String(registers.get("register_id", "")) != "":
+			regs.append(registers)
+	else:
+		regs = (registers as Array).filter(func(r): return Vector2i(r.get("cashier_cell", Vector2i(-1, -1))).x >= 0)
 	var ids: Array = state.staff.map(func(s): return s["staff_id"])
 	ids.sort()
-	var cashier_cell: Vector2i = register.get("cashier_cell", Vector2i(-1, -1))
 	var threshold := float(state.balance.get("staff_rest_threshold", 70))
-	# Who covers the register this step (walking there or standing at it). A tired cashier waiting for relief keeps
+	var ctx := {"regs": regs, "wanted": registers_wanted(state, regs), "covers": {}, "threshold": threshold}
+	# Who covers each register this step (walking there or standing at it). A tired cashier waiting for relief keeps
 	# the till open but does not count: the relief walks over and takes it.
-	var on_register := ""
 	for s in state.staff:
-		if s["phase"] in ["TO_REGISTER", "REGISTER"] and not _hands_over(state, s, threshold):
-			on_register = s["staff_id"] if on_register == "" or s["staff_id"] < on_register else on_register
+		var i := station_of(s, regs)
+		if i >= 0 and not _hands_over(state, s, threshold, regs):
+			var rid: String = regs[i]["register_id"]
+			if not ctx["covers"].has(rid) or s["staff_id"] < ctx["covers"][rid]:
+				ctx["covers"][rid] = s["staff_id"]
 	for id in ids:
 		var s := _find(state, id)
 		_tire(state, s)
-		var handing_over := _hands_over(state, s, threshold)
-		if s["phase"] in ["TO_REGISTER", "REGISTER"] and s["staff_id"] != on_register and not handing_over:
-			s["phase"] = "IDLE"   # two on one register: the lower id keeps it
-		_decide(state, s, register, cashier_cell, on_register)
-		if s["phase"] in ["TO_REGISTER", "REGISTER"] and not (handing_over and s["phase"] == "REGISTER"):
-			on_register = s["staff_id"]
-		elif on_register == s["staff_id"]:
-			on_register = ""
-		_act(state, s, register, cashier_cell)
+		var before := station_of(s, regs)
+		var handing_over := _hands_over(state, s, threshold, regs)
+		if s["phase"] in ["TO_REGISTER", "REGISTER"] and not handing_over and (before < 0 or ctx["covers"].get(regs[before]["register_id"], "") != s["staff_id"]):
+			s["phase"] = "IDLE"   # two on one register: the lower id keeps it (or the register is gone)
+			s["path"] = [] as Array[Vector2i]
+		_decide(state, s, ctx)
+		if before >= 0 and ctx["covers"].get(regs[before]["register_id"], "") == s["staff_id"]:
+			ctx["covers"].erase(regs[before]["register_id"])
+		var after := station_of(s, regs)
+		if after >= 0 and not (handing_over and s["phase"] == "REGISTER"):
+			ctx["covers"][regs[after]["register_id"]] = s["staff_id"]
+		_act(state, s, regs)
+
+
+## Index in `regs` of the register a person stands at (REGISTER) or walks to (TO_REGISTER), else -1.
+static func station_of(s: Dictionary, regs: Array) -> int:
+	if not s["phase"] in ["REGISTER", "TO_REGISTER"]:
+		return -1
+	var at := target_tile(s)
+	for i in regs.size():
+		if regs[i]["cashier_cell"] == at:
+			return i
+	return -1
+
+
+## Where a person ends up: the end of the route, or the tile they stand on.
+static func target_tile(s: Dictionary) -> Vector2i:
+	var path: Array = s["path"]
+	return path.back() if not path.is_empty() else s["tile"]
+
+
+## How many registers should be staffed now: one per balance staff_customers_per_register people heading for,
+## waiting at or paying at the tills (at least the primary one). An extra till that is staffed stays wanted while
+## the line would still fill the tills before it, so it does not open and close with every customer. Extra tills
+## always leave one person on the floor: with two staff only the primary till opens (a soak run with two staff on
+## two tills left shelves empty five times as long while the backroom was full).
+static func registers_wanted(state: GameState, regs: Array) -> int:
+	if regs.size() <= 1:
+		return regs.size()
+	var per := maxi(int(state.balance.get("staff_customers_per_register", 3)), 1)
+	var waiting := 0
+	for c in state.customers:
+		if c["phase"] in ["WALK_REGISTER", "WAIT_QUEUE", "QUEUE", "CHECKOUT"]:
+			waiting += 1
+	var most := clampi(state.staff.size() - 1, 1, regs.size())
+	var wanted := clampi(ceili(float(waiting) / float(per)), 1, most)
+	var manned := 0
+	for i in regs.size():
+		for o in state.staff:
+			if o["phase"] in ["REGISTER", "TO_REGISTER"] and target_tile(o) == regs[i]["cashier_cell"]:
+				manned = i + 1
+				break
+	if manned > wanted and waiting >= (manned - 1) * per:
+		wanted = mini(manned, most)
+	return wanted
 
 
 static func _find(state: GameState, id: String) -> Dictionary:
@@ -141,37 +203,48 @@ func _tire(state: GameState, s: Dictionary) -> void:
 
 
 ## What the person should be doing now (only changes the phase and the route; _act moves).
-func _decide(state: GameState, s: Dictionary, register: Dictionary, cashier_cell: Vector2i, on_register: String) -> void:
+func _decide(state: GameState, s: Dictionary, ctx: Dictionary) -> void:
+	var regs: Array = ctx["regs"]
 	var phase := String(s["phase"])
 	var fatigue := float(s["fatigue"])
-	var threshold := float(state.balance.get("staff_rest_threshold", 70))
-	var busy_till := _checkout_running(state, String(register.get("register_id", "")))
+	var threshold: float = ctx["threshold"]
+	var at := station_of(s, regs)
+	var rid: String = regs[at]["register_id"] if at >= 0 else ""
+	var busy_till := at >= 0 and _checkout_running(state, rid)
 	# Forced rest at 100 (except in the middle of a checkout at this register).
 	if fatigue >= FORCED and not (phase == "REGISTER" and busy_till) and phase not in ["TO_REST", "REST"]:
 		_go_rest(state, s)
 		return
 	if phase == "REST":
-		if fatigue > REST_UNTIL and not (on_register == "" and _people_waiting(state) > 0 and fatigue < 90.0):
+		var primary_open: bool = regs.is_empty() or ctx["covers"].has(regs[0]["register_id"])
+		if fatigue > REST_UNTIL and not (not primary_open and _people_waiting(state) > 0 and fatigue < 90.0):
 			return
 		s["phase"] = "IDLE"
 		phase = "IDLE"
 	if phase == "TO_REGISTER":
 		if fatigue >= threshold and _someone_free(state, s, threshold):
 			_go_rest(state, s)   # not at the till yet: someone fresher goes instead
+		elif at > 0 and at >= int(ctx["wanted"]) and CustomerAI.line_load(state, rid) == 0:
+			_drop_task(s)   # the extra till is not needed any more
 		return
 	if phase == "REGISTER":
-		# Hand over for a rest: stay at the till until the relief stands at it and the checkout is done, so the
-		# register never closes for the handover.
-		if _hands_over(state, s, threshold) and not busy_till and _relief_at_till(state, s, threshold):
+		# Hand over for a rest: stay at the till until the relief stands at this till and the checkout is done, so
+		# the register never closes for the handover.
+		if _hands_over(state, s, threshold, regs) and not busy_till and _relief_at(state, s, threshold, regs, at, ["REGISTER"]):
 			_go_rest(state, s)
+		elif at > 0 and at >= int(ctx["wanted"]) and CustomerAI.line_load(state, rid) == 0:
+			_drop_task(s)   # an extra till closes once its own line is empty and the store is quiet
 		return
+	var target := _open_target(ctx)
+	if not target.is_empty() and not _nearest_free(state, s, target["cashier_cell"]):
+		target = {}   # someone closer and free goes (this step, in their turn)
 	if phase in ["TO_PICKUP", "PICKING", "TO_SHELF", "PUTTING", "TO_REST"]:
-		if on_register == "" and cashier_cell.x >= 0 and phase != "TO_REST" and int(s["carry"]) == 0:
-			_go_register(state, s, cashier_cell)   # nobody at the till: drop the errand (nothing carried yet)
+		if not target.is_empty() and phase != "TO_REST" and int(s["carry"]) == 0:
+			_go_register(state, s, target["cashier_cell"])   # a till needs someone: drop the errand (nothing carried yet)
 		return
-	# IDLE: the till first, then rest when tired, then restocking, else wait.
-	if on_register == "" and cashier_cell.x >= 0:
-		_go_register(state, s, cashier_cell)
+	# IDLE: a till that needs someone first, then rest when tired, then restocking, else wait.
+	if not target.is_empty():
+		_go_register(state, s, target["cashier_cell"])
 		return
 	if fatigue >= threshold:
 		_go_rest(state, s)
@@ -182,11 +255,41 @@ func _decide(state: GameState, s: Dictionary, register: Dictionary, cashier_cell
 		_route(state, s, _pickup_tile(state), "TO_PICKUP")
 
 
-func _act(state: GameState, s: Dictionary, register: Dictionary, cashier_cell: Vector2i) -> void:
+## Is `s` the free person nearest to `cell` (grid distance, then the lower id)? Free: idle, or on
+## a restocking errand with nothing carried yet.
+func _nearest_free(state: GameState, s: Dictionary, cell: Vector2i) -> bool:
+	var mine := _floor_distance(state, s["tile"], cell)
+	for o in state.staff:
+		if o["staff_id"] == s["staff_id"] or float(o["fatigue"]) >= FORCED:
+			continue
+		var free: bool = o["phase"] == "IDLE" or (o["phase"] in ["TO_PICKUP", "PICKING", "TO_SHELF", "PUTTING"] and int(o["carry"]) == 0)
+		if not free:
+			continue
+		var theirs := _floor_distance(state, o["tile"], cell)
+		if theirs < mine or (theirs == mine and o["staff_id"] < s["staff_id"]):
+			return false
+	return true
+
+
+## Grid distance between two tiles.
+static func _floor_distance(_state: GameState, a: Vector2i, b: Vector2i) -> int:
+	return absi(a.x - b.x) + absi(a.y - b.y)
+
+
+## The first wanted register nobody covers ({} when every wanted till has someone).
+static func _open_target(ctx: Dictionary) -> Dictionary:
+	var regs: Array = ctx["regs"]
+	for i in mini(int(ctx["wanted"]), regs.size()):
+		if not ctx["covers"].has(regs[i]["register_id"]):
+			return regs[i]
+	return {}
+
+
+func _act(state: GameState, s: Dictionary, regs: Array) -> void:
 	match String(s["phase"]):
 		"TO_REGISTER":
 			if _walk(state, s):
-				s["phase"] = "REGISTER" if s["tile"] == cashier_cell else "IDLE"
+				s["phase"] = "REGISTER" if regs.any(func(r): return r["cashier_cell"] == s["tile"]) else "IDLE"
 		"TO_PICKUP":
 			if _walk(state, s):
 				s["phase"] = "PICKING"
@@ -255,24 +358,22 @@ func _go_rest(state: GameState, s: Dictionary) -> void:
 
 
 ## A tired cashier who has someone to hand the till to: a free person below the threshold, or someone fresher
-## already walking to the till or standing at it.
-func _hands_over(state: GameState, s: Dictionary, threshold: float) -> bool:
+## already walking to this till or standing at it.
+func _hands_over(state: GameState, s: Dictionary, threshold: float, regs: Array) -> bool:
 	if s["phase"] != "REGISTER" or float(s["fatigue"]) < threshold:
 		return false
-	return _someone_free(state, s, threshold) or _relief_coming(state, s, threshold, ["TO_REGISTER", "REGISTER"])
+	var at := station_of(s, regs)
+	return _someone_free(state, s, threshold) or (at >= 0 and _relief_at(state, s, threshold, regs, at, ["TO_REGISTER", "REGISTER"]))
 
 
-## Someone else below the threshold whose phase is one of `phases`.
-static func _relief_coming(state: GameState, me: Dictionary, threshold: float, phases: Array) -> bool:
+## Someone else below the threshold at (or walking to) register `at`, in one of `phases`.
+static func _relief_at(state: GameState, me: Dictionary, threshold: float, regs: Array, at: int, phases: Array) -> bool:
+	if at < 0:
+		return false
 	for o in state.staff:
-		if o["staff_id"] != me["staff_id"] and o["phase"] in phases and float(o["fatigue"]) < threshold:
+		if o["staff_id"] != me["staff_id"] and o["phase"] in phases and float(o["fatigue"]) < threshold and station_of(o, regs) == at:
 			return true
 	return false
-
-
-## The relief is at the till (standing at it, below the threshold).
-static func _relief_at_till(state: GameState, me: Dictionary, threshold: float) -> bool:
-	return _relief_coming(state, me, threshold, ["REGISTER"])
 
 
 ## Someone other than `me` who could take over the till (not resting, below the threshold).
@@ -483,10 +584,22 @@ static func cashier_cell(state: GameState, register_id: String) -> Vector2i:
 static func cashier(state: GameState, register_id: String) -> Dictionary:
 	if not enabled(state.balance):
 		return {"skills": {"register": 3}, "fatigue": 0.0}   # no staff model: always open, average speed
+	var cell := cashier_cell_cached(state, register_id)
 	for s in state.staff:
-		if s["phase"] == "REGISTER":
+		if s["phase"] == "REGISTER" and s["tile"] == cell:
 			return s
 	return {}
+
+
+## cashier_cell, remembered per layout (customers ask for every waiting person every step).
+static func cashier_cell_cached(state: GameState, register_id: String) -> Vector2i:
+	var key := [state.grid.get_instance_id(), state.grid.revision, state.grid.instances.size()]
+	if key != _cells_key:
+		_cells.clear()
+		_cells_key = key
+	if not _cells.has(register_id):
+		_cells[register_id] = cashier_cell(state, register_id)
+	return _cells[register_id]
 
 
 ## Checkout seconds for `items` at this register now: the balance time / (register skill x fatigue factor).

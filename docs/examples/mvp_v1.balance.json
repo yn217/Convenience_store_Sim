@@ -32,6 +32,7 @@
   "staff_wage_per_skill_yen": 40,
   "staff_fatigue_per_hour": {"register": 12, "restock": 15, "walk": 8, "idle": 4, "rest": -35},
   "staff_rest_threshold": 70,
+  "staff_customers_per_register": 3,
   "staff_restock_threshold": 0.5,
   "staff_carry_base": 4,
   "staff_walk_factor": 1.1,

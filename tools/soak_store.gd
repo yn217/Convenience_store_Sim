@@ -82,6 +82,10 @@ class Watch:
 	var finished: Array = []        # [seconds in store, outcome, max revisits, phase changes]
 	var starve_steps := 0
 	var closed_wait_steps := 0
+	var empty_with_stock_minutes := 0   # sampled each minute whatever the staff do
+	var checkouts := {}                 # register id -> customers who started paying there
+	var _paying := {}
+	var _closed_seen := {}
 	var steps := 0
 
 	func _issue(kind: String, who: String, t: int, detail: String) -> void:
@@ -150,13 +154,23 @@ class Watch:
 				_issue("staff_still", id, t, "%s at %s for %ds" % [st["phase"], st["tile"], t - int(w["since"])])
 			if st["phase"] == "REGISTER":
 				reg = id
-		var waiting := 0
+		# Someone standing in line at a till that is closed (per register: another till being open does not help).
+		var closed := s.closed_registers()
 		for c in s.customers:
-			if c["phase"] in ["QUEUE", "WAIT_QUEUE", "CHECKOUT"]:
-				waiting += 1
-		if waiting > 0 and reg == "":
-			closed_wait_steps += 1
+			if c["phase"] in ["QUEUE", "CHECKOUT"] and closed.has(c["register_id"]):
+				closed_wait_steps += 1
+				if not _closed_seen.has("%s%d" % [c["register_id"], t / 3600]):
+					_closed_seen["%s%d" % [c["register_id"], t / 3600]] = true
+					_issue("closed_till_wait", c["customer_id"], t, "%s slot %d at a closed %s; staff %s" % [c["phase"], c["queue_slot"], c["register_id"],
+						s.staff.map(func(x): return "%s@%s->%s" % [x["phase"], x["tile"], (x["path"].back() if not (x["path"] as Array).is_empty() else x["tile"])])])
+				break
+		for c in s.customers:
+			if c["phase"] == "CHECKOUT" and not _paying.has(c["customer_id"]):
+				_paying[c["customer_id"]] = true
+				checkouts[c["register_id"]] = int(checkouts.get(c["register_id"], 0)) + 1
 		# Restock starvation: an empty slot with backroom stock while every person is idle (sampled each minute).
+		if steps % 30 == 0 and _has_empty_slot_with_stock(s):
+			empty_with_stock_minutes += 1
 		if steps % 30 == 0 and s.staff.all(func(x): return x["phase"] in ["IDLE"]) and _has_empty_slot_with_stock(s):
 			starve_steps += 1
 
@@ -217,7 +231,7 @@ static func run(days: int, visitors_x: float, staff_n: int, location: String) ->
 		"visit_sec_max": durations[-1] if not durations.is_empty() else 0,
 		"max_tile_revisits": revisit[-1] if not revisit.is_empty() else 0,
 		"issue_counts": w.counts, "issues": w.issues,
-		"restock_starved_steps": w.starve_steps, "people_waiting_at_closed_till_steps": w.closed_wait_steps,
+		"restock_starved_steps": w.starve_steps, "empty_with_stock_minutes": w.empty_with_stock_minutes, "checkouts_by_register": w.checkouts, "people_waiting_at_closed_till_steps": w.closed_wait_steps,
 		"staff_phase_seconds": staff_out,
 	}
 
