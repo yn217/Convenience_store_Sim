@@ -91,6 +91,8 @@ static func customer_panel_lines(c: Dictionary, fixture_name: String) -> Array[S
 	if bool(c.get("passerby", false)):
 		out.append("通行人（お店には入りません）")
 		return out
+	if bool(c.get("staff", false)):
+		return staff_panel_lines(c, fixture_name)
 	var purpose := String(c.get("purpose_name", ""))
 	out.append("客 %s　来店目的：%s" % [c.get("customer_id", ""), purpose if purpose != "" else "（記録なし）"])
 	if purpose != "":
@@ -117,6 +119,30 @@ static func customer_panel_lines(c: Dictionary, fixture_name: String) -> Array[S
 	if int(c.get("impulse_count", 0)) > 0:
 		out.append("★ ついで買い %d点" % int(c.get("impulse_count", 0)))
 	out.append("状態：" + customer_action(c, fixture_name))
+	return out
+
+
+const ARCHETYPE_NAMES := {"balanced": "バランス型", "register": "レジ得意", "restock": "品出し得意", "stamina": "タフ", "service": "接客上手"}
+const STAFF_PHASE_TEXT := {
+	"IDLE": "待機中", "TO_REGISTER": "レジへ向かっている", "REGISTER": "レジ担当", "TO_PICKUP": "控え室へ商品を取りに行く",
+	"PICKING": "商品を取り出している", "TO_SHELF": "%sへ商品を運んでいる", "PUTTING": "%sに品出し中", "TO_REST": "控え室へ休憩に行く", "REST": "休憩中",
+}
+
+
+## The staff panel (#143): name and type, the four skills, fatigue, daily wage and the current job.
+static func staff_panel_lines(c: Dictionary, fixture_name: String) -> Array[String]:
+	var out: Array[String] = []
+	out.append("店員 %s（%s）" % [c.get("name", ""), ARCHETYPE_NAMES.get(c.get("archetype", ""), c.get("archetype", ""))])
+	var sk: Dictionary = c.get("skills", {})
+	out.append("レジ %d　品出し %d　体力 %d　接客 %d" % [int(sk.get("register", 0)), int(sk.get("restock", 0)), int(sk.get("stamina", 0)), int(sk.get("service", 0))])
+	out.append("疲労 %d%%　日給 %s" % [int(round(float(c.get("fatigue", 0.0)))), yen(int(c.get("daily_wage_yen", 0)))])
+	var phase := String(c.get("phase", ""))
+	var text := String(STAFF_PHASE_TEXT.get(phase, phase))
+	if text.contains("%s"):
+		text = text % (fixture_name if fixture_name != "" else "棚")
+	if int(c.get("carry", 0)) > 0:
+		text += "（%d個）" % int(c.get("carry", 0))
+	out.append("仕事：" + text)
 	return out
 
 

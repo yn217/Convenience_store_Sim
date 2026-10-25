@@ -6,6 +6,7 @@ extends RefCounted
 var _state: GameState
 var _clock := GameClock.new()
 var _customers := CustomerAI.new()
+var _staff := StaffAI.new()
 
 
 func _init(state: GameState) -> void:
@@ -34,11 +35,16 @@ func _run_step() -> void:
 	InventoryService.release_timed_out(_state)
 	EventService.step(_state)
 	DemandGenerator.step(_state)
+	if StaffAI.enabled(_state.balance):
+		var plan := _customers.register_plan_now(_state)
+		_staff.step(_state, {"register_id": plan.get("register_id", ""), "cashier_cell": StaffAI.cashier_cell(_state, String(plan.get("register_id", "")))})
 	_customers.step(_state)
 	var new_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
 	if new_day != prev_day:
 		_state.close_day_once(prev_day)   # report before the new day's costs (12 §4)
 		_state.day = new_day
+		for s in _state.staff:
+			s["fatigue"] = 0.0   # a new day, a fresh shift (#143)
 		_charge_new_day()
 	BusinessService.finish_closing_if_empty(_state)
 

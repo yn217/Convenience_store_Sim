@@ -10,7 +10,7 @@ extends RefCounted
 static func summarize(ledger: Ledger, day_index: int = -1) -> Dictionary:
 	var out := {
 		"revenue_yen": 0, "cogs_yen": 0, "wastage_yen": 0, "order_yen": 0, "capex_yen": 0,
-		"advertising_yen": 0, "electricity_yen": 0, "fixed_cost_yen": 0, "cash_delta_yen": 0,
+		"advertising_yen": 0, "electricity_yen": 0, "fixed_cost_yen": 0, "wages_yen": 0, "cash_delta_yen": 0,
 		"sale_count": 0, "units_sold": 0,
 	}
 	for tx in ledger.transactions:
@@ -35,6 +35,8 @@ static func summarize(ledger: Ledger, day_index: int = -1) -> Dictionary:
 				out["electricity_yen"] += int(tx["expense_delta_yen"])
 			"DAILY_FIXED":
 				out["fixed_cost_yen"] += int(tx["expense_delta_yen"])
+			"WAGES":
+				out["wages_yen"] += int(tx["expense_delta_yen"])
 	out["gross_profit_yen"] = out["revenue_yen"] - out["cogs_yen"]
-	out["operating_profit_yen"] = out["gross_profit_yen"] - out["wastage_yen"] - out["advertising_yen"] - out["electricity_yen"] - out["fixed_cost_yen"]
+	out["operating_profit_yen"] = out["gross_profit_yen"] - out["wastage_yen"] - out["advertising_yen"] - out["electricity_yen"] - out["fixed_cost_yen"] - out["wages_yen"]
 	return out

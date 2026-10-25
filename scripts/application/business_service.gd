@@ -5,7 +5,7 @@ extends RefCounted
 ## Every charge is identified by "<day>:<kind>" in the ledger, so it can never be booked twice
 ## for the same day, whatever the speed, re-open or reload.
 
-const KINDS := ["AD", "DAILY_FIXED", "ELECTRICITY"]
+const KINDS := ["AD", "DAILY_FIXED", "ELECTRICITY", "WAGES"]
 
 
 static func charge_event_id(day: int, kind: String) -> String:
@@ -30,11 +30,20 @@ static func day_costs(state: GameState) -> Dictionary:
 		"AD": state.next_day_ad_yen,
 		"DAILY_FIXED": int(state.balance.get("daily_fixed_cost_yen", 0)),
 		"ELECTRICITY": electricity,
+		"WAGES": wages(state),
 	}
 
 
+## The day's wages of every staff member (#143).
+static func wages(state: GameState) -> int:
+	var total := 0
+	for s in state.staff:
+		total += StaffAI.daily_wage(state.balance, s)
+	return total
+
+
 static func total(costs: Dictionary) -> int:
-	return int(costs["AD"]) + int(costs["DAILY_FIXED"]) + int(costs["ELECTRICITY"])
+	return int(costs["AD"]) + int(costs["DAILY_FIXED"]) + int(costs["ELECTRICITY"]) + int(costs.get("WAGES", 0))
 
 
 ## Opening requirements (08 §1): a register with a queue, a stocked shelf customers can reach.
@@ -90,6 +99,8 @@ static func charge_day(state: GameState, day: int, partial: bool) -> int:
 		var amount: int = costs[kind]
 		if state.ledger.has_event(id):
 			continue
+		if kind == "WAGES" and amount == 0:
+			continue   # no staff (#143): no wage row
 		var pay := mini(amount, state.cash_yen) if partial else amount
 		state.ledger.record(kind, id, -pay, day, state.time_sec, {"cost_yen": amount}, {"expense": amount})
 		unpaid += amount - pay

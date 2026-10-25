@@ -12,6 +12,7 @@ const VALUES := {
 	"reservation_hold_game_seconds": 600,
 	"queue_patience_game_seconds": 120,
 	"outdoor_approach": false,   # #142: customers appear at the door
+	"staff_enabled": false,      # #143: no staff, registers always open
 }
 
 

@@ -43,6 +43,8 @@ var next_day_ad_yen: int = 0
 var unpaid_cost_yen: int = 0
 ## Today's visitor counters, kept apart (03 §G): wished-to-visit / actually entered / turned away.
 var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
+var staff: Array = []          # #143: store staff (StaffAI)
+var next_staff_seq := 0
 ## Inputs of the daily reputation update: customers who gave up in the queue / found nothing to buy.
 var rate_stats := {"abandoned": 0, "stockouts": 0}
 ## Customers in the store (filled by M3-02) and arrivals waiting to be spawned as customers.
@@ -100,6 +102,9 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 		s.rng_states["impulse"] = 135792   # impulse pick-ups on the way (#141)
 	s.balance = balance.duplicate(true)
 	s.next_day_ad_yen = int(balance.get("starting_ad_budget_yen_per_day", 0))
+	if StaffAI.enabled(s.balance):
+		for entry in s.balance.get("starting_staff", []):
+			s.staff.append(StaffAI.make(s, entry, s.grid.entrance_tiles[0]))
 	return s
 
 
@@ -258,7 +263,8 @@ func snapshot() -> Dictionary:
 		"opening": BusinessService.opening_report(self) if business_state == SETUP else {},
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),
-		"customers": _customer_views(),
+		"customers": _customer_views() + _staff_views(),
+		"staff_count": staff.size(), "staff_cap": StaffAI.capacity(self) if StaffAI.enabled(balance) else 0,
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
 		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),
 		"passersby_per_day": int(balance.get("passersby_per_day", 0)) if bool(balance.get("outdoor_approach", false)) else 0,   # #142, presentation only   # the figures walk at the simulation's pace (#117 v2)
@@ -295,6 +301,23 @@ func _log_view(log: Array) -> Array:
 		var sku := products.get_sku(e["sku_id"]) if products != null else {}
 		out.append({"sku_id": e["sku_id"], "name": sku.get("display_name", e["sku_id"]), "category": sku.get("category", ""),
 			"price": int(e["price"]), "kind": e["kind"], "state": e["state"]})
+	return out
+
+
+## Staff drawn like customers (the presenter animates any id; "staff_" ids wear the clerk look, #143).
+func _staff_views() -> Array:
+	var out: Array = []
+	for s in staff:
+		var path: Array = s["path"]
+		out.append({
+			"customer_id": s["staff_id"], "staff": true, "name": s["name"], "archetype": s["archetype"], "skills": s["skills"].duplicate(),
+			"fatigue": float(s["fatigue"]), "phase": s["phase"], "tile": s["tile"], "path": path.duplicate(),
+			"next": path[0] if not path.is_empty() else s["tile"], "progress": float(s["progress"]) if not path.is_empty() else 0.0,
+			"trail": (s["trail"] as Array).duplicate(), "moved": int(s["moved"]), "carry": int(s["carry"]),
+			"task_fixture": String((s["task"] as Dictionary).get("fixture_id", "")), "task_sku": String((s["task"] as Dictionary).get("sku_id", "")),
+			"daily_wage_yen": StaffAI.daily_wage(balance, s),
+			"fixture_id": String((s["task"] as Dictionary).get("fixture_id", "")), "sku_id": "", "register_id": "", "queue_slot": -1, "outcome": "",
+		})
 	return out
 
 

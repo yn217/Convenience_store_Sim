@@ -73,6 +73,7 @@ func test_a_customer_comes_in_from_the_pavement_and_leaves_along_it(t, _tree) ->
 func test_a_long_line_makes_customers_turn_back(t, _tree) -> void:
 	var p = Paths.new()
 	var s: GameState = p._store(t, 1)
+	s.balance["staff_enabled"] = false   # the line alone decides here (closed registers: test_staff.gd)
 	s.balance["checkout_base_game_seconds"] = 100000   # the first customer blocks the till
 	s.balance["queue_patience_game_seconds"] = 100000  # and nobody in the line gives up
 	var runner := SimulationRunner.new(s)

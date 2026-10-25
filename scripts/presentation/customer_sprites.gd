@@ -25,6 +25,8 @@ func variant(variant_id: String) -> Dictionary:
 
 ## Stable variant for a customer id: the numeric tail picks one of the three looks.
 static func variant_for(customer_id: String) -> String:
+	if customer_id.begins_with("staff_"):
+		return "clerk"   # store staff (#143)
 	var digits := ""
 	for i in range(customer_id.length() - 1, -1, -1):
 		var ch := customer_id[i]

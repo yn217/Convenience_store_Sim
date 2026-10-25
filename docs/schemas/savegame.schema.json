@@ -927,6 +927,12 @@
             }
           }
         },
+        "staff": {
+          "description": "Store staff (issue #143): id, name, archetype, skills 1..5, fatigue 0..100, phase, position, route, walk_progress, timer, carry and the current restock task. Absent = the balance's starting staff.",
+          "type": "array",
+          "items": {"type": "object"}
+        },
+        "next_staff_seq": {"type": "integer", "minimum": 0},
         "last_nonzero_speed": {
           "type": "integer",
           "enum": [

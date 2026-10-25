@@ -553,5 +553,80 @@
     ],
     "visual_id": "copier_a",
     "shelf_slots": []
+  },
+  {
+    "schema_version": 1,
+    "type_id": "staff_room_s",
+    "display_name": "控え室（小）",
+    "footprint": {
+      "w": 2,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 1.92,
+      "depth": 1.92,
+      "height": 2.4
+    },
+    "placement_cost_yen": 60000,
+    "electricity_cost_yen_per_day": 20,
+    "capacity_units": 0,
+    "allowed_categories": [],
+    "access_edges": [
+      "S"
+    ],
+    "visual_id": "staff_room_s_a",
+    "shelf_slots": [],
+    "staff_capacity": 3,
+    "min_store_width": 12
+  },
+  {
+    "schema_version": 1,
+    "type_id": "staff_room_m",
+    "display_name": "控え室（中）",
+    "footprint": {
+      "w": 3,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 2.92,
+      "depth": 1.92,
+      "height": 2.4
+    },
+    "placement_cost_yen": 110000,
+    "electricity_cost_yen_per_day": 30,
+    "capacity_units": 0,
+    "allowed_categories": [],
+    "access_edges": [
+      "S"
+    ],
+    "visual_id": "staff_room_m_a",
+    "shelf_slots": [],
+    "staff_capacity": 6,
+    "min_store_width": 16
+  },
+  {
+    "schema_version": 1,
+    "type_id": "staff_room_l",
+    "display_name": "控え室（大）",
+    "footprint": {
+      "w": 4,
+      "h": 3
+    },
+    "dimensions_m": {
+      "width": 3.92,
+      "depth": 2.92,
+      "height": 2.4
+    },
+    "placement_cost_yen": 180000,
+    "electricity_cost_yen_per_day": 45,
+    "capacity_units": 0,
+    "allowed_categories": [],
+    "access_edges": [
+      "S"
+    ],
+    "visual_id": "staff_room_l_a",
+    "shelf_slots": [],
+    "staff_capacity": 10,
+    "min_store_width": 20
   }
 ]

@@ -239,6 +239,12 @@ func _place(command_id: String, command: Dictionary) -> CommandResult:
 	var type_id = command.get("type_id")
 	if typeof(type_id) != TYPE_STRING or not _is_int(command.get("x")) or not _is_int(command.get("y")) or not _is_int(command.get("rotation")):
 		return _fail(&"INVALID_OPERATION", &"command_malformed")
+	var room_def := _state.fixtures.get_type(type_id)
+	if int(room_def.get("staff_capacity", 0)) > 0:   # #143: one staff room per store, sized to the store
+		if StaffAI.staff_room(_state) != "":
+			return _fail(&"INVALID_OPERATION", &"staff_room_exists")
+		if int(room_def.get("min_store_width", 0)) > _state.grid.width:
+			return _fail(&"INVALID_OPERATION", &"store_too_small")
 	var res := PlacementRules.validate(_state.grid, _state.fixtures, type_id, command["x"], command["y"], command["rotation"], _state.ledger.cash_yen)
 	if not res.ok:
 		return _fail(res.code, res.message_key)

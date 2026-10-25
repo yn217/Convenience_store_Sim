@@ -89,6 +89,8 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"visit_stats": state.visit_stats.duplicate(),
 			"rate_stats": state.rate_stats.duplicate(),
 			"last_nonzero_speed": state.last_nonzero_speed,
+			"staff": state.staff.map(_staff_out),   # #143
+			"next_staff_seq": state.next_staff_seq,
 		},
 	}
 
@@ -105,6 +107,64 @@ static func _visit_out(c: Dictionary) -> Dictionary:
 		"seen_categories": (c.get("seen_categories", []) as Array).duplicate(),
 		"impulse_tried": (c.get("impulse_tried", []) as Array).duplicate(),
 	}
+
+
+static func _xy(t: Vector2i) -> Dictionary:
+	return {"x": t.x, "y": t.y}
+
+
+static func _staff_out(s: Dictionary) -> Dictionary:
+	var task: Dictionary = s["task"]
+	return {
+		"staff_id": s["staff_id"], "name": s["name"], "archetype": s["archetype"], "skills": s["skills"].duplicate(),
+		"fatigue": float(s["fatigue"]), "phase": s["phase"], "position": _xy(s["tile"]),
+		"route": (s["path"] as Array).map(_xy), "walk_progress": float(s["progress"]), "timer": int(s["timer"]), "carry": int(s["carry"]),
+		"task": {} if task.is_empty() else {"fixture_id": task["fixture_id"], "slot_id": task["slot"]["slot_id"], "sku_id": task["sku_id"], "need": int(task["need"]), "access": _xy(task["access"])},
+	}
+
+
+## Staff from runtime_state (#143); a save without them keeps the starting staff of the balance.
+static func _staff_in(s: GameState, rt: Dictionary, errs: Array[String]) -> void:
+	if not rt.has("staff"):
+		return
+	if typeof(rt["staff"]) != TYPE_ARRAY:
+		errs.append("runtime_state.staff: not_array")
+		return
+	s.staff.clear()
+	for i in rt["staff"].size():
+		var e = rt["staff"][i]
+		var path := "runtime_state.staff[%d]" % i
+		if typeof(e) != TYPE_DICTIONARY or not JsonCheck.is_nonempty_string(e.get("staff_id")) or not StaffAI.PHASES.has(e.get("phase")) \
+				or typeof(e.get("skills")) != TYPE_DICTIONARY or typeof(e.get("position")) != TYPE_DICTIONARY or typeof(e.get("route")) != TYPE_ARRAY:
+			errs.append(path + ": invalid")
+			return
+		var skills := {}
+		for k in StaffAI.SKILLS:
+			if not JsonCheck.is_int(e["skills"].get(k)):
+				errs.append(path + ".skills: invalid")
+				return
+			skills[k] = clampi(int(e["skills"][k]), 1, 5)
+		var route: Array[Vector2i] = []
+		for p in e["route"]:
+			route.append(Vector2i(int(p["x"]), int(p["y"])))
+		var task := {}
+		var t = e.get("task", {})
+		if typeof(t) == TYPE_DICTIONARY and not t.is_empty():
+			var inst_id := String(t.get("fixture_id", ""))
+			var slot := {}
+			if s.grid.instances.has(inst_id):
+				for sl in s.fixtures.get_type(s.grid.instances[inst_id]["type_id"])["shelf_slots"]:
+					if sl["slot_id"] == t.get("slot_id"):
+						slot = sl
+			if not slot.is_empty():
+				task = {"fixture_id": inst_id, "slot": slot, "sku_id": String(t["sku_id"]), "need": int(t["need"]), "access": Vector2i(int(t["access"]["x"]), int(t["access"]["y"]))}
+		s.staff.append({
+			"staff_id": String(e["staff_id"]), "name": String(e.get("name", "")), "archetype": String(e.get("archetype", "")), "skills": skills,
+			"fatigue": clampf(float(e.get("fatigue", 0.0)), 0.0, 100.0), "phase": String(e["phase"]),
+			"tile": Vector2i(int(e["position"]["x"]), int(e["position"]["y"])), "path": route, "progress": float(e.get("walk_progress", 0.0)),
+			"timer": int(e.get("timer", 0)), "task": task, "carry": int(e.get("carry", 0)) if not task.is_empty() else 0, "trail": [], "moved": 0,
+		})
+	s.next_staff_seq = maxi(int(rt.get("next_staff_seq", 0)), s.staff.size())
 
 
 static func _customer_out(c: Dictionary, now_sec: int, patience_sec: int) -> Dictionary:
@@ -313,6 +373,7 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 	if typeof(rt) != TYPE_DICTIONARY:
 		errs.append("runtime_state: not_object")
 		return
+	_staff_in(s, rt, errs)
 	var counters = rt.get("id_counters", {})
 	s.next_fixture_seq = _counter(counters, "fixture", _max_suffix(s.grid.instances.keys()), errs)
 	s.next_lot_seq = _counter(counters, "lot", _max_suffix(s.inventory_segments.map(func(x): return x["lot_id"])), errs)
@@ -366,7 +427,7 @@ static func _transaction_errors(tx, path: String) -> Array[String]:
 		return errs
 	if not JsonCheck.is_nonempty_string(tx["event_id"]):
 		errs.append("%s.event_id: empty" % path)
-	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL"].has(tx["event_type"]):
+	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WAGES", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL"].has(tx["event_type"]):
 		errs.append("%s.event_type: unknown" % path)
 	for k in ["day_index", "time_sec", "revenue_delta_yen", "cogs_delta_yen", "expense_delta_yen"]:
 		if not JsonCheck.is_int(tx[k]) or int(tx[k]) < 0:
@@ -569,7 +630,7 @@ static func semantic_errors(s: GameState) -> Array[String]:
 	# Daily charges are at-most-once per day and kind; ledger cash must be reproducible.
 	var charges := {}
 	for tx in s.ledger.transactions:
-		if ["AD", "DAILY_FIXED", "ELECTRICITY"].has(tx["event_type"]):
+		if ["AD", "DAILY_FIXED", "ELECTRICITY", "WAGES"].has(tx["event_type"]):
 			var key := "%d:%s" % [tx["day_index"], tx["event_type"]]
 			if charges.has(key):
 				errs.append("%s: charged_twice" % key)

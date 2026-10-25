@@ -511,6 +511,8 @@ func should_balk(state: GameState) -> bool:
 	var plan := _register_plan(state)
 	if plan.is_empty():
 		return true
+	if StaffAI.enabled(state.balance) and not state.staff.any(func(s): return s["phase"] in ["TO_REGISTER", "REGISTER"]):
+		return true   # #143: no staff at (or on the way to) the register: it is closed
 	var line := 0
 	for o in state.customers:
 		if o["phase"] in ["WAIT_QUEUE", "QUEUE", "CHECKOUT", "WALK_REGISTER"]:
@@ -913,9 +915,10 @@ func _queue(state: GameState, c: Dictionary) -> void:
 		for other in state.customers:
 			if other["phase"] == "CHECKOUT" and other["register_id"] == c["register_id"]:
 				busy = true
-		if not busy:
+		var open := not StaffAI.cashier(state, c["register_id"]).is_empty()   # #143: nobody at the till = closed
+		if not busy and open:
 			c["phase"] = "CHECKOUT"
-			c["checkout_left"] = BasketModel.checkout_seconds(state.balance, (c["reservation_ids"] as Array).size())
+			c["checkout_left"] = StaffAI.checkout_seconds(state, c["register_id"], (c["reservation_ids"] as Array).size())
 			return
 	elif int(c["queue_slot"]) > 0:
 		var ahead: int = int(c["queue_slot"]) - 1
@@ -974,6 +977,13 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 		name = "%s 他%d点" % [name, sold - 1]   # the checkout pop: "おにぎり 他2点 ¥480"
 	state.emit_event("SALE_COMMITTED", {"transaction_id": basket_id, "customer_id": c["customer_id"], "revenue_yen": revenue, "register_id": c["register_id"], "fixture_id": first_fixture, "sku_id": first_sku, "name": name, "items": sold})
 	_start_exit(state, c)
+
+
+## The register plan customers use now (StaffAI staffs that register).
+func register_plan_now(state: GameState) -> Dictionary:
+	_sync_layout(state)
+	_blocked(state)
+	return _register_plan(state)
 
 
 ## SKU of a live reservation (read before the sale removes it); "" when unknown.
