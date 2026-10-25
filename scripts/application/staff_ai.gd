@@ -19,6 +19,8 @@ const REST_UNTIL := 20.0          # a rest ends at this fatigue
 const FORCED := 100.0
 
 var _paths := PathService.new()
+var _stock_index: Array = []   # restock candidates for one step (see _restock_candidates); rebuilt after a put
+var _stock_index_key := []
 
 
 static func enabled(balance: Dictionary) -> bool:
@@ -88,17 +90,21 @@ func step(state: GameState, register: Dictionary) -> void:
 	var ids: Array = state.staff.map(func(s): return s["staff_id"])
 	ids.sort()
 	var cashier_cell: Vector2i = register.get("cashier_cell", Vector2i(-1, -1))
-	var on_register := ""   # who covers the register this step (walking there or standing at it)
+	var threshold := float(state.balance.get("staff_rest_threshold", 70))
+	# Who covers the register this step (walking there or standing at it). A tired cashier waiting for relief keeps
+	# the till open but does not count: the relief walks over and takes it.
+	var on_register := ""
 	for s in state.staff:
-		if s["phase"] in ["TO_REGISTER", "REGISTER"]:
+		if s["phase"] in ["TO_REGISTER", "REGISTER"] and not _hands_over(state, s, threshold):
 			on_register = s["staff_id"] if on_register == "" or s["staff_id"] < on_register else on_register
 	for id in ids:
 		var s := _find(state, id)
 		_tire(state, s)
-		if s["phase"] in ["TO_REGISTER", "REGISTER"] and s["staff_id"] != on_register:
+		var handing_over := _hands_over(state, s, threshold)
+		if s["phase"] in ["TO_REGISTER", "REGISTER"] and s["staff_id"] != on_register and not handing_over:
 			s["phase"] = "IDLE"   # two on one register: the lower id keeps it
 		_decide(state, s, register, cashier_cell, on_register)
-		if s["phase"] in ["TO_REGISTER", "REGISTER"]:
+		if s["phase"] in ["TO_REGISTER", "REGISTER"] and not (handing_over and s["phase"] == "REGISTER"):
 			on_register = s["staff_id"]
 		elif on_register == s["staff_id"]:
 			on_register = ""
@@ -149,9 +155,14 @@ func _decide(state: GameState, s: Dictionary, register: Dictionary, cashier_cell
 			return
 		s["phase"] = "IDLE"
 		phase = "IDLE"
-	if phase == "REGISTER" or phase == "TO_REGISTER":
-		# Hand over for a rest when someone else is free to take the till.
-		if fatigue >= threshold and not busy_till and _someone_free(state, s, threshold):
+	if phase == "TO_REGISTER":
+		if fatigue >= threshold and _someone_free(state, s, threshold):
+			_go_rest(state, s)   # not at the till yet: someone fresher goes instead
+		return
+	if phase == "REGISTER":
+		# Hand over for a rest: stay at the till until the relief stands at it and the checkout is done, so the
+		# register never closes for the handover.
+		if _hands_over(state, s, threshold) and not busy_till and _relief_at_till(state, s, threshold):
 			_go_rest(state, s)
 		return
 	if phase in ["TO_PICKUP", "PICKING", "TO_SHELF", "PUTTING", "TO_REST"]:
@@ -212,6 +223,7 @@ func _put(state: GameState, s: Dictionary) -> void:
 	if qty > 0:
 		var r := StockOps.restock(state, "%s_t%d" % [s["staff_id"], state.time_sec], task["fixture_id"], task["slot"]["slot_id"], task["sku_id"], qty)
 		if bool(r.get("ok", false)):
+			_stock_index_key = []   # the shelves changed
 			state.emit_event("STAFF_RESTOCKED", {"staff_id": s["staff_id"], "fixture_id": task["fixture_id"], "sku_id": task["sku_id"], "qty": qty})
 	_drop_task(s)
 
@@ -240,6 +252,27 @@ func _go_rest(state: GameState, s: Dictionary) -> void:
 		return
 	if not _route(state, s, _pickup_tile(state), "TO_REST"):
 		s["phase"] = "REST"
+
+
+## A tired cashier who has someone to hand the till to: a free person below the threshold, or someone fresher
+## already walking to the till or standing at it.
+func _hands_over(state: GameState, s: Dictionary, threshold: float) -> bool:
+	if s["phase"] != "REGISTER" or float(s["fatigue"]) < threshold:
+		return false
+	return _someone_free(state, s, threshold) or _relief_coming(state, s, threshold, ["TO_REGISTER", "REGISTER"])
+
+
+## Someone else below the threshold whose phase is one of `phases`.
+static func _relief_coming(state: GameState, me: Dictionary, threshold: float, phases: Array) -> bool:
+	for o in state.staff:
+		if o["staff_id"] != me["staff_id"] and o["phase"] in phases and float(o["fatigue"]) < threshold:
+			return true
+	return false
+
+
+## The relief is at the till (standing at it, below the threshold).
+static func _relief_at_till(state: GameState, me: Dictionary, threshold: float) -> bool:
+	return _relief_coming(state, me, threshold, ["REGISTER"])
 
 
 ## Someone other than `me` who could take over the till (not resting, below the threshold).
@@ -272,10 +305,54 @@ func _restock_task(state: GameState, s: Dictionary) -> Dictionary:
 	for o in state.staff:
 		if not (o["task"] as Dictionary).is_empty():
 			taken["%s|%s" % [o["task"]["fixture_id"], o["task"]["slot"]["slot_id"]]] = true
-	var threshold := float(state.balance.get("staff_restock_threshold", 0.5))
-	var reach := _paths.current_distances(state.grid)
 	var best := {}
 	var best_fill := 2.0
+	for c in _restock_candidates(state):
+		if float(c["fill"]) < best_fill and not taken.has(c["key"]):
+			best_fill = float(c["fill"])
+			best = c["task"]
+	return best
+
+
+## Every shelf slot below the restock threshold that the backroom can refill and staff can reach, in instance and
+## slot order: {key "fixture|slot", fill, task {fixture_id, slot, sku_id, need, access}}. The slot's SKU is the one on
+## it, or for an empty slot the first SKU (by id) of its categories with backroom stock (as _slot_sku); the need is
+## _slot_need. Every idle person asks every step, so the list is kept until the stock changes: a sale, an expiry or
+## a delivery moves the shelf or backroom totals, a command bumps the state revision, a put clears the key.
+func _restock_candidates(state: GameState) -> Array:
+	var on_shelves := 0
+	var in_backroom := 0
+	for seg in state.inventory_segments:
+		if seg["location"]["kind"] == "FIXTURE":
+			on_shelves += int(seg["physical_qty"])
+		else:
+			in_backroom += int(seg["physical_qty"]) - int(seg["reserved_qty"])
+	var key := [state.revision, state.grid.revision, state.inventory_segments.size(), on_shelves, in_backroom]
+	if key == _stock_index_key:
+		return _stock_index
+	var on_slot := {}     # "fixture|slot" -> [units on it, sku of its first stocked segment]
+	var backroom := {}    # sku -> what the backroom can give
+	for seg in state.inventory_segments:
+		var loc: Dictionary = seg["location"]
+		if loc["kind"] == "FIXTURE":
+			var k := "%s|%s" % [loc["fixture_id"], loc["slot_id"]]
+			var row: Array = on_slot.get(k, [0, ""])
+			row[0] = int(row[0]) + int(seg["physical_qty"])
+			if row[1] == "" and int(seg["physical_qty"]) > 0:
+				row[1] = seg["sku_id"]
+			on_slot[k] = row
+		elif loc["kind"] == "BACKROOM":
+			backroom[seg["sku_id"]] = int(backroom.get(seg["sku_id"], 0)) + int(seg["physical_qty"]) - int(seg["reserved_qty"])
+	var sku_ids := state.products.skus.keys()
+	sku_ids.sort()
+	var first_of := {}    # category -> its first SKU (by id) with backroom stock
+	for sid in sku_ids:
+		var cat: String = state.products.get_sku(sid)["category"]
+		if not first_of.has(cat) and int(backroom.get(sid, 0)) > 0:
+			first_of[cat] = sid
+	var threshold := float(state.balance.get("staff_restock_threshold", 0.5))
+	var reach := _paths.current_distances(state.grid)
+	var out: Array = []
 	var ids := state.grid.instances.keys()
 	ids.sort()
 	for id in ids:
@@ -283,22 +360,32 @@ func _restock_task(state: GameState, s: Dictionary) -> Dictionary:
 		var def := state.fixtures.get_type(inst["type_id"])
 		if def["shelf_slots"].is_empty() or not inst.get("enabled", true):
 			continue
-		var access := AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach)
-		if access.is_empty():
-			continue
+		var access: Array[Vector2i] = []
 		for slot in def["shelf_slots"]:
-			if taken.has("%s|%s" % [id, slot["slot_id"]]):
+			var k := "%s|%s" % [id, slot["slot_id"]]
+			var row: Array = on_slot.get(k, [0, ""])
+			var sku: String = row[1]
+			if sku == "":
+				for cat in slot["allowed_categories"]:
+					var sid: String = first_of.get(cat, "")
+					if sid != "" and (sku == "" or sid < sku):
+						sku = sid
+			if sku == "" or int(backroom.get(sku, 0)) <= 0:
 				continue
-			var sku := _slot_sku(state, id, slot)
-			if sku == "" or state.backroom_available(sku) <= 0:
+			var units := maxi(int(state.products.get_sku(sku)["slot_units"]), 1)
+			var cap := int(slot["capacity_units"]) / units
+			var need := maxi((int(slot["capacity_units"]) - int(row[0]) * units) / units, 0)
+			var fill := float(cap - need) / float(maxi(cap, 1))
+			if fill >= threshold:
 				continue
-			var cap := int(slot["capacity_units"]) / maxi(int(state.products.get_sku(sku)["slot_units"]), 1)
-			var have := cap - _slot_need(state, id, slot, sku)
-			var fill := float(have) / float(maxi(cap, 1))
-			if fill < threshold and fill < best_fill:
-				best_fill = fill
-				best = {"fixture_id": id, "slot": slot, "sku_id": sku, "need": cap - have, "access": access[0]}
-	return best
+			if access.is_empty():
+				access = AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach)
+				if access.is_empty():
+					break
+			out.append({"key": k, "fill": fill, "task": {"fixture_id": id, "slot": slot, "sku_id": sku, "need": need, "access": access[0]}})
+	_stock_index = out
+	_stock_index_key = key
+	return out
 
 
 ## The SKU a slot holds now, or for an empty slot the first SKU (by id) of its categories with backroom stock.

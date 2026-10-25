@@ -116,6 +116,34 @@ func test_fatigue_rises_and_rest_recovers(t, _tree) -> void:
 		t.eq(float(st["fatigue"]), 0.0, "a new day starts rested")
 
 
+## A tired cashier hands the till over: it stays until the relief stands at the till, so the register never closes
+## for the change (realistic-store soak, 2026-10-25: customers stood at a closed till while the relief walked over).
+func test_the_till_stays_open_during_a_handover(t, _tree) -> void:
+	var s := _store(t)
+	s.business_state = GameState.SETUP
+	t.ok(_cmd(s, &"PLACE_FIXTURE", {"type_id": "staff_room_s", "x": 1, "y": 1, "rotation": 0}).ok, "a staff room")
+	s.business_state = GameState.OPEN
+	s.balance["staff_fatigue_per_hour"] = {"register": 60, "restock": 20, "walk": 20, "idle": 10, "rest": -120}
+	var runner := SimulationRunner.new(s)
+	var was := {}
+	var handovers := 0
+	var bad := 0
+	for i in 20000:
+		runner._run_step()
+		var at_till: Array = s.staff.filter(func(x): return x["phase"] == "REGISTER")
+		for st in s.staff:
+			var prev: String = was.get(st["staff_id"], "")
+			if prev == "REGISTER" and st["phase"] in ["TO_REST", "REST"] and float(st["fatigue"]) < StaffAI.FORCED:
+				handovers += 1
+				if at_till.is_empty():
+					bad += 1
+			was[st["staff_id"]] = st["phase"]
+		if handovers >= 3:
+			break
+	t.ok(handovers >= 1, "the cashier handed over for a rest (%d times)" % handovers)
+	t.eq(bad, 0, "every time someone else already stood at the till")
+
+
 ## A slot below the threshold with stock in the backroom is refilled by a staff member.
 func test_staff_restock_from_the_backroom(t, _tree) -> void:
 	var s := _store(t)

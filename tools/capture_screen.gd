@@ -30,8 +30,15 @@ func _run() -> void:
 	for a in OS.get_cmdline_user_args():   # --store-size=small|large: resize the store before the layout (#145)
 		if a.begins_with("--store-size="):
 			app.run_command({"command_id": "size", "kind": &"SET_STORE_SIZE", "size_id": a.trim_prefix("--store-size=")})
+	var plan: Array = SampleLayout.placements() if not OS.get_cmdline_user_args().has("empty") else []
+	for a in OS.get_cmdline_user_args():   # --layout=realistic_store_v1: another data/layouts file (its store_size too)
+		if a.begins_with("--layout="):
+			var lay: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/layouts/%s.json" % a.trim_prefix("--layout=")))
+			if lay.has("store_size"):
+				app.run_command({"command_id": "lsize", "kind": &"SET_STORE_SIZE", "size_id": lay["store_size"]})
+			plan = (lay["placements"] as Array).map(func(p): return [String(p["type_id"]), int(p["x"]), int(p["y"]), int(p["rotation"])])
 	var placed := 0
-	for p in (SampleLayout.placements() if not OS.get_cmdline_user_args().has("empty") else []):
+	for p in plan:
 		var r: CommandResult = app.run_command({"command_id": "pf%d" % placed, "kind": &"PLACE_FIXTURE", "type_id": p[0], "x": p[1], "y": p[2], "rotation": p[3]})
 		if r.ok:
 			placed += 1
