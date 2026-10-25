@@ -37,8 +37,8 @@ func _process(_delta: float) -> void:
 		_player = get_tree().get_first_node_in_group("cue_player") as CuePlayer
 	if _column == null:
 		_column = get_tree().get_first_node_in_group("notification_column")
-	if _player != null and _player.has_motion():
-		queue_redraw()
+	if _player != null and (_player.has_motion() or (_player.intent_icons and _world != null and not _world.customers.is_empty())):
+		queue_redraw()   # the intent chips (#141) follow the walking figures
 
 
 func _input(event: InputEvent) -> void:
@@ -99,6 +99,8 @@ func _draw() -> void:
 	_draw_sales(font, proj)
 	var presenter: Node2D = _world.get_node_or_null("ObjectSortRoot/FixturePresenter")
 	var bubbles := _pick_bubbles(presenter, size)
+	if _player.intent_icons:
+		_draw_intents(font, presenter, bubbles)
 	for m in _player.marks:
 		var where := _customer_head(presenter, m["customer_id"])
 		if where != Vector2.ZERO:
@@ -112,6 +114,60 @@ func _draw() -> void:
 		var pos := Vector2(p["pos"].x * size.x, p["pos"].y * size.y)
 		draw_rect(Rect2(pos, Vector2(8, 5)), Color.from_hsv(p["hue"], 0.6, 1.0, 1.0 - p["age"] / p["ttl"]))
 	_draw_toasts(font, size)
+
+
+## #141: a small chip over every customer's head: the item it is heading for (a gold rim and ★ when it is an
+## impulse find), "…" while it waits for a slot, "¥" in the line and at the till. A customer whose pick bubble is
+## showing gets no chip. Read-only from the snapshot views.
+func _draw_intents(font: Font, presenter: Node2D, bubbles: Array) -> void:
+	var busy := {}
+	for m in bubbles:
+		busy[m["customer_id"]] = true
+	var z := maxf(_world.projection.zoom, 0.7)
+	for c in _world.customers:
+		var id: String = c["customer_id"]
+		if busy.has(id):
+			continue
+		var head := _customer_head(presenter, id)
+		if head == Vector2.ZERO:
+			continue
+		var at := head + Vector2(0, -16.0 * z)
+		var r := 11.0 * z
+		match String(c.get("phase", "")):
+			"WALK_SHELF":
+				var sku: Dictionary = _world.product_catalog.get_sku(String(c.get("sku_id", ""))) if _world.product_catalog != null else {}
+				if sku.is_empty():
+					continue
+				var impulse := false
+				for e in c.get("basket_log", []):
+					if e.get("kind", "") == "impulse" and e.get("state", "") == "planned" and e.get("sku_id", "") == c.get("sku_id", ""):
+						impulse = true
+				draw_circle(at, r + 1.5, Color(1.0, 0.8, 0.2, 0.95) if impulse else Color(0, 0, 0, 0.45))
+				draw_circle(at, r, Color(1, 1, 1, 0.95))
+				var s := 16.0 * z
+				draw_texture_rect(ProductIcons.texture(sku, 24), Rect2(at - Vector2(s, s) * 0.5, Vector2(s, s)), false)
+				if impulse:
+					_chip_text(font, at + Vector2(r * 0.8, -r * 0.8), "★", Color(1.0, 0.85, 0.2), z)
+			"WAIT_QUEUE":
+				_chip(font, at, r, "…", Color(0.85, 0.85, 0.85), z)
+			"WALK_REGISTER", "QUEUE":
+				_chip(font, at, r, "¥", Color(0.75, 0.9, 1.0), z)
+			"CHECKOUT":
+				_chip(font, at, r, "¥", Color(0.6, 1.0, 0.65), z)
+
+
+func _chip(font: Font, at: Vector2, r: float, text: String, color: Color, z: float) -> void:
+	draw_circle(at, r + 1.5, Color(0, 0, 0, 0.45))
+	draw_circle(at, r, Color(0.12, 0.16, 0.22, 0.9))
+	_chip_text(font, at, text, color, z)
+
+
+func _chip_text(font: Font, at: Vector2, text: String, color: Color, z: float) -> void:
+	var size := int(round(13.0 * z))
+	var w := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
+	var base := at + Vector2(-w * 0.5, size * 0.35)
+	draw_string_outline(font, base, text, HORIZONTAL_ALIGNMENT_LEFT, -1, size, 3, Color(0, 0, 0, 0.8))
+	draw_string(font, base, text, HORIZONTAL_ALIGNMENT_LEFT, -1, size, color)
 
 
 ## Toasts stack downwards from the column top, right-aligned to the column edge, newest last.

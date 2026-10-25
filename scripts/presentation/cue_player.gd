@@ -16,6 +16,7 @@ const SETTINGS_VERSION := 1
 ## Sounds start OFF: the player turns them on once to hear them, and the choice is saved.
 var muted := true
 var reduce_motion := false
+var intent_icons := true   # #141: an icon over each customer's head (what it is heading for / doing)
 var sfx_volume := 0.8
 var settings_path := "user://settings.json"
 
@@ -184,6 +185,7 @@ func load_settings() -> void:
 		return
 	muted = bool(data.get("muted", true))
 	reduce_motion = bool(data.get("reduce_motion", false))
+	intent_icons = bool(data.get("intent_icons", true))
 	UiFx.reduced = reduce_motion
 	sfx_volume = clampf(float(data.get("sfx_volume", 0.8)), 0.0, 1.0)
 	VisualVariants.set_test_images(bool(data.get("test_images", false)))
@@ -192,7 +194,7 @@ func load_settings() -> void:
 func save_settings() -> void:
 	var f := FileAccess.open(settings_path, FileAccess.WRITE)
 	if f != null:
-		f.store_string(JSON.stringify({"version": SETTINGS_VERSION, "muted": muted, "reduce_motion": reduce_motion, "sfx_volume": sfx_volume, "test_images": VisualVariants.test_images()}))
+		f.store_string(JSON.stringify({"version": SETTINGS_VERSION, "muted": muted, "reduce_motion": reduce_motion, "intent_icons": intent_icons, "sfx_volume": sfx_volume, "test_images": VisualVariants.test_images()}))
 
 
 ## 'テスト用の画像を使う': switches the sprites to the painted pilot variant (dev only, see VisualVariants).
@@ -212,6 +214,11 @@ func set_reduce_motion(value: bool) -> void:
 	if value:
 		particles.clear()
 		floats.clear()
+	save_settings()
+
+
+func set_intent_icons(value: bool) -> void:
+	intent_icons = value
 	save_settings()
 
 
@@ -238,6 +245,11 @@ func _build_settings_ui() -> void:
 	calm.button_pressed = reduce_motion
 	calm.toggled.connect(set_reduce_motion)
 	body.add_child(calm)
+	var icons := CheckButton.new()
+	icons.text = "客の頭上アイコン（目当て・会計など）"
+	icons.button_pressed = intent_icons
+	icons.toggled.connect(set_intent_icons)
+	body.add_child(icons)
 	var test_images := CheckButton.new()
 	test_images.text = "テスト用の画像を使う"
 	test_images.button_pressed = VisualVariants.test_images()
