@@ -19,6 +19,9 @@ const ICONS := {
 	"drink": "drink", "snack": "bag", "dessert": "cake", "ice_cream": "snowflake",
 	"bento": "box", "daily_fresh": "leaf", "coffee": "drop",
 }
+## The sign over a register nobody staffs (#113): a grey pill, no icon.
+const CLOSED_TEXT := "休止中"
+const CLOSED_COLOR := Color("5b6470")
 const MIN_ZOOM := 0.5
 const TEXT_COLOR := Color.WHITE
 const DARKEN := 0.25          ## pill fill = category colour darkened by this amount (lighter than before: readable icon)
@@ -95,7 +98,7 @@ func _font() -> Font:
 
 func _rebuild_if_stale() -> void:
 	var proj: IsoProjection = _world.projection
-	var key := [_world.revision, proj.zoom, proj.origin, _world.fixtures.size()]
+	var key := [_world.revision, proj.zoom, proj.origin, _world.fixtures.size(), _world.closed_registers]
 	if key == _key:
 		return
 	_key = key
@@ -104,16 +107,17 @@ func _rebuild_if_stale() -> void:
 	var size := text_size(proj.zoom)
 	for inst in _world.fixtures:
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
-		var text := label_for(def)
+		var closed: bool = _world.closed_registers.has(inst["instance_id"])
+		var text := CLOSED_TEXT if closed else label_for(def)
 		if text == "":
 			continue
 		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
 		var bounds := OverlayModel.fixture_bounds(proj, cells, float(def["dimensions_m"]["height"]))
 		var text_width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
-		var icon_name := icon_for(def)
+		var icon_name := "" if closed else icon_for(def)
 		var icon: Texture2D = UiIcons.texture(icon_name, 32) if icon_name != "" else null
 		var rect := board_rect(bounds, text_width, proj.zoom, icon != null)
-		var base: Color = _Presenter.CATEGORY_COLOR.get(def["allowed_categories"][0], _Presenter.REGISTER_COLOR)
+		var base: Color = CLOSED_COLOR if closed else _Presenter.CATEGORY_COLOR.get(def["allowed_categories"][0], _Presenter.REGISTER_COLOR)
 		var box := StyleBoxFlat.new()
 		box.bg_color = base.darkened(DARKEN)
 		box.border_color = base.lightened(BORDER_LIGHTEN)

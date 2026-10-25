@@ -287,6 +287,7 @@ func snapshot() -> Dictionary:
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views() + _staff_views(),
+		"closed_registers": closed_registers(),
 		"staff_count": staff.size(), "staff_cap": StaffAI.capacity(self) if StaffAI.enabled(balance) else 0,
 		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
@@ -379,6 +380,24 @@ func _candidate_views() -> Array:
 
 
 ## The 店員 tab's figures (#144): line by hour today and yesterday, people lost to the line, utilisation, advice.
+## Registers with nobody at the till while the store is trading (#143 / #113): their sign reads 休止中. Empty in
+## SETUP and without the staff model (every register is open then).
+func closed_registers() -> Array:
+	var out: Array = []
+	if not StaffAI.enabled(balance) or business_state == SETUP:
+		return out
+	var ids := grid.instances.keys()
+	ids.sort()
+	for id in ids:
+		var inst: Dictionary = grid.instances[id]
+		if not AccessService.is_register(fixtures.get_type(inst["type_id"])) or not inst.get("enabled", true):
+			continue
+		var cell := StaffAI.cashier_cell(self, id)
+		if not staff.any(func(s): return s["phase"] == "REGISTER" and s["tile"] == cell):
+			out.append(id)
+	return out
+
+
 func _staffing_view() -> Dictionary:
 	if not StaffAI.enabled(balance):
 		return {}

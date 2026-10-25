@@ -93,6 +93,13 @@ func _run() -> void:
 		if a.begins_with("--zoom="):
 			var store: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 			store.zoom_at(store.viewport_size() * 0.5, float(a.trim_prefix("--zoom=")))
+	if OS.get_cmdline_user_args().has("--register-closed"):   # --register-closed: nobody at the till, the 休止中 sign (#113)
+		s.speed_setting = 0
+		for st in s.staff:
+			st["phase"] = "REST"
+			st["tile"] = Vector2i(0, 0)
+			st["path"] = [] as Array[Vector2i]
+		app._publish_snapshot()
 	if OS.get_cmdline_user_args().has("--focus=register"):   # --focus=register: zoom 1.6 centred on the first register (#113)
 		var store_f: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 		var reg_tile := _first_register_tile(s)

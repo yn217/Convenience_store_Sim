@@ -44,6 +44,7 @@ var checkout_duration_sec: int = 0       # game seconds per checkout (balance), 
 var speed_setting: int = 0
 var walk_tiles_per_game_second: float = 0.0   # the simulation's walking speed: figures keep to it (#117 v2)
 var fixture_sales: Dictionary = {}
+var closed_registers: Array = []         # register ids with nobody at the till (#113): SignLayer shows 休止中
 var overlay_mode: int = OverlayModel.Mode.NORMAL
 var selected_customer: String = ""
 ## Click cycling over overlapping objects: where the last pick was and which candidate it chose.
@@ -121,6 +122,7 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	speed_setting = int(snapshot.get("speed_setting", 0))
 	walk_tiles_per_game_second = float(snapshot.get("walk_tiles_per_game_second", 0.0))
 	fixture_sales = snapshot.get("fixture_sales", {})
+	closed_registers = snapshot.get("closed_registers", [])
 	if snapshot.has("time_sec"):
 		_time_sec = int(snapshot["time_sec"])
 		_apply_time_tint()
