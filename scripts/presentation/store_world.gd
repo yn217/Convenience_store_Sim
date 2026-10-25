@@ -114,6 +114,9 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	shelf_stock = snapshot.get("shelf_stock", {})
 	shelf_skus = snapshot.get("shelf_skus", {})
 	customers = snapshot.get("customers", [])
+	if int(snapshot.get("passersby_per_day", 0)) > 0 and snapshot.has("time_sec"):   # #142: people walking past (presentation only)
+		customers = customers + Passersby.views(int(snapshot["time_sec"]), int(snapshot["store_width"]), int(snapshot["store_height"]),
+			snapshot.get("entrance_tiles", []), float(snapshot.get("walk_tiles_per_game_second", 0.0)), int(snapshot["passersby_per_day"]))
 	checkout_duration_sec = int(snapshot.get("checkout_duration_sec", 0))
 	speed_setting = int(snapshot.get("speed_setting", 0))
 	walk_tiles_per_game_second = float(snapshot.get("walk_tiles_per_game_second", 0.0))

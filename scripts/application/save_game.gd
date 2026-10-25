@@ -24,10 +24,12 @@ const OPTIONAL := ["runtime_state"]
 const PHASE_OUT := {
 	"SELECT": "SELECT_SHELF", "WALK_SHELF": "WALK_TO_ACCESS", "WALK_REGISTER": "WALK_TO_REGISTER",
 	"WAIT_QUEUE": "QUEUE", "QUEUE": "QUEUE", "CHECKOUT": "CHECKOUT", "EXIT": "EXIT",
+	"APPROACH": "APPROACH", "ENTER": "ENTER", "WALK_AWAY": "WALK_AWAY",
 }
 const PHASE_IN := {
 	"SELECT_SHELF": "SELECT", "WALK_TO_ACCESS": "WALK_SHELF", "WALK_TO_REGISTER": "WALK_REGISTER",
 	"QUEUE": "QUEUE", "CHECKOUT": "CHECKOUT", "EXIT": "EXIT",
+	"APPROACH": "APPROACH", "ENTER": "ENTER", "WALK_AWAY": "WALK_AWAY",
 }
 const STATES := ["SETUP", "OPEN", "CLOSING", "PAYMENT_BLOCKED"]
 
@@ -299,6 +301,9 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			var rep := {}
 			for k in DailyReport.FIELDS:
 				rep[k] = int(d["daily_reports"][i][k])
+			for k in DailyReport.OPTIONAL_FIELDS:   # older saves lack them
+				if JsonCheck.is_int(d["daily_reports"][i].get(k)) and int(d["daily_reports"][i][k]) >= 0:
+					rep[k] = int(d["daily_reports"][i][k])
 			s.daily_reports.append(rep)
 	for i in d["customers"].size():
 		_customer_in(s, d["customers"][i], i, errs)
@@ -319,12 +324,16 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			errs.append("runtime_state.visit_stats.%s: invalid" % k)
 		else:
 			s.visit_stats[k] = int(vs[k])
+	if typeof(vs) == TYPE_DICTIONARY and vs.has("balked") and JsonCheck.is_int(vs["balked"]) and int(vs["balked"]) >= 0:
+		s.visit_stats["balked"] = int(vs["balked"])   # optional (#142): older saves have no turned-back count
 	var rs = rt.get("rate_stats", s.rate_stats)
 	for k in s.rate_stats:
 		if typeof(rs) != TYPE_DICTIONARY or not rs.has(k) or not JsonCheck.is_int(rs[k]) or int(rs[k]) < 0:
 			errs.append("runtime_state.rate_stats.%s: invalid" % k)
 		else:
 			s.rate_stats[k] = int(rs[k])
+	if typeof(rs) == TYPE_DICTIONARY and rs.has("balked") and JsonCheck.is_int(rs["balked"]) and int(rs["balked"]) >= 0:
+		s.rate_stats["balked"] = int(rs["balked"])   # optional (#142)
 	var ln = rt.get("last_nonzero_speed", 1)
 	if not JsonCheck.is_int(ln) or not [1, 2, 4].has(int(ln)):
 		errs.append("runtime_state.last_nonzero_speed: invalid")
@@ -546,8 +555,11 @@ static func semantic_errors(s: GameState) -> Array[String]:
 			errs.append("%s: unknown_fixture" % c["customer_id"])
 		if c["sku_id"] != "" and not s.products.has_sku(c["sku_id"]):
 			errs.append("%s: unknown_sku" % c["customer_id"])
-		if not s.grid.in_bounds(c["tile"]):
+		var outside: bool = c["phase"] in ["APPROACH", "ENTER", "WALK_AWAY"]   # #142: on the pavement
+		if not outside and not s.grid.in_bounds(c["tile"]):
 			errs.append("%s: out_of_bounds" % c["customer_id"])
+		elif outside and (absi(c["tile"].x) > s.grid.width + CustomerAI.OUTSIDE_MARGIN + 3 or absi(c["tile"].y) > s.grid.height + CustomerAI.OUTSIDE_MARGIN + 3):
+			errs.append("%s: too_far_outside" % c["customer_id"])
 	for r in s.reservations:
 		if r["customer_id"] != "" and not seen.has(r["customer_id"]) and s.business_state != GameState.SETUP:
 			errs.append("%s: reservation_without_customer" % r["reservation_id"])

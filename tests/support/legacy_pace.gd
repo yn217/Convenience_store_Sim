@@ -11,6 +11,7 @@ const VALUES := {
 	"browse_max_game_seconds": 0,
 	"reservation_hold_game_seconds": 600,
 	"queue_patience_game_seconds": 120,
+	"outdoor_approach": false,   # #142: customers appear at the door
 }
 
 

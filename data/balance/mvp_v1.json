@@ -17,6 +17,10 @@
   "browse_max_game_seconds": 90,
   "reservation_hold_game_seconds": 3600,
   "queue_patience_game_seconds": 600,
+  "outdoor_approach": true,
+  "balk_extra_in_line": 2,
+  "balk_wait_game_seconds": 480,
+  "passersby_per_day": 300,
   "basket_size_distribution": [
     {"basket_size": 1, "weight": 40},
     {"basket_size": 2, "weight": 35},

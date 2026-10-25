@@ -260,7 +260,8 @@ func snapshot() -> Dictionary:
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views(),
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
-		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),   # the figures walk at the simulation's pace (#117 v2)
+		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),
+		"passersby_per_day": int(balance.get("passersby_per_day", 0)) if bool(balance.get("outdoor_approach", false)) else 0,   # #142, presentation only   # the figures walk at the simulation's pace (#117 v2)
 		"fixture_sales": fixture_sales_today(),
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
@@ -311,7 +312,7 @@ func _customer_views() -> Array:
 				"basket_size": int(c.get("basket_size", 1)), "items_reserved": (c.get("reservation_ids", []) as Array).size(),
 			"register_id": c.get("register_id", ""), "queue_slot": int(c.get("queue_slot", -1)),
 			"checkout_left": int(c.get("checkout_left", 0)),
-			"browse_left": int(c.get("browse_left", -1)),
+			"browse_left": int(c.get("browse_left", -1)), "outcome": String(c.get("outcome", "")),
 			# #141: purpose, money and the basket log (names and prices for the customer panel).
 			"purpose_id": String(c.get("purpose_id", "")), "purpose_name": VisitPurpose.display_name(balance, String(c.get("purpose_id", ""))),
 			"budget_yen": int(c.get("budget_yen", 0)), "wallet_yen": int(c.get("wallet_yen", 0)), "planned_yen": int(c.get("planned_yen", 0)),

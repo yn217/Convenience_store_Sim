@@ -353,7 +353,10 @@
               "QUEUE",
               "CHECKOUT",
               "EXIT",
-              "CANCELLED"
+              "CANCELLED",
+              "APPROACH",
+              "ENTER",
+              "WALK_AWAY"
             ]
           },
           "position": {
@@ -689,6 +692,11 @@
             "minimum": 0
           },
           "lost_customers": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "balked_customers": {
+            "description": "Customers who turned back at the door because of the line (issue #142); part of lost_customers. Absent in older saves.",
             "type": "integer",
             "minimum": 0
           },

@@ -21,6 +21,9 @@ const MAX_RESELECT := 2
 const QUEUE_TIMEOUT_SEC := 120
 ## The third customer in line (slot 2) makes the queue "long" for the notice.
 const LONG_QUEUE_SLOT := 2
+## #142: customers come along the pavement. They appear OUTSIDE_MARGIN tiles past the end of the entrance wall, walk
+## its pavement row (two tiles out) to the door, and leave the same way. Balance `outdoor_approach` turns it on.
+const OUTSIDE_MARGIN := 4
 ## Within this many tiles (Manhattan) of the line's last cell a customer joins the line at once; farther away it
 ## walks there first (#117 v2).
 const JOIN_RADIUS := 3
@@ -113,7 +116,11 @@ func step(state: GameState) -> void:
 func _spawn(state: GameState) -> void:
 	for arrival in state.arrival_queue:
 		var entrances := state.grid.entrance_tiles
-		var tile: Vector2i = entrances[int(String(arrival["customer_id"]).right(5).to_int()) % entrances.size()]
+		var seq := int(String(arrival["customer_id"]).right(5).to_int())
+		var tile: Vector2i = entrances[seq % entrances.size()]
+		var approach: Array[Vector2i] = []
+		if outdoor(state.balance):
+			approach = outside_route(state.grid, tile, seq % 2 == 0)
 		state.customers.append({
 			"customer_id": arrival["customer_id"], "phase": "SELECT", "tile": tile, "path": [] as Array[Vector2i],
 			"progress": 0.0, "fixture_id": "", "sku_id": "", "reservation_ids": [], "queue_slot": -1, "retries": 0, "queue_since": 0, "checkout_left": 0, "register_id": "",
@@ -124,7 +131,14 @@ func _spawn(state: GameState) -> void:
 			"wallet_yen": int(arrival.get("wallet_yen", 0)), "planned_yen": 0, "impulse_count": 0, "basket_log": [],
 			"seen_categories": [], "impulse_tried": [],
 		})
-		state.emit_event("CUSTOMER_ENTERED", {"customer_id": arrival["customer_id"]})
+		if approach.is_empty():
+			state.emit_event("CUSTOMER_ENTERED", {"customer_id": arrival["customer_id"]})
+		else:
+			var c: Dictionary = state.customers.back()
+			c["tile"] = approach[0]
+			approach.pop_front()
+			c["path"] = approach
+			c["phase"] = "APPROACH"
 	state.arrival_queue.clear()
 
 
@@ -167,6 +181,19 @@ func _update(state: GameState, c: Dictionary) -> void:
 		"CHECKOUT":
 			_checkout(state, c)
 		"EXIT":
+			if _walk(state, c):
+				if outdoor(state.balance):
+					_walk_away(state, c, seq_of(c) % 2 != 0)   # out of the door and on along the pavement
+				else:
+					c["phase"] = "GONE"
+		"APPROACH":
+			if _walk(state, c):
+				_at_the_door(state, c)
+		"ENTER":
+			if _walk(state, c):
+				c["phase"] = "SELECT"
+				state.emit_event("CUSTOMER_ENTERED", {"customer_id": c["customer_id"]})
+		"WALK_AWAY":
 			if _walk(state, c):
 				c["phase"] = "GONE"
 
@@ -371,6 +398,133 @@ func _start_exit(state: GameState, c: Dictionary) -> void:
 		return
 	c["phase"] = "EXIT"
 	_route(state, c, goal)
+
+
+# ---------------------------------------------------------------- outside (#142)
+
+static func outdoor(balance: Dictionary) -> bool:
+	return bool(balance.get("outdoor_approach", false))
+
+
+static func seq_of(c: Dictionary) -> int:
+	return int(String(c["customer_id"]).right(5).to_int())
+
+
+## Outward normal of the wall an entrance tile is on (west, north, east, south, as BackdropLayer.entrance_side).
+static func door_normal(grid: StoreGrid, door: Vector2i) -> Vector2i:
+	if door.x == 0:
+		return Vector2i(-1, 0)
+	if door.y == 0:
+		return Vector2i(0, -1)
+	if door.x == grid.width - 1:
+		return Vector2i(1, 0)
+	return Vector2i(0, 1)
+
+
+## Pavement walk to a door: from OUTSIDE_MARGIN tiles past one end of the entrance wall (the low end when
+## `from_low`) along the row two tiles out, to the tile just outside the door. First tile = where it appears.
+static func outside_route(grid: StoreGrid, door: Vector2i, from_low: bool) -> Array[Vector2i]:
+	var n := door_normal(grid, door)
+	var along := Vector2i(1, 0) if n.y != 0 else Vector2i(0, 1)
+	var edge := grid.width if n.y != 0 else grid.height
+	var door_a := door.x if n.y != 0 else door.y
+	var start_a := -OUTSIDE_MARGIN if from_low else edge - 1 + OUTSIDE_MARGIN
+	var row := door + n * 2
+	var out: Array[Vector2i] = []
+	var step := 1 if door_a >= start_a else -1
+	var a := start_a
+	while true:
+		out.append(row + along * (a - door_a))
+		if a == door_a:
+			break
+		a += step
+	out.append(door + n)
+	return out
+
+
+## From the door out to the pavement row and along it OUTSIDE_MARGIN tiles past the end of the wall (the low end
+## when `to_low`). The first tile is the one just outside the door.
+static func away_route(grid: StoreGrid, door: Vector2i, to_low: bool) -> Array[Vector2i]:
+	var n := door_normal(grid, door)
+	var along := Vector2i(1, 0) if n.y != 0 else Vector2i(0, 1)
+	var edge := grid.width if n.y != 0 else grid.height
+	var door_a := door.x if n.y != 0 else door.y
+	var end_a := -OUTSIDE_MARGIN if to_low else edge - 1 + OUTSIDE_MARGIN
+	var row := door + n * 2
+	var out: Array[Vector2i] = [door + n]
+	var step := 1 if end_a >= door_a else -1
+	var a := door_a
+	while true:
+		out.append(row + along * (a - door_a))
+		if a == end_a:
+			break
+		a += step
+	return out
+
+
+## The entrance tile nearest to `t` (the door a customer outside is heading for).
+static func nearest_door(grid: StoreGrid, t: Vector2i) -> Vector2i:
+	var best := grid.entrance_tiles[0]
+	for e in grid.entrance_tiles:
+		if absi(e.x - t.x) + absi(e.y - t.y) < absi(best.x - t.x) + absi(best.y - t.y):
+			best = e
+	return best
+
+
+## At the door (on the tile just outside it): the customer looks at the line and either steps in or turns back.
+func _at_the_door(state: GameState, c: Dictionary) -> void:
+	var door := nearest_door(state.grid, c["tile"])
+	if should_balk(state):
+		state.visit_stats["entered"] = int(state.visit_stats["entered"]) - 1   # it never came in
+		state.visit_stats["lost"] = int(state.visit_stats["lost"]) + 1
+		state.visit_stats["balked"] = int(state.visit_stats.get("balked", 0)) + 1
+		state.rate_stats["balked"] = int(state.rate_stats.get("balked", 0)) + 1
+		c["outcome"] = "balked"
+		state.emit_event("CUSTOMER_BALKED", {"customer_id": c["customer_id"]})
+		var back := away_route(state.grid, door, seq_of(c) % 2 == 0)   # back the way it came
+		back.pop_front()   # it already stands outside the door
+		c["path"] = back
+		c["progress"] = 0.0
+		c["phase"] = "WALK_AWAY"
+		return
+	var p: Array[Vector2i] = [door]
+	c["path"] = p
+	c["progress"] = 0.0
+	c["phase"] = "ENTER"
+
+
+## Leaves the store through the door it stands on and walks on along the pavement.
+func _walk_away(state: GameState, c: Dictionary, to_low: bool) -> void:
+	var door := nearest_door(state.grid, c["tile"])
+	if c["tile"] != door:
+		c["phase"] = "GONE"
+		return
+	c["path"] = away_route(state.grid, door, to_low)
+	c["progress"] = 0.0
+	c["phase"] = "WALK_AWAY"
+
+
+## Turn back at the door (#142): no register, or the line inside is too long — at least the line's capacity plus
+## balance `balk_extra_in_line` people heading for or standing at the registers, or a wait estimate (average
+## checkout x people / registers) over balance `balk_wait_game_seconds`.
+func should_balk(state: GameState) -> bool:
+	var plan := _register_plan(state)
+	if plan.is_empty():
+		return true
+	var line := 0
+	for o in state.customers:
+		if o["phase"] in ["WAIT_QUEUE", "QUEUE", "CHECKOUT", "WALK_REGISTER"]:
+			line += 1
+	var registers := 0
+	for id in state.grid.instances:
+		if String(state.grid.instances[id]["type_id"]).begins_with("register"):
+			registers += 1
+	registers = maxi(registers, 1)
+	var capacity: int = (plan["queue_cells"] as Array).size() * registers
+	if line >= capacity + int(state.balance.get("balk_extra_in_line", 2)):
+		return true
+	var avg := BasketModel.checkout_seconds(state.balance, roundi(BasketModel.mean_size(state.balance)))
+	return line * avg / registers > int(state.balance.get("balk_wait_game_seconds", 1 << 30))
 
 
 # ---------------------------------------------------------------- SELECT

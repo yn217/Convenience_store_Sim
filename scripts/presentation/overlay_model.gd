@@ -88,6 +88,9 @@ static func phase_text(phase: String) -> String:
 ## Read-only from the snapshot's customer view. A customer without a purpose (old save) shows its basket size only.
 static func customer_panel_lines(c: Dictionary, fixture_name: String) -> Array[String]:
 	var out: Array[String] = []
+	if bool(c.get("passerby", false)):
+		out.append("通行人（お店には入りません）")
+		return out
 	var purpose := String(c.get("purpose_name", ""))
 	out.append("客 %s　来店目的：%s" % [c.get("customer_id", ""), purpose if purpose != "" else "（記録なし）"])
 	if purpose != "":
@@ -148,6 +151,12 @@ static func customer_action(c: Dictionary, fixture_name: String) -> String:
 			return "会計中"
 		"EXIT":
 			return "退店中"
+		"APPROACH":
+			return "お店に向かって歩いている"
+		"ENTER":
+			return "入店するところ"
+		"WALK_AWAY":
+			return "レジの混雑を見て引き返した" if String(c.get("outcome", "")) == "balked" else "帰っていく"
 	return String(c.get("phase", ""))
 ## Per register: {"queued": customers holding a queue slot (walking into one or standing in it),
 ## "overflow": customers who want to pay but have no slot (WAIT_QUEUE), "checkout": customers at the till,
