@@ -65,6 +65,10 @@ func execute(command: Dictionary) -> CommandResult:
 			if not _require_setup():
 				return _fail(&"NOT_IN_SETUP", &"restock_needs_setup")
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
+		&"SET_STORE_SIZE":
+			result = _set_store_size(command_id, String(command.get("size_id", "")))
+		&"EXPAND_STORE":
+			result = _expand_store(command_id)
 		&"SET_LOCATION":
 			result = _set_location(command_id, String(command.get("location_id", "")))
 		&"HIRE_STAFF":
@@ -220,6 +224,41 @@ func _stock_result(command_id: String, r: Dictionary) -> CommandResult:
 
 ## Allowed in every business state. Only the override map changes: lot costs, open
 ## reservations and ledger rows keep the price they were snapshotted with (03).
+## SET_STORE_SIZE (#145): the size of a new store, before it first opens (no cost). Fixtures keep their place
+## relative to the entrance wall; a size they do not fit in is refused.
+func _set_store_size(command_id: String, size_id: String) -> CommandResult:
+	if _state.location_locked():
+		return _fail(&"INVALID_OPERATION", &"store_size_locked")
+	var size := StoreSize.find(_state.balance, size_id)
+	if size.is_empty():
+		return _fail(&"INVALID_OPERATION", &"unknown_store_size")
+	return _resize(command_id, size, 0, "STORE_SIZE_SET")
+
+
+## EXPAND_STORE (#145): one size up while the store is closed (SETUP), for the bigger size's expand_cost_yen.
+func _expand_store(command_id: String) -> CommandResult:
+	if not _require_setup():
+		return _fail(&"NOT_IN_SETUP", &"expansion_needs_setup")
+	var size := StoreSize.next(_state.balance, _state.grid)
+	if size.is_empty():
+		return _fail(&"INVALID_OPERATION", &"largest_store")
+	return _resize(command_id, size, int(size.get("expand_cost_yen", 0)), "STORE_EXPANDED")
+
+
+func _resize(command_id: String, size: Dictionary, cost: int, event: String) -> CommandResult:
+	var res := StoreSize.resized(_state.grid, int(size["width"]), int(size["height"]), _state.fixtures)
+	if res.has("error"):
+		return _fail(&"INVALID_OPERATION", StringName(res["error"]))
+	if cost > 0:
+		if _state.ledger.cash_yen < cost:
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+		if not _state.ledger.record("FIXTURE_PURCHASE", "%s:EXPANSION" % command_id, -cost, _state.day, _state.time_sec, {"expansion": size["size_id"]}):
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+	_state.apply_resized(res)
+	var events: Array[String] = ["%s:%s" % [command_id, event]]
+	return _commit(command_id, events, {"size_id": size["size_id"]})
+
+
 ## SET_LOCATION (#148): only before the store first opens; "" = the standard store.
 func _set_location(command_id: String, location_id: String) -> CommandResult:
 	if _state.location_locked():

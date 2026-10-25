@@ -19,6 +19,9 @@ var _status: Label
 var _checklist: Label
 var _location: OptionButton
 var _location_info: Label
+var _size: OptionButton
+var _expand: Button
+var _size_info: Label
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -87,6 +90,27 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_location_info = Label.new()
 	_location_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_location_info)
+	# #145: the store's size (before the first opening) and extending it later (while closed).
+	var size_title := Label.new()
+	size_title.text = "店舗の大きさ"
+	_body.add_child(size_title)
+	var size_row := HBoxContainer.new()
+	_size = OptionButton.new()
+	_size.name = "StoreSizePicker"
+	_size.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for s in balance.get("store_sizes", []):
+		_size.add_item("%s（%d×%d）" % [s["display_name"], int(s["width"]), int(s["height"])])
+		_size.set_item_metadata(_size.item_count - 1, String(s["size_id"]))
+	_size.item_selected.connect(func(i): set_store_size(String(_size.get_item_metadata(i))))
+	size_row.add_child(_size)
+	_expand = Button.new()
+	_expand.name = "ExpandStore"
+	_expand.pressed.connect(expand_store)
+	size_row.add_child(_expand)
+	_body.add_child(size_row)
+	_size_info = Label.new()
+	_size_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_size_info)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_status)
@@ -112,6 +136,15 @@ func apply_snapshot(snap: Dictionary) -> void:
 			_location.select(i)
 	_location.disabled = bool(snap.get("location_locked", true))
 	_location_info.text = location_text(loc)
+	var size_id := String(snap.get("store_size_id", ""))
+	for i in _size.item_count:
+		if String(_size.get_item_metadata(i)) == size_id:
+			_size.select(i)
+	_size.disabled = bool(snap.get("location_locked", true))
+	var nxt: Dictionary = snap.get("next_store_size", {})
+	_expand.text = "増築なし（最大）" if nxt.is_empty() else "増築：%s %s" % [nxt["display_name"], GameHud.format_yen(int(nxt["expand_cost_yen"]))]
+	_expand.disabled = nxt.is_empty() or not _size.disabled or state != "SETUP"
+	_size_info.text = size_text(snap)
 	var unpaid := int(snap.get("unpaid_cost_yen", 0))
 	if state == "PAYMENT_BLOCKED":
 		_status.text = "費用を支払えず営業を停止しました（未払い %s）。セーブからやり直してください。" % GameHud.format_yen(unpaid)
@@ -168,6 +201,21 @@ func request_close() -> CommandResult:
 func open_ad_picker() -> void:
 	_ad.grab_focus()
 	_ad.show_popup()
+
+
+func set_store_size(size_id: String) -> CommandResult:
+	return _send({"kind": &"SET_STORE_SIZE", "size_id": size_id})
+
+
+func expand_store() -> CommandResult:
+	return _send({"kind": &"EXPAND_STORE"})
+
+
+## What the size allows, and how extending works.
+static func size_text(snap: Dictionary) -> String:
+	if not bool(snap.get("location_locked", true)):
+		return "最初の営業開始までは無料で選べます。大きい店ほど棚を多く置け、大きい控え室（店員の上限）も置けます。"
+	return "増築は閉店中（準備中）にできます。奥と横に床が広がり、入口の壁と什器の並びはそのまま残ります。"
 
 
 func set_location(location_id: String) -> CommandResult:

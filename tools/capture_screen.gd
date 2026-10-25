@@ -27,6 +27,9 @@ func _run() -> void:
 	var app: Node = main.get_node("AppRoot")
 	var s: GameState = app.state
 	s.ledger.cash_yen = 5000000
+	for a in OS.get_cmdline_user_args():   # --store-size=small|large: resize the store before the layout (#145)
+		if a.begins_with("--store-size="):
+			app.run_command({"command_id": "size", "kind": &"SET_STORE_SIZE", "size_id": a.trim_prefix("--store-size=")})
 	var placed := 0
 	for p in (SampleLayout.placements() if not OS.get_cmdline_user_args().has("empty") else []):
 		var r: CommandResult = app.run_command({"command_id": "pf%d" % placed, "kind": &"PLACE_FIXTURE", "type_id": p[0], "x": p[1], "y": p[2], "rotation": p[3]})

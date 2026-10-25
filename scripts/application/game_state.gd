@@ -278,6 +278,8 @@ func snapshot() -> Dictionary:
 		"staff_count": staff.size(), "staff_cap": StaffAI.capacity(self) if StaffAI.enabled(balance) else 0,
 		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
+		"store_size_id": String(StoreSize.of_grid(balance, grid).get("size_id", "")), "store_sizes": StoreSize.all(balance),
+		"next_store_size": StoreSize.next(balance, grid),
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
 		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),
 		"passersby_per_day": int(balance.get("passersby_per_day", 0)) if bool(balance.get("outdoor_approach", false)) else 0,   # #142, presentation only   # the figures walk at the simulation's pace (#117 v2)
@@ -315,6 +317,22 @@ func _log_view(log: Array) -> Array:
 		out.append({"sku_id": e["sku_id"], "name": sku.get("display_name", e["sku_id"]), "category": sku.get("category", ""),
 			"price": int(e["price"]), "kind": e["kind"], "state": e["state"]})
 	return out
+
+
+## Swaps in a resized grid (StoreSize.resized, #145): staff move with the rows, the layout history ends.
+func apply_resized(res: Dictionary) -> void:
+	grid = res["grid"]
+	var dy := int(res["dy"])
+	for s in staff:
+		var t: Vector2i = s["tile"]
+		s["tile"] = Vector2i(clampi(t.x, 0, grid.width - 1), clampi(t.y + dy, 0, grid.height - 1))
+		s["path"] = [] as Array[Vector2i]
+		s["progress"] = 0.0
+		s["phase"] = "IDLE"
+		s["task"] = {}
+		s["carry"] = 0
+	layout_history.clear()
+	revision += 1
 
 
 ## The location can be chosen until the store first opens (#148: no free move after it is built and running).
