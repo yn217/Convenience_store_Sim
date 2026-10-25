@@ -963,6 +963,7 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 	var revenue := 0
 	var first_sku := ""
 	var first_fixture := ""
+	var sold_categories: Array = []
 	for res_id in ids:
 		var sku_id := _reservation_sku(state, res_id)
 		var sale := InventoryService.complete_sale(state, "sale:%s" % res_id, res_id, basket_id)
@@ -970,6 +971,7 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 			InventoryService.release_reservation(state, res_id)
 			continue
 		sold += 1
+		sold_categories.append(state.products.get_sku(sku_id).get("category", ""))
 		revenue += int(sale["revenue_yen"])
 		if first_sku == "":
 			first_sku = sku_id
@@ -979,6 +981,7 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 	if sold == 0:
 		_leave(state, c, "sale_failed")
 		return
+	_bundle_discount(state, c, basket_id, sold_categories)
 	state.visit_stats["purchased"] += 1   # a buying customer, however many items (issue #128)
 	c["outcome"] = "purchased"
 	var name := String(state.products.get_sku(first_sku).get("display_name", ""))
@@ -993,6 +996,18 @@ func register_plan_now(state: GameState) -> Dictionary:
 	_sync_layout(state)
 	_blocked(state)
 	return _register_plan(state)
+
+
+## A running bundle (#137) the basket earns: the customer pays discount_yen less, booked once as a DISCOUNT row
+## (a promotion expense; the sales keep their own prices).
+func _bundle_discount(state: GameState, c: Dictionary, basket_id: String, categories: Array) -> void:
+	if state.promotions.is_empty():
+		return
+	var b := Promotions.bundle_for(state, categories)
+	if b.is_empty():
+		return
+	if state.ledger.record("DISCOUNT", "%s:BUNDLE" % basket_id, -int(b["yen"]), state.day, state.time_sec, {"promotion_id": b["promotion_id"], "customer_id": c["customer_id"]}, {"expense": int(b["yen"])}):
+		Promotions.note_sale(state, b["promotion_id"], 1, int(b["yen"]))
 
 
 ## SKU of a live reservation (read before the sale removes it); "" when unknown.

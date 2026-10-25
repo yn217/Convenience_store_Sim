@@ -46,6 +46,9 @@ var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 var staff: Array = []          # #143: store staff (StaffAI)
 var next_staff_seq := 0
 var staff_candidates: Array = []        # #144: today's hiring candidates (StaffMarket)
+var promotions: Array = []      # #137: running and finished promotions (Promotions)
+var next_promotion_seq := 0
+var promo_stats: Dictionary = {}  # promotion id -> {units, discount_yen}
 var location_id := ""                   # #148: station / school / office / residential; "" = the standard store
 var staff_metrics: Dictionary = {}      # #144: today's staffing figures (StaffMarket.record_step)
 var staff_metrics_yesterday: Dictionary = {}
@@ -220,10 +223,19 @@ func active_customer_count() -> int:
 	return customers.size()
 
 
-func sell_price(sku_id: String) -> int:
+## The price the player set (or the default): what SET_PRICE edits and the price shown as the list price.
+func list_price(sku_id: String) -> int:
 	if product_price_overrides.has(sku_id):
 		return int(product_price_overrides[sku_id])
 	return int(products.get_sku(sku_id).get("default_sell_price_yen", 0))
+
+
+## The price customers pay now: the list price, or a running promotion's sale price (#137).
+func sell_price(sku_id: String) -> int:
+	var list := list_price(sku_id)
+	if promotions.is_empty():
+		return list
+	return int(Promotions.price_now(self, sku_id, list)["price"])
 
 
 ## Units of `sku_id` in the backroom that no reservation holds.
@@ -278,6 +290,7 @@ func snapshot() -> Dictionary:
 		"staff_count": staff.size(), "staff_cap": StaffAI.capacity(self) if StaffAI.enabled(balance) else 0,
 		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
+		"promotions": _promotion_views(),
 		"store_size_id": String(StoreSize.of_grid(balance, grid).get("size_id", "")), "store_sizes": StoreSize.all(balance),
 		"next_store_size": StoreSize.next(balance, grid),
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
@@ -333,6 +346,21 @@ func apply_resized(res: Dictionary) -> void:
 		s["carry"] = 0
 	layout_history.clear()
 	revision += 1
+
+
+## Promotions for the 販促 card (#137): every definition with its running instance (if any) and results.
+func _promotion_views() -> Array:
+	var out: Array = []
+	for d in Promotions.data()["promotions"]:
+		var v: Dictionary = d.duplicate(true)
+		v["running"] = {}
+		for p in Promotions.running(self):
+			if p["def_id"] == d["def_id"]:
+				v["running"] = p.duplicate()
+				v["running"]["days_left"] = int(p["end_day"]) - day + 1
+				v["running"]["stats"] = promo_stats.get(p["promotion_id"], {}).duplicate()
+		out.append(v)
+	return out
 
 
 ## The location can be chosen until the store first opens (#148: no free move after it is built and running).

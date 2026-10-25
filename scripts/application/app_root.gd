@@ -75,6 +75,9 @@ func _ready() -> void:
 	var staffer := get_node_or_null("../StaffController")
 	if staffer != null:
 		staffer.setup(self)
+	var promoter := get_node_or_null("../PromotionController")
+	if promoter != null:
+		promoter.setup(self)
 	var stocker := get_node_or_null("../StockController")
 	if stocker != null:
 		stocker.setup(self, products, fixtures)
@@ -255,6 +258,9 @@ func _publish_snapshot() -> void:
 	var staffer := get_node_or_null("../StaffController")
 	if staffer != null and staffer.is_node_ready() and staffer.get("_summary") != null:
 		staffer.apply_snapshot(snap)
+	var promoter := get_node_or_null("../PromotionController")
+	if promoter != null and promoter.is_node_ready() and promoter.get("_box") != null:
+		promoter.apply_snapshot(snap)
 	var reporter := get_node_or_null("../ReportController")
 	if reporter != null and reporter.has_method("apply_snapshot") and reporter.is_node_ready() and reporter.get("_chart") != null:
 		reporter.apply_snapshot(snap)

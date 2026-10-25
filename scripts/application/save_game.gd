@@ -93,6 +93,8 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"next_staff_seq": state.next_staff_seq,
 			"staff_candidates": state.staff_candidates.duplicate(true),   # #144
 			"location_id": state.location_id,   # #148
+			"promotions": state.promotions.duplicate(true), "next_promotion_seq": state.next_promotion_seq,   # #137
+			"promo_stats": state.promo_stats.duplicate(true),
 		},
 	}
 
@@ -384,6 +386,18 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 		errs.append("runtime_state: not_object")
 		return
 	_staff_in(s, rt, errs)
+	if typeof(rt.get("promotions")) == TYPE_ARRAY:   # #137 (absent in older saves)
+		for p in rt["promotions"]:
+			if typeof(p) != TYPE_DICTIONARY or Promotions.definition(String(p.get("def_id", ""))).is_empty() or not JsonCheck.is_int(p.get("start_day")) or not JsonCheck.is_int(p.get("end_day")):
+				errs.append("runtime_state.promotions: invalid")
+				break
+			s.promotions.append({"promotion_id": String(p.get("promotion_id", "")), "def_id": String(p["def_id"]), "start_day": int(p["start_day"]), "end_day": int(p["end_day"])})
+		s.next_promotion_seq = int(rt.get("next_promotion_seq", s.promotions.size()))
+		var st = rt.get("promo_stats", {})
+		if typeof(st) == TYPE_DICTIONARY:
+			for k in st:
+				if typeof(st[k]) == TYPE_DICTIONARY:
+					s.promo_stats[k] = {"units": int(st[k].get("units", 0)), "discount_yen": int(st[k].get("discount_yen", 0))}
 	var loc = rt.get("location_id", "")
 	if typeof(loc) != TYPE_STRING or (loc != "" and StoreLocation.find(loc).is_empty()):
 		errs.append("runtime_state.location_id: invalid")
@@ -442,7 +456,7 @@ static func _transaction_errors(tx, path: String) -> Array[String]:
 		return errs
 	if not JsonCheck.is_nonempty_string(tx["event_id"]):
 		errs.append("%s.event_id: empty" % path)
-	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WAGES", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL"].has(tx["event_type"]):
+	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WAGES", "PROMO", "DISCOUNT", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL"].has(tx["event_type"]):
 		errs.append("%s.event_type: unknown" % path)
 	for k in ["day_index", "time_sec", "revenue_delta_yen", "cogs_delta_yen", "expense_delta_yen"]:
 		if not JsonCheck.is_int(tx[k]) or int(tx[k]) < 0:

@@ -11,7 +11,7 @@ const FIELDS: Array[String] = [
 	"store_reputation", "potential_customers", "visitors", "purchasing_customers", "lost_customers", "units_sold",
 ]
 ## Fields newer reports carry; a saved report without them still loads (balked_customers: #142).
-const OPTIONAL_FIELDS: Array[String] = ["balked_customers", "wages_yen"]
+const OPTIONAL_FIELDS: Array[String] = ["balked_customers", "wages_yen", "promo_yen", "discount_yen"]
 
 
 static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation: int, cash_end_yen: int) -> Dictionary:
@@ -26,6 +26,7 @@ static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation:
 		"electricity_yen": sum["electricity_yen"],
 		"fixed_cost_yen": sum["fixed_cost_yen"],
 		"wages_yen": sum["wages_yen"],   # #143 (part of the operating profit)
+		"promo_yen": sum["promo_yen"], "discount_yen": sum["discount_yen"],   # #137
 		"operating_profit_yen": sum["operating_profit_yen"],
 		"net_cash_delta_yen": sum["cash_delta_yen"],
 		"cash_end_yen": cash_end_yen,

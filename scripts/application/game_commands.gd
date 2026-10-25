@@ -65,6 +65,10 @@ func execute(command: Dictionary) -> CommandResult:
 			if not _require_setup():
 				return _fail(&"NOT_IN_SETUP", &"restock_needs_setup")
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
+		&"START_PROMOTION":
+			result = _promotion_result(command_id, Promotions.start(_state, command_id, String(command.get("def_id", "")), int(command.get("days", 0))), "PROMOTION_STARTED")
+		&"STOP_PROMOTION":
+			result = _promotion_result(command_id, Promotions.stop(_state, String(command.get("promotion_id", ""))), "PROMOTION_STOPPED")
 		&"SET_STORE_SIZE":
 			result = _set_store_size(command_id, String(command.get("size_id", "")))
 		&"EXPAND_STORE":
@@ -224,6 +228,14 @@ func _stock_result(command_id: String, r: Dictionary) -> CommandResult:
 
 ## Allowed in every business state. Only the override map changes: lot costs, open
 ## reservations and ledger rows keep the price they were snapshotted with (03).
+## START_PROMOTION / STOP_PROMOTION (#137): any business state, also while paused.
+func _promotion_result(command_id: String, err: String, event: String) -> CommandResult:
+	if err != "":
+		return _fail(&"INSUFFICIENT_CASH" if err == "not_enough_cash" else &"INVALID_OPERATION", StringName(err))
+	var events: Array[String] = ["%s:%s" % [command_id, event]]
+	return _commit(command_id, events)
+
+
 ## SET_STORE_SIZE (#145): the size of a new store, before it first opens (no cost). Fixtures keep their place
 ## relative to the entrance wall; a size they do not fit in is refused.
 func _set_store_size(command_id: String, size_id: String) -> CommandResult:
@@ -287,7 +299,7 @@ func _set_price(command_id: String, command: Dictionary) -> CommandResult:
 		return _fail(&"INVALID_OPERATION", &"sku_unknown")
 	if not _is_int(price) or price < 1 or price > MAX_PRICE_YEN:
 		return _fail(&"INVALID_OPERATION", &"price_invalid")
-	if price == _state.sell_price(sku_id):
+	if price == _state.list_price(sku_id):
 		return _fail(&"INVALID_OPERATION", &"no_change")
 	if price == int(_state.products.get_sku(sku_id)["default_sell_price_yen"]):
 		_state.product_price_overrides.erase(sku_id)
