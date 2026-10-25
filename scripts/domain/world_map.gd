@@ -84,3 +84,29 @@ static func forecast_visitors(balance: Dictionary, map_id: String, plot_id: Stri
 	for fid in s["facilities"]:
 		n += float(NearbyFacility.find(fid).get("visitors_per_day", 0))
 	return int(round(n))
+
+
+## The forecast by hour (24 values, visitors in that hour): the location's share of the day by its hour curve plus
+## each facility's visitors by its own hours. Same rough basis as forecast_visitors (no ads, events or stock).
+static func forecast_by_hour(balance: Dictionary, map_id: String, plot_id: String) -> Array[float]:
+	var out: Array[float] = []
+	out.resize(24)
+	out.fill(0.0)
+	var s := site(map_id, plot_id)
+	if s.is_empty():
+		return out
+	var daily := float(balance.get("base_potential_visitors_per_day", 100)) * StoreLocation.visitors_multiplier(s["location_id"])
+	var curve := StoreLocation.hour_weights(s["location_id"])   # mean 1
+	for h in 24:
+		out[h] = daily * curve[h] / 24.0
+	for fid in s["facilities"]:
+		var f := NearbyFacility.find(fid)
+		var w: Array = f["hour_weights"]
+		var total := 0.0
+		for x in w:
+			total += float(x)
+		if total <= 0.0:
+			continue
+		for h in 24:
+			out[h] += float(f["visitors_per_day"]) * float(w[h]) / total
+	return out

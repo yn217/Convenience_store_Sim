@@ -27,6 +27,9 @@ var _map_info: Label
 var _map_pick: Button
 var _map_button: Button
 var _map_selected := ""
+var _map_hour: HSlider
+var _map_hour_label: Label
+var _balance: Dictionary = {}
 var _size: OptionButton
 var _expand: Button
 var _size_info: Label
@@ -295,6 +298,22 @@ func open_map() -> void:
 		_map_info.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		_map_info.text = "黄色の丸が出店できる区画です。クリックすると、立地と周りの施設・予想来店数が出ます。"
 		side.add_child(_map_info)
+		# Forecast layer: the visitors each site may expect in the chosen hour (#150 phase 2).
+		_map_hour_label = Label.new()
+		side.add_child(_map_hour_label)
+		_map_hour = HSlider.new()
+		_map_hour.name = "ForecastHour"
+		_map_hour.min_value = -1
+		_map_hour.max_value = 23
+		_map_hour.step = 1
+		_map_hour.value = -1
+		_map_hour.value_changed.connect(func(v): set_forecast_hour(int(v)))
+		side.add_child(_map_hour)
+		var fit := Button.new()
+		fit.name = "MapFit"
+		fit.text = "全体表示（ホイールで拡大・ドラッグで移動）"
+		fit.pressed.connect(func(): _map_view.reset_view())
+		side.add_child(fit)
 		_map_pick = Button.new()
 		_map_pick.name = "PickSite"
 		_map_pick.text = "ここに出店する"
@@ -305,6 +324,7 @@ func open_map() -> void:
 		_map_window.add_child(row)
 		add_child(_map_window)
 		_map_view.set_map(WorldMap.DEFAULT_MAP)
+		set_forecast_hour(-1)
 	_map_view.current = String(_snap.get("plot_id", ""))
 	_map_window.popup_centered()
 
@@ -318,6 +338,14 @@ func _show_plot(plot_id: String) -> void:
 	var locked := bool(_snap.get("location_locked", true))
 	_map_info.text = plot_text(WorldMap.DEFAULT_MAP, plot_id)
 	_map_pick.disabled = locked or WorldMap.site(WorldMap.DEFAULT_MAP, plot_id).is_empty() or String(_snap.get("plot_id", "")) == plot_id
+
+
+## The forecast layer for `hour` (-1 = off).
+func set_forecast_hour(hour: int) -> void:
+	if _balance.is_empty():
+		_balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	_map_view.set_forecast_hour(hour, _balance)
+	_map_hour_label.text = "予想来店の表示：なし（つまみで時間帯を選ぶ）" if hour < 0 else "予想来店の表示：%d時台（円が大きいほど多い・目安）" % hour
 
 
 func pick_site(plot_id: String) -> CommandResult:
@@ -347,7 +375,17 @@ static func plot_text(map_id: String, plot_id: String) -> String:
 		lines.append("近くの施設：%s（%s・距離 %d）" % [f["name"], NearbyFacility.display_name(f["facility_id"]), int(f["distance"])])
 	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
 	lines.append("予想来店数：1日 約%d人（広告・イベントなしの目安）" % WorldMap.forecast_visitors(balance, map_id, plot_id))
+	lines.append("多い時間帯：%s" % peak_hours_text(WorldMap.forecast_by_hour(balance, map_id, plot_id)))
 	return "\n".join(lines)
+
+
+## The three busiest forecast hours, in time order: "7時 約12人・8時 約12人・18時 約9人".
+static func peak_hours_text(by_hour: Array) -> String:
+	var hours: Array = range(24)
+	hours.sort_custom(func(a, b): return float(by_hour[a]) > float(by_hour[b]) or (float(by_hour[a]) == float(by_hour[b]) and a < b))
+	var top: Array = hours.slice(0, 3)
+	top.sort()
+	return "・".join(top.map(func(h): return "%d時 約%d人" % [h, int(round(float(by_hour[h])))]))
 
 
 func set_facilities(ids: Array) -> CommandResult:

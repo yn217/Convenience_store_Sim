@@ -104,6 +104,11 @@ func _run() -> void:
 			biz.open_map()
 			if a.begins_with("--map="):
 				biz._show_plot(a.trim_prefix("--map="))
+		if a.begins_with("--map-hour="):   # --map-hour=8: the forecast layer at that hour
+			main.get_node("BusinessController").set_forecast_hour(int(a.trim_prefix("--map-hour=")))
+		if a.begins_with("--map-zoom="):   # --map-zoom=1.8: zoomed about the centre of the map view
+			var mv: MapView = main.get_node("BusinessController")._map_view
+			mv.zoom_at(mv.size * 0.5, float(a.trim_prefix("--map-zoom=")))
 	if OS.get_cmdline_user_args().has("--whole"):   # --whole: the whole-store fit (F key) instead of the default interior fit (#109)
 		main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld").fit_whole()
 	for a in OS.get_cmdline_user_args():   # --zoom=1.2: capture at that camera zoom (package icons, #12)

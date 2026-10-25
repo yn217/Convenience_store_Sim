@@ -1,10 +1,19 @@
 class_name MapView
 extends Control
-## Area map drawing (issue #150 phase 1): the town of a WorldMap file drawn in code — zones, roads, railway,
-## facility pins and store sites — scaled to fit the control. Clicking a site emits plot_clicked; the panel around it
-## (BusinessController) shows the site and sends SET_SITE. Presentation only.
+## Area map drawing (issue #150): the town of a WorldMap file drawn in code — zones, roads, railway, facility pins and
+## store sites — fitted to the control, then zoomed (wheel, about the cursor, ZOOM_MIN..ZOOM_MAX) and panned (drag).
+## Clicking a site emits plot_clicked; the panel around it (BusinessController) shows the site and sends SET_SITE.
+## With forecast_hour >= 0 every site that can be picked carries a disc sized by its forecast visitors in that hour
+## (WorldMap.forecast_by_hour: a forecast, labelled as such). Presentation only.
 
 signal plot_clicked(plot_id: String)
+
+const ZOOM_MIN := 1.0
+const ZOOM_MAX := 3.0
+const ZOOM_STEP := 1.15
+const DRAG_PX := 6.0          # a press that moves further than this pans instead of clicking
+const FORECAST_COLOR := Color(0.18, 0.43, 0.71, 0.35)
+const FORECAST_MAX_RADIUS := 34.0
 
 const PIN_RADIUS := 7.0
 const PLOT_RADIUS := 13.0
@@ -28,7 +37,17 @@ const POI_COLORS := {
 var map_id := ""
 var selected := ""
 var current := ""      # the store's site (drawn with a ring)
+var zoom := 1.0
+var pan := Vector2.ZERO          # extra offset in pixels after the fit
+var forecast_hour := -1         # -1: no forecast layer
+var _forecast: Dictionary = {}  # plot id -> Array[float] (24 hours)
 var _map: Dictionary = {}
+var _press := Vector2(-1, -1)
+var _dragging := false
+
+
+func _init() -> void:
+	clip_contents = true   # zoomed in, the town stays inside the view
 
 
 func set_map(id: String) -> void:
@@ -42,19 +61,62 @@ func set_selected(plot_id: String) -> void:
 	queue_redraw()
 
 
-## Map units -> local pixels (the map keeps its aspect ratio, centred).
-func to_screen(x: float, y: float) -> Vector2:
+## Shows the forecast discs for `hour` (-1 hides them); forecasts are computed once per map.
+func set_forecast_hour(hour: int, balance: Dictionary) -> void:
+	forecast_hour = hour
+	if _forecast.is_empty() and hour >= 0:
+		for p in _map.get("plots", []):
+			if WorldMap.pickable(p):
+				_forecast[p["id"]] = WorldMap.forecast_by_hour(balance, map_id, p["id"])
+	queue_redraw()
+
+
+## Zooms by `factor` keeping the map point under `at` (local pixels) where it is.
+func zoom_at(at: Vector2, factor: float) -> void:
+	var before := zoom
+	zoom = clampf(zoom * factor, ZOOM_MIN, ZOOM_MAX)
+	var k := zoom / before
+	var origin := _fit_offset() + pan
+	pan = (at - (at - origin) * k) - _fit_offset()
+	_clamp_pan()
+	queue_redraw()
+
+
+func reset_view() -> void:
+	zoom = 1.0
+	pan = Vector2.ZERO
+	queue_redraw()
+
+
+## Keeps some of the map on screen.
+func _clamp_pan() -> void:
+	var span := _map_size() * _fit_scale() * zoom
+	var lo := Vector2(size.x * 0.25, size.y * 0.25) - span - _fit_offset()
+	var hi := Vector2(size.x * 0.75, size.y * 0.75) - _fit_offset()
+	pan = pan.clamp(lo, hi)
+
+
+func _map_size() -> Vector2:
 	var cs: Dictionary = _map.get("coordinate_system", {"width": 1000, "height": 680})
-	var w := float(cs.get("width", 1000))
-	var h := float(cs.get("height", 680))
-	var k := minf(size.x / w, size.y / h)
-	var off := (size - Vector2(w, h) * k) * 0.5
-	return off + Vector2(x, y) * k
+	return Vector2(float(cs.get("width", 1000)), float(cs.get("height", 680)))
+
+
+func _fit_scale() -> float:
+	var m := _map_size()
+	return minf(size.x / m.x, size.y / m.y)
+
+
+func _fit_offset() -> Vector2:
+	return (size - _map_size() * _fit_scale()) * 0.5
+
+
+## Map units -> local pixels (fitted with its aspect ratio, then zoomed and panned).
+func to_screen(x: float, y: float) -> Vector2:
+	return _fit_offset() + pan + Vector2(x, y) * _scale()
 
 
 func _scale() -> float:
-	var cs: Dictionary = _map.get("coordinate_system", {"width": 1000, "height": 680})
-	return minf(size.x / float(cs.get("width", 1000)), size.y / float(cs.get("height", 680)))
+	return _fit_scale() * zoom
 
 
 ## The site under a local position, or "".
@@ -66,10 +128,35 @@ func plot_at(pos: Vector2) -> String:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var id := plot_at(event.position)
-		if id != "":
-			plot_clicked.emit(id)
+	if event is InputEventMouseButton:
+		match event.button_index:
+			MOUSE_BUTTON_WHEEL_UP:
+				if event.pressed:
+					zoom_at(event.position, ZOOM_STEP)
+					accept_event()
+			MOUSE_BUTTON_WHEEL_DOWN:
+				if event.pressed:
+					zoom_at(event.position, 1.0 / ZOOM_STEP)
+					accept_event()
+			MOUSE_BUTTON_LEFT:
+				if event.pressed:
+					_press = event.position
+					_dragging = false
+				else:
+					if not _dragging:
+						var id := plot_at(event.position)
+						if id != "":
+							plot_clicked.emit(id)
+					_press = Vector2(-1, -1)
+					_dragging = false
+				accept_event()
+	elif event is InputEventMouseMotion and _press.x >= 0.0:
+		if not _dragging and event.position.distance_to(_press) > DRAG_PX:
+			_dragging = true
+		if _dragging:
+			pan += event.relative
+			_clamp_pan()
+			queue_redraw()
 			accept_event()
 
 
@@ -77,9 +164,8 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), WATER)
 	if _map.is_empty():
 		return
-	var cs: Dictionary = _map["coordinate_system"]
 	var k := _scale()
-	draw_rect(Rect2(to_screen(0, 0), Vector2(float(cs["width"]), float(cs["height"])) * k), LAND)
+	draw_rect(Rect2(to_screen(0, 0), _map_size() * k), LAND)
 	var font := ThemeDB.fallback_font
 	var features: Dictionary = _map.get("features", {})
 	for z in features.get("zones", []):
@@ -97,6 +183,16 @@ func _draw() -> void:
 		draw_circle(c, PIN_RADIUS, POI_COLORS.get(q["type"], Color("8a949e")))
 		draw_arc(c, PIN_RADIUS, 0.0, TAU, 16, Color.WHITE, 1.5)
 		draw_string(font, c + Vector2(PIN_RADIUS + 2.0, 4.0), String(q["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("33404a"))
+	if forecast_hour >= 0:
+		var peak := 0.0
+		for id in _forecast:
+			for v in _forecast[id]:
+				peak = maxf(peak, float(v))
+		for id in _forecast:
+			var p := WorldMap.plot(map_id, id)
+			var v := float(_forecast[id][forecast_hour])
+			if peak > 0.0 and v > 0.0:
+				draw_circle(to_screen(float(p["x"]), float(p["y"])), PLOT_RADIUS + FORECAST_MAX_RADIUS * sqrt(v / peak), FORECAST_COLOR)
 	for p in _map.get("plots", []):
 		var c := to_screen(float(p["x"]), float(p["y"]))
 		var status := String(p["status"])
