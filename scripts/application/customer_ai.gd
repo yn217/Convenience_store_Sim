@@ -379,6 +379,7 @@ func _leave(state: GameState, c: Dictionary, outcome: String) -> void:
 	state.emit_event("CUSTOMER_EXITED_NO_PURCHASE", {"customer_id": c["customer_id"], "outcome": outcome})
 	if outcome == "queue_timeout":
 		state.rate_stats["abandoned"] += 1
+		StaffMarket.note(state, "abandoned")
 	elif outcome == "no_candidate" or outcome == "stockout":
 		state.rate_stats["stockouts"] += 1
 	_start_exit(state, c)
@@ -481,6 +482,7 @@ func _at_the_door(state: GameState, c: Dictionary) -> void:
 		state.rate_stats["balked"] = int(state.rate_stats.get("balked", 0)) + 1
 		c["outcome"] = "balked"
 		state.emit_event("CUSTOMER_BALKED", {"customer_id": c["customer_id"]})
+		StaffMarket.note(state, "balked")
 		var back := away_route(state.grid, door, seq_of(c) % 2 == 0)   # back the way it came
 		back.pop_front()   # it already stands outside the door
 		c["path"] = back
@@ -818,7 +820,13 @@ func _join_line(state: GameState, c: Dictionary) -> void:
 
 
 func _timed_out(state: GameState, c: Dictionary) -> bool:
-	return state.time_sec - int(c["queue_since"]) >= queue_timeout_sec(state.balance)
+	# #144: a friendly cashier keeps people in the line longer (service 1..5 -> patience x0.9..1.3).
+	var patience := float(queue_timeout_sec(state.balance))
+	if StaffAI.enabled(state.balance):
+		var cashier := StaffAI.cashier(state, String(c["register_id"]))
+		if not cashier.is_empty():
+			patience *= 0.8 + 0.1 * float(int(cashier["skills"]["service"]))
+	return state.time_sec - int(c["queue_since"]) >= int(patience)
 
 
 ## Takes the front-most free queue slot of the customer's register, or keeps waiting.

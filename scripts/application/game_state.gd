@@ -45,6 +45,9 @@ var unpaid_cost_yen: int = 0
 var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 var staff: Array = []          # #143: store staff (StaffAI)
 var next_staff_seq := 0
+var staff_candidates: Array = []        # #144: today's hiring candidates (StaffMarket)
+var staff_metrics: Dictionary = {}      # #144: today's staffing figures (StaffMarket.record_step)
+var staff_metrics_yesterday: Dictionary = {}
 ## Inputs of the daily reputation update: customers who gave up in the queue / found nothing to buy.
 var rate_stats := {"abandoned": 0, "stockouts": 0}
 ## Customers in the store (filled by M3-02) and arrivals waiting to be spawned as customers.
@@ -100,11 +103,15 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 		s.rng_states["visits"] = 246813   # budget and wallet of each visit (#141)
 	if not s.rng_states.has("impulse"):
 		s.rng_states["impulse"] = 135792   # impulse pick-ups on the way (#141)
+	if not s.rng_states.has("staff"):
+		s.rng_states["staff"] = 97531   # hiring candidates (#144)
 	s.balance = balance.duplicate(true)
 	s.next_day_ad_yen = int(balance.get("starting_ad_budget_yen_per_day", 0))
 	if StaffAI.enabled(s.balance):
 		for entry in s.balance.get("starting_staff", []):
 			s.staff.append(StaffAI.make(s, entry, s.grid.entrance_tiles[0]))
+		s.staff_metrics = StaffMarket.empty_metrics()
+		StaffMarket.draw_candidates(s)
 	return s
 
 
@@ -139,6 +146,9 @@ func close_day_once(day_index: int) -> bool:
 	reputation = ReputationModel.next_reputation(reputation, visit_stats, rate_stats, balance)
 	visit_stats = {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 	rate_stats = {"abandoned": 0, "stockouts": 0}
+	if StaffAI.enabled(balance):
+		staff_metrics_yesterday = staff_metrics
+		staff_metrics = StaffMarket.empty_metrics()
 	emit_event("DAILY_CLOSED", {"day_index": day_index})
 	return true
 
@@ -265,6 +275,7 @@ func snapshot() -> Dictionary:
 		"rate_stats": rate_stats.duplicate(),
 		"customers": _customer_views() + _staff_views(),
 		"staff_count": staff.size(), "staff_cap": StaffAI.capacity(self) if StaffAI.enabled(balance) else 0,
+		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
 		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),
 		"passersby_per_day": int(balance.get("passersby_per_day", 0)) if bool(balance.get("outdoor_approach", false)) else 0,   # #142, presentation only   # the figures walk at the simulation's pace (#117 v2)
@@ -302,6 +313,30 @@ func _log_view(log: Array) -> Array:
 		out.append({"sku_id": e["sku_id"], "name": sku.get("display_name", e["sku_id"]), "category": sku.get("category", ""),
 			"price": int(e["price"]), "kind": e["kind"], "state": e["state"]})
 	return out
+
+
+func _candidate_views() -> Array:
+	var out: Array = []
+	for c in staff_candidates:
+		var v: Dictionary = c.duplicate(true)
+		v["label"] = StaffMarket.label(c["archetype"])
+		v["daily_wage_yen"] = StaffAI.daily_wage(balance, c)
+		out.append(v)
+	return out
+
+
+## The 店員 tab's figures (#144): line by hour today and yesterday, people lost to the line, utilisation, advice.
+func _staffing_view() -> Dictionary:
+	if not StaffAI.enabled(balance):
+		return {}
+	var util := {}
+	for s in staff:
+		util[s["staff_id"]] = StaffMarket.utilisation(staff_metrics, s["staff_id"])
+	return {
+		"line_today": StaffMarket.line_by_hour(staff_metrics), "line_yesterday": StaffMarket.line_by_hour(staff_metrics_yesterday),
+		"balked_today": (staff_metrics.get("balked", []) as Array).duplicate(), "abandoned_today": (staff_metrics.get("abandoned", []) as Array).duplicate(),
+		"utilisation": util, "advice": StaffMarket.advice(self), "wages_per_day": BusinessService.wages(self),
+	}
 
 
 ## Staff drawn like customers (the presenter animates any id; "staff_" ids wear the clerk look, #143).

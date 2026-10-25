@@ -91,6 +91,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"last_nonzero_speed": state.last_nonzero_speed,
 			"staff": state.staff.map(_staff_out),   # #143
 			"next_staff_seq": state.next_staff_seq,
+			"staff_candidates": state.staff_candidates.duplicate(true),   # #144
 		},
 	}
 
@@ -165,6 +166,14 @@ static func _staff_in(s: GameState, rt: Dictionary, errs: Array[String]) -> void
 			"timer": int(e.get("timer", 0)), "task": task, "carry": int(e.get("carry", 0)) if not task.is_empty() else 0, "trail": [], "moved": 0,
 		})
 	s.next_staff_seq = maxi(int(rt.get("next_staff_seq", 0)), s.staff.size())
+	if typeof(rt.get("staff_candidates")) == TYPE_ARRAY:
+		s.staff_candidates.clear()
+		for c in rt["staff_candidates"]:
+			if typeof(c) == TYPE_DICTIONARY and JsonCheck.is_nonempty_string(c.get("candidate_id")) and typeof(c.get("skills")) == TYPE_DICTIONARY:
+				var skills := {}
+				for k in StaffAI.SKILLS:
+					skills[k] = clampi(int(c["skills"].get(k, 3)), 1, 5)
+				s.staff_candidates.append({"candidate_id": String(c["candidate_id"]), "name": String(c.get("name", "")), "archetype": String(c.get("archetype", "")), "skills": skills})
 
 
 static func _customer_out(c: Dictionary, now_sec: int, patience_sec: int) -> Dictionary:

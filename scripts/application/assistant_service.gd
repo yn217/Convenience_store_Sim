@@ -7,7 +7,7 @@ extends RefCounted
 
 const CUES: Array[String] = [
 	"story_start", "story_register", "story_first_restock", "story_first_sale", "story_first_profit",
-	"story_sold_out", "story_queue_giveup", "story_event",
+	"story_sold_out", "story_queue_giveup", "story_event", "story_staff_short",
 ]
 
 
@@ -29,6 +29,8 @@ static func eligible(state: GameState) -> Array[String]:
 		out.append("story_sold_out")
 	if int(state.rate_stats["abandoned"]) > 0:
 		out.append("story_queue_giveup")
+	if int(state.visit_stats.get("balked", 0)) > 0 and StaffAI.enabled(state.balance):
+		out.append("story_staff_short")   # #144: people turned back at the door
 	return out
 
 

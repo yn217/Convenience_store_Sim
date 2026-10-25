@@ -65,6 +65,10 @@ func execute(command: Dictionary) -> CommandResult:
 			if not _require_setup():
 				return _fail(&"NOT_IN_SETUP", &"restock_needs_setup")
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
+		&"HIRE_STAFF":
+			result = _staff_result(command_id, StaffMarket.hire(_state, String(command.get("candidate_id", ""))), "STAFF_HIRED")
+		&"FIRE_STAFF":
+			result = _staff_result(command_id, StaffMarket.fire(_state, String(command.get("staff_id", ""))), "STAFF_LEFT")
 		&"UNDO_LAYOUT":
 			result = _undo(command_id)
 		&"REDO_LAYOUT":
@@ -214,6 +218,16 @@ func _stock_result(command_id: String, r: Dictionary) -> CommandResult:
 
 ## Allowed in every business state. Only the override map changes: lot costs, open
 ## reservations and ledger rows keep the price they were snapshotted with (03).
+## HIRE_STAFF / FIRE_STAFF (#144): allowed in every business state and while paused.
+func _staff_result(command_id: String, err: String, event: String) -> CommandResult:
+	if not StaffAI.enabled(_state.balance):
+		return _fail(&"INVALID_OPERATION", &"staff_disabled")
+	if err != "":
+		return _fail(&"INVALID_OPERATION", StringName(err))
+	var events: Array[String] = ["%s:%s" % [command_id, event]]
+	return _commit(command_id, events)
+
+
 func _set_price(command_id: String, command: Dictionary) -> CommandResult:
 	var sku_id = command.get("sku_id")
 	var price = command.get("price_yen")

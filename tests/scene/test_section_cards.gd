@@ -2,7 +2,7 @@ extends RefCounted
 ## Issue #61 (GUI side): each section is a Card whose content starts with its SectionTitle label. After the
 ## redesign the selection cards stay in the inspector and the rest sit in the management window tabs.
 
-const TABS := ["商品", "経営", "データ", "設定"]
+const TABS := ["商品", "経営", "店員", "データ", "設定"]
 
 
 func test_sections_are_cards_in_the_right_place(t, tree) -> void:
@@ -31,7 +31,7 @@ func test_sections_are_cards_in_the_right_place(t, tree) -> void:
 				var column: Node = c.get_child(0)
 				var first: Node = column.get_child(0)
 				t.ok(first is Label and first.theme_type_variation == &"SectionTitle", "%s card starts with its section title" % tab)
-	t.eq(tab_cards, 9, "nine cards are in the management tabs")
+	t.eq(tab_cards, 10, "ten cards are in the management tabs (店員, #144)")
 	t.ok(main.find_child("MoveButton", true, false) != null, "nodes are still reachable by name")
 	main.queue_free()
 	await tree.process_frame
