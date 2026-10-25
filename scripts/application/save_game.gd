@@ -93,6 +93,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"next_staff_seq": state.next_staff_seq,
 			"staff_candidates": state.staff_candidates.duplicate(true),   # #144
 			"location_id": state.location_id,   # #148
+			"map_id": state.map_id, "plot_id": state.plot_id,   # #150
 			"facilities": state.facilities.duplicate(), "facility_visits": state.facility_visits.duplicate(),   # #149
 			"promotions": state.promotions.duplicate(true), "next_promotion_seq": state.next_promotion_seq,   # #137
 			"promo_stats": state.promo_stats.duplicate(true),
@@ -400,6 +401,12 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			for k in st:
 				if typeof(st[k]) == TYPE_DICTIONARY:
 					s.promo_stats[k] = {"units": int(st[k].get("units", 0)), "discount_yen": int(st[k].get("discount_yen", 0))}
+	if typeof(rt.get("plot_id")) == TYPE_STRING and String(rt["plot_id"]) != "":   # #150 (absent in older saves)
+		if WorldMap.plot(String(rt.get("map_id", "")), String(rt["plot_id"])).is_empty():
+			errs.append("runtime_state.plot_id: invalid")
+		else:
+			s.map_id = String(rt["map_id"])
+			s.plot_id = String(rt["plot_id"])
 	if typeof(rt.get("facilities")) == TYPE_ARRAY:   # #149 (absent in older saves)
 		for fid in rt["facilities"]:
 			if NearbyFacility.find(String(fid)).is_empty() or s.facilities.has(String(fid)) or s.facilities.size() >= NearbyFacility.max_count():

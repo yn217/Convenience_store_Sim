@@ -51,6 +51,8 @@ var next_promotion_seq := 0
 var promo_stats: Dictionary = {}  # promotion id -> {units, discount_yen}
 var facilities: Array = []             # #149: nearby facility ids (NearbyFacility), chosen before the first opening
 var facility_visits: Dictionary = {}   # facility id -> visitors it sent today
+var map_id := ""                       # #150: the area map and the store's site on it ("" = chosen without the map)
+var plot_id := ""
 var location_id := ""                   # #148: station / school / office / residential; "" = the standard store
 var staff_metrics: Dictionary = {}      # #144: today's staffing figures (StaffMarket.record_step)
 var staff_metrics_yesterday: Dictionary = {}
@@ -294,6 +296,7 @@ func snapshot() -> Dictionary:
 		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
 		"promotions": _promotion_views(),
+		"map_id": map_id, "plot_id": plot_id,
 		"facilities": facilities.duplicate(), "facility_visits": facility_visits.duplicate(), "max_facilities": NearbyFacility.max_count(),
 		"store_size_id": String(StoreSize.of_grid(balance, grid).get("size_id", "")), "store_sizes": StoreSize.all(balance),
 		"next_store_size": StoreSize.next(balance, grid),

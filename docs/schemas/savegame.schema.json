@@ -941,6 +941,8 @@
         "promotions": {"description": "Promotions (issue #137): {promotion_id, def_id, start_day, end_day} (inclusive days), running and finished.", "type": "array", "items": {"type": "object"}},
         "next_promotion_seq": {"type": "integer", "minimum": 0},
         "promo_stats": {"description": "Results per promotion id (issue #137): {units, discount_yen}.", "type": "object"},
+        "map_id": {"description": "Area map of the store's site (issue #150), e.g. aoba_town_v1; \"\" when chosen without the map.", "type": "string"},
+        "plot_id": {"description": "The store's site on that map (issue #150); \"\" when the location was chosen by hand.", "type": "string"},
         "facilities": {"description": "Nearby facility ids (issue #149), at most max_facilities.", "type": "array", "items": {"type": "string"}},
         "facility_visits": {"description": "Visitors each facility sent today (issue #149).", "type": "object"},
         "location_id": {"description": "Store location (issue #148): station / school / office / residential, or \"\" for the standard store.", "type": "string"},

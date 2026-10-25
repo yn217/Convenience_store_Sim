@@ -73,6 +73,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _set_store_size(command_id, String(command.get("size_id", "")))
 		&"EXPAND_STORE":
 			result = _expand_store(command_id)
+		&"SET_SITE":
+			result = _set_site(command_id, String(command.get("map_id", WorldMap.DEFAULT_MAP)), String(command.get("plot_id", "")))
 		&"SET_FACILITIES":
 			result = _set_facilities(command_id, command.get("facility_ids", []))
 		&"SET_LOCATION":
@@ -273,6 +275,22 @@ func _resize(command_id: String, size: Dictionary, cost: int, event: String) -> 
 	return _commit(command_id, events, {"size_id": size["size_id"]})
 
 
+## SET_SITE (#150): the store's site on the area map, until it first opens. The site sets the location (#148) and
+## the nearby facilities (#149) from the map.
+func _set_site(command_id: String, map_id: String, plot_id: String) -> CommandResult:
+	if _state.location_locked():
+		return _fail(&"INVALID_OPERATION", &"site_locked")
+	var site := WorldMap.site(map_id, plot_id)
+	if site.is_empty():
+		return _fail(&"INVALID_OPERATION", &"site_unavailable")
+	_state.map_id = map_id
+	_state.plot_id = plot_id
+	_state.location_id = site["location_id"]
+	_state.facilities = (site["facilities"] as Array).duplicate()
+	var events: Array[String] = ["%s:SITE_SET" % command_id]
+	return _commit(command_id, events)
+
+
 ## SET_FACILITIES (#149): the store's nearby facilities, until it first opens (like the location).
 func _set_facilities(command_id: String, ids) -> CommandResult:
 	if _state.location_locked():
@@ -285,6 +303,7 @@ func _set_facilities(command_id: String, ids) -> CommandResult:
 			return _fail(&"INVALID_OPERATION", &"unknown_facility")
 		out.append(String(id))
 	_state.facilities = out
+	_state.plot_id = ""   # chosen by hand: no longer the map site's surroundings
 	var events: Array[String] = ["%s:FACILITIES_SET" % command_id]
 	return _commit(command_id, events)
 
@@ -296,6 +315,7 @@ func _set_location(command_id: String, location_id: String) -> CommandResult:
 	if location_id != "" and StoreLocation.find(location_id).is_empty():
 		return _fail(&"INVALID_OPERATION", &"unknown_location")
 	_state.location_id = location_id
+	_state.plot_id = ""
 	var events: Array[String] = ["%s:LOCATION_SET" % command_id]
 	return _commit(command_id, events)
 

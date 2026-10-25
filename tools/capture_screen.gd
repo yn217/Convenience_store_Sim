@@ -98,6 +98,12 @@ func _run() -> void:
 			main.call("toggle_build")
 		elif a.begins_with("--screen="):
 			main.call("open_screen_tab", a.trim_prefix("--screen="))
+	for a in OS.get_cmdline_user_args():   # --map=P02: the area map open with that site clicked (#150)
+		if a.begins_with("--map"):
+			var biz: Node = main.get_node("BusinessController")
+			biz.open_map()
+			if a.begins_with("--map="):
+				biz._show_plot(a.trim_prefix("--map="))
 	if OS.get_cmdline_user_args().has("--whole"):   # --whole: the whole-store fit (F key) instead of the default interior fit (#109)
 		main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld").fit_whole()
 	for a in OS.get_cmdline_user_args():   # --zoom=1.2: capture at that camera zoom (package icons, #12)

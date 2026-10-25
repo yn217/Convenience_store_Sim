@@ -21,6 +21,12 @@ var _location: OptionButton
 var _location_info: Label
 var _facility_boxes: Dictionary = {}   # facility id -> CheckBox (#149)
 var _facility_info: Label
+var _map_window: Window          # #150: the area map, opened from the 地図で選ぶ button
+var _map_view: MapView
+var _map_info: Label
+var _map_pick: Button
+var _map_button: Button
+var _map_selected := ""
 var _size: OptionButton
 var _expand: Button
 var _size_info: Label
@@ -76,10 +82,18 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_ad_info = Label.new()
 	_ad_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_ad_info)
-	# #148: the store's location, chosen before the first opening.
+	# #148: the store's location, chosen before the first opening (#150: on the area map, or by hand below).
+	var loc_head := HBoxContainer.new()
 	var loc_title := Label.new()
 	loc_title.text = "立地（最初の営業開始まで選べます）"
-	_body.add_child(loc_title)
+	loc_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	loc_head.add_child(loc_title)
+	_map_button = Button.new()
+	_map_button.name = "OpenMap"
+	_map_button.text = "地図で選ぶ"
+	_map_button.pressed.connect(open_map)
+	loc_head.add_child(_map_button)
+	_body.add_child(loc_head)
 	_location = OptionButton.new()
 	_location.name = "LocationPicker"
 	_location.add_item(StoreLocation.display_name(""))
@@ -157,6 +171,14 @@ func apply_snapshot(snap: Dictionary) -> void:
 			_location.select(i)
 	_location.disabled = bool(snap.get("location_locked", true))
 	_location_info.text = location_text(loc)
+	if String(snap.get("plot_id", "")) != "":
+		var plot := WorldMap.plot(String(snap["map_id"]), String(snap["plot_id"]))
+		_location_info.text = "地図：%s %s ／ %s" % [WorldMap.load_map(String(snap["map_id"])).get("display_name", ""), plot.get("name", ""), _location_info.text]
+	_map_button.text = "地図で選ぶ" if not bool(snap.get("location_locked", true)) else "地図を見る"
+	if _map_view != null:
+		_map_view.current = String(snap.get("plot_id", ""))
+		_map_view.queue_redraw()
+		_show_plot(_map_selected)
 	var chosen: Array = snap.get("facilities", [])
 	var locked := bool(snap.get("location_locked", true))
 	for fid in _facility_boxes:
@@ -244,6 +266,88 @@ static func size_text(snap: Dictionary) -> String:
 	if not bool(snap.get("location_locked", true)):
 		return "最初の営業開始までは無料で選べます。大きい店ほど棚を多く置け、大きい控え室（店員の上限）も置けます。"
 	return "増築は閉店中（準備中）にできます。奥と横に床が広がり、入口の壁と什器の並びはそのまま残ります。"
+
+
+## Opens the area map (#150): sites to pick before the first opening, the facilities around them and a forecast.
+func open_map() -> void:
+	if _map_window == null:
+		_map_window = Window.new()
+		_map_window.name = "AreaMap"
+		_map_window.title = "地域マップ"
+		_map_window.size = Vector2i(960, 640)
+		_map_window.close_requested.connect(func(): _map_window.hide())
+		var row := HBoxContainer.new()
+		row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_map_view = MapView.new()
+		_map_view.name = "MapView"
+		_map_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_map_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_map_view.plot_clicked.connect(_show_plot)
+		row.add_child(_map_view)
+		var side := VBoxContainer.new()
+		side.custom_minimum_size = Vector2(280, 0)
+		var title := Label.new()
+		title.text = WorldMap.load_map(WorldMap.DEFAULT_MAP).get("display_name", "")
+		title.add_theme_font_size_override("font_size", 18)
+		side.add_child(title)
+		_map_info = Label.new()
+		_map_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_map_info.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_map_info.text = "黄色の丸が出店できる区画です。クリックすると、立地と周りの施設・予想来店数が出ます。"
+		side.add_child(_map_info)
+		_map_pick = Button.new()
+		_map_pick.name = "PickSite"
+		_map_pick.text = "ここに出店する"
+		_map_pick.disabled = true
+		_map_pick.pressed.connect(func(): pick_site(_map_selected))
+		side.add_child(_map_pick)
+		row.add_child(side)
+		_map_window.add_child(row)
+		add_child(_map_window)
+		_map_view.set_map(WorldMap.DEFAULT_MAP)
+	_map_view.current = String(_snap.get("plot_id", ""))
+	_map_window.popup_centered()
+
+
+## The side panel for a clicked site.
+func _show_plot(plot_id: String) -> void:
+	if _map_view == null or plot_id == "":
+		return
+	_map_selected = plot_id
+	_map_view.set_selected(plot_id)
+	var locked := bool(_snap.get("location_locked", true))
+	_map_info.text = plot_text(WorldMap.DEFAULT_MAP, plot_id)
+	_map_pick.disabled = locked or WorldMap.site(WorldMap.DEFAULT_MAP, plot_id).is_empty() or String(_snap.get("plot_id", "")) == plot_id
+
+
+func pick_site(plot_id: String) -> CommandResult:
+	return _send({"kind": &"SET_SITE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": plot_id})
+
+
+## What a site offers: location, nearby facilities with their distance, and the visitors forecast.
+static func plot_text(map_id: String, plot_id: String) -> String:
+	var p := WorldMap.plot(map_id, plot_id)
+	if p.is_empty():
+		return ""
+	var lines: Array[String] = ["%s（%s）" % [p["name"], p["id"]], String(p.get("note", ""))]
+	match String(p["status"]):
+		"rival":
+			lines.append("ライバル店があります（競合は今後の更新で動きます）。")
+			return "\n".join(lines)
+		"locked":
+			lines.append("今後の更新で出店できるようになる区画です。")
+			return "\n".join(lines)
+	var s := WorldMap.site(map_id, plot_id)
+	if s.is_empty():
+		return "\n".join(lines)
+	lines.append("立地：%s" % StoreLocation.display_name(s["location_id"]))
+	if (s["near"] as Array).is_empty():
+		lines.append("近くの施設：なし")
+	for f in s["near"]:
+		lines.append("近くの施設：%s（%s・距離 %d）" % [f["name"], NearbyFacility.display_name(f["facility_id"]), int(f["distance"])])
+	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	lines.append("予想来店数：1日 約%d人（広告・イベントなしの目安）" % WorldMap.forecast_visitors(balance, map_id, plot_id))
+	return "\n".join(lines)
 
 
 func set_facilities(ids: Array) -> CommandResult:

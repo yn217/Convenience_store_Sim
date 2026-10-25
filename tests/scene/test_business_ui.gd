@@ -53,3 +53,27 @@ func test_tier_item_text_and_plan_summary(t, _tree) -> void:
 	t.ok(none.contains("効果予測: 来店 ×1.00"))
 	t.eq(BusinessController.plan_summary_text(tiers, 2000), "プラン: ¥2,000/日\n広告費: ¥2,000\n効果予測: 来店 ×1.18")
 	t.ok(BusinessController.plan_summary_text(tiers, 777).contains("来店 ×1.00"), "a tier that is not listed counts as ×1.00")
+
+
+## #150: the 地図で選ぶ button opens the area map; a site clicked there and confirmed becomes the store's site.
+func test_the_site_is_picked_on_the_area_map(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	var app: Node = main.get_node("AppRoot")
+	var bc: BusinessController = main.get_node("BusinessController")
+	bc.open_map()
+	await tree.process_frame
+	t.ok(bc._map_window.visible, "the map opens")
+	bc._show_plot("P02")
+	t.ok(not bc._map_pick.disabled, "an available site can be picked")
+	t.ok(bc._map_info.text.contains("学校前"), bc._map_info.text)
+	bc._map_pick.pressed.emit()
+	t.eq([app.state.plot_id, app.state.location_id, app.state.facilities], ["P02", "school", ["university", "highway"]], "picked through the button")
+	await tree.process_frame
+	t.ok(bc._map_pick.disabled, "the current site needs no second pick")
+	t.ok(bc._location_info.text.contains("地図："), "the 経営 tab names the site: %s" % bc._location_info.text)
+	bc._show_plot("P06")
+	t.ok(bc._map_pick.disabled and bc._map_info.text.contains("今後の更新"), "a locked site is shown, not picked")
+	main.queue_free()
+	await tree.process_frame
