@@ -59,6 +59,7 @@ var visitors_by_hour: Array = []          # #150: potential visitors per hour to
 var visitors_by_hour_yesterday: Array = []
 var map_id := ""                       # #150: the area map and the store's site on it ("" = chosen without the map)
 var plot_id := ""
+var store_id := ""                      # #146: "" for the first store, "s2" ... (the ledger scope and id prefixes)
 var location_id := ""                   # #148: station / school / office / residential; "" = the standard store
 var staff_metrics: Dictionary = {}      # #144: today's staffing figures (StaffMarket.record_step)
 var staff_metrics_yesterday: Dictionary = {}
@@ -167,6 +168,12 @@ func close_day_once(day_index: int) -> bool:
 	return true
 
 
+## Makes this state store `id` of the company: its ledger rows and staff ids carry the id (#146).
+func set_store_id(id: String) -> void:
+	store_id = id
+	ledger.scope = "" if id == "" else id + "/"
+
+
 ## Revenue and gross profit of the current day for the HUD. Walks the ledger from the end and
 ## stops at the first earlier day, so it stays cheap while the ledger grows.
 func today_summary() -> Dictionary:
@@ -176,7 +183,7 @@ func today_summary() -> Dictionary:
 		var tx: Dictionary = ledger.transactions[i]
 		if int(tx["day_index"]) < day:
 			break
-		if tx["event_type"] == "SALE":
+		if tx["event_type"] == "SALE" and ledger.is_mine(tx):
 			revenue += int(tx["revenue_delta_yen"])
 			cogs += int(tx["cogs_delta_yen"])
 	return {"revenue_yen": revenue, "gross_profit_yen": revenue - cogs}
@@ -189,7 +196,7 @@ func units_sold_today() -> int:
 		var tx: Dictionary = ledger.transactions[i]
 		if int(tx["day_index"]) < day:
 			break
-		if tx["event_type"] == "SALE":
+		if tx["event_type"] == "SALE" and ledger.is_mine(tx):
 			units += int(tx["details"].get("qty", 1))
 	return units
 
@@ -201,7 +208,7 @@ func fixture_sales_today() -> Dictionary:
 		var tx: Dictionary = ledger.transactions[i]
 		if int(tx["day_index"]) < day:
 			break
-		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "":
+		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "" and ledger.is_mine(tx):
 			out[tx["details"]["fixture_id"]] = int(out.get(tx["details"]["fixture_id"], 0)) + int(tx["details"].get("qty", 1))
 	return out
 
@@ -213,7 +220,7 @@ func fixture_money_today() -> Dictionary:
 		var tx: Dictionary = ledger.transactions[i]
 		if int(tx["day_index"]) < day:
 			break
-		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "":
+		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "" and ledger.is_mine(tx):
 			var fid: String = tx["details"]["fixture_id"]
 			var m: Dictionary = out.get(fid, {"revenue_yen": 0, "gross_profit_yen": 0})
 			m["revenue_yen"] = int(m["revenue_yen"]) + int(tx["revenue_delta_yen"])

@@ -16,6 +16,8 @@ static func summarize(ledger: Ledger, day_index: int = -1) -> Dictionary:
 	for tx in ledger.transactions:
 		if day_index >= 0 and int(tx["day_index"]) != day_index:
 			continue
+		if not ledger.is_mine(tx):
+			continue   # another store of the company (#146)
 		out["cash_delta_yen"] += int(tx["cash_delta_yen"])
 		match tx["event_type"]:
 			"SALE":

@@ -40,7 +40,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 	var grid := state.grid.to_save()
 	var charged_day := -1
 	for tx in state.ledger.transactions:
-		if tx["event_type"] == "AD":
+		if tx["event_type"] == "AD" and state.ledger.is_mine(tx):
 			charged_day = maxi(charged_day, int(tx["day_index"]))
 	var customers: Array = []
 	for c in state.customers:
@@ -94,6 +94,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"staff_candidates": state.staff_candidates.duplicate(true),   # #144
 			"location_id": state.location_id,   # #148
 			"map_id": state.map_id, "plot_id": state.plot_id,   # #150
+			"store_id": state.store_id,   # #146
 			"facilities": state.facilities.duplicate(), "facility_visits": state.facility_visits.duplicate(),   # #149
 			"visitors_by_hour": state.visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": state.visitors_by_hour_yesterday.duplicate(),   # #150
 			"promotions": state.promotions.duplicate(true), "next_promotion_seq": state.next_promotion_seq,   # #137
@@ -449,6 +450,8 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 		var arr = rt.get(k, [])
 		if typeof(arr) == TYPE_ARRAY and (arr.size() == 0 or arr.size() == 24) and arr.all(func(x): return JsonCheck.is_int(x) and int(x) >= 0):
 			s.set(k, arr.map(func(x): return int(x)))
+	if typeof(rt.get("store_id")) == TYPE_STRING:   # #146 (absent in older saves: the first store)
+		s.set_store_id(String(rt["store_id"]))
 	var loc = rt.get("location_id", "")
 	if typeof(loc) != TYPE_STRING or (loc != "" and StoreLocation.find(loc).is_empty()):
 		errs.append("runtime_state.location_id: invalid")
@@ -715,7 +718,7 @@ static func semantic_errors(s: GameState) -> Array[String]:
 	var charges := {}
 	for tx in s.ledger.transactions:
 		if ["AD", "DAILY_FIXED", "ELECTRICITY", "WAGES"].has(tx["event_type"]):
-			var key := "%d:%s" % [tx["day_index"], tx["event_type"]]
+			var key := "%s%d:%s" % [Ledger.store_of(String(tx["event_id"])), tx["day_index"], tx["event_type"]]   # per store (#146)
 			if charges.has(key):
 				errs.append("%s: charged_twice" % key)
 			charges[key] = true

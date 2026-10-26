@@ -81,7 +81,8 @@ static func make(state: GameState, entry: Dictionary, tile: Vector2i) -> Diction
 	for k in SKILLS:
 		skills[k] = clampi(int(entry["skills"].get(k, 3)), 1, 5)
 	return {
-		"staff_id": "staff_%03d" % state.next_staff_seq, "name": String(entry.get("name", "店員")),
+		# staff ids are company-unique: a second store's people are "s2_staff_001" ... (#146)
+		"staff_id": "%sstaff_%03d" % ["" if state.store_id == "" else state.store_id + "_", state.next_staff_seq], "name": String(entry.get("name", "店員")),
 		"archetype": String(entry.get("archetype", "balanced")), "skills": skills, "fatigue": 0.0,
 		"phase": "IDLE", "tile": tile, "path": [] as Array[Vector2i], "progress": 0.0, "timer": 0,
 		"task": {}, "carry": 0, "trail": [], "moved": 0,
