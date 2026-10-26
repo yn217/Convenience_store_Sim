@@ -12,6 +12,7 @@ var _chart: ReportChart
 
 
 var _detail_button: Button
+var _company: Label   # #146: all stores of the company together
 
 
 func setup(_app: Node) -> void:
@@ -31,6 +32,10 @@ func setup(_app: Node) -> void:
 	_detail_button.toggled.connect(func(shown: bool): _label.visible = shown)
 	head.add_child(_detail_button)
 	_body.add_child(head)
+	_company = Label.new()
+	_company.name = "CompanyTotals"
+	_company.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_company)
 	_label = Label.new()
 	_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_label)
@@ -67,6 +72,9 @@ func _legend() -> HBoxContainer:
 func apply_snapshot(snap: Dictionary) -> void:
 	var reports: Array = snap.get("daily_reports", [])
 	_label.text = summary_text(reports)
+	var totals: Dictionary = snap.get("company_totals", {})
+	_company.visible = not totals.is_empty()
+	_company.text = company_text(totals)
 	_chart.set_reports(reports.slice(maxi(reports.size() - CHART_DAYS, 0)))
 
 
@@ -75,6 +83,16 @@ static func _delta(reports: Array, key: String) -> String:
 	if d == null:
 		return "—"
 	return ("+" if d >= 0 else "−") + GameHud.format_yen(absi(d))
+
+
+## All stores of the company for the latest closed day (#146); "" for a one-store company. The lines below are
+## the store on screen's own.
+static func company_text(t: Dictionary) -> String:
+	if t.is_empty():
+		return ""
+	return "全店合計（%d店・DAY %d）　売上 %s ／ 粗利 %s ／ 営業損益 %s ／ 販売 %d点　会社の現金 %s
+（以下はこの店の数字）" % [int(t["stores"]), int(t["day_index"]),
+		GameHud.format_yen(int(t["revenue_yen"])), GameHud.format_yen(int(t["gross_profit_yen"])), GameHud.format_yen(int(t["operating_profit_yen"])), int(t["units_sold"]), GameHud.format_yen(int(t["cash_yen"]))]
 
 
 ## Text for the latest closed day; "—" stands for anything that cannot be computed.

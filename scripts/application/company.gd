@@ -146,6 +146,24 @@ static func transfer_staff(active: GameState, staff_id: String, to_store_id: Str
 	return ""
 
 
+## The company's figures for `day`: every store's summary of that day (on its own ledger scope) added up, and the
+## number of stores. {} for a one-store company.
+static func totals(active: GameState, day: int) -> Dictionary:
+	if active.branches.is_empty() or day < 0:
+		return {}
+	var scope := active.ledger.scope
+	var out := {"day_index": day, "stores": 0}
+	for s in stores(active):
+		s.ledger.scope = "" if s.store_id == "" else s.store_id + "/"
+		var sum := LedgerSummary.summarize(s.ledger, day)
+		for k in ["revenue_yen", "cogs_yen", "gross_profit_yen", "operating_profit_yen", "advertising_yen", "wages_yen", "fixed_cost_yen", "electricity_yen", "wastage_yen", "units_sold"]:
+			out[k] = int(out.get(k, 0)) + int(sum.get(k, 0))
+		out["stores"] = int(out["stores"]) + 1
+	active.ledger.scope = scope
+	out["cash_yen"] = active.cash_yen
+	return out
+
+
 ## For the 店舗 card: every store with its place, size, state, staff and today's money.
 static func views(active: GameState) -> Array:
 	var out: Array = []

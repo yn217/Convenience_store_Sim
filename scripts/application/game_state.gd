@@ -315,6 +315,7 @@ func snapshot() -> Dictionary:
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
 		"promotions": _promotion_views(),
 		"stores": Company.views(self), "store_id": store_id,
+		"company_totals": Company.totals(self, int(daily_reports.back()["day_index"]) if not daily_reports.is_empty() else -1),
 		"marketing": Marketing.views(self),
 		"map_id": map_id, "plot_id": plot_id,
 		"visitors_by_hour": visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": visitors_by_hour_yesterday.duplicate(),

@@ -137,3 +137,20 @@ func test_staff_transfer(t, _tree) -> void:
 	a.business_state = GameState.OPEN
 	r = cmds.execute({"command_id": "t3", "kind": &"TRANSFER_STAFF", "staff_id": who, "to_store_id": ""})
 	t.ok(not r.ok and r.message_key == &"stores_must_be_closed", "only while both stores are closed")
+
+
+## The company's figures add up every store's day; one store has none.
+func test_company_totals(t, _tree) -> void:
+	var a := _company()
+	t.eq(Company.totals(a, 0), {}, "one store: no company line")
+	GameCommands.new(a).execute({"command_id": "o1", "kind": &"OPEN_STORE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": "P02", "size_id": "small"})
+	var b := Company.find(a, "s2")
+	a.set_store_id("")
+	a.ledger.record("SALE", "x1", 300, 0, 10, {"qty": 2}, {"revenue": 300, "cogs": 200})
+	b.set_store_id("s2")
+	b.ledger.record("SALE", "x1", 500, 0, 20, {"qty": 3}, {"revenue": 500, "cogs": 300})
+	a.set_store_id("")
+	var tot := Company.totals(a, 0)
+	t.eq([tot["stores"], tot["revenue_yen"], tot["gross_profit_yen"], tot["units_sold"]], [2, 800, 300, 5], "both stores added up")
+	t.eq(LedgerSummary.summarize(a.ledger, 0)["revenue_yen"], 300, "the store's own report stays its own")
+	t.ok(ReportController.company_text(tot).contains("全店合計（2店"), ReportController.company_text(tot))
