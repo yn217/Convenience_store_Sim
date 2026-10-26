@@ -18,6 +18,7 @@ extends Node2D
 const LAYER_WALL := 0
 const LAYER_EXTERIOR := 1
 const LAYER_FRONT := 2
+const LAYER_CANOPY := 3
 const LAYER_REG_FLOOR := 4
 const LAYER_REG_TOP := 5
 
@@ -46,10 +47,6 @@ const TREE_DEPTH_NEAR := 1.3
 const TREE_DEPTH_BACK := 5.5
 const FLOWER_STRIDE := 4
 const LAMP_STRIDE := 6
-const PARK_ROW_A := 2.5
-const PARK_ROW_B := 3.5
-const PARK_BOLLARD := 4.5
-const PARK_MAX := 9
 
 ## Draw op tags.
 const OP_SPRITE := 0
@@ -111,6 +108,14 @@ func _build_ops(proj: IsoProjection) -> void:
 			others.append(it)
 	sprites.sort_custom(func(a, b): return _sprite_before(a, b))
 	var s := proj.zoom / IsoProjection.SOURCE_SCALE
+	# Road markings and contact faces belong below parked vehicles, never over their roofs.
+	for it in others:
+		if not it.get("ground", false):
+			continue
+		var points := PackedVector2Array()
+		for p in it["points"]:
+			points.append(proj.world_to_screen(p.x, p.y, p.z))
+		_ops.append([OP_POLY, points, it["color"]])
 	for it in sprites:
 		var info := _sprites.texture(it["id"], int(it.get("rot", 0)))
 		if info.is_empty():
@@ -121,6 +126,8 @@ func _build_ops(proj: IsoProjection) -> void:
 		for tex in info["layers"]:
 			_ops.append([OP_SPRITE, tex, Rect2(top_left, size * s)])
 	for it in others:
+		if it.get("ground", false):
+			continue
 		if it["kind"] == &"poly":
 			var pts := PackedVector2Array()
 			for p in it["points"]:
@@ -128,7 +135,7 @@ func _build_ops(proj: IsoProjection) -> void:
 			_ops.append([OP_POLY, pts, it["color"]])
 		elif it["kind"] == &"text":
 			var at: Vector3 = it["at"]
-			var size_px := maxi(10, roundi(14.0 * proj.zoom))
+			var size_px := maxi(8, roundi(float(it.get("font_px", 14.0)) * proj.zoom))
 			var width := font.get_string_size(it["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 			var pos := proj.world_to_screen(at.x, at.y, at.z) + Vector2(-width * 0.5, size_px * 0.35 + float(it.get("dy", 0.0)) * proj.zoom)
 			if it.has("wall_side"):
@@ -178,10 +185,49 @@ static func occupied_cells(fixtures: Array, catalog: FixtureCatalog) -> Dictiona
 static func _layer_items(width: int, height: int, entrances: Array, occupied: Dictionary, which: int) -> Array:
 	if which == LAYER_WALL:
 		return wall_items(width, height, entrances, occupied)
+	if which == LAYER_CANOPY:
+		return canopy_items(width, height, entrances)
 	var out: Array = []
 	for it in exterior_items(width, height, entrances):
 		if (which == LAYER_FRONT) == bool(it.get("front", false)):
 			out.append(it)
+	return out
+
+
+## Thin architectural front frame. StoreWorld cuts it away while interacting with the floor.
+static func canopy_items(width: int, height: int, entrances: Array) -> Array:
+	var out: Array = []
+	if width <= 0 or height <= 0:
+		return out
+	var side := BackdropLayer.entrance_side(width, height, entrances)
+	if not _is_near(side):
+		return out
+	var n := _edge_len(side, width, height)
+	var plane := float(width) - 0.5 if side == SIDE_EAST else float(height) - 0.5
+	for strip in [[2.28, 2.78, Color("f5f6ee")], [2.38, 2.56, FASCIA], [2.26, 2.30, Color("9caaaf")], [2.72, 2.78, Color("d4dcdb")]]:
+		out.append({"kind": &"poly", "points": _band(side, plane, -0.5, n - 0.5, strip[0], strip[1]), "color": strip[2]})
+	# A narrow outward roof return provides real projected depth without covering the interior.
+	var roof: Array = []
+	for v in [Vector2(-0.5, 0.0), Vector2(n - 0.5, 0.0), Vector2(n - 0.5, 0.26), Vector2(-0.5, 0.26)]:
+		var p := _plane_point(side, plane + v.y, 2.78)
+		if side == SIDE_EAST:
+			p.y = v.x
+		else:
+			p.x = v.x
+		roof.append(p)
+	out.append({"kind": &"poly", "points": roof, "color": Color("ffffff")})
+	for b in range(0, n + 1, 2):
+		var a := float(b) - 0.5
+		out.append({"kind": &"poly", "points": _band(side, plane, a - 0.018, a + 0.018, NEAR_FRAME_TOP, 2.28), "color": Color(0.45, 0.55, 0.57, 0.6)})
+	var label := fascia_label(side, width, height, plane)
+	label["font_px"] = 24
+	label["color"] = FASCIA
+	var at: Vector3 = label["at"]
+	at.z = 2.53
+	label["at"] = at
+	var mid := float(n - 1) * 0.5
+	out.append({"kind": &"poly", "points": _band(side, plane, mid - 2.1, mid + 2.1, 2.32, 2.72), "color": Color("fbfcf8")})
+	out.append(label)
 	return out
 
 
@@ -212,37 +258,40 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	var n := _edge_len(side, width, height)
 	# Along the entrance side, the street items are placed from the door span, so they follow the entrance wherever it is.
 	var span := BackdropLayer.entrance_span(side, width, height, entrances)
-	_add(out, "nobori_banner_obento", side, width, height, 1.0, n + 0.4)
-	_add(out, "open_a_board", side, width, height, 1.0, n + 1.6)
-	_add(out, "vending_machine", side, width, height, 1.0, span.y + 1.5)   # beside the door
+	_add(out, "nobori_banner_obento", side, width, height, 1.0, n - 1.0)
+	_add(out, "open_a_board", side, width, height, 1.0, span.x - 0.8)
+	_add(out, "vending_painted_v1", side, width, height, 1.0, span.y + 1.5)   # beside the door
 	_add(out, "trash_recycle_bins", side, width, height, 1.0, span.y + 3.0)
-	_add(out, "bicycle_stand", side, width, height, 1.1, n + 5.2)
-	_add(out, "bench", side, width, height, 1.0, n + 6.3)
-	_add(out, "pole_sign", side, width, height, 1.6, -1.0)
+	_add(out, "bicycle_rack_painted_v1", side, width, height, 1.1, 1.7)
+	_add(out, "bench_painted_v1", side, width, height, 1.1, span.x - 2.0)
+	_add(out, "flower_planter_painted_v1", side, width, height, 1.05, float(n) - 1.4)
+	out.append_array(_pole_sign_items(side, width, height))
 	var a := -1.0
 	while a <= n + 6.0:
 		_add(out, "street_lamp", side, width, height, 2.0, a)
 		a += LAMP_STRIDE
-	# Parking on the street side of the entrance wall, to the left of the door: two rows of bays, wheel stops, two cars.
-	var last := mini(int(span.x) - 1, PARK_MAX)
-	var a2 := 0.0
-	while a2 < last:
-		_add(out, "parking_lot_straight", side, width, height, PARK_ROW_A, a2)
-		_add(out, "parking_lot_straight", side, width, height, PARK_ROW_B, a2)
-		if int(a2) % 2 == 0:
-			_add(out, "car_stop_bollard", side, width, height, PARK_BOLLARD, a2)
-		a2 += 1.0
-	if last >= 2:
-		_add(out, "parked_car_blue", side, width, height, PARK_ROW_A, 1.0)
-	if last >= 4:
-		_add(out, "parked_car_red", side, width, height, PARK_ROW_B, 3.0)
+	# One row, measured in metres. Keep the doorway approach clear across the forecourt.
+	var bay := 0
+	var along := 0.0
+	while along + 2.5 <= span.x - 0.35:
+		out.append(_ground_patch(side, width, height, 2.12, 6.88, along, along + 0.065, Color("f5f0df")))
+		out.append(_ground_patch(side, width, height, 2.12, 6.88, along + 2.5, along + 2.565, Color("f5f0df")))
+		out.append(_ground_patch(side, width, height, 2.12, 2.185, along, along + 2.565, Color("f5f0df")))
+		out.append(_ground_patch(side, width, height, 2.32, 2.54, along + 0.65, along + 1.85, Color("a4a39c")))
+		out.append(_ground_patch(side, width, height, 2.32, 2.50, along + 0.65, along + 1.85, Color("e5e0d4"), 0.10))
+		# Only a genuinely projected sprite is accepted; the legacy side-view cars stay unused.
+		if bay == 0 and (side == SIDE_SOUTH or side == SIDE_NORTH) and PropSprites.is_available("compact_car_painted_v2"):
+			_add(out, "compact_car_painted_v2", side, width, height, 4.6, along + 1.25)
+			out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
+		along += 2.7
+		bay += 1
 	# Back sides: cherry trees beyond the parking lot (behind the store, so they stay above the wall).
 	for back in _back_walls(side):
 		var nb := _edge_len(back, width, height)
 		var t := 1.0
 		var k := 0
 		while t < nb:
-			_add(out, "cherry_tree_a" if k % 2 == 0 else "cherry_tree_b", back, width, height, TREE_DEPTH_BACK, t)
+			_add(out, "green_street_tree_v1" if k % 2 == 0 else "cherry_tree_painted_v1", back, width, height, TREE_DEPTH_BACK, t)
 			t += TREE_STRIDE
 			k += 1
 	# Near sides (in front of the store): cherry trees, flower beds and planters on the pavement.
@@ -251,16 +300,39 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 		var f := 1.0
 		var j := 0
 		while f < nn:
-			_add(out, "cherry_tree_b" if j % 2 == 0 else "cherry_tree_a", near, width, height, TREE_DEPTH_NEAR, f)
+			_add(out, "green_street_tree_v1" if j % 2 == 0 else "cherry_tree_painted_v1", near, width, height, 2.4, f)
 			f += TREE_STRIDE
 			j += 1
 		f = 3.0
 		while f < nn:
-			_add(out, "flower_bed_planter", near, width, height, 1.1, f)
+			_add(out, "flower_planter_painted_v1", near, width, height, 1.1, f)
 			f += FLOWER_STRIDE
-		_add(out, "potted_plant_large", near, width, height, 1.2, 0.0)
-		_add(out, "potted_plant_large", near, width, height, 1.2, float(nn) - 1.0)
 	return out
+
+
+static func _pole_sign_items(side: int, width: int, height: int) -> Array:
+	var centre := BackdropLayer.side_point(side, 1.45, -0.8, width, height)
+	var plane := centre.x if side == SIDE_WEST or side == SIDE_EAST else centre.y
+	var mid := centre.y if side == SIDE_WEST or side == SIDE_EAST else centre.x
+	var out: Array = []
+	for part in [[-0.06, 0.06, 0.0, 2.6, Color("899599")], [-0.88, 0.88, 2.2, 3.8, Color("77868c")], [-0.82, 0.82, 2.26, 3.74, Color("fffdf1")], [-0.76, 0.76, 2.85, 3.67, FASCIA], [-0.76, 0.76, 2.31, 2.68, Color("b73550")]]:
+		out.append({"kind": &"poly", "points": _band(side, plane, mid + part[0], mid + part[1], part[2], part[3]), "color": part[4], "front": _is_near(side)})
+	for row in [["青葉24", 3.22, FASCIA_TEXT, 20], ["ATM  酒", 2.49, FASCIA_TEXT, 12]]:
+		var at := _plane_point(side, plane, row[1])
+		if side == SIDE_WEST or side == SIDE_EAST:
+			at.y = mid
+		else:
+			at.x = mid
+		out.append({"kind": &"text", "at": at, "text": row[0], "color": row[2], "font_px": row[3], "wall_side": side, "front": _is_near(side)})
+	return out
+
+
+static func _ground_patch(side: int, width: int, height: int, d0: float, d1: float, a0: float, a1: float, color: Color, z: float = 0.0) -> Dictionary:
+	var points: Array = []
+	for v in [Vector2(d0, a0), Vector2(d1, a0), Vector2(d1, a1), Vector2(d0, a1)]:
+		var p := BackdropLayer.side_point(side, v.x, v.y, width, height)
+		points.append(Vector3(p.x, p.y, z))
+	return {"kind": &"poly", "points": points, "color": color, "ground": true, "role": "parking", "front": _is_near(side)}
 
 
 ## Storefront on a far wall (west or north): a window per tile, storefront piers at both ends, the entrance tiles
@@ -325,30 +397,6 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 			out.append({"kind": &"poly", "points": _band(side, plane, d0 - 0.08, d1 + 0.08, NEAR_CAP_Z1 - 0.05, NEAR_CAP_Z1), "color": Color("f9faf6")})
 			out.append(_canopy_top(side, plane, d0 - 0.08, d1 + 0.08, 0.22))
 			door_start = -1
-	# Put the name over the widest solid window run, never across the entrance.
-	var runs: Array = []
-	var start := -1
-	for a in range(n + 1):
-		if a < n and not _is_entrance_at(entrances, side, a, width, height):
-			if start < 0:
-				start = a
-		elif start >= 0:
-			runs.append(Vector2(start - 0.5, a - 0.5))
-			start = -1
-	runs.sort_custom(func(a, b): return a.y - a.x > b.y - b.x)
-	if not runs.is_empty() and runs[0].y - runs[0].x >= 2.0:
-		var label := fascia_label(side, width, height, plane)
-		var at := _plane_point(side, plane, NEAR_CAP_Z0 + 0.105)
-		var mid: float = (runs[0].x + runs[0].y) * 0.5
-		var half_name: float = minf(1.35, (runs[0].y - runs[0].x) * 0.5)
-		out.append({"kind": &"poly", "points": _band(side, plane, mid - half_name, mid + half_name, NEAR_CAP_Z0 + 0.025, NEAR_CAP_Z1 - 0.01), "color": Color("fcfdfb")})
-		if side == SIDE_EAST:
-			at.y = mid
-		else:
-			at.x = mid
-		label["at"] = at
-		label["color"] = FASCIA
-		out.append(label)
 	return out
 
 
@@ -398,6 +446,12 @@ static func _back_wall(width: int, height: int, wall: int, entrances: Array, occ
 ## Adds a sprite at `depth` metres out from side `side` at tile coordinate `along`.
 static func _add(out: Array, id: String, side: int, width: int, height: int, depth: float, along: float) -> void:
 	var p := BackdropLayer.side_point(side, depth, along, width, height)
+	if id == "green_street_tree_v1" or id == "cherry_tree_painted_v1":
+		var contact: Array = []
+		for i in 20:
+			var angle := TAU * float(i) / 20.0
+			contact.append(Vector3(p.x + cos(angle) * 0.65, p.y + sin(angle) * 0.65, 0.0))
+		out.append({"kind": &"poly", "points": contact, "color": Color(0.13, 0.20, 0.09, 0.16), "ground": true, "role": "tree_contact", "front": _is_near(side)})
 	out.append({"kind": &"sprite", "id": id, "x": p.x, "y": p.y, "front": _is_near(side)})
 
 

@@ -38,7 +38,7 @@ const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 
 const PAVE_M := 2.0       ## paving ring width around the store footprint (tiles)
 const KERB_M := 0.18
-const PARK_DEPTH_M := 3.0  ## apron-to-road strip occupied by the existing StoreDecor parking sprites
+const PARK_DEPTH_M := 5.0  ## 3.8 m compact car plus wheel-stop and manoeuvring clearance
 const ROAD_M := 3.0
 const FAR_M := 14.0       ## how far the road and pool run along the edge, past the store
 const SLAB_INSET := 0.04

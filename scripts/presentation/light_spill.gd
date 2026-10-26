@@ -76,11 +76,13 @@ func _build(night: float, width: int, height: int, entrances: Array, proj: IsoPr
 	# Street lamps (StoreDecor props): a pool on the ground and a cone from the head down to it.
 	var items := StoreDecor.exterior_items(width, height, entrances)
 	for it in items:
+		if it["kind"] != &"sprite":
+			continue
 		if it["id"] == "street_lamp":
 			var g := proj.world_to_screen(it["x"], it["y"])
 			_pools.append({"centre": g, "radius": LAMP_POOL_TILES * tile_px, "color": Color(SPILL_COLOR, LAMP_STRENGTH * night)})
 			_polys.append(_cone(proj, it["x"], it["y"], night))
-		elif it["id"] == "vending_machine":
+		elif it["id"] == "vending_machine" or it["id"] == "vending_painted_v1":
 			var v := proj.world_to_screen(it["x"], it["y"], 0.6)
 			_pools.append({"centre": v, "radius": VENDING_POOL_TILES * tile_px, "color": Color(0.85, 0.95, 1.0, VENDING_STRENGTH * night)})
 
