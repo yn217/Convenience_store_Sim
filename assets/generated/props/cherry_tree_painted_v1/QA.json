@@ -1,0 +1,19 @@
+{
+  "status": "candidate_pending_runtime_QA",
+  "canopy_mask_iou_with_green": 0.9510444035631592,
+  "root_anchor_source_px": [
+    649,
+    1200
+  ],
+  "root_anchor_alpha": 253,
+  "red_edge_pixels_above_alpha50": 23,
+  "canvas_px": [
+    720,
+    720
+  ],
+  "anchor_px": [
+    360,
+    639
+  ],
+  "notes": "Input tree silhouette/camera/root preserved by imagegen edit; generated petal silhouette differs slightly. Same uniform pack transform, no arbitrary instance scaling. Tiny semi-transparent coloured edge remnants require game-composite review."
+}

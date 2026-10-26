@@ -1,10 +1,13 @@
 """Package approved imagegen tree at iso2x_v1 scale; no creative repainting."""
 import json
+import argparse
 from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-ASSET = "green_street_tree_v1"
+parser = argparse.ArgumentParser()
+parser.add_argument("--asset", choices=["green_street_tree_v1", "cherry_tree_painted_v1"], default="green_street_tree_v1")
+ASSET = parser.parse_args().asset
 OUT = ROOT / "assets/generated/props" / ASSET
 SOURCE = ROOT / "assets/source/exterior" / ASSET / "source.png"
 
