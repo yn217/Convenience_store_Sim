@@ -1,0 +1,136 @@
+{
+  "asset_id": "compact_car_painted_v2",
+  "source_type": "ai_generated",
+  "tool": "built-in image_gen",
+  "source_file": "assets/source/exterior/compact_car_painted_v2/original.png",
+  "generation_id": "exec-a83d5f27-799c-4ae6-9064-a43378e7561e",
+  "original_sha256": "8b6beebac7634b6377ca3d55e1daf693ad4d7d7394069482ef499a81e95c8637",
+  "packaging_script": "tools/assets/package_compact_car_painted.py",
+  "operations": [
+    "uniform Lanczos downscale with nearest integer canvas rounding",
+    "rot1 horizontal mirror"
+  ],
+  "uniform_scale": 0.583765690376569,
+  "original_canvas_px": [
+    1536,
+    1024
+  ],
+  "opaque_body_bbox_alpha_200": [
+    207,
+    74,
+    1402,
+    945
+  ],
+  "target_body_projected_width_source_px": 697.5999999999999,
+  "original_ground_pivot_px": [
+    805.0,
+    705.0
+  ],
+  "ground_pivot_method": "visible tyre contact positions and projected footprint centre; approximate manual measurement",
+  "measured_original_edges": [
+    {
+      "edge": "roof_front_short",
+      "from_px": [
+        627,
+        287
+      ],
+      "to_px": [
+        855,
+        396
+      ],
+      "slope": 0.4780701754385965,
+      "ideal": 0.5,
+      "absolute_error": 0.02192982456140352,
+      "within_003": true
+    },
+    {
+      "edge": "lower_rocker_long",
+      "from_px": [
+        814,
+        805
+      ],
+      "to_px": [
+        1183,
+        621
+      ],
+      "slope": -0.4986449864498645,
+      "ideal": -0.5,
+      "absolute_error": 0.0013550135501355087,
+      "within_003": true
+    },
+    {
+      "edge": "roof_near_long",
+      "from_px": [
+        855,
+        396
+      ],
+      "to_px": [
+        1220,
+        185
+      ],
+      "slope": -0.5780821917808219,
+      "ideal": -0.5,
+      "absolute_error": 0.07808219178082187,
+      "within_003": false
+    },
+    {
+      "edge": "roof_far_long",
+      "from_px": [
+        627,
+        287
+      ],
+      "to_px": [
+        1015,
+        75
+      ],
+      "slope": -0.5463917525773195,
+      "ideal": -0.5,
+      "absolute_error": 0.046391752577319534,
+      "within_003": false
+    },
+    {
+      "edge": "roof_rear_short",
+      "from_px": [
+        1015,
+        75
+      ],
+      "to_px": [
+        1220,
+        185
+      ],
+      "slope": 0.5365853658536586,
+      "ideal": 0.5,
+      "absolute_error": 0.03658536585365857,
+      "within_003": false
+    }
+  ],
+  "alpha_validation": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "corner_alpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "nonzero_bbox": [
+      19,
+      10,
+      849,
+      587
+    ]
+  },
+  "limitations": [
+    "Lower rocker long edge slope -0.499 and roof-front width edge +0.478 meet the 0.03 target; curved roof side edges deviate more. See all measurements in source provenance.",
+    "Width is calibrated to 1.65m plus 3.8m projected extent; no nonuniform shape correction was applied.",
+    "Ground pivot is a manually measured approximation requiring runtime parking-bay inspection.",
+    "rot1 mirrors baked sunlight and reflections; retained as a candidate, not approved for runtime.",
+    "rot2 and rot3 have no supplied art and must be skipped by PropSprites.",
+    "Faint generated contact-shadow alpha is preserved; no opaque background was introduced."
+  ],
+  "status": "runtime_placement_qa_candidate",
+  "source_review": "assets/source/exterior/compact_car_painted_v2/PROVENANCE.json"
+}

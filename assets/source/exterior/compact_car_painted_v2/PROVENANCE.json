@@ -1,6 +1,6 @@
 {
   "asset_id": "compact_car_painted_v2",
-  "status": "source_candidate_rejected_for_runtime",
+  "status": "runtime_placement_qa_candidate",
   "tool": "built-in image_gen",
   "generation_id": "exec-a83d5f27-799c-4ae6-9064-a43378e7561e",
   "original_sha256": "8b6beebac7634b6377ca3d55e1daf693ad4d7d7394069482ef499a81e95c8637",
@@ -135,7 +135,7 @@
   },
   "limitations": [
     "One guide-conditioned regeneration improved two measured edge slopes but roof-long edges still converge.",
-    "Not all nominally parallel edges remain within 0.03 of 2:1 slopes; runtime rejection retained.",
-    "No new runtime manifest or renderer change; v1 files preserved."
+    "Curved roof silhouette is not the sole acceptance criterion; lower-body ground axes and parking-bay contact require runtime QA.",
+    "Separate v2 manifest is packaged without renderer changes; v1 files preserved as candidate."
   ]
 }

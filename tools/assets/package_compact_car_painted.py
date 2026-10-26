@@ -6,6 +6,7 @@ Run from any directory: python tools/assets/package_compact_car_painted.py.
 from pathlib import Path
 import hashlib
 import json
+import argparse
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -18,7 +19,10 @@ def write_json(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def main():
+def main(asset=ASSET):
+    ASSET = asset
+    SOURCE = ROOT / "assets/source/exterior" / ASSET / "original.png"
+    DEST = ROOT / "assets/generated/props" / ASSET
     original = Image.open(SOURCE).convert("RGBA")
     # At 2x source scale: u=128(x-y), v=64(x+y)-156.76734354z.
     # Alpha >=200 isolates the opaque body from the existing faint contact shadow.
@@ -28,7 +32,7 @@ def main():
     canvas = tuple(round(n * scale) for n in original.size)
     image = original.resize(canvas, Image.Resampling.LANCZOS)
     # Measured from the visible front/rear tyre contact points, not the bottom of the canvas.
-    ground_original = (773.0, 690.0)
+    ground_original = (805.0, 705.0) if ASSET.endswith("v2") else (773.0, 690.0)
     pivot = [round(v * scale, 3) for v in ground_original]
     DEST.mkdir(parents=True, exist_ok=True)
     rotations = {}
@@ -55,7 +59,7 @@ def main():
             "render_width_px": canvas[0], "render_height_px": canvas[1],
             "pivot_x": pivot[0], "pivot_y": pivot[1], "anchor_type": "ground_footprint_center",
             "placement_offset": [0, 0, 0], "occlusion_group": "exterior_vehicle",
-            "sort_key": "world_x+world_y", "asset_variant": "painted_white_v1",
+            "sort_key": "world_x+world_y", "asset_variant": ASSET.replace("compact_car_painted", "painted_white"),
             "runtime_approved_rotations": [0],
         },
     }
@@ -64,7 +68,7 @@ def main():
     provenance = {
         "asset_id": ASSET, "source_type": "ai_generated",
         "tool": "built-in image_gen", "source_file": str(SOURCE.relative_to(ROOT)).replace("\\", "/"),
-        "generation_id": "exec-9a3ecba7-6bc0-4da8-a6c2-54ff09df2ff1",
+        "generation_id": "exec-a83d5f27-799c-4ae6-9064-a43378e7561e" if ASSET.endswith("v2") else "exec-9a3ecba7-6bc0-4da8-a6c2-54ff09df2ff1",
         "original_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "packaging_script": "tools/assets/package_compact_car_painted.py",
         "operations": ["uniform Lanczos downscale with nearest integer canvas rounding", "rot1 horizontal mirror"],
@@ -86,10 +90,19 @@ def main():
             "Faint generated contact-shadow alpha is preserved; no opaque background was introduced.",
         ],
     }
+    if ASSET.endswith("v2"):
+        source_review = json.loads((SOURCE.parent / "PROVENANCE.json").read_text(encoding="utf-8"))
+        provenance["measured_original_edges"] = source_review["measurements"]
+        provenance["status"] = "runtime_placement_qa_candidate"
+        provenance["source_review"] = str((SOURCE.parent / "PROVENANCE.json").relative_to(ROOT)).replace("\\", "/")
+        provenance["limitations"][0] = "Lower rocker long edge slope -0.499 and roof-front width edge +0.478 meet the 0.03 target; curved roof side edges deviate more. See all measurements in source provenance."
     write_json(DEST / "PROVENANCE.json", provenance)
-    write_json(SOURCE.parent / "PROVENANCE.json", provenance)
+    if not ASSET.endswith("v2"):
+        write_json(SOURCE.parent / "PROVENANCE.json", provenance)
     print(json.dumps({"canvas": canvas, "pivot": pivot, "scale": scale, "alpha": provenance["alpha_validation"]}))
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--asset", choices=["compact_car_painted_v1", "compact_car_painted_v2"], default="compact_car_painted_v1")
+    main(parser.parse_args().asset)
