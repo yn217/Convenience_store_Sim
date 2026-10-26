@@ -26,8 +26,12 @@ func test_definitions_are_well_formed(t, _tree) -> void:
 	for sku in s.products.skus.values():
 		cats[sku["category"]] = true
 	for d in Promotions.data()["promotions"]:
-		t.ok(["price", "bundle", "multi", "second_half", "coupon"].has(d["kind"]), d["def_id"] + ": known kind")
+		t.ok(["price", "bundle", "multi", "second_half", "coupon", "volume_up"].has(d["kind"]), d["def_id"] + ": known kind")
 		t.ok(int(d["setup_cost_yen"]) > 0 and int(d["default_days"]) >= 1, d["def_id"] + ": cost and days")
+		if d["kind"] == "volume_up":
+			for sid in d["skus"]:
+				t.ok(s.products.has_sku(sid), "%s: product %s exists" % [d["def_id"], sid])
+			continue
 		var used: Array = d.get("categories", [])
 		for g in d.get("bundle", []):
 			used.append_array(g)
@@ -222,3 +226,34 @@ func test_a_free_item_coupon(t, _tree) -> void:
 	for tx in rows:
 		t.ok(prices.has(int(tx["expense_delta_yen"])), "a dessert's price comes off: %d" % int(tx["expense_delta_yen"]))
 	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
+
+
+## Phase 2: volume-up products are separate SKUs (same price, more cost, more pull), orderable only while their
+## campaign runs; on the shelf they sell at the list price and book their own cost.
+func test_volume_up_products(t, _tree) -> void:
+	var s := Run.new_state(300.0)
+	var cmds := Run.place_layout(s)
+	var r := cmds.execute({"command_id": "v0", "kind": &"ORDER_STOCK", "sku_id": "rice_001_up", "qty": 10})
+	t.ok(not r.ok and r.message_key == &"campaign_only_sku", "not orderable without the campaign")
+	t.ok(cmds.execute({"command_id": "v1", "kind": &"START_PROMOTION", "def_id": "volume_up_onigiri", "days": 5}).ok, "campaign started")
+	t.ok(cmds.execute({"command_id": "v2", "kind": &"ORDER_STOCK", "sku_id": "rice_001_up", "qty": 30}).ok, "orderable during it")
+	t.eq(s.list_price("rice_001_up"), s.list_price("rice_001"), "the same price as the regular onigiri")
+	var shelf := ""
+	for id in s.grid.instances:
+		if s.grid.instances[id]["type_id"] == "shelf_onigiri":
+			shelf = id
+	var slot: String = s.fixtures.get_type("shelf_onigiri")["shelf_slots"][0]["slot_id"]
+	t.ok(cmds.execute({"command_id": "v3", "kind": &"RESTOCK", "instance_id": shelf, "slot_id": slot, "sku_id": "rice_001_up", "qty": 10}).ok, "on the shelf")
+	Run.restock(s, cmds, 0)
+	cmds.execute({"command_id": "open", "kind": &"START_BUSINESS"})
+	var runner := SimulationRunner.new(s)
+	while s.day == 0:
+		runner._run_step()
+	var sold := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "SALE" and tx["details"]["sku_id"] == "rice_001_up")
+	t.ok(sold.size() > 0, "the volume-up onigiri sells (%d)" % sold.size())
+	for tx in sold:
+		t.eq(int(tx["cogs_delta_yen"]), 125 * int(tx["details"]["qty"]), "at its own, higher cost")
+		t.eq(int(tx["revenue_delta_yen"]), 150 * int(tx["details"]["qty"]), "and the regular price")
+	s.day += 10
+	t.ok(not Promotions.orderable(s, "rice_001_up"), "after the campaign it cannot be ordered again")
+	t.ok(Promotions.orderable(s, "rice_001"), "regular products always can")

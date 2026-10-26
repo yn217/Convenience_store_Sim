@@ -16,6 +16,8 @@ extends RefCounted
 ##     back with return_rate over its days (DemandGenerator); at the till a basket of the categories redeems it
 ##     (DISCOUNT row); unused coupons expire. A free_item coupon ("buy one, the next one free") takes the price of the
 ##     cheapest unit of its categories in the basket instead of coupon_yen (the sale keeps its revenue and cost). Issued and redeemed coupons are counted per promotion.
+##   - volume_up (phase 2): its skus are separate products in the catalog (more in the pack, the same price, a
+##     higher cost and pull); they can be ordered only while the campaign runs (stock already bought still sells).
 ## Starting one books its setup cost (POP, signs) as a PROMO expense. Results per promotion: units sold on the deal
 ## and the discount given (state.promo_stats).
 
@@ -158,6 +160,18 @@ static func stop(state: GameState, promotion_id: String) -> String:
 			p["end_day"] = state.day - 1
 			return ""
 	return "unknown_promotion"
+
+
+## Can this SKU be ordered now? Volume-up products only while their campaign runs.
+static func orderable(state: GameState, sku_id: String) -> bool:
+	var campaign_only := false
+	for d in data()["promotions"]:
+		if d.get("kind", "") == "volume_up" and (d["skus"] as Array).has(sku_id):
+			campaign_only = true
+			for p in running(state):
+				if p["def_id"] == d["def_id"]:
+					return true
+	return not campaign_only
 
 
 ## The running coupon promotion covering any of these categories (its definition plus promotion_id), or {}.

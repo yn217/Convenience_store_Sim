@@ -394,5 +394,7 @@
     "demand_weight": 0.9,
     "visual_id": "coffee_003_package",
     "slot_units": 1
-  }
+  },
+  {"schema_version": 1, "sku_id": "rice_001_up", "display_name": "鮭おにぎり 増量", "category": "rice_ball", "purchase_cost_yen": 125, "default_sell_price_yen": 150, "expires_after_seconds": 86400, "demand_weight": 1.6, "visual_id": "rice_001_package", "slot_units": 1},
+  {"schema_version": 1, "sku_id": "rice_002_up", "display_name": "梅おにぎり 増量", "category": "rice_ball", "purchase_cost_yen": 105, "default_sell_price_yen": 135, "expires_after_seconds": 86400, "demand_weight": 1.6, "visual_id": "rice_002_package", "slot_units": 1}
 ]

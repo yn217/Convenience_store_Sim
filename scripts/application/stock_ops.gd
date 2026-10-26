@@ -21,6 +21,8 @@ static func order(state: GameState, command_id: String, sku_id, qty) -> Dictiona
 		return _fail(&"INVALID_OPERATION", &"sku_unknown")
 	if typeof(qty) != TYPE_INT or qty < 1 or qty > MAX_QTY:
 		return _fail(&"INVALID_OPERATION", &"qty_invalid")
+	if not Promotions.orderable(state, sku_id):
+		return _fail(&"INVALID_OPERATION", &"campaign_only_sku")   # #137 volume-up products
 	var sku := state.products.get_sku(sku_id)
 	var cost: int = qty * int(sku["purchase_cost_yen"])
 	var event := "%s:STOCK_PURCHASED" % command_id
