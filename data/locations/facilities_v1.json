@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "_comment": "Nearby facilities (issue #149 phase 1): up to max_facilities are chosen for the store before it first opens (later the world map #150 derives them from the store's surroundings). Each facility adds its own visitors on top of the location (#148): visitors_per_day spread over hour_weights, each visitor one of its customer segments, the segment's visit purposes (balance visit_purposes; facility-only purposes have zero hour weights there). Segments are statistical groups of the surroundings, not looks, nationality or age. Initial values, to be tuned by play.",
+  "_comment": "Nearby facilities (issue #149 phase 1): up to max_facilities are chosen for the store before it first opens (later the world map #150 derives them from the store's surroundings). Each facility adds its own visitors on top of the location (#148): visitors_per_day spread over hour_weights, each visitor one of its customer segments, the segment's visit purposes (balance visit_purposes; facility-only purposes have zero hour weights there). Segments are statistical groups of the surroundings, not looks, nationality or age; visitors from abroad (#151 phase 1, inbound_*) are told apart by their trip (staying at a hotel, sightseeing), not by who they are, and are a separate group from domestic day tourists. Initial values, to be tuned by play.",
   "max_facilities": 2,
   "facilities": [
     {
@@ -16,12 +16,13 @@
     {
       "facility_id": "hotel",
       "display_name": "ホテル",
-      "description": "早朝と夜に宿泊客と出張客が来る。朝食・コーヒー・夜食。",
+      "description": "早朝と夜に宿泊客・出張客・訪日旅行の客が来る。朝食・コーヒー・夜食・日本の定番。",
       "visitors_per_day": 40,
       "hour_weights": [2, 1, 0, 0, 0, 1, 4, 5, 4, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 4, 4, 3],
       "segments": [
         {"segment_id": "hotel_guests", "display_name": "ホテル宿泊客", "weight": 3, "purposes": {"breakfast": 3, "late_night": 3, "drink_only": 2, "browse": 1}},
-        {"segment_id": "business_travelers", "display_name": "出張客", "weight": 2, "purposes": {"coffee_only": 3, "breakfast": 2, "drink_only": 1, "late_night": 1}}
+        {"segment_id": "business_travelers", "display_name": "出張客", "weight": 2, "purposes": {"coffee_only": 3, "breakfast": 2, "drink_only": 1, "late_night": 1}},
+        {"segment_id": "inbound_hotel_guests", "display_name": "訪日旅行の宿泊客", "weight": 1, "purposes": {"japan_staples": 3, "breakfast": 2, "late_night": 2}}
       ]
     },
     {
@@ -57,11 +58,12 @@
     {
       "facility_id": "tourist_spot",
       "display_name": "観光地",
-      "description": "昼間に日帰りの観光客が来る。アイス・お菓子・飲み物。",
+      "description": "昼間に日帰りの観光客と訪日観光客が来る。アイス・お菓子・飲み物・おにぎりやおでん。",
       "visitors_per_day": 50,
       "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 4, 5, 5, 5, 5, 4, 3, 2, 1, 0, 0, 0, 0, 0],
       "segments": [
-        {"segment_id": "day_tourists", "display_name": "日帰り観光客", "weight": 1, "purposes": {"sightseeing": 5, "drink_only": 3, "lunch": 2}}
+        {"segment_id": "day_tourists", "display_name": "日帰り観光客", "weight": 2, "purposes": {"sightseeing": 5, "drink_only": 3, "lunch": 2}},
+        {"segment_id": "inbound_tourists", "display_name": "訪日観光客", "weight": 1, "purposes": {"japan_staples": 4, "sightseeing": 3, "drink_only": 1}}
       ]
     }
   ]

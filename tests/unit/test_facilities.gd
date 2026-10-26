@@ -155,3 +155,37 @@ func test_a_factory_sells_meals_after_the_shift_change(t, _tree) -> void:
 				n += int(tx["details"]["qty"])
 		sold[with_factory] = n
 	t.ok(int(sold[true]) > int(sold[false]), "bento and onigiri sold 13-17h: %d with the factory, %d without" % [sold[true], sold[false]])
+
+
+## #151 phase 1: visitors from abroad come with a tourist spot or a hotel, as their own groups (not the domestic
+## day tourists), for Japanese staples, with more to spend.
+func test_inbound_visitors_come_with_tourism(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	cmds.execute({"command_id": "fac", "kind": &"SET_FACILITIES", "facility_ids": ["tourist_spot", "hotel"]})
+	Run.restock(s, cmds, 0)
+	cmds.execute({"command_id": "open", "kind": &"START_BUSINESS"})
+	var segs := {}
+	var staples := 0
+	var budgets := {"inbound": [], "domestic": []}
+	while s.time_sec < DemandModel.SECONDS_PER_DAY * 8:
+		s.time_sec += int(GameClock.STEP_GAME_SECONDS)
+		DemandGenerator.step(s)
+		for a in s.arrival_queue:
+			var seg := String(a.get("segment_id", ""))
+			if seg == "":
+				continue
+			segs[seg] = int(segs.get(seg, 0)) + 1
+			if seg.begins_with("inbound"):
+				budgets["inbound"].append(int(a["budget_yen"]))
+				if a["purpose_id"] == "japan_staples":
+					staples += 1
+			elif seg == "day_tourists":
+				budgets["domestic"].append(int(a["budget_yen"]))
+		s.arrival_queue.clear()
+	t.ok(segs.has("inbound_tourists") and segs.has("inbound_hotel_guests") and segs.has("day_tourists"), "inbound and domestic groups apart: %s" % str(segs))
+	var inbound: int = int(segs.get("inbound_tourists", 0)) + int(segs.get("inbound_hotel_guests", 0))
+	t.ok(float(staples) / float(inbound) > 0.4, "they come for Japanese staples (%d of %d)" % [staples, inbound])
+	var mean := func(a: Array) -> float: return float(a.reduce(func(x, y): return x + y, 0)) / maxf(float(a.size()), 1.0)
+	t.ok(mean.call(budgets["inbound"]) > mean.call(budgets["domestic"]), "with more to spend (%.0f > %.0f yen)" % [mean.call(budgets["inbound"]), mean.call(budgets["domestic"])])
+	t.eq(NearbyFacility.segment_name("inbound_tourists"), "訪日観光客", "named in the panel")
