@@ -1,0 +1,22 @@
+{
+  "asset_id": "cherry_tree_painted_v1",
+  "category": "vegetation",
+  "view_direction": "iso2x_v1_rotation_0",
+  "world_width": 2.8,
+  "world_depth": 2.8,
+  "world_height": 3.5,
+  "render_width_px": 720,
+  "render_height_px": 720,
+  "pivot_x": 360,
+  "pivot_y": 639,
+  "anchor_type": "ground_root",
+  "placement_offset": [
+    0,
+    0,
+    0
+  ],
+  "occlusion_group": "exterior_back_or_front_by_world_edge",
+  "sort_key": "rank_then_world_x_plus_world_y",
+  "asset_variant": "spring_sakura_painted_v1",
+  "status": "integration_candidate"
+}

@@ -1,0 +1,16 @@
+{
+  "asset_id": "green_street_tree_v1",
+  "producer": "OpenAI built-in image_gen",
+  "date": "2026-10-26",
+  "reference": "User target image image-1792819026698.webp, style reference only",
+  "generation_passes": 2,
+  "source": "assets/source/exterior/green_street_tree_v1/source.png",
+  "packager": "tools/assets/package_exterior_tree.py",
+  "license_note": "Generated for this project; no third-party brand or source image pixels intentionally reproduced.",
+  "qa": {
+    "alpha": "RGBA 0..255; transparent outer border; root anchor opaque",
+    "visual": "Tree silhouette and foliage inspected. Faint low-alpha red/green edge remnants remain in original generation; game composite at intended zoom must be reviewed.",
+    "dimensions": "3.5m nominal height, 2.8m crown width/depth; roots use one tile. Crown is not collision geometry."
+  },
+  "prompt": "One isolated mature green street tree, realistic painted warm green foliage, slender branching brown trunk; 2:1 dimetric orthographic 30 degree downward view; upper-left daylight; transparent RGBA, no ground, no shadow, no pot, no text. Target mockup is style reference. Second pass: preserve silhouette/camera, remove neon red/green fringes and soften yellow palette."
+}
