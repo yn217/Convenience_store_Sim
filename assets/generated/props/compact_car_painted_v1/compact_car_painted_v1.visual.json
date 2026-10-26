@@ -1,0 +1,82 @@
+{
+  "manifest_version": 1,
+  "visual_id": "compact_car_painted_v1",
+  "fixture_type_id": "compact_car_painted_v1",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 2,
+    "h": 4
+  },
+  "dimensions_m": {
+    "width": 1.65,
+    "depth": 3.8,
+    "height": 1.45
+  },
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        868,
+        578
+      ],
+      "anchor_px": [
+        436.635,
+        389.752
+      ],
+      "sorting_anchor_px": [
+        436.635,
+        389.752
+      ],
+      "layers": {
+        "body": "compact_car_painted_v1_0_body.png"
+      },
+      "slot_anchors_px": {}
+    },
+    "1": {
+      "canvas_px": [
+        868,
+        578
+      ],
+      "anchor_px": [
+        431.365,
+        389.752
+      ],
+      "sorting_anchor_px": [
+        431.365,
+        389.752
+      ],
+      "layers": {
+        "body": "compact_car_painted_v1_1_body.png"
+      },
+      "slot_anchors_px": {}
+    }
+  },
+  "asset_spec": {
+    "asset_id": "compact_car_painted_v1",
+    "category": "parked_vehicle",
+    "view_direction": "rot0 long axis y, nose toward +y; rot1 mirrored along x",
+    "world_width": 1.65,
+    "world_depth": 3.8,
+    "world_height": 1.45,
+    "render_width_px": 868,
+    "render_height_px": 578,
+    "pivot_x": 436.635,
+    "pivot_y": 389.752,
+    "anchor_type": "ground_footprint_center",
+    "placement_offset": [
+      0,
+      0,
+      0
+    ],
+    "occlusion_group": "exterior_vehicle",
+    "sort_key": "world_x+world_y",
+    "asset_variant": "painted_white_v1",
+    "runtime_approved_rotations": [
+      0
+    ]
+  }
+}

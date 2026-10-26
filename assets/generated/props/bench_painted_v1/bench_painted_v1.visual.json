@@ -1,0 +1,58 @@
+{
+  "manifest_version": 1,
+  "visual_id": "bench_painted_v1",
+  "fixture_type_id": "bench_painted_v1",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 2,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 1.9,
+    "depth": 0.65,
+    "height": 0.9
+  },
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        384,
+        336
+      ],
+      "anchor_px": [
+        192,
+        215
+      ],
+      "layers": {
+        "body": "bench_painted_v1_0_body.png"
+      },
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          112.0,
+          133.4
+        ],
+        [
+          355.2,
+          255.0
+        ],
+        [
+          272.0,
+          296.6
+        ],
+        [
+          28.8,
+          175.0
+        ]
+      ],
+      "sorting_anchor_px": [
+        192,
+        215
+      ]
+    }
+  }
+}
