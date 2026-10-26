@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://scripts/application/app_root.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/store/StoreWorld.tscn" id="2"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://scripts/presentation/fixture_card.gd" id="96"]
 [ext_resource type="Script" path="res://scripts/presentation/staff_controller.gd" id="95"]
 [ext_resource type="Script" path="res://scripts/presentation/promotion_controller.gd" id="94"]
+[ext_resource type="Script" path="res://scripts/presentation/media_controller.gd" id="93"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -212,6 +213,9 @@ script = ExtResource("95")
 
 [node name="PromotionController" type="Node" parent="."]
 script = ExtResource("94")
+
+[node name="MediaController" type="Node" parent="."]
+script = ExtResource("93")
 
 [node name="StockController" type="Node" parent="."]
 script = ExtResource("7")

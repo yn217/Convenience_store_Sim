@@ -545,6 +545,8 @@
                   "WAGES",
                   "PROMO",
                   "DISCOUNT",
+                  "AD_SETUP",
+                  "AD_MEDIA",
                   "WASTAGE",
                   "FIXTURE_PURCHASE",
                   "REVERSAL"
@@ -942,6 +944,8 @@
         "promotions": {"description": "Promotions (issue #137): {promotion_id, def_id, start_day, end_day} (inclusive days), running and finished.", "type": "array", "items": {"type": "object"}},
         "next_promotion_seq": {"type": "integer", "minimum": 0},
         "promo_stats": {"description": "Results per promotion id (issue #137): {units, discount_yen}.", "type": "object"},
+        "campaigns": {"description": "Media advertising campaigns (issue #136): {campaign_id, medium, category, daily_budget_yen, setup_cost_yen, booked_day, start_day, end_day, status (booked / cancelled / ended), spent_yen, paid_days, stock, stock_day, reputation_added}.", "type": "array", "items": {"type": "object"}},
+        "next_campaign_seq": {"type": "integer", "minimum": 0},
         "coupons": {"description": "Outstanding next-visit coupons (issue #137 phase 2): {coupon_id, promotion_id, def_id, expires_day, yen, returning}.", "type": "array", "items": {"type": "object"}},
         "next_coupon_seq": {"type": "integer", "minimum": 0},
         "map_id": {"description": "Area map of the store's site (issue #150), e.g. aoba_town_v1; \"\" when chosen without the map.", "type": "string"},

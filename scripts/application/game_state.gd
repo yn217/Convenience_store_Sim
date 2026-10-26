@@ -49,6 +49,8 @@ var staff_candidates: Array = []        # #144: today's hiring candidates (Staff
 var promotions: Array = []      # #137: running and finished promotions (Promotions)
 var next_promotion_seq := 0
 var promo_stats: Dictionary = {}
+var campaigns: Array = []          # #136: media advertising campaigns (Marketing)
+var next_campaign_seq := 0
 var coupons: Array = []            # #137: outstanding next-visit coupons (Promotions.issue_coupon)
 var next_coupon_seq := 0  # promotion id -> {units, discount_yen}
 var facilities: Array = []             # #149: nearby facility ids (NearbyFacility), chosen before the first opening
@@ -300,6 +302,7 @@ func snapshot() -> Dictionary:
 		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
 		"promotions": _promotion_views(),
+		"marketing": Marketing.views(self),
 		"map_id": map_id, "plot_id": plot_id,
 		"visitors_by_hour": visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": visitors_by_hour_yesterday.duplicate(),
 		"facilities": facilities.duplicate(), "facility_visits": facility_visits.duplicate(), "max_facilities": NearbyFacility.max_count(),

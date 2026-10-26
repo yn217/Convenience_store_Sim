@@ -107,6 +107,8 @@ static func charge_day(state: GameState, day: int, partial: bool) -> int:
 		if kind == "AD":
 			state.applied_ad_tier_yen = amount   # today's multiplier follows the tier actually charged
 	state.unpaid_cost_yen += unpaid
+	if not state.campaigns.is_empty():
+		Marketing.charge_day(state, day)   # #136: airing days paid as cash allows (no debt), effect stocks once a day
 	return unpaid
 
 

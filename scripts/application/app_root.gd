@@ -78,6 +78,9 @@ func _ready() -> void:
 	var promoter := get_node_or_null("../PromotionController")
 	if promoter != null:
 		promoter.setup(self)
+	var media := get_node_or_null("../MediaController")
+	if media != null:
+		media.setup(self)
 	var stocker := get_node_or_null("../StockController")
 	if stocker != null:
 		stocker.setup(self, products, fixtures)
@@ -261,6 +264,9 @@ func _publish_snapshot() -> void:
 	var promoter := get_node_or_null("../PromotionController")
 	if promoter != null and promoter.is_node_ready() and promoter.get("_box") != null:
 		promoter.apply_snapshot(snap)
+	var media := get_node_or_null("../MediaController")
+	if media != null and media.is_node_ready() and media.get("_box") != null:
+		media.apply_snapshot(snap)
 	var reporter := get_node_or_null("../ReportController")
 	if reporter != null and reporter.has_method("apply_snapshot") and reporter.is_node_ready() and reporter.get("_chart") != null:
 		reporter.apply_snapshot(snap)

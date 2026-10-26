@@ -101,6 +101,7 @@ static func _location_step(state: GameState) -> bool:
 	var curve: Array = [] if state.location_id == "" else StoreLocation.hour_weights(state.location_id)   # #148
 	var ad := DemandModel.ad_multiplier(state.balance.get("advertising_tiers", []), state.applied_ad_tier_yen)
 	var traffic := float(EventService.effects(state)["traffic"])
+	ad = Marketing.ad_factor(state, hour, ad, traffic)   # #136: media campaigns join the tier in one capped pool
 	# The probability is monotone in the stocked-category count (0..CATEGORY_COUNT, clamped), so the
 	# extremes bound it: a roll at or above the upper bound is no visitor and the shelf scan is skipped.
 	var p_max := maxf(

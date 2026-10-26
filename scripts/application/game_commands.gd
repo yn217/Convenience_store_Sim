@@ -65,6 +65,10 @@ func execute(command: Dictionary) -> CommandResult:
 			if not _require_setup():
 				return _fail(&"NOT_IN_SETUP", &"restock_needs_setup")
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
+		&"BOOK_CAMPAIGN":
+			result = _campaign_result(command_id, Marketing.book(_state, command_id, String(command.get("medium", "")), int(command.get("days", 0)), int(command.get("daily_budget_yen", 0)), String(command.get("category", ""))), "CAMPAIGN_BOOKED")
+		&"CANCEL_CAMPAIGN":
+			result = _campaign_result(command_id, Marketing.cancel(_state, String(command.get("campaign_id", ""))), "CAMPAIGN_CANCELLED")
 		&"START_PROMOTION":
 			result = _promotion_result(command_id, Promotions.start(_state, command_id, String(command.get("def_id", "")), int(command.get("days", 0))), "PROMOTION_STARTED")
 		&"STOP_PROMOTION":
@@ -232,6 +236,14 @@ func _stock_result(command_id: String, r: Dictionary) -> CommandResult:
 
 ## Allowed in every business state. Only the override map changes: lot costs, open
 ## reservations and ledger rows keep the price they were snapshotted with (03).
+## BOOK_CAMPAIGN / CANCEL_CAMPAIGN (#136): any business state, also while paused.
+func _campaign_result(command_id: String, err: String, event: String) -> CommandResult:
+	if err != "":
+		return _fail(&"INSUFFICIENT_CASH" if err == "not_enough_cash" else &"INVALID_OPERATION", StringName(err))
+	var events: Array[String] = ["%s:%s" % [command_id, event]]
+	return _commit(command_id, events)
+
+
 ## START_PROMOTION / STOP_PROMOTION (#137): any business state, also while paused.
 func _promotion_result(command_id: String, err: String, event: String) -> CommandResult:
 	if err != "":

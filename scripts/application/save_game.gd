@@ -99,6 +99,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"promotions": state.promotions.duplicate(true), "next_promotion_seq": state.next_promotion_seq,   # #137
 			"promo_stats": state.promo_stats.duplicate(true),
 			"coupons": state.coupons.duplicate(true), "next_coupon_seq": state.next_coupon_seq,   # #137 phase 2
+			"campaigns": state.campaigns.duplicate(true), "next_campaign_seq": state.next_campaign_seq,   # #136
 		},
 	}
 
@@ -407,6 +408,18 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 					for extra in ["issued", "redeemed"]:   # coupon promotions
 						if st[k].has(extra):
 							s.promo_stats[k][extra] = int(st[k][extra])
+	if typeof(rt.get("campaigns")) == TYPE_ARRAY:   # #136 (absent in older saves)
+		for cp in rt["campaigns"]:
+			if typeof(cp) != TYPE_DICTIONARY or Marketing.medium(String(cp.get("medium", ""))).is_empty() or not JsonCheck.is_int(cp.get("start_day")) or not JsonCheck.is_int(cp.get("end_day")) \
+					or not ["booked", "cancelled", "ended"].has(cp.get("status")):
+				errs.append("runtime_state.campaigns: invalid")
+				break
+			s.campaigns.append({"campaign_id": String(cp.get("campaign_id", "")), "medium": String(cp["medium"]), "category": String(cp.get("category", "")),
+				"daily_budget_yen": int(cp.get("daily_budget_yen", 0)), "setup_cost_yen": int(cp.get("setup_cost_yen", 0)), "booked_day": int(cp.get("booked_day", 0)),
+				"start_day": int(cp["start_day"]), "end_day": int(cp["end_day"]), "status": String(cp["status"]), "spent_yen": int(cp.get("spent_yen", 0)),
+				"paid_days": (cp.get("paid_days", []) as Array).map(func(d): return int(d)), "stock": float(cp.get("stock", 0.0)), "stock_day": int(cp.get("stock_day", -1)),
+				"reputation_added": int(cp.get("reputation_added", 0))})
+		s.next_campaign_seq = int(rt.get("next_campaign_seq", s.campaigns.size()))
 	if typeof(rt.get("coupons")) == TYPE_ARRAY:   # #137 phase 2 (absent in older saves)
 		for cp in rt["coupons"]:
 			if typeof(cp) != TYPE_DICTIONARY or Promotions.definition(String(cp.get("def_id", ""))).is_empty() or not JsonCheck.is_int(cp.get("expires_day")) or not JsonCheck.is_int(cp.get("yen")):
@@ -494,7 +507,7 @@ static func _transaction_errors(tx, path: String) -> Array[String]:
 		return errs
 	if not JsonCheck.is_nonempty_string(tx["event_id"]):
 		errs.append("%s.event_id: empty" % path)
-	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WAGES", "PROMO", "DISCOUNT", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL"].has(tx["event_type"]):
+	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WAGES", "PROMO", "DISCOUNT", "AD_SETUP", "AD_MEDIA", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL"].has(tx["event_type"]):
 		errs.append("%s.event_type: unknown" % path)
 	for k in ["day_index", "time_sec", "revenue_delta_yen", "cogs_delta_yen", "expense_delta_yen"]:
 		if not JsonCheck.is_int(tx[k]) or int(tx[k]) < 0:

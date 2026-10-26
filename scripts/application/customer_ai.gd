@@ -772,7 +772,7 @@ func candidates(state: GameState) -> Array[Dictionary]:
 	for k in keys:
 		var e: Dictionary = seen[k]
 		var sku := state.products.get_sku(e["sku_id"])
-		e["weight"] = DemandModel.category_preference(sku["category"], state.balance) * StoreLocation.category_multiplier(state.location_id, sku["category"]) * float(sku["demand_weight"]) * _price_factor(state, e["sku_id"]) * GameplayEventDirector.category_multiplier(fx, sku["category"])
+		e["weight"] = DemandModel.category_preference(sku["category"], state.balance) * StoreLocation.category_multiplier(state.location_id, sku["category"]) * float(sku["demand_weight"]) * _price_factor(state, e["sku_id"]) * _category_pull(state, fx, sku["category"])
 		out.append(e)
 	return out
 
@@ -1103,6 +1103,14 @@ func _multi_discount(state: GameState, c: Dictionary, basket_id: String, units: 
 	for m in Promotions.multi_discounts(state, units):
 		if state.ledger.record("DISCOUNT", "%s:MULTI:%s" % [basket_id, m["promotion_id"]], -int(m["yen"]), state.day, state.time_sec, {"promotion_id": m["promotion_id"], "customer_id": c["customer_id"]}, {"expense": int(m["yen"])}):
 			Promotions.note_sale(state, m["promotion_id"], int(m["units"]), int(m["yen"]))
+
+
+## The day's event pull on a category and, while a campaign works, the advertising pull (#136), capped together.
+static func _category_pull(state: GameState, fx: Dictionary, category: String) -> float:
+	var ev := GameplayEventDirector.category_multiplier(fx, category)
+	if state.campaigns.is_empty():
+		return ev
+	return minf(ev * Marketing.category_multiplier(state, category), float(Marketing.data().get("category_cap", 2.5)))
 
 
 ## SKU of a live reservation (read before the sale removes it); "" when unknown.

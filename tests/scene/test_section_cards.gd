@@ -31,7 +31,7 @@ func test_sections_are_cards_in_the_right_place(t, tree) -> void:
 				var column: Node = c.get_child(0)
 				var first: Node = column.get_child(0)
 				t.ok(first is Label and first.theme_type_variation == &"SectionTitle", "%s card starts with its section title" % tab)
-	t.eq(tab_cards, 11, "eleven cards are in the management tabs (店員 #144, 販促 #137)")
+	t.eq(tab_cards, 12, "twelve cards are in the management tabs (店員 #144, 販促 #137, 媒体広告 #136)")
 	t.ok(main.find_child("MoveButton", true, false) != null, "nodes are still reachable by name")
 	main.queue_free()
 	await tree.process_frame
