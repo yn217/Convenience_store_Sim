@@ -52,6 +52,8 @@ const LAMP_STRIDE := 6
 const OP_SPRITE := 0
 const OP_POLY := 1
 const OP_TEXT := 2
+const OP_MESH := 3
+const ExteriorMesh := preload("res://scripts/presentation/exterior_mesh.gd")
 
 @export var layer := LAYER_EXTERIOR
 var _sprites := PropSprites.new()
@@ -81,6 +83,8 @@ func _draw() -> void:
 				draw_texture_rect(op[1], op[2], false)
 			OP_POLY:
 				draw_colored_polygon(op[1], op[2])
+			OP_MESH:
+				draw_mesh(op[1], null)
 			_:
 				if op.size() > 5:
 					draw_set_transform_matrix(op[5])
@@ -146,6 +150,24 @@ func _build_ops(proj: IsoProjection) -> void:
 				_ops.append([OP_TEXT, Vector2(-width * 0.5, size_px * 0.35), it["text"], size_px, it["color"], basis])
 			else:
 				_ops.append([OP_TEXT, pos, it["text"], size_px, it["color"]])
+	_batch_polygons()
+
+
+## Batch only adjacent geometry so sprite/text/alpha paint order remains unchanged.
+func _batch_polygons() -> void:
+	var compact: Array = []
+	var faces: Array = []
+	for op in _ops:
+		if op[0] == OP_POLY:
+			faces.append({"points": op[1], "color": op[2]})
+		else:
+			if not faces.is_empty():
+				compact.append([OP_MESH, ExteriorMesh.from_faces(faces)])
+				faces = []
+			compact.append(op)
+	if not faces.is_empty():
+		compact.append([OP_MESH, ExteriorMesh.from_faces(faces)])
+	_ops = compact
 
 
 ## Sprite order: lower rank first (a counter's appliances have rank 1, so they draw over the counter), then back to front.

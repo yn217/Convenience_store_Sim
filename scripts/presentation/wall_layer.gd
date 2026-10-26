@@ -34,6 +34,8 @@ const WALL_PLANE := -0.5
 
 var _key: Array = []
 var _quads: Array = []
+var _mesh: ArrayMesh
+const ExteriorMesh := preload("res://scripts/presentation/exterior_mesh.gd")
 
 
 ## Recomputes the wall quads when any input changed; otherwise does nothing.
@@ -43,15 +45,13 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 		return
 	_key = key
 	_quads = wall_quads(proj, width, height, entrances)
+	_mesh = ExteriorMesh.from_faces(_quads)
 	queue_redraw()
 
 
 func _draw() -> void:
-	for q in _quads:
-		if q.has("colors"):   # vertical gradients (lamp streaks)
-			draw_polygon(q["points"], q["colors"])
-		else:
-			draw_colored_polygon(q["points"], q["color"])
+	if _mesh != null:
+		draw_mesh(_mesh, null)
 
 
 ## Every wall piece to draw, in paint order (north wall, then west wall). Each entry is
