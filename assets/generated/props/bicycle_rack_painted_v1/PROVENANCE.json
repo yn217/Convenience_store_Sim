@@ -1,0 +1,15 @@
+{
+  "asset_id": "bicycle_rack_painted_v1",
+  "source_type": "AI",
+  "tool": "OpenAI built-in image_gen",
+  "model": "built-in tool; model identifier not exposed",
+  "created_date": "2026-10-26",
+  "redistribution": "yes",
+  "fictional_brands_only": true,
+  "projection_id": "iso2x_v1",
+  "source": "assets/source/textures/exterior/bicycle_rack_painted_v1/source.png",
+  "prompt": "assets/source/textures/exterior/bicycle_rack_painted_v1/prompt.txt",
+  "spec": "assets/source/textures/exterior/bicycle_rack_painted_v1/asset_spec.json",
+  "processing": "Geometric guide generation, one angle correction, visible-alpha crop and uniform Lanczos scaling only",
+  "review_status": "candidate_pending_visual_qa_projection_deviations"
+}
