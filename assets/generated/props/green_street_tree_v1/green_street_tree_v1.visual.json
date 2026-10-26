@@ -1,0 +1,166 @@
+{
+  "manifest_version": 1,
+  "visual_id": "green_street_tree_v1",
+  "fixture_type_id": "green_street_tree_v1",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 2.8,
+    "depth": 2.8,
+    "height": 3.5
+  },
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        720,
+        720
+      ],
+      "anchor_px": [
+        360,
+        639
+      ],
+      "layers": {
+        "body": "green_street_tree_v1_0_body.png"
+      },
+      "sorting_anchor_px": [
+        360,
+        639
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          360,
+          610
+        ],
+        [
+          432,
+          646
+        ],
+        [
+          360,
+          682
+        ],
+        [
+          288,
+          646
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        720,
+        720
+      ],
+      "anchor_px": [
+        360,
+        639
+      ],
+      "layers": {
+        "body": "green_street_tree_v1_0_body.png"
+      },
+      "sorting_anchor_px": [
+        360,
+        639
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          360,
+          610
+        ],
+        [
+          432,
+          646
+        ],
+        [
+          360,
+          682
+        ],
+        [
+          288,
+          646
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        720,
+        720
+      ],
+      "anchor_px": [
+        360,
+        639
+      ],
+      "layers": {
+        "body": "green_street_tree_v1_0_body.png"
+      },
+      "sorting_anchor_px": [
+        360,
+        639
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          360,
+          610
+        ],
+        [
+          432,
+          646
+        ],
+        [
+          360,
+          682
+        ],
+        [
+          288,
+          646
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        720,
+        720
+      ],
+      "anchor_px": [
+        360,
+        639
+      ],
+      "layers": {
+        "body": "green_street_tree_v1_0_body.png"
+      },
+      "sorting_anchor_px": [
+        360,
+        639
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          360,
+          610
+        ],
+        [
+          432,
+          646
+        ],
+        [
+          360,
+          682
+        ],
+        [
+          288,
+          646
+        ]
+      ]
+    }
+  }
+}

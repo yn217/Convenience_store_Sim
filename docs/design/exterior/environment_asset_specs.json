@@ -1,0 +1,117 @@
+{
+  "projection": "iso2x_v1",
+  "source_scale": 2,
+  "world_units_per_tile": 1,
+  "assets": [
+    {
+      "asset_id": "green_street_tree_v1",
+      "category": "vegetation",
+      "view_direction": "iso2x_v1_rotation_0",
+      "world_width": 2.8,
+      "world_depth": 2.8,
+      "world_height": 3.5,
+      "render_width_px": 720,
+      "render_height_px": 720,
+      "pivot_x": 360,
+      "pivot_y": 639,
+      "anchor_type": "ground_root",
+      "placement_offset": [
+        0,
+        0,
+        0
+      ],
+      "occlusion_group": "exterior_back_or_front_by_world_edge",
+      "sort_key": "rank_then_world_x_plus_world_y",
+      "asset_variant": "painted_v1",
+      "status": "integration_candidate"
+    },
+    {
+      "asset_id": "flower_bed_planter",
+      "category": "vegetation",
+      "view_direction": "iso2x_v1_rotation_0",
+      "world_width": 1.92,
+      "world_depth": 0.92,
+      "world_height": 0.45,
+      "render_width_px": 320,
+      "render_height_px": 320,
+      "pivot_x": 160,
+      "pivot_y": 210,
+      "anchor_type": "ground",
+      "placement_offset": [
+        0,
+        0,
+        0
+      ],
+      "occlusion_group": "exterior_back_or_front_by_world_edge",
+      "sort_key": "rank_then_world_x_plus_world_y",
+      "asset_variant": "existing_procedural",
+      "status": "reuse_pending_visual_upgrade"
+    },
+    {
+      "asset_id": "vending_machine",
+      "category": "street_furniture",
+      "view_direction": "iso2x_v1_rotation_0",
+      "world_width": 0.92,
+      "world_depth": 0.92,
+      "world_height": 1.85,
+      "render_width_px": 320,
+      "render_height_px": 320,
+      "pivot_x": 160,
+      "pivot_y": 210,
+      "anchor_type": "ground",
+      "placement_offset": [
+        0,
+        0,
+        0
+      ],
+      "occlusion_group": "exterior_back_or_front_by_world_edge",
+      "sort_key": "rank_then_world_x_plus_world_y",
+      "asset_variant": "existing_procedural",
+      "status": "reuse_pending_visual_upgrade"
+    },
+    {
+      "asset_id": "bench",
+      "category": "street_furniture",
+      "view_direction": "iso2x_v1_rotation_0",
+      "world_width": 1.92,
+      "world_depth": 0.92,
+      "world_height": 0.85,
+      "render_width_px": 320,
+      "render_height_px": 320,
+      "pivot_x": 160,
+      "pivot_y": 210,
+      "anchor_type": "ground",
+      "placement_offset": [
+        0,
+        0,
+        0
+      ],
+      "occlusion_group": "exterior_back_or_front_by_world_edge",
+      "sort_key": "rank_then_world_x_plus_world_y",
+      "asset_variant": "existing_procedural",
+      "status": "reuse_pending_visual_upgrade"
+    },
+    {
+      "asset_id": "bicycle_stand",
+      "category": "street_furniture",
+      "view_direction": "iso2x_v1_rotation_0",
+      "world_width": 0.92,
+      "world_depth": 0.92,
+      "world_height": 1.0,
+      "render_width_px": 320,
+      "render_height_px": 320,
+      "pivot_x": 160,
+      "pivot_y": 210,
+      "anchor_type": "ground",
+      "placement_offset": [
+        0,
+        0,
+        0
+      ],
+      "occlusion_group": "exterior_back_or_front_by_world_edge",
+      "sort_key": "rank_then_world_x_plus_world_y",
+      "asset_variant": "existing_procedural",
+      "status": "reuse_pending_visual_upgrade"
+    }
+  ]
+}
