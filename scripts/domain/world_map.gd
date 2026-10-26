@@ -1,8 +1,9 @@
 class_name WorldMap
 extends RefCounted
-## Area maps (issue #150): data/world/maps/<map_id>.json — the fictional 青葉市 (design PR #152, drawn in code from its
-## roads, railway and zones) and the Kakogawa concept map (#154, user package of 2026-10-26, drawn on its background
-## image) — with facilities (POIs) and store sites (plots). The player picks the first store's site on a map before it
+## Area maps (issue #150): data/world/maps/<map_id>.json — 青葉市 中央地区 and 神戸・明石〜淡路島 (user package
+## ui_free_map_bundle.zip, positions re-measured on the pictures; their names and pins are drawn in the pictures,
+## labels_baked) and the Kakogawa concept map (#154) — each drawn on its picture — with facilities (POIs) and store
+## sites (plots). The first, code-drawn 青葉市 (aoba_town_v1, design PR #152) stays loadable for older saves. The player picks the first store's site on a map before it
 ## first opens; the site gives the store its location profile (#148) and its nearby facilities (#149): the facility
 ## POIs within NEAR_SHARE of the map's width, nearest first, at most NearbyFacility.max_count(). A site whose kind is
 ## not one of the four profiles (riverside, factory, commercial, roadside) opens as the standard store and gets its
@@ -10,10 +11,15 @@ extends RefCounted
 ## releases) and rival plots cannot be picked. Positions are map units / image pixels, not real distances.
 
 const DIR := "res://data/world/maps/"
-const DEFAULT_MAP := "aoba_town_v1"
-const MAPS := ["aoba_town_v1", "kakogawa_city_v1"]
+const DEFAULT_MAP := "aoba_city_central_district_v2"
+## The maps offered in the map window. aoba_town_v1 (the first, code-drawn 青葉市) is kept only so older saves load.
+const MAPS := ["aoba_city_central_district_v2", "kakogawa_city_v1", "kobe_akashi_awaji_region_v2"]
 ## Maps drawn on a picture (the others are drawn in code from their features).
-const BACKGROUND := {"kakogawa_city_v1": "res://assets/generated/maps/kakogawa_city_v1/kakogawa_base.png"}
+const BACKGROUND := {
+	"kakogawa_city_v1": "res://assets/generated/maps/kakogawa_city_v1/kakogawa_base.png",
+	"aoba_city_central_district_v2": "res://assets/generated/maps/aoba_city_central_district_v2/aoba_city_central_district_map.png",
+	"kobe_akashi_awaji_region_v2": "res://assets/generated/maps/kobe_akashi_awaji_region_v2/kobe_akashi_awaji_region_map.png",
+}
 const NEAR_SHARE := 0.23          # 230 map units on the 1000-wide 青葉市 map
 ## POI type -> NearbyFacility id.
 const FACILITY_OF := {

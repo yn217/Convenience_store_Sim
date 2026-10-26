@@ -1,13 +1,15 @@
 extends RefCounted
-## Issue #150 phase 1: the area map (data/world/maps/aoba_town_v1.json) — its data, the site rules (a site sets the
+## Issue #150: the area maps (data/world/maps/) — its data, the site rules (a site sets the
 ## location and the nearby facilities), the SET_SITE command and the save.
 
 const Run := preload("res://tests/support/basket_run.gd")
+## The first, code-drawn 青葉市 (still loadable for older saves): the site rules below are pinned on it.
+const V1 := "aoba_town_v1"
 
 
 func test_map_data_is_consistent(t, _tree) -> void:
-	var m := WorldMap.load_map(WorldMap.DEFAULT_MAP)
-	t.eq(m.get("map_id", ""), WorldMap.DEFAULT_MAP, "the map file loads")
+	var m := WorldMap.load_map(V1)
+	t.eq(m.get("map_id", ""), V1, "the map file loads")
 	var cs: Dictionary = m["coordinate_system"]
 	var ids := {}
 	for q in m["pois"] + m["plots"]:
@@ -22,40 +24,40 @@ func test_map_data_is_consistent(t, _tree) -> void:
 
 
 func test_a_site_brings_its_surroundings(t, _tree) -> void:
-	var p02 := WorldMap.site(WorldMap.DEFAULT_MAP, "P02")
+	var p02 := WorldMap.site(V1, "P02")
 	t.eq(p02["location_id"], "school")
 	t.eq(p02["facilities"], ["university", "highway"], "the university and the trunk road are close to the school site")
-	var p04 := WorldMap.site(WorldMap.DEFAULT_MAP, "P04")
+	var p04 := WorldMap.site(V1, "P04")
 	t.eq(p04["location_id"], "residential")
 	t.eq(p04["facilities"], ["factory", "hospital"], "logistics centre and hospital near the housing estate")
-	t.eq(WorldMap.site(WorldMap.DEFAULT_MAP, "P03")["facilities"], [], "the office site has no facility close enough")
-	t.ok(WorldMap.site(WorldMap.DEFAULT_MAP, "P05").is_empty(), "a locked site cannot be picked")
-	t.ok(WorldMap.site(WorldMap.DEFAULT_MAP, "R01").is_empty(), "nor the rival's")
+	t.eq(WorldMap.site(V1, "P03")["facilities"], [], "the office site has no facility close enough")
+	t.ok(WorldMap.site(V1, "P05").is_empty(), "a locked site cannot be picked")
+	t.ok(WorldMap.site(V1, "R01").is_empty(), "nor the rival's")
 	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
-	t.ok(WorldMap.forecast_visitors(balance, WorldMap.DEFAULT_MAP, "P04") > WorldMap.forecast_visitors(balance, WorldMap.DEFAULT_MAP, "P03"),
+	t.ok(WorldMap.forecast_visitors(balance, V1, "P04") > WorldMap.forecast_visitors(balance, V1, "P03"),
 		"two facilities add to the forecast")
 
 
 func test_the_site_is_chosen_on_the_map_before_opening(t, _tree) -> void:
 	var s := Run.new_state(100.0)
 	var cmds := Run.place_layout(s)
-	var r := cmds.execute({"command_id": "m1", "kind": &"SET_SITE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": "P04"})
+	var r := cmds.execute({"command_id": "m1", "kind": &"SET_SITE", "map_id": V1, "plot_id": "P04"})
 	t.ok(r.ok, "picked")
-	t.eq([s.map_id, s.plot_id, s.location_id, s.facilities], [WorldMap.DEFAULT_MAP, "P04", "residential", ["factory", "hospital"]], "the site sets location and facilities")
-	r = cmds.execute({"command_id": "m2", "kind": &"SET_SITE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": "P07"})
+	t.eq([s.map_id, s.plot_id, s.location_id, s.facilities], [V1, "P04", "residential", ["factory", "hospital"]], "the site sets location and facilities")
+	r = cmds.execute({"command_id": "m2", "kind": &"SET_SITE", "map_id": V1, "plot_id": "P07"})
 	t.ok(not r.ok and r.message_key == &"site_unavailable", "a locked site is refused")
 	t.eq(s.plot_id, "P04", "and changes nothing")
 	var saved := SaveGame.to_dict(s, "map", "2026-10-26T00:00:00Z")
 	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
 	t.ok(lr["ok"], str(lr["errors"]))
-	t.eq([(lr["state"] as GameState).map_id, (lr["state"] as GameState).plot_id], [WorldMap.DEFAULT_MAP, "P04"], "the site survives a save")
+	t.eq([(lr["state"] as GameState).map_id, (lr["state"] as GameState).plot_id], [V1, "P04"], "the site survives a save")
 	cmds.execute({"command_id": "m3", "kind": &"SET_LOCATION", "location_id": "office"})
 	t.eq(s.plot_id, "", "a location chosen by hand is no longer the map site")
-	cmds.execute({"command_id": "m4", "kind": &"SET_SITE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": "P01"})
+	cmds.execute({"command_id": "m4", "kind": &"SET_SITE", "map_id": V1, "plot_id": "P01"})
 	Run.restock(s, cmds, 0)
 	cmds.execute({"command_id": "open", "kind": &"START_BUSINESS"})
 	SimulationRunner.new(s)._run_step()
-	r = cmds.execute({"command_id": "m5", "kind": &"SET_SITE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": "P02"})
+	r = cmds.execute({"command_id": "m5", "kind": &"SET_SITE", "map_id": V1, "plot_id": "P02"})
 	t.ok(not r.ok and r.message_key == &"site_locked", "fixed once the store has opened")
 
 
@@ -63,8 +65,8 @@ func test_the_map_view_picks_a_site(t, tree) -> void:
 	var view := MapView.new()
 	view.size = Vector2(1000, 680)
 	tree.root.add_child(view)
-	view.set_map(WorldMap.DEFAULT_MAP)
-	var p := WorldMap.plot(WorldMap.DEFAULT_MAP, "P02")
+	view.set_map(V1)
+	var p := WorldMap.plot(V1, "P02")
 	var at := view.to_screen(float(p["x"]), float(p["y"]))
 	t.eq(view.plot_at(at), "P02", "a click on the site hits it")
 	t.eq(view.plot_at(at + Vector2(60, 60)), "", "a click beside it does not")
@@ -79,7 +81,7 @@ func test_the_map_view_picks_a_site(t, tree) -> void:
 	release.pressed = false
 	view._gui_input(release)
 	t.eq(got, ["P02"], "the click (press and release in place) is reported")
-	var text := BusinessController.plot_text(WorldMap.DEFAULT_MAP, "P02")
+	var text := BusinessController.plot_text(V1, "P02")
 	t.ok(text.contains("学校前") and text.contains("みどり大学") and text.contains("予想来店数"), "the panel explains the site: %s" % text)
 	view.queue_free()
 
@@ -88,15 +90,15 @@ func test_the_map_view_picks_a_site(t, tree) -> void:
 func test_the_forecast_by_hour(t, _tree) -> void:
 	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
 	for id in ["P01", "P02", "P03", "P04"]:
-		var h := WorldMap.forecast_by_hour(balance, WorldMap.DEFAULT_MAP, id)
+		var h := WorldMap.forecast_by_hour(balance, V1, id)
 		var sum: float = h.reduce(func(a, x): return a + x, 0.0)
-		t.ok(absf(sum - float(WorldMap.forecast_visitors(balance, WorldMap.DEFAULT_MAP, id))) <= 1.0, "%s: the hours add up to the day (%.1f)" % [id, sum])
-	var office := WorldMap.forecast_by_hour(balance, WorldMap.DEFAULT_MAP, "P03")
+		t.ok(absf(sum - float(WorldMap.forecast_visitors(balance, V1, id))) <= 1.0, "%s: the hours add up to the day (%.1f)" % [id, sum])
+	var office := WorldMap.forecast_by_hour(balance, V1, "P03")
 	t.ok(office[12] > office[3] * 3.0, "the office site peaks at lunch, not at night")
-	var school := WorldMap.forecast_by_hour(balance, WorldMap.DEFAULT_MAP, "P02")
-	var school_only := WorldMap.forecast_by_hour(balance, WorldMap.DEFAULT_MAP, "P03")
+	var school := WorldMap.forecast_by_hour(balance, V1, "P02")
+	var school_only := WorldMap.forecast_by_hour(balance, V1, "P03")
 	t.ok(school[22] > school_only[22], "the university near the school site brings people late in the evening")
-	t.eq(WorldMap.forecast_by_hour(balance, WorldMap.DEFAULT_MAP, "P06").max(), 0.0, "a locked site has no forecast")
+	t.eq(WorldMap.forecast_by_hour(balance, V1, "P06").max(), 0.0, "a locked site has no forecast")
 	var text := BusinessController.peak_hours_text(office)
 	t.ok(text.contains("12時"), "the busiest hours are named: %s" % text)
 
@@ -106,8 +108,8 @@ func test_the_map_zooms_and_pans(t, tree) -> void:
 	var view := MapView.new()
 	view.size = Vector2(1000, 680)
 	tree.root.add_child(view)
-	view.set_map(WorldMap.DEFAULT_MAP)
-	var p := WorldMap.plot(WorldMap.DEFAULT_MAP, "P03")
+	view.set_map(V1)
+	var p := WorldMap.plot(V1, "P03")
 	var before := view.to_screen(float(p["x"]), float(p["y"]))
 	view.zoom_at(before, 2.0)
 	t.eq(view.zoom, 2.0, "zoomed in")
@@ -145,7 +147,7 @@ func test_the_map_zooms_and_pans(t, tree) -> void:
 func test_actual_visitors_beside_the_forecast(t, _tree) -> void:
 	var s := Run.new_state(100.0)
 	var cmds := Run.place_layout(s)
-	cmds.execute({"command_id": "m1", "kind": &"SET_SITE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": "P03"})
+	cmds.execute({"command_id": "m1", "kind": &"SET_SITE", "map_id": V1, "plot_id": "P03"})
 	Run.run_days(s, cmds, 1)
 	var y: Array = s.visitors_by_hour_yesterday
 	t.eq(y.size(), 24, "yesterday's visitors by hour are kept")
@@ -157,7 +159,7 @@ func test_actual_visitors_beside_the_forecast(t, _tree) -> void:
 	t.ok(lr["ok"], str(lr["errors"]))
 	t.eq((lr["state"] as GameState).visitors_by_hour_yesterday, y, "and survive a save")
 	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
-	var text := BusinessController.actual_vs_forecast_text(WorldMap.forecast_by_hour(balance, WorldMap.DEFAULT_MAP, "P03"), [], y)
+	var text := BusinessController.actual_vs_forecast_text(WorldMap.forecast_by_hour(balance, V1, "P03"), [], y)
 	t.ok(text.contains("昼 10-14時") and text.contains("目安"), text)
 	var lunch := "%d" % (int(y[10]) + int(y[11]) + int(y[12]) + int(y[13]))
 	t.ok(text.contains("／－／" + lunch), "today unknown, yesterday's lunch count shown: %s" % text)
@@ -189,3 +191,35 @@ func test_the_kakogawa_map(t, _tree) -> void:
 	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
 	t.ok(lr["ok"], str(lr["errors"]))
 	t.eq([(lr["state"] as GameState).map_id, (lr["state"] as GameState).plot_id, (lr["state"] as GameState).facilities], [id, "P06", s.facilities], "and saved")
+
+
+## The maps of the user package ui_free_map_bundle.zip: positions re-measured on the pictures, so every site sits on
+## a red pin drawn in the picture; names and pins are baked in (the view draws only the clickable sites).
+func test_the_picture_maps_match_their_pins(t, _tree) -> void:
+	t.eq(WorldMap.DEFAULT_MAP, "aoba_city_central_district_v2", "the remade 青葉市 is the default map")
+	for id in ["aoba_city_central_district_v2", "kobe_akashi_awaji_region_v2"]:
+		var m := WorldMap.load_map(id)
+		t.ok(WorldMap.MAPS.has(id) and bool(m.get("labels_baked", false)), id + ": listed, labels in the picture")
+		var img := Image.load_from_file(ProjectSettings.globalize_path(WorldMap.BACKGROUND[id]))
+		t.eq(Vector2(img.get_width(), img.get_height()), WorldMap.map_size(id), id + ": coordinates in picture pixels")
+		var ids := {}
+		for q in m["pois"] + m["plots"]:
+			t.ok(not ids.has(q["id"]), "unique " + q["id"])
+			ids[q["id"]] = true
+		for p in m["plots"]:
+			t.ok(WorldMap.pickable(p), "%s %s can be picked" % [id, p["id"]])
+			var red := false
+			for dy in range(-6, 7):
+				for dx in range(-6, 7):
+					var c := img.get_pixel(int(p["x"]) + dx, int(p["y"]) + dy)
+					red = red or (c.r > 0.78 and c.g < 0.3 and c.b < 0.35)
+			t.ok(red, "%s %s sits on the red pin of the picture" % [id, p["id"]])
+	var aoba := "aoba_city_central_district_v2"
+	t.eq(WorldMap.site(aoba, "P05")["location_id"], "school", "学園周辺 is a school site")
+	t.ok((WorldMap.site(aoba, "P05")["facilities"] as Array).has("university"), "with みどり大学 close by")
+	t.eq(WorldMap.site(aoba, "P01")["location_id"], "station")
+	var kobe := "kobe_akashi_awaji_region_v2"
+	t.eq(WorldMap.site(kobe, "P03")["location_id"], "office", "三宮中心街 is an office site")
+	t.eq(WorldMap.site(kobe, "P08")["facilities"][0], "highway", "淡路SA is on the expressway")
+	t.eq(WorldMap.site(kobe, "P07")["location_id"], "", "淡路夢舞台 opens as the standard store")
+	t.eq(WorldMap.plot(kobe, "P10"), {}, "the unnumbered pin at Iwaya is not a site")

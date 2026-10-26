@@ -184,7 +184,7 @@ func _draw() -> void:
 		var pts := PackedVector2Array((r["points"] as Array).map(func(p): return to_screen(float(p[0]), float(p[1]))))
 		draw_polyline(pts, RAIL, 5.0 * k + 1.0)
 		draw_dashed_line(pts[0], pts[pts.size() - 1], Color.WHITE, 2.0 * k + 0.5, 10.0 * k + 2.0)
-	for q in _map.get("pois", []):
+	for q in ([] if bool(_map.get("labels_baked", false)) else _map.get("pois", [])):   # baked into the picture
 		var c := to_screen(float(q["x"]), float(q["y"]))
 		draw_circle(c, PIN_RADIUS, POI_COLORS.get(q["type"], Color("8a949e")))
 		draw_arc(c, PIN_RADIUS, 0.0, TAU, 16, Color.WHITE, 1.5)

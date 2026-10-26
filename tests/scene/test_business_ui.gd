@@ -65,6 +65,7 @@ func test_the_site_is_picked_on_the_area_map(t, tree) -> void:
 	bc.open_map()
 	await tree.process_frame
 	t.ok(bc._map_window.visible, "the map opens")
+	bc.show_map("aoba_town_v1")   # the site facts below are those of the first 青葉市 map
 	bc._show_plot("P02")
 	t.ok(not bc._map_pick.disabled, "an available site can be picked")
 	t.ok(bc._map_info.text.contains("学校前"), bc._map_info.text)
