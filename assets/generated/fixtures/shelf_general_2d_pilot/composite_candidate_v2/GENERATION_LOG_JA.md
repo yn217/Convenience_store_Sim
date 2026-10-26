@@ -11,3 +11,11 @@
 - HALFの空き部分には新しい区画に見える表現があり、EMPTYのガード支柱の数・位置はFULLと揃っていない。状態切替用セットとして未合格。
 - 本体構造を共有するため、EMPTYを共通原板としたFULL/HALFを別サブエージェントに追加生成依頼中。
 - runtime_approved: false。Godot表示、独立Visual QA、SKU照合、透過フリンジと非一様伸縮の許容判定は未完了。
+
+## EMPTY共通原板からの追加生成
+
+- `full_from_empty_v1.png`: EMPTY原板から商品を高密度に加えたFULL一体画像。
+- `half_from_full_emptybase_v2.png` と `half_from_full_emptybase_v2_alt.png`: 上記FULLから商品群を減らしたHALF二案。
+- `states_empty_base_comparison.png`: FULL、HALF二案、元EMPTYを同じ442×449キャンバスで比較。
+- 商品量の変化は確認できるが、ガード支柱や背板・商品形状は生成ごとに変化する。棚構造の完全一致は未確認で、状態切替用として承認しない。
+- 画像ごとに約4.5〜5.8%の非一様伸縮がある。bboxとanchorの値は揃えているが、実ゲーム表示の検証や独立Visual QAは未実施。
