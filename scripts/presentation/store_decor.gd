@@ -85,7 +85,11 @@ func _draw() -> void:
 			OP_POLY:
 				draw_colored_polygon(op[1], op[2])
 			_:
+				if op.size() > 5:
+					draw_set_transform_matrix(op[5])
 				draw_string(_font(), op[1], op[2], HORIZONTAL_ALIGNMENT_LEFT, -1, op[3], op[4])
+				if op.size() > 5:
+					draw_set_transform_matrix(Transform2D.IDENTITY)
 
 
 func _font() -> Font:
@@ -127,7 +131,14 @@ func _build_ops(proj: IsoProjection) -> void:
 			var size_px := maxi(10, roundi(14.0 * proj.zoom))
 			var width := font.get_string_size(it["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 			var pos := proj.world_to_screen(at.x, at.y, at.z) + Vector2(-width * 0.5, size_px * 0.35 + float(it.get("dy", 0.0)) * proj.zoom)
-			_ops.append([OP_TEXT, pos, it["text"], size_px, it["color"]])
+			if it.has("wall_side"):
+				# A vertical sign plane has a sloping baseline, while glyph stems stay vertical.
+				var side: int = it["wall_side"]
+				var slope := -0.5 if side == SIDE_WEST or side == SIDE_EAST else 0.5
+				var basis := Transform2D(Vector2(1.0, slope), Vector2(0.0, 1.0), proj.world_to_screen(at.x, at.y, at.z))
+				_ops.append([OP_TEXT, Vector2(-width * 0.5, size_px * 0.35), it["text"], size_px, it["color"], basis])
+			else:
+				_ops.append([OP_TEXT, pos, it["text"], size_px, it["color"]])
 
 
 ## Sprite order: lower rank first (a counter's appliances have rank 1, so they draw over the counter), then back to front.
@@ -285,18 +296,68 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 		if open and run_start < 0:
 			run_start = a
 		elif not open and run_start >= 0:
-			out.append({"kind": &"poly", "points": _band(side, plane, float(run_start) - 0.5, float(a) - 0.5, 0.0, SILL_H), "color": SILL})
+			var a0 := float(run_start) - 0.5
+			var a1 := float(a) - 0.5
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, 0.0, SILL_H), "color": SILL})
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, SILL_H, NEAR_FRAME_TOP), "color": Color(0.66, 0.86, 0.92, 0.13)})
+			# White metal housing above and below a slimmer blue ribbon; broken at the door opening.
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 - 0.025, NEAR_CAP_Z0 + 0.025), "color": Color("a0adb4")})
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 + 0.025, NEAR_CAP_Z1), "color": Color("f8faf8")})
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 + 0.065, NEAR_CAP_Z1 - 0.035), "color": FASCIA})
+			out.append(_canopy_top(side, plane, a0, a1, 0.09))
 			run_start = -1
 	for b in range(0, n + 1, 2):
+		if _is_entrance_at(entrances, side, b, width, height) or _is_entrance_at(entrances, side, b - 1, width, height):
+			continue
 		var fb := float(b) - 0.5
-		out.append({"kind": &"poly", "points": _band(side, plane, fb - 0.04, fb + 0.04, 0.0, NEAR_FRAME_TOP), "color": FRAME})
-	out.append({"kind": &"poly", "points": _band(side, plane, -0.5, float(n) - 0.5, NEAR_CAP_Z0, NEAR_CAP_Z1), "color": FASCIA})
-	var label := fascia_label(side, width, height, plane)
-	var at: Vector3 = label["at"]
-	at.z = (NEAR_CAP_Z0 + NEAR_CAP_Z1) * 0.5
-	label["at"] = at
-	out.append(label)
+		out.append({"kind": &"poly", "points": _band(side, plane, fb - 0.018, fb + 0.018, 0.0, NEAR_FRAME_TOP), "color": FRAME})
+	# Entrance jambs frame a clear opening. Only the thin white canopy bridges the top of the cutaway.
+	var door_start := -1
+	for a in range(n + 1):
+		var door := a < n and _is_entrance_at(entrances, side, a, width, height)
+		if door and door_start < 0:
+			door_start = a
+		elif not door and door_start >= 0:
+			var d0 := float(door_start) - 0.5
+			var d1 := float(a) - 0.5
+			for edge in [d0, d1]:
+				out.append({"kind": &"poly", "points": _band(side, plane, edge - 0.025, edge + 0.025, 0.0, NEAR_CAP_Z1 - 0.05), "color": FRAME})
+			out.append({"kind": &"poly", "points": _band(side, plane, d0 - 0.08, d1 + 0.08, NEAR_CAP_Z1 - 0.05, NEAR_CAP_Z1), "color": Color("f9faf6")})
+			out.append(_canopy_top(side, plane, d0 - 0.08, d1 + 0.08, 0.22))
+			door_start = -1
+	# Put the name over the widest solid window run, never across the entrance.
+	var runs: Array = []
+	var start := -1
+	for a in range(n + 1):
+		if a < n and not _is_entrance_at(entrances, side, a, width, height):
+			if start < 0:
+				start = a
+		elif start >= 0:
+			runs.append(Vector2(start - 0.5, a - 0.5))
+			start = -1
+	runs.sort_custom(func(a, b): return a.y - a.x > b.y - b.x)
+	if not runs.is_empty() and runs[0].y - runs[0].x >= 2.0:
+		var label := fascia_label(side, width, height, plane)
+		var at := _plane_point(side, plane, NEAR_CAP_Z0 + 0.105)
+		var mid: float = (runs[0].x + runs[0].y) * 0.5
+		var half_name: float = minf(1.35, (runs[0].y - runs[0].x) * 0.5)
+		out.append({"kind": &"poly", "points": _band(side, plane, mid - half_name, mid + half_name, NEAR_CAP_Z0 + 0.025, NEAR_CAP_Z1 - 0.01), "color": Color("fcfdfb")})
+		if side == SIDE_EAST:
+			at.y = mid
+		else:
+			at.x = mid
+		label["at"] = at
+		label["color"] = FASCIA
+		out.append(label)
 	return out
+
+
+static func _canopy_top(side: int, plane: float, a0: float, a1: float, depth: float) -> Dictionary:
+	var p0 := _plane_point(side, plane, NEAR_CAP_Z1)
+	var p1 := _plane_point(side, plane + depth, NEAR_CAP_Z1)
+	if side == SIDE_EAST:
+		return {"kind": &"poly", "points": [Vector3(p0.x, a0, p0.z), Vector3(p0.x, a1, p0.z), Vector3(p1.x, a1, p1.z), Vector3(p1.x, a0, p1.z)], "color": Color("ffffff")}
+	return {"kind": &"poly", "points": [Vector3(a0, p0.y, p0.z), Vector3(a1, p0.y, p0.z), Vector3(a1, p1.y, p1.z), Vector3(a0, p1.y, p1.z)], "color": Color("ffffff")}
 
 
 ## Fascia: a blue band between FASCIA_Z0 and FASCIA_Z1 over the whole wall.
@@ -313,7 +374,7 @@ static func fascia_label(side: int, width: int, height: int, plane: float) -> Di
 		at.y = mid
 	else:
 		at.x = mid
-	return {"kind": &"text", "at": at, "text": NAME, "color": FASCIA_TEXT}
+	return {"kind": &"text", "at": at, "text": NAME, "color": FASCIA_TEXT, "wall_side": side}
 
 
 ## Back walls are the far walls that are not the entrance side: a reach-in cooler row along the middle of each,
