@@ -165,6 +165,8 @@ func run_command(command: Dictionary) -> CommandResult:
 			return _save_game(String(command.get("slot_id", "")))
 		&"LOAD_GAME":
 			return _load_game(String(command.get("slot_id", "")), bool(command.get("use_backup", false)))
+		&"SWITCH_STORE":
+			return _switch_store(String(command.get("store_id", "")))
 	var result := commands.execute(command)
 	if result.ok:
 		state.emit_event("UI_COMMAND_SUCCEEDED", {"command_id": String(command.get("command_id", ""))})
@@ -229,6 +231,23 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 	var world := _world()
 	if world != null and world.has_method("reset_default_view"):
 		world.reset_default_view()   # a loaded save opens in the default interior view, like a new game
+	var events: Array[String] = []
+	return CommandResult.success(state.revision, events)
+
+
+## SWITCH_STORE (#146): another store of the company comes on screen; the one left carries on off screen.
+func _switch_store(store_id: String) -> CommandResult:
+	var target := Company.switch_to(state, store_id)
+	if target == null:
+		return CommandResult.failure(&"INVALID_OPERATION", state.revision, &"unknown_store")
+	state = target
+	cue_bridge.reset()
+	commands = GameCommands.new(state)
+	runner = SimulationRunner.new(state)
+	_publish_snapshot()
+	var world := _world()
+	if world != null and world.has_method("reset_default_view"):
+		world.reset_default_view()
 	var events: Array[String] = []
 	return CommandResult.success(state.revision, events)
 

@@ -65,6 +65,20 @@ func execute(command: Dictionary) -> CommandResult:
 			if not _require_setup():
 				return _fail(&"NOT_IN_SETUP", &"restock_needs_setup")
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
+		&"OPEN_STORE":
+			var opened := Company.open_store(_state, command_id, String(command.get("map_id", "")), String(command.get("plot_id", "")), String(command.get("size_id", "")))
+			if opened.has("error"):
+				result = _fail(&"INSUFFICIENT_CASH" if opened["error"] == "not_enough_cash" else &"INVALID_OPERATION", StringName(opened["error"]))
+			else:
+				var ev: Array[String] = ["%s:STORE_OPENED" % command_id]
+				result = _commit(command_id, ev, {"store_id": (opened["store"] as GameState).store_id})
+		&"TRANSFER_STAFF":
+			var terr := Company.transfer_staff(_state, String(command.get("staff_id", "")), String(command.get("to_store_id", "")))
+			if terr != "":
+				result = _fail(&"INVALID_OPERATION", StringName(terr))
+			else:
+				var tev: Array[String] = ["%s:STAFF_TRANSFERRED" % command_id]
+				result = _commit(command_id, tev)
 		&"BOOK_CAMPAIGN":
 			result = _campaign_result(command_id, Marketing.book(_state, command_id, String(command.get("medium", "")), int(command.get("days", 0)), int(command.get("daily_budget_yen", 0)), String(command.get("category", ""))), "CAMPAIGN_BOOKED")
 		&"CANCEL_CAMPAIGN":

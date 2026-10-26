@@ -101,3 +101,35 @@ func test_the_map_window_switches_maps(t, tree) -> void:
 	t.eq(bc._map_view.current, "", "on 青葉市 the store has no site")
 	main.queue_free()
 	await tree.process_frame
+
+
+## #146: once the first store has opened, the map window opens a new store on a free site (size and cost), the
+## 店舗 list shows both and switches between them.
+func test_a_second_store_from_the_map(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	var app: Node = main.get_node("AppRoot")
+	var bc: BusinessController = main.get_node("BusinessController")
+	app.state.ledger.cash_yen = 50000000
+	app.state.time_sec = 60   # the first store has opened once: its site is fixed
+	app._publish_snapshot()
+	bc.open_map()
+	await tree.process_frame
+	bc._show_plot("P05")
+	t.eq(bc._map_pick.text, "ここに新しい店を出す", "the button opens a new store")
+	t.ok(bc._map_size.visible, "with a size choice")
+	bc._map_size.select(0)
+	bc._map_pick.pressed.emit()
+	t.eq(Company.stores(app.state).size(), 2, "a second store")
+	await tree.process_frame
+	t.eq(bc._stores_box.get_child_count(), 2, "both in the store list")
+	bc._show_plot("P05")
+	t.ok(bc._map_pick.disabled, "a site with a store of ours cannot be picked again")
+	t.ok(bc.switch_store("s2").ok, "switched")
+	t.eq(app.state.store_id, "s2", "store 2 on screen")
+	t.eq(app.runner._state, app.state, "the simulation runs the store on screen")
+	t.ok(bc.switch_store("").ok, "and back")
+	t.eq(app.state.store_id, "", "store 1 again")
+	main.queue_free()
+	await tree.process_frame

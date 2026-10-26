@@ -94,7 +94,9 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"staff_candidates": state.staff_candidates.duplicate(true),   # #144
 			"location_id": state.location_id,   # #148
 			"map_id": state.map_id, "plot_id": state.plot_id,   # #150
-			"store_id": state.store_id,   # #146
+			"store_id": state.store_id, "store_name": state.store_name,   # #146
+			"branch_carry": state.branch_carry, "branch_items_carry": state.branch_items_carry, "branch_sku_acc": state.branch_sku_acc.duplicate(),
+			"branches": state.branches.map(func(b): return _branch_out(b, save_id, saved_at_utc)),
 			"facilities": state.facilities.duplicate(), "facility_visits": state.facility_visits.duplicate(),   # #149
 			"visitors_by_hour": state.visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": state.visitors_by_hour_yesterday.duplicate(),   # #150
 			"promotions": state.promotions.duplicate(true), "next_promotion_seq": state.next_promotion_seq,   # #137
@@ -219,6 +221,19 @@ static func _customer_out(c: Dictionary, now_sec: int, patience_sec: int) -> Dic
 # ---------------------------------------------------------------- dictionary -> state
 
 ## Result: {"ok": bool, "state": GameState or null, "errors": Array[String], "unsupported_version": bool}.
+## Another store of the company (#146): saved whole except the ledger, which is the company's (in the store on
+## screen's economy block).
+static func _branch_out(b: GameState, save_id: String, saved_at_utc: String) -> Dictionary:
+	var scope := b.ledger.scope
+	b.set_store_id(b.store_id)   # its own rows (the ad day) are read under its scope
+	var d := to_dict(b, save_id, saved_at_utc)
+	b.ledger.scope = scope
+	d["economy"]["ledger_transactions"] = []
+	d["economy"]["cash_yen"] = 0
+	d["economy"]["unpaid_cost_yen"] = b.unpaid_cost_yen
+	return d
+
+
 static func from_dict(data, balance: Dictionary, fixtures: FixtureCatalog, products: ProductCatalog) -> Dictionary:
 	var errs: Array[String] = []
 	if typeof(data) != TYPE_DICTIONARY:
@@ -249,6 +264,18 @@ static func from_dict(data, balance: Dictionary, fixtures: FixtureCatalog, produ
 		errs.append_array(semantic_errors(s))
 	if not errs.is_empty():
 		return _bad(errs)
+	# #146: the company's other stores, on this store's (shared) ledger.
+	var rt = data.get("runtime_state", {})
+	if typeof(rt) == TYPE_DICTIONARY and typeof(rt.get("branches")) == TYPE_ARRAY:
+		for i in rt["branches"].size():
+			var br := from_dict(rt["branches"][i], balance, fixtures, products)
+			if not br["ok"]:
+				return _bad(["runtime_state.branches[%d]: %s" % [i, str(br["errors"])]])
+			var b: GameState = br["state"]
+			b.ledger = s.ledger
+			b.set_store_id(b.store_id)
+			s.branches.append(b)
+		s.set_store_id(s.store_id)
 	return {"ok": true, "state": s, "errors": errs, "unsupported_version": false}
 
 
@@ -452,6 +479,13 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			s.set(k, arr.map(func(x): return int(x)))
 	if typeof(rt.get("store_id")) == TYPE_STRING:   # #146 (absent in older saves: the first store)
 		s.set_store_id(String(rt["store_id"]))
+		s.store_name = String(rt.get("store_name", ""))
+		s.branch_carry = float(rt.get("branch_carry", 0.0))
+		s.branch_items_carry = float(rt.get("branch_items_carry", 0.0))
+		var acc = rt.get("branch_sku_acc", {})
+		if typeof(acc) == TYPE_DICTIONARY:
+			for k in acc:
+				s.branch_sku_acc[String(k)] = float(acc[k])
 	var loc = rt.get("location_id", "")
 	if typeof(loc) != TYPE_STRING or (loc != "" and StoreLocation.find(loc).is_empty()):
 		errs.append("runtime_state.location_id: invalid")

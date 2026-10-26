@@ -25,6 +25,9 @@ var _map_window: Window          # #150: the area map, opened from the 地図で
 var _map_view: MapView
 var _map_info: Label
 var _map_pick: Button
+var _map_size: OptionButton      # #146: the size of a new store
+var _stores_box: VBoxContainer   # #146: the company's stores
+var _stores_key := []
 var _map_button: Button
 var _map_selected := ""
 var _map_hour: HSlider
@@ -111,6 +114,13 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_location_info = Label.new()
 	_location_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_location_info)
+	# #146: the company's stores (open new ones on the area map, switch between them here).
+	var stores_title := Label.new()
+	stores_title.text = "店舗（新しい店は「地図・出店」から出せます）"
+	_body.add_child(stores_title)
+	_stores_box = VBoxContainer.new()
+	_stores_box.name = "StoreList"
+	_body.add_child(_stores_box)
 	# #149: nearby facilities (up to NearbyFacility.max_count), chosen before the first opening like the location.
 	var fac_title := Label.new()
 	fac_title.text = "周辺施設（%dつまで・最初の営業開始まで選べます）" % NearbyFacility.max_count()
@@ -179,7 +189,27 @@ func apply_snapshot(snap: Dictionary) -> void:
 	if String(snap.get("plot_id", "")) != "":
 		var plot := WorldMap.plot(String(snap["map_id"]), String(snap["plot_id"]))
 		_location_info.text = "地図：%s %s ／ %s" % [WorldMap.display_name(String(snap["map_id"])), plot.get("name", ""), _location_info.text]
-	_map_button.text = "地図で選ぶ" if not bool(snap.get("location_locked", true)) else "地図を見る"
+	_map_button.text = "地図で選ぶ" if not bool(snap.get("location_locked", true)) else "地図・出店"
+	var stores: Array = snap.get("stores", [])
+	var skey := stores.map(func(st): return [st["store_id"], st["active"], st["business_state"], st["revenue_today"], (st["staff"] as Array).size()])
+	if skey != _stores_key:
+		_stores_key = skey
+		for n in _stores_box.get_children():
+			n.queue_free()
+		for st in stores:
+			var row := HBoxContainer.new()
+			var l := Label.new()
+			l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			l.text = store_line(st)
+			row.add_child(l)
+			if not bool(st["active"]):
+				var b := Button.new()
+				b.name = "Switch_" + (String(st["store_id"]) if st["store_id"] != "" else "s1")
+				b.text = "切り替え"
+				b.pressed.connect(switch_store.bind(String(st["store_id"])))
+				row.add_child(b)
+			_stores_box.add_child(row)
 	if _map_view != null:
 		_map_view.current = _current_plot_on(_map_view.map_id)
 		_map_view.queue_redraw()
@@ -322,6 +352,13 @@ func open_map() -> void:
 		fit.text = "全体表示（ホイールで拡大・ドラッグで移動）"
 		fit.pressed.connect(func(): _map_view.reset_view())
 		side.add_child(fit)
+		_map_size = OptionButton.new()
+		_map_size.name = "NewStoreSize"
+		for sz in StoreSize.all(_snap_balance()):
+			_map_size.add_item("%s（%d×%d）出店 %s" % [sz["display_name"], int(sz["width"]), int(sz["height"]), GameHud.format_yen(int(sz.get("open_cost_yen", 0)))])
+			_map_size.set_item_metadata(_map_size.item_count - 1, String(sz["size_id"]))
+		_map_size.select(0)
+		side.add_child(_map_size)
 		_map_pick = Button.new()
 		_map_pick.name = "PickSite"
 		_map_pick.text = "ここに出店する"
@@ -365,7 +402,13 @@ func _show_plot(plot_id: String) -> void:
 	var locked := bool(_snap.get("location_locked", true))
 	var map_id := _map_view.map_id
 	_map_info.text = plot_text(map_id, plot_id)
-	_map_pick.disabled = locked or WorldMap.site(map_id, plot_id).is_empty() or _current_plot_on(map_id) == plot_id
+	# Before the first opening a site sets this store's place; afterwards it opens a new store there (#146).
+	var taken := (_snap.get("stores", []) as Array).any(func(st): return st["map_id"] == map_id and st["plot_id"] == plot_id)
+	_map_pick.text = "ここに新しい店を出す" if locked else "ここに出店する"
+	_map_size.visible = locked
+	_map_pick.disabled = WorldMap.site(map_id, plot_id).is_empty() or taken or _current_plot_on(map_id) == plot_id
+	if taken:
+		_map_info.text += "\n（この区画には自社の店があります）"
 	if plot_id == _current_plot_on(map_id) and locked:
 		if _balance.is_empty():
 			_balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
@@ -381,7 +424,31 @@ func set_forecast_hour(hour: int) -> void:
 
 
 func pick_site(plot_id: String) -> CommandResult:
-	return _send({"kind": &"SET_SITE", "map_id": _map_view.map_id if _map_view != null else WorldMap.DEFAULT_MAP, "plot_id": plot_id})
+	var map_id := _map_view.map_id if _map_view != null else WorldMap.DEFAULT_MAP
+	if bool(_snap.get("location_locked", true)):   # the first store is open: a new store (#146)
+		return _send({"kind": &"OPEN_STORE", "map_id": map_id, "plot_id": plot_id, "size_id": String(_map_size.get_item_metadata(_map_size.selected))})
+	return _send({"kind": &"SET_SITE", "map_id": map_id, "plot_id": plot_id})
+
+
+func _snap_balance() -> Dictionary:
+	if _balance.is_empty():
+		_balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	return _balance
+
+
+## SWITCH_STORE (#146): another store on screen.
+func switch_store(store_id: String) -> CommandResult:
+	_seq += 1
+	var r: CommandResult = _app.run_command({"command_id": "ui_switch_%d" % _seq, "kind": &"SWITCH_STORE", "store_id": store_id})
+	_status.text = "" if r.ok else CommandMessages.text(r.code, r.message_key)
+	return r
+
+
+## One line per store of the company: name, place, size, state and today's money.
+static func store_line(st: Dictionary) -> String:
+	var state := {"SETUP": "準備中", "OPEN": "営業中", "CLOSING": "閉店作業中", "PAYMENT_BLOCKED": "支払い停止"}
+	return "%s%s　%s・%s　%s　店員%d人　今日 売上 %s／営業損益 %s" % ["▶ " if bool(st["active"]) else "", st["name"], st["location"], st["size_id"],
+		state.get(st["business_state"], st["business_state"]), (st["staff"] as Array).size(), GameHud.format_yen(int(st["revenue_today"])), GameHud.format_yen(int(st["profit_today"]))]
 
 
 ## What a site offers: location, nearby facilities with their distance, and the visitors forecast.

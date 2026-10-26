@@ -16,6 +16,7 @@ var _hours: Label
 var _advice: Label
 var _status: Label
 var _rows_key := []
+var _stores: Array = []   # #146: the company's stores (for the transfer choice)
 var _staff_labels: Dictionary = {}   # staff id -> Label (texts change every snapshot; rows only when people change)
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -62,7 +63,8 @@ func apply_snapshot(snap: Dictionary) -> void:
 		_summary.text = "店員はいません（この設定では店員なしで営業します）。"
 		return
 	_summary.text = summary_text(staff.size(), cap, int(staffing.get("wages_per_day", 0)))
-	var key := [cap, staff.map(func(s): return s["customer_id"]), cands.map(func(c): return c["candidate_id"])]
+	_stores = snap.get("stores", [])
+	var key := [cap, staff.map(func(s): return s["customer_id"]), cands.map(func(c): return c["candidate_id"]), _stores.size()]
 	if key != _rows_key:
 		_rows_key = key
 		_rebuild(staff, cands, staff.size() >= cap)
@@ -88,6 +90,17 @@ func _rebuild(staff: Array, cands: Array, full: bool) -> void:
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		row.add_child(l)
 		_staff_labels[s["customer_id"]] = l
+		if _stores.size() > 1:   # #146: move to another store of the company (both closed)
+			var to := OptionButton.new()
+			to.name = "Transfer_" + String(s["customer_id"])
+			to.add_item("異動…")
+			to.set_item_metadata(0, null)
+			for st in _stores:
+				if not bool(st["active"]):
+					to.add_item("→ " + String(st["name"]))
+					to.set_item_metadata(to.item_count - 1, String(st["store_id"]))
+			to.item_selected.connect(func(i): if to.get_item_metadata(i) != null: transfer_staff(String(s["customer_id"]), String(to.get_item_metadata(i))))
+			row.add_child(to)
 		var fire := Button.new()
 		fire.name = "Fire_" + String(s["customer_id"])
 		fire.text = "解雇"
@@ -113,6 +126,16 @@ func _rebuild(staff: Array, cands: Array, full: bool) -> void:
 		var none := Label.new()
 		none.text = "今日の候補はもういません。"
 		_cand_box.add_child(none)
+
+
+func transfer_staff(staff_id: String, to_store_id: String) -> CommandResult:
+	_seq += 1
+	var r: CommandResult = _app.run_command({"command_id": "ui_transfer_%d_%d" % [Time.get_ticks_usec(), _seq], "kind": &"TRANSFER_STAFF", "staff_id": staff_id, "to_store_id": to_store_id})
+	_status.text = "異動しました。" if r.ok else "異動できません（%s）" % TRANSFER_ERRORS.get(String(r.message_key), String(r.message_key))
+	return r
+
+
+const TRANSFER_ERRORS := {"stores_must_be_closed": "両方の店が準備中のときだけ異動できます", "staff_cap_reached": "異動先の店員が上限です", "unknown_store": "店がありません"}
 
 
 func hire_candidate(candidate_id: String) -> CommandResult:

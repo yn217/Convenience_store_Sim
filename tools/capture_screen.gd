@@ -98,6 +98,10 @@ func _run() -> void:
 			main.call("toggle_build")
 		elif a.begins_with("--screen="):
 			main.call("open_screen_tab", a.trim_prefix("--screen="))
+	for a in OS.get_cmdline_user_args():   # --second-store=P05: a second store opened there (#146), the map left open on it
+		if a.begins_with("--second-store="):
+			s.ledger.cash_yen = 50000000
+			app.run_command({"command_id": "cap_open2", "kind": &"OPEN_STORE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": a.trim_prefix("--second-store="), "size_id": "small"})
 	for a in OS.get_cmdline_user_args():   # --map=P02: the area map open with that site clicked (#150)
 		if a == "--map" or a.begins_with("--map="):
 			var biz: Node = main.get_node("BusinessController")
