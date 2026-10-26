@@ -13,6 +13,8 @@ static func step(state: GameState) -> bool:
 	if state.business_state != GameState.OPEN:
 		return false
 	var drawn := _location_step(state)
+	if not state.coupons.is_empty() and _coupon_step(state):   # #137: coupon holders coming back
+		drawn = true
 	for fid in state.facilities:
 		if _facility_step(state, NearbyFacility.find(fid)):
 			drawn = true
@@ -50,6 +52,38 @@ static func _facility_step(state: GameState, f: Dictionary) -> bool:
 	state.arrival_queue.append({"customer_id": "cust_%05d" % state.next_customer_seq, "arrived_at_sec": state.time_sec,
 		"purpose_id": v["purpose_id"], "budget_yen": v["budget_yen"], "wallet_yen": v["wallet_yen"], "basket_size": v["slots"],
 		"segment_id": who["segment_id"]})
+	return true
+
+
+## A coupon holder coming back (#137 phase 2): one `arrivals` draw for "does someone come"; the visitor draws a
+## purpose like any other and carries the coupon to the till. Counts as a potential visitor.
+static func _coupon_step(state: GameState) -> bool:
+	var ret := Promotions.coupon_return(state)
+	if String(ret["coupon_id"]) == "":
+		return false
+	var rng := Lcg32.new(int(state.rng_states["arrivals"]))
+	var roll := rng.uniform_0_1()
+	state.rng_states["arrivals"] = rng.state
+	if roll >= float(ret["p"]):
+		return false
+	state.visit_stats["potential"] += 1
+	state.count_visitor_hour()
+	if state.active_customer_count() >= int(state.balance.get("max_active_customers", 30)):
+		state.visit_stats["lost"] += 1
+		return true
+	state.visit_stats["entered"] += 1
+	for c in state.coupons:
+		if c["coupon_id"] == ret["coupon_id"]:
+			c["returning"] = true
+	state.next_customer_seq += 1
+	var arrival := {"customer_id": "cust_%05d" % state.next_customer_seq, "arrived_at_sec": state.time_sec, "coupon_id": ret["coupon_id"]}
+	var pick_rng := Lcg32.new(int(state.rng_states["arrivals"]))
+	var money_rng := Lcg32.new(int(state.rng_states["visits"]))
+	var v := VisitPurpose.draw(pick_rng, money_rng, DemandModel.hour_of_day(state.time_sec), state.balance, state.location_id, stocked_categories(state))
+	state.rng_states["arrivals"] = pick_rng.state
+	state.rng_states["visits"] = money_rng.state
+	arrival.merge({"purpose_id": v["purpose_id"], "budget_yen": v["budget_yen"], "wallet_yen": v["wallet_yen"], "basket_size": v["slots"]})
+	state.arrival_queue.append(arrival)
 	return true
 
 

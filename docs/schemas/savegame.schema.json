@@ -481,6 +481,7 @@
               },
               "seen_categories": {"type": "array", "items": {"type": "string", "minLength": 1}},
               "impulse_tried": {"type": "array", "items": {"type": "string", "minLength": 1}},
+              "coupon_id": {"description": "Next-visit coupon the customer came back with (issue #137 phase 2); \"\" when none.", "type": "string"},
               "segment_id": {"description": "Customer segment of a visitor sent by a nearby facility (issue #149); absent or \"\" for the location's own visitors.", "type": "string"}
             }
           },
@@ -941,6 +942,8 @@
         "promotions": {"description": "Promotions (issue #137): {promotion_id, def_id, start_day, end_day} (inclusive days), running and finished.", "type": "array", "items": {"type": "object"}},
         "next_promotion_seq": {"type": "integer", "minimum": 0},
         "promo_stats": {"description": "Results per promotion id (issue #137): {units, discount_yen}.", "type": "object"},
+        "coupons": {"description": "Outstanding next-visit coupons (issue #137 phase 2): {coupon_id, promotion_id, def_id, expires_day, yen, returning}.", "type": "array", "items": {"type": "object"}},
+        "next_coupon_seq": {"type": "integer", "minimum": 0},
         "map_id": {"description": "Area map of the store's site (issue #150), e.g. aoba_town_v1; \"\" when chosen without the map.", "type": "string"},
         "plot_id": {"description": "The store's site on that map (issue #150); \"\" when the location was chosen by hand.", "type": "string"},
         "facilities": {"description": "Nearby facility ids (issue #149), at most max_facilities.", "type": "array", "items": {"type": "string"}},

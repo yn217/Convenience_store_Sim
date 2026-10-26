@@ -45,6 +45,8 @@ func _run_step() -> void:
 		_state.close_day_once(prev_day)   # report before the new day's costs (12 §4)
 		_state.day = new_day
 		_state.facility_visits.clear()   # #149: today's visitors per facility
+		if not _state.coupons.is_empty():
+			Promotions.expire_coupons(_state)   # #137
 		_state.visitors_by_hour_yesterday = _state.visitors_by_hour   # #150
 		_state.visitors_by_hour = []
 		for s in _state.staff:

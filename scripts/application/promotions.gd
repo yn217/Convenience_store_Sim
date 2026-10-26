@@ -11,6 +11,10 @@ extends RefCounted
 ##     item (extra_take per extra unit, up to max_units); at the till a basket with n units of the categories gets
 ##     the best tier's yen off (multi: [[2, 40], [3, 90]]) or half the lower price of every pair (second_half),
 ##     booked as a DISCOUNT row like a bundle.
+##   - coupon (phase 2): a basket with an item of its categories gets one coupon for the next visit (coupon_yen off
+##     an item of those categories, valid valid_days days, state.coupons). An outstanding coupon brings its holder
+##     back with return_rate over its days (DemandGenerator); at the till a basket of the categories redeems it
+##     (DISCOUNT row); unused coupons expire. Issued and redeemed coupons are counted per promotion.
 ## Starting one books its setup cost (POP, signs) as a PROMO expense. Results per promotion: units sold on the deal
 ## and the discount given (state.promo_stats).
 
@@ -153,6 +157,71 @@ static func stop(state: GameState, promotion_id: String) -> String:
 			p["end_day"] = state.day - 1
 			return ""
 	return "unknown_promotion"
+
+
+## The running coupon promotion covering any of these categories (its definition plus promotion_id), or {}.
+static func coupon_for(state: GameState, categories: Array) -> Dictionary:
+	for p in running(state):
+		var d := definition(p["def_id"])
+		if d.get("kind", "") == "coupon" and (d["categories"] as Array).any(func(c): return categories.has(c)):
+			var out := d.duplicate()
+			out["promotion_id"] = p["promotion_id"]
+			return out
+	return {}
+
+
+## Issues one coupon for a basket of these categories (when a coupon promotion covers one). -> the coupon or {}.
+static func issue_coupon(state: GameState, categories: Array) -> Dictionary:
+	var d := coupon_for(state, categories)
+	if d.is_empty():
+		return {}
+	state.next_coupon_seq += 1
+	var c := {"coupon_id": "cpn_%05d" % state.next_coupon_seq, "promotion_id": d["promotion_id"], "def_id": d["def_id"],
+		"expires_day": state.day + int(d["valid_days"]), "yen": int(d["coupon_yen"]), "returning": false}
+	state.coupons.append(c)
+	var st: Dictionary = state.promo_stats.get(d["promotion_id"], {})
+	st["issued"] = int(st.get("issued", 0)) + 1
+	return c
+
+
+## Redeems `coupon_id` against a basket of these categories. -> yen off (0 = not usable here; the coupon stays).
+static func redeem_coupon(state: GameState, coupon_id: String, categories: Array) -> int:
+	for i in state.coupons.size():
+		var c: Dictionary = state.coupons[i]
+		if c["coupon_id"] != coupon_id:
+			continue
+		c["returning"] = false
+		if int(c["expires_day"]) < state.day or not (definition(c["def_id"]).get("categories", []) as Array).any(func(x): return categories.has(x)):
+			return 0
+		state.coupons.remove_at(i)
+		var st: Dictionary = state.promo_stats.get(c["promotion_id"], {})
+		st["redeemed"] = int(st.get("redeemed", 0)) + 1
+		st["discount_yen"] = int(st.get("discount_yen", 0)) + int(c["yen"])
+		return int(c["yen"])
+	return 0
+
+
+## Drops the coupons past their last day (at midnight); a holder who came back and left without paying may come again.
+static func expire_coupons(state: GameState) -> void:
+	state.coupons = state.coupons.filter(func(c): return int(c["expires_day"]) >= state.day)
+	for c in state.coupons:
+		c["returning"] = false
+
+
+## Probability, per step, that one of the outstanding coupons (not already on its way back) brings its holder back:
+## each coupon's return_rate spread over its valid days. -> {p, coupon_id (the oldest waiting one)}.
+static func coupon_return(state: GameState) -> Dictionary:
+	var p := 0.0
+	var first := ""
+	var steps_per_day := float(DemandModel.SECONDS_PER_DAY) / GameClock.STEP_GAME_SECONDS
+	for c in state.coupons:
+		if bool(c["returning"]):
+			continue
+		var d := definition(c["def_id"])
+		p += float(d.get("return_rate", 0.0)) / maxf(float(d.get("valid_days", 1)), 1.0) / steps_per_day
+		if first == "":
+			first = c["coupon_id"]
+	return {"p": minf(p, 0.5), "coupon_id": first}
 
 
 ## Books the deal of a sold unit (called by the sale): units and the discount against the list price.

@@ -98,6 +98,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"visitors_by_hour": state.visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": state.visitors_by_hour_yesterday.duplicate(),   # #150
 			"promotions": state.promotions.duplicate(true), "next_promotion_seq": state.next_promotion_seq,   # #137
 			"promo_stats": state.promo_stats.duplicate(true),
+			"coupons": state.coupons.duplicate(true), "next_coupon_seq": state.next_coupon_seq,   # #137 phase 2
 		},
 	}
 
@@ -114,6 +115,7 @@ static func _visit_out(c: Dictionary) -> Dictionary:
 		"seen_categories": (c.get("seen_categories", []) as Array).duplicate(),
 		"impulse_tried": (c.get("impulse_tried", []) as Array).duplicate(),
 		"segment_id": String(c.get("segment_id", "")),   # #149
+		"coupon_id": String(c.get("coupon_id", "")),     # #137
 	}
 
 
@@ -402,6 +404,17 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			for k in st:
 				if typeof(st[k]) == TYPE_DICTIONARY:
 					s.promo_stats[k] = {"units": int(st[k].get("units", 0)), "discount_yen": int(st[k].get("discount_yen", 0))}
+					for extra in ["issued", "redeemed"]:   # coupon promotions
+						if st[k].has(extra):
+							s.promo_stats[k][extra] = int(st[k][extra])
+	if typeof(rt.get("coupons")) == TYPE_ARRAY:   # #137 phase 2 (absent in older saves)
+		for cp in rt["coupons"]:
+			if typeof(cp) != TYPE_DICTIONARY or Promotions.definition(String(cp.get("def_id", ""))).is_empty() or not JsonCheck.is_int(cp.get("expires_day")) or not JsonCheck.is_int(cp.get("yen")):
+				errs.append("runtime_state.coupons: invalid")
+				break
+			s.coupons.append({"coupon_id": String(cp.get("coupon_id", "")), "promotion_id": String(cp.get("promotion_id", "")), "def_id": String(cp["def_id"]),
+				"expires_day": int(cp["expires_day"]), "yen": int(cp["yen"]), "returning": bool(cp.get("returning", false))})
+		s.next_coupon_seq = int(rt.get("next_coupon_seq", s.coupons.size()))
 	if typeof(rt.get("plot_id")) == TYPE_STRING and String(rt["plot_id"]) != "":   # #150 (absent in older saves)
 		if WorldMap.plot(String(rt.get("map_id", "")), String(rt["plot_id"])).is_empty():
 			errs.append("runtime_state.plot_id: invalid")
@@ -591,6 +604,7 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		"planned_yen": visit["planned_yen"], "impulse_count": visit["impulse_count"], "basket_log": visit["basket_log"],
 		"seen_categories": visit["seen_categories"], "impulse_tried": visit["impulse_tried"],
 		"segment_id": visit.get("segment_id", ""),
+		"coupon_id": visit.get("coupon_id", ""),
 	})
 
 
@@ -603,7 +617,7 @@ static func _visit_in(v, path: String, errs: Array[String]) -> Dictionary:
 		return {}
 	if v.is_empty():
 		return out
-	var k_errs := JsonCheck.key_errors(v, ["purpose_id", "budget_yen", "wallet_yen", "planned_yen", "impulse_count", "basket_log", "seen_categories", "impulse_tried"], ["segment_id"], path + ".visit")
+	var k_errs := JsonCheck.key_errors(v, ["purpose_id", "budget_yen", "wallet_yen", "planned_yen", "impulse_count", "basket_log", "seen_categories", "impulse_tried"], ["segment_id", "coupon_id"], path + ".visit")
 	if not k_errs.is_empty():
 		errs.append_array(k_errs)
 		return {}
@@ -617,6 +631,7 @@ static func _visit_in(v, path: String, errs: Array[String]) -> Dictionary:
 		return {}
 	out["purpose_id"] = String(v["purpose_id"])
 	out["segment_id"] = String(v.get("segment_id", ""))
+	out["coupon_id"] = String(v.get("coupon_id", ""))
 	for e in v["basket_log"]:
 		if typeof(e) != TYPE_DICTIONARY or not JsonCheck.is_nonempty_string(e.get("sku_id")) or not JsonCheck.is_int(e.get("price_yen")) \
 				or not ["target", "impulse", "deal"].has(e.get("kind")) or not ["planned", "taken", "not_bought", "too_expensive", "stockout"].has(e.get("state")):

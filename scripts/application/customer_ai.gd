@@ -141,6 +141,7 @@ func _spawn(state: GameState) -> void:
 			"wallet_yen": int(arrival.get("wallet_yen", 0)), "planned_yen": 0, "impulse_count": 0, "basket_log": [],
 			"seen_categories": [], "impulse_tried": [],
 			"segment_id": String(arrival.get("segment_id", "")),   # #149: sent by a nearby facility
+			"coupon_id": String(arrival.get("coupon_id", "")),     # #137: came back with a coupon
 		})
 		if approach.is_empty():
 			state.emit_event("CUSTOMER_ENTERED", {"customer_id": arrival["customer_id"]})
@@ -1042,6 +1043,7 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 		return
 	_bundle_discount(state, c, basket_id, sold_categories)
 	_multi_discount(state, c, basket_id, sold_units)
+	_coupons_at_till(state, c, basket_id, sold_categories)
 	state.visit_stats["purchased"] += 1   # a buying customer, however many items (issue #128)
 	c["outcome"] = "purchased"
 	var name := String(state.products.get_sku(first_sku).get("display_name", ""))
@@ -1068,6 +1070,18 @@ func _bundle_discount(state: GameState, c: Dictionary, basket_id: String, catego
 		return
 	if state.ledger.record("DISCOUNT", "%s:BUNDLE" % basket_id, -int(b["yen"]), state.day, state.time_sec, {"promotion_id": b["promotion_id"], "customer_id": c["customer_id"]}, {"expense": int(b["yen"])}):
 		Promotions.note_sale(state, b["promotion_id"], 1, int(b["yen"]))
+
+
+## Coupons at the till (#137 phase 2): a returning holder's coupon is redeemed against the basket (DISCOUNT row),
+## and a basket of a running coupon promotion's categories gets a new coupon for the next visit.
+func _coupons_at_till(state: GameState, c: Dictionary, basket_id: String, categories: Array) -> void:
+	if String(c.get("coupon_id", "")) != "":
+		var yen := Promotions.redeem_coupon(state, c["coupon_id"], categories)
+		if yen > 0 and state.ledger.record("DISCOUNT", "%s:COUPON" % basket_id, -yen, state.day, state.time_sec, {"coupon_id": c["coupon_id"], "customer_id": c["customer_id"]}, {"expense": yen}):
+			c["coupon_used"] = true
+		c["coupon_id"] = ""
+	if not state.promotions.is_empty():
+		Promotions.issue_coupon(state, categories)
 
 
 ## Multi-buy deals the basket earns (#137 phase 2): one DISCOUNT row per deal, like a bundle.

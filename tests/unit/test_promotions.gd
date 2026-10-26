@@ -26,7 +26,7 @@ func test_definitions_are_well_formed(t, _tree) -> void:
 	for sku in s.products.skus.values():
 		cats[sku["category"]] = true
 	for d in Promotions.data()["promotions"]:
-		t.ok(["price", "bundle", "multi", "second_half"].has(d["kind"]), d["def_id"] + ": known kind")
+		t.ok(["price", "bundle", "multi", "second_half", "coupon"].has(d["kind"]), d["def_id"] + ": known kind")
 		t.ok(int(d["setup_cost_yen"]) > 0 and int(d["default_days"]) >= 1, d["def_id"] + ": cost and days")
 		var used: Array = d.get("categories", [])
 		for g in d.get("bundle", []):
@@ -171,3 +171,31 @@ func test_a_multi_buy_deal_sells_more_units(t, _tree) -> void:
 			t.eq(int(st["discount_yen"]), rows.reduce(func(a, tx): return a + int(tx["expense_delta_yen"]), 0), "results count the discounts")
 			t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
 	t.ok(int(units[true]) > int(units[false]), "more snacks sold with the deal (%d > %d)" % [units[true], units[false]])
+
+
+## Phase 2: next-visit coupons — issued for a basket of the categories, holders come back while the coupon is
+## valid, redeem it at the till (a DISCOUNT row), unused ones expire; coupons survive a save.
+func test_next_visit_coupons(t, _tree) -> void:
+	var s := Run.new_state(300.0)
+	var cmds := Run.place_layout(s)
+	t.ok(cmds.execute({"command_id": "c1", "kind": &"START_PROMOTION", "def_id": "coupon_meal", "days": 2}).ok, "started")
+	var issued := Promotions.issue_coupon(s, ["drink"])
+	t.ok(issued.is_empty(), "no coupon for a basket without onigiri or bento")
+	Run.run_days(s, cmds, 2)
+	var st: Dictionary = s.promo_stats[s.promotions[0]["promotion_id"]]
+	t.ok(int(st.get("issued", 0)) > 10, "coupons handed out (%d)" % int(st.get("issued", 0)))
+	var rows := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "DISCOUNT" and String(tx["event_id"]).ends_with(":COUPON"))
+	t.ok(rows.size() > 0, "holders came back and redeemed (%d)" % rows.size())
+	t.eq(int(st.get("redeemed", 0)), rows.size(), "every redemption counted")
+	t.eq(int(st.get("discount_yen", 0)), 50 * rows.size(), "50 yen each")
+	t.ok(int(st.get("redeemed", 0)) <= int(st.get("issued", 0)), "never more than were issued")
+	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
+	var saved := SaveGame.to_dict(s, "cpn", "2026-10-26T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq((lr["state"] as GameState).coupons, s.coupons, "outstanding coupons survive a save")
+	t.eq((lr["state"] as GameState).promo_stats, s.promo_stats, "with the counts")
+	s.day += 10
+	Promotions.expire_coupons(s)
+	t.eq(s.coupons, [], "unused coupons expire")
+	t.ok(PromotionController.promo_line({"display_name": "x", "kind": "coupon", "running": {"days_left": 1, "stats": st}}).contains("配布"), "the card shows issued and used")

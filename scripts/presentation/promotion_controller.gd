@@ -98,4 +98,6 @@ static func promo_line(p: Dictionary) -> String:
 	if running.is_empty():
 		return "%s　%d日間" % [head, int(p.get("default_days", 3))]
 	var st: Dictionary = running.get("stats", {})
+	if p.get("kind", "") == "coupon":
+		return "%s\n実施中・残り%d日　配布 %d枚　利用 %d枚　値引き %s" % [head, int(running.get("days_left", 0)), int(st.get("issued", 0)), int(st.get("redeemed", 0)), OverlayModel.yen(int(st.get("discount_yen", 0)))]
 	return "%s\n実施中・残り%d日　対象 %d点　値引き %s" % [head, int(running.get("days_left", 0)), int(st.get("units", 0)), OverlayModel.yen(int(st.get("discount_yen", 0)))]
