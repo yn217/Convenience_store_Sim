@@ -112,29 +112,38 @@ func test_exterior_is_outside_the_store_and_deterministic(t, _tree) -> void:
 	t.eq(a.size(), b.size(), "same inputs give the same number of items")
 	t.ok(a == b, "same inputs give the same items")
 	for it in a:
-		t.ok(not _inside_floor(it, W, H), "exterior %s stands outside the store" % it["id"])
+		if it["kind"] == &"sprite":
+			t.ok(not _inside_floor(it, W, H), "exterior %s stands outside the store" % it["id"])
+		elif it["kind"] == &"poly":
+			for p in it["points"]:
+				t.ok(p.x <= -0.5 or p.x >= W - 0.5 or p.y <= -0.5 or p.y >= H - 0.5, "markings stay outside walkable floor")
 
 
 func test_exterior_has_the_street_furniture(t, _tree) -> void:
 	# Default door on the south wall: the whole street set is placed in front of the storefront.
 	var items := StoreDecor.exterior_items(W, H, SOUTH_ENTR)
-	for id in ["open_a_board", "vending_machine", "trash_recycle_bins", "bicycle_stand", "bench", "nobori_banner_obento", "pole_sign", "street_lamp", "parking_lot_straight", "car_stop_bollard", "parked_car_blue", "cherry_tree_a", "flower_bed_planter", "potted_plant_large"]:
+	for id in ["open_a_board", "vending_painted_v1", "trash_recycle_bins", "bicycle_rack_painted_v1", "bench_painted_v1", "nobori_banner_obento", "street_lamp", "green_street_tree_v1", "cherry_tree_painted_v1", "flower_planter_painted_v1"]:
 		t.ok(_sprites(items, id).size() > 0, "%s is placed" % id)
-	t.eq(_sprites(items, "parked_car_blue").size() + _sprites(items, "parked_car_red").size(), 2, "two parked cars")
+	t.eq(_sprites(items, "parked_car_blue").size() + _sprites(items, "parked_car_red").size(), 0, "legacy side-view cars are not used")
 
 
 func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
 	# Parking used to go on the next side clockwise, which is a far wall (behind the store). It now stands on the
 	# entrance side itself, out on the street: west door -> x < -0.5, south door -> y > H - 0.5.
-	for it in _sprites(StoreDecor.exterior_items(W, H, ENTR), "parking_lot_straight"):
-		t.ok(it["x"] < -0.5, "west door: parking tiles lie west of the store")
-	for it in _sprites(StoreDecor.exterior_items(W, H, SOUTH_ENTR), "parking_lot_straight"):
-		t.ok(it["y"] > H - 0.5, "south door: parking tiles lie south of the store")
+	for side in [ENTR, SOUTH_ENTR]:
+		var markings := StoreDecor.exterior_items(W, H, side).filter(func(it): return it.get("role", "") == "parking")
+		t.ok(markings.size() > 0, "parking geometry exists")
+		for it in markings:
+			for p in it["points"]:
+				var depth: float = -0.5 - p.x if side == ENTR else p.y - (H - 0.5)
+				var along: float = p.y if side == ENTR else p.x
+				t.ok(depth >= 2.0 and depth <= 7.0, "parking stays between pedestrian apron and road")
+				t.ok(along < BackdropLayer.entrance_span(BackdropLayer.entrance_side(W, H, side), W, H, side).x, "door approach stays clear")
 
 
 func test_front_items_are_on_the_near_sides(t, _tree) -> void:
 	for it in StoreDecor.exterior_items(W, H, ENTR):
-		if it["front"]:
+		if it["front"] and it["kind"] == &"sprite":
 			t.ok(it["x"] >= W - 0.5 or it["y"] >= H - 0.5, "%s is drawn over the floor only on a near side" % it["id"])
 
 

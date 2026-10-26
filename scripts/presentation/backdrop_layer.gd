@@ -12,16 +12,16 @@ const SIDE_NORTH := 1
 const SIDE_EAST := 2
 const SIDE_SOUTH := 3
 
-const GROUND := Color("1f3d3a")
+const GROUND := Color("62795b")
 const POOL := Color(0.30, 0.50, 0.46, 0.10)
-const PAVE := Color("b9b8b2")
-const PAVE_ALT := Color("c3c2bc")
-const PAVE_JOINT := Color("8f8d88")
+const PAVE := Color("d6d0c3")
+const PAVE_ALT := Color("e1d9ca")
+const PAVE_JOINT := Color("aca599")
 const APRON := Color("d6cbb4")
 const MAT := Color("3b3733")
 const MAT_EDGE := Color("5b544d")
 const KERB := Color("d8d5cc")
-const ROAD := Color("3c4147")
+const ROAD := Color("50565b")
 const ROAD_LINE := Color("e9e2c8")
 const SIGN_FRAME := Color("2b2b2b")
 const SIGN_FACE := Color("f4efe2")
@@ -33,11 +33,12 @@ const BUSH_DARK := Color("2f5d3e")
 const BUSH_MID := Color("4b7d4f")
 const BUSH_HI := Color("6f9e62")
 const PLANTER := Color("7a5a43")
-const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.34)
+const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 
 const PAVE_M := 2.0       ## paving ring width around the store footprint (tiles)
 const KERB_M := 0.18
+const PARK_DEPTH_M := 5.0  ## 3.8 m compact car plus wheel-stop and manoeuvring clearance
 const ROAD_M := 3.0
 const FAR_M := 14.0       ## how far the road and pool run along the edge, past the store
 const SLAB_INSET := 0.04
@@ -112,14 +113,36 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 		out.append(_poly(_world_pts(proj, _rect_world(width, height, grow)), POOL))
 
 	# Kerb and road on the entrance side, beyond the paving ring.
-	var road_d0 := PAVE_M + KERB_M
-	out.append(_poly(_side_quad(proj, side, width, height, PAVE_M, road_d0, along0, along1), KERB))
+	var parking_end := PAVE_M + PARK_DEPTH_M
+	var road_d0 := parking_end + KERB_M
+	out.append(_poly(_side_quad(proj, side, width, height, parking_end, road_d0, along0, along1), KERB))
 	out.append(_poly(_side_quad(proj, side, width, height, road_d0, road_d0 + ROAD_M, along0, along1), ROAD))
+	# A continuous forecourt supports the existing bay sprites instead of placing them on a traffic lane.
+	out.append(_poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, -2.5, along1), Color("626367")))
+	# Fine deterministic aggregate: quiet at the normal view, without per-frame noise or texture seams.
+	for d in range(6):
+		for k in range(int(along0), int(along1)):
+			var jitter := FloorStyle.hash01(k, d, 19)
+			var depth := road_d0 + 0.2 + float(d) * 0.45
+			out.append(_poly(_side_quad(proj, side, width, height, depth, depth + 0.035, float(k) + jitter, float(k) + jitter + 0.16), Color(0.85, 0.86, 0.87, 0.07)))
 	var dash_mid := road_d0 + ROAD_M * 0.5
 	var a := along0
 	while a < far:
 		out.append(_poly(_side_quad(proj, side, width, height, dash_mid - 0.06, dash_mid + 0.06, a, a + 1.2), ROAD_LINE))
 		a += 3.0
+
+	# Crossing is aligned with the actual doorway, and spans only the public road.
+	for stripe in range(6):
+		var d := road_d0 + 0.2 + float(stripe) * 0.45
+		out.append(_poly(_side_quad(proj, side, width, height, d, d + 0.24, span.x - 0.15, span.y + 0.15), ROAD_LINE))
+	# Kerb joints and small drainage grates establish the pavement/forecourt boundary.
+	for k in range(-2, int(along1), 2):
+		out.append(_poly(_side_quad(proj, side, width, height, parking_end, road_d0, float(k), float(k) + 0.025), Color("a3a39c")))
+		if k % 6 == 0:
+			out.append(_poly(_side_quad(proj, side, width, height, parking_end - 0.24, parking_end - 0.06, float(k), float(k) + 0.48), Color("42494b")))
+			for slit in range(5):
+				var a0 := float(k) + 0.04 + float(slit) * 0.09
+				out.append(_poly(_side_quad(proj, side, width, height, parking_end - 0.22, parking_end - 0.08, a0, a0 + 0.025), Color("8d9694")))
 
 	# Paving ring: joint colour underneath, then one inset slab per tile outside the store footprint.
 	out.append(_poly(_world_pts(proj, _rect_world(width, height, PAVE_M)), PAVE_JOINT))
@@ -130,6 +153,11 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 			var slab := Rect2(i - 0.5 + SLAB_INSET, j - 0.5 + SLAB_INSET, 1.0 - SLAB_INSET * 2.0, 1.0 - SLAB_INSET * 2.0)
 			var col := PAVE if FloorStyle.hash01(i, j, 7) < 0.5 else PAVE_ALT
 			out.append(_poly(_world_pts(proj, slab), col))
+			# Subdivide each metre slab into smaller, readable pavers while retaining the original ring geometry.
+			var joint := Rect2(float(i) - 0.48, float(j) - 0.015, 0.96, 0.03)
+			out.append(_poly(_world_pts(proj, joint), Color("c1b9ab")))
+			joint = Rect2(float(i) - 0.015, float(j) - 0.48, 0.03, 0.96)
+			out.append(_poly(_world_pts(proj, joint), Color("c1b9ab")))
 
 	# Apron along the entrance, door mats in front of each entrance tile, and the A-board sign.
 	out.append(_poly(_side_quad(proj, side, width, height, 0.0, PAVE_M, span.x - 1.0, span.y + 1.0), APRON))

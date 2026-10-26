@@ -57,7 +57,8 @@ func _run() -> void:
 		if a.begins_with("--staff="):
 			while s.staff.size() < int(a.trim_prefix("--staff=")) and not s.staff.is_empty():
 				s.staff.append(StaffAI.make(s, {"name": "応援%d" % s.staff.size(), "skills": {"register": 3, "restock": 3, "stamina": 3, "service": 3}}, s.staff[0]["tile"]))
-	app.run_command({"command_id": "pstart", "kind": &"START_BUSINESS"})
+	if not OS.get_cmdline_user_args().has("--place-preview"):
+		app.run_command({"command_id": "pstart", "kind": &"START_BUSINESS"})
 	# --calm: the normal arrival rate of the balance file (no crowd forced in), so the shot shows a typical store (#105 B7).
 	var calm := OS.get_cmdline_user_args().has("--calm")
 	if not calm:
@@ -141,6 +142,24 @@ func _run() -> void:
 	if OS.get_cmdline_user_args().has("--live"):   # --live: keep the stocked, open store running (for recording video)
 		app.run_command({"command_id": "plive", "kind": &"SET_SPEED", "speed": 1})
 		return
+	# Deterministic exterior review: pause after setup, then use the real presentation camera.
+	if OS.get_cmdline_user_args().has("--freeze"):
+		s.speed_setting = 0
+		app._publish_snapshot()
+		main.get_node("CuePlayer").advance(10.0)
+	var review_world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+	if OS.get_cmdline_user_args().has("--clear-hover"):
+		review_world.set_hover_screen(Vector2(-1000, -1000))
+	if OS.get_cmdline_user_args().has("--place-preview"):
+		main.get_node("BuildController").begin_place("shelf_general")
+		review_world.set_hover_screen(review_world.projection.tile_center(Vector2i(2, 7)))
+	if OS.get_cmdline_user_args().has("--whole"):
+		review_world.fit_whole()
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--pan="):
+			var xy := a.trim_prefix("--pan=").split(",")
+			if xy.size() == 2:
+				review_world.pan_by(Vector2(float(xy[0]), float(xy[1])))
 	if OS.get_cmdline_user_args().has("--intent"):   # --intent: pick bubble, queue badge and checkout pop, each saved while on screen
 		await _capture_intent(main, s, out_png)
 		quit(0)
