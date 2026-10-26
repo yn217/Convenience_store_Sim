@@ -14,7 +14,8 @@ extends RefCounted
 ##   - coupon (phase 2): a basket with an item of its categories gets one coupon for the next visit (coupon_yen off
 ##     an item of those categories, valid valid_days days, state.coupons). An outstanding coupon brings its holder
 ##     back with return_rate over its days (DemandGenerator); at the till a basket of the categories redeems it
-##     (DISCOUNT row); unused coupons expire. Issued and redeemed coupons are counted per promotion.
+##     (DISCOUNT row); unused coupons expire. A free_item coupon ("buy one, the next one free") takes the price of the
+##     cheapest unit of its categories in the basket instead of coupon_yen (the sale keeps its revenue and cost). Issued and redeemed coupons are counted per promotion.
 ## Starting one books its setup cost (POP, signs) as a PROMO expense. Results per promotion: units sold on the deal
 ## and the discount given (state.promo_stats).
 
@@ -184,8 +185,10 @@ static func issue_coupon(state: GameState, categories: Array) -> Dictionary:
 	return c
 
 
-## Redeems `coupon_id` against a basket of these categories. -> yen off (0 = not usable here; the coupon stays).
-static func redeem_coupon(state: GameState, coupon_id: String, categories: Array) -> int:
+## Redeems `coupon_id` against a basket (`units`: [{category, price}] per unit sold). -> yen off (0 = not usable
+## here; the coupon stays): coupon_yen, or for a free_item coupon the price of the cheapest unit of its categories.
+static func redeem_coupon(state: GameState, coupon_id: String, units: Array) -> int:
+	var categories: Array = units.map(func(u): return u["category"])
 	for i in state.coupons.size():
 		var c: Dictionary = state.coupons[i]
 		if c["coupon_id"] != coupon_id:
@@ -193,11 +196,16 @@ static func redeem_coupon(state: GameState, coupon_id: String, categories: Array
 		c["returning"] = false
 		if int(c["expires_day"]) < state.day or not (definition(c["def_id"]).get("categories", []) as Array).any(func(x): return categories.has(x)):
 			return 0
+		var yen := int(c["yen"])
+		var d := definition(c["def_id"])
+		if bool(d.get("free_item", false)):
+			var prices: Array = units.filter(func(u): return (d["categories"] as Array).has(u["category"])).map(func(u): return int(u["price"]))
+			yen = prices.min()
 		state.coupons.remove_at(i)
 		var st: Dictionary = state.promo_stats.get(c["promotion_id"], {})
 		st["redeemed"] = int(st.get("redeemed", 0)) + 1
-		st["discount_yen"] = int(st.get("discount_yen", 0)) + int(c["yen"])
-		return int(c["yen"])
+		st["discount_yen"] = int(st.get("discount_yen", 0)) + yen
+		return yen
 	return 0
 
 

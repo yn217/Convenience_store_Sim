@@ -615,6 +615,13 @@ func _plan_purpose(state: GameState, c: Dictionary) -> Dictionary:
 	var wishes: Array = []
 	var found := false
 	var purpose := String(c["purpose_id"])
+	# #137: a coupon holder came to use it — in a slot that offers the coupon's categories it takes one of them
+	# and buys it (the draws stay the same).
+	var coupon_cats: Array = []
+	if String(c.get("coupon_id", "")) != "":
+		for cp in state.coupons:
+			if cp["coupon_id"] == c["coupon_id"]:
+				coupon_cats = Promotions.definition(cp["def_id"]).get("categories", [])
 	for k in int(c["basket_size"]):
 		var cats := VisitPurpose.slot_categories(state.balance, purpose, k, _categories(state))
 		var cands: Array = []
@@ -625,6 +632,11 @@ func _plan_purpose(state: GameState, c: Dictionary) -> Dictionary:
 		if cands.is_empty():
 			continue
 		found = true
+		var for_coupon: Array = cands.filter(func(x): return coupon_cats.has(state.products.get_sku(x["sku_id"])["category"]))
+		var coupon_slot := not for_coupon.is_empty()
+		if coupon_slot:
+			cands = for_coupon
+			coupon_cats = []   # one item for the coupon is enough
 		var total := 0.0
 		for x in cands:
 			total += x["weight"]
@@ -637,7 +649,7 @@ func _plan_purpose(state: GameState, c: Dictionary) -> Dictionary:
 				chosen = x
 				break
 		var buy_p := DemandModel.purchase_probability(_price_factor(state, chosen["sku_id"]), state.balance)
-		var buys := rng.uniform_0_1() < buy_p
+		var buys := rng.uniform_0_1() < buy_p or coupon_slot
 		var cat: String = state.products.get_sku(chosen["sku_id"])["category"]
 		seen[cat] = true
 		var price := state.sell_price(chosen["sku_id"])
@@ -1043,7 +1055,7 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 		return
 	_bundle_discount(state, c, basket_id, sold_categories)
 	_multi_discount(state, c, basket_id, sold_units)
-	_coupons_at_till(state, c, basket_id, sold_categories)
+	_coupons_at_till(state, c, basket_id, sold_categories, sold_units)
 	state.visit_stats["purchased"] += 1   # a buying customer, however many items (issue #128)
 	c["outcome"] = "purchased"
 	var name := String(state.products.get_sku(first_sku).get("display_name", ""))
@@ -1074,9 +1086,9 @@ func _bundle_discount(state: GameState, c: Dictionary, basket_id: String, catego
 
 ## Coupons at the till (#137 phase 2): a returning holder's coupon is redeemed against the basket (DISCOUNT row),
 ## and a basket of a running coupon promotion's categories gets a new coupon for the next visit.
-func _coupons_at_till(state: GameState, c: Dictionary, basket_id: String, categories: Array) -> void:
+func _coupons_at_till(state: GameState, c: Dictionary, basket_id: String, categories: Array, units: Array) -> void:
 	if String(c.get("coupon_id", "")) != "":
-		var yen := Promotions.redeem_coupon(state, c["coupon_id"], categories)
+		var yen := Promotions.redeem_coupon(state, c["coupon_id"], units)
 		if yen > 0 and state.ledger.record("DISCOUNT", "%s:COUPON" % basket_id, -yen, state.day, state.time_sec, {"coupon_id": c["coupon_id"], "customer_id": c["customer_id"]}, {"expense": yen}):
 			c["coupon_used"] = true
 		c["coupon_id"] = ""

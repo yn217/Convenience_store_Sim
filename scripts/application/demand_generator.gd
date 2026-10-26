@@ -55,8 +55,8 @@ static func _facility_step(state: GameState, f: Dictionary) -> bool:
 	return true
 
 
-## A coupon holder coming back (#137 phase 2): one `arrivals` draw for "does someone come"; the visitor draws a
-## purpose like any other and carries the coupon to the till. Counts as a potential visitor.
+## A coupon holder coming back (#137 phase 2): one `arrivals` draw for "does someone come"; the visitor comes for
+## a purpose that includes the coupon's categories (VisitPurpose.draw_for) and carries the coupon to the till. Counts as a potential visitor.
 static func _coupon_step(state: GameState) -> bool:
 	var ret := Promotions.coupon_return(state)
 	if String(ret["coupon_id"]) == "":
@@ -79,7 +79,11 @@ static func _coupon_step(state: GameState) -> bool:
 	var arrival := {"customer_id": "cust_%05d" % state.next_customer_seq, "arrived_at_sec": state.time_sec, "coupon_id": ret["coupon_id"]}
 	var pick_rng := Lcg32.new(int(state.rng_states["arrivals"]))
 	var money_rng := Lcg32.new(int(state.rng_states["visits"]))
-	var v := VisitPurpose.draw(pick_rng, money_rng, DemandModel.hour_of_day(state.time_sec), state.balance, state.location_id, stocked_categories(state))
+	var cats: Array = []
+	for c in state.coupons:
+		if c["coupon_id"] == ret["coupon_id"]:
+			cats = Promotions.definition(c["def_id"]).get("categories", [])
+	var v := VisitPurpose.draw_for(pick_rng, money_rng, DemandModel.hour_of_day(state.time_sec), state.balance, state.location_id, stocked_categories(state), cats)   # comes to use it
 	state.rng_states["arrivals"] = pick_rng.state
 	state.rng_states["visits"] = money_rng.state
 	arrival.merge({"purpose_id": v["purpose_id"], "budget_yen": v["budget_yen"], "wallet_yen": v["wallet_yen"], "basket_size": v["slots"]})

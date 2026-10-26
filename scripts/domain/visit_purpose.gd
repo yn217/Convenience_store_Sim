@@ -46,6 +46,30 @@ static func draw(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictiona
 	return money(money_rng, chosen, location_id)
 
 
+## A visitor who comes for one of `categories` (a coupon holder, #137): one `pick_rng` draw among the purposes
+## that have a target slot of those categories (by their hour and location weights, or evenly when none of them is
+## usual at this hour), then the money draws. Falls back to draw() when no purpose fits.
+static func draw_for(pick_rng: Lcg32, money_rng: Lcg32, hour: int, balance: Dictionary, location_id: String, stocked: Array, categories: Array) -> Dictionary:
+	var fits: Array = (balance["visit_purposes"] as Array).filter(func(p):
+		return not bool(p.get("facility_only", false)) and serves(p, stocked) and (p["targets"] as Array).any(func(slot): return (slot as Array).any(func(c): return categories.has(c))))
+	if fits.is_empty():
+		return draw(pick_rng, money_rng, hour, balance, location_id, stocked)
+	var weights: Array = fits.map(func(p): return _weight(p, hour, location_id, stocked))
+	var total: float = weights.reduce(func(a, w): return a + w, 0.0)
+	if total <= 0.0:
+		weights = fits.map(func(_p): return 1.0)
+		total = float(fits.size())
+	var roll := pick_rng.uniform_0_1() * total
+	var chosen: Dictionary = fits[0]
+	var acc := 0.0
+	for i in fits.size():
+		acc += float(weights[i])
+		if roll < acc:
+			chosen = fits[i]
+			break
+	return money(money_rng, chosen, location_id)
+
+
 ## Budget and wallet of a visitor with purpose `chosen` (two draws from `money_rng`), rounded to 10 yen.
 ## -> {purpose_id, budget_yen, wallet_yen, slots}.
 static func money(money_rng: Lcg32, chosen: Dictionary, location_id: String) -> Dictionary:

@@ -199,3 +199,26 @@ func test_next_visit_coupons(t, _tree) -> void:
 	Promotions.expire_coupons(s)
 	t.eq(s.coupons, [], "unused coupons expire")
 	t.ok(PromotionController.promo_line({"display_name": "x", "kind": "coupon", "running": {"days_left": 1, "stats": st}}).contains("配布"), "the card shows issued and used")
+
+
+## Phase 2: "buy one, the next one free" — the coupon takes the price of the cheapest unit of its category in the
+## returning holder's basket.
+func test_a_free_item_coupon(t, _tree) -> void:
+	var s := Run.new_state(300.0)
+	var cmds := Run.place_layout(s)
+	cmds.execute({"command_id": "f1", "kind": &"START_PROMOTION", "def_id": "free_dessert", "days": 2})
+	var c := Promotions.issue_coupon(s, ["dessert"])
+	t.ok(not c.is_empty(), "issued for a dessert")
+	t.eq(Promotions.redeem_coupon(s, c["coupon_id"], [{"category": "drink", "price": 150}]), 0, "no dessert in the basket: not used")
+	t.eq(Promotions.redeem_coupon(s, c["coupon_id"], [{"category": "dessert", "price": 280}, {"category": "dessert", "price": 220}, {"category": "drink", "price": 150}]), 220, "the cheaper dessert is free")
+	t.eq(s.coupons, [], "and the coupon is gone")
+	Run.run_days(s, cmds, 2)
+	var prices := {}
+	for sku in s.products.skus.values():
+		if sku["category"] == "dessert":
+			prices[s.list_price(sku["sku_id"])] = true
+	var rows := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "DISCOUNT" and String(tx["event_id"]).ends_with(":COUPON"))
+	t.ok(rows.size() > 0, "holders came back for their free dessert (%d)" % rows.size())
+	for tx in rows:
+		t.ok(prices.has(int(tx["expense_delta_yen"])), "a dessert's price comes off: %d" % int(tx["expense_delta_yen"]))
+	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")

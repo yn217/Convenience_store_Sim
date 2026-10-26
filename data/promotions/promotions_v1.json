@@ -11,6 +11,7 @@
     {"def_id": "multi_snack", "display_name": "お菓子2点で40円引き・3点で90円引き", "kind": "multi", "categories": ["snack"], "tiers": [[2, 40], [3, 90]], "extra_take": 0.45, "max_units": 3, "setup_cost_yen": 2500, "default_days": 3},
     {"def_id": "second_half_noodle", "display_name": "カップ麺 2個目半額", "kind": "second_half", "categories": ["instant_noodle"], "extra_take": 0.4, "max_units": 2, "setup_cost_yen": 2500, "default_days": 3},
     {"def_id": "coupon_meal", "display_name": "おにぎり・弁当を買うと次回50円券", "kind": "coupon", "categories": ["rice_ball", "bento"], "coupon_yen": 50, "valid_days": 3, "return_rate": 0.4, "setup_cost_yen": 2000, "default_days": 3},
+    {"def_id": "free_dessert", "display_name": "デザートを1個買うと次回1個無料", "kind": "coupon", "free_item": true, "categories": ["dessert"], "coupon_yen": 0, "valid_days": 3, "return_rate": 0.5, "setup_cost_yen": 3000, "default_days": 3},
     {"def_id": "bundle_lunch", "display_name": "お弁当＋飲み物で30円引き", "kind": "bundle", "bundle": [["bento"], ["drink"]], "discount_yen": 30, "setup_cost_yen": 3000, "default_days": 3}
   ]
 }
