@@ -95,6 +95,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"location_id": state.location_id,   # #148
 			"map_id": state.map_id, "plot_id": state.plot_id,   # #150
 			"facilities": state.facilities.duplicate(), "facility_visits": state.facility_visits.duplicate(),   # #149
+			"visitors_by_hour": state.visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": state.visitors_by_hour_yesterday.duplicate(),   # #150
 			"promotions": state.promotions.duplicate(true), "next_promotion_seq": state.next_promotion_seq,   # #137
 			"promo_stats": state.promo_stats.duplicate(true),
 		},
@@ -418,6 +419,10 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			for k in fv:
 				if JsonCheck.is_int(fv[k]) and int(fv[k]) >= 0:
 					s.facility_visits[String(k)] = int(fv[k])
+	for k in ["visitors_by_hour", "visitors_by_hour_yesterday"]:   # #150 (absent in older saves)
+		var arr = rt.get(k, [])
+		if typeof(arr) == TYPE_ARRAY and (arr.size() == 0 or arr.size() == 24) and arr.all(func(x): return JsonCheck.is_int(x) and int(x) >= 0):
+			s.set(k, arr.map(func(x): return int(x)))
 	var loc = rt.get("location_id", "")
 	if typeof(loc) != TYPE_STRING or (loc != "" and StoreLocation.find(loc).is_empty()):
 		errs.append("runtime_state.location_id: invalid")

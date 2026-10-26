@@ -30,6 +30,8 @@ var _map_selected := ""
 var _map_hour: HSlider
 var _map_hour_label: Label
 var _balance: Dictionary = {}
+var _map_choice: OptionButton
+var _map_title: Label
 var _size: OptionButton
 var _expand: Button
 var _size_info: Label
@@ -176,10 +178,10 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_location_info.text = location_text(loc)
 	if String(snap.get("plot_id", "")) != "":
 		var plot := WorldMap.plot(String(snap["map_id"]), String(snap["plot_id"]))
-		_location_info.text = "地図：%s %s ／ %s" % [WorldMap.load_map(String(snap["map_id"])).get("display_name", ""), plot.get("name", ""), _location_info.text]
+		_location_info.text = "地図：%s %s ／ %s" % [WorldMap.display_name(String(snap["map_id"])), plot.get("name", ""), _location_info.text]
 	_map_button.text = "地図で選ぶ" if not bool(snap.get("location_locked", true)) else "地図を見る"
 	if _map_view != null:
-		_map_view.current = String(snap.get("plot_id", ""))
+		_map_view.current = _current_plot_on(_map_view.map_id)
 		_map_view.queue_redraw()
 		_show_plot(_map_selected)
 	var chosen: Array = snap.get("facilities", [])
@@ -277,7 +279,7 @@ func open_map() -> void:
 		_map_window = Window.new()
 		_map_window.name = "AreaMap"
 		_map_window.title = "地域マップ"
-		_map_window.size = Vector2i(960, 640)
+		_map_window.size = Vector2i(1240, 720)   # a 16:9 picture map needs the width
 		_map_window.close_requested.connect(func(): _map_window.hide())
 		var row := HBoxContainer.new()
 		row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -289,10 +291,16 @@ func open_map() -> void:
 		row.add_child(_map_view)
 		var side := VBoxContainer.new()
 		side.custom_minimum_size = Vector2(280, 0)
-		var title := Label.new()
-		title.text = WorldMap.load_map(WorldMap.DEFAULT_MAP).get("display_name", "")
-		title.add_theme_font_size_override("font_size", 18)
-		side.add_child(title)
+		_map_choice = OptionButton.new()
+		_map_choice.name = "MapChoice"
+		for id in WorldMap.MAPS:
+			_map_choice.add_item(WorldMap.display_name(id))
+			_map_choice.set_item_metadata(_map_choice.item_count - 1, id)
+		_map_choice.item_selected.connect(func(i): show_map(String(_map_choice.get_item_metadata(i))))
+		side.add_child(_map_choice)
+		_map_title = Label.new()
+		_map_title.add_theme_font_size_override("font_size", 18)
+		side.add_child(_map_title)
 		_map_info = Label.new()
 		_map_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_map_info.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -323,10 +331,29 @@ func open_map() -> void:
 		row.add_child(side)
 		_map_window.add_child(row)
 		add_child(_map_window)
-		_map_view.set_map(WorldMap.DEFAULT_MAP)
-		set_forecast_hour(-1)
-	_map_view.current = String(_snap.get("plot_id", ""))
+		show_map(String(_snap.get("map_id", "")) if String(_snap.get("map_id", "")) != "" else WorldMap.DEFAULT_MAP)
+	_map_view.current = _current_plot_on(_map_view.map_id)
 	_map_window.popup_centered()
+
+
+## Shows another area map in the window (#154: Kakogawa beside 青葉市).
+func show_map(map_id: String) -> void:
+	_map_view.set_map(map_id)
+	_map_view.current = _current_plot_on(map_id)
+	for i in _map_choice.item_count:
+		if String(_map_choice.get_item_metadata(i)) == map_id:
+			_map_choice.select(i)
+	_map_title.text = WorldMap.display_name(map_id)
+	_map_selected = ""
+	_map_pick.disabled = true
+	_map_info.text = "黄色の丸が出店できる区画です。クリックすると、立地と周りの施設・予想来店数が出ます。"
+	_map_hour.set_value_no_signal(-1)
+	set_forecast_hour(-1)
+
+
+## The store's site if it is on `map_id`, else "".
+func _current_plot_on(map_id: String) -> String:
+	return String(_snap.get("plot_id", "")) if String(_snap.get("map_id", "")) == map_id else ""
 
 
 ## The side panel for a clicked site.
@@ -336,8 +363,13 @@ func _show_plot(plot_id: String) -> void:
 	_map_selected = plot_id
 	_map_view.set_selected(plot_id)
 	var locked := bool(_snap.get("location_locked", true))
-	_map_info.text = plot_text(WorldMap.DEFAULT_MAP, plot_id)
-	_map_pick.disabled = locked or WorldMap.site(WorldMap.DEFAULT_MAP, plot_id).is_empty() or String(_snap.get("plot_id", "")) == plot_id
+	var map_id := _map_view.map_id
+	_map_info.text = plot_text(map_id, plot_id)
+	_map_pick.disabled = locked or WorldMap.site(map_id, plot_id).is_empty() or _current_plot_on(map_id) == plot_id
+	if plot_id == _current_plot_on(map_id) and locked:
+		if _balance.is_empty():
+			_balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+		_map_info.text += "\n\n" + actual_vs_forecast_text(WorldMap.forecast_by_hour(_balance, map_id, plot_id), _snap.get("visitors_by_hour", []), _snap.get("visitors_by_hour_yesterday", []))
 
 
 ## The forecast layer for `hour` (-1 = off).
@@ -349,7 +381,7 @@ func set_forecast_hour(hour: int) -> void:
 
 
 func pick_site(plot_id: String) -> CommandResult:
-	return _send({"kind": &"SET_SITE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": plot_id})
+	return _send({"kind": &"SET_SITE", "map_id": _map_view.map_id if _map_view != null else WorldMap.DEFAULT_MAP, "plot_id": plot_id})
 
 
 ## What a site offers: location, nearby facilities with their distance, and the visitors forecast.
@@ -357,8 +389,10 @@ static func plot_text(map_id: String, plot_id: String) -> String:
 	var p := WorldMap.plot(map_id, plot_id)
 	if p.is_empty():
 		return ""
-	var lines: Array[String] = ["%s（%s）" % [p["name"], p["id"]], String(p.get("note", ""))]
-	match String(p["status"]):
+	var lines: Array[String] = ["%s（%s）" % [p["name"], p["id"]]]
+	if String(p.get("note", "")) != "":
+		lines.append(String(p["note"]))
+	match WorldMap.plot_status(p):
 		"rival":
 			lines.append("ライバル店があります（競合は今後の更新で動きます）。")
 			return "\n".join(lines)
@@ -368,7 +402,10 @@ static func plot_text(map_id: String, plot_id: String) -> String:
 	var s := WorldMap.site(map_id, plot_id)
 	if s.is_empty():
 		return "\n".join(lines)
-	lines.append("立地：%s" % StoreLocation.display_name(s["location_id"]))
+	if s["location_id"] == "":
+		lines.append("立地：標準（%s。客層は周りの施設から）" % WorldMap.KIND_NAMES.get(WorldMap.plot_kind(p), WorldMap.plot_kind(p)))
+	else:
+		lines.append("立地：%s" % StoreLocation.display_name(s["location_id"]))
 	if (s["near"] as Array).is_empty():
 		lines.append("近くの施設：なし")
 	for f in s["near"]:
@@ -377,6 +414,30 @@ static func plot_text(map_id: String, plot_id: String) -> String:
 	lines.append("予想来店数：1日 約%d人（広告・イベントなしの目安）" % WorldMap.forecast_visitors(balance, map_id, plot_id))
 	lines.append("多い時間帯：%s" % peak_hours_text(WorldMap.forecast_by_hour(balance, map_id, plot_id)))
 	return "\n".join(lines)
+
+
+## Time bands for the actual-vs-forecast table (#150): name and hours [from, to).
+const BANDS := [["朝 6-10時", 6, 10], ["昼 10-14時", 10, 14], ["午後 14-17時", 14, 17], ["夕 17-21時", 17, 21], ["夜 21-6時", 21, 30]]
+
+
+## The store's own site: forecast and actual visitors (来店希望) per time band, today and yesterday. A forecast is
+## a forecast: ads, events, promotions and empty shelves move the actual numbers.
+static func actual_vs_forecast_text(forecast: Array, today: Array, yesterday: Array) -> String:
+	var sum := func(a: Array, lo: int, hi: int) -> float:
+		var n := 0.0
+		if a.size() != 24:
+			return -1.0
+		for h in range(lo, hi):
+			n += float(a[h % 24])
+		return n
+	var rows: Array[String] = ["予測と実績（来店希望・人）　予測／今日／昨日"]
+	for b in BANDS:
+		var f: float = sum.call(forecast, b[1], b[2])
+		var t: float = sum.call(today, b[1], b[2])
+		var y: float = sum.call(yesterday, b[1], b[2])
+		rows.append("%s　%d／%s／%s" % [b[0], int(round(f)), "－" if t < 0.0 else str(int(t)), "－" if y < 0.0 else str(int(y))])
+	rows.append("※予測は広告・イベント・販促・品切れを含まない目安です。")
+	return "\n".join(rows)
 
 
 ## The three busiest forecast hours, in time order: "7時 約12人・8時 約12人・18時 約9人".

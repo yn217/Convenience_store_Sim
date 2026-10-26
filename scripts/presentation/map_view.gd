@@ -42,6 +42,7 @@ var pan := Vector2.ZERO          # extra offset in pixels after the fit
 var forecast_hour := -1         # -1: no forecast layer
 var _forecast: Dictionary = {}  # plot id -> Array[float] (24 hours)
 var _map: Dictionary = {}
+var _background: Texture2D = null
 var _press := Vector2(-1, -1)
 var _dragging := false
 
@@ -53,7 +54,10 @@ func _init() -> void:
 func set_map(id: String) -> void:
 	map_id = id
 	_map = WorldMap.load_map(id)
-	queue_redraw()
+	_background = load(WorldMap.BACKGROUND[id]) if WorldMap.BACKGROUND.has(id) else null
+	_forecast.clear()
+	selected = ""
+	reset_view()
 
 
 func set_selected(plot_id: String) -> void:
@@ -97,8 +101,7 @@ func _clamp_pan() -> void:
 
 
 func _map_size() -> Vector2:
-	var cs: Dictionary = _map.get("coordinate_system", {"width": 1000, "height": 680})
-	return Vector2(float(cs.get("width", 1000)), float(cs.get("height", 680)))
+	return WorldMap.map_size(map_id) if not _map.is_empty() else Vector2(1000, 680)
 
 
 func _fit_scale() -> float:
@@ -165,7 +168,10 @@ func _draw() -> void:
 	if _map.is_empty():
 		return
 	var k := _scale()
-	draw_rect(Rect2(to_screen(0, 0), _map_size() * k), LAND)
+	if _background != null:
+		draw_texture_rect(_background, Rect2(to_screen(0, 0), _map_size() * k), false)
+	else:
+		draw_rect(Rect2(to_screen(0, 0), _map_size() * k), LAND)
 	var font := ThemeDB.fallback_font
 	var features: Dictionary = _map.get("features", {})
 	for z in features.get("zones", []):
@@ -182,7 +188,11 @@ func _draw() -> void:
 		var c := to_screen(float(q["x"]), float(q["y"]))
 		draw_circle(c, PIN_RADIUS, POI_COLORS.get(q["type"], Color("8a949e")))
 		draw_arc(c, PIN_RADIUS, 0.0, TAU, 16, Color.WHITE, 1.5)
-		draw_string(font, c + Vector2(PIN_RADIUS + 2.0, 4.0), String(q["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("33404a"))
+		if _background != null:   # on a picture: white text with a dark edge
+			draw_string_outline(font, c + Vector2(PIN_RADIUS + 2.0, 4.0), String(q["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color("1b232a"))
+			draw_string(font, c + Vector2(PIN_RADIUS + 2.0, 4.0), String(q["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE)
+		else:
+			draw_string(font, c + Vector2(PIN_RADIUS + 2.0, 4.0), String(q["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("33404a"))
 	if forecast_hour >= 0:
 		var peak := 0.0
 		for id in _forecast:
@@ -195,7 +205,7 @@ func _draw() -> void:
 				draw_circle(to_screen(float(p["x"]), float(p["y"])), PLOT_RADIUS + FORECAST_MAX_RADIUS * sqrt(v / peak), FORECAST_COLOR)
 	for p in _map.get("plots", []):
 		var c := to_screen(float(p["x"]), float(p["y"]))
-		var status := String(p["status"])
+		var status := WorldMap.plot_status(p)
 		var fill := Color("f2c94c") if status == "available" else (Color("d64545") if status == "rival" else Color("9aa3ab"))
 		if String(p["id"]) == selected:
 			draw_circle(c, PLOT_RADIUS + 5.0, Color(1, 1, 1, 0.85))

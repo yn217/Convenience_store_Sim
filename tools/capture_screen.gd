@@ -99,9 +99,12 @@ func _run() -> void:
 		elif a.begins_with("--screen="):
 			main.call("open_screen_tab", a.trim_prefix("--screen="))
 	for a in OS.get_cmdline_user_args():   # --map=P02: the area map open with that site clicked (#150)
-		if a.begins_with("--map"):
+		if a == "--map" or a.begins_with("--map="):
 			var biz: Node = main.get_node("BusinessController")
 			biz.open_map()
+			for m in OS.get_cmdline_user_args():   # --map-id=kakogawa_city_v1: show that map (#154)
+				if m.begins_with("--map-id="):
+					biz.show_map(m.trim_prefix("--map-id="))
 			if a.begins_with("--map="):
 				biz._show_plot(a.trim_prefix("--map="))
 		if a.begins_with("--map-hour="):   # --map-hour=8: the forecast layer at that hour

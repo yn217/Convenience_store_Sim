@@ -37,6 +37,7 @@ static func _facility_step(state: GameState, f: Dictionary) -> bool:
 	if who.is_empty():
 		return false   # nothing on the shelves for them
 	state.visit_stats["potential"] += 1
+	state.count_visitor_hour()   # #150: the actual curve beside the map forecast
 	if state.active_customer_count() >= int(state.balance.get("max_active_customers", 30)):
 		state.visit_stats["lost"] += 1
 		return true
@@ -73,6 +74,7 @@ static func _location_step(state: GameState) -> bool:
 	if roll >= p:
 		return false
 	state.visit_stats["potential"] += 1
+	state.count_visitor_hour()   # #150: the actual curve beside the map forecast
 	if state.active_customer_count() >= int(state.balance.get("max_active_customers", 30)):
 		state.visit_stats["lost"] += 1
 		return true

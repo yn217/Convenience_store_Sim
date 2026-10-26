@@ -1,0 +1,8 @@
+{
+  "asset": "kakogawa_base.png",
+  "map_id": "kakogawa_city_v1",
+  "size_px": [1672, 940],
+  "source": "User-provided package kakogawa_map_v1_package.zip (2026-10-26): AI-generated 2.5D concept map from the user's ChatGPT/Codex session (issue #154, design PR #155). The prompt is kept in that session, not in this repository.",
+  "coordinates": "data/world/maps/kakogawa_city_v1.json (image_pixel, same package)",
+  "note": "Conceptual, simplified map inspired by Kakogawa City; not a survey or GPS map. No trademarks or real store logos."
+}

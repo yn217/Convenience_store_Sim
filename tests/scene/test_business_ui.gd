@@ -77,3 +77,26 @@ func test_the_site_is_picked_on_the_area_map(t, tree) -> void:
 	t.ok(bc._map_pick.disabled and bc._map_info.text.contains("今後の更新"), "a locked site is shown, not picked")
 	main.queue_free()
 	await tree.process_frame
+
+
+## #154: the map window switches between 青葉市 and Kakogawa; a site picked there belongs to that map.
+func test_the_map_window_switches_maps(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	var app: Node = main.get_node("AppRoot")
+	var bc: BusinessController = main.get_node("BusinessController")
+	bc.open_map()
+	await tree.process_frame
+	t.eq(bc._map_view.map_id, WorldMap.DEFAULT_MAP, "青葉市 first")
+	bc._map_choice.select(1)
+	bc._map_choice.item_selected.emit(1)
+	t.eq(bc._map_view.map_id, "kakogawa_city_v1", "switched")
+	t.ok(bc._map_view._background != null, "drawn on its picture")
+	bc._show_plot("P09")
+	bc._map_pick.pressed.emit()
+	t.eq([app.state.map_id, app.state.plot_id], ["kakogawa_city_v1", "P09"], "the site belongs to the map shown")
+	bc.show_map(WorldMap.DEFAULT_MAP)
+	t.eq(bc._map_view.current, "", "on 青葉市 the store has no site")
+	main.queue_free()
+	await tree.process_frame

@@ -1,19 +1,28 @@
 class_name WorldMap
 extends RefCounted
-## Area map (issue #150 phase 1): one fictional town (data/world/maps/<map_id>.json, from design PR #152) with its
-## roads, railway, zones, facilities (POIs) and store sites (plots). The player picks the first store's site on the
-## map before it first opens; the site gives the store its location profile (#148) and its nearby facilities (#149):
-## the facility POIs within NEAR_RADIUS map units, nearest first, at most NearbyFacility.max_count(). Plots marked
-## "locked" (later releases) and the rival plot cannot be picked. Positions are map units, not real distances.
+## Area maps (issue #150): data/world/maps/<map_id>.json — the fictional 青葉市 (design PR #152, drawn in code from its
+## roads, railway and zones) and the Kakogawa concept map (#154, user package of 2026-10-26, drawn on its background
+## image) — with facilities (POIs) and store sites (plots). The player picks the first store's site on a map before it
+## first opens; the site gives the store its location profile (#148) and its nearby facilities (#149): the facility
+## POIs within NEAR_SHARE of the map's width, nearest first, at most NearbyFacility.max_count(). A site whose kind is
+## not one of the four profiles (riverside, factory, commercial, roadside) opens as the standard store and gets its
+## character from the facilities around it (a roadside site always has the trunk road). Plots marked "locked" (later
+## releases) and rival plots cannot be picked. Positions are map units / image pixels, not real distances.
 
 const DIR := "res://data/world/maps/"
 const DEFAULT_MAP := "aoba_town_v1"
-const NEAR_RADIUS := 230.0
+const MAPS := ["aoba_town_v1", "kakogawa_city_v1"]
+## Maps drawn on a picture (the others are drawn in code from their features).
+const BACKGROUND := {"kakogawa_city_v1": "res://assets/generated/maps/kakogawa_city_v1/kakogawa_base.png"}
+const NEAR_SHARE := 0.23          # 230 map units on the 1000-wide 青葉市 map
 ## POI type -> NearbyFacility id.
 const FACILITY_OF := {
-	"university": "university", "hotel": "hotel", "hospital": "hospital", "logistics": "factory",
-	"tourism": "tourist_spot", "road_hub": "highway",
+	"university": "university", "hotel": "hotel", "hospital": "hospital", "medical": "hospital", "logistics": "factory",
+	"industrial": "factory", "tourism": "tourist_spot", "leisure": "tourist_spot", "road_hub": "highway",
 }
+## Site kinds without a location profile: opened as the standard store.
+const STANDARD_KINDS := ["tourism", "industrial", "commercial", "roadside"]
+const KIND_NAMES := {"tourism": "観光・河川敷", "industrial": "物流・工場", "commercial": "商業施設", "roadside": "幹線道路沿い"}
 
 static var _maps: Dictionary = {}
 
@@ -23,6 +32,32 @@ static func load_map(map_id: String) -> Dictionary:
 		var parsed = JSON.parse_string(FileAccess.get_file_as_string(DIR + map_id + ".json")) if FileAccess.file_exists(DIR + map_id + ".json") else null
 		_maps[map_id] = parsed if typeof(parsed) == TYPE_DICTIONARY else {}
 	return _maps[map_id]
+
+
+static func display_name(map_id: String) -> String:
+	var m := load_map(map_id)
+	return String(m.get("display_name", m.get("name", map_id)))
+
+
+## Width and height of the map's coordinates (map units, or image pixels for a picture map).
+static func map_size(map_id: String) -> Vector2:
+	var cs: Dictionary = load_map(map_id).get("coordinate_system", {})
+	return Vector2(float(cs.get("width", cs.get("width_px", 1000))), float(cs.get("height", cs.get("height_px", 680))))
+
+
+static func plot_status(p: Dictionary) -> String:
+	return String(p.get("status", "available"))
+
+
+## The site's kind as the map names it (location_id in 青葉市, location_type in Kakogawa).
+static func plot_kind(p: Dictionary) -> String:
+	return String(p.get("location_id", p.get("location_type", "")))
+
+
+## The location profile a site opens with ("" = the standard store).
+static func plot_location(p: Dictionary) -> String:
+	var kind := plot_kind(p)
+	return kind if not StoreLocation.find(kind).is_empty() else ""
 
 
 static func plot(map_id: String, plot_id: String) -> Dictionary:
@@ -39,20 +74,23 @@ static func poi(map_id: String, poi_id: String) -> Dictionary:
 	return {}
 
 
-## Can a store open on this plot (available, with a location profile)?
+## Can a store open on this plot (available, a location profile or a kind opened as the standard store)?
 static func pickable(p: Dictionary) -> bool:
-	return String(p.get("status", "")) == "available" and not StoreLocation.find(String(p.get("location_id", ""))).is_empty()
+	return plot_status(p) == "available" and (plot_location(p) != "" or STANDARD_KINDS.has(plot_kind(p)))
 
 
 ## Facility POIs near a plot, nearest first: [{facility_id, poi_id, name, distance}], one per facility kind, at most
 ## NearbyFacility.max_count().
 static func facilities_near(map_id: String, p: Dictionary) -> Array:
 	var found: Array = []
+	if plot_kind(p) == "roadside":
+		found.append({"facility_id": "highway", "poi_id": "", "name": "幹線道路", "distance": 0})
+	var radius := NEAR_SHARE * map_size(map_id).x
 	for q in load_map(map_id).get("pois", []):
 		if not FACILITY_OF.has(q["type"]):
 			continue
 		var d := Vector2(float(q["x"]) - float(p["x"]), float(q["y"]) - float(p["y"])).length()
-		if d <= NEAR_RADIUS:
+		if d <= radius:
 			found.append({"facility_id": FACILITY_OF[q["type"]], "poi_id": q["id"], "name": q["name"], "distance": int(round(d))})
 	found.sort_custom(func(a, b): return a["distance"] < b["distance"] or (a["distance"] == b["distance"] and a["poi_id"] < b["poi_id"]))
 	var out: Array = []
@@ -71,7 +109,7 @@ static func site(map_id: String, plot_id: String) -> Dictionary:
 	if p.is_empty() or not pickable(p):
 		return {}
 	var near := facilities_near(map_id, p)
-	return {"location_id": String(p["location_id"]), "facilities": near.map(func(f): return f["facility_id"]), "near": near}
+	return {"location_id": plot_location(p), "facilities": near.map(func(f): return f["facility_id"]), "near": near}
 
 
 ## Rough visitors per day for a plot (the location's share of the balance's base, plus the facilities' visitors):

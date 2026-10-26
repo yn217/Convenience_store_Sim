@@ -51,6 +51,8 @@ var next_promotion_seq := 0
 var promo_stats: Dictionary = {}  # promotion id -> {units, discount_yen}
 var facilities: Array = []             # #149: nearby facility ids (NearbyFacility), chosen before the first opening
 var facility_visits: Dictionary = {}   # facility id -> visitors it sent today
+var visitors_by_hour: Array = []          # #150: potential visitors per hour today (24) and yesterday, for the map
+var visitors_by_hour_yesterday: Array = []
 var map_id := ""                       # #150: the area map and the store's site on it ("" = chosen without the map)
 var plot_id := ""
 var location_id := ""                   # #148: station / school / office / residential; "" = the standard store
@@ -297,6 +299,7 @@ func snapshot() -> Dictionary:
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
 		"promotions": _promotion_views(),
 		"map_id": map_id, "plot_id": plot_id,
+		"visitors_by_hour": visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": visitors_by_hour_yesterday.duplicate(),
 		"facilities": facilities.duplicate(), "facility_visits": facility_visits.duplicate(), "max_facilities": NearbyFacility.max_count(),
 		"store_size_id": String(StoreSize.of_grid(balance, grid).get("size_id", "")), "store_sizes": StoreSize.all(balance),
 		"next_store_size": StoreSize.next(balance, grid),
@@ -353,6 +356,15 @@ func apply_resized(res: Dictionary) -> void:
 		s["carry"] = 0
 	layout_history.clear()
 	revision += 1
+
+
+## One potential visitor in the current hour (DemandGenerator; #150 actual-vs-forecast).
+func count_visitor_hour() -> void:
+	if visitors_by_hour.size() != 24:
+		visitors_by_hour.resize(24)
+		visitors_by_hour.fill(0)
+	var h := DemandModel.hour_of_day(time_sec)
+	visitors_by_hour[h] = int(visitors_by_hour[h]) + 1
 
 
 ## Promotions for the 販促 card (#137): every definition with its running instance (if any) and results.

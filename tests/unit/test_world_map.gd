@@ -138,3 +138,54 @@ func test_the_map_zooms_and_pans(t, tree) -> void:
 	view.set_forecast_hour(12, JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	t.eq(view._forecast.size(), 4, "the forecast layer covers the four sites")
 	view.queue_free()
+
+
+## Phase 2: the actual visitors per hour are counted beside the forecast, kept for yesterday and saved; the map
+## panel puts them side by side per time band.
+func test_actual_visitors_beside_the_forecast(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	cmds.execute({"command_id": "m1", "kind": &"SET_SITE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": "P03"})
+	Run.run_days(s, cmds, 1)
+	var y: Array = s.visitors_by_hour_yesterday
+	t.eq(y.size(), 24, "yesterday's visitors by hour are kept")
+	var total: int = y.reduce(func(a, x): return a + int(x), 0)
+	t.ok(total > 20, "people came (%d)" % total)
+	t.ok(int(y[11]) + int(y[12]) + int(y[13]) > int(y[1]) + int(y[2]) + int(y[3]), "the office site is busy at lunch, quiet at night: %s" % str(y))
+	var saved := SaveGame.to_dict(s, "act", "2026-10-26T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq((lr["state"] as GameState).visitors_by_hour_yesterday, y, "and survive a save")
+	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var text := BusinessController.actual_vs_forecast_text(WorldMap.forecast_by_hour(balance, WorldMap.DEFAULT_MAP, "P03"), [], y)
+	t.ok(text.contains("昼 10-14時") and text.contains("目安"), text)
+	var lunch := "%d" % (int(y[10]) + int(y[11]) + int(y[12]) + int(y[13]))
+	t.ok(text.contains("／－／" + lunch), "today unknown, yesterday's lunch count shown: %s" % text)
+
+
+## #154: the Kakogawa concept map (user package 2026-10-26) beside 青葉市: picture background, image-pixel
+## coordinates, all nine sites pickable, the standard store for sites without a location profile.
+func test_the_kakogawa_map(t, _tree) -> void:
+	var id := "kakogawa_city_v1"
+	t.ok(WorldMap.MAPS.has(id), "listed")
+	t.eq(WorldMap.map_size(id), Vector2(1672, 940), "image pixels")
+	t.ok(load(WorldMap.BACKGROUND[id]) is Texture2D, "the background picture loads")
+	var m := WorldMap.load_map(id)
+	t.eq(m["pois"].size(), 20, "twenty facilities")
+	var ids: Array = m["plots"].filter(func(p): return WorldMap.pickable(p)).map(func(p): return p["id"])
+	t.eq(ids, ["P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08", "P09"], "all nine sites can be picked")
+	for p in m["pois"] + m["plots"]:
+		t.ok(float(p["x"]) >= 0 and float(p["x"]) <= 1672 and float(p["y"]) >= 0 and float(p["y"]) <= 940, p["id"] + " inside the picture")
+	t.eq(WorldMap.site(id, "P01")["location_id"], "station", "加古川駅前 is a station site")
+	var factory := WorldMap.site(id, "P06")
+	t.eq(factory["location_id"], "", "物流工場前 opens as the standard store")
+	t.eq(factory["facilities"][0], "factory", "with the logistics area as its first facility")
+	t.eq(WorldMap.site(id, "P09")["facilities"][0], "highway", "a roadside site always has the trunk road")
+	t.ok(BusinessController.plot_text(id, "P06").contains("物流・工場"), BusinessController.plot_text(id, "P06"))
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	t.ok(cmds.execute({"command_id": "k1", "kind": &"SET_SITE", "map_id": id, "plot_id": "P06"}).ok, "picked on Kakogawa")
+	var saved := SaveGame.to_dict(s, "kako", "2026-10-26T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq([(lr["state"] as GameState).map_id, (lr["state"] as GameState).plot_id, (lr["state"] as GameState).facilities], [id, "P06", s.facilities], "and saved")
