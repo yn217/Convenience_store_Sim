@@ -1,0 +1,19 @@
+{
+  "asset_id": "bench_painted_v1",
+  "generator": "OpenAI built-in image_gen",
+  "created_date": "2026-10-26",
+  "source": "assets/source/textures/exterior/bench_painted_v1/source.png",
+  "prompt": "assets/source/textures/exterior/bench_painted_v1/prompt.txt",
+  "spec": "assets/source/textures/exterior/bench_painted_v1/asset_spec.json",
+  "processing": "Visible-alpha bounding-box trim and uniform Lanczos calibration only; no recoloring, distortion, replacement drawing, or background removal.",
+  "review_status": "candidate; integrated in-game visual QA required",
+  "source_type": "AI",
+  "tool": "OpenAI built-in image_gen",
+  "model": "built-in image_gen (model identifier not exposed)",
+  "redistribution": "yes",
+  "fictional_brands_only": true,
+  "projection_id": "iso2x_v1",
+  "directions": [
+    0
+  ]
+}
