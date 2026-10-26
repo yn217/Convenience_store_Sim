@@ -619,7 +619,7 @@ static func _visit_in(v, path: String, errs: Array[String]) -> Dictionary:
 	out["segment_id"] = String(v.get("segment_id", ""))
 	for e in v["basket_log"]:
 		if typeof(e) != TYPE_DICTIONARY or not JsonCheck.is_nonempty_string(e.get("sku_id")) or not JsonCheck.is_int(e.get("price_yen")) \
-				or not ["target", "impulse"].has(e.get("kind")) or not ["planned", "taken", "not_bought", "too_expensive", "stockout"].has(e.get("state")):
+				or not ["target", "impulse", "deal"].has(e.get("kind")) or not ["planned", "taken", "not_bought", "too_expensive", "stockout"].has(e.get("state")):
 			errs.append("%s.visit.basket_log: invalid" % path)
 			return {}
 		out["basket_log"].append({"sku_id": String(e["sku_id"]), "price": int(e["price_yen"]), "kind": String(e["kind"]), "state": String(e["state"])})

@@ -474,7 +474,7 @@
                   "properties": {
                     "sku_id": {"type": "string", "minLength": 1},
                     "price_yen": {"type": "integer"},
-                    "kind": {"enum": ["target", "impulse"]},
+                    "kind": {"enum": ["target", "impulse", "deal"]},
                     "state": {"enum": ["planned", "taken", "not_bought", "too_expensive", "stockout"]}
                   }
                 }

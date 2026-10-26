@@ -26,7 +26,7 @@ func test_definitions_are_well_formed(t, _tree) -> void:
 	for sku in s.products.skus.values():
 		cats[sku["category"]] = true
 	for d in Promotions.data()["promotions"]:
-		t.ok(["price", "bundle"].has(d["kind"]), d["def_id"] + ": known kind")
+		t.ok(["price", "bundle", "multi", "second_half"].has(d["kind"]), d["def_id"] + ": known kind")
 		t.ok(int(d["setup_cost_yen"]) > 0 and int(d["default_days"]) >= 1, d["def_id"] + ": cost and days")
 		var used: Array = d.get("categories", [])
 		for g in d.get("bundle", []):
@@ -130,3 +130,44 @@ func test_promotions_survive_a_save(t, _tree) -> void:
 	var on := views.filter(func(v): return not (v["running"] as Dictionary).is_empty())
 	t.eq(on.size(), 2, "the card sees two running")
 	t.eq(int(on[0]["running"]["days_left"]), 2, "two days left on day 1")
+
+
+## Phase 2: multi-buy deals — the tier and half-price arithmetic.
+func test_multi_buy_arithmetic(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	cmds.execute({"command_id": "m1", "kind": &"START_PROMOTION", "def_id": "multi_snack", "days": 2})
+	cmds.execute({"command_id": "m2", "kind": &"START_PROMOTION", "def_id": "second_half_noodle", "days": 2})
+	var snack := func(n: int) -> Array:
+		var out: Array = []
+		for i in n:
+			out.append({"category": "snack", "price": 150})
+		return out
+	t.eq(Promotions.multi_discounts(s, snack.call(1)), [], "one snack: nothing")
+	t.eq(int(Promotions.multi_discounts(s, snack.call(2))[0]["yen"]), 40, "two: 40 yen")
+	t.eq(int(Promotions.multi_discounts(s, snack.call(3))[0]["yen"]), 90, "three: 90 yen")
+	var noodles := [{"category": "instant_noodle", "price": 200}, {"category": "instant_noodle", "price": 180}, {"category": "drink", "price": 150}]
+	t.eq(int(Promotions.multi_discounts(s, noodles)[0]["yen"]), 90, "the second noodle at half its price (180 / 2)")
+	t.eq(Promotions.multi_for(s, "snack").get("def_id", ""), "multi_snack")
+	t.ok(Promotions.multi_for(s, "drink").is_empty(), "no deal on drinks")
+
+
+## Phase 2: with the snack deal customers take more snacks, the till books the discount, the ledger stays consistent.
+func test_a_multi_buy_deal_sells_more_units(t, _tree) -> void:
+	var units := {}
+	for promo in [false, true]:
+		var s := Run.new_state(300.0)
+		var cmds := Run.place_layout(s)
+		if promo:
+			cmds.execute({"command_id": "p1", "kind": &"START_PROMOTION", "def_id": "multi_snack", "days": 2})
+		Run.run_days(s, cmds, 1)
+		units[promo] = _units_of(s, "snack")
+		if promo:
+			var rows := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "DISCOUNT" and String(tx["event_id"]).contains(":MULTI:"))
+			t.ok(rows.size() > 0, "baskets earned the deal (%d)" % rows.size())
+			for tx in rows:
+				t.ok([40, 90].has(-int(tx["cash_delta_yen"])), "a tier's yen: %d" % -int(tx["cash_delta_yen"]))
+			var st: Dictionary = s.promo_stats[s.promotions[0]["promotion_id"]]
+			t.eq(int(st["discount_yen"]), rows.reduce(func(a, tx): return a + int(tx["expense_delta_yen"]), 0), "results count the discounts")
+			t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
+	t.ok(int(units[true]) > int(units[false]), "more snacks sold with the deal (%d > %d)" % [units[true], units[false]])

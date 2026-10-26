@@ -102,7 +102,7 @@ static func customer_panel_lines(c: Dictionary, fixture_name: String) -> Array[S
 	var items: Array[String] = []
 	var passed: Array[String] = []
 	for e in c.get("basket_log", []):
-		var star := "★" if e.get("kind", "") == "impulse" else ""
+		var star := "★" if e.get("kind", "") == "impulse" else ("＋" if e.get("kind", "") == "deal" else "")   # ＋: one more on a deal (#137)
 		var label := "%s%s %s" % [star, e.get("name", e.get("sku_id", "")), yen(int(e.get("price", 0)))]
 		match String(e.get("state", "")):
 			"taken":

@@ -7,6 +7,10 @@ extends RefCounted
 ##     so the purchase decision, the budget and the booked revenue all see it; it never raises the visitor count.
 ##   - bundle: a basket with one item of every group gets discount_yen once, booked at the till as a DISCOUNT row
 ##     (an expense, since ledger amounts are never negative; it comes off the operating profit like 販促費).
+##   - multi / second_half (phase 2): a customer who picks an item of its categories may take more of the same
+##     item (extra_take per extra unit, up to max_units); at the till a basket with n units of the categories gets
+##     the best tier's yen off (multi: [[2, 40], [3, 90]]) or half the lower price of every pair (second_half),
+##     booked as a DISCOUNT row like a bundle.
 ## Starting one books its setup cost (POP, signs) as a PROMO expense. Results per promotion: units sold on the deal
 ## and the discount given (state.promo_stats).
 
@@ -82,6 +86,41 @@ static func bundle_for(state: GameState, categories: Array) -> Dictionary:
 		if ok and (best.is_empty() or int(d["discount_yen"]) > int(best["yen"])):
 			best = {"promotion_id": p["promotion_id"], "yen": int(d["discount_yen"])}
 	return best
+
+
+## The running multi-buy deal (multi or second_half) covering a category: its definition plus promotion_id, or {}.
+static func multi_for(state: GameState, category: String) -> Dictionary:
+	for p in running(state):
+		var d := definition(p["def_id"])
+		if ["multi", "second_half"].has(d.get("kind", "")) and (d["categories"] as Array).has(category):
+			var out := d.duplicate()
+			out["promotion_id"] = p["promotion_id"]
+			return out
+	return {}
+
+
+## Multi-buy discounts a basket earns: [{promotion_id, yen, units}] for every running multi / second_half deal whose
+## categories the basket holds enough units of. `units`: [{category, price}] (one per unit sold).
+static func multi_discounts(state: GameState, units: Array) -> Array:
+	var out: Array = []
+	for p in running(state):
+		var d := definition(p["def_id"])
+		if not ["multi", "second_half"].has(d.get("kind", "")):
+			continue
+		var prices: Array = units.filter(func(u): return (d["categories"] as Array).has(u["category"])).map(func(u): return int(u["price"]))
+		var yen := 0
+		if d["kind"] == "multi":
+			for tier in d["tiers"]:
+				if prices.size() >= int(tier[0]):
+					yen = maxi(yen, int(tier[1]))
+		else:
+			prices.sort()
+			prices.reverse()
+			for i in prices.size() / 2:
+				yen += int(prices[2 * i + 1]) / 2   # half the lower price of each pair
+		if yen > 0:
+			out.append({"promotion_id": p["promotion_id"], "yen": yen, "units": prices.size()})
+	return out
 
 
 ## Starts a promotion today for `days` days. -> "" or an error key.

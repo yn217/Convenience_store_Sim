@@ -778,11 +778,42 @@ func _pick(state: GameState, c: Dictionary) -> void:
 	held.append(res["reservation_id"])
 	_res_dirty = true
 	_mark(c, c["sku_id"], "planned", "taken")
+	_take_more(state, c)
 	var sku := state.products.get_sku(c["sku_id"])
 	state.emit_event("CUSTOMER_RESERVED_ITEM", {"customer_id": c["customer_id"], "reservation_id": res["reservation_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"], "category": sku.get("category", ""), "name": sku.get("display_name", "")})
 	if not (c["wishes"] as Array).is_empty() and _next_wish(state, c):
 		return   # the rest of the basket first
 	_go_to_register(state, c)
+
+
+## A multi-buy deal on the item's category (#137 phase 2): the customer may take more of the same item — one
+## `impulse` draw per extra unit against the deal's extra_take, while it fits the cash left and max_units, and while
+## the shelf has it.
+func _take_more(state: GameState, c: Dictionary) -> void:
+	if state.promotions.is_empty() or int(c.get("wallet_yen", 0)) <= 0:
+		return
+	var sku_id: String = c["sku_id"]
+	var deal := Promotions.multi_for(state, String(state.products.get_sku(sku_id).get("category", "")))
+	if deal.is_empty():
+		return
+	var have := 1
+	while have < int(deal["max_units"]):
+		var price := state.sell_price(sku_id)
+		if int(c["planned_yen"]) + price > int(c["wallet_yen"]):
+			return
+		var rng := Lcg32.new(int(state.rng_states["impulse"]))
+		var roll := rng.uniform_0_1()
+		state.rng_states["impulse"] = rng.state
+		if roll >= float(deal["extra_take"]):
+			return
+		var held: Array = c["reservation_ids"]
+		var res := InventoryService.reserve(state, "res_%s_%d_%d" % [c["customer_id"], c["retries"], held.size()], c["customer_id"], sku_id, reservation_hold_sec(state.balance), c["fixture_id"])
+		if res.is_empty():
+			return
+		held.append(res["reservation_id"])
+		c["planned_yen"] = int(c["planned_yen"]) + price
+		(c["basket_log"] as Array).append({"sku_id": sku_id, "price": price, "kind": "deal", "state": "taken"})
+		have += 1
 
 
 ## An item that is out of stock is skipped. When nothing at all was reserved and no item is left, the
@@ -990,6 +1021,7 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 	var first_sku := ""
 	var first_fixture := ""
 	var sold_categories: Array = []
+	var sold_units: Array = []   # {category, price} per unit, for multi-buy deals
 	for res_id in ids:
 		var sku_id := _reservation_sku(state, res_id)
 		var sale := InventoryService.complete_sale(state, "sale:%s" % res_id, res_id, basket_id)
@@ -998,6 +1030,7 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 			continue
 		sold += 1
 		sold_categories.append(state.products.get_sku(sku_id).get("category", ""))
+		sold_units.append({"category": sold_categories.back(), "price": int(sale["revenue_yen"])})
 		revenue += int(sale["revenue_yen"])
 		if first_sku == "":
 			first_sku = sku_id
@@ -1008,6 +1041,7 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 		_leave(state, c, "sale_failed")
 		return
 	_bundle_discount(state, c, basket_id, sold_categories)
+	_multi_discount(state, c, basket_id, sold_units)
 	state.visit_stats["purchased"] += 1   # a buying customer, however many items (issue #128)
 	c["outcome"] = "purchased"
 	var name := String(state.products.get_sku(first_sku).get("display_name", ""))
@@ -1034,6 +1068,15 @@ func _bundle_discount(state: GameState, c: Dictionary, basket_id: String, catego
 		return
 	if state.ledger.record("DISCOUNT", "%s:BUNDLE" % basket_id, -int(b["yen"]), state.day, state.time_sec, {"promotion_id": b["promotion_id"], "customer_id": c["customer_id"]}, {"expense": int(b["yen"])}):
 		Promotions.note_sale(state, b["promotion_id"], 1, int(b["yen"]))
+
+
+## Multi-buy deals the basket earns (#137 phase 2): one DISCOUNT row per deal, like a bundle.
+func _multi_discount(state: GameState, c: Dictionary, basket_id: String, units: Array) -> void:
+	if state.promotions.is_empty():
+		return
+	for m in Promotions.multi_discounts(state, units):
+		if state.ledger.record("DISCOUNT", "%s:MULTI:%s" % [basket_id, m["promotion_id"]], -int(m["yen"]), state.day, state.time_sec, {"promotion_id": m["promotion_id"], "customer_id": c["customer_id"]}, {"expense": int(m["yen"])}):
+			Promotions.note_sale(state, m["promotion_id"], int(m["units"]), int(m["yen"]))
 
 
 ## SKU of a live reservation (read before the sale removes it); "" when unknown.
