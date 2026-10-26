@@ -1,0 +1,94 @@
+{
+  "manifest_version": 1,
+  "visual_id": "flower_planter_painted_v1",
+  "fixture_type_id": "flower_planter_painted_v1",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 2,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 1.6,
+    "depth": 0.65,
+    "height": 0.65
+  },
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        226,
+        293
+      ],
+      "layers": {
+        "body": "flower_planter_painted_v1_0_body.png"
+      },
+      "sorting_anchor_px": [
+        226,
+        293
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          165,
+          221
+        ],
+        [
+          370,
+          323
+        ],
+        [
+          287,
+          365
+        ],
+        [
+          82,
+          263
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        512,
+        512
+      ],
+      "anchor_px": [
+        226,
+        293
+      ],
+      "layers": {
+        "body": "flower_planter_painted_v1_0_body.png"
+      },
+      "sorting_anchor_px": [
+        226,
+        293
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          165,
+          221
+        ],
+        [
+          370,
+          323
+        ],
+        [
+          287,
+          365
+        ],
+        [
+          82,
+          263
+        ]
+      ]
+    }
+  }
+}

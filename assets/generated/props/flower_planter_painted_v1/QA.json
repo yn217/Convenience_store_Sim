@@ -1,0 +1,24 @@
+{
+  "source_bottom_edge_slopes": [
+    0.5076588880074021,
+    -0.5240570692030752
+  ],
+  "ideal_slopes": [
+    0.5,
+    -0.5
+  ],
+  "max_absolute_slope_error": 0.024057069203075154,
+  "status": "candidate_pending_runtime_QA",
+  "canvas_px": [
+    512,
+    512
+  ],
+  "anchor_px": [
+    226,
+    293
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ]
+}
