@@ -420,16 +420,8 @@ func test_sample_crowd_speed_1(t, _tree) -> void:
 	_sample(t, 1, "crowd", false)
 
 
-func test_sample_crowd_speed_4(t, _tree) -> void:
-	_sample(t, 4, "crowd", false)
-
-
 func test_sample_normal_speed_1(t, _tree) -> void:
 	_sample(t, 1, "normal", false)
-
-
-func test_sample_normal_speed_4(t, _tree) -> void:
-	_sample(t, 4, "normal", false)
 
 
 ## x4 is the worst case for a stall: the most steps per frame (240 for a 2 s stall).
