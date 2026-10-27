@@ -1,0 +1,388 @@
+{
+  "asset_id": "shelf_noodle",
+  "state": "FULL",
+  "direction": "r0",
+  "revision": "shallow_v3",
+  "reference_images": [
+    "assets\\generated\\fixtures\\shelf_noodle\\shelf_noodle_0_body.png"
+  ],
+  "generation_method": "Built-in image generation; new generation using only the canonical empty body as the shape/camera reference; no prior generated image used.",
+  "requested_long_axis_slope_range": [
+    -0.53,
+    -0.47
+  ],
+  "slope_check": "FAIL",
+  "measurements": {
+    "guide": {
+      "canvas_px": [
+        442,
+        481
+      ],
+      "alpha_bbox_threshold_8_xyxy_exclusive": [
+        38,
+        8,
+        404,
+        457
+      ],
+      "bbox_aspect_width_over_height": 0.81514,
+      "alpha_pixels_threshold_8": 124536,
+      "long_axis_hough_segments_top24": [
+        {
+          "length_px": 243.29,
+          "slope_dy_dx": -0.5069,
+          "xyxy": [
+            185,
+            176,
+            402,
+            66
+          ]
+        },
+        {
+          "length_px": 177.1,
+          "slope_dy_dx": -0.5063,
+          "xyxy": [
+            163,
+            413,
+            321,
+            333
+          ]
+        },
+        {
+          "length_px": 175.76,
+          "slope_dy_dx": -0.5032,
+          "xyxy": [
+            78,
+            111,
+            235,
+            32
+          ]
+        },
+        {
+          "length_px": 175.76,
+          "slope_dy_dx": -0.5032,
+          "xyxy": [
+            232,
+            420,
+            389,
+            341
+          ]
+        },
+        {
+          "length_px": 139.09,
+          "slope_dy_dx": -0.5081,
+          "xyxy": [
+            273,
+            358,
+            397,
+            295
+          ]
+        },
+        {
+          "length_px": 132.38,
+          "slope_dy_dx": 0.5085,
+          "xyxy": [
+            37,
+            289,
+            155,
+            349
+          ]
+        },
+        {
+          "length_px": 130.14,
+          "slope_dy_dx": 0.5086,
+          "xyxy": [
+            39,
+            398,
+            155,
+            457
+          ]
+        },
+        {
+          "length_px": 126.56,
+          "slope_dy_dx": 0.5044,
+          "xyxy": [
+            43,
+            352,
+            156,
+            409
+          ]
+        },
+        {
+          "length_px": 107.33,
+          "slope_dy_dx": -0.5,
+          "xyxy": [
+            157,
+            457,
+            253,
+            409
+          ]
+        }
+      ],
+      "long_axis_slope_median_dy_dx": -0.5048,
+      "sha256": "4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976"
+    },
+    "candidate": {
+      "canvas_px": [
+        1322,
+        1190
+      ],
+      "alpha_bbox_threshold_8_xyxy_exclusive": [
+        161,
+        27,
+        1219,
+        1170
+      ],
+      "bbox_aspect_width_over_height": 0.92563,
+      "alpha_pixels_threshold_8": 862554,
+      "long_axis_hough_segments_top24": [
+        {
+          "length_px": 1122.71,
+          "slope_dy_dx": -0.364,
+          "xyxy": [
+            156,
+            515,
+            1211,
+            131
+          ]
+        },
+        {
+          "length_px": 1097.08,
+          "slope_dy_dx": -0.3637,
+          "xyxy": [
+            181,
+            505,
+            1212,
+            130
+          ]
+        },
+        {
+          "length_px": 1093.67,
+          "slope_dy_dx": -0.3839,
+          "xyxy": [
+            192,
+            534,
+            1213,
+            142
+          ]
+        },
+        {
+          "length_px": 1093.67,
+          "slope_dy_dx": -0.3839,
+          "xyxy": [
+            192,
+            531,
+            1213,
+            139
+          ]
+        },
+        {
+          "length_px": 1093.67,
+          "slope_dy_dx": -0.3839,
+          "xyxy": [
+            192,
+            536,
+            1213,
+            144
+          ]
+        },
+        {
+          "length_px": 1093.67,
+          "slope_dy_dx": -0.3839,
+          "xyxy": [
+            192,
+            533,
+            1213,
+            141
+          ]
+        },
+        {
+          "length_px": 1093.67,
+          "slope_dy_dx": -0.3839,
+          "xyxy": [
+            192,
+            538,
+            1213,
+            146
+          ]
+        },
+        {
+          "length_px": 1093.31,
+          "slope_dy_dx": -0.383,
+          "xyxy": [
+            192,
+            544,
+            1213,
+            153
+          ]
+        },
+        {
+          "length_px": 1091.44,
+          "slope_dy_dx": -0.3837,
+          "xyxy": [
+            192,
+            529,
+            1211,
+            138
+          ]
+        },
+        {
+          "length_px": 1089.21,
+          "slope_dy_dx": -0.3835,
+          "xyxy": [
+            192,
+            528,
+            1209,
+            138
+          ]
+        },
+        {
+          "length_px": 1089.21,
+          "slope_dy_dx": -0.3835,
+          "xyxy": [
+            192,
+            537,
+            1209,
+            147
+          ]
+        },
+        {
+          "length_px": 1088.54,
+          "slope_dy_dx": -0.3636,
+          "xyxy": [
+            192,
+            716,
+            1215,
+            344
+          ]
+        },
+        {
+          "length_px": 1076.49,
+          "slope_dy_dx": -0.3438,
+          "xyxy": [
+            192,
+            437,
+            1210,
+            87
+          ]
+        },
+        {
+          "length_px": 1075.41,
+          "slope_dy_dx": -0.4242,
+          "xyxy": [
+            227,
+            1123,
+            1217,
+            703
+          ]
+        },
+        {
+          "length_px": 1074.49,
+          "slope_dy_dx": -0.4247,
+          "xyxy": [
+            228,
+            1124,
+            1217,
+            704
+          ]
+        },
+        {
+          "length_px": 1072.49,
+          "slope_dy_dx": -0.3846,
+          "xyxy": [
+            212,
+            690,
+            1213,
+            305
+          ]
+        },
+        {
+          "length_px": 1069.57,
+          "slope_dy_dx": -0.3642,
+          "xyxy": [
+            208,
+            502,
+            1213,
+            136
+          ]
+        },
+        {
+          "length_px": 1068.97,
+          "slope_dy_dx": -0.3838,
+          "xyxy": [
+            215,
+            534,
+            1213,
+            151
+          ]
+        },
+        {
+          "length_px": 1068.63,
+          "slope_dy_dx": -0.3645,
+          "xyxy": [
+            211,
+            694,
+            1215,
+            328
+          ]
+        },
+        {
+          "length_px": 1068.63,
+          "slope_dy_dx": -0.3645,
+          "xyxy": [
+            211,
+            693,
+            1215,
+            327
+          ]
+        },
+        {
+          "length_px": 1068.29,
+          "slope_dy_dx": -0.3635,
+          "xyxy": [
+            209,
+            500,
+            1213,
+            135
+          ]
+        },
+        {
+          "length_px": 1067.69,
+          "slope_dy_dx": -0.3649,
+          "xyxy": [
+            212,
+            691,
+            1215,
+            325
+          ]
+        },
+        {
+          "length_px": 1066.41,
+          "slope_dy_dx": -0.3643,
+          "xyxy": [
+            212,
+            695,
+            1214,
+            330
+          ]
+        },
+        {
+          "length_px": 1066.05,
+          "slope_dy_dx": -0.3442,
+          "xyxy": [
+            207,
+            813,
+            1215,
+            466
+          ]
+        }
+      ],
+      "long_axis_slope_median_dy_dx": -0.3832,
+      "sha256": "6edee7a6e9b6049fb4682d9c1f78baedfcd66fb821f4a14db64c2e6983c0acb4"
+    },
+    "candidate_minus_guide_slope": 0.1216,
+    "hough_method": "Convert RGB to grayscale, Canny thresholds 60/160, HoughLinesP with rho=1, theta=1 degree, threshold=90, minLineLength=min(canvas)/5, maxLineGap=20; retain top 24 long diagonal segments; median of negative slopes below -0.15."
+  },
+  "visual_review": "Candidate shows five stocked levels, grouped color blocks, visible cup side artwork, and is a single integrated transparent illustration. The dominant measured long-edge slope remains too shallow relative to canonical. Shelf-depth reduction is visually improved but the 15% projected depth criterion is not numerically established.",
+  "runtime_approved": false,
+  "normalization_applied": false
+}
