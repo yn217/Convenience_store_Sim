@@ -187,3 +187,5 @@ cross-check, not a license approval; the human review and redistribution fields 
 |vending_painted_v1|assets/generated/props/vending_painted_v1|AI|assets/generated/props/vending_painted_v1/PROVENANCE.json (prompt)|built-in image_gen (model identifier not exposed)|OpenAI generated output; project use|2026-10-26|local visual QA; final user acceptance pending|yes|
 
 |bicycle_rack_painted_v1|assets/generated/props/bicycle_rack_painted_v1|AI|assets/generated/props/bicycle_rack_painted_v1/PROVENANCE.json (prompt)|built-in image_gen (model identifier not exposed)|OpenAI generated output; project use|2026-10-26|local visual QA; final user acceptance pending|yes|
+
+|store_exterior_backdrop_v1|assets/generated/backgrounds/store_exterior_backdrop_v1|AI|assets/generated/backgrounds/store_exterior_backdrop_v1/PROVENANCE.json (prompt)|built-in image_gen (image-generation subagent)|OpenAI generated output; project use|2026-10-27|composite background candidate; final user acceptance pending|yes|

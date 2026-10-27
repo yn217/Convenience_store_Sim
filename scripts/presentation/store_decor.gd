@@ -4,9 +4,8 @@ extends Node2D
 ## StoreWorld, each drawing one layer of the same pure layout:
 ##   LAYER_WALL     (WallDecor, over the WallLayer, under the fixtures): the storefront on the entrance-side wall,
 ##                  the reach-in cooler row and potted plants on the back walls.
-##   LAYER_EXTERIOR (ExteriorDecor, behind the floor): parking, street furniture and trees on the paving and road
-##                  beyond the back and entrance sides.
-##   LAYER_FRONT    (FrontDecor, over the floor, under the fixtures): trees, flower beds and planters on the near
+##   LAYER_EXTERIOR (ExteriorDecor, behind the floor): parking and street furniture beyond the entrance side.
+##   LAYER_FRONT    (FrontDecor, over the floor, under the fixtures): flower beds and planters on the near
 ##                  sides, which sit in front of the store.
 ##   LAYER_REG_FLOOR / LAYER_REG_TOP (#113, RegisterFloorDecor, RegisterTopDecor):
 ##                  the checkout area, built by RegisterDecor from the registers (back-counter props, queue markings,
@@ -42,9 +41,6 @@ const NEAR_CAP_Z0 := 1.0       ## thin fascia cap on the near front, on top of t
 const NEAR_CAP_Z1 := 1.2
 const COOLER_COUNT := 6
 const COOLER_START := 2
-const TREE_STRIDE := 6
-const TREE_DEPTH_NEAR := 1.3
-const TREE_DEPTH_BACK := 5.5
 const FLOWER_STRIDE := 4
 const LAMP_STRIDE := 6
 
@@ -307,25 +303,11 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 			out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
 		along += 2.7
 		bay += 1
-	# Back sides: cherry trees beyond the parking lot (behind the store, so they stay above the wall).
-	for back in _back_walls(side):
-		var nb := _edge_len(back, width, height)
-		var t := 1.0
-		var k := 0
-		while t < nb:
-			_add(out, "green_street_tree_v1" if k % 2 == 0 else "cherry_tree_painted_v1", back, width, height, TREE_DEPTH_BACK, t)
-			t += TREE_STRIDE
-			k += 1
-	# Near sides (in front of the store): cherry trees, flower beds and planters on the pavement.
+	# The temporary individual tree placements are omitted. A single screen-space landscape composite in
+	# BackdropLayer supplies the distant trees/sakura/hedges; independent flower planters remain world-anchored.
 	for near in _near_sides(side):
 		var nn := _edge_len(near, width, height)
-		var f := 1.0
-		var j := 0
-		while f < nn:
-			_add(out, "green_street_tree_v1" if j % 2 == 0 else "cherry_tree_painted_v1", near, width, height, 2.4, f)
-			f += TREE_STRIDE
-			j += 1
-		f = 3.0
+		var f := 3.0
 		while f < nn:
 			_add(out, "flower_planter_painted_v1", near, width, height, 1.1, f)
 			f += FLOWER_STRIDE

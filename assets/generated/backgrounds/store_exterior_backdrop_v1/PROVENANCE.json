@@ -1,0 +1,50 @@
+{
+  "asset_id": "store_exterior_backdrop_v1",
+  "source_type": "ai_generated",
+  "tool": "built-in image_gen via image-generation subagent",
+  "generation_id": "exec-146ca07d-6c03-4957-8b4f-957826faaed8",
+  "prompt": "One transparent combined scenery backdrop for a Japanese convenience-store management game, using the supplied mockup as style reference and a generated +/-0.5 wall-edge guide for geometry. Green trees, pink sakura, hedges, flowers and a low fence follow the two far store edges in a peaked V; leave the store interior and foreground transparent; no store, people, cars, road, text, signage or UI. Tree trunks and fence posts vertical.",
+  "source_file": "assets/source/background/store_exterior_backdrop_v1/original.png",
+  "original_sha256": "492f922eb97d79ed838fac8c8d225ed72df6d09afec2892c28ac49cea9e1c51e",
+  "packaging_script": "tools/assets/package_store_exterior_backdrop.py",
+  "operations": [
+    "piecewise vertical affine shears around the planting-edge apex, preserving vertical stems and aligning each edge to the game's +/-0.5 wall slopes"
+  ],
+  "canvas_px": [
+    1672,
+    953
+  ],
+  "source_edge_slopes": [
+    -0.540214412768617,
+    0.5669342820056728
+  ],
+  "output_edge_slopes": [
+    -0.5000480746117973,
+    0.5004855535791548
+  ],
+  "apex_px": [
+    844.627,
+    217.748
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "alpha_bbox_px": [
+    0,
+    3,
+    1672,
+    932
+  ],
+  "corner_alpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "limitations": [
+    "This combined static image is a backdrop; tree size is not tied to world tiles.",
+    "The generated alpha edges contain some bright glints and need in-game visual review.",
+    "This variant shows spring sakura; other seasons require separate artwork."
+  ]
+}

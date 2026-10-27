@@ -122,8 +122,9 @@ func test_exterior_is_outside_the_store_and_deterministic(t, _tree) -> void:
 func test_exterior_has_the_street_furniture(t, _tree) -> void:
 	# Default door on the south wall: the whole street set is placed in front of the storefront.
 	var items := StoreDecor.exterior_items(W, H, SOUTH_ENTR)
-	for id in ["open_a_board", "vending_painted_v1", "trash_recycle_bins", "bicycle_rack_painted_v1", "bench_painted_v1", "nobori_banner_obento", "street_lamp", "green_street_tree_v1", "cherry_tree_painted_v1", "flower_planter_painted_v1"]:
+	for id in ["open_a_board", "vending_painted_v1", "trash_recycle_bins", "bicycle_rack_painted_v1", "bench_painted_v1", "nobori_banner_obento", "street_lamp", "flower_planter_painted_v1"]:
 		t.ok(_sprites(items, id).size() > 0, "%s is placed" % id)
+	t.eq(_sprites(items, "green_street_tree_v1").size() + _sprites(items, "cherry_tree_painted_v1").size(), 0, "temporary individual trees are replaced by the combined backdrop")
 	t.eq(_sprites(items, "parked_car_blue").size() + _sprites(items, "parked_car_red").size(), 0, "legacy side-view cars are not used")
 
 

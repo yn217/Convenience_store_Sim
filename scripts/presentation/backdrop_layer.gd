@@ -2,7 +2,7 @@ class_name BackdropLayer
 extends Node2D
 ## Street scene around the store: a dark-teal ground that fades to a vignette, a paving ring with joints,
 ## an apron with a door mat and an OPEN A-board on the entrance side, a kerb and road strip further out on that
-## side, planters and trees at the outer corners. All procedural shapes, no external art.
+## side, plus a combined generated landscape behind the store.
 ## The layer is drawn behind the store floor (show_behind_parent), uses the same IsoProjection as the floor, and
 ## never takes input. The geometry is pure (layout_items); sync() redraws only when the layout, camera or viewport
 ## changes, so nothing is recomputed per frame.
@@ -28,13 +28,16 @@ const SIGN_FACE := Color("f4efe2")
 const SIGN_OPEN := Color("c8432f")
 const SIGN_TEXT := Color("ffffff")
 const SHADOW := Color(0.0, 0.0, 0.0, 0.28)
-const TRUNK := Color("5a4636")
 const BUSH_DARK := Color("2f5d3e")
 const BUSH_MID := Color("4b7d4f")
 const BUSH_HI := Color("6f9e62")
 const PLANTER := Color("7a5a43")
 const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
+const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v1/store_exterior_backdrop_v1.png")
+## Calibrated V apex in the generated PNG; the manifest records the measured +/-0.5 edge slopes.
+const BACKDROP_APEX_PX := Vector2(844.627, 217.748)
+const BACKDROP_WALL_OCCLUSION_M := 0.9
 
 const PAVE_M := 2.0       ## paving ring width around the store footprint (tiles)
 const KERB_M := 0.18
@@ -45,56 +48,94 @@ const SLAB_INSET := 0.04
 
 var _key: Array = []
 var _ops: Array = []
-var _mesh: ArrayMesh          # every polygon and gradient batched into one mesh, so the layer costs one draw call
+var _mesh: ArrayMesh          # road/paving faces batched after the static landscape panel
+var _ground_mesh: ArrayMesh    # viewport fill and soft pool, drawn before the combined scenery panel
+var _scenery_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
+var _environment_rect := Rect2()
 
 
 ## Recomputes the backdrop when the layout, camera or viewport changed; otherwise does nothing.
-## `dressed` (issue #110): the StoreDecor exterior layer draws the A-board, planters and trees, so the code-drawn
-## ones are left out.
+## `dressed` (issue #110): the StoreDecor exterior layer draws the A-board and planters, so their fallbacks are omitted.
 func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewport: Vector2, dressed: bool = false) -> void:
 	var key := [width, height, entrances.duplicate(), proj.origin, proj.zoom, viewport, dressed]
 	if key == _key:
 		return
 	_key = key
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
+	_environment_rect = environment_rect(proj, width, height)
 	_build_mesh()
 	queue_redraw()
 
 
 func _draw() -> void:
+	if _ground_mesh != null:
+		draw_mesh(_ground_mesh, null)
+	# The static planting frame sits above the base colour, but below road, paving and curb geometry.
+	if _environment_rect.size.x > 0.0 and _environment_rect.size.y > 0.0:
+		draw_texture_rect(ExteriorBackdrop, _environment_rect, false)
 	if _mesh != null:
 		draw_mesh(_mesh, null)
 	for op in _texts:
 		draw_string(ThemeDB.fallback_font, op["pos"], op["text"], HORIZONTAL_ALIGNMENT_CENTER, op["width"], op["size"], op["color"])
 
 
+## Fit the combined landscape to the two far walls. Its base sits behind the upper wall so the wall
+## hides the fence footing; the +/-0.5 planting edges follow the wall direction.
+static func environment_rect(proj: IsoProjection, width: int, height: int) -> Rect2:
+	if width <= 0 or height <= 0:
+		return Rect2()
+	var texture_size := Vector2(ExteriorBackdrop.get_size())
+	var source_half_span := minf(BACKDROP_APEX_PX.x, texture_size.x - BACKDROP_APEX_PX.x)
+	var screen_half_span := float(maxi(width, height)) * IsoProjection.HALF_TILE_W * proj.zoom
+	var scale := screen_half_span / source_half_span
+	var wall_apex := proj.world_to_screen(-0.5, -0.5, IsoProjection.WALL_HEIGHT_M - BACKDROP_WALL_OCCLUSION_M)
+	return Rect2(wall_apex - BACKDROP_APEX_PX * scale, texture_size * scale)
+
+
 ## Fan-triangulates the (convex) pieces in paint order into one vertex-coloured mesh.
 func _build_mesh() -> void:
 	var verts := PackedVector2Array()
 	var cols := PackedColorArray()
+	_scenery_break_index = -1
 	_texts = []
 	for op in _ops:
 		if op["kind"] == &"text":
 			_texts.append(op)
+			continue
+		if op["kind"] == &"scenery_break":
+			_scenery_break_index = verts.size()
 			continue
 		var pts: PackedVector2Array = op["points"]
 		for k in range(1, pts.size() - 1):
 			for idx in [0, k, k + 1]:
 				verts.append(pts[idx])
 				cols.append(op["colors"][idx] if op["kind"] == &"gradient" else op["color"])
+	_ground_mesh = null
 	_mesh = null
 	if verts.is_empty():
 		return
+	if _scenery_break_index < 0:
+		_mesh = _make_mesh(verts, cols)
+		return
+	_ground_mesh = _make_mesh(verts.slice(0, _scenery_break_index), cols.slice(0, _scenery_break_index))
+	_mesh = _make_mesh(verts.slice(_scenery_break_index), cols.slice(_scenery_break_index))
+
+
+func _make_mesh(verts: PackedVector2Array, cols: PackedColorArray) -> ArrayMesh:
+	if verts.is_empty():
+		return null
 	var arrays := []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = verts
 	arrays[Mesh.ARRAY_COLOR] = cols
-	_mesh = ArrayMesh.new()
-	_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	var result := ArrayMesh.new()
+	result.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	return result
 
 
-## Every piece of the street, in paint order. Each entry is {"kind": &"poly"|&"gradient"|&"text", ...}:
+## Every piece of the street, in paint order. The scenery_break entry marks where the backdrop is drawn.
+## Other entries have kind &"poly", &"gradient", or &"text":
 ## polys carry "points" and "color", gradients carry "points" and per-vertex "colors", text carries "pos",
 ## "text", "size", "width" and "color". Points are screen coordinates. Empty for a store without a floor.
 static func layout_items(proj: IsoProjection, width: int, height: int, entrances: Array, viewport: Vector2, dressed: bool = false) -> Array:
@@ -111,6 +152,8 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	out.append(_poly(PackedVector2Array([Vector2.ZERO, Vector2(viewport.x, 0.0), viewport, Vector2(0.0, viewport.y)]), GROUND))
 	for grow in [9.0, 6.0, 3.0]:
 		out.append(_poly(_world_pts(proj, _rect_world(width, height, grow)), POOL))
+	# Insert the static scenery after background tone, then draw all road/paving geometry above it.
+	out.append({"kind": &"scenery_break"})
 
 	# Kerb and road on the entrance side, beyond the paving ring.
 	var parking_end := PAVE_M + PARK_DEPTH_M
@@ -174,16 +217,13 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	if not dressed:
 		out.append_array(_a_board(proj, side_point(side, 1.2, front, width, height)))
 
-		# Planters at the outer corners and trees beyond the paving.
+		# Fallback planters at the outer corners.
 		var s := proj.zoom
-		var x0 := -0.5
 		var y0 := -0.5
 		var x1 := width - 0.5
 		var y1 := height - 0.5
 		for corner in [Vector2(x1 + 1.0, y1 + 1.0), Vector2(x1 + 1.0, y0 - 1.0)]:
 			out.append_array(_planter(proj.world_to_screen(corner.x, corner.y), s))
-		for tree in [Vector2(x1 + 3.6, y1 + 3.4), Vector2(x1 + 3.4, y0 - 3.2), Vector2(x0 - 7.0, y0 + 1.5)]:
-			out.append_array(_tree(proj.world_to_screen(tree.x, tree.y), s))
 
 	out.append_array(_vignette(viewport))
 	return out
@@ -341,15 +381,4 @@ static func _planter(g: Vector2, s: float) -> Array:
 	out.append(_ellipse(g + Vector2(0, -22.0 * s), 26.0 * s, 18.0 * s, BUSH_DARK))
 	out.append(_ellipse(g + Vector2(-5.0 * s, -28.0 * s), 17.0 * s, 12.0 * s, BUSH_MID))
 	out.append(_ellipse(g + Vector2(-10.0 * s, -33.0 * s), 8.0 * s, 5.0 * s, BUSH_HI))
-	return out
-
-
-## Tree: trunk, a shadow on the ground and three stacked canopy blobs with a lit upper-left side.
-static func _tree(g: Vector2, s: float) -> Array:
-	var out: Array = []
-	out.append(_ellipse(g + Vector2(6.0 * s, 2.0 * s), 34.0 * s, 13.0 * s, SHADOW))
-	out.append(_poly(PackedVector2Array([g + Vector2(-3.0 * s, 0), g + Vector2(3.0 * s, 0), g + Vector2(3.0 * s, -26.0 * s), g + Vector2(-3.0 * s, -26.0 * s)]), TRUNK))
-	out.append(_ellipse(g + Vector2(0, -64.0 * s), 40.0 * s, 34.0 * s, BUSH_DARK))
-	out.append(_ellipse(g + Vector2(-8.0 * s, -74.0 * s), 30.0 * s, 26.0 * s, BUSH_MID))
-	out.append(_ellipse(g + Vector2(-16.0 * s, -86.0 * s), 14.0 * s, 10.0 * s, BUSH_HI))
 	return out

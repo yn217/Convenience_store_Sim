@@ -89,6 +89,26 @@ func test_layout_is_deterministic_and_camera_dependent(t, _tree) -> void:
 	t.ok(a[10]["points"] != c[10]["points"], "zoom changes the screen geometry")
 
 
+func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> void:
+	var proj := _proj(1.25)
+	var rect := BackdropLayer.environment_rect(proj, 16, 12)
+	var texture_size := Vector2(BackdropLayer.ExteriorBackdrop.get_size())
+	var scale := rect.size.x / texture_size.x
+	var image_apex := rect.position + BackdropLayer.BACKDROP_APEX_PX * scale
+	var wall_apex := proj.world_to_screen(-0.5, -0.5, IsoProjection.WALL_HEIGHT_M - BackdropLayer.BACKDROP_WALL_OCCLUSION_M)
+	t.ok(image_apex.distance_to(wall_apex) < 0.001, "the scenery apex follows the far-wall junction behind the wall")
+	t.ok(absf(rect.size.y / texture_size.y - scale) < 0.001, "the background is scaled uniformly")
+	t.ok(rect.size.x > proj.floor_bounds(16, 12).size.x, "the scenery reaches both far-wall ends")
+	var metadata: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/generated/backgrounds/store_exterior_backdrop_v1/store_exterior_backdrop_v1.visual.json"))
+	var measured_apex := Vector2(float(metadata["pivot_x"]), float(metadata["pivot_y"]))
+	t.ok(measured_apex.distance_to(BackdropLayer.BACKDROP_APEX_PX) < 0.001, "the runtime anchor matches the packaged image")
+	var slopes: Array = metadata["runtime_fit"]["edge_slopes"]
+	t.ok(absf(float(slopes[0]) + 0.5) < 0.01 and absf(float(slopes[1]) - 0.5) < 0.01, "both scenery edges match the far-wall angles")
+	proj.pan(Vector2(29, -13))
+	var moved := BackdropLayer.environment_rect(proj, 16, 12)
+	t.eq(moved.position, rect.position + Vector2(29, -13), "camera panning moves the scenery with the store")
+
+
 func test_sync_caches_until_the_key_changes(t, _tree) -> void:
 	var layer := BackdropLayer.new()
 	var vp := Vector2(1280, 720)
