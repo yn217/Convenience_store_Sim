@@ -184,3 +184,13 @@ func test_large_store_equipment_does_not_overlap_planter(t, _tree) -> void:
 		if item.get("id", "") == "flower_planter_painted_v1":
 			var point := Vector2(item["x"], item["y"])
 			t.ok(point.distance_to(equipment) >= 1.5, "planters leave room around equipment")
+
+func test_east_entrance_places_equipment_on_south_side(t, _tree) -> void:
+	var items := StoreDecor.exterior_items(16, 12, [Vector2i(15, 5)])
+	var found := false
+	for item in items:
+		if item.get("id", "") == "exterior_hvac_v1":
+			found = true
+			t.ok(float(item["y"]) > 11.5, "equipment remains outside the south wall")
+			t.ok(item.get("mirror", false), "equipment is mirrored for the south side")
+	t.ok(found, "east entrance still has equipment")

@@ -78,7 +78,11 @@ func _draw() -> void:
 	for op in _ops:
 		match op[0]:
 			OP_SPRITE:
+				if op.size() > 3:
+					draw_set_transform_matrix(op[3])
 				draw_texture_rect(op[1], op[2], false)
+				if op.size() > 3:
+					draw_set_transform_matrix(Transform2D.IDENTITY)
 			OP_POLY:
 				draw_colored_polygon(op[1], op[2])
 			OP_MESH:
@@ -122,7 +126,14 @@ func _build_ops(proj: IsoProjection) -> void:
 		if it["id"] == "exterior_hvac_v1":
 			var ground := proj.world_to_screen(it["x"], it["y"])
 			var hvac_scale := 0.17 * proj.zoom
-			_ops.append([OP_SPRITE, ExteriorHvac, Rect2(ground - Vector2(800, 900) * hvac_scale, Vector2(ExteriorHvac.get_size()) * hvac_scale)])
+			var anchor := Vector2(800, 900) * hvac_scale
+			var hvac_size := Vector2(ExteriorHvac.get_size()) * hvac_scale
+			if it.get("mirror", false):
+				var left := ground.x + anchor.x - hvac_size.x
+				var target := Rect2(Vector2(left, ground.y - anchor.y), hvac_size)
+				_ops.append([OP_SPRITE, ExteriorHvac, target, Transform2D(Vector2(-1, 0), Vector2(0, 1), Vector2(2.0 * left + hvac_size.x, 0))])
+			else:
+				_ops.append([OP_SPRITE, ExteriorHvac, Rect2(ground - anchor, hvac_size)])
 			continue
 		var info := _sprites.texture(it["id"], int(it.get("rot", 0)))
 		if info.is_empty():
@@ -318,8 +329,11 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 		along += 2.7
 		bay += 1
 	# Place the fixed equipment against the visible east side, away from the entrance.
-	if side != SIDE_EAST and width >= 8 and height >= 8:
-		_add(out, "exterior_hvac_v1", SIDE_EAST, width, height, 1.0, float(height) * 0.41)
+	if width >= 8 and height >= 8:
+		var equipment_side := SIDE_SOUTH if side == SIDE_EAST else SIDE_EAST
+		var equipment_along := float(width if equipment_side == SIDE_SOUTH else height) * 0.41
+		_add(out, "exterior_hvac_v1", equipment_side, width, height, 1.0, equipment_along)
+		out[-1]["mirror"] = equipment_side == SIDE_SOUTH
 	# The temporary individual tree placements are omitted. A single screen-space landscape composite in
 	# BackdropLayer supplies the distant trees/sakura/hedges; independent flower planters remain world-anchored.
 	for near in _near_sides(side):
@@ -327,7 +341,8 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 		var f := 3.0
 		while f < nn:
 			# Leave a clear gap around the equipment on the east wall.
-			var near_equipment: bool = near == SIDE_EAST and side != SIDE_EAST and width >= 8 and height >= 8 and absf(f - float(height) * 0.41) < 1.5
+			var equipment_side := SIDE_SOUTH if side == SIDE_EAST else SIDE_EAST
+			var near_equipment: bool = near == equipment_side and width >= 8 and height >= 8 and absf(f - float(nn) * 0.41) < 1.5
 			if not near_equipment:
 				_add(out, "flower_planter_painted_v1", near, width, height, 1.1, f)
 			f += FLOWER_STRIDE
