@@ -19,3 +19,11 @@
 - `states_empty_base_comparison.png`: FULL、HALF二案、元EMPTYを同じ442×449キャンバスで比較。
 - 商品量の変化は確認できるが、ガード支柱や背板・商品形状は生成ごとに変化する。棚構造の完全一致は未確認で、状態切替用として承認しない。
 - 画像ごとに約4.5〜5.8%の非一様伸縮がある。bboxとanchorの値は揃えているが、実ゲーム表示の検証や独立Visual QAは未実施。
+
+## 菓子・パン棚と実ゲーム画面の比較
+
+- `full_from_empty_snacks_v2.png` は棚と菓子・パンを含むFULL画像。`half_from_full_snacks_v1.png` は同じ画像を参照したHALF画像。
+- `states_snacks_comparison.png` はFULL/HALF/EMPTYを442×449キャンバスで並べた試作比較。棚支柱などの一致は未保証である。
+- `game_demo_zoom1_6.png` はGodotのdemoをzoom 1.6で取得した実画面。`game_shelf_overlay_preview.png` はその画面にFULL候補を推定位置・縮尺で重ねた合成画像であり、ゲーム内の実描画ではない。
+- 投影・アンカー情報に基づく比較で、候補はそれぞれ約5.28%と5.37%の非一様な縦横比変更を受けている。実ゲームでの正式な投影適合、SKU照合、独立Visual QAは未完了。
+- 共通棚原板に商品領域をマスク合成し、保護線の画素を復元する案も試したが、商品を横切る白い線が現れたため不採用。
