@@ -16,6 +16,7 @@ const TABS := [[ALL, "すべて"], [SHELF, "棚"], [COLD, "冷蔵・冷凍"], [C
 ## カウンター; every other shelf is 棚. A fixture with no products that is not a register (ATM, copier, staff rooms) is 設備.
 const COLD_PRODUCTS := ["drink", "dessert", "ice_cream", "daily_fresh"]
 const COUNTER_PRODUCTS := ["oden", "coffee"]
+const SERVICE_PRODUCTS := ["capsule_toy"]   # #139: the capsule machines sit with the ATM and the copier
 
 const CARD_SIZE := Vector2(108, 130)
 const THUMB_SIZE := Vector2(100, 70)
@@ -183,6 +184,8 @@ func _label(text: String, color: Color, node_name: String, font_size: int = UiTh
 static func category_of(def: Dictionary) -> StringName:
 	var cats: Array = def.get("allowed_categories", [])
 	if cats.is_empty() and not def.has("register_queue_max_tiles"):
+		return SERVICE
+	if not cats.is_empty() and cats.all(func(c): return SERVICE_PRODUCTS.has(c)):
 		return SERVICE
 	if cats.any(func(c): return COLD_PRODUCTS.has(c)):
 		return COLD

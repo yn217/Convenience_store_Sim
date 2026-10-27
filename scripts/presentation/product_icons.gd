@@ -119,6 +119,13 @@ static func _hit(category: String, u: float, v: float) -> int:
 			if absf(u - 0.5) > half_k:
 				return 0
 			return 2 if v >= 0.48 and v <= 0.66 else 1
+		"capsule_toy":   # a round capsule: a coloured top half and a clear bottom half
+			var r := pow(u - 0.5, 2.0) + pow(v - 0.55, 2.0)
+			if r > 0.36 * 0.36:
+				return 0
+			if absf(v - 0.55) < 0.025:
+				return 2
+			return 1 if v < 0.55 else 3
 		"ice_cream":
 			if pow(u - 0.5, 2.0) + pow(v - 0.36, 2.0) <= 0.28 * 0.28:
 				return 1
@@ -159,6 +166,10 @@ static func _color_for(category: String, hit: int, body: Color) -> Color:
 			if hit == 3:
 				return Color(0.95, 0.95, 0.92)
 			return body.darkened(0.4) if hit == 2 else body
+		"capsule_toy":
+			if hit == 3:
+				return Color(0.92, 0.95, 0.98)
+			return body.darkened(0.3) if hit == 2 else body
 	return body
 
 
@@ -187,6 +198,8 @@ static func _plate_rect(category: String) -> Rect2:
 			return Rect2(0.34, 0.66, 0.32, 0.12)
 		"coffee":
 			return Rect2(0.36, 0.5, 0.28, 0.12)
+		"capsule_toy":
+			return Rect2(0.36, 0.62, 0.28, 0.1)
 	return Rect2(0.3, 0.4, 0.4, 0.2)
 
 
@@ -231,6 +244,8 @@ static func _tint(category: String) -> Color:
 			return Color(0.55, 0.8, 0.4)
 		"coffee":
 			return Color(0.92, 0.88, 0.8)
+		"capsule_toy":
+			return Color(0.9, 0.35, 0.6)
 	return Color(0.7, 0.7, 0.7)
 
 

@@ -16,6 +16,7 @@ const CATEGORY_NAMES := {
 	"bread": "パン", "dessert": "デザート", "drink": "飲料", "ice_cream": "アイス",
 	"instant_noodle": "カップ麺", "oden": "おでん", "rice_ball": "おにぎり", "snack": "おかし",
 	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
+	"capsule_toy": "カプセルトイ",
 }
 const STATUS_NAMES := {"SETUP": "設置中", "OPEN": "営業中", "CLOSING": "閉店中"}
 

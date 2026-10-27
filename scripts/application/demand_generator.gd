@@ -102,6 +102,8 @@ static func _location_step(state: GameState) -> bool:
 		base *= Market.visitor_factor(state, state.rivals, state.day)   # #129: rivals nearby take a share, local conditions
 	if not state.promotions.is_empty():
 		base *= Promotions.visitor_factor(state)   # #140: fairs
+	if not state.lotteries.is_empty():
+		base *= Lottery.visitor_factor(state)   # #138: a draw whose top prize is left
 	var curve: Array = [] if state.location_id == "" else StoreLocation.hour_weights(state.location_id)   # #148
 	var ad := DemandModel.ad_multiplier(state.balance.get("advertising_tiers", []), state.applied_ad_tier_yen)
 	var traffic := float(EventService.effects(state)["traffic"])

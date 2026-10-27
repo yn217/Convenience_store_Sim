@@ -81,6 +81,9 @@ func _ready() -> void:
 	var media := get_node_or_null("../MediaController")
 	if media != null:
 		media.setup(self)
+	var kuji := get_node_or_null("../LotteryController")   # #138
+	if kuji != null:
+		kuji.setup(self)
 	var stocker := get_node_or_null("../StockController")
 	if stocker != null:
 		stocker.setup(self, products, fixtures)
@@ -286,6 +289,9 @@ func _publish_snapshot() -> void:
 	var media := get_node_or_null("../MediaController")
 	if media != null and media.is_node_ready() and media.get("_box") != null:
 		media.apply_snapshot(snap)
+	var kuji := get_node_or_null("../LotteryController")
+	if kuji != null and kuji.is_node_ready() and kuji.get("_box") != null:
+		kuji.apply_snapshot(snap)
 	var reporter := get_node_or_null("../ReportController")
 	if reporter != null and reporter.has_method("apply_snapshot") and reporter.is_node_ready() and reporter.get("_chart") != null:
 		reporter.apply_snapshot(snap)

@@ -10,7 +10,7 @@ const RAIL_TAB := {"goods": "商品", "order": "商品", "management": "経営",
 ## Section title text -> management tab. Cards not listed here stay in the selection inspector.
 const TAB_OF_SECTION := {
 	"在庫": "商品", "販売価格": "商品",
-	"営業": "経営", "販促": "経営", "媒体広告": "経営", "今日のイベント": "経営", "はじめかた・目標": "経営",
+	"営業": "経営", "販促": "経営", "媒体広告": "経営", "店頭くじ": "経営", "今日のイベント": "経営", "はじめかた・目標": "経営",
 	"日次レポート": "データ",
 	"店員": "店員",
 	"演出・音": "設定", "表示モード (O)": "設定", "セーブ / ロード": "設定",

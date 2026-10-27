@@ -6,6 +6,7 @@ const CATEGORY_JA := {
 	"rice_ball": "おにぎり", "oden": "おでん", "instant_noodle": "カップ麺", "bread": "パン",
 	"drink": "飲料", "snack": "おかし", "dessert": "デザート", "ice_cream": "アイス",
 	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
+	"capsule_toy": "カプセルトイ",
 }
 const STATUS_JA := {"scheduled": "予定", "active": "開催中", "ended": "終了", "missed": "見送り"}
 

@@ -788,15 +788,44 @@ func _pick(state: GameState, c: Dictionary) -> void:
 	if res.is_empty():
 		_on_pick_failed(state, c)
 		return
-	held.append(res["reservation_id"])
-	_res_dirty = true
-	_mark(c, c["sku_id"], "planned", "taken")
-	_take_more(state, c)
 	var sku := state.products.get_sku(c["sku_id"])
 	state.emit_event("CUSTOMER_RESERVED_ITEM", {"customer_id": c["customer_id"], "reservation_id": res["reservation_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"], "category": sku.get("category", ""), "name": sku.get("display_name", "")})
+	_res_dirty = true
+	if CapsuleToys.is_capsule(state, c["sku_id"]):
+		_turn_machine(state, c, res["reservation_id"])   # #139: paid at the machine
+	else:
+		held.append(res["reservation_id"])
+		_mark(c, c["sku_id"], "planned", "taken")
+		_take_more(state, c)
 	if not (c["wishes"] as Array).is_empty() and _next_wish(state, c):
 		return   # the rest of the basket first
+	if held.is_empty() and bool(c.get("machine_bought", false)):
+		_done_at_machine(state, c)
+		return
 	_go_to_register(state, c)
+
+
+## A capsule machine (#139): the turn is paid at the machine — its own SALE row — and the prize comes out.
+func _turn_machine(state: GameState, c: Dictionary, res_id: String) -> void:
+	var sale := InventoryService.complete_sale(state, "sale:%s" % res_id, res_id)   # a basket of its own
+	if not sale["ok"]:
+		InventoryService.release_reservation(state, res_id)
+		_mark(c, c["sku_id"], "planned", "stockout")
+		return
+	_taken_dirty = true
+	_mark(c, c["sku_id"], "planned", "taken")
+	c["machine_bought"] = true
+	var prize := CapsuleToys.on_turned(state, c["sku_id"], "sale:%s" % res_id, c["customer_id"], c["fixture_id"])
+	state.emit_event("CAPSULE_TURNED", {"customer_id": c["customer_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"], "prize": prize["name"], "rare": prize["rare"], "revenue_yen": int(sale["revenue_yen"])})
+	if InventoryService.fixture_fill_ratio(state, sale["fixture_id"]) < LOW_STOCK_RATIO:
+		state.emit_event("STOCK_LOW", {"fixture_id": sale["fixture_id"]})
+
+
+## A customer who only turned machines (#139) has paid and leaves without queueing.
+func _done_at_machine(state: GameState, c: Dictionary) -> void:
+	state.visit_stats["purchased"] += 1
+	c["outcome"] = "purchased"
+	_start_exit(state, c)
 
 
 ## A multi-buy deal on the item's category (#137 phase 2): the customer may take more of the same item — one
@@ -841,6 +870,9 @@ func _on_pick_failed(state: GameState, c: Dictionary) -> void:
 		return
 	if not (c["reservation_ids"] as Array).is_empty():
 		_go_to_register(state, c)
+		return
+	if bool(c.get("machine_bought", false)):   # #139: paid at a machine already
+		_done_at_machine(state, c)
 		return
 	c["retries"] = int(c["retries"]) + 1
 	if int(c["retries"]) > MAX_RESELECT:
@@ -1056,6 +1088,10 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 	_bundle_discount(state, c, basket_id, sold_categories)
 	_multi_discount(state, c, basket_id, sold_units)
 	_coupons_at_till(state, c, basket_id, sold_categories, sold_units)
+	if not state.lotteries.is_empty():
+		var prizes := Lottery.at_till(state, c)   # #138: a prize draw ticket or two
+		if not prizes.is_empty():
+			c["kuji"] = prizes
 	state.visit_stats["purchased"] += 1   # a buying customer, however many items (issue #128)
 	c["outcome"] = "purchased"
 	var name := String(state.products.get_sku(first_sku).get("display_name", ""))

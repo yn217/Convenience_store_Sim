@@ -57,6 +57,8 @@ static func roll_day(state: GameState, prev_day: int, new_day: int) -> void:
 	state.facility_visits.clear()   # #149: today's visitors per facility
 	if not state.coupons.is_empty():
 		Promotions.expire_coupons(state)   # #137
+	if not state.lotteries.is_empty():
+		Lottery.close_expired(state)   # #138
 	state.visitors_by_hour_yesterday = state.visitors_by_hour   # #150
 	state.visitors_by_hour = []
 	for s in state.staff:

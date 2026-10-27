@@ -177,6 +177,39 @@
   },
   {
     "schema_version": 1,
+    "cue_id": "capsule_rare",
+    "source_event_type": "CAPSULE_RARE",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "customer_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "lottery_top",
+    "source_event_type": "LOTTERY_TOP",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "lottery_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "lottery_sold_out",
+    "source_event_type": "LOTTERY_SOLD_OUT",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "lottery_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
     "cue_id": "condition_started",
     "source_event_type": "CONDITION_STARTED",
     "animation_id": "event_banner",

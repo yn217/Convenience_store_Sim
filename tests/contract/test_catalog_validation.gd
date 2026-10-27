@@ -39,13 +39,13 @@ func test_real_masters_load_and_cross_reference(t, _tree) -> void:
 	var fixtures := FixtureCatalog.from_json_text(_text(FIXTURES))
 	t.eq(products.errors, [] as Array[String], "products errors")
 	t.eq(fixtures.errors, [] as Array[String], "fixtures errors")
-	t.eq(products.skus.size(), 35, "35 SKUs (33 + 2 volume-up onigiri, #137)")
-	t.eq(fixtures.types.size(), 17, "17 fixture types")
+	t.eq(products.skus.size(), 38, "38 SKUs (33 + 2 volume-up onigiri, #137, + 3 capsule series, #139)")
+	t.eq(fixtures.types.size(), 20, "20 fixture types (3 capsule machines, #139)")
 	t.eq(fixtures.product_errors(products), [] as Array[String], "every SKU has a compatible slot")
 	var cats := {}
 	for s in products.skus.values():
 		cats[s["category"]] = int(cats.get(s["category"], 0)) + 1
-	t.eq(cats.size(), 11, "11 categories (bento, daily fresh, coffee: #147)")
+	t.eq(cats.size(), 12, "12 categories (bento, daily fresh, coffee: #147; capsule toys: #139)")
 	for c in cats:
 		t.eq(cats[c], 5 if c == "rice_ball" else 3, "3 SKUs in %s (+2 volume-up onigiri, #137)" % c)
 

@@ -96,6 +96,8 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"map_id": state.map_id, "plot_id": state.plot_id,   # #150
 			"store_id": state.store_id, "store_name": state.store_name,   # #146
 			"rivals": state.rivals.duplicate(true), "rivals_enabled": state.rivals_enabled,   # #129
+			"lotteries": state.lotteries.duplicate(true),   # #138
+			"capsule_stats": state.capsule_stats.duplicate(true),   # #139
 			"market_conditions": state.market_conditions.duplicate(true),
 			"branch_carry": state.branch_carry, "branch_items_carry": state.branch_items_carry, "branch_sku_acc": state.branch_sku_acc.duplicate(),
 			"branches": state.branches.map(func(b): return _branch_out(b, save_id, saved_at_utc)),
@@ -495,6 +497,22 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 					errs.append("runtime_state.market_conditions: invalid")
 					break
 				s.market_conditions.append({"condition_id": String(c["condition_id"]), "start_day": int(c["start_day"]), "end_day": int(c["end_day"])})
+		if typeof(rt.get("capsule_stats")) == TYPE_DICTIONARY:   # #139 (absent in older saves)
+			for k in rt["capsule_stats"]:
+				var cs = rt["capsule_stats"][k]
+				if typeof(cs) != TYPE_DICTIONARY or not s.products.has_sku(String(k)) or not JsonCheck.is_int(cs.get("turns")) or not JsonCheck.is_int(cs.get("rare")):
+					errs.append("runtime_state.capsule_stats: invalid")
+					break
+				s.capsule_stats[String(k)] = {"turns": int(cs["turns"]), "rare": int(cs["rare"])}
+		if typeof(rt.get("lotteries")) == TYPE_ARRAY:   # #138 (absent in older saves)
+			for l in rt["lotteries"]:
+				if typeof(l) != TYPE_DICTIONARY or Lottery.definition(String(l.get("set_id", ""))).is_empty() or typeof(l.get("order")) != TYPE_ARRAY \
+						or not JsonCheck.is_int(l.get("sold")) or not JsonCheck.is_int(l.get("start_day")) or not JsonCheck.is_int(l.get("end_day")) \
+						or not ["selling", "sold_out", "ended"].has(String(l.get("status", ""))) or int(l["sold"]) < 0 or int(l["sold"]) > (l["order"] as Array).size():
+					errs.append("runtime_state.lotteries: invalid")
+					break
+				s.lotteries.append({"lottery_id": String(l.get("lottery_id", "")), "set_id": String(l["set_id"]), "start_day": int(l["start_day"]), "end_day": int(l["end_day"]),
+					"order": (l["order"] as Array).map(func(x): return String(x)), "sold": int(l["sold"]), "status": String(l["status"]), "revenue_yen": int(l.get("revenue_yen", 0))})
 		if typeof(rt.get("rivals")) == TYPE_ARRAY:   # #129
 			for r in rt["rivals"]:
 				if typeof(r) != TYPE_DICTIONARY or not JsonCheck.is_int(r.get("opened_day")) or typeof(r.get("map_id")) != TYPE_STRING:

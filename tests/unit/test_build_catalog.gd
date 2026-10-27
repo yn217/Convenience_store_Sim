@@ -12,11 +12,11 @@ func _catalog() -> FixtureCatalog:
 
 func test_mvp_fixtures_split_into_four_tabs(t, _tree) -> void:
 	var groups := Cat.group(_catalog())
-	t.eq(groups[Cat.ALL].size(), 17, "すべて holds all seventeen types")
+	t.eq(groups[Cat.ALL].size(), 20, "すべて holds all twenty types")
 	t.eq(groups[Cat.SHELF], ["shelf_general", "shelf_onigiri", "shelf_noodle", "shelf_bread", "shelf_snack"], "棚: the five shelves, in data order")
 	t.eq(groups[Cat.COLD], ["fridge_drink", "fridge_dessert", "freezer_ice", "fridge_daily"], "冷蔵・冷凍: the four cases (daily fresh, #147)")
 	t.eq(groups[Cat.COUNTER], ["register_basic", "warmer_oden", "coffee_machine"], "カウンター: the register, the oden warmer and the coffee machine")
-	t.eq(groups[Cat.SERVICE], ["atm", "copier", "staff_room_s", "staff_room_m", "staff_room_l"], "設備: the ATM, the copier and the staff rooms")
+	t.eq(groups[Cat.SERVICE], ["atm", "copier", "staff_room_s", "staff_room_m", "staff_room_l", "capsule_toy_1", "capsule_toy_3", "capsule_toy_5"], "設備: the ATM, the copier, the staff rooms and the capsule machines")
 
 
 func test_every_type_is_in_exactly_one_category(t, _tree) -> void:

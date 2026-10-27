@@ -11,6 +11,7 @@ const CATEGORY_COLOR := {
 	"bread": Color("d9b38c"), "drink": Color("5caefd"), "snack": Color("e07a9a"),
 	"dessert": Color("b79bdc"), "ice_cream": Color("8fd6e0"),
 	"bento": Color("d98c5f"), "daily_fresh": Color("8cc77a"), "coffee": Color("8a6248"),
+	"capsule_toy": Color("e05a9c"),
 }
 const REGISTER_COLOR := Color("7f8c99")
 const FRONT_COLOR := Color("ffc873")
