@@ -153,6 +153,12 @@ static func _hit(category: String, u: float, v: float) -> int:
 			if v < 0.3:
 				return 3 if pow((u - 0.5) / 0.3, 2.0) + pow((v - 0.3) / 0.12, 2.0) <= 1.0 else 0
 			return 1 if absf(u - 0.5) <= 0.28 - (v - 0.3) * 0.12 else 0
+		"character_goods":   # a mug with a handle and a round mascot face
+			if pow((u - 0.78) / 0.12, 2.0) + pow((v - 0.55) / 0.16, 2.0) <= 1.0 and not pow((u - 0.78) / 0.06, 2.0) + pow((v - 0.55) / 0.09, 2.0) <= 1.0:
+				return 2
+			if u < 0.2 or u > 0.68 or v < 0.26 or v > 0.88:
+				return 0
+			return 3 if pow(u - 0.44, 2.0) + pow(v - 0.56, 2.0) < 0.012 else 1
 		"daily_goods":   # a hanging pack: a card header with a hole and a soft bag below
 			if u < 0.2 or u > 0.8 or v < 0.1 or v > 0.92:
 				return 0
@@ -232,6 +238,10 @@ static func _color_for(category: String, hit: int, body: Color) -> Color:
 			if hit == 3:
 				return Color(0.97, 0.97, 0.97)
 			return Color(0.2, 0.6, 0.4) if hit == 2 else body
+		"character_goods":
+			if hit == 3:
+				return Color(0.98, 0.8, 0.3)
+			return body.darkened(0.3) if hit == 2 else body
 		"daily_goods", "hygiene":
 			if hit == 3:
 				return Color(0.96, 0.96, 0.94)
@@ -274,6 +284,8 @@ static func _plate_rect(category: String) -> Rect2:
 			return Rect2(0.38, 0.66, 0.24, 0.1)
 		"frappe":
 			return Rect2(0.34, 0.56, 0.32, 0.14)
+		"character_goods":
+			return Rect2(0.26, 0.74, 0.36, 0.1)
 		"daily_goods":
 			return Rect2(0.3, 0.6, 0.4, 0.14)
 		"hygiene":
@@ -332,6 +344,8 @@ static func _tint(category: String) -> Color:
 			return Color(0.98, 0.95, 0.88)
 		"frappe":
 			return Color(0.95, 0.55, 0.65)
+		"character_goods":
+			return Color(0.96, 0.96, 0.94)
 		"daily_goods":
 			return Color(0.45, 0.55, 0.8)
 		"hygiene":

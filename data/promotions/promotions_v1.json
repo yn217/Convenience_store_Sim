@@ -258,7 +258,24 @@
       "visitors": 1.04,
       "setup_cost_yen": 4000,
       "default_days": 7
+    },
+    {
+      "def_id": "collab_mascot",
+      "display_name": "ご当地マスコット コラボフェア（限定グッズ・お菓子）",
+      "kind": "collab",
+      "skus": [
+        "cgoods_001",
+        "cgoods_002",
+        "cgoods_003"
+      ],
+      "pulls": {
+        "snack": 1.2
+      },
+      "visitors": 1.05,
+      "setup_cost_yen": 5000,
+      "default_days": 7
     }
   ],
-  "_comment_140": "Issue #140 phase 1 (purchase bonuses and fairs; fictional goods and mascots only): gift = a basket with need_units of its categories gets one novelty while the stock lasts (bought at the start: stock x novelty_cost_yen with the setup), customers may take more to reach it (extra_take) and its categories pull more while it lasts; stamps = every card_every-th basket of its categories gets a stamp card (1 stamp), holders come back like coupon holders (return_rate over valid_days) and get a stamp per basket of the categories, stamps_needed stamps earn the prize while the stock lasts; cards end with the campaign; fair = its categories pull more (pulls) and a few more people come (visitors). Initial values, to be tuned by play."
+  "_comment_140": "Issue #140 phase 1 (purchase bonuses and fairs; fictional goods and mascots only): gift = a basket with need_units of its categories gets one novelty while the stock lasts (bought at the start: stock x novelty_cost_yen with the setup), customers may take more to reach it (extra_take) and its categories pull more while it lasts; stamps = every card_every-th basket of its categories gets a stamp card (1 stamp), holders come back like coupon holders (return_rate over valid_days) and get a stamp per basket of the categories, stamps_needed stamps earn the prize while the stock lasts; cards end with the campaign; fair = its categories pull more (pulls) and a few more people come (visitors). Initial values, to be tuned by play.",
+  "_comment_140b": "Issue #140 phase 2: collab = a fair with limited goods (fictional mascot): its skus can be ordered only while it runs (stock bought still sells after), its categories pull more (pulls) and a few more people come (visitors); fans come for the goods while they are on the shelf."
 }

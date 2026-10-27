@@ -12,7 +12,7 @@ const CATEGORY_COLOR := {
 	"dessert": Color("b79bdc"), "ice_cream": Color("8fd6e0"),
 	"bento": Color("d98c5f"), "daily_fresh": Color("8cc77a"), "coffee": Color("8a6248"),
 	"capsule_toy": Color("e05a9c"),
-	"daily_goods": Color("7a8fb8"), "hygiene": Color("6cc3d5"),
+	"daily_goods": Color("7a8fb8"), "hygiene": Color("6cc3d5"), "character_goods": Color("f2b63d"),
 	"soft_serve": Color("f3e3c3"), "frappe": Color("f08aa8"),
 	"bakery": Color("d9a35f"), "pizza": Color("e0703a"),
 }

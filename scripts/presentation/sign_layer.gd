@@ -13,7 +13,7 @@ const LABELS := {
 	"drink": "飲料", "snack": "おかし", "dessert": "デザート", "ice_cream": "アイス",
 	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
 	"capsule_toy": "カプセルトイ",
-	"daily_goods": "日用品", "hygiene": "衛生用品",
+	"daily_goods": "日用品", "hygiene": "衛生用品", "character_goods": "限定グッズ",
 	"soft_serve": "ソフトクリーム", "frappe": "フラッペ",
 	"bakery": "焼きたてパン", "pizza": "ピザ",
 }
@@ -23,7 +23,7 @@ const ICONS := {
 	"drink": "drink", "snack": "bag", "dessert": "cake", "ice_cream": "snowflake",
 	"bento": "box", "daily_fresh": "leaf", "coffee": "drop",
 	"capsule_toy": "star",
-	"daily_goods": "bag", "hygiene": "heart",
+	"daily_goods": "bag", "hygiene": "heart", "character_goods": "star",
 	"soft_serve": "snowflake", "frappe": "drink",
 	"bakery": "bread", "pizza": "sun",
 }

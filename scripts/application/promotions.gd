@@ -18,6 +18,8 @@ extends RefCounted
 ##     cheapest unit of its categories in the basket instead of coupon_yen (the sale keeps its revenue and cost). Issued and redeemed coupons are counted per promotion.
 ##   - volume_up (phase 2): its skus are separate products in the catalog (more in the pack, the same price, a
 ##     higher cost and pull); they can be ordered only while the campaign runs (stock already bought still sells).
+##   - collab (#140 phase 2): a fair with limited goods: its skus can be ordered only while it runs (like volume_up),
+##     its categories pull more and a few more people come (like a fair).
 ##   - gift / stamps / fair (#140 phase 1): purchase bonuses and fairs. gift: a basket with need_units of its
 ##     categories gets one novelty while the stock lasts (customers may take more to reach it, extra_take; its
 ##     categories pull more while it lasts). stamps: every card_every-th basket of its categories gets a stamp card
@@ -204,7 +206,7 @@ static func category_pull(state: GameState, category: String) -> float:
 	for p in running(state):
 		var d := definition(p["def_id"])
 		match String(d.get("kind", "")):
-			"fair":
+			"fair", "collab":
 				k *= float((d["pulls"] as Dictionary).get(category, 1.0))
 			"gift":
 				if (d["categories"] as Array).has(category) and _stock_left(state, p["promotion_id"]) > 0:
@@ -217,7 +219,7 @@ static func visitor_factor(state: GameState) -> float:
 	var k := 1.0
 	for p in running(state):
 		var d := definition(p["def_id"])
-		if d.get("kind", "") == "fair":
+		if ["fair", "collab"].has(d.get("kind", "")):
 			k *= float(d.get("visitors", 1.0))
 	return k
 
@@ -235,7 +237,7 @@ static func stop(state: GameState, promotion_id: String) -> String:
 static func orderable(state: GameState, sku_id: String) -> bool:
 	var campaign_only := false
 	for d in data()["promotions"]:
-		if d.get("kind", "") == "volume_up" and (d["skus"] as Array).has(sku_id):
+		if ["volume_up", "collab"].has(d.get("kind", "")) and (d["skus"] as Array).has(sku_id):
 			campaign_only = true
 			for p in running(state):
 				if p["def_id"] == d["def_id"]:

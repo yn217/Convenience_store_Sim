@@ -857,7 +857,7 @@
   {
     "schema_version": 1,
     "type_id": "shelf_goods",
-    "display_name": "日用品棚（衣料・衛生用品）",
+    "display_name": "日用品棚（衣料・衛生用品・グッズ）",
     "footprint": {
       "w": 1,
       "h": 2
@@ -872,7 +872,8 @@
     "capacity_units": 40,
     "allowed_categories": [
       "daily_goods",
-      "hygiene"
+      "hygiene",
+      "character_goods"
     ],
     "access_edges": [
       "E"
@@ -884,7 +885,8 @@
         "capacity_units": 10,
         "allowed_categories": [
           "daily_goods",
-          "hygiene"
+          "hygiene",
+          "character_goods"
         ]
       },
       {
@@ -892,7 +894,8 @@
         "capacity_units": 10,
         "allowed_categories": [
           "daily_goods",
-          "hygiene"
+          "hygiene",
+          "character_goods"
         ]
       },
       {
@@ -900,7 +903,8 @@
         "capacity_units": 10,
         "allowed_categories": [
           "daily_goods",
-          "hygiene"
+          "hygiene",
+          "character_goods"
         ]
       },
       {
@@ -908,7 +912,8 @@
         "capacity_units": 10,
         "allowed_categories": [
           "daily_goods",
-          "hygiene"
+          "hygiene",
+          "character_goods"
         ]
       }
     ]

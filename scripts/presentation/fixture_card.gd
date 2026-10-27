@@ -17,7 +17,7 @@ const CATEGORY_NAMES := {
 	"instant_noodle": "カップ麺", "oden": "おでん", "rice_ball": "おにぎり", "snack": "おかし",
 	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
 	"capsule_toy": "カプセルトイ",
-	"daily_goods": "日用品", "hygiene": "衛生用品",
+	"daily_goods": "日用品", "hygiene": "衛生用品", "character_goods": "限定グッズ",
 	"soft_serve": "ソフトクリーム", "frappe": "フラッペ",
 	"bakery": "焼きたてパン", "pizza": "ピザ",
 }

@@ -104,8 +104,8 @@ static func promo_line(p: Dictionary) -> String:
 			return "%s\n実施中・残り%d日　%s 配布 %d　残り %d%s" % [head, left, p.get("novelty_name", ""), int(st.get("given", 0)), int(st.get("stock", 0)), "（配布終了）" if int(st.get("stock", 0)) == 0 else ""]
 		"stamps":
 			return "%s\n実施中・残り%d日　カード %d枚　スタンプ %d個　景品 %d　残り %d" % [head, left, int(st.get("issued", 0)), int(st.get("stamps", 0)), int(st.get("redeemed", 0)), int(st.get("stock", 0))]
-		"fair":
-			return "%s\n実施中・残り%d日" % [head, left]
+		"fair", "collab":
+			return "%s\n実施中・残り%d日%s" % [head, left, "　限定グッズを発注できます" if p.get("kind", "") == "collab" else ""]
 	if p.get("kind", "") == "coupon":
 		return "%s\n実施中・残り%d日　配布 %d枚　利用 %d枚　値引き %s" % [head, int(running.get("days_left", 0)), int(st.get("issued", 0)), int(st.get("redeemed", 0)), OverlayModel.yen(int(st.get("discount_yen", 0)))]
 	return "%s\n実施中・残り%d日　対象 %d点　値引き %s" % [head, int(running.get("days_left", 0)), int(st.get("units", 0)), OverlayModel.yen(int(st.get("discount_yen", 0)))]

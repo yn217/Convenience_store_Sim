@@ -78,6 +78,8 @@
      "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 3, 3, 3, 2, 1, 1, 0, 0, 0, 0]},
     {"purpose_id": "fresh_bake", "display_name": "焼きたてを買いに（パン・ピザ）", "targets": [["bakery", "pizza"], ["drink", "coffee"]], "budget_yen": [300, 1800], "wallet_factor": [1.2, 2.5], "impulse": 0.8,
      "hour_weights": [0, 0, 0, 0, 0, 0, 1, 3, 3, 2, 1, 1, 2, 1, 1, 1, 1, 2, 3, 3, 2, 1, 0, 0]},
+    {"purpose_id": "fan_goods", "display_name": "コラボグッズを買いに", "targets": [["character_goods"], ["snack", "drink"]], "budget_yen": [500, 2000], "wallet_factor": [1.2, 2.5], "impulse": 1.0,
+     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0]},
     {"purpose_id": "capsule_toy", "display_name": "カプセルトイを回しに", "targets": [["capsule_toy"], ["drink", "snack"]], "budget_yen": [300, 900], "wallet_factor": [1.2, 2.5], "impulse": 0.8,
      "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 1, 1, 1, 0, 0, 0]}
   ],

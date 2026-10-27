@@ -26,9 +26,9 @@ func test_definitions_are_well_formed(t, _tree) -> void:
 	for sku in s.products.skus.values():
 		cats[sku["category"]] = true
 	for d in Promotions.data()["promotions"]:
-		t.ok(["price", "bundle", "multi", "second_half", "coupon", "volume_up", "gift", "stamps", "fair"].has(d["kind"]), d["def_id"] + ": known kind")
+		t.ok(["price", "bundle", "multi", "second_half", "coupon", "volume_up", "gift", "stamps", "fair", "collab"].has(d["kind"]), d["def_id"] + ": known kind")
 		t.ok(int(d["setup_cost_yen"]) > 0 and int(d["default_days"]) >= 1, d["def_id"] + ": cost and days")
-		if d["kind"] == "volume_up":
+		if d["kind"] == "volume_up" or d["kind"] == "collab":
 			for sid in d["skus"]:
 				t.ok(s.products.has_sku(sid), "%s: product %s exists" % [d["def_id"], sid])
 			continue
@@ -358,3 +358,31 @@ func test_a_fair(t, _tree) -> void:
 				n += 1
 		sold[with_fair] = n
 	t.ok(int(sold[true]) > int(sold[false]), "more snacks and desserts sold (%d > %d)" % [sold[true], sold[false]])
+
+
+## #140 phase 2: a collab fair — its limited goods can be ordered only while it runs, they sell to fans on the goods
+## shelf, snacks pull more and a few more people come.
+func test_a_collab_fair_with_limited_goods(t, _tree) -> void:
+	var s := Run.new_state(300.0)
+	var cmds := Run.place_layout(s)
+	var r := cmds.execute({"command_id": "g0", "kind": &"ORDER_STOCK", "sku_id": "cgoods_002", "qty": 10})
+	t.ok(not r.ok and r.message_key == &"campaign_only_sku", "no limited goods without the fair")
+	t.ok(cmds.execute({"command_id": "c1", "kind": &"START_PROMOTION", "def_id": "collab_mascot", "days": 2}).ok, "the fair starts")
+	t.ok(Promotions.visitor_factor(s) > 1.0 and Promotions.category_pull(s, "snack") > 1.0, "more people, snacks pull more")
+	var shelf := ""
+	for y in range(1, s.grid.height - 2):
+		for x in range(1, s.grid.width - 1):
+			if shelf == "":
+				var p := cmds.execute({"command_id": "sg_%d_%d" % [x, y], "kind": &"PLACE_FIXTURE", "type_id": "shelf_goods", "x": x, "y": y, "rotation": 0})
+				if p.ok:
+					shelf = p.data["instance_id"]
+	t.ok(cmds.execute({"command_id": "g1", "kind": &"ORDER_STOCK", "sku_id": "cgoods_002", "qty": 10}).ok, "orderable while it runs")
+	t.ok(cmds.execute({"command_id": "g2", "kind": &"RESTOCK", "instance_id": shelf, "slot_id": "row0", "sku_id": "cgoods_002", "qty": 10}).ok, "on the goods shelf")
+	Run.run_days(s, cmds, 1)
+	var sold := 0
+	for tx in s.ledger.transactions:
+		if tx["event_type"] == "SALE" and String(tx["details"].get("sku_id", "")).begins_with("cgoods_"):
+			sold += int(tx["details"].get("qty", 1))
+	t.ok(sold > 0, "fans bought the goods (%d)" % sold)
+	t.ok(PromotionController.promo_line({"display_name": "x", "kind": "collab", "running": {"days_left": 1, "stats": {}}}).contains("限定グッズ"), "the card says so")
+

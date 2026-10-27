@@ -16,7 +16,7 @@ func test_products_and_shelf(t, _tree) -> void:
 			t.eq(k["expires_after_seconds"], null, "%s keeps" % k["sku_id"])
 			t.ok(ProductIcons.texture(k, 32).get_image().get_used_rect().size.x > 10, "%s: an icon" % k["sku_id"])
 	var def := s.fixtures.get_type("shelf_goods")
-	t.eq(def["allowed_categories"], NEW, "the goods shelf takes both")
+	t.eq(def["allowed_categories"], NEW + ["character_goods"], "the goods shelf takes both, and collab goods (#140)")
 	t.eq(BuildCatalog.category_of(def), BuildCatalog.SHELF, "listed under 棚")
 
 
