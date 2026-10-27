@@ -13,6 +13,7 @@ const LABELS := {
 	"drink": "飲料", "snack": "おかし", "dessert": "デザート", "ice_cream": "アイス",
 	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
 	"capsule_toy": "カプセルトイ",
+	"daily_goods": "日用品", "hygiene": "衛生用品",
 }
 ## Category icon (UiIcons name) shown on the left of the pill.
 const ICONS := {
@@ -20,6 +21,7 @@ const ICONS := {
 	"drink": "drink", "snack": "bag", "dessert": "cake", "ice_cream": "snowflake",
 	"bento": "box", "daily_fresh": "leaf", "coffee": "drop",
 	"capsule_toy": "star",
+	"daily_goods": "bag", "hygiene": "heart",
 }
 ## The sign over a register nobody staffs (#113): a grey pill, no icon.
 const CLOSED_TEXT := "休止中"

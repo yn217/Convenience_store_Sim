@@ -119,6 +119,18 @@ static func _hit(category: String, u: float, v: float) -> int:
 			if absf(u - 0.5) > half_k:
 				return 0
 			return 2 if v >= 0.48 and v <= 0.66 else 1
+		"daily_goods":   # a hanging pack: a card header with a hole and a soft bag below
+			if u < 0.2 or u > 0.8 or v < 0.1 or v > 0.92:
+				return 0
+			if v < 0.26:
+				return 0 if pow(u - 0.5, 2.0) + pow(v - 0.18, 2.0) < 0.004 else 3
+			return 2 if absf(v - 0.4) < 0.025 else 1
+		"hygiene":   # a flat box with a band (no cross: the red cross is a protected emblem)
+			if u < 0.14 or u > 0.86 or v < 0.24 or v > 0.86:
+				return 0
+			if v < 0.34:
+				return 3
+			return 2 if absf(v - 0.5) < 0.06 else 1
 		"capsule_toy":   # a round capsule: a coloured top half and a clear bottom half
 			var r := pow(u - 0.5, 2.0) + pow(v - 0.55, 2.0)
 			if r > 0.36 * 0.36:
@@ -170,6 +182,10 @@ static func _color_for(category: String, hit: int, body: Color) -> Color:
 			if hit == 3:
 				return Color(0.92, 0.95, 0.98)
 			return body.darkened(0.3) if hit == 2 else body
+		"daily_goods", "hygiene":
+			if hit == 3:
+				return Color(0.96, 0.96, 0.94)
+			return body.darkened(0.3) if hit == 2 else body
 	return body
 
 
@@ -200,6 +216,10 @@ static func _plate_rect(category: String) -> Rect2:
 			return Rect2(0.36, 0.5, 0.28, 0.12)
 		"capsule_toy":
 			return Rect2(0.36, 0.62, 0.28, 0.1)
+		"daily_goods":
+			return Rect2(0.3, 0.6, 0.4, 0.14)
+		"hygiene":
+			return Rect2(0.3, 0.64, 0.4, 0.14)
 	return Rect2(0.3, 0.4, 0.4, 0.2)
 
 
@@ -246,6 +266,10 @@ static func _tint(category: String) -> Color:
 			return Color(0.92, 0.88, 0.8)
 		"capsule_toy":
 			return Color(0.9, 0.35, 0.6)
+		"daily_goods":
+			return Color(0.45, 0.55, 0.8)
+		"hygiene":
+			return Color(0.45, 0.8, 0.9)
 	return Color(0.7, 0.7, 0.7)
 
 

@@ -853,5 +853,64 @@
         ]
       }
     ]
+  },
+  {
+    "schema_version": 1,
+    "type_id": "shelf_goods",
+    "display_name": "日用品棚（衣料・衛生用品）",
+    "footprint": {
+      "w": 1,
+      "h": 2
+    },
+    "dimensions_m": {
+      "width": 0.92,
+      "depth": 1.92,
+      "height": 1.6
+    },
+    "placement_cost_yen": 45000,
+    "electricity_cost_yen_per_day": 0,
+    "capacity_units": 40,
+    "allowed_categories": [
+      "daily_goods",
+      "hygiene"
+    ],
+    "access_edges": [
+      "E"
+    ],
+    "visual_id": "shelf_goods_a",
+    "shelf_slots": [
+      {
+        "slot_id": "row0",
+        "capacity_units": 10,
+        "allowed_categories": [
+          "daily_goods",
+          "hygiene"
+        ]
+      },
+      {
+        "slot_id": "row1",
+        "capacity_units": 10,
+        "allowed_categories": [
+          "daily_goods",
+          "hygiene"
+        ]
+      },
+      {
+        "slot_id": "row2",
+        "capacity_units": 10,
+        "allowed_categories": [
+          "daily_goods",
+          "hygiene"
+        ]
+      },
+      {
+        "slot_id": "row3",
+        "capacity_units": 10,
+        "allowed_categories": [
+          "daily_goods",
+          "hygiene"
+        ]
+      }
+    ]
   }
 ]

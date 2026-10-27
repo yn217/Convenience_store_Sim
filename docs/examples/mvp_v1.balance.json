@@ -72,6 +72,8 @@
     {"purpose_id": "hospital_visit", "display_name": "通院・お見舞い", "facility_only": true, "targets": [["dessert", "snack", "bread"], ["drink"]], "budget_yen": [300, 900], "wallet_factor": [1.2, 2.5], "impulse": 0.8, "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
     {"purpose_id": "sightseeing", "display_name": "観光の休憩", "facility_only": true, "targets": [["ice_cream", "dessert", "snack"], ["drink"]], "budget_yen": [300, 900], "wallet_factor": [1.3, 3.0], "impulse": 1.4, "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
     {"purpose_id": "japan_staples", "display_name": "日本の定番を試す", "facility_only": true, "targets": [["rice_ball", "oden", "dessert"], ["drink", "coffee"], ["snack", "ice_cream"]], "budget_yen": [600, 1500], "wallet_factor": [1.5, 3.5], "impulse": 1.6, "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+    {"purpose_id": "sudden_need", "display_name": "急な入り用（日用品・衛生用品）", "targets": [["daily_goods", "hygiene"], ["drink"]], "budget_yen": [300, 1200], "wallet_factor": [1.2, 2.5], "impulse": 0.4,
+     "hour_weights": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]},
     {"purpose_id": "capsule_toy", "display_name": "カプセルトイを回しに", "targets": [["capsule_toy"], ["drink", "snack"]], "budget_yen": [300, 900], "wallet_factor": [1.2, 2.5], "impulse": 0.8,
      "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 1, 1, 1, 0, 0, 0]}
   ],
