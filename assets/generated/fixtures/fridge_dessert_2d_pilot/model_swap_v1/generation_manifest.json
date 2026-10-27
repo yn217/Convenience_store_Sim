@@ -1,0 +1,60 @@
+{
+  "fixture": "fridge_dessert",
+  "state": "FULL",
+  "rotation": 0,
+  "generator": "built-in image_gen.imagegen",
+  "canonical_input": "assets/generated/fixtures/fridge_dessert/fridge_dessert_0_body.png",
+  "canonical_sha256": "116e591c1cc0aaef2b2b526e681e56b41364d02c3e39526a534248fc6b5c1b79",
+  "input_image_count_per_call": 1,
+  "canonical_canvas_px": [
+    442,
+    465
+  ],
+  "canonical_anchor_px": [
+    285,
+    318
+  ],
+  "projection_id": "iso2x_v1",
+  "selected": {
+    "A": "fridge_dessert_full_r0_a.png",
+    "B": "fridge_dessert_full_r0_b.png"
+  },
+  "raw_outputs": {
+    "A": "a_raw.png",
+    "B": "b_raw.png",
+    "first_B_iteration": "b_initial_raw.png"
+  },
+  "prompts": {
+    "A": "prompt_a.txt",
+    "B": "prompt_b_refined.txt",
+    "first_B_iteration": "prompt_b.txt"
+  },
+  "catalog": "data/products/mvp_v1.json",
+  "catalog_skus": [
+    "dessert_001",
+    "dessert_002",
+    "dessert_003"
+  ],
+  "postprocess": "Uniform full-image scale and translation to canonical canvas only. Original RGBA alpha retained. No shelf reconstruction or per-item compositing.",
+  "registration_note": "Canvas anchor copied from manifest; fixture is bottom-bbox registered. Exact world-origin or structural-landmark registration is not independently verified.",
+  "runtime_integration": false,
+  "production_geometry_approved": false,
+  "commit_or_push": false,
+  "rounds": [
+    {
+      "id": "A",
+      "tool_output_filename": "exec-42fe411f-9f7f-47ab-9994-18aca0dbb8ad.png",
+      "only_input": "assets/generated/fixtures/fridge_dessert/fridge_dessert_0_body.png"
+    },
+    {
+      "id": "B initial, retained for history",
+      "tool_output_filename": "exec-d221d5f5-ed95-4b70-a055-f7d54ce3b347.png",
+      "only_input": "assets/generated/fixtures/fridge_dessert/fridge_dessert_0_body.png"
+    },
+    {
+      "id": "B revised, selected",
+      "tool_output_filename": "exec-7f35dd95-5f6c-4ad7-a355-902e10b1b9e3.png",
+      "only_input": "assets/generated/fixtures/fridge_dessert/fridge_dessert_0_body.png"
+    }
+  ]
+}

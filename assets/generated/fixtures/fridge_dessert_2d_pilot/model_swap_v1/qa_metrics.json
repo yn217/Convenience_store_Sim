@@ -1,0 +1,90 @@
+{
+  "canonical": "assets\\generated\\fixtures\\fridge_dessert\\fridge_dessert_0_body.png",
+  "canonical_sha256": "116e591c1cc0aaef2b2b526e681e56b41364d02c3e39526a534248fc6b5c1b79",
+  "canvas_px": [
+    442,
+    465
+  ],
+  "canonical_bbox_alpha128": [
+    39,
+    9,
+    403,
+    441
+  ],
+  "canonical_long_edge_angle_deg_hough": -26.565,
+  "method": "Uniform resampling and translation only. No warp, separate x/y scales, generated product compositing, or alpha repainting.",
+  "candidates": {
+    "a": {
+      "raw": "a_raw.png",
+      "final": "fridge_dessert_full_r0_a.png",
+      "raw_size_px": [
+        1269,
+        1239
+      ],
+      "raw_bbox_alpha128": [
+        125,
+        15,
+        1146,
+        1205
+      ],
+      "uniform_scale": 0.356513222331048,
+      "translation_px": [
+        -5.564152791380991,
+        11.401567091087202
+      ],
+      "bbox_alpha128": [
+        39,
+        17,
+        403,
+        441
+      ],
+      "transparent_pixel_fraction": 0.430589,
+      "partial_alpha_pixel_count": 116852,
+      "border_alpha_max": 0,
+      "opaque_pixel_count": 116231,
+      "saturated_color_fraction_of_occupied_proxy": 0.145495,
+      "silhouette_iou_vs_empty": 0.963372,
+      "long_edge_angle_deg_hough": -26.042,
+      "angle_delta_deg": 0.523,
+      "bbox_width_delta_px": 0,
+      "bbox_height_delta_px": -8,
+      "exact_geometry_guaranteed": false
+    },
+    "b": {
+      "raw": "b_raw.png",
+      "final": "fridge_dessert_full_r0_b.png",
+      "raw_size_px": [
+        1273,
+        1236
+      ],
+      "raw_bbox_alpha128": [
+        124,
+        23,
+        1155,
+        1204
+      ],
+      "uniform_scale": 0.3530552861299709,
+      "translation_px": [
+        -4.778855480116391,
+        15.921435499515042
+      ],
+      "bbox_alpha128": [
+        39,
+        24,
+        403,
+        441
+      ],
+      "transparent_pixel_fraction": 0.440797,
+      "partial_alpha_pixel_count": 114751,
+      "border_alpha_max": 0,
+      "opaque_pixel_count": 114034,
+      "saturated_color_fraction_of_occupied_proxy": 0.174018,
+      "silhouette_iou_vs_empty": 0.944434,
+      "long_edge_angle_deg_hough": -24.79,
+      "angle_delta_deg": 1.775,
+      "bbox_width_delta_px": 0,
+      "bbox_height_delta_px": -15,
+      "exact_geometry_guaranteed": false
+    }
+  }
+}

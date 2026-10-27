@@ -1,0 +1,149 @@
+{
+  "projection_id": "iso2x_v1",
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.6
+  },
+  "guide": "assets/generated/fixtures/fridge_dessert/fridge_dessert_0_body.png",
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "guide_sha256": "116E591C1CC0AAEF2B2B526E681E56B41364D02C3E39526A534248FC6B5C1B79",
+  "rotation_0": {
+    "canvas_px": [
+      442,
+      465
+    ],
+    "anchor_px": [
+      285.0,
+      318.0
+    ],
+    "layers": {
+      "body": "fridge_dessert_0_body.png",
+      "shadow": "fridge_dessert_0_shadow.png",
+      "glass_front": "fridge_dessert_0_glass_front.png"
+    },
+    "slot_anchors_px": {
+      "row0_item0": [
+        368.2,
+        251.94
+      ],
+      "row0_item1": [
+        337.11,
+        267.48
+      ],
+      "row0_item2": [
+        306.03,
+        283.02
+      ],
+      "row0_item3": [
+        274.94,
+        298.56
+      ],
+      "row0_item4": [
+        243.86,
+        314.11
+      ],
+      "row0_item5": [
+        212.77,
+        329.65
+      ],
+      "row0_item6": [
+        181.69,
+        345.19
+      ],
+      "row0_item7": [
+        150.6,
+        360.74
+      ],
+      "row1_item0": [
+        368.2,
+        181.39
+      ],
+      "row1_item1": [
+        337.11,
+        196.93
+      ],
+      "row1_item2": [
+        306.03,
+        212.48
+      ],
+      "row1_item3": [
+        274.94,
+        228.02
+      ],
+      "row1_item4": [
+        243.86,
+        243.56
+      ],
+      "row1_item5": [
+        212.77,
+        259.11
+      ],
+      "row1_item6": [
+        181.69,
+        274.65
+      ],
+      "row1_item7": [
+        150.6,
+        290.19
+      ],
+      "row2_item0": [
+        368.2,
+        110.85
+      ],
+      "row2_item1": [
+        337.11,
+        126.39
+      ],
+      "row2_item2": [
+        306.03,
+        141.93
+      ],
+      "row2_item3": [
+        274.94,
+        157.47
+      ],
+      "row2_item4": [
+        243.86,
+        173.02
+      ],
+      "row2_item5": [
+        212.77,
+        188.56
+      ],
+      "row2_item6": [
+        181.69,
+        204.1
+      ],
+      "row2_item7": [
+        150.6,
+        219.65
+      ]
+    },
+    "selection_polygon_px": [
+      [
+        285.0,
+        254.0
+      ],
+      [
+        413.0,
+        318.0
+      ],
+      [
+        157.0,
+        446.0
+      ],
+      [
+        29.0,
+        382.0
+      ]
+    ],
+    "sorting_anchor_px": [
+      285.0,
+      318.0
+    ]
+  }
+}
