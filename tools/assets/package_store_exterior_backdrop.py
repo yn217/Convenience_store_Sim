@@ -13,7 +13,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSET_ID = "store_exterior_backdrop_v1"
-SOURCE = ROOT / "assets/source/background" / ASSET_ID / "original.png"
+SOURCE = ROOT / "assets/source/background" / ASSET_ID / "corner_v2.png"
 DEST = ROOT / "assets/generated/backgrounds" / ASSET_ID
 
 
@@ -90,11 +90,11 @@ def main() -> None:
         "occlusion_group": "non_interactive_backdrop_before_store",
         "sort_key": "BackdropLayer_before_store_world",
         "asset_variant": "combined_v_green_trees_sakura_hedges_flowers_fence",
-        "source_file": f"assets/source/background/{ASSET_ID}/original.png",
+        "source_file": f"assets/source/background/{ASSET_ID}/{SOURCE.name}",
         "runtime_fit": {
             "uniform_aspect_preserved": True,
             "tile_size_alignment_required": False,
-            "anchor": "projected north/west wall junction, 0.9m below the wall top so the footing is occluded",
+            "anchor": "projected north/west wall junction on the wall top; both planting-bed wings continue parallel to the far walls",
             "source_apex_px": [round(final_apex[0], 3), round(final_apex[1], 3)],
             "edge_slopes": [final_left[0], final_right[0]],
         },
@@ -105,9 +105,9 @@ def main() -> None:
     provenance = {
         "asset_id": ASSET_ID,
         "source_type": "ai_generated",
-        "tool": "built-in image_gen via image-generation subagent",
-        "generation_id": "exec-146ca07d-6c03-4957-8b4f-957826faaed8",
-        "prompt": "One transparent combined scenery backdrop for a Japanese convenience-store management game, using the supplied mockup as style reference and a generated +/-0.5 wall-edge guide for geometry. Green trees, pink sakura, hedges, flowers and a low fence follow the two far store edges in a peaked V; leave the store interior and foreground transparent; no store, people, cars, road, text, signage or UI. Tree trunks and fence posts vertical.",
+        "tool": "built-in image_gen",
+        "generation_id": "exec-c1aade1e-55fe-4180-adef-ba09484d3562",
+        "prompt": "Transparent isometric Japanese convenience-store landscaping as one continuous V-shaped flowerbed. The pointed apex sits at the store's far corner; both straight planting-bed wings run parallel to the two far walls, each at the matching 2:1 isometric projection angle. Compact green hedge, pink and white flowers, small trees rising vertically, transparent empty space inside and around the V. No store, people, cars, road, text, signage or UI.",
         "source_file": spec["source_file"],
         "original_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "packaging_script": "tools/assets/package_store_exterior_backdrop.py",

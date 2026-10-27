@@ -36,8 +36,8 @@ const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v1/store_exterior_backdrop_v1.png")
 ## Calibrated V apex in the generated PNG; the manifest records the measured +/-0.5 edge slopes.
-const BACKDROP_APEX_PX := Vector2(844.627, 217.748)
-const BACKDROP_WALL_OCCLUSION_M := 0.9
+const BACKDROP_APEX_PX := Vector2(835.088, 353.806)
+const BACKDROP_WALL_OCCLUSION_M := 0.0
 const RoadsideLandscape := preload("res://assets/generated/backgrounds/roadside_landscape_v1/roadside_landscape_v1.png")
 const RoadsideKey := preload("res://assets/generated/backgrounds/roadside_landscape_v1/key.gdshader")
 const ROADSIDE_IMAGE_SCALE := 0.45
@@ -111,8 +111,8 @@ func _draw() -> void:
 		draw_string(ThemeDB.fallback_font, op["pos"], op["text"], HORIZONTAL_ALIGNMENT_CENTER, op["width"], op["size"], op["color"])
 
 
-## Fit the combined landscape to the two far walls. Its base sits behind the upper wall so the wall
-## hides the fence footing; the +/-0.5 planting edges follow the wall direction.
+## Fit the combined landscape to the far-wall corner. The V apex lands on the wall-top junction;
+## its +/-0.5 planting-bed edges follow the two wall directions.
 static func environment_rect(proj: IsoProjection, width: int, height: int) -> Rect2:
 	if width <= 0 or height <= 0:
 		return Rect2()

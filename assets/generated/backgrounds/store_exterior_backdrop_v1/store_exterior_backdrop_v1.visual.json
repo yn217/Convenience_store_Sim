@@ -7,9 +7,9 @@
   "world_depth": null,
   "world_height": null,
   "render_width_px": 1672,
-  "render_height_px": 953,
-  "pivot_x": 844.627,
-  "pivot_y": 217.748,
+  "render_height_px": 941,
+  "pivot_x": 835.088,
+  "pivot_y": 353.806,
   "anchor_type": "behind_far_wall_corner",
   "placement_offset": [
     0,
@@ -19,23 +19,23 @@
   "occlusion_group": "non_interactive_backdrop_before_store",
   "sort_key": "BackdropLayer_before_store_world",
   "asset_variant": "combined_v_green_trees_sakura_hedges_flowers_fence",
-  "source_file": "assets/source/background/store_exterior_backdrop_v1/original.png",
+  "source_file": "assets/source/background/store_exterior_backdrop_v1/corner_v2.png",
   "runtime_fit": {
     "uniform_aspect_preserved": true,
     "tile_size_alignment_required": false,
-    "anchor": "projected north/west wall junction, 0.9m below the wall top so the footing is occluded",
+    "anchor": "projected north/west wall junction on the wall top; both planting-bed wings continue parallel to the far walls",
     "source_apex_px": [
-      844.627,
-      217.748
+      835.088,
+      353.806
     ],
     "edge_slopes": [
-      -0.5000480746117973,
-      0.5004855535791548
+      -0.49950002403730576,
+      0.5005384356521323
     ]
   },
   "alpha_bbox_px": [
-    0,
-    3,
+    13,
+    24,
     1672,
     932
   ],

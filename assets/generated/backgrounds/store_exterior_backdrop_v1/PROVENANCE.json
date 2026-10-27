@@ -1,38 +1,38 @@
 {
   "asset_id": "store_exterior_backdrop_v1",
   "source_type": "ai_generated",
-  "tool": "built-in image_gen via image-generation subagent",
-  "generation_id": "exec-146ca07d-6c03-4957-8b4f-957826faaed8",
-  "prompt": "One transparent combined scenery backdrop for a Japanese convenience-store management game, using the supplied mockup as style reference and a generated +/-0.5 wall-edge guide for geometry. Green trees, pink sakura, hedges, flowers and a low fence follow the two far store edges in a peaked V; leave the store interior and foreground transparent; no store, people, cars, road, text, signage or UI. Tree trunks and fence posts vertical.",
-  "source_file": "assets/source/background/store_exterior_backdrop_v1/original.png",
-  "original_sha256": "492f922eb97d79ed838fac8c8d225ed72df6d09afec2892c28ac49cea9e1c51e",
+  "tool": "built-in image_gen",
+  "generation_id": "exec-c1aade1e-55fe-4180-adef-ba09484d3562",
+  "prompt": "Transparent isometric Japanese convenience-store landscaping as one continuous V-shaped flowerbed. The pointed apex sits at the store's far corner; both straight planting-bed wings run parallel to the two far walls, each at the matching 2:1 isometric projection angle. Compact green hedge, pink and white flowers, small trees rising vertically, transparent empty space inside and around the V. No store, people, cars, road, text, signage or UI.",
+  "source_file": "assets/source/background/store_exterior_backdrop_v1/corner_v2.png",
+  "original_sha256": "dc298129993ae092fd583d07c0d893f52f8103153276d2ff41136f685d27825b",
   "packaging_script": "tools/assets/package_store_exterior_backdrop.py",
   "operations": [
     "piecewise vertical affine shears around the planting-edge apex, preserving vertical stems and aligning each edge to the game's +/-0.5 wall slopes"
   ],
   "canvas_px": [
     1672,
-    953
+    941
   ],
   "source_edge_slopes": [
-    -0.540214412768617,
-    0.5669342820056728
+    -0.4473342627758276,
+    0.4538676025191098
   ],
   "output_edge_slopes": [
-    -0.5000480746117973,
-    0.5004855535791548
+    -0.49950002403730576,
+    0.5005384356521323
   ],
   "apex_px": [
-    844.627,
-    217.748
+    835.088,
+    353.806
   ],
   "alpha_range": [
     0,
     255
   ],
   "alpha_bbox_px": [
-    0,
-    3,
+    13,
+    24,
     1672,
     932
   ],
