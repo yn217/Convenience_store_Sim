@@ -1,0 +1,58 @@
+{
+  "raw_size": [
+    1266,
+    1243
+  ],
+  "alpha_ge8_bbox_xyxy": [
+    118,
+    15,
+    1149,
+    1214
+  ],
+  "axis_longest_segments": [
+    {
+      "length": 456,
+      "slope": -0.50877
+    },
+    {
+      "length": 444,
+      "slope": -0.48649
+    },
+    {
+      "length": 430,
+      "slope": -0.48837
+    },
+    {
+      "length": 365,
+      "slope": -0.49041
+    },
+    {
+      "length": 357,
+      "slope": -0.4902
+    },
+    {
+      "length": 342,
+      "slope": -0.50877
+    },
+    {
+      "length": 329,
+      "slope": -0.5076
+    },
+    {
+      "length": 326,
+      "slope": -0.5092
+    },
+    {
+      "length": 316,
+      "slope": -0.48734
+    },
+    {
+      "length": 304,
+      "slope": -0.50658
+    }
+  ],
+  "top20_median_slope": -0.50616,
+  "canonical_target_slope": -0.5,
+  "angle_gate": "PASS",
+  "visual_gate": "FAIL: enlarged top cap/open shelf planes changed composition and depth compared with v4"
+}
