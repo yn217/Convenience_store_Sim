@@ -154,3 +154,25 @@ func test_company_totals(t, _tree) -> void:
 	t.eq([tot["stores"], tot["revenue_yen"], tot["gross_profit_yen"], tot["units_sold"]], [2, 800, 300, 5], "both stores added up")
 	t.eq(LedgerSummary.summarize(a.ledger, 0)["revenue_yen"], 300, "the store's own report stays its own")
 	t.ok(ReportController.company_text(tot).contains("全店合計（2店"), ReportController.company_text(tot))
+
+
+## Achievements are the company's: one record shared by every store (no badge twice after a switch), and the
+## counts add up the stores.
+func test_achievements_are_the_companys(t, _tree) -> void:
+	var a := _company()
+	Run.place_layout(a)
+	GameCommands.new(a).execute({"command_id": "o1", "kind": &"OPEN_STORE", "map_id": WorldMap.DEFAULT_MAP, "plot_id": "P02", "size_id": "medium"})
+	var b := Company.find(a, "s2")
+	t.ok(b.progression_state == a.progression_state, "one record of achievements")
+	var fixtures_a := a.grid.instances.size()
+	var b2 := Company.switch_to(a, "s2")
+	Run.place_layout(b2)
+	t.eq(ProgressionService.metric_value(b2, "fixtures_installed_count", 0), fixtures_a + b2.grid.instances.size(), "fixtures of both stores count")
+	b2.progression_state["completed_milestone_ids"].append("m_test")
+	var back := Company.switch_to(b2, "")
+	t.ok((back.progression_state["completed_milestone_ids"] as Array).has("m_test"), "a badge earned in store 2 is the company's")
+	var saved := SaveGame.to_dict(back, "ach", "2026-10-27T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), back.balance.duplicate(true), back.fixtures, back.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	var c: GameState = lr["state"]
+	t.ok(c.branches[0].progression_state == c.progression_state, "still one record after a load")

@@ -166,23 +166,29 @@ static func metric_value(state: GameState, metric: String, threshold: int, stock
 			return int(t["sales"])
 		"total_revenue_yen":
 			return int(t["revenue"])
-		"total_customers_entered":
-			var total := int(state.visit_stats["entered"])
-			for r in state.daily_reports:
-				total += int(r["visitors"])
+		"total_customers_entered":   # every store of the company (#146)
+			var total := 0
+			for s in Company.stores(state):
+				total += int(s.visit_stats["entered"])
+				for r in s.daily_reports:
+					total += int(r["visitors"])
 			return total
 		"unique_categories_stocked":
 			return stocked_count if stocked_count >= 0 else DemandGenerator.stocked_category_count(state)
 		"fixtures_installed_count":
-			return state.grid.instances.size()
+			var n := 0
+			for s in Company.stores(state):
+				n += s.grid.instances.size()
+			return n
 		"day_closed_count":
 			return state.daily_reports.size()
 		"reputation_at_least":
 			return state.reputation
-		"daily_operating_profit_at_least":
+		"daily_operating_profit_at_least":   # the best day of any store
 			var best := 0
-			for r in state.daily_reports:
-				best = maxi(best, int(r["operating_profit_yen"]))
+			for s in Company.stores(state):
+				for r in s.daily_reports:
+					best = maxi(best, int(r["operating_profit_yen"]))
 			return best
 	return 0
 

@@ -274,6 +274,8 @@ static func from_dict(data, balance: Dictionary, fixtures: FixtureCatalog, produ
 			var b: GameState = br["state"]
 			b.ledger = s.ledger
 			b.set_store_id(b.store_id)
+			b.progression_state = s.progression_state   # the company's achievements (#146)
+			b.progression_totals = s.progression_totals
 			s.branches.append(b)
 		s.set_store_id(s.store_id)
 	return {"ok": true, "state": s, "errors": errs, "unsupported_version": false}
