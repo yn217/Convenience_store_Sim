@@ -65,6 +65,12 @@ func execute(command: Dictionary) -> CommandResult:
 			if not _require_setup():
 				return _fail(&"NOT_IN_SETUP", &"restock_needs_setup")
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
+		&"SET_RIVALS":   # #129: rival stores on or off (the company's)
+			var on := bool(command.get("enabled", true))
+			for st in Company.stores(_state):
+				st.rivals_enabled = on
+			var rv: Array[String] = ["%s:RIVALS_SET" % command_id]
+			result = _commit(command_id, rv)
 		&"OPEN_STORE":
 			var opened := Company.open_store(_state, command_id, String(command.get("map_id", "")), String(command.get("plot_id", "")), String(command.get("size_id", "")))
 			if opened.has("error"):

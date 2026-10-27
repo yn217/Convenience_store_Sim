@@ -43,6 +43,7 @@ func _run_step() -> void:
 	var new_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
 	if new_day != prev_day:
 		roll_day(_state, prev_day, new_day)
+		Market.on_new_day(_state)   # #129: rivals open and run sales (once a day, for the company)
 	BusinessService.finish_closing_if_empty(_state)
 	BranchSim.step(_state)   # #146: the company's other stores, hourly
 

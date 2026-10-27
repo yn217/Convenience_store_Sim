@@ -43,6 +43,7 @@ var forecast_hour := -1         # -1: no forecast layer
 var _forecast: Dictionary = {}  # plot id -> Array[float] (24 hours)
 var _map: Dictionary = {}
 var _background: Texture2D = null
+var rivals: Array = []   # #129: rival stores {map_id, x, y, name}
 var _press := Vector2(-1, -1)
 var _dragging := false
 
@@ -203,6 +204,12 @@ func _draw() -> void:
 			var v := float(_forecast[id][forecast_hour])
 			if peak > 0.0 and v > 0.0:
 				draw_circle(to_screen(float(p["x"]), float(p["y"])), PLOT_RADIUS + FORECAST_MAX_RADIUS * sqrt(v / peak), FORECAST_COLOR)
+	for r in rivals:   # #129: rival stores, a red marker with 競
+		if r.get("map_id", "") == map_id:
+			var rc := to_screen(float(r["x"]), float(r["y"]))
+			draw_circle(rc, PLOT_RADIUS + 3.0, Color("d64545"))
+			draw_arc(rc, PLOT_RADIUS + 3.0, 0.0, TAU, 20, Color.WHITE, 2.0)
+			draw_string(ThemeDB.fallback_font, rc + Vector2(-6.0, 5.0), "競", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color.WHITE)
 	for p in _map.get("plots", []):
 		var c := to_screen(float(p["x"]), float(p["y"]))
 		var status := WorldMap.plot_status(p)

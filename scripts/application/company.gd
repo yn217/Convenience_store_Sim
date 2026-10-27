@@ -28,6 +28,8 @@ static func used_sites(active: GameState) -> Dictionary:
 	for s in stores(active):
 		if s.plot_id != "":
 			out["%s|%s" % [s.map_id, s.plot_id]] = s.store_id
+	for r in active.rivals:   # a rival's site is taken too (#129)
+		out["%s|%s" % [r["map_id"], r["plot_id"]]] = r["rival_id"]
 	return out
 
 
@@ -75,6 +77,8 @@ static func open_store(active: GameState, command_id: String, map_id: String, pl
 	s.milestones = active.milestones
 	s.gameplay_events = active.gameplay_events
 	s.progression_state = active.progression_state   # one record of achievements for the company
+	s.rivals = active.rivals   # the company's rivals (#129)
+	s.rivals_enabled = active.rivals_enabled
 	s.progression_totals = active.progression_totals
 	if cost > 0 and not s.ledger.record("FIXTURE_PURCHASE", "store_open:%s" % id, -cost, active.day, active.time_sec, {"store_open": size_id, "command_id": command_id}):
 		active.set_store_id(active.store_id)
@@ -114,6 +118,8 @@ static func switch_to(active: GameState, store_id: String) -> GameState:
 	target.milestones = active.milestones
 	target.gameplay_events = active.gameplay_events
 	target.progression_state = active.progression_state
+	target.rivals = active.rivals
+	target.rivals_enabled = active.rivals_enabled
 	target.progression_totals = active.progression_totals
 	return target
 

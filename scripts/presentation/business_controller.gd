@@ -28,6 +28,8 @@ var _map_pick: Button
 var _map_size: OptionButton      # #146: the size of a new store
 var _stores_box: VBoxContainer   # #146: the company's stores
 var _stores_key := []
+var _rivals: Label            # #129
+var _rivals_on: CheckBox
 var _map_button: Button
 var _map_selected := ""
 var _map_hour: HSlider
@@ -121,6 +123,21 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_stores_box = VBoxContainer.new()
 	_stores_box.name = "StoreList"
 	_body.add_child(_stores_box)
+	# #129: rival stores near the company's first store.
+	var rival_head := HBoxContainer.new()
+	var rival_title := Label.new()
+	rival_title.text = "ライバル店"
+	rival_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rival_head.add_child(rival_title)
+	_rivals_on = CheckBox.new()
+	_rivals_on.name = "RivalsOn"
+	_rivals_on.text = "出店する"
+	_rivals_on.toggled.connect(func(on): _send({"kind": &"SET_RIVALS", "enabled": on}))
+	rival_head.add_child(_rivals_on)
+	_body.add_child(rival_head)
+	_rivals = Label.new()
+	_rivals.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_rivals)
 	# #149: nearby facilities (up to NearbyFacility.max_count), chosen before the first opening like the location.
 	var fac_title := Label.new()
 	fac_title.text = "周辺施設（%dつまで・最初の営業開始まで選べます）" % NearbyFacility.max_count()
@@ -190,6 +207,10 @@ func apply_snapshot(snap: Dictionary) -> void:
 		var plot := WorldMap.plot(String(snap["map_id"]), String(snap["plot_id"]))
 		_location_info.text = "地図：%s %s ／ %s" % [WorldMap.display_name(String(snap["map_id"])), plot.get("name", ""), _location_info.text]
 	_map_button.text = "地図で選ぶ" if not bool(snap.get("location_locked", true)) else "地図・出店"
+	_rivals_on.set_pressed_no_signal(bool(snap.get("rivals_enabled", true)))
+	_rivals.text = rivals_text(snap.get("rivals", []), float(snap.get("rival_factor", 1.0)))
+	if _map_view != null:
+		_map_view.rivals = (snap.get("rivals", []) as Array)
 	var stores: Array = snap.get("stores", [])
 	var skey := stores.map(func(st): return [st["store_id"], st["active"], st["business_state"], st["revenue_today"], (st["staff"] as Array).size()])
 	if skey != _stores_key:
@@ -442,6 +463,17 @@ func switch_store(store_id: String) -> CommandResult:
 	var r: CommandResult = _app.run_command({"command_id": "ui_switch_%d" % _seq, "kind": &"SWITCH_STORE", "store_id": store_id})
 	_status.text = "" if r.ok else CommandMessages.text(r.code, r.message_key)
 	return r
+
+
+## The rivals and what they take from the store on screen today (#129).
+static func rivals_text(rivals: Array, factor: float) -> String:
+	if rivals.is_empty():
+		return "近くにライバル店はありません（地図で店の場所を選んだ店に、数日たつと近くに出店してきます）。"
+	var lines: Array[String] = []
+	for r in rivals:
+		lines.append("%s（DAY %d 開店）　この店の客 −%d%%%s" % [r["name"], int(r["opened_day"]), int(round(float(r["share"]) * 100.0)), "　特売中" if bool(r["on_sale"]) else ""])
+	lines.append("ライバルの影響：来店 ×%.2f（品揃え・値付け・広告・販促で取り返せます）" % factor)
+	return "\n".join(lines)
 
 
 ## One line per store of the company: name, place, size, state and today's money.

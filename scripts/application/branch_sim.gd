@@ -41,6 +41,7 @@ static func hour(b: GameState, h: int) -> void:
 	var expected := DemandModel.step_probability(h, base, ad, b.reputation, DemandGenerator.stocked_category_count(b), b.balance, 1.0, curve) * steps
 	for fid in b.facilities:
 		expected += NearbyFacility.step_probability(NearbyFacility.find(fid), h) * steps
+	expected *= Market.visitor_factor(b, b.rivals, b.day)   # #129
 	b.branch_carry += expected
 	var visitors := int(floor(b.branch_carry))
 	b.branch_carry -= visitors

@@ -31,7 +31,7 @@ static func _facility_step(state: GameState, f: Dictionary) -> bool:
 	var roll := rng.uniform_0_1()
 	state.rng_states["arrivals"] = rng.state
 	var hour := DemandModel.hour_of_day(state.time_sec)
-	if roll >= NearbyFacility.step_probability(f, hour, float(EventService.effects(state)["traffic"])):
+	if roll >= NearbyFacility.step_probability(f, hour, float(EventService.effects(state)["traffic"])) * Market.visitor_factor(state, state.rivals, state.day):
 		return false
 	var pick_rng := Lcg32.new(int(state.rng_states["arrivals"]))
 	var who := NearbyFacility.draw_visitor(pick_rng, f, state.balance, stocked_categories(state))
@@ -98,6 +98,8 @@ static func _location_step(state: GameState) -> bool:
 	state.rng_states["arrivals"] = rng.state
 	var hour := DemandModel.hour_of_day(state.time_sec)
 	var base := float(state.balance.get("base_potential_visitors_per_day", 100)) * StoreLocation.visitors_multiplier(state.location_id)
+	if not state.rivals.is_empty():
+		base *= Market.visitor_factor(state, state.rivals, state.day)   # #129: rivals nearby take a share
 	var curve: Array = [] if state.location_id == "" else StoreLocation.hour_weights(state.location_id)   # #148
 	var ad := DemandModel.ad_multiplier(state.balance.get("advertising_tiers", []), state.applied_ad_tier_yen)
 	var traffic := float(EventService.effects(state)["traffic"])

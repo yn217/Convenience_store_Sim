@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "_comment": "Rival stores, phase 1 (issue #129; user decisions 2026-10-27: they open on map sites, take most right after opening and settle down, run sales now and then, not in the first days and can be switched off). A rival opens on the free site nearest to the company's first store from first_day, then every interval_days, at most max_rivals. Share it takes from a store: (floor + (peak - floor) x exp(-days open / settle_days) + sale_bonus while on sale) x max(0, 1 - distance / reach_share of the map width); all rivals together at most total_cap. No random draws. Fictional chains only. Initial values, to be tuned by play.",
+  "first_day": 4,
+  "interval_days": 6,
+  "max_rivals": 3,
+  "peak_share": 0.2,
+  "floor_share": 0.1,
+  "settle_days": 3.0,
+  "reach_share": 0.45,
+  "total_cap": 0.3,
+  "sale_every_days": 5,
+  "sale_days": 2,
+  "sale_bonus": 0.08,
+  "chains": ["ハッピーマート", "サンライズ24", "まちかどストア", "ミドリマート"]
+}
