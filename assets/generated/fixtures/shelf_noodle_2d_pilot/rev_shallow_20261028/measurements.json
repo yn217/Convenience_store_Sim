@@ -1,0 +1,386 @@
+{
+  "asset_id": "shelf_noodle",
+  "state": "FULL",
+  "direction": "r0",
+  "revision": "shallow_v1",
+  "generated_at": "2026-10-28",
+  "source_image": "C:\\Users\\yuuna\\.codex\\generated_images\\01a17e44-599a-79c1-93ca-433f1af67c52\\exec-5b0d08b5-0dfb-4366-8a4f-2bd398bffcb1.png",
+  "guide_image": "assets\\generated\\fixtures\\shelf_noodle\\shelf_noodle_0_body.png",
+  "output_image": "shelf_noodle_full_r0_shallow_v1.png",
+  "generation_method": "Built-in image generation, transparent cutout; one integrated shelf plus cup-noodle illustration; no product-card compositing.",
+  "prompt_summary": "Use the canonical r0 fixture for tile axes; shallow shelf tiers (projected depth constrained to about one-third of long span), narrow backboard, single shallow row of fictional cup noodles per tier, package sides visible; preserve colors/density/style from previous latest image.",
+  "measurements": {
+    "guide": {
+      "canvas_px": [
+        442,
+        481
+      ],
+      "alpha_bbox_threshold_8_xyxy_exclusive": [
+        38,
+        8,
+        404,
+        457
+      ],
+      "bbox_aspect_width_over_height": 0.81514,
+      "alpha_pixels_threshold_8": 124536,
+      "long_diagonal_hough_segments": [
+        {
+          "length_px": 243.29,
+          "slope_dy_dx": -0.5069,
+          "xyxy": [
+            185,
+            176,
+            402,
+            66
+          ]
+        },
+        {
+          "length_px": 177.1,
+          "slope_dy_dx": -0.5063,
+          "xyxy": [
+            163,
+            413,
+            321,
+            333
+          ]
+        },
+        {
+          "length_px": 175.76,
+          "slope_dy_dx": -0.5032,
+          "xyxy": [
+            78,
+            111,
+            235,
+            32
+          ]
+        },
+        {
+          "length_px": 175.76,
+          "slope_dy_dx": -0.5032,
+          "xyxy": [
+            232,
+            420,
+            389,
+            341
+          ]
+        },
+        {
+          "length_px": 139.09,
+          "slope_dy_dx": -0.5081,
+          "xyxy": [
+            273,
+            358,
+            397,
+            295
+          ]
+        },
+        {
+          "length_px": 132.38,
+          "slope_dy_dx": 0.5085,
+          "xyxy": [
+            37,
+            289,
+            155,
+            349
+          ]
+        },
+        {
+          "length_px": 130.14,
+          "slope_dy_dx": 0.5086,
+          "xyxy": [
+            39,
+            398,
+            155,
+            457
+          ]
+        },
+        {
+          "length_px": 126.56,
+          "slope_dy_dx": 0.5044,
+          "xyxy": [
+            43,
+            352,
+            156,
+            409
+          ]
+        },
+        {
+          "length_px": 107.33,
+          "slope_dy_dx": -0.5,
+          "xyxy": [
+            157,
+            457,
+            253,
+            409
+          ]
+        }
+      ],
+      "sha256": "4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976",
+      "long_axis_slope_median_dy_dx": -0.5048
+    },
+    "candidate": {
+      "canvas_px": [
+        1202,
+        1309
+      ],
+      "alpha_bbox_threshold_8_xyxy_exclusive": [
+        200,
+        80,
+        1162,
+        1189
+      ],
+      "bbox_aspect_width_over_height": 0.86745,
+      "alpha_pixels_threshold_8": 694768,
+      "long_diagonal_hough_segments": [
+        {
+          "length_px": 1005.94,
+          "slope_dy_dx": -0.4244,
+          "xyxy": [
+            226,
+            619,
+            1152,
+            226
+          ]
+        },
+        {
+          "length_px": 984.41,
+          "slope_dy_dx": -0.4249,
+          "xyxy": [
+            254,
+            615,
+            1160,
+            230
+          ]
+        },
+        {
+          "length_px": 982.18,
+          "slope_dy_dx": -0.4248,
+          "xyxy": [
+            256,
+            616,
+            1160,
+            232
+          ]
+        },
+        {
+          "length_px": 967.26,
+          "slope_dy_dx": -0.4652,
+          "xyxy": [
+            243,
+            631,
+            1120,
+            223
+          ]
+        },
+        {
+          "length_px": 958.89,
+          "slope_dy_dx": -0.4452,
+          "xyxy": [
+            288,
+            879,
+            1164,
+            489
+          ]
+        },
+        {
+          "length_px": 953.51,
+          "slope_dy_dx": -0.4455,
+          "xyxy": [
+            294,
+            908,
+            1165,
+            520
+          ]
+        },
+        {
+          "length_px": 953.11,
+          "slope_dy_dx": -0.4443,
+          "xyxy": [
+            241,
+            510,
+            1112,
+            123
+          ]
+        },
+        {
+          "length_px": 946.81,
+          "slope_dy_dx": -0.4451,
+          "xyxy": [
+            241,
+            506,
+            1106,
+            121
+          ]
+        },
+        {
+          "length_px": 946.81,
+          "slope_dy_dx": -0.4451,
+          "xyxy": [
+            241,
+            507,
+            1106,
+            122
+          ]
+        },
+        {
+          "length_px": 944.58,
+          "slope_dy_dx": -0.445,
+          "xyxy": [
+            241,
+            504,
+            1104,
+            120
+          ]
+        },
+        {
+          "length_px": 939.64,
+          "slope_dy_dx": -0.4243,
+          "xyxy": [
+            259,
+            617,
+            1124,
+            250
+          ]
+        },
+        {
+          "length_px": 937.88,
+          "slope_dy_dx": -0.4446,
+          "xyxy": [
+            240,
+            499,
+            1097,
+            118
+          ]
+        },
+        {
+          "length_px": 929.35,
+          "slope_dy_dx": -0.4452,
+          "xyxy": [
+            240,
+            495,
+            1089,
+            117
+          ]
+        },
+        {
+          "length_px": 889.48,
+          "slope_dy_dx": -0.4237,
+          "xyxy": [
+            340,
+            577,
+            1159,
+            230
+          ]
+        },
+        {
+          "length_px": 888.56,
+          "slope_dy_dx": -0.4242,
+          "xyxy": [
+            343,
+            578,
+            1161,
+            231
+          ]
+        },
+        {
+          "length_px": 885.89,
+          "slope_dy_dx": -0.4462,
+          "xyxy": [
+            356,
+            890,
+            1165,
+            529
+          ]
+        },
+        {
+          "length_px": 885.48,
+          "slope_dy_dx": -0.445,
+          "xyxy": [
+            333,
+            919,
+            1142,
+            559
+          ]
+        },
+        {
+          "length_px": 883.66,
+          "slope_dy_dx": -0.4461,
+          "xyxy": [
+            356,
+            594,
+            1163,
+            234
+          ]
+        },
+        {
+          "length_px": 882.34,
+          "slope_dy_dx": -0.4454,
+          "xyxy": [
+            356,
+            593,
+            1162,
+            234
+          ]
+        },
+        {
+          "length_px": 864.47,
+          "slope_dy_dx": -0.4443,
+          "xyxy": [
+            241,
+            449,
+            1031,
+            98
+          ]
+        },
+        {
+          "length_px": 857.26,
+          "slope_dy_dx": -0.4457,
+          "xyxy": [
+            353,
+            914,
+            1136,
+            565
+          ]
+        },
+        {
+          "length_px": 856.85,
+          "slope_dy_dx": -0.4444,
+          "xyxy": [
+            353,
+            1159,
+            1136,
+            811
+          ]
+        },
+        {
+          "length_px": 852.79,
+          "slope_dy_dx": -0.4454,
+          "xyxy": [
+            365,
+            591,
+            1144,
+            244
+          ]
+        },
+        {
+          "length_px": 849.58,
+          "slope_dy_dx": -0.4662,
+          "xyxy": [
+            354,
+            1089,
+            1124,
+            730
+          ]
+        }
+      ],
+      "sha256": "3c795b13d93abe47fb3f9f0b8b8a926636942c55c40ca17df2c3cb1483a8351a",
+      "long_axis_slope_median_dy_dx": -0.4451
+    },
+    "guide_target_long_axis_slope": -0.5048,
+    "candidate_long_axis_slope": -0.4451,
+    "candidate_minus_guide_slope": 0.0597,
+    "warning": "Hough slopes are image-edge diagnostics, not proof of game registration. Candidate angle and full 1x2 anchor registration still require game-scale alignment. Alpha bbox ratio is reported only, not forced by stretching.",
+    "visual_note": "Revision has one shallow visible product row per shelf and reduces broad side/rear box surfaces. Check shelf depth visually at in-game scale; do not mark runtime-approved."
+  },
+  "runtime_approved": false
+}
