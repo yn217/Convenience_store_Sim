@@ -77,6 +77,41 @@
         }
       ],
       "last_one": "メタリック塗装の合体ロボ"
+    },
+    {
+      "set_id": "kuji_sweets",
+      "display_name": "スイーツ雑貨くじ",
+      "ticket_price_yen": 600,
+      "set_cost_yen": 18000,
+      "days": 10,
+      "prizes": [
+        {
+          "tier": "A",
+          "name": "ケーキ型クッション",
+          "count": 2
+        },
+        {
+          "tier": "B",
+          "name": "マカロンのポーチ",
+          "count": 4
+        },
+        {
+          "tier": "C",
+          "name": "パフェのグラス",
+          "count": 10
+        },
+        {
+          "tier": "D",
+          "name": "ドーナツのキーホルダー",
+          "count": 14
+        },
+        {
+          "tier": "E",
+          "name": "お菓子柄のメモ帳",
+          "count": 20
+        }
+      ],
+      "last_one": "特大ケーキ型クッション"
     }
   ]
 }

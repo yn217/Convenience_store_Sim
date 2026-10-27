@@ -1086,5 +1086,29 @@
     ],
     "visual_id": "eat_in_counter_a",
     "shelf_slots": []
+  },
+  {
+    "schema_version": 1,
+    "type_id": "eat_in_table",
+    "display_name": "イートインテーブル（4席）",
+    "footprint": {
+      "w": 2,
+      "h": 1
+    },
+    "dimensions_m": {
+      "width": 1.84,
+      "depth": 0.92,
+      "height": 0.75
+    },
+    "placement_cost_yen": 45000,
+    "electricity_cost_yen_per_day": 0,
+    "capacity_units": 0,
+    "allowed_categories": [],
+    "access_edges": [
+      "N",
+      "S"
+    ],
+    "visual_id": "eat_in_table_a",
+    "shelf_slots": []
   }
 ]

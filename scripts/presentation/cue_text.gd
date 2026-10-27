@@ -20,6 +20,7 @@ const LEVEL_OF := {
 	"daily_event_start": "info", "daily_event_end": "info", "daily_recap": "info",
 	"rival_opened": "warning", "rival_sale": "info", "condition_started": "info", "rival_renovation": "info", "rival_closed": "achievement",   # #129
 	"capsule_rare": "info", "capsule_empty": "warning",   # #139
+	"bake_done": "info",   # #130
 	"lottery_top": "info", "lottery_sold_out": "achievement",   # #138
 }
 
@@ -61,6 +62,8 @@ static func toast_text(cue_id: String, payload: Dictionary, fixture_name: String
 			return "地域ニュース: ライバル店「%s」が改装のため%d日休業します" % [String(payload.get("name", "")), int(payload.get("days", 0))]
 		"rival_closed":
 			return "地域ニュース: ライバル店「%s」が閉店しました" % String(payload.get("name", ""))
+		"bake_done":
+			return "焼きたて「%s」が焼き上がりました（%d個）" % [String(payload.get("name", "")), int(payload.get("qty", 0))]
 		"capsule_empty":
 			return "カプセルトイ「%s」が空になりました。補充しましょう" % String(payload.get("name", ""))
 		"capsule_rare":

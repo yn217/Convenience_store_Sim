@@ -181,3 +181,12 @@ func test_supply_squeeze_and_a_rivals_new_product(t, _tree) -> void:
 	t.eq(cash - s.ledger.cash_yen, 10 * unit, "back to the usual price once it is over")
 	var ids: Array = Market.conditions_data()["conditions"].map(func(c): return c["condition_id"])
 	t.eq(ids.slice(0, 5), ["road_works", "school_festival", "new_apartment", "sports_tournament", "festival"], "the first five keep their order")
+
+
+## The rainy season (after the others in the list): umbrellas and oden sell, a few fewer people come.
+func test_the_rainy_season(t, _tree) -> void:
+	var rain := [{"condition_id": "rainy_season", "start_day": 0, "end_day": 6}]
+	t.ok(Market.condition_category(rain, 3, "daily_goods") > 1.5, "umbrellas and other goods sell")
+	t.ok(Market.condition_factor(rain, 3) < 1.0, "a few fewer people come")
+	t.eq(Market.condition_factor(rain, 7), 1.0, "over after a week")
+	t.ok(CueText.toast_text("bake_done", {"name": "焼きたてクロワッサン", "qty": 8}).contains("焼き上がり"), "#130: a bake is announced")

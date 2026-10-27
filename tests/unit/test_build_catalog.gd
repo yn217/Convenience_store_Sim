@@ -12,11 +12,11 @@ func _catalog() -> FixtureCatalog:
 
 func test_mvp_fixtures_split_into_four_tabs(t, _tree) -> void:
 	var groups := Cat.group(_catalog())
-	t.eq(groups[Cat.ALL].size(), 26, "すべて holds all twenty-six types")
+	t.eq(groups[Cat.ALL].size(), 27, "すべて holds all twenty-seven types")
 	t.eq(groups[Cat.SHELF], ["shelf_general", "shelf_onigiri", "shelf_noodle", "shelf_bread", "shelf_snack", "shelf_goods"], "棚: the six shelves, in data order (goods, #133)")
 	t.eq(groups[Cat.COLD], ["fridge_drink", "fridge_dessert", "freezer_ice", "fridge_daily"], "冷蔵・冷凍: the four cases (daily fresh, #147)")
 	t.eq(groups[Cat.COUNTER], ["register_basic", "warmer_oden", "coffee_machine", "soft_serve_machine", "frappe_blender", "bakery_oven", "pizza_oven"], "カウンター: the register, the oden warmer, the coffee machine, the soft serve / frappé machines and the ovens")
-	t.eq(groups[Cat.SERVICE], ["atm", "copier", "staff_room_s", "staff_room_m", "staff_room_l", "capsule_toy_1", "capsule_toy_3", "capsule_toy_5", "eat_in_counter"], "設備: the ATM, the copier, the staff rooms, the capsule machines and the eat-in counter")
+	t.eq(groups[Cat.SERVICE], ["atm", "copier", "staff_room_s", "staff_room_m", "staff_room_l", "capsule_toy_1", "capsule_toy_3", "capsule_toy_5", "eat_in_counter", "eat_in_table"], "設備: the ATM, the copier, the staff rooms, the capsule machines and the eat-in seats")
 
 
 func test_every_type_is_in_exactly_one_category(t, _tree) -> void:

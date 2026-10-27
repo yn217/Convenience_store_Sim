@@ -80,6 +80,18 @@
         "dessert": 0.8,
         "ice_cream": 0.85
       }
+    },
+    {
+      "condition_id": "rainy_season",
+      "name_ja": "梅雨入り",
+      "note": "雨の日が続き、来店は少し減るが傘などの日用品とおでんが売れる",
+      "days": 7,
+      "visitors": 0.95,
+      "categories": {
+        "daily_goods": 1.6,
+        "oden": 1.2,
+        "instant_noodle": 1.1
+      }
     }
   ],
   "_comment_more": "More conditions (#129): a condition may raise the purchase cost of categories (costs: multiplier on the order price while it lasts)."

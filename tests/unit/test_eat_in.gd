@@ -65,3 +65,20 @@ func test_without_a_counter_nobody_sits(t, _tree) -> void:
 	var cmds := Run.place_layout(s)
 	Run.run_days(s, cmds, 1)
 	t.eq(s.eat_in_total, 0, "no counter: nobody sits")
+
+
+## A table seats four: two on each long side (access N and S).
+func test_a_table_seats_four(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	var placed := ""
+	for y in range(2, s.grid.height - 2):
+		for x in range(1, s.grid.width - 2):
+			if placed == "":
+				var r := cmds.execute({"command_id": "tb_%d_%d" % [x, y], "kind": &"PLACE_FIXTURE", "type_id": "eat_in_table", "x": x, "y": y, "rotation": 0})
+				if r.ok:
+					placed = r.data["instance_id"]
+	t.ok(placed != "", "a table placed")
+	t.ok(EatIn.counters(s).has(placed), "it counts as eat-in seating")
+	var ai := CustomerAI.new()
+	t.ok(ai._shelf_access(s, placed).size() >= 3, "seats on both sides (%d reachable)" % ai._shelf_access(s, placed).size())

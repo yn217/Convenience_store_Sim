@@ -177,6 +177,17 @@
   },
   {
     "schema_version": 1,
+    "cue_id": "bake_done",
+    "source_event_type": "BAKE_DONE",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
     "cue_id": "capsule_empty",
     "source_event_type": "CAPSULE_EMPTY",
     "animation_id": "event_banner",

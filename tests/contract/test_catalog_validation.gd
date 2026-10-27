@@ -40,7 +40,7 @@ func test_real_masters_load_and_cross_reference(t, _tree) -> void:
 	t.eq(products.errors, [] as Array[String], "products errors")
 	t.eq(fixtures.errors, [] as Array[String], "fixtures errors")
 	t.eq(products.skus.size(), 59, "59 SKUs (33 + 2 volume-up onigiri, #137, + 3 capsule series, #139, + 6 goods and hygiene, #133, + 6 soft serve / frappé, #131, + 3 fresh bread and 3 pizzas, #130, + 3 collab goods, #140)")
-	t.eq(fixtures.types.size(), 26, "26 fixture types (3 capsule machines, #139; the goods shelf, #133; soft serve and frappé machines, #131; bakery and pizza ovens, #130; the eat-in counter, #134)")
+	t.eq(fixtures.types.size(), 27, "27 fixture types (3 capsule machines, #139; the goods shelf, #133; soft serve and frappé machines, #131; bakery and pizza ovens, #130; the eat-in counter and table, #134)")
 	t.eq(fixtures.product_errors(products), [] as Array[String], "every SKU has a compatible slot")
 	var cats := {}
 	for s in products.skus.values():
