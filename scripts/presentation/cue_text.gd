@@ -18,6 +18,7 @@ const LEVEL_OF := {
 	"milestone_celebrate": "achievement",
 	"expiry_notice": "warning", "low_stock_notice": "warning", "long_queue": "warning",
 	"daily_event_start": "info", "daily_event_end": "info", "daily_recap": "info",
+	"rival_opened": "warning", "rival_sale": "info",   # #129
 }
 
 
@@ -50,4 +51,8 @@ static func toast_text(cue_id: String, payload: Dictionary, fixture_name: String
 			return "今日のイベント: %s" % String(payload.get("name_ja", ""))
 		"daily_event_end":
 			return "イベントが終わりました: %s" % String(payload.get("name_ja", ""))
+		"rival_opened":
+			return "地域ニュース: 近くにライバル店「%s」が開店しました" % String(payload.get("name", ""))
+		"rival_sale":
+			return "地域ニュース: ライバル店「%s」が特売を始めました" % String(payload.get("name", ""))
 	return ""

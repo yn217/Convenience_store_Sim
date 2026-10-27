@@ -133,6 +133,28 @@
   },
   {
     "schema_version": 1,
+    "cue_id": "rival_opened",
+    "source_event_type": "RIVAL_OPENED",
+    "animation_id": "event_banner",
+    "duration_seconds": 3.5,
+    "priority": "important",
+    "sfx_key": "warning_soft",
+    "dedupe_payload_field": "rival_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "rival_sale",
+    "source_event_type": "RIVAL_SALE",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "rival_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
     "cue_id": "milestone_celebrate",
     "source_event_type": "MILESTONE_REACHED",
     "animation_id": "confetti_small",

@@ -82,3 +82,15 @@ func test_a_rival_in_a_running_store(t, _tree) -> void:
 		off.day = d
 		Market.on_new_day(off)
 	t.eq(off.rivals, [], "no rivals when switched off")
+
+
+## The news: an opening and a sale are events with a notice text (a toast, also when the sound is off).
+func test_rival_news(t, _tree) -> void:
+	var s := _store()
+	for d in range(0, 10):
+		s.day = d
+		Market.on_new_day(s)
+	var types: Array = s.take_events().map(func(e): return e["type"])
+	t.ok(types.has("RIVAL_OPENED") and types.has("RIVAL_SALE"), "opening and sale announced: %s" % str(types))
+	t.ok(CueText.toast_text("rival_opened", {"name": "ハッピーマート 駅前店"}).contains("ハッピーマート 駅前店"), "the toast names the rival")
+	t.eq(CueText.level_of("rival_opened", "important"), "warning")
