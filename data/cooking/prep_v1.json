@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "_comment": "Made-to-order goods (issue #131 phase 1): game seconds a customer waits at the machine while the item is made, added to the time at the shelf (the mix in the machine is its stock: it keeps 2 days, then it is wasted). Initial values.",
+  "prep_game_seconds": {
+    "soft_serve": 60,
+    "frappe": 150,
+    "pizza": 300
+  },
+  "_comment_130": "Issue #130 phase 1: a pizza is baked to order (300 s at the oven). Fresh bread is baked into the oven's showcase trays when restocked (the restock is the bake) and keeps 8 hours; what is left is wasted."
+}

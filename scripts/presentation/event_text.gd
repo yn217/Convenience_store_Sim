@@ -8,6 +8,8 @@ const CATEGORY_JA := {
 	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
 	"capsule_toy": "カプセルトイ",
 	"daily_goods": "日用品", "hygiene": "衛生用品",
+	"soft_serve": "ソフトクリーム", "frappe": "フラッペ",
+	"bakery": "焼きたてパン", "pizza": "ピザ",
 }
 const STATUS_JA := {"scheduled": "予定", "active": "開催中", "ended": "終了", "missed": "見送り"}
 

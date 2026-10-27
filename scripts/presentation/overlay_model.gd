@@ -14,7 +14,7 @@ const LOW_RATIO := 0.25
 const EDGE_STEP := {"N": Vector2i(0, -1), "E": Vector2i(1, 0), "S": Vector2i(0, 1), "W": Vector2i(-1, 0)}
 const PHASE_TEXT := {
 	"SELECT": "商品を選んでいる", "WALK_SHELF": "棚へ移動中", "WALK_REGISTER": "レジへ移動中", "WAIT_QUEUE": "列の空きを待っている",
-	"QUEUE": "レジ待ち", "CHECKOUT": "会計中", "EXIT": "退店中",
+	"QUEUE": "レジ待ち", "CHECKOUT": "会計中", "EXIT": "退店中", "WALK_SEAT": "イートインの席へ", "EAT": "イートインで食事中",
 }
 
 
@@ -185,6 +185,10 @@ static func customer_action(c: Dictionary, fixture_name: String) -> String:
 			return "入店するところ"
 		"WALK_AWAY":
 			return "レジの混雑を見て引き返した" if String(c.get("outcome", "")) == "balked" else "帰っていく"
+		"WALK_SEAT":
+			return "イートインの席へ移動中"
+		"EAT":
+			return "イートインで食事中"
 	return String(c.get("phase", ""))
 ## Per register: {"queued": customers holding a queue slot (walking into one or standing in it),
 ## "overflow": customers who want to pay but have no slot (WAIT_QUEUE), "checkout": customers at the till,

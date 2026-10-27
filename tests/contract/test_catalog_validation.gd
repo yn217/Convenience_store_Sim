@@ -39,13 +39,13 @@ func test_real_masters_load_and_cross_reference(t, _tree) -> void:
 	var fixtures := FixtureCatalog.from_json_text(_text(FIXTURES))
 	t.eq(products.errors, [] as Array[String], "products errors")
 	t.eq(fixtures.errors, [] as Array[String], "fixtures errors")
-	t.eq(products.skus.size(), 44, "44 SKUs (33 + 2 volume-up onigiri, #137, + 3 capsule series, #139, + 6 goods and hygiene, #133)")
-	t.eq(fixtures.types.size(), 21, "21 fixture types (3 capsule machines, #139; the goods shelf, #133)")
+	t.eq(products.skus.size(), 56, "56 SKUs (33 + 2 volume-up onigiri, #137, + 3 capsule series, #139, + 6 goods and hygiene, #133, + 6 soft serve / frappé, #131, + 3 fresh bread and 3 pizzas, #130)")
+	t.eq(fixtures.types.size(), 26, "26 fixture types (3 capsule machines, #139; the goods shelf, #133; soft serve and frappé machines, #131; bakery and pizza ovens, #130; the eat-in counter, #134)")
 	t.eq(fixtures.product_errors(products), [] as Array[String], "every SKU has a compatible slot")
 	var cats := {}
 	for s in products.skus.values():
 		cats[s["category"]] = int(cats.get(s["category"], 0)) + 1
-	t.eq(cats.size(), 14, "14 categories (bento, daily fresh, coffee: #147; capsule toys: #139; daily goods, hygiene: #133)")
+	t.eq(cats.size(), 18, "18 categories (bento, daily fresh, coffee: #147; capsule toys: #139; daily goods, hygiene: #133; soft serve, frappé: #131; bakery, pizza: #130)")
 	for c in cats:
 		t.eq(cats[c], 5 if c == "rice_ball" else 3, "3 SKUs in %s (+2 volume-up onigiri, #137)" % c)
 
@@ -102,7 +102,7 @@ func test_fixture_invalid_table(t, _tree) -> void:
 		["too wide for footprint", _fixture({"dimensions_m": {"width": 0.95, "depth": 1.92, "height": 1.5}}), "dimensions_m: exceeds_footprint"],
 		["too deep for footprint", _fixture({"dimensions_m": {"width": 0.92, "depth": 1.95, "height": 1.5}}), "dimensions_m: exceeds_footprint"],
 		["negative cost", _fixture({"placement_cost_yen": -1}), "placement_cost_yen: negative"],
-		["unknown category", _fixture({"allowed_categories": ["pizza"]}), "unknown_category"],
+		["unknown category", _fixture({"allowed_categories": ["sushi"]}), "unknown_category"],
 		["slot category outside fixture", _fixture({"allowed_categories": ["snack"]}), "not_in_fixture_categories"],
 		["duplicate slot id", _fixture({"shelf_slots": [slot_ok, slot_ok], "capacity_units": 20}), "slot_id: duplicate_id"],
 		["unknown edge", _fixture({"access_edges": ["X"]}), "access_edges: unknown_edge"],

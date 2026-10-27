@@ -239,6 +239,8 @@
       "kind": "fair",
       "pulls": {
         "ice_cream": 1.4,
+        "soft_serve": 1.4,
+        "frappe": 1.4,
         "drink": 1.2
       },
       "visitors": 1.04,

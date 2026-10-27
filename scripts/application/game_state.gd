@@ -65,6 +65,7 @@ var store_name := ""                    # #146: shown in the store list ("" = 1å
 var branches: Array = []                # #146: the company's other stores (only on the store on screen)
 var rivals: Array = []                  # #129: rival stores on the map (Market), the company's
 var rivals_enabled := true
+var eat_in_total := 0                  # #134: customers who sat down to eat
 var lotteries: Array = []              # #138: prize draw sets bought and their tickets (Lottery)
 var capsule_stats: Dictionary = {}     # #139: sku_id -> {turns, rare} of the capsule machines (CapsuleToys)
 var market_conditions: Array = []      # #129 phase 2: local conditions (Market), the company's

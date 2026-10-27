@@ -208,6 +208,14 @@ func _update(state: GameState, c: Dictionary) -> void:
 		"WALK_AWAY":
 			if _walk(state, c):
 				c["phase"] = "GONE"
+		"WALK_SEAT":   # #134: to a free eat-in seat
+			if _walk(state, c):
+				c["phase"] = "EAT"
+		"EAT":
+			c["eat_left"] = int(c.get("eat_left", 0)) - int(GameClock.STEP_GAME_SECONDS)
+			if int(c["eat_left"]) <= 0:
+				c.erase("seat")
+				_start_exit(state, c)
 
 
 ## Moves along the path by this step's walking budget. True once the path is finished.
@@ -313,7 +321,8 @@ func _candidates_this_step(state: GameState) -> Array:
 ## count it down. True once the time is over (and the shelf is reset for the next wish).
 func _browsed(state: GameState, c: Dictionary) -> bool:
 	if int(c.get("browse_left", -1)) < 0:
-		c["browse_left"] = browse_seconds(state.balance, String(c["customer_id"]), String(c["fixture_id"]))
+		c["browse_left"] = browse_seconds(state.balance, String(c["customer_id"]), String(c["fixture_id"])) \
+			+ Cooking.prep_seconds(String(state.products.get_sku(String(c.get("sku_id", ""))).get("category", "")))   # #131: made to order
 	c["browse_left"] = int(c["browse_left"]) - int(GameClock.STEP_GAME_SECONDS)
 	if int(c["browse_left"]) > 0:
 		return false
@@ -1098,7 +1107,30 @@ func _checkout(state: GameState, c: Dictionary) -> void:
 	if sold > 1:
 		name = "%s 他%d点" % [name, sold - 1]   # the checkout pop: "おにぎり 他2点 ¥480"
 	state.emit_event("SALE_COMMITTED", {"transaction_id": basket_id, "customer_id": c["customer_id"], "revenue_yen": revenue, "register_id": c["register_id"], "fixture_id": first_fixture, "sku_id": first_sku, "name": name, "items": sold})
-	_start_exit(state, c)
+	if not _sit_down(state, c, sold_categories):
+		_start_exit(state, c)
+
+
+## Eat-in (#134): a customer who bought something to eat here may take a free seat of an eat-in counter (EatIn).
+## -> true when it is on its way to one.
+func _sit_down(state: GameState, c: Dictionary, categories: Array) -> bool:
+	var counters := EatIn.counters(state)
+	if counters.is_empty() or not EatIn.wants(String(c["customer_id"]), categories):
+		return false
+	var taken := {}
+	for o in state.customers:
+		if o.has("seat"):
+			taken[o["seat"]] = true
+	for id in counters:
+		for seat in _shelf_access(state, id):
+			if taken.has(seat) or not _route(state, c, seat):
+				continue
+			c["seat"] = seat
+			c["eat_left"] = EatIn.stay_seconds(String(c["customer_id"]))
+			c["phase"] = "WALK_SEAT"
+			state.eat_in_total += 1
+			return true
+	return false
 
 
 ## The register plan customers use now (StaffAI staffs that register).

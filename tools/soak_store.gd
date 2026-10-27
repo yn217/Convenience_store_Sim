@@ -10,7 +10,7 @@ extends SceneTree
 
 const Seeds := preload("res://tests/support/test_seeds.gd")
 const LAYOUT := "res://data/layouts/realistic_store_v1.json"
-const WALKING := ["APPROACH", "ENTER", "WALK_SHELF", "WALK_REGISTER", "EXIT", "WALK_AWAY"]
+const WALKING := ["APPROACH", "ENTER", "WALK_SHELF", "WALK_REGISTER", "EXIT", "WALK_AWAY", "WALK_SEAT"]
 const STAFF_WALKING := ["TO_REGISTER", "TO_PICKUP", "TO_SHELF", "TO_REST"]
 const STILL_SEC := 180            # a walker that has not changed tile for this long is stuck
 const LONG_VISIT_SEC := 3 * 3600  # far beyond browse + queue + checkout

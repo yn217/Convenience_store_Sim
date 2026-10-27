@@ -119,6 +119,40 @@ static func _hit(category: String, u: float, v: float) -> int:
 			if absf(u - 0.5) > half_k:
 				return 0
 			return 2 if v >= 0.48 and v <= 0.66 else 1
+		"bakery":   # a round bun with a glazed top and a score line
+			var e := pow((u - 0.5) / 0.4, 2.0) + pow((v - 0.58) / 0.28, 2.0)
+			if e > 1.0:
+				return 0
+			if absf(v - 0.5) < 0.03 and absf(u - 0.5) < 0.25:
+				return 2
+			return 3 if v < 0.48 else 1
+		"pizza":   # a slice: crust along the top, cheese below, two toppings
+			if v < 0.18 or v > 0.9:
+				return 0
+			var half_p := 0.4 * (0.9 - v) / 0.72
+			if absf(u - 0.5) > half_p:
+				return 0
+			if v < 0.27:
+				return 2
+			if pow(u - 0.44, 2.0) + pow(v - 0.4, 2.0) < 0.003 or pow(u - 0.55, 2.0) + pow(v - 0.56, 2.0) < 0.003:
+				return 3
+			return 1
+		"soft_serve":   # a swirl of soft serve on a cone
+			if v >= 0.52:
+				var half_s := 0.2 * (0.96 - v) / 0.44
+				return 2 if v <= 0.96 and absf(u - 0.5) <= half_s else 0
+			var w := 0.26 * (1.0 - absf(v - 0.36) / 0.26)
+			if v < 0.1 or absf(u - 0.5) > w * 0.9:
+				return 0
+			return 3 if absf(v - 0.3) < 0.02 or absf(v - 0.42) < 0.02 else 1
+		"frappe":   # a tall cup with a domed lid and a straw
+			if absf(u - 0.62) < 0.03 and v >= 0.04 and v < 0.26:
+				return 2
+			if v < 0.18 or v > 0.94:
+				return 0
+			if v < 0.3:
+				return 3 if pow((u - 0.5) / 0.3, 2.0) + pow((v - 0.3) / 0.12, 2.0) <= 1.0 else 0
+			return 1 if absf(u - 0.5) <= 0.28 - (v - 0.3) * 0.12 else 0
 		"daily_goods":   # a hanging pack: a card header with a hole and a soft bag below
 			if u < 0.2 or u > 0.8 or v < 0.1 or v > 0.92:
 				return 0
@@ -182,6 +216,22 @@ static func _color_for(category: String, hit: int, body: Color) -> Color:
 			if hit == 3:
 				return Color(0.92, 0.95, 0.98)
 			return body.darkened(0.3) if hit == 2 else body
+		"bakery":
+			if hit == 3:
+				return body.darkened(0.25)
+			return body.darkened(0.45) if hit == 2 else body
+		"pizza":
+			if hit == 3:
+				return Color(0.75, 0.15, 0.12)
+			return CONE_COLOR.darkened(0.1) if hit == 2 else body
+		"soft_serve":
+			if hit == 2:
+				return CONE_COLOR
+			return body.darkened(0.15) if hit == 3 else body
+		"frappe":
+			if hit == 3:
+				return Color(0.97, 0.97, 0.97)
+			return Color(0.2, 0.6, 0.4) if hit == 2 else body
 		"daily_goods", "hygiene":
 			if hit == 3:
 				return Color(0.96, 0.96, 0.94)
@@ -216,6 +266,14 @@ static func _plate_rect(category: String) -> Rect2:
 			return Rect2(0.36, 0.5, 0.28, 0.12)
 		"capsule_toy":
 			return Rect2(0.36, 0.62, 0.28, 0.1)
+		"bakery":
+			return Rect2(0.34, 0.66, 0.32, 0.1)
+		"pizza":
+			return Rect2(0.4, 0.6, 0.2, 0.08)
+		"soft_serve":
+			return Rect2(0.38, 0.66, 0.24, 0.1)
+		"frappe":
+			return Rect2(0.34, 0.56, 0.32, 0.14)
 		"daily_goods":
 			return Rect2(0.3, 0.6, 0.4, 0.14)
 		"hygiene":
@@ -266,6 +324,14 @@ static func _tint(category: String) -> Color:
 			return Color(0.92, 0.88, 0.8)
 		"capsule_toy":
 			return Color(0.9, 0.35, 0.6)
+		"bakery":
+			return Color(0.88, 0.66, 0.36)
+		"pizza":
+			return Color(0.98, 0.85, 0.45)
+		"soft_serve":
+			return Color(0.98, 0.95, 0.88)
+		"frappe":
+			return Color(0.95, 0.55, 0.65)
 		"daily_goods":
 			return Color(0.45, 0.55, 0.8)
 		"hygiene":

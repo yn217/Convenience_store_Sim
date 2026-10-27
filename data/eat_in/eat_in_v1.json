@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "_comment": "Eat-in (issue #134 phase 1). The seats of an eat-in counter are the floor tiles in front of it (its access side). After paying, a customer whose basket holds something to eat here sits at a free seat with the highest eat_share of its categories (decided by a hash of the customer id: no random draw) and stays stay_game_seconds (by the same hash) before leaving; with no free seat it simply leaves. Sales are booked at the till as before; a seat never causes a second checkout. Benefits for the average spend or reputation are a later phase. Initial values.",
+  "fixture_types": [
+    "eat_in_counter"
+  ],
+  "eat_share": {
+    "bento": 0.5,
+    "instant_noodle": 0.6,
+    "oden": 0.5,
+    "pizza": 0.4,
+    "rice_ball": 0.25,
+    "bread": 0.15,
+    "bakery": 0.35,
+    "coffee": 0.3,
+    "soft_serve": 0.5,
+    "frappe": 0.4,
+    "dessert": 0.2,
+    "ice_cream": 0.2
+  },
+  "stay_game_seconds": [
+    600,
+    1200
+  ]
+}

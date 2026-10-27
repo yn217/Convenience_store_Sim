@@ -31,6 +31,8 @@ const CATEGORY_TINT := {
 	"bento": Color(1, 0.92, 0.82), "daily_fresh": Color(0.88, 1, 0.85), "coffee": Color(0.95, 0.88, 0.8),
 	"capsule_toy": Color(1, 0.85, 0.93),
 	"daily_goods": Color(0.88, 0.92, 1), "hygiene": Color(0.88, 0.98, 1),
+	"soft_serve": Color(1, 0.97, 0.9), "frappe": Color(1, 0.88, 0.92),
+	"bakery": Color(1, 0.93, 0.82), "pizza": Color(1, 0.88, 0.8),
 }
 
 var _manifest: Dictionary = {}

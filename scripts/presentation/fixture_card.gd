@@ -18,6 +18,8 @@ const CATEGORY_NAMES := {
 	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
 	"capsule_toy": "カプセルトイ",
 	"daily_goods": "日用品", "hygiene": "衛生用品",
+	"soft_serve": "ソフトクリーム", "frappe": "フラッペ",
+	"bakery": "焼きたてパン", "pizza": "ピザ",
 }
 const STATUS_NAMES := {"SETUP": "設置中", "OPEN": "営業中", "CLOSING": "閉店中"}
 

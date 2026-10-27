@@ -356,7 +356,9 @@
               "CANCELLED",
               "APPROACH",
               "ENTER",
-              "WALK_AWAY"
+              "WALK_AWAY",
+              "WALK_TO_SEAT",
+              "EAT_IN"
             ]
           },
           "position": {
@@ -483,6 +485,16 @@
               "impulse_tried": {"type": "array", "items": {"type": "string", "minLength": 1}},
               "coupon_id": {"description": "Next-visit coupon the customer came back with (issue #137 phase 2); \"\" when none.", "type": "string"},
               "segment_id": {"description": "Customer segment of a visitor sent by a nearby facility (issue #149); absent or \"\" for the location's own visitors.", "type": "string"}
+            }
+          },
+          "eat": {
+            "description": "Eat-in seat (issue #134): the tile and the game seconds left there; absent when the customer does not eat in.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["seat", "remaining_sec"],
+            "properties": {
+              "seat": {"type": "object", "required": ["x", "y"], "properties": {"x": {"type": "integer"}, "y": {"type": "integer"}}},
+              "remaining_sec": {"type": "integer"}
             }
           },
           "browse_remaining_sec": {

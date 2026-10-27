@@ -25,11 +25,13 @@ const PHASE_OUT := {
 	"SELECT": "SELECT_SHELF", "WALK_SHELF": "WALK_TO_ACCESS", "WALK_REGISTER": "WALK_TO_REGISTER",
 	"WAIT_QUEUE": "QUEUE", "QUEUE": "QUEUE", "CHECKOUT": "CHECKOUT", "EXIT": "EXIT",
 	"APPROACH": "APPROACH", "ENTER": "ENTER", "WALK_AWAY": "WALK_AWAY",
+	"WALK_SEAT": "WALK_TO_SEAT", "EAT": "EAT_IN",   # #134
 }
 const PHASE_IN := {
 	"SELECT_SHELF": "SELECT", "WALK_TO_ACCESS": "WALK_SHELF", "WALK_TO_REGISTER": "WALK_REGISTER",
 	"QUEUE": "QUEUE", "CHECKOUT": "CHECKOUT", "EXIT": "EXIT",
 	"APPROACH": "APPROACH", "ENTER": "ENTER", "WALK_AWAY": "WALK_AWAY",
+	"WALK_TO_SEAT": "WALK_SEAT", "EAT_IN": "EAT",   # #134
 }
 const STATES := ["SETUP", "OPEN", "CLOSING", "PAYMENT_BLOCKED"]
 
@@ -96,6 +98,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"map_id": state.map_id, "plot_id": state.plot_id,   # #150
 			"store_id": state.store_id, "store_name": state.store_name,   # #146
 			"rivals": state.rivals.duplicate(true), "rivals_enabled": state.rivals_enabled,   # #129
+			"eat_in_total": state.eat_in_total,   # #134
 			"construction_days": state.construction_days,   # #145
 			"lotteries": state.lotteries.duplicate(true),   # #138
 			"capsule_stats": state.capsule_stats.duplicate(true),   # #139
@@ -220,7 +223,7 @@ static func _customer_out(c: Dictionary, now_sec: int, patience_sec: int) -> Dic
 		"walk_progress": c["progress"],
 		"queue_since_sec": c["queue_since"],
 		"outcome": c["outcome"],
-	}
+	}.merged({"eat": {"seat": {"x": (c["seat"] as Vector2i).x, "y": (c["seat"] as Vector2i).y}, "remaining_sec": int(c.get("eat_left", 0))}} if c.has("seat") else {})
 
 
 # ---------------------------------------------------------------- dictionary -> state
@@ -519,6 +522,8 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 				errs.append("runtime_state.construction_days: invalid")
 			else:
 				s.construction_days = int(rt["construction_days"])
+		if JsonCheck.is_int(rt.get("eat_in_total")):   # #134
+			s.eat_in_total = int(rt["eat_in_total"])
 		if typeof(rt.get("rivals")) == TYPE_ARRAY:   # #129
 			for r in rt["rivals"]:
 				if typeof(r) != TYPE_DICTIONARY or not JsonCheck.is_int(r.get("opened_day")) or typeof(r.get("map_id")) != TYPE_STRING:
@@ -641,7 +646,7 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		errs.append("%s: not_object" % path)
 		return
 	var required := ["customer_id", "phase", "position", "route", "route_index", "reservation_ids", "patience_remaining_sec", "target_fixture_id", "checkout_remaining_sec"]
-	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome", "basket_size", "basket_wishes", "browse_remaining_sec", "visit"]
+	var optional := ["target_sku_id", "queue_slot", "register_id", "retries", "walk_progress", "queue_since_sec", "outcome", "basket_size", "basket_wishes", "browse_remaining_sec", "visit", "eat"]
 	var k_errs := JsonCheck.key_errors(c, required, optional, path)
 	errs.append_array(k_errs)
 	if not k_errs.is_empty():
@@ -691,6 +696,11 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 	var visit := _visit_in(c.get("visit", {}), path, errs)
 	if visit.is_empty():
 		return
+	var eat = c.get("eat", {})   # #134: the seat and the time left at it
+	if typeof(eat) != TYPE_DICTIONARY or (not eat.is_empty() and (typeof(eat.get("seat")) != TYPE_DICTIONARY or not JsonCheck.is_int(eat["seat"].get("x")) \
+			or not JsonCheck.is_int(eat["seat"].get("y")) or not JsonCheck.is_int(eat.get("remaining_sec")))) or (["WALK_SEAT", "EAT"].has(phase) and eat.is_empty()):
+		errs.append("%s.eat: invalid" % path)
+		return
 	s.customers.append({
 		"customer_id": c["customer_id"], "phase": phase, "tile": Vector2i(int(pos["x"]), int(pos["y"])), "path": path_tiles,
 		"progress": float(c.get("walk_progress", 0.0)), "fixture_id": "" if c["target_fixture_id"] == null else c["target_fixture_id"],
@@ -706,6 +716,9 @@ static func _customer_in(s: GameState, c, i: int, errs: Array[String]) -> void:
 		"segment_id": visit.get("segment_id", ""),
 		"coupon_id": visit.get("coupon_id", ""),
 	})
+	if not eat.is_empty():
+		s.customers.back()["seat"] = Vector2i(int(eat["seat"]["x"]), int(eat["seat"]["y"]))
+		s.customers.back()["eat_left"] = int(eat["remaining_sec"])
 
 
 ## The optional `visit` object (schema 3, #141); absent (schema 1/2) = no purpose. {} with an error when invalid.

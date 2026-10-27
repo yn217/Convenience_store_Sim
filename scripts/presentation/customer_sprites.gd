@@ -48,7 +48,7 @@ static func facing_for(delta: Vector2, keep: int) -> int:
 ## Animation for the customer's phase (14 §2): walking, standing in line, reaching for a shelf.
 static func anim_for(phase: String) -> String:
 	match phase:
-		"WALK_SHELF", "WALK_REGISTER", "EXIT":
+		"WALK_SHELF", "WALK_REGISTER", "EXIT", "WALK_SEAT":
 			return "walk"
 		"SELECT":
 			return "inspect"
