@@ -295,7 +295,7 @@ func snapshot() -> Dictionary:
 		"speed_setting": speed_setting,
 		"store_width": grid.width,
 		"store_height": grid.height,
-		"entrance_tiles": grid.entrance_tiles.duplicate(),
+		"entrance_tiles": grid.entrance_tiles.duplicate(), "entrance_move_cost_yen": int(balance.get("entrance_move_cost_yen", 0)),
 		"fixtures": placed,
 		"product_price_overrides": product_price_overrides.duplicate(),
 		"backroom_stock": _backroom_stock(),

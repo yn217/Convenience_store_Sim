@@ -8,6 +8,7 @@
     {"size_id": "medium", "display_name": "中", "width": 16, "height": 12, "expand_cost_yen": 600000, "construction_days": 2, "open_cost_yen": 5000000},
     {"size_id": "large", "display_name": "大", "width": 20, "height": 16, "expand_cost_yen": 1200000, "construction_days": 3, "open_cost_yen": 8000000}
   ],
+  "entrance_move_cost_yen": 150000,
   "starting_cash_yen": 500000,
   "starting_reputation": 50,
   "base_potential_visitors_per_day": 50,

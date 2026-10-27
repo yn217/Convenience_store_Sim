@@ -39,6 +39,9 @@ var _map_choice: OptionButton
 var _map_title: Label
 var _size: OptionButton
 var _expand: Button
+var _entrance: OptionButton   # #121
+var _entrance_move: Button
+var _entrance_key := []
 var _size_info: Label
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -175,6 +178,22 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_expand.pressed.connect(expand_store)
 	size_row.add_child(_expand)
 	_body.add_child(size_row)
+	var door_row := HBoxContainer.new()   # #121: move the entrance while closed
+	var door_caption := Label.new()
+	door_caption.text = "入口"
+	door_row.add_child(door_caption)
+	_entrance = OptionButton.new()
+	_entrance.name = "EntranceChoice"
+	_entrance.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	door_row.add_child(_entrance)
+	_entrance_move = Button.new()
+	_entrance_move.name = "MoveEntrance"
+	_entrance_move.pressed.connect(func():
+		var at = _entrance.get_selected_metadata()
+		if at is Vector2i:
+			move_entrance(at))
+	door_row.add_child(_entrance_move)
+	_body.add_child(door_row)
 	_size_info = Label.new()
 	_size_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_size_info)
@@ -251,6 +270,7 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_expand.text = "増築なし（最大）" if nxt.is_empty() else "増築：%s %s" % [nxt["display_name"], GameHud.format_yen(int(nxt["expand_cost_yen"]))]
 	_expand.disabled = nxt.is_empty() or not _size.disabled or state != "SETUP"
 	_size_info.text = size_text(snap)
+	_sync_entrance(snap, state)
 	if int(snap.get("construction_days", 0)) > 0:   # #145
 		_size_info.text += "\n増築工事：次に開店するとき、工事の %d 日間を休業してから開店します（その間も固定費・電気代・人件費がかかり、売上はありません）。" % int(snap["construction_days"])
 	var unpaid := int(snap.get("unpaid_cost_yen", 0))
@@ -317,6 +337,29 @@ func set_store_size(size_id: String) -> CommandResult:
 
 func expand_store() -> CommandResult:
 	return _send({"kind": &"EXPAND_STORE"})
+
+
+## #121: moves the entrance to the two wall tiles starting at `at`.
+func move_entrance(at: Vector2i) -> CommandResult:
+	return _send({"kind": &"MOVE_ENTRANCE", "x": at.x, "y": at.y})
+
+
+## The places the entrance can go (rebuilt when the store size or the entrance changes); the current one selected.
+func _sync_entrance(snap: Dictionary, state: String) -> void:
+	var w := int(snap.get("store_width", 0))
+	var h := int(snap.get("store_height", 0))
+	var now: Array = snap.get("entrance_tiles", [])
+	var key := [w, h, now]
+	if key != _entrance_key:
+		_entrance_key = key
+		_entrance.clear()
+		for at in EntranceRules.candidates(w, h):
+			_entrance.add_item(EntranceRules.label(w, h, at))
+			_entrance.set_item_metadata(_entrance.item_count - 1, at)
+			if not now.is_empty() and now[0] == at:
+				_entrance.select(_entrance.item_count - 1)
+	_entrance_move.text = "入口を移す %s" % GameHud.format_yen(int(snap.get("entrance_move_cost_yen", 0)))
+	_entrance_move.disabled = state != "SETUP"
 
 
 ## What the size allows, and how extending works.

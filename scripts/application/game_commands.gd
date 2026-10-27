@@ -99,6 +99,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _set_store_size(command_id, String(command.get("size_id", "")))
 		&"EXPAND_STORE":
 			result = _expand_store(command_id)
+		&"MOVE_ENTRANCE":   # #121
+			result = _move_entrance(command_id, command.get("x"), command.get("y"))
 		&"SET_SITE":
 			result = _set_site(command_id, String(command.get("map_id", WorldMap.DEFAULT_MAP)), String(command.get("plot_id", "")))
 		&"SET_FACILITIES":
@@ -326,6 +328,30 @@ func _expand_store(command_id: String) -> CommandResult:
 	if r.ok:
 		_state.construction_days += int(size.get("construction_days", 0))   # #145: shut that long when it opens
 	return r
+
+
+## MOVE_ENTRANCE (#121): the entrance moves to two tiles on an outer wall starting at (x, y), while closed (準備中),
+## for entrance_move_cost_yen (building work, booked like a fixture purchase). Refused when a fixture stands there or
+## when a fixture or a register would be cut off (EntranceRules).
+func _move_entrance(command_id: String, x, y) -> CommandResult:
+	if not _require_setup():
+		return _fail(&"NOT_IN_SETUP", &"construction_needs_setup")
+	if typeof(x) != TYPE_INT or typeof(y) != TYPE_INT:
+		return _fail(&"INVALID_OPERATION", &"command_malformed")
+	var tiles := EntranceRules.tiles_at(_state.grid.width, _state.grid.height, x, y)
+	var err := EntranceRules.check(_state.grid, _state.fixtures, tiles)
+	if err != "":
+		return _fail(&"INVALID_OPERATION", StringName(err))
+	var cost := int(_state.balance.get("entrance_move_cost_yen", 0))
+	if cost > 0:
+		if _state.ledger.cash_yen < cost:
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+		if not _state.ledger.record("FIXTURE_PURCHASE", "%s:ENTRANCE" % command_id, -cost, _state.day, _state.time_sec, {"entrance": [tiles[0].x, tiles[0].y]}):
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+	_state.grid.entrance_tiles = tiles
+	_state.grid.revision += 1   # paths and access are worked out again
+	var events: Array[String] = ["%s:ENTRANCE_MOVED" % command_id]
+	return _commit(command_id, events, {"entrance_tiles": tiles})
 
 
 func _resize(command_id: String, size: Dictionary, cost: int, event: String) -> CommandResult:
