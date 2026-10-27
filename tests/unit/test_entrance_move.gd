@@ -53,3 +53,21 @@ func test_a_door_that_would_cut_off_a_shelf_is_refused(t, _tree) -> void:
 	var r := cmds.execute({"command_id": "d1", "kind": &"MOVE_ENTRANCE", "x": 0, "y": 3})
 	t.ok(not r.ok and r.message_key == &"entrance_blocked", "not through a fixture")
 	t.ok(CommandMessages.text(&"INVALID_OPERATION", &"entrance_cuts_off").contains("たどり着けなく"), "the reason is told")
+
+
+## Undo / Redo: moving the entrance is part of the layout session — undo puts the door back and refunds the work,
+## redo moves it again and pays again; anything else ends the session.
+func test_undo_and_redo_an_entrance_move(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	var old := s.grid.entrance_tiles.duplicate()
+	var cash := s.ledger.cash_yen
+	t.ok(cmds.execute({"command_id": "m1", "kind": &"MOVE_ENTRANCE", "x": 3, "y": s.grid.height - 1}).ok, "moved")
+	t.ok(bool(s.snapshot()["can_undo"]), "it can be undone")
+	t.ok(cmds.execute({"command_id": "u1", "kind": &"UNDO_LAYOUT"}).ok, "undone")
+	t.eq(s.grid.entrance_tiles, old, "the door is back")
+	t.eq(s.ledger.cash_yen, cash, "the work is refunded")
+	t.ok(cmds.execute({"command_id": "r1", "kind": &"REDO_LAYOUT"}).ok, "redone")
+	t.eq(s.grid.entrance_tiles[0], Vector2i(3, s.grid.height - 1), "moved again")
+	t.eq(cash - s.ledger.cash_yen, 150000, "and paid again")
+	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")

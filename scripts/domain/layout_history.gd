@@ -1,7 +1,7 @@
 class_name LayoutHistory
 extends RefCounted
 ## Undo/Redo of one placement-edit session (04 §8). Entries (Dictionary):
-##   kind: "PLACE" | "MOVE" | "REMOVE", instance_id, type_id,
+##   kind: "PLACE" | "MOVE" | "REMOVE" | "ENTRANCE" (#121: from / to are the entrance tiles), instance_id, type_id,
 ##   from / to: {x, y, rotation} or null, cost_yen, purchase_event_id,
 ##   segments: [{segment_id, location}] (REMOVE only: where stock was before it went to the backroom)
 ## Any non-layout command, simulation tick, or load clears the whole history.

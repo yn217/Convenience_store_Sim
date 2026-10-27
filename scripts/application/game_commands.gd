@@ -7,7 +7,7 @@ extends RefCounted
 ## their Issues land. Every command validates first and mutates only when it cannot fail.
 
 const LAYOUT_KINDS: Array[StringName] = [
-	&"PLACE_FIXTURE", &"MOVE_FIXTURE", &"REMOVE_FIXTURE", &"UNDO_LAYOUT", &"REDO_LAYOUT",
+	&"PLACE_FIXTURE", &"MOVE_FIXTURE", &"REMOVE_FIXTURE", &"UNDO_LAYOUT", &"REDO_LAYOUT", &"MOVE_ENTRANCE",
 ]
 
 ## Sanity ceiling for a typed price; the spec only fixes the lower bound (>= 1).
@@ -348,10 +348,19 @@ func _move_entrance(command_id: String, x, y) -> CommandResult:
 			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
 		if not _state.ledger.record("FIXTURE_PURCHASE", "%s:ENTRANCE" % command_id, -cost, _state.day, _state.time_sec, {"entrance": [tiles[0].x, tiles[0].y]}):
 			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
-	_state.grid.entrance_tiles = tiles
-	_state.grid.revision += 1   # paths and access are worked out again
+	var from := _state.grid.entrance_tiles.duplicate()
+	_set_entrance(tiles)
+	_state.layout_history.push({   # #121: undoable like a placement (refunded on undo, paid again on redo)
+		"kind": "ENTRANCE", "instance_id": "", "type_id": "", "from": from, "to": tiles.duplicate(),
+		"cost_yen": cost, "purchase_event_id": "%s:ENTRANCE" % command_id if cost > 0 else "", "segments": [],
+	})
 	var events: Array[String] = ["%s:ENTRANCE_MOVED" % command_id]
 	return _commit(command_id, events, {"entrance_tiles": tiles})
+
+
+func _set_entrance(tiles: Array[Vector2i]) -> void:
+	_state.grid.entrance_tiles = tiles
+	_state.grid.revision += 1   # paths and access are worked out again
 
 
 func _resize(command_id: String, size: Dictionary, cost: int, event: String) -> CommandResult:
@@ -572,6 +581,18 @@ func _undo(command_id: String) -> CommandResult:
 				return _fail(res2.code, res2.message_key)
 			_add_instance(e["instance_id"], e["type_id"], pose["x"], pose["y"], pose["rotation"])
 			_restore_stock(e["segments"])
+		"ENTRANCE":   # #121: the door goes back, the building work is refunded
+			var back_tiles: Array[Vector2i] = []
+			back_tiles.assign(e["from"])
+			var err := EntranceRules.check(_state.grid, _state.fixtures, back_tiles)
+			if err != "":
+				return _fail(&"INVALID_OPERATION", StringName(err))
+			if int(e["cost_yen"]) > 0:
+				var refund_id := "%s:REVERSAL" % command_id
+				if not _state.ledger.record("REVERSAL", refund_id, int(e["cost_yen"]), _state.day, _state.time_sec, {"reverses": e["purchase_event_id"]}):
+					return _fail(&"INVALID_OPERATION", &"reversal_rejected")
+				events.append(refund_id)
+			_set_entrance(back_tiles)
 	history.undo_stack.pop_back()
 	history.redo_stack.append(e)
 	events.append("%s:LAYOUT_UNDONE" % command_id)
@@ -610,6 +631,19 @@ func _redo(command_id: String) -> CommandResult:
 				return _fail(&"RESERVATION_ACTIVE", &"reservation_active")
 			_stock_to_backroom(e["instance_id"])
 			_state.grid.remove_instance(e["instance_id"])
+		"ENTRANCE":
+			var to_tiles: Array[Vector2i] = []
+			to_tiles.assign(e["to"])
+			var err2 := EntranceRules.check(_state.grid, _state.fixtures, to_tiles)
+			if err2 != "":
+				return _fail(&"INVALID_OPERATION", StringName(err2))
+			if int(e["cost_yen"]) > 0:
+				var pay_id := "%s:ENTRANCE" % command_id
+				if not _state.ledger.record("FIXTURE_PURCHASE", pay_id, -int(e["cost_yen"]), _state.day, _state.time_sec, {"entrance": [to_tiles[0].x, to_tiles[0].y]}):
+					return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+				e["purchase_event_id"] = pay_id
+				events.append(pay_id)
+			_set_entrance(to_tiles)
 	history.redo_stack.pop_back()
 	history.undo_stack.append(e)
 	events.append("%s:LAYOUT_REDONE" % command_id)
