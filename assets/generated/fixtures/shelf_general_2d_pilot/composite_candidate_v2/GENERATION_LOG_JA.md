@@ -41,3 +41,11 @@
 - `full_snacks_ratio0875_v2_uniform.png` は等方スケール0.31566995と水平反転で正規化。canvas 442×449、anchor (285,302)、alpha bbox [38,8,403,425]。縦横比の変更は0%。
 - `full_uniform_comparison.png` に旧FULLと新FULLを並べた。外接枠の一致は棚足・斜め方向・ゲーム内サイズの一致の証明ではない。実画面への重ね合わせと独立評価は進行中。
 - 先行するHALF/EMPTYは旧FULLからの生成であり、新FULLとの棚構造一致は未検証。runtime_approved:false。
+
+### 独立Visual QA・等方FULL
+
+制作担当と別の担当が `full_snacks_ratio0875_v2_uniform.png` をFULL/r0試作品としてPASSと判定。4段の商品密度、菓子・パンのカテゴリ認識、背板・前面ガード・支柱・台座を確認した。
+
+`game_shelf_overlay_full_snacks_ratio0875_v2_uniform.png` はGodot demo画面に候補を合成したプレビュー。tile (6,3)、rotation 0、zoom 1.6、描画倍率0.8、算出アンカー(1218.4,725.1)。ゲーム内への候補接続ではなく、bboxだけでは棚足や角度の完全一致は証明できない。
+
+人間による最終画質承認、SKU照合、新FULLを基準にしたHALF/EMPTYの棚構造一致、他の回転、runtime実描画は未完了。runtime_approved:false。
