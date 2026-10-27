@@ -1,0 +1,9 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "inputs": [
+    "b_generated_raw.png",
+    "../../shelf_general/shelf_general_0_body.png",
+    "a_refined_raw.png"
+  ]
+}
