@@ -49,3 +49,10 @@
 `game_shelf_overlay_full_snacks_ratio0875_v2_uniform.png` はGodot demo画面に候補を合成したプレビュー。tile (6,3)、rotation 0、zoom 1.6、描画倍率0.8、算出アンカー(1218.4,725.1)。ゲーム内への候補接続ではなく、bboxだけでは棚足や角度の完全一致は証明できない。
 
 人間による最終画質承認、SKU照合、新FULLを基準にしたHALF/EMPTYの棚構造一致、他の回転、runtime実描画は未完了。runtime_approved:false。
+
+## 等方FULLからの状態試作
+
+- `half_uniform_full_v1.png` と `empty_uniform_full_v1.png` は新しいFULLを参照し、HALF/EMPTYとして一体生成。`states_uniform_comparison.png` で表示した。
+- 3状態とも個別商品のruntime配置なし、縦横共通スケールで正規化。FULL/HALFのalpha bboxは[38,8,403,425]、EMPTYは[40,8,402,425]で幅が3px狭い。
+- 各画像の生成やcrop/scaleは別々に行っているため、bbox値とanchorメタデータの指定だけでは棚の位置やガード支柱の一致は証明できない。見た目上もガード支柱や背板の差が残るため状態セットは未承認。
+- EMPTYは構造が見えるHALFを参照にした再生成を依頼中。runtime_approved:false。
