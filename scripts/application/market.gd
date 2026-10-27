@@ -53,6 +53,14 @@ static func _conditions_day(state: GameState) -> void:
 	state.emit_event("CONDITION_STARTED", {"condition_id": c["condition_id"], "name_ja": c["name_ja"], "note": c["note"]})
 
 
+## Multiplier of the conditions in force on the purchase cost of a category (1 without; #129 supply squeeze).
+static func condition_cost(conditions: Array, day: int, category: String) -> float:
+	var k := 1.0
+	for c in active_conditions(conditions, day):
+		k *= float((condition(c["condition_id"]).get("costs", {}) as Dictionary).get(category, 1.0))
+	return k
+
+
 ## Multiplier of the conditions in force on visitors (1 without).
 static func condition_factor(conditions: Array, day: int) -> float:
 	var k := 1.0
@@ -198,7 +206,7 @@ static func visitor_factor(store: GameState, rivals: Array, day: int) -> float:
 static func condition_views(conditions: Array, day: int) -> Array:
 	return active_conditions(conditions, day).map(func(c):
 		var d := condition(c["condition_id"])
-		return {"condition_id": c["condition_id"], "name_ja": d.get("name_ja", ""), "note": d.get("note", ""), "visitors": float(d.get("visitors", 1.0)),
+		return {"condition_id": c["condition_id"], "name_ja": d.get("name_ja", ""), "note": d.get("note", ""), "visitors": float(d.get("visitors", 1.0)), "costs": d.get("costs", {}),
 			"days_left": -1 if int(c["end_day"]) < 0 else int(c["end_day"]) - day + 1})
 
 

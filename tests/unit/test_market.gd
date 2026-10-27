@@ -158,3 +158,26 @@ func test_local_conditions(t, _tree) -> void:
 		hand.day = d
 		Market.on_new_day(hand)
 	t.eq(hand.market_conditions, [], "a store without a map site keeps its old behaviour")
+
+
+## More conditions: a supply squeeze raises the order price of its categories (and the cost of what is sold) while it
+## lasts; a rival's new sweets pull desserts down. Both come after the first five, in the list's order.
+func test_supply_squeeze_and_a_rivals_new_product(t, _tree) -> void:
+	var s := _store()
+	s.market_conditions = [{"condition_id": "supply_squeeze", "start_day": 0, "end_day": 4}, {"condition_id": "rival_new_product", "start_day": 0, "end_day": 4}]
+	var cmds := GameCommands.new(s)
+	var cash := s.ledger.cash_yen
+	var unit := int(s.products.get_sku("rice_001")["purchase_cost_yen"])
+	t.ok(cmds.execute({"command_id": "o1", "kind": &"ORDER_STOCK", "sku_id": "rice_001", "qty": 10}).ok, "ordered")
+	t.eq(cash - s.ledger.cash_yen, 10 * int(round(unit * 1.2)), "rice costs 20% more")
+	t.eq(int(s.inventory_segments.back()["unit_cost_yen"]), int(round(unit * 1.2)), "and its cost of sales follows")
+	cash = s.ledger.cash_yen
+	cmds.execute({"command_id": "o2", "kind": &"ORDER_STOCK", "sku_id": "snack_001", "qty": 10})
+	t.eq(cash - s.ledger.cash_yen, 10 * int(s.products.get_sku("snack_001")["purchase_cost_yen"]), "other goods as before")
+	t.ok(Market.condition_category(s.market_conditions, 1, "dessert") < 1.0, "desserts sell less against the rival's new sweets")
+	s.day = 5
+	cash = s.ledger.cash_yen
+	cmds.execute({"command_id": "o3", "kind": &"ORDER_STOCK", "sku_id": "rice_001", "qty": 10})
+	t.eq(cash - s.ledger.cash_yen, 10 * unit, "back to the usual price once it is over")
+	var ids: Array = Market.conditions_data()["conditions"].map(func(c): return c["condition_id"])
+	t.eq(ids.slice(0, 5), ["road_works", "school_festival", "new_apartment", "sports_tournament", "festival"], "the first five keep their order")

@@ -26,7 +26,10 @@ static func order(state: GameState, command_id: String, sku_id, qty) -> Dictiona
 	if not CapsuleToys.orderable(state, sku_id):
 		return _fail(&"INVALID_OPERATION", &"series_out_of_season")   # #139 a limited capsule series
 	var sku := state.products.get_sku(sku_id)
-	var cost: int = qty * int(sku["purchase_cost_yen"])
+	var unit := int(sku["purchase_cost_yen"])
+	if not state.market_conditions.is_empty():   # #129: a supply squeeze raises the order price
+		unit = int(round(float(unit) * Market.condition_cost(state.market_conditions, state.day, String(sku["category"]))))
+	var cost: int = qty * unit
 	var event := "%s:STOCK_PURCHASED" % command_id
 	if not state.ledger.record("ORDER", event, -cost, state.day, state.time_sec, {"sku_id": sku_id, "qty": qty}):
 		return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
@@ -37,7 +40,7 @@ static func order(state: GameState, command_id: String, sku_id, qty) -> Dictiona
 		"segment_id": "seg_%04d" % state.next_segment_seq,
 		"lot_id": "lot_%04d" % state.next_lot_seq,
 		"sku_id": sku_id,
-		"unit_cost_yen": int(sku["purchase_cost_yen"]),
+		"unit_cost_yen": unit,   # what was paid (#129 supply squeeze)
 		"expires_at_sec": null if expires == null else state.time_sec + int(expires),
 		"physical_qty": qty,
 		"reserved_qty": 0,
