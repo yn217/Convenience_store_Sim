@@ -1,0 +1,60 @@
+{
+  "source": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\full_snacks_ratio0875_v2.png",
+  "output": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\full_snacks_ratio0875_v2_uniform.png",
+  "source_alpha_bbox": [
+    10,
+    4,
+    1166,
+    1325
+  ],
+  "source_content_px": [
+    1156,
+    1321
+  ],
+  "source_alpha_threshold": 8,
+  "source_mirrored_horizontally": true,
+  "target_canvas_px": [
+    442,
+    449
+  ],
+  "fit_mode": "uniform_contain",
+  "fixture_contract": {
+    "projection_id": "iso2x_v1",
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "anchor_px": [
+      285.0,
+      302.0
+    ],
+    "target_alpha_box_px": [
+      38,
+      8,
+      403,
+      425
+    ]
+  },
+  "normalized_content_px": [
+    365,
+    417
+  ],
+  "scale_xy": [
+    0.31566995,
+    0.31566995
+  ],
+  "aspect_change_percent": 0.0,
+  "output_alpha_bbox_px": [
+    38,
+    8,
+    403,
+    425
+  ],
+  "runtime_approved": false,
+  "notes": [
+    "single combined shelf and merchandise raster",
+    "no separate product placements",
+    "candidate only; no runtime integration",
+    "uniform scale preserves source proportions"
+  ]
+}

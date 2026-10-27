@@ -34,3 +34,10 @@
 - 制作者以外の担当は `full_from_empty_snacks_v2_contract_fit.png` の密度・菓子やパンのカテゴリ識別をFULL/r0の試作としてPASSと判断。ただし非一様伸縮5.283%、実runtime未接続、SKU未照合を条件として記録した。これはゲームへの採用承認ではない。
 - 縦横比を改善する新しい生成画像のalpha>0外接比は0.8769だったが、alpha>=8ではbboxが(129,8)-(1041,1297)、比率は0.7075だった。薄い透明ノイズで数値が変わるため、目的の外形には未達として再生成を依頼した。
 - FULL/HALF/EMPTYの完全な構造一致、実ゲームの描画、4方向への展開は未完了。runtime_approvedはfalseを維持する。
+
+## 等倍比でのFULL候補
+
+- `full_snacks_ratio0875_v2.png` は棚と商品を一体生成した新しいFULL画像。alpha>=8でbboxは(10,4)-(1166,1325)、実体の幅÷高さは約0.8751。alpha>=128でも約0.8750。
+- `full_snacks_ratio0875_v2_uniform.png` は等方スケール0.31566995と水平反転で正規化。canvas 442×449、anchor (285,302)、alpha bbox [38,8,403,425]。縦横比の変更は0%。
+- `full_uniform_comparison.png` に旧FULLと新FULLを並べた。外接枠の一致は棚足・斜め方向・ゲーム内サイズの一致の証明ではない。実画面への重ね合わせと独立評価は進行中。
+- 先行するHALF/EMPTYは旧FULLからの生成であり、新FULLとの棚構造一致は未検証。runtime_approved:false。
