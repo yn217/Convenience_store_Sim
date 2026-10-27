@@ -191,3 +191,5 @@ cross-check, not a license approval; the human review and redistribution fields 
 |store_exterior_backdrop_v1|assets/generated/backgrounds/store_exterior_backdrop_v1|AI|assets/generated/backgrounds/store_exterior_backdrop_v1/PROVENANCE.json (prompt)|built-in image_gen (image-generation subagent)|OpenAI generated output; project use|2026-10-27|composite background candidate; final user acceptance pending|yes|
 
 | roadside_landscape_v1 | assets/generated/backgrounds/roadside_landscape_v1 | AI | prompt: roadside flowerbed trees lamp on magenta background | image_gen | OpenAI output | 2026-10-27 | provisional visual review | yes |
+
+| exterior_hvac_v1 | assets/generated/props/exterior_hvac_v1 | AI | prompt: isometric outdoor condensers and electrical equipment, transparent background | image_gen | OpenAI output | 2026-10-27 | provisional visual review | yes |

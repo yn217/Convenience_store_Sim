@@ -71,6 +71,7 @@ var safe_inset := Vector4.ZERO
 @onready var _ext_decor: StoreDecor = get_node_or_null("ExteriorDecor") as StoreDecor   # #110 static dressing
 @onready var _wall_decor: StoreDecor = get_node_or_null("WallDecor") as StoreDecor
 @onready var _front_decor: StoreDecor = get_node_or_null("FrontDecor") as StoreDecor
+@onready var _equipment: StoreDecor = get_node_or_null("EquipmentDecor") as StoreDecor
 @onready var _facade_canopy: StoreDecor = get_node_or_null("FacadeCanopy") as StoreDecor
 @onready var _reg_floor: StoreDecor = get_node_or_null("RegisterFloorDecor") as StoreDecor   # #113 checkout area
 @onready var _reg_top: StoreDecor = get_node_or_null("RegisterTopDecor") as StoreDecor
@@ -433,6 +434,8 @@ func _refresh() -> void:
 			_wall_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 		if _front_decor != null:
 			_front_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _equipment != null:
+			_equipment.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 		if _facade_canopy != null:
 			_facade_canopy.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 		for reg in [_reg_floor, _reg_top]:
@@ -451,7 +454,7 @@ func _apply_time_tint() -> void:
 	if indoor != null:
 		indoor.color = LightingModel.indoor(_time_sec)
 	var outdoor := LightingModel.outdoor_modulate(_time_sec)
-	for layer in [_backdrop, _ext_decor, _front_decor]:
+	for layer in [_backdrop, _ext_decor, _front_decor, _equipment]:
 		if layer != null and layer.modulate != outdoor:
 			layer.modulate = outdoor
 

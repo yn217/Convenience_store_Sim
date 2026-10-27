@@ -55,6 +55,10 @@ y_sort_enabled = true
 [node name="FixturePresenter" type="Node2D" parent="ObjectSortRoot"]
 script = ExtResource("4")
 
+[node name="EquipmentDecor" type="Node2D" parent="."]
+script = ExtResource("11")
+layer = 6
+
 [node name="RegisterTopDecor" type="Node2D" parent="."]
 script = ExtResource("11")
 layer = 5

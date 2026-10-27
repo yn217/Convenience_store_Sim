@@ -20,6 +20,7 @@ const LAYER_FRONT := 2
 const LAYER_CANOPY := 3
 const LAYER_REG_FLOOR := 4
 const LAYER_REG_TOP := 5
+const LAYER_EQUIPMENT := 6
 
 const SIDE_WEST := 0
 const SIDE_NORTH := 1
@@ -50,6 +51,7 @@ const OP_POLY := 1
 const OP_TEXT := 2
 const OP_MESH := 3
 const ExteriorMesh := preload("res://scripts/presentation/exterior_mesh.gd")
+const ExteriorHvac := preload("res://assets/generated/props/exterior_hvac_v1/exterior_hvac_v1.png")
 
 @export var layer := LAYER_EXTERIOR
 var _sprites := PropSprites.new()
@@ -64,7 +66,7 @@ func sync(width: int, height: int, entrances: Array, fixtures: Array, catalog: F
 	if key == _key:
 		return
 	_key = key
-	if layer >= LAYER_REG_FLOOR:
+	if layer == LAYER_REG_FLOOR or layer == LAYER_REG_TOP:
 		_items = RegisterDecor.layer_items(layer, width, height, entrances, fixtures, catalog)
 	else:
 		_items = _layer_items(width, height, entrances, occupied_cells(fixtures, catalog), layer)
@@ -117,6 +119,11 @@ func _build_ops(proj: IsoProjection) -> void:
 			points.append(proj.world_to_screen(p.x, p.y, p.z))
 		_ops.append([OP_POLY, points, it["color"]])
 	for it in sprites:
+		if it["id"] == "exterior_hvac_v1":
+			var ground := proj.world_to_screen(it["x"], it["y"])
+			var hvac_scale := 0.17 * proj.zoom
+			_ops.append([OP_SPRITE, ExteriorHvac, Rect2(ground - Vector2(800, 900) * hvac_scale, Vector2(ExteriorHvac.get_size()) * hvac_scale)])
+			continue
 		var info := _sprites.texture(it["id"], int(it.get("rot", 0)))
 		if info.is_empty():
 			continue
@@ -207,6 +214,13 @@ static func _layer_items(width: int, height: int, entrances: Array, occupied: Di
 		return canopy_items(width, height, entrances)
 	var out: Array = []
 	for it in exterior_items(width, height, entrances):
+		var is_equipment: bool = it.get("id", "") == "exterior_hvac_v1"
+		if which == LAYER_EQUIPMENT:
+			if is_equipment:
+				out.append(it)
+			continue
+		if is_equipment:
+			continue
 		if (which == LAYER_FRONT) == bool(it.get("front", false)):
 			out.append(it)
 	return out
@@ -303,6 +317,9 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 			out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
 		along += 2.7
 		bay += 1
+	# Place the fixed equipment against the visible east side, away from the entrance.
+	if side != SIDE_EAST and width >= 8 and height >= 8:
+		_add(out, "exterior_hvac_v1", SIDE_EAST, width, height, 1.0, float(height) * 0.41)
 	# The temporary individual tree placements are omitted. A single screen-space landscape composite in
 	# BackdropLayer supplies the distant trees/sakura/hedges; independent flower planters remain world-anchored.
 	for near in _near_sides(side):
