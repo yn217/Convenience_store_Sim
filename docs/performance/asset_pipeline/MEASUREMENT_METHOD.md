@@ -20,7 +20,7 @@ python tools/assets/asset_pipeline_timer.py start --log build/asset-timing/runs.
 python tools/assets/asset_pipeline_timer.py finish --log build/asset-timing/runs.jsonl --run-id shelf-open-empty-r0 --result generated --output-path assets/source/fixtures/shelf_general/open_empty_r0.png
 ```
 
-Start stores a UTC timestamp and monotonic clock in a small local state file beside the log. Finish appends elapsed wall duration. Keep `build/asset-timing/` out of Git unless sanitized as an approved measurement artifact. For tool calls whose start/finish are external, log immediately before and after and label `event_scope=tool_call`; do not claim internal inference time. Do not put secrets or full prompts in general logs; save prompt file reference/hash instead.
+Start stores UTC timestamp and epoch nanoseconds in a per-run state file beside the log. Because `start` and `finish` are separate CLI processes, elapsed wall duration is derived from epoch time; this is cross-process compatible but can be affected by a system clock adjustment. For a same-process benchmark, prefer Python `perf_counter` instead. Keep `build/asset-timing/` out of Git unless sanitized as an approved measurement artifact. For tool calls whose start/finish are external, log immediately before and after and label `event_scope=tool_call`; do not claim internal inference time. Do not put secrets or full prompts in general logs; save prompt file reference/hash instead.
 
 ## Resource sampling
 

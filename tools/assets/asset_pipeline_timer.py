@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import time
 import uuid
 from datetime import datetime, timezone
@@ -12,16 +11,6 @@ from pathlib import Path
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
-
-
-def read_events(path: Path) -> list[dict]:
-    if not path.exists():
-        return []
-    events = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            events.append(json.loads(line))
-    return events
 
 
 def append_event(path: Path, event: dict) -> None:
@@ -56,7 +45,9 @@ def main() -> int:
     if args.action == "start":
         if state.exists():
             parser.error(f"run_id already active: {args.run_id}")
-        start_epoch = time.perf_counter_ns()
+        # start/finish are separate CLI processes, so persist an epoch clock rather than
+        # perf_counter's process-local baseline. Duration is wall-clock elapsed.
+        start_epoch = time.time_ns()
         event = {
             "event_id": str(uuid.uuid4()), "run_id": args.run_id, "asset_id": args.asset_id,
             "task_id": args.task_id, "agent_id": args.agent_id or "parent", "phase": args.phase,
@@ -67,7 +58,7 @@ def main() -> int:
         append_event(log, event)
         active = {"event_id": event["event_id"], "asset_id": args.asset_id,
                                "task_id": args.task_id, "agent_id": event["agent_id"],
-                               "phase": args.phase, "perf_counter_ns": start_epoch,
+                               "phase": args.phase, "start_epoch_ns": start_epoch,
                                "started_at_utc": event["timestamp_utc"], "input_hash": args.input_hash,
                                "event_scope": args.event_scope}
         state.write_text(json.dumps(active, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -77,7 +68,7 @@ def main() -> int:
     if not state.exists():
         parser.error(f"no active run_id: {args.run_id}")
     start = json.loads(state.read_text(encoding="utf-8"))
-    duration_ms = round((time.perf_counter_ns() - start["perf_counter_ns"]) / 1_000_000, 3)
+    duration_ms = round((time.time_ns() - start["start_epoch_ns"]) / 1_000_000, 3)
     event = {
         "event_id": start["event_id"], "run_id": args.run_id, "asset_id": args.asset_id or start["asset_id"],
         "task_id": args.task_id or start["task_id"], "agent_id": args.agent_id or start["agent_id"],
