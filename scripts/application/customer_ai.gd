@@ -1108,6 +1108,8 @@ func _multi_discount(state: GameState, c: Dictionary, basket_id: String, units: 
 ## The day's event pull on a category and, while a campaign works, the advertising pull (#136), capped together.
 static func _category_pull(state: GameState, fx: Dictionary, category: String) -> float:
 	var ev := GameplayEventDirector.category_multiplier(fx, category)
+	if not state.market_conditions.is_empty():
+		ev *= Market.condition_category(state.market_conditions, state.day, category)   # #129 local conditions
 	if state.campaigns.is_empty():
 		return ev
 	return minf(ev * Marketing.category_multiplier(state, category), float(Marketing.data().get("category_cap", 2.5)))

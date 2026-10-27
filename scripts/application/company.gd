@@ -78,6 +78,7 @@ static func open_store(active: GameState, command_id: String, map_id: String, pl
 	s.gameplay_events = active.gameplay_events
 	s.progression_state = active.progression_state   # one record of achievements for the company
 	s.rivals = active.rivals   # the company's rivals (#129)
+	s.market_conditions = active.market_conditions
 	s.rivals_enabled = active.rivals_enabled
 	s.progression_totals = active.progression_totals
 	if cost > 0 and not s.ledger.record("FIXTURE_PURCHASE", "store_open:%s" % id, -cost, active.day, active.time_sec, {"store_open": size_id, "command_id": command_id}):
@@ -119,6 +120,7 @@ static func switch_to(active: GameState, store_id: String) -> GameState:
 	target.gameplay_events = active.gameplay_events
 	target.progression_state = active.progression_state
 	target.rivals = active.rivals
+	target.market_conditions = active.market_conditions
 	target.rivals_enabled = active.rivals_enabled
 	target.progression_totals = active.progression_totals
 	return target

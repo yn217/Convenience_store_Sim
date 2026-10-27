@@ -28,7 +28,7 @@ func test_fifteen_cues_load_and_validate(t, _tree) -> void:
 	var problems: Array[String] = []
 	var cues := PresentationEventBridge.load_cues(JSON.parse_string(FileAccess.get_file_as_string("res://data/presentation/cues_v1.json")), problems)
 	t.eq(problems, [] as Array[String])
-	t.eq(cues.size(), 17, "15 + rival_opened, rival_sale (#129)")
+	t.eq(cues.size(), 18, "15 + rival_opened, rival_sale, condition_started (#129)")
 	var bad: Array = [{"schema_version": 1, "cue_id": "x", "source_event_type": "A", "animation_id": "a", "duration_seconds": 9, "priority": "loud", "sfx_key": null, "dedupe_payload_field": "id", "cooldown_game_seconds": 0}]
 	var errs: Array[String] = []
 	PresentationEventBridge.load_cues(bad, errs)

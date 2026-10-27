@@ -10,7 +10,61 @@ extends RefCounted
 
 const PATH := "res://data/market/rivals_v1.json"
 
+const CONDITIONS_PATH := "res://data/market/conditions_v1.json"
+
 static var _data: Dictionary = {}
+static var _cond: Dictionary = {}
+
+
+## Local conditions (#129 phase 2, data/market/conditions_v1.json).
+static func conditions_data() -> Dictionary:
+	if _cond.is_empty():
+		var parsed = JSON.parse_string(FileAccess.get_file_as_string(CONDITIONS_PATH))
+		_cond = parsed if typeof(parsed) == TYPE_DICTIONARY else {"conditions": []}
+	return _cond
+
+
+static func condition(condition_id: String) -> Dictionary:
+	for c in conditions_data()["conditions"]:
+		if c["condition_id"] == condition_id:
+			return c
+	return {}
+
+
+## The conditions in force on `day` (a permanent one has end_day -1).
+static func active_conditions(conditions: Array, day: int) -> Array:
+	return conditions.filter(func(c): return int(c["start_day"]) <= day and (int(c["end_day"]) < 0 or day <= int(c["end_day"])))
+
+
+## Local conditions (#129 phase 2): from first_day, every every_days the next one of the list starts for the
+## company and lasts its days (a permanent one only once). No random draws.
+static func _conditions_day(state: GameState) -> void:
+	var cd := conditions_data()
+	var list: Array = cd["conditions"]
+	var since := state.day - int(cd["first_day"])
+	if list.is_empty() or since < 0 or since % int(cd["every_days"]) != 0:
+		return
+	var c: Dictionary = list[(since / int(cd["every_days"])) % list.size()]
+	if int(c["days"]) == 0 and state.market_conditions.any(func(x): return x["condition_id"] == c["condition_id"]):
+		return   # a permanent change happens once
+	state.market_conditions.append({"condition_id": c["condition_id"], "start_day": state.day, "end_day": -1 if int(c["days"]) == 0 else state.day + int(c["days"]) - 1})
+	state.emit_event("CONDITION_STARTED", {"condition_id": c["condition_id"], "name_ja": c["name_ja"], "note": c["note"]})
+
+
+## Multiplier of the conditions in force on visitors (1 without).
+static func condition_factor(conditions: Array, day: int) -> float:
+	var k := 1.0
+	for c in active_conditions(conditions, day):
+		k *= float(condition(c["condition_id"]).get("visitors", 1.0))
+	return k
+
+
+## Pull of a category from the conditions in force (1 without).
+static func condition_category(conditions: Array, day: int, category: String) -> float:
+	var k := 1.0
+	for c in active_conditions(conditions, day):
+		k *= float((condition(c["condition_id"]).get("categories", {}) as Dictionary).get(category, 1.0))
+	return k
 
 
 static func data() -> Dictionary:
@@ -26,7 +80,10 @@ static func on_new_day(state: GameState) -> void:
 		return
 	var d := data()
 	var home := _home(state)
-	if home.plot_id == "" or state.day < int(d["first_day"]):
+	if home.plot_id == "":
+		return
+	_conditions_day(state)
+	if state.day < int(d["first_day"]):
 		return
 	for r in state.rivals:
 		if _on_sale(r, state.day) and not _on_sale(r, state.day - 1):
@@ -93,14 +150,24 @@ static func rival_share(store: GameState, r: Dictionary, day: int) -> float:
 ## Multiplier on a store's potential visitors today: 1 - (all rivals' shares, at most total_cap). Exactly 1 without
 ## rivals near.
 static func visitor_factor(store: GameState, rivals: Array, day: int) -> float:
-	if rivals.is_empty():
+	var cond := condition_factor(store.market_conditions, day) if not store.market_conditions.is_empty() else 1.0
+	if rivals.is_empty() and cond == 1.0:
 		return 1.0
 	var total := 0.0
 	for r in rivals:
 		total += rival_share(store, r, day)
-	if total <= 0.0:
+	if total <= 0.0 and cond == 1.0:
 		return 1.0
-	return 1.0 - minf(total, float(data()["total_cap"]))
+	var cd := conditions_data()
+	return clampf((1.0 - minf(total, float(data()["total_cap"]))) * cond, float(cd.get("floor", 0.6)), float(cd.get("ceiling", 1.4)))
+
+
+## For the 地域の動き lines: the conditions in force with days left (-1 = permanent).
+static func condition_views(conditions: Array, day: int) -> Array:
+	return active_conditions(conditions, day).map(func(c):
+		var d := condition(c["condition_id"])
+		return {"condition_id": c["condition_id"], "name_ja": d.get("name_ja", ""), "note": d.get("note", ""), "visitors": float(d.get("visitors", 1.0)),
+			"days_left": -1 if int(c["end_day"]) < 0 else int(c["end_day"]) - day + 1})
 
 
 ## For the ライバル店 lines: every rival with its distance-weighted share of this store today.

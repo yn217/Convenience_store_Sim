@@ -90,7 +90,7 @@ static func _next_sku(b: GameState) -> String:
 	var best := ""
 	for id in ids:
 		var sku := b.products.get_sku(id)
-		var w := DemandModel.category_preference(sku["category"], b.balance) * StoreLocation.category_multiplier(b.location_id, sku["category"]) * float(sku["demand_weight"]) * Marketing.category_multiplier(b, sku["category"])
+		var w := DemandModel.category_preference(sku["category"], b.balance) * StoreLocation.category_multiplier(b.location_id, sku["category"]) * float(sku["demand_weight"]) * Marketing.category_multiplier(b, sku["category"]) * Market.condition_category(b.market_conditions, b.day, sku["category"])
 		b.branch_sku_acc[id] = float(b.branch_sku_acc.get(id, 0.0)) + w
 		total += w
 		if best == "" or float(b.branch_sku_acc[id]) > float(b.branch_sku_acc[best]):

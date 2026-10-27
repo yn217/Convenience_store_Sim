@@ -96,6 +96,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"map_id": state.map_id, "plot_id": state.plot_id,   # #150
 			"store_id": state.store_id, "store_name": state.store_name,   # #146
 			"rivals": state.rivals.duplicate(true), "rivals_enabled": state.rivals_enabled,   # #129
+			"market_conditions": state.market_conditions.duplicate(true),
 			"branch_carry": state.branch_carry, "branch_items_carry": state.branch_items_carry, "branch_sku_acc": state.branch_sku_acc.duplicate(),
 			"branches": state.branches.map(func(b): return _branch_out(b, save_id, saved_at_utc)),
 			"facilities": state.facilities.duplicate(), "facility_visits": state.facility_visits.duplicate(),   # #149
@@ -277,6 +278,7 @@ static func from_dict(data, balance: Dictionary, fixtures: FixtureCatalog, produ
 			b.set_store_id(b.store_id)
 			b.progression_state = s.progression_state   # the company's achievements (#146)
 			b.rivals = s.rivals   # and its rivals (#129)
+			b.market_conditions = s.market_conditions
 			b.progression_totals = s.progression_totals
 			s.branches.append(b)
 		s.set_store_id(s.store_id)
@@ -485,6 +487,12 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 		s.set_store_id(String(rt["store_id"]))
 		s.store_name = String(rt.get("store_name", ""))
 		s.rivals_enabled = bool(rt.get("rivals_enabled", true))
+		if typeof(rt.get("market_conditions")) == TYPE_ARRAY:   # #129 phase 2
+			for c in rt["market_conditions"]:
+				if typeof(c) != TYPE_DICTIONARY or Market.condition(String(c.get("condition_id", ""))).is_empty() or not JsonCheck.is_int(c.get("start_day")) or not JsonCheck.is_int(c.get("end_day")):
+					errs.append("runtime_state.market_conditions: invalid")
+					break
+				s.market_conditions.append({"condition_id": String(c["condition_id"]), "start_day": int(c["start_day"]), "end_day": int(c["end_day"])})
 		if typeof(rt.get("rivals")) == TYPE_ARRAY:   # #129
 			for r in rt["rivals"]:
 				if typeof(r) != TYPE_DICTIONARY or not JsonCheck.is_int(r.get("opened_day")) or typeof(r.get("map_id")) != TYPE_STRING:

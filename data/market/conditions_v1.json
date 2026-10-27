@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "_comment": "Local conditions, issue #129 phase 2: events of the neighbourhood that last several days (not the one-day events of #31). From first_day, every every_days the next condition of the list starts for the company's stores and lasts its days; a permanent one (days 0) stays. Each changes the potential visitors and can pull categories; with the rivals the market factor stays within [floor, ceiling]. Fictional places only. Initial values, to be tuned by play.",
+  "first_day": 6,
+  "every_days": 7,
+  "floor": 0.6,
+  "ceiling": 1.4,
+  "conditions": [
+    {
+      "condition_id": "road_works",
+      "name_ja": "前の道路で工事",
+      "note": "通りにくくなり、立ち寄る人が減る",
+      "days": 4,
+      "visitors": 0.85,
+      "categories": {}
+    },
+    {
+      "condition_id": "school_festival",
+      "name_ja": "近くの学校の文化祭",
+      "note": "お菓子と飲み物がよく売れる",
+      "days": 2,
+      "visitors": 1.2,
+      "categories": {
+        "snack": 1.3,
+        "drink": 1.3
+      }
+    },
+    {
+      "condition_id": "new_apartment",
+      "name_ja": "近くに新しいマンションが完成",
+      "note": "住む人が増え、ずっと少し来店が増える",
+      "days": 0,
+      "visitors": 1.08,
+      "categories": {
+        "daily_fresh": 1.2,
+        "bento": 1.1
+      }
+    },
+    {
+      "condition_id": "sports_tournament",
+      "name_ja": "近くのグラウンドでスポーツ大会",
+      "note": "飲み物とおにぎりがよく売れる",
+      "days": 2,
+      "visitors": 1.15,
+      "categories": {
+        "drink": 1.4,
+        "rice_ball": 1.2
+      }
+    },
+    {
+      "condition_id": "festival",
+      "name_ja": "地域のお祭り",
+      "note": "人出が増え、アイスと飲み物が売れる",
+      "days": 3,
+      "visitors": 1.25,
+      "categories": {
+        "ice_cream": 1.3,
+        "drink": 1.3
+      }
+    }
+  ]
+}

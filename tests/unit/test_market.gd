@@ -94,3 +94,36 @@ func test_rival_news(t, _tree) -> void:
 	t.ok(types.has("RIVAL_OPENED") and types.has("RIVAL_SALE"), "opening and sale announced: %s" % str(types))
 	t.ok(CueText.toast_text("rival_opened", {"name": "ハッピーマート 駅前店"}).contains("ハッピーマート 駅前店"), "the toast names the rival")
 	t.eq(CueText.level_of("rival_opened", "important"), "warning")
+
+
+## Phase 2: local conditions — from day 6 every 7 days the next one starts, lasts its days (the new apartment
+## block stays), changes visitors and pulls categories, within the floor and ceiling; news; saved.
+func test_local_conditions(t, _tree) -> void:
+	var s := _store()
+	s.rivals_enabled = true
+	var started: Array = []
+	for d in range(0, 40):
+		s.day = d
+		var before := s.market_conditions.size()
+		Market.on_new_day(s)
+		if s.market_conditions.size() > before:
+			started.append([d, s.market_conditions.back()["condition_id"]])
+	t.eq(started.map(func(x): return x[0]), [6, 13, 20, 27, 34], "from day 6, every 7 days")
+	t.eq(started[0][1], "road_works", "in the order of the list")
+	s.rivals.clear()
+	t.ok(absf(Market.condition_factor(s.market_conditions, 7) - 0.85) < 0.0001, "road works: fewer visitors on day 7")
+	t.eq(Market.condition_factor(s.market_conditions, 10), 1.0, "over after its 4 days")
+	t.ok(absf(Market.condition_category(s.market_conditions, 14, "snack") - 1.3) < 0.0001, "the school festival pulls snacks")
+	t.ok(Market.condition_factor(s.market_conditions, 39) > 1.07, "the new apartment block stays")
+	t.ok(absf(Market.visitor_factor(s, [], 7) - 0.85) < 0.0001, "applied to the store's visitors")
+	t.ok(BusinessController.conditions_text(s.snapshot()["conditions"]).contains("マンション"), "named on the 経営 tab")
+	t.ok(CueText.toast_text("condition_started", {"name_ja": "地域のお祭り", "note": "x"}).contains("地域のお祭り"), "and as news")
+	var saved := SaveGame.to_dict(s, "cond", "2026-10-27T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq((lr["state"] as GameState).market_conditions, s.market_conditions, "conditions survive a save")
+	var hand := Run.new_state(100.0)
+	for d in range(0, 20):
+		hand.day = d
+		Market.on_new_day(hand)
+	t.eq(hand.market_conditions, [], "a store without a map site keeps its old behaviour")

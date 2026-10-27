@@ -64,6 +64,7 @@ var store_name := ""                    # #146: shown in the store list ("" = 1å
 var branches: Array = []                # #146: the company's other stores (only on the store on screen)
 var rivals: Array = []                  # #129: rival stores on the map (Market), the company's
 var rivals_enabled := true
+var market_conditions: Array = []      # #129 phase 2: local conditions (Market), the company's
 var branch_carry := 0.0                 # #146 BranchSim: fractions of visitors and items carried between hours
 var branch_items_carry := 0.0
 var branch_sku_acc: Dictionary = {}     # #146 BranchSim: accumulated pull per SKU
@@ -317,7 +318,7 @@ func snapshot() -> Dictionary:
 		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
 		"promotions": _promotion_views(),
 		"stores": Company.views(self), "store_id": store_id,
-		"rivals": Market.views(self, rivals, day), "rivals_enabled": rivals_enabled, "rival_factor": Market.visitor_factor(self, rivals, day),
+		"rivals": Market.views(self, rivals, day), "conditions": Market.condition_views(market_conditions, day), "rivals_enabled": rivals_enabled, "rival_factor": Market.visitor_factor(self, rivals, day),
 		"company_totals": Company.totals(self, int(daily_reports.back()["day_index"]) if not daily_reports.is_empty() else -1),
 		"marketing": Marketing.views(self),
 		"map_id": map_id, "plot_id": plot_id,
