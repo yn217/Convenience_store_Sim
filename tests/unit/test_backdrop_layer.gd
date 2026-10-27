@@ -135,3 +135,29 @@ func test_roadside_tracks_entrance_and_camera(t, tree) -> void:
 	layer.sync(16, 12, [Vector2i(0, 5)], p, Vector2(1600, 900))
 	t.ok(sprite.scale.x < 0.0, "roadside mirrors to follow the other road angle")
 	layer.queue_free()
+
+
+func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
+	var layer := BackdropLayer.new()
+	tree.root.add_child(layer)
+	var p := _proj()
+	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
+	var sprite: Sprite2D = layer._side_landscape_sprite
+	t.ok(sprite.visible, "the combined sidewalk panel is shown for a supported store")
+	var first := sprite.transform
+	var east_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
+	t.eq(east_corner, Vector2(17.4, -0.5), "east strip anchor shares the store's far corner")
+	t.ok(first.x.x > 0.0, "the east-side panel follows the visible rear wall direction")
+	var shear := 0.5 - BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE
+	var east_slope := BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear
+	t.ok(absf(east_slope - 0.5) < 0.001, "runtime shear aligns the east-side planted edge with the +0.5 wall slope")
+	p.pan(Vector2(30, -10))
+	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
+	t.ok(sprite.transform.origin.distance_to(first.origin + Vector2(30, -10)) < 0.01, "the sidewalk panel follows camera panning")
+	layer.sync(16, 12, [Vector2i(15, 4)], p, Vector2(1600, 900))
+	t.ok(sprite.transform.x.x < 0.0, "the panel switches to the south side for an east entrance")
+	var south_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_SOUTH, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
+	t.eq(south_corner, Vector2(-0.5, 13.4), "south strip anchor shares the store's far corner")
+	var south_slope := -1.0 * (BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear)
+	t.ok(absf(south_slope + 0.5) < 0.001, "runtime shear aligns the south-side planted edge with the -0.5 wall slope")
+	layer.queue_free()

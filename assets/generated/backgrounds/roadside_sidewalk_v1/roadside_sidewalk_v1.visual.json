@@ -1,0 +1,31 @@
+{
+  "manifest_version": 1,
+  "asset_id": "roadside_sidewalk_v1",
+  "category": "static_screen_space_exterior_background",
+  "view_direction": "iso2x_v1 projected side strip",
+  "world_width": null,
+  "world_depth": null,
+  "world_height": null,
+  "render_width_px": 1665,
+  "render_height_px": 944,
+  "pivot_x": 832.5,
+  "pivot_y": 519.2,
+  "anchor_type": "planted_sidewalk_inner_edge_at_world_side_anchor",
+  "placement_offset": [0, 0, 0],
+  "occlusion_group": "non_interactive_backdrop_before_store",
+  "sort_key": "BackdropLayer_before_store_world",
+  "asset_variant": "continuous_sidewalk_hedge_flowers_trees_lamps",
+  "source_file": "assets/source/background/roadside_sidewalk_v1/original.png",
+  "runtime_fit": {
+    "uniform_aspect_preserved": true,
+    "tile_size_alignment_required": false,
+    "anchor": "inner edge of the sidewalk strip projected to a continuous store-side world point",
+    "source_edge_slope": 0.4514,
+    "target_edge_slopes": [-0.5, 0.5],
+    "runtime_vertical_shear": 0.0486,
+    "tree_and_lamp_posts_remain_vertical": true,
+    "tracks_camera_and_store_side": true
+  },
+  "alpha_bbox_px": [60, 39, 1648, 926],
+  "corner_alpha": [0, 0, 0, 0]
+}

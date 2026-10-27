@@ -307,7 +307,8 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	_add(out, "trash_recycle_bins", side, width, height, 1.0, span.y + 3.0)
 	_add(out, "bicycle_rack_painted_v1", side, width, height, 1.1, 1.7)
 	_add(out, "bench_painted_v1", side, width, height, 1.1, span.x - 2.0)
-	_add(out, "flower_planter_painted_v1", side, width, height, 1.05, float(n) - 1.4)
+	if BackdropLayer.landscape_side(side) != side:
+		_add(out, "flower_planter_painted_v1", side, width, height, 1.05, float(n) - 1.4)
 	out.append_array(_pole_sign_items(side, width, height))
 	var a := -1.0
 	while a <= n + 6.0:
@@ -334,9 +335,12 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 		var equipment_along := float(width if equipment_side == SIDE_SOUTH else height) * 0.41
 		_add(out, "exterior_hvac_v1", equipment_side, width, height, 1.0, equipment_along)
 		out[-1]["mirror"] = equipment_side == SIDE_SOUTH
-	# The temporary individual tree placements are omitted. A single screen-space landscape composite in
-	# BackdropLayer supplies the distant trees/sakura/hedges; independent flower planters remain world-anchored.
+	# The temporary individual tree placements are omitted. The combined BackdropLayer sidewalk panel replaces the
+	# repeated planters along its edge; planters remain on other visible sides.
+	var landscape_side := BackdropLayer.landscape_side(side)
 	for near in _near_sides(side):
+		if near == landscape_side:
+			continue
 		var nn := _edge_len(near, width, height)
 		var f := 3.0
 		while f < nn:

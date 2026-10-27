@@ -40,6 +40,10 @@ const BACKDROP_APEX_PX := Vector2(835.088, 353.806)
 const BACKDROP_WALL_OCCLUSION_M := 0.0
 const RoadsideLandscape := preload("res://assets/generated/backgrounds/roadside_landscape_v1/roadside_landscape_v1.png")
 const RoadsideKey := preload("res://assets/generated/backgrounds/roadside_landscape_v1/key.gdshader")
+const SideLandscape := preload("res://assets/generated/backgrounds/roadside_sidewalk_v1/roadside_sidewalk_v1.png")
+const SIDE_LANDSCAPE_SOURCE_SLOPE := 0.4514
+const SIDE_LANDSCAPE_ANCHOR_FRACTION := Vector2(0.5, 0.55)
+const SIDE_LANDSCAPE_DEPTH_M := 1.9
 const ROADSIDE_IMAGE_SCALE := 0.45
 const ROADSIDE_START_PX := Vector2(123.0, 465.0)
 const ROADSIDE_SPAN_M := 10.5
@@ -59,6 +63,7 @@ var _scenery_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
 var _environment_rect := Rect2()
 var _roadside_sprite: Sprite2D
+var _side_landscape_sprite: Sprite2D
 
 
 ## Recomputes the backdrop when the layout, camera or viewport changed; otherwise does nothing.
@@ -71,6 +76,7 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_environment_rect = environment_rect(proj, width, height)
 	_sync_roadside(proj, width, height, entrances)
+	_sync_side_landscape(proj, width, height, entrances)
 	_build_mesh()
 	queue_redraw()
 
@@ -97,6 +103,37 @@ func _sync_roadside(proj: IsoProjection, width: int, height: int, entrances: Arr
 	var direction := -1.0 if side == SIDE_WEST or side == SIDE_EAST else 1.0
 	_roadside_sprite.scale = Vector2(direction * scale, scale)
 	_roadside_sprite.position = proj.world_to_screen(point.x, point.y) - Vector2(direction * ROADSIDE_START_PX.x, ROADSIDE_START_PX.y) * scale
+
+
+## A fixed, combined sidewalk/planting strip follows a visible store edge. The small source-slope correction is
+## applied as a vertical affine shear: each image column moves together, so tree and lamp posts stay vertical.
+func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
+	if _side_landscape_sprite == null:
+		_side_landscape_sprite = Sprite2D.new()
+		_side_landscape_sprite.centered = false
+		_side_landscape_sprite.texture = SideLandscape
+		add_child(_side_landscape_sprite)
+	_side_landscape_sprite.visible = width >= 8 and height >= 8
+	if not _side_landscape_sprite.visible:
+		return
+	var entrance := entrance_side(width, height, entrances)
+	var landscape := landscape_side(entrance)
+	# A half-length run prevents the U's return edge from drifting away from the store corner;
+	# the other half of the return is the matching edge of the rear V backdrop.
+	var edge_len := float(height if landscape == SIDE_EAST else width) * 0.5
+	var image_size := Vector2(SideLandscape.get_size())
+	var scale := edge_len * IsoProjection.HALF_TILE_W * proj.zoom / (image_size.x * 0.9)
+	# Match the side's visible isometric branch: east uses the +0.5 screen slope, south the -0.5 slope.
+	var direction := 1.0 if landscape == SIDE_EAST else -1.0
+	var shear := 0.5 - SIDE_LANDSCAPE_SOURCE_SLOPE
+	var basis_x := Vector2(direction * scale, shear * scale)
+	var basis_y := Vector2(0.0, scale)
+	# Start at the far corner shared with the rear V backdrop; use only the near half of the U return.
+	var edge_corner := landscape_corner(landscape, SIDE_LANDSCAPE_DEPTH_M, width, height)
+	var point := proj.world_to_screen(edge_corner.x, edge_corner.y)
+	var anchor := Vector2(image_size.x * SIDE_LANDSCAPE_ANCHOR_FRACTION.x, image_size.y * SIDE_LANDSCAPE_ANCHOR_FRACTION.y)
+	var origin := point - basis_x * anchor.x - basis_y * anchor.y
+	_side_landscape_sprite.transform = Transform2D(basis_x, basis_y, origin)
 
 
 func _draw() -> void:
@@ -284,6 +321,18 @@ static func entrance_span(side: int, width: int, height: int, entrances: Array) 
 		var mid := float(height) * 0.5 if side == SIDE_WEST or side == SIDE_EAST else float(width) * 0.5
 		return Vector2(mid - 0.5, mid + 0.5)
 	return Vector2(lo - 0.5, hi + 0.5)
+
+
+## The combined planted sidewalk sits on the visible side adjacent to the entrance, away from its road crossing.
+static func landscape_side(entrance: int) -> int:
+	return SIDE_SOUTH if entrance == SIDE_EAST else SIDE_EAST
+
+
+## The combined U-shaped sidewalk panel starts at the store's far corner, matching the V-shaped rear backdrop.
+static func landscape_corner(side: int, depth: float, width: int, height: int) -> Vector2:
+	if side == SIDE_EAST:
+		return Vector2(float(width) - 0.5 + depth, -0.5)
+	return Vector2(-0.5, float(height) - 0.5 + depth)
 
 
 ## World point at `depth` metres out from the store edge on `side`, at tile coordinate `along` on that edge.
