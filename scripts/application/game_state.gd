@@ -44,6 +44,7 @@ var unpaid_cost_yen: int = 0
 var construction_days: int = 0   # #145: days of expansion work still to pass before the store opens again
 ## Today's visitor counters, kept apart (03 §G): wished-to-visit / actually entered / turned away.
 var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
+var mood_today := {"sum": 0, "n": 0}   # #141: moods of the customers who left today (not saved: a reload counts on)
 var staff: Array = []          # #143: store staff (StaffAI)
 var next_staff_seq := 0
 var staff_candidates: Array = []        # #144: today's hiring candidates (StaffMarket)
@@ -169,7 +170,8 @@ func close_day_once(day_index: int) -> bool:
 	for r in daily_reports:
 		if r["day_index"] == day_index:
 			return false
-	daily_reports.append(DailyReport.build(day_index, ledger, visit_stats, reputation, ledger.cash_yen))
+	daily_reports.append(DailyReport.build(day_index, ledger, visit_stats, reputation, ledger.cash_yen, mood_today))
+	mood_today = {"sum": 0, "n": 0}
 	reputation = ReputationModel.next_reputation(reputation, visit_stats, rate_stats, balance)
 	visit_stats = {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 	rate_stats = {"abandoned": 0, "stockouts": 0}
@@ -409,6 +411,12 @@ func _promotion_views() -> Array:
 	return out
 
 
+## A customer leaving the store with this mood (#141).
+func note_mood(mood: int) -> void:
+	mood_today["sum"] = int(mood_today["sum"]) + mood
+	mood_today["n"] = int(mood_today["n"]) + 1
+
+
 ## The location can be chosen until the store first opens (#148: no free move after it is built and running).
 func location_locked() -> bool:
 	return business_state != SETUP or time_sec > 0
@@ -493,6 +501,7 @@ func _customer_views() -> Array:
 			"segment_name": NearbyFacility.segment_name(String(c.get("segment_id", ""))),   # #149
 			"budget_yen": int(c.get("budget_yen", 0)), "wallet_yen": int(c.get("wallet_yen", 0)), "planned_yen": int(c.get("planned_yen", 0)),
 			"impulse_count": int(c.get("impulse_count", 0)), "basket_log": _log_view(c.get("basket_log", [])),
+			"mood": CustomerMood.of(c, time_sec),   # #141
 			"target_tile": path[path.size() - 1] if not path.is_empty() else c["tile"],
 		})
 	return out

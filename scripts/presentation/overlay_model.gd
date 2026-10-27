@@ -99,6 +99,8 @@ static func customer_panel_lines(c: Dictionary, fixture_name: String) -> Array[S
 		out.append("客層：%s" % c["segment_name"])   # #149: sent by a nearby facility
 	if purpose != "":
 		out.append("所持金 %s　予算 %s　予定 %s" % [yen(int(c.get("wallet_yen", 0))), yen(int(c.get("budget_yen", 0))), yen(int(c.get("planned_yen", 0)))])
+		if c.has("mood"):
+			out.append("気分 %d（%s）" % [int(c["mood"]), CustomerMood.band(int(c["mood"]))])   # #141
 	var items: Array[String] = []
 	var passed: Array[String] = []
 	for e in c.get("basket_log", []):

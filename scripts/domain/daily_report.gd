@@ -11,12 +11,12 @@ const FIELDS: Array[String] = [
 	"store_reputation", "potential_customers", "visitors", "purchasing_customers", "lost_customers", "units_sold",
 ]
 ## Fields newer reports carry; a saved report without them still loads (balked_customers: #142).
-const OPTIONAL_FIELDS: Array[String] = ["balked_customers", "wages_yen", "promo_yen", "discount_yen"]
+const OPTIONAL_FIELDS: Array[String] = ["balked_customers", "wages_yen", "promo_yen", "discount_yen", "satisfaction"]
 
 
-static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation: int, cash_end_yen: int) -> Dictionary:
+static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation: int, cash_end_yen: int, mood: Dictionary = {}) -> Dictionary:
 	var sum := LedgerSummary.summarize(ledger, day_index)
-	return {
+	var out := {
 		"day_index": day_index,
 		"revenue_yen": sum["revenue_yen"],
 		"cogs_yen": sum["cogs_yen"],
@@ -38,6 +38,9 @@ static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation:
 		"balked_customers": int(stats.get("balked", 0)),   # #142: turned back at the door (part of lost_customers)
 		"units_sold": sum["units_sold"],
 	}
+	if int(mood.get("n", 0)) > 0:
+		out["satisfaction"] = int(round(float(mood["sum"]) / float(mood["n"])))   # #141: mean mood of the day's customers
+	return out
 
 
 ## Gross margin in percent, or null when there was no revenue (shown as "—", never NaN).

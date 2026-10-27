@@ -408,6 +408,7 @@ func _leave(state: GameState, c: Dictionary, outcome: String) -> void:
 
 
 func _start_exit(state: GameState, c: Dictionary) -> void:
+	state.note_mood(CustomerMood.of(c, state.time_sec))   # #141: the day's satisfaction
 	var reach := _paths.current_distances(state.grid)
 	var goal := Vector2i(-1, -1)
 	var best := 1 << 30
@@ -1038,6 +1039,7 @@ func _queue(state: GameState, c: Dictionary) -> void:
 		var open := not StaffAI.cashier(state, c["register_id"]).is_empty()   # #143: nobody at the till = closed
 		if not busy and open:
 			c["phase"] = "CHECKOUT"
+			c["waited_sec"] = state.time_sec - int(c.get("queue_since", state.time_sec))   # #141: for the mood
 			c["checkout_left"] = StaffAI.checkout_seconds(state, c["register_id"], (c["reservation_ids"] as Array).size())
 			return
 	elif int(c["queue_slot"]) > 0:

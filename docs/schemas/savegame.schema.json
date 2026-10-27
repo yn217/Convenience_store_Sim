@@ -714,6 +714,12 @@
             "type": "integer",
             "minimum": 0
           },
+          "satisfaction": {
+            "description": "Mean mood (0-100) of the customers who left the store that day (issue #141); absent when nobody did or in older saves.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
           "balked_customers": {
             "description": "Customers who turned back at the door because of the line (issue #142); part of lost_customers. Absent in older saves.",
             "type": "integer",
