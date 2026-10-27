@@ -63,3 +63,9 @@
 - `fixed_transform_v1/fixed_transform_report.json` と `fixed_transform_states_comparison.png` に結果を保存。名目スケールは0.315669947、キャンバスは442×449、オフセットは(36,7)。各画像の実効スケールはピクセル丸めにより約(0.31543052, 0.31543624)。
 - alpha>=8 bboxはFULL [38,8,403,425]、HALF [38,8,403,426]、EMPTY [38,8,404,428]。状態間で同一の外形にはなっていない。
 - 同一の画像変換は什器の構造一致や本来の接地点の証明ではない。独立確認と、HALFを参照するEMPTY再生成を実施中。runtime_approved:false。
+
+### EMPTYの再生成と同一変換v2
+
+- FULLとHALFの2画像を参照して `empty_uniform_dual_ref_v3.png` を生成し、FULL基準の同一変換を再適用。`fixed_transform_v2` に比較画像とレポートを保存。
+- alpha>=8のbboxはFULL [38,8,403,425]、HALF [38,8,403,426]、EMPTY [37,8,403,427]。EMPTYはFULLより左へ1px、下へ2px広がる。
+- この測定は外形だけであり、棚板・ガード位置の一致は独立評価中。実行時採用はしていない。
