@@ -16,7 +16,7 @@ signal overlay_changed(mode: int)
 signal customer_selected(customer_id: String)
 signal pick_candidates_changed(labels: Array)
 
-enum Mode { OBSERVE, PLACE, MOVE }
+enum Mode { OBSERVE, PLACE, MOVE, ENTRANCE }   # ENTRANCE: pick a wall tile for the door (#121)
 
 const NO_TILE := Vector2i(-1, -1)
 const WALL := Color(0.25, 0.25, 0.28)

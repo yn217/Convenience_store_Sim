@@ -71,3 +71,12 @@ func test_undo_and_redo_an_entrance_move(t, _tree) -> void:
 	t.eq(s.grid.entrance_tiles[0], Vector2i(3, s.grid.height - 1), "moved again")
 	t.eq(cash - s.ledger.cash_yen, 150000, "and paid again")
 	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
+
+
+## The build mode preview (#121): the read-only check the wall-click mode shows before a click.
+func test_the_preview_of_a_door(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	t.eq(cmds.validate_entrance(3, s.grid.height - 1), "", "a free place on the front wall")
+	t.eq(cmds.validate_entrance(5, 5), "entrance_not_on_wall", "not inside")
+	t.eq(s.grid.entrance_tiles, Run.new_state(100.0).grid.entrance_tiles, "a preview moves nothing")

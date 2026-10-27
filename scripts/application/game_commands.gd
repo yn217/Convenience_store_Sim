@@ -21,6 +21,13 @@ func _init(state: GameState) -> void:
 
 
 ## Read-only preview for the UI (08 §1.1): never changes state, cash or reservations.
+## Read-only preview of MOVE_ENTRANCE (#121): "" when the entrance can go to the wall tiles starting at (x, y).
+func validate_entrance(x: int, y: int) -> String:
+	if _state.business_state != GameState.SETUP:
+		return "construction_needs_setup"
+	return EntranceRules.check(_state.grid, _state.fixtures, EntranceRules.tiles_at(_state.grid.width, _state.grid.height, x, y))
+
+
 func validate_placement(type_id: String, x: int, y: int, rotation: int, move_instance_id: String = "") -> PlacementResult:
 	if _state.business_state != GameState.SETUP:
 		var r := PlacementResult.new()
