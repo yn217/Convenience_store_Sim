@@ -40,13 +40,9 @@ if (-not $SkipImport) {
 }
 
 Write-Host '== GDScript parse check =='
-$failed = $false
-Get-ChildItem -Path (Join-Path $root 'scripts'), (Join-Path $root 'tests') -Recurse -Filter *.gd | ForEach-Object {
-    $res = 'res://' + $_.FullName.Substring($root.Length + 1).Replace('\', '/')
-    & $godot --headless --path $root --check-only --script $res
-    if ($LASTEXITCODE -ne 0) { Write-Host "parse error: $res"; $failed = $true }
-}
-if ($failed) { exit 1 }
+# One Godot process loads every script (a launch per file took about 1.7 s each, over 6 minutes in all).
+& $godot --headless --path $root --script res://tools/validation/parse_all.gd
+if ($LASTEXITCODE -ne 0) { exit 1 }
 
 Write-Host '== headless tests =='
 # Godot logs engine errors to stderr; judge by exit code only.

@@ -38,8 +38,9 @@ func _run() -> void:
 					continue
 				ctx.current = "%s/%s::%s" % [suite, file, name]
 				test_count += 1
+				var t0 := Time.get_ticks_msec()
 				await inst.call(name, ctx, self)
-				print("ran ", ctx.current)
+				print("ran %s (%d ms)" % [ctx.current, Time.get_ticks_msec() - t0])
 	for f in ctx.failures:
 		printerr("FAIL ", f)
 	print("tests=%d assertions=%d failures=%d" % [test_count, ctx.assertions, ctx.failures.size()])
