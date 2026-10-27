@@ -119,3 +119,19 @@ func test_sync_caches_until_the_key_changes(t, _tree) -> void:
 	layer.sync(16, 12, [Vector2i(0, 5)], _proj(2.0), vp)
 	t.ok(layer._ops != first, "a camera change rebuilds the pieces")
 	layer.free()
+
+func test_roadside_tracks_entrance_and_camera(t, tree) -> void:
+	var layer := BackdropLayer.new()
+	tree.root.add_child(layer)
+	var p := _proj()
+	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
+	var sprite := layer.get_child(0) as Sprite2D
+	var initial := sprite.position
+	layer.sync(16, 12, [Vector2i(10, 11)], p, Vector2(1600, 900))
+	t.ok(sprite.position.distance_to(initial + Vector2(128, 64)) < 0.01, "roadside placement follows a moved entrance")
+	p.pan(Vector2(30, -10))
+	layer.sync(16, 12, [Vector2i(10, 11)], p, Vector2(1600, 900))
+	t.ok(sprite.position.distance_to(initial + Vector2(158, 54)) < 0.01, "roadside follows camera pan")
+	layer.sync(16, 12, [Vector2i(0, 5)], p, Vector2(1600, 900))
+	t.ok(sprite.scale.x < 0.0, "roadside mirrors to follow the other road angle")
+	layer.queue_free()

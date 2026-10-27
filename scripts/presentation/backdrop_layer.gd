@@ -38,6 +38,11 @@ const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exte
 ## Calibrated V apex in the generated PNG; the manifest records the measured +/-0.5 edge slopes.
 const BACKDROP_APEX_PX := Vector2(844.627, 217.748)
 const BACKDROP_WALL_OCCLUSION_M := 0.9
+const RoadsideLandscape := preload("res://assets/generated/backgrounds/roadside_landscape_v1/roadside_landscape_v1.png")
+const RoadsideKey := preload("res://assets/generated/backgrounds/roadside_landscape_v1/key.gdshader")
+const ROADSIDE_IMAGE_SCALE := 0.45
+const ROADSIDE_START_PX := Vector2(123.0, 465.0)
+const ROADSIDE_SPAN_M := 10.5
 
 const PAVE_M := 2.0       ## paving ring width around the store footprint (tiles)
 const KERB_M := 0.18
@@ -53,6 +58,7 @@ var _ground_mesh: ArrayMesh    # viewport fill and soft pool, drawn before the c
 var _scenery_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
 var _environment_rect := Rect2()
+var _roadside_sprite: Sprite2D
 
 
 ## Recomputes the backdrop when the layout, camera or viewport changed; otherwise does nothing.
@@ -64,8 +70,33 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_key = key
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_environment_rect = environment_rect(proj, width, height)
+	_sync_roadside(proj, width, height, entrances)
 	_build_mesh()
 	queue_redraw()
+
+
+## The flowerbed ends before the crossing even when the entrance is moved.
+func _sync_roadside(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
+	if _roadside_sprite == null:
+		_roadside_sprite = Sprite2D.new()
+		_roadside_sprite.centered = false
+		_roadside_sprite.texture = RoadsideLandscape
+		var mat := ShaderMaterial.new()
+		mat.shader = RoadsideKey
+		_roadside_sprite.material = mat
+		add_child(_roadside_sprite)
+	_roadside_sprite.visible = width > 0 and height > 0
+	if not _roadside_sprite.visible:
+		return
+	var side := entrance_side(width, height, entrances)
+	var span := entrance_span(side, width, height, entrances)
+	var along := span.x - ROADSIDE_SPAN_M
+	var depth := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M + 0.32
+	var point := side_point(side, depth, along, width, height)
+	var scale := ROADSIDE_IMAGE_SCALE * proj.zoom
+	var direction := -1.0 if side == SIDE_WEST or side == SIDE_EAST else 1.0
+	_roadside_sprite.scale = Vector2(direction * scale, scale)
+	_roadside_sprite.position = proj.world_to_screen(point.x, point.y) - Vector2(direction * ROADSIDE_START_PX.x, ROADSIDE_START_PX.y) * scale
 
 
 func _draw() -> void:
