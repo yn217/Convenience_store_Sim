@@ -439,7 +439,7 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 			for k in st:
 				if typeof(st[k]) == TYPE_DICTIONARY:
 					s.promo_stats[k] = {"units": int(st[k].get("units", 0)), "discount_yen": int(st[k].get("discount_yen", 0))}
-					for extra in ["issued", "redeemed"]:   # coupon promotions
+					for extra in ["issued", "redeemed", "stock", "given", "eligible", "stamps", "prize_out"]:   # coupons, #140 bonuses
 						if st[k].has(extra):
 							s.promo_stats[k][extra] = int(st[k][extra])
 	if typeof(rt.get("campaigns")) == TYPE_ARRAY:   # #136 (absent in older saves)
@@ -461,6 +461,8 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 				break
 			s.coupons.append({"coupon_id": String(cp.get("coupon_id", "")), "promotion_id": String(cp.get("promotion_id", "")), "def_id": String(cp["def_id"]),
 				"expires_day": int(cp["expires_day"]), "yen": int(cp["yen"]), "returning": bool(cp.get("returning", false))})
+			if JsonCheck.is_int(cp.get("stamps")):   # #140 stamp card
+				s.coupons.back()["stamps"] = int(cp["stamps"])
 		s.next_coupon_seq = int(rt.get("next_coupon_seq", s.coupons.size()))
 	if typeof(rt.get("plot_id")) == TYPE_STRING and String(rt["plot_id"]) != "":   # #150 (absent in older saves)
 		if WorldMap.plot(String(rt.get("map_id", "")), String(rt["plot_id"])).is_empty():
@@ -498,8 +500,12 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 				if typeof(r) != TYPE_DICTIONARY or not JsonCheck.is_int(r.get("opened_day")) or typeof(r.get("map_id")) != TYPE_STRING:
 					errs.append("runtime_state.rivals: invalid")
 					break
-				s.rivals.append({"rival_id": String(r.get("rival_id", "")), "name": String(r.get("name", "")), "map_id": String(r["map_id"]),
-					"plot_id": String(r.get("plot_id", "")), "x": float(r.get("x", 0.0)), "y": float(r.get("y", 0.0)), "opened_day": int(r["opened_day"])})
+				var rv := {"rival_id": String(r.get("rival_id", "")), "name": String(r.get("name", "")), "map_id": String(r["map_id"]),
+					"plot_id": String(r.get("plot_id", "")), "x": float(r.get("x", 0.0)), "y": float(r.get("y", 0.0)), "opened_day": int(r["opened_day"])}
+				for k in ["renovate_day", "closed_day"]:   # phase 3, optional
+					if JsonCheck.is_int(r.get(k)):
+						rv[k] = int(r[k])
+				s.rivals.append(rv)
 		s.branch_carry = float(rt.get("branch_carry", 0.0))
 		s.branch_items_carry = float(rt.get("branch_items_carry", 0.0))
 		var acc = rt.get("branch_sku_acc", {})

@@ -1087,13 +1087,20 @@ func _bundle_discount(state: GameState, c: Dictionary, basket_id: String, catego
 ## Coupons at the till (#137 phase 2): a returning holder's coupon is redeemed against the basket (DISCOUNT row),
 ## and a basket of a running coupon promotion's categories gets a new coupon for the next visit.
 func _coupons_at_till(state: GameState, c: Dictionary, basket_id: String, categories: Array, units: Array) -> void:
+	var brought := ""
 	if String(c.get("coupon_id", "")) != "":
+		for cp in state.coupons:
+			if cp["coupon_id"] == c["coupon_id"]:
+				brought = String(cp["def_id"])
 		var yen := Promotions.redeem_coupon(state, c["coupon_id"], units)
 		if yen > 0 and state.ledger.record("DISCOUNT", "%s:COUPON" % basket_id, -yen, state.day, state.time_sec, {"coupon_id": c["coupon_id"], "customer_id": c["customer_id"]}, {"expense": yen}):
 			c["coupon_used"] = true
 		c["coupon_id"] = ""
 	if not state.promotions.is_empty():
-		Promotions.issue_coupon(state, categories)
+		Promotions.issue_coupon(state, categories, brought)
+		var gifts := Promotions.give_gifts(state, units)   # #140: purchase bonuses
+		if not gifts.is_empty():
+			c["gifts"] = gifts
 
 
 ## Multi-buy deals the basket earns (#137 phase 2): one DISCOUNT row per deal, like a bundle.
@@ -1110,6 +1117,8 @@ static func _category_pull(state: GameState, fx: Dictionary, category: String) -
 	var ev := GameplayEventDirector.category_multiplier(fx, category)
 	if not state.market_conditions.is_empty():
 		ev *= Market.condition_category(state.market_conditions, state.day, category)   # #129 local conditions
+	if not state.promotions.is_empty():
+		ev *= Promotions.category_pull(state, category)   # #140 fairs and gifts
 	if state.campaigns.is_empty():
 		return ev
 	return minf(ev * Marketing.category_multiplier(state, category), float(Marketing.data().get("category_cap", 2.5)))

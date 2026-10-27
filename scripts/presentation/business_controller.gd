@@ -210,7 +210,7 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_rivals_on.set_pressed_no_signal(bool(snap.get("rivals_enabled", true)))
 	_rivals.text = rivals_text(snap.get("rivals", []), float(snap.get("rival_factor", 1.0))) + conditions_text(snap.get("conditions", []))
 	if _map_view != null:
-		_map_view.rivals = (snap.get("rivals", []) as Array)
+		_map_view.rivals = (snap.get("rivals", []) as Array).filter(func(r): return r.get("status", "open") != "closed")
 	var stores: Array = snap.get("stores", [])
 	var skey := stores.map(func(st): return [st["store_id"], st["active"], st["business_state"], st["revenue_today"], (st["staff"] as Array).size()])
 	if skey != _stores_key:
@@ -471,7 +471,13 @@ static func rivals_text(rivals: Array, factor: float) -> String:
 		return "近くにライバル店はありません（地図で店の場所を選んだ店に、数日たつと近くに出店してきます）。"
 	var lines: Array[String] = []
 	for r in rivals:
-		lines.append("%s（DAY %d 開店）　この店の客 −%d%%%s" % [r["name"], int(r["opened_day"]), int(round(float(r["share"]) * 100.0)), "　特売中" if bool(r["on_sale"]) else ""])
+		match String(r.get("status", "open")):
+			"closed":
+				lines.append("%s　DAY %d 閉店（区画が空きました）" % [r["name"], int(r["closed_day"])])
+			"renovating":
+				lines.append("%s　改装中（DAY %d に再開）" % [r["name"], int(r["reopen_day"])])
+			_:
+				lines.append("%s（DAY %d 開店）　この店の客 −%d%%%s" % [r["name"], int(r["opened_day"]), int(round(float(r["share"]) * 100.0)), "　特売中" if bool(r["on_sale"]) else ""])
 	lines.append("ライバルの影響：来店 ×%.2f（品揃え・値付け・広告・販促で取り返せます）" % factor)
 	return "\n".join(lines)
 

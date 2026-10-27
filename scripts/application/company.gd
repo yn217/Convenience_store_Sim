@@ -28,8 +28,9 @@ static func used_sites(active: GameState) -> Dictionary:
 	for s in stores(active):
 		if s.plot_id != "":
 			out["%s|%s" % [s.map_id, s.plot_id]] = s.store_id
-	for r in active.rivals:   # a rival's site is taken too (#129)
-		out["%s|%s" % [r["map_id"], r["plot_id"]]] = r["rival_id"]
+	for r in active.rivals:   # a rival's site is taken too (#129), until it closes
+		if not r.has("closed_day"):
+			out["%s|%s" % [r["map_id"], r["plot_id"]]] = r["rival_id"]
 	return out
 
 

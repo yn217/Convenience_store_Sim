@@ -7,6 +7,8 @@ extends RefCounted
 ## sale_every_days for sale_days, announced as news), and less the farther away it is (nothing beyond reach_share of
 ## the map width); all rivals together take at most total_cap. A store without a map site has no rivals near it.
 ## The rivals are the company's (state.rivals, shared like the achievements); they can be switched off.
+## Phase 3: a rival renovates once (shut for renovate_days, then the opening pull again) and closes for good once
+## the company's first store keeps a high reputation (close_reputation, after close_min_days); its site is free.
 
 const PATH := "res://data/market/rivals_v1.json"
 
@@ -86,7 +88,15 @@ static func on_new_day(state: GameState) -> void:
 	if state.day < int(d["first_day"]):
 		return
 	for r in state.rivals:
-		if _on_sale(r, state.day) and not _on_sale(r, state.day - 1):
+		if status(r, state.day) != "open":
+			continue
+		if state.day - int(r["opened_day"]) >= int(d["close_min_days"]) and home.reputation >= int(d["close_reputation"]):
+			r["closed_day"] = state.day
+			state.emit_event("RIVAL_CLOSED", {"rival_id": r["rival_id"], "name": r["name"]})
+		elif not r.has("renovate_day") and state.day - int(r["opened_day"]) >= int(d["renovate_after_days"]):
+			r["renovate_day"] = state.day
+			state.emit_event("RIVAL_RENOVATION", {"rival_id": r["rival_id"], "name": r["name"], "days": int(d["renovate_days"])})
+		elif _on_sale(r, state.day) and not _on_sale(r, state.day - 1):
 			state.emit_event("RIVAL_SALE", {"rival_id": r["rival_id"], "name": r["name"]})
 	var due := int(d["first_day"]) + int(d["interval_days"]) * state.rivals.size()
 	if state.rivals.size() >= int(d["max_rivals"]) or state.day < due:
@@ -126,21 +136,43 @@ static func _free_site_near(state: GameState, home: GameState) -> Dictionary:
 	return best
 
 
+## "" before it opens, "open", "renovating" (shut for renovate_days) or "closed" (for good).
+static func status(r: Dictionary, day: int) -> String:
+	if day < int(r["opened_day"]):
+		return ""
+	if r.has("closed_day") and day >= int(r["closed_day"]):
+		return "closed"
+	if r.has("renovate_day") and day >= int(r["renovate_day"]) and day < _reopen_day(r):
+		return "renovating"
+	return "open"
+
+
+## The day it reopens after its renovation (-1 without one).
+static func _reopen_day(r: Dictionary) -> int:
+	return int(r["renovate_day"]) + int(data()["renovate_days"]) if r.has("renovate_day") else -1
+
+
+## The day it opened, or reopened after its renovation, as seen on `day`.
+static func _operating_from(r: Dictionary, day: int) -> int:
+	var re := _reopen_day(r)
+	return re if re >= 0 and day >= re else int(r["opened_day"])
+
+
 static func _on_sale(r: Dictionary, day: int) -> bool:
 	var d := data()
-	var since := day - int(r["opened_day"])
-	return since > 0 and since % int(d["sale_every_days"]) < int(d["sale_days"])
+	var since := day - _operating_from(r, day)
+	return status(r, day) == "open" and since > 0 and since % int(d["sale_every_days"]) < int(d["sale_days"])
 
 
 ## Share of a store's visitors one rival takes on `day` (0 when far, on another map, or for a store without a site).
 static func rival_share(store: GameState, r: Dictionary, day: int) -> float:
-	if store.plot_id == "" or store.map_id != r["map_id"] or day < int(r["opened_day"]):
+	if store.plot_id == "" or store.map_id != r["map_id"] or status(r, day) != "open":
 		return 0.0
 	var d := data()
 	var me := WorldMap.plot(store.map_id, store.plot_id)
 	var dist := Vector2(float(me["x"]) - float(r["x"]), float(me["y"]) - float(r["y"])).length()
 	var falloff := maxf(0.0, 1.0 - dist / (float(d["reach_share"]) * WorldMap.map_size(store.map_id).x))
-	var days := float(day - int(r["opened_day"]))
+	var days := float(day - _operating_from(r, day))
 	var share := float(d["floor_share"]) + (float(d["peak_share"]) - float(d["floor_share"])) * exp(-days / float(d["settle_days"]))
 	if _on_sale(r, day):
 		share += float(d["sale_bonus"])
@@ -173,4 +205,5 @@ static func condition_views(conditions: Array, day: int) -> Array:
 ## For the ライバル店 lines: every rival with its distance-weighted share of this store today.
 static func views(store: GameState, rivals: Array, day: int) -> Array:
 	return rivals.map(func(r): return {"rival_id": r["rival_id"], "name": r["name"], "opened_day": r["opened_day"], "map_id": r["map_id"], "x": r["x"], "y": r["y"],
-		"share": snappedf(rival_share(store, r, day), 0.001), "on_sale": _on_sale(r, day)})
+		"share": snappedf(rival_share(store, r, day), 0.001), "on_sale": _on_sale(r, day), "status": status(r, day),
+		"reopen_day": _reopen_day(r), "closed_day": int(r.get("closed_day", -1))})

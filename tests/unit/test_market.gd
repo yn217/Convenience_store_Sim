@@ -96,6 +96,37 @@ func test_rival_news(t, _tree) -> void:
 	t.eq(CueText.level_of("rival_opened", "important"), "warning")
 
 
+## Phase 3: a rival renovates once (shut, then the opening pull again) and closes for good when the first store
+## keeps a high reputation; its site is free again; both are news and survive a save.
+func test_rival_renovates_and_closes(t, _tree) -> void:
+	var s := _store()
+	s.reputation = 50
+	for d in range(0, 26):
+		s.day = d
+		Market.on_new_day(s)
+	var r: Dictionary = s.rivals[0]
+	t.eq(int(r.get("renovate_day", -1)), 18, "renovates 14 days after it opened on day 4")
+	t.eq(Market.status(r, 19), "renovating", "shut while renovating")
+	t.eq(Market.rival_share(s, r, 19), 0.0, "takes nothing while shut")
+	t.ok(Market.rival_share(s, r, 21) > Market.rival_share(s, r, 17) * 1.5, "reopens with the opening pull again")
+	t.ok(not r.has("closed_day"), "a store with an ordinary reputation does not drive it out")
+	var types: Array = s.take_events().map(func(e): return e["type"])
+	t.ok(types.has("RIVAL_RENOVATION"), "the renovation is news")
+	s.reputation = 70
+	s.day = 26
+	Market.on_new_day(s)
+	t.eq(int(r.get("closed_day", -1)), 26, "a well-liked store drives it out after 21 days")
+	t.eq(Market.rival_share(s, r, 27), 0.0, "a closed rival takes nothing")
+	t.ok(not Company.used_sites(s).has("%s|%s" % [MAP, r["plot_id"]]), "its site is free again")
+	t.ok(s.take_events().any(func(e): return e["type"] == "RIVAL_CLOSED"), "the closing is news")
+	t.ok(BusinessController.rivals_text(Market.views(s, s.rivals, 27), 1.0).contains("閉店"), "shown as closed on the 経営 tab")
+	t.ok(CueText.toast_text("rival_closed", {"name": "x店"}).contains("閉店"), "and as a toast")
+	var saved := SaveGame.to_dict(s, "rv3", "2026-10-27T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq((lr["state"] as GameState).rivals, s.rivals, "renovation and closing survive a save")
+
+
 ## Phase 2: local conditions — from day 6 every 7 days the next one starts, lasts its days (the new apartment
 ## block stays), changes visitors and pulls categories, within the floor and ceiling; news; saved.
 func test_local_conditions(t, _tree) -> void:

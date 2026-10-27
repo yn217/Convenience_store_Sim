@@ -26,7 +26,7 @@ func test_definitions_are_well_formed(t, _tree) -> void:
 	for sku in s.products.skus.values():
 		cats[sku["category"]] = true
 	for d in Promotions.data()["promotions"]:
-		t.ok(["price", "bundle", "multi", "second_half", "coupon", "volume_up"].has(d["kind"]), d["def_id"] + ": known kind")
+		t.ok(["price", "bundle", "multi", "second_half", "coupon", "volume_up", "gift", "stamps", "fair"].has(d["kind"]), d["def_id"] + ": known kind")
 		t.ok(int(d["setup_cost_yen"]) > 0 and int(d["default_days"]) >= 1, d["def_id"] + ": cost and days")
 		if d["kind"] == "volume_up":
 			for sid in d["skus"]:
@@ -35,6 +35,7 @@ func test_definitions_are_well_formed(t, _tree) -> void:
 		var used: Array = d.get("categories", [])
 		for g in d.get("bundle", []):
 			used.append_array(g)
+		used.append_array((d.get("pulls", {}) as Dictionary).keys())
 		for c in used:
 			t.ok(cats.has(c), "%s: category %s exists" % [d["def_id"], c])
 
@@ -257,3 +258,103 @@ func test_volume_up_products(t, _tree) -> void:
 	s.day += 10
 	t.ok(not Promotions.orderable(s, "rice_001_up"), "after the campaign it cannot be ordered again")
 	t.ok(Promotions.orderable(s, "rice_001"), "regular products always can")
+
+
+## #140: a purchase bonus — a basket with three snacks gets the clear file while the stock lasts (bought at the
+## start with the setup), customers take more snacks to reach it, and none is given once the stock is gone.
+func test_a_gift_while_the_stock_lasts(t, _tree) -> void:
+	var s := Run.new_state(300.0)
+	var cmds := Run.place_layout(s)
+	var cash := s.ledger.cash_yen
+	t.ok(cmds.execute({"command_id": "g1", "kind": &"START_PROMOTION", "def_id": "gift_clearfile", "days": 3}).ok, "started")
+	t.eq(cash - s.ledger.cash_yen, 3000 + 40 * 60, "setup and 40 clear files bought at the start")
+	var id: String = s.promotions[0]["promotion_id"]
+	var snack := {"category": "snack", "price": 150}
+	t.eq(Promotions.give_gifts(s, [snack, snack]), [], "two snacks: no gift")
+	t.eq(Promotions.give_gifts(s, [snack, snack, snack, {"category": "drink", "price": 150}]), ["限定クリアファイル"], "three snacks: the clear file")
+	t.eq(int(s.promo_stats[id]["stock"]), 39, "one fewer left")
+	t.ok(Promotions.category_pull(s, "snack") > 1.2, "snacks pull more while it lasts")
+	t.eq(int(Promotions.multi_for(s, "snack").get("max_units", 0)), 3, "customers may take more to reach it")
+	s.promo_stats[id]["stock"] = 1
+	Promotions.give_gifts(s, [snack, snack, snack])
+	t.eq(Promotions.give_gifts(s, [snack, snack, snack]), [], "none once the stock is gone")
+	t.eq(Promotions.category_pull(s, "snack"), 1.0, "and no more pull")
+	t.ok(Promotions.multi_for(s, "snack").is_empty(), "nor a reason to take more")
+	t.ok(s.take_events().any(func(e): return e["type"] == "NOVELTY_GONE"), "the end of the stock is an event")
+	t.ok(PromotionController.promo_line({"display_name": "x", "kind": "gift", "novelty_name": "限定クリアファイル", "running": {"days_left": 1, "stats": s.promo_stats[id]}}).contains("配布終了"), "the card says so")
+
+
+## #140: in a running store, the gift is handed out and the stock never goes below 0; the counts survive a save.
+func test_gifts_in_a_running_store(t, _tree) -> void:
+	var s := Run.new_state(300.0)
+	var cmds := Run.place_layout(s)
+	cmds.execute({"command_id": "g1", "kind": &"START_PROMOTION", "def_id": "gift_sticker", "days": 2})
+	var id: String = s.promotions[0]["promotion_id"]
+	Run.run_days(s, cmds, 2)
+	var st: Dictionary = s.promo_stats[id]
+	t.ok(int(st.get("given", 0)) > 0, "stickers handed out (%d)" % int(st.get("given", 0)))
+	t.eq(int(st["given"]) + int(st["stock"]), 60, "given + left = bought")
+	t.ok(int(st["stock"]) >= 0, "never below 0")
+	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
+	var saved := SaveGame.to_dict(s, "gift", "2026-10-27T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq((lr["state"] as GameState).promo_stats, s.promo_stats, "the counts survive a save")
+
+
+## #140: a stamp rally — every 5th basket of the categories gets a card, a returning holder gets a stamp per
+## basket, 3 stamps earn the prize while it lasts; cards bring holders back and end with the campaign.
+func test_a_stamp_rally(t, _tree) -> void:
+	var s := Run.new_state(300.0)
+	var cmds := Run.place_layout(s)
+	t.ok(cmds.execute({"command_id": "r1", "kind": &"START_PROMOTION", "def_id": "stamps_lunch", "days": 10}).ok, "started")
+	var id: String = s.promotions[0]["promotion_id"]
+	var card := Promotions.issue_coupon(s, ["rice_ball"])
+	t.eq(int(card.get("stamps", 0)), 1, "the first basket gets a card with one stamp")
+	t.eq(int(card["expires_day"]), int(s.promotions[0]["end_day"]), "valid while the rally runs")
+	for i in 4:
+		t.ok(Promotions.issue_coupon(s, ["bento"]).is_empty(), "the next four do not")
+	t.ok(not Promotions.issue_coupon(s, ["coffee"]).is_empty(), "the fifth does")
+	t.ok(Promotions.issue_coupon(s, ["drink"]).is_empty(), "nothing for other categories")
+	t.eq(Promotions.redeem_coupon(s, card["coupon_id"], [{"category": "drink", "price": 150}]), 0, "no stamp without its categories")
+	t.eq(int(card["stamps"]), 1, "still one")
+	Promotions.redeem_coupon(s, card["coupon_id"], [{"category": "bento", "price": 500}])
+	t.eq(int(card["stamps"]), 2, "a stamp")
+	t.ok(s.coupons.has(card), "the card stays")
+	Promotions.redeem_coupon(s, card["coupon_id"], [{"category": "rice_ball", "price": 150}])
+	t.ok(not s.coupons.has(card), "three stamps: the card is done")
+	t.eq(int(s.promo_stats[id]["redeemed"]), 1, "and the prize handed out")
+	t.eq(int(s.promo_stats[id]["stock"]), 19, "one fewer towel")
+	s.coupons.clear()
+	Run.run_days(s, cmds, 2)
+	var st: Dictionary = s.promo_stats[id]
+	t.ok(int(st.get("issued", 0)) > 5, "cards handed out in the store (%d)" % int(st.get("issued", 0)))
+	t.ok(int(st.get("stamps", 0)) > int(st.get("issued", 0)), "holders came back for stamps (%d stamps)" % int(st.get("stamps", 0)))
+	t.eq(int(st["given"]) + int(st["stock"]), 20, "prizes given + left = bought")
+	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
+	var saved := SaveGame.to_dict(s, "stamps", "2026-10-27T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq((lr["state"] as GameState).coupons, s.coupons, "the cards with their stamps survive a save")
+	s.day = int(s.promotions[0]["end_day"]) + 1
+	Promotions.expire_coupons(s)
+	t.eq(s.coupons, [], "cards end with the rally")
+
+
+## #140: a fair pulls its categories and brings a few more people; more of them are sold.
+func test_a_fair(t, _tree) -> void:
+	var sold := {}
+	for with_fair in [false, true]:
+		var s := Run.new_state(300.0)
+		var cmds := Run.place_layout(s)
+		if with_fair:
+			t.ok(cmds.execute({"command_id": "f1", "kind": &"START_PROMOTION", "def_id": "fair_autumn", "days": 2}).ok, "started")
+			t.ok(Promotions.category_pull(s, "snack") > 1.2 and Promotions.category_pull(s, "drink") == 1.0, "pulls only its categories")
+			t.ok(Promotions.visitor_factor(s) > 1.0, "a few more people come")
+		Run.run_days(s, cmds, 2)
+		var n := 0
+		for tx in s.ledger.transactions:
+			if tx["event_type"] == "SALE" and ["snack", "dessert"].has(String(s.products.get_sku(String(tx.get("details", {}).get("sku_id", ""))).get("category", ""))):
+				n += 1
+		sold[with_fair] = n
+	t.ok(int(sold[true]) > int(sold[false]), "more snacks and desserts sold (%d > %d)" % [sold[true], sold[false]])

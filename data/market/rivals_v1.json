@@ -12,5 +12,10 @@
   "sale_every_days": 5,
   "sale_days": 2,
   "sale_bonus": 0.08,
+  "_comment_phase3": "Phase 3: a rival renovates once, renovate_after_days after it opened: it is shut for renovate_days and reopens with the opening pull again. A rival open at least close_min_days closes for good on a day the company's first store has a reputation of close_reputation or more; its site is free again. No random draws.",
+  "renovate_after_days": 14,
+  "renovate_days": 3,
+  "close_min_days": 21,
+  "close_reputation": 65,
   "chains": ["ハッピーマート", "サンライズ24", "まちかどストア", "ミドリマート"]
 }
