@@ -34,6 +34,8 @@ static func step(active: GameState) -> void:
 ## One hour of an off-screen OPEN store.
 static func hour(b: GameState, h: int) -> void:
 	InventoryService.sweep_expired(b)
+	if b.bakes_pending > 0:
+		Cooking.finish_bakes(b)   # #130
 	var steps := 3600.0 / GameClock.STEP_GAME_SECONDS
 	var base := float(b.balance.get("base_potential_visitors_per_day", 100)) * StoreLocation.visitors_multiplier(b.location_id)
 	var curve: Array = [] if b.location_id == "" else StoreLocation.hour_weights(b.location_id)

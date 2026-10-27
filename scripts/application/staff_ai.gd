@@ -494,7 +494,7 @@ func _restock_candidates(state: GameState) -> Array:
 static func _slot_sku(state: GameState, fixture_id: String, slot: Dictionary) -> String:
 	for seg in state.inventory_segments:
 		var loc: Dictionary = seg["location"]
-		if loc["kind"] == "FIXTURE" and loc["fixture_id"] == fixture_id and loc["slot_id"] == slot["slot_id"] and int(seg["physical_qty"]) > 0:
+		if (loc["kind"] == "FIXTURE" or loc["kind"] == "OVEN") and loc["fixture_id"] == fixture_id and loc["slot_id"] == slot["slot_id"] and int(seg["physical_qty"]) > 0:
 			return seg["sku_id"]
 	var ids := state.products.skus.keys()
 	ids.sort()
@@ -510,8 +510,8 @@ static func _slot_need(state: GameState, fixture_id: String, slot: Dictionary, s
 	var used := 0
 	for seg in state.inventory_segments:
 		var loc: Dictionary = seg["location"]
-		if loc["kind"] == "FIXTURE" and loc["fixture_id"] == fixture_id and loc["slot_id"] == slot["slot_id"]:
-			used += int(seg["physical_qty"]) * units
+		if (loc["kind"] == "FIXTURE" or loc["kind"] == "OVEN") and loc["fixture_id"] == fixture_id and loc["slot_id"] == slot["slot_id"]:
+			used += int(seg["physical_qty"]) * units   # a lot in the oven fills its tray too (#130)
 	return maxi((int(slot["capacity_units"]) - used) / units, 0)
 
 

@@ -32,6 +32,8 @@ func _run_step() -> void:
 	var prev_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
 	_state.time_sec += int(GameClock.STEP_GAME_SECONDS)
 	InventoryService.sweep_expired(_state)
+	if _state.bakes_pending > 0:
+		Cooking.finish_bakes(_state)   # #130: baked lots go on sale
 	InventoryService.release_timed_out(_state)
 	EventService.step(_state)
 	DemandGenerator.step(_state)

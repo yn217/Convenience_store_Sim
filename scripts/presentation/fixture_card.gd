@@ -221,6 +221,9 @@ func _render() -> void:
 	var sales := {"revenue_yen": int(money.get("revenue_yen", 0)), "gross_profit_yen": int(money.get("gross_profit_yen", 0))}
 	var totals: Dictionary = _snap.get("today", {})
 	var rows := FixtureCard.rows(def, _snap.get("shelf_stock", {}).get(fid, {}), sales, totals)
+	var bake: Dictionary = _snap.get("baking", {}).get(fid, {})
+	if not bake.is_empty():   # #130: a lot in the oven
+		rows[0]["value_text"] = "%s　%s" % [rows[0]["value_text"], baking_text(bake)]
 	for i in _rows.size():
 		var row: Dictionary = _rows[i]
 		row["box"].visible = true
@@ -415,6 +418,11 @@ static func rows(def: Dictionary, stock: Dictionary, sales: Dictionary, totals: 
 		{"label": ROW_LABELS[1], "ratio": share(revenue, int(totals.get("revenue_yen", 0))), "value_text": Hud.format_yen(revenue)},
 		{"label": ROW_LABELS[2], "ratio": share(gross, int(totals.get("gross_profit_yen", 0))), "value_text": Hud.format_yen(gross)},
 	]
+
+
+## A lot in the oven (#130): 焼成中 n個（あとm分）.
+static func baking_text(bake: Dictionary) -> String:
+	return "焼成中 %d個（あと%d分）" % [int(bake.get("qty", 0)), ceili(float(bake.get("ready_in_sec", 0)) / 60.0)]
 
 
 ## part / whole clamped to 0..1; 0 when the store has nothing yet today.

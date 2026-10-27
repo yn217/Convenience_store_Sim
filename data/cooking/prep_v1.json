@@ -6,5 +6,11 @@
     "frappe": 150,
     "pizza": 300
   },
-  "_comment_130": "Issue #130 phase 1: a pizza is baked to order (300 s at the oven). Fresh bread is baked into the oven's showcase trays when restocked (the restock is the bake) and keeps 8 hours; what is left is wasted."
+  "_comment_130": "Issue #130: a pizza is baked to order (300 s at the oven). Fresh bread is baked in lots (phase 2): restocking the bakery oven puts the dough in the oven (location OVEN, not on sale) for bake_game_seconds; then it moves to the trays and keeps shelf_life_seconds from then (the dough itself keeps 2 days in the backroom). What is left is wasted.",
+  "bake": {
+    "bakery": {
+      "bake_game_seconds": 1200,
+      "shelf_life_seconds": 28800
+    }
+  }
 }

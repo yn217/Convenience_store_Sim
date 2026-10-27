@@ -17,7 +17,9 @@ func test_ovens_and_goods(t, _tree) -> void:
 		for k in skus:
 			t.ok(int(k["default_sell_price_yen"]) > 2 * int(k["purchase_cost_yen"]), "%s: baked in store earns well" % k["sku_id"])
 			t.ok(ProductIcons.texture(k, 32).get_image().get_used_rect().size.x > 8, "%s: an icon" % k["sku_id"])
-	t.eq(int(s.products.get_sku("bake_001")["expires_after_seconds"]), 28800, "fresh bread keeps 8 hours")
+	t.eq(Cooking.shelf_life("bakery"), 28800, "fresh bread keeps 8 hours once baked")
+	t.ok(int(s.products.get_sku("bake_001")["expires_after_seconds"]) > 28800, "the dough keeps longer in the backroom")
+	t.eq(Cooking.bake_seconds("bakery"), 1200, "a lot bakes 20 minutes")
 	t.ok(Cooking.prep_seconds("pizza") > Cooking.prep_seconds("frappe"), "a pizza takes longest to make")
 	t.eq(Cooking.prep_seconds("bakery"), 0, "fresh bread waits in the trays")
 
@@ -54,3 +56,38 @@ func test_baked_and_sold(t, _tree) -> void:
 		if VisitPurpose.draw(pick, money, 8, balance, "", ["drink", "rice_ball", "bread"])["purpose_id"] == "fresh_bake":
 			n += 1
 	t.eq(n, 0, "no oven: nobody comes for fresh bread")
+
+
+## Phase 2: a lot of dough put in the bakery oven is not on sale while it bakes; after 20 minutes it is on the trays
+## and keeps 8 hours from then; a lot still baking survives a save; the card says it is baking.
+func test_a_lot_bakes_before_it_is_on_sale(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	var oven := ""
+	for y in range(1, s.grid.height - 2):
+		for x in range(1, s.grid.width - 1):
+			if oven == "":
+				var r := cmds.execute({"command_id": "ov_%d_%d" % [x, y], "kind": &"PLACE_FIXTURE", "type_id": "bakery_oven", "x": x, "y": y, "rotation": 0})
+				if r.ok:
+					oven = r.data["instance_id"]
+	t.ok(cmds.execute({"command_id": "o1", "kind": &"ORDER_STOCK", "sku_id": "bake_001", "qty": 8}).ok, "dough ordered")
+	t.ok(cmds.execute({"command_id": "r1", "kind": &"RESTOCK", "instance_id": oven, "slot_id": "tray0", "sku_id": "bake_001", "qty": 8}).ok, "into the oven")
+	var in_oven := s.inventory_segments.filter(func(g): return g["location"]["kind"] == "OVEN")
+	t.eq(in_oven.size(), 1, "a lot is baking")
+	t.eq(int(s.snapshot()["shelf_stock"].get(oven, {}).get("tray0", 0)), 0, "nothing on sale yet")
+	t.ok(not cmds.execute({"command_id": "r2", "kind": &"RESTOCK", "instance_id": oven, "slot_id": "tray0", "sku_id": "bake_001", "qty": 1}).ok, "the tray is taken by the lot in the oven")
+	t.ok(FixtureCard.baking_text(s.snapshot()["baking"][oven]).contains("焼成中 8個（あと20分）"), "the card says it bakes")
+	var saved := SaveGame.to_dict(s, "bake", "2026-10-28T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq((lr["state"] as GameState).bakes_pending, 1, "a lot still baking survives a save")
+	s.time_sec += 1199
+	t.eq(Cooking.finish_bakes(s), 0, "not yet")
+	s.time_sec += 1
+	t.eq(Cooking.finish_bakes(s), 8, "baked: 8 on the tray")
+	t.eq(int(s.snapshot()["shelf_stock"].get(oven, {}).get("tray0", 0)), 8, "on sale")
+	var seg: Dictionary = s.inventory_segments.filter(func(g): return g["location"].get("fixture_id", "") == oven)[0]
+	t.eq(int(seg["expires_at_sec"]), s.time_sec + 28800, "keeps 8 hours from the bake")
+	t.ok(s.take_events().any(func(e): return e["type"] == "BAKE_DONE"), "the bake is an event")
+	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the stock stays consistent")
+

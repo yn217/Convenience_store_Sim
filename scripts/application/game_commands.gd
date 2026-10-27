@@ -254,6 +254,8 @@ func _pass_construction_days(days: int) -> void:
 			var prev_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
 			_state.time_sec = mini((_state.time_sec / 3600 + 1) * 3600, midnight)
 			InventoryService.sweep_expired(_state)
+			if _state.bakes_pending > 0:
+				Cooking.finish_bakes(_state)
 			EventService.step(_state)
 			var new_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
 			if new_day != prev_day:

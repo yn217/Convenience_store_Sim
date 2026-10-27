@@ -66,6 +66,7 @@ var store_name := ""                    # #146: shown in the store list ("" = 1å
 var branches: Array = []                # #146: the company's other stores (only on the store on screen)
 var rivals: Array = []                  # #129: rival stores on the map (Market), the company's
 var rivals_enabled := true
+var bakes_pending := 0                 # #130: lots in the ovens (recounted from the segments on load)
 var eat_in_total := 0                  # #134: customers who sat down to eat
 var lotteries: Array = []              # #138: prize draw sets bought and their tickets (Lottery)
 var capsule_stats: Dictionary = {}     # #139: sku_id -> {turns, rare} of the capsule machines (CapsuleToys)
@@ -331,7 +332,7 @@ func snapshot() -> Dictionary:
 		"visitors_by_hour": visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": visitors_by_hour_yesterday.duplicate(),
 		"facilities": facilities.duplicate(), "facility_visits": facility_visits.duplicate(), "max_facilities": NearbyFacility.max_count(),
 		"store_size_id": String(StoreSize.of_grid(balance, grid).get("size_id", "")), "store_sizes": StoreSize.all(balance),
-		"next_store_size": StoreSize.next(balance, grid), "construction_days": construction_days,
+		"next_store_size": StoreSize.next(balance, grid), "construction_days": construction_days, "baking": Cooking.baking(self),
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
 		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),
 		"passersby_per_day": int(balance.get("passersby_per_day", 0)) if bool(balance.get("outdoor_approach", false)) else 0,   # #142, presentation only   # the figures walk at the simulation's pace (#117 v2)

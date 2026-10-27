@@ -209,8 +209,13 @@
               "kind": {
                 "enum": [
                   "BACKROOM",
-                  "FIXTURE"
+                  "FIXTURE",
+                  "OVEN"
                 ]
+              },
+              "ready_at_sec": {
+                "description": "OVEN (issue #130): the game second the baking lot goes on sale in its slot.",
+                "type": "integer"
               },
               "fixture_id": {
                 "type": "string",

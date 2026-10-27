@@ -68,7 +68,7 @@ static func restock(state: GameState, command_id: String, instance_id, slot_id, 
 	var used := 0
 	for seg in state.inventory_segments:
 		var loc: Dictionary = seg["location"]
-		if loc["kind"] == "FIXTURE" and loc["fixture_id"] == instance_id and loc["slot_id"] == slot_id and int(seg["physical_qty"]) > 0:
+		if (loc["kind"] == "FIXTURE" or loc["kind"] == "OVEN") and loc["fixture_id"] == instance_id and loc["slot_id"] == slot_id and int(seg["physical_qty"]) > 0:
 			if seg["sku_id"] != sku_id:
 				return _fail(&"INVALID_OPERATION", &"slot_other_sku")
 			used += int(seg["physical_qty"]) * int(state.products.get_sku(sku_id)["slot_units"])
@@ -82,6 +82,9 @@ static func restock(state: GameState, command_id: String, instance_id, slot_id, 
 			sources.append(seg)
 	sources.sort_custom(_fefo_before)
 	var target := {"kind": "FIXTURE", "fixture_id": instance_id, "slot_id": slot_id}
+	var bake := Cooking.bake_seconds(String(sku["category"]))
+	if bake > 0:   # #130 phase 2: a lot of dough goes into the oven, on sale once baked
+		target = {"kind": "OVEN", "fixture_id": instance_id, "slot_id": slot_id, "ready_at_sec": state.time_sec + bake}
 	var remaining: int = qty
 	for seg in sources:
 		if remaining == 0:
@@ -99,6 +102,8 @@ static func restock(state: GameState, command_id: String, instance_id, slot_id, 
 			part["location"] = target.duplicate()
 			state.inventory_segments.append(part)
 		remaining -= take
+		if bake > 0:
+			state.bakes_pending += 1
 	return _ok("%s:STOCK_MOVED" % command_id, {"moved_qty": qty})
 
 

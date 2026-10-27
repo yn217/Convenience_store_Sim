@@ -400,6 +400,8 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 		if copy["expires_at_sec"] != null:
 			copy["expires_at_sec"] = int(copy["expires_at_sec"])
 		s.inventory_segments.append(copy)
+		if String(copy["location"].get("kind", "")) == "OVEN":
+			s.bakes_pending += 1   # #130
 	for i in d["reservations"].size():
 		var r = d["reservations"][i]
 		var r_errs := JsonCheck.key_errors(r, ["reservation_id", "customer_id", "segment_id", "qty", "sell_unit_yen_snapshot", "cost_unit_yen_snapshot", "reservation_expires_at_sec"], [], "reservations[%d]" % i) if typeof(r) == TYPE_DICTIONARY else ["reservations[%d]: not_object" % i]
