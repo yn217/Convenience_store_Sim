@@ -783,6 +783,8 @@ func candidates(state: GameState) -> Array[Dictionary]:
 		var e: Dictionary = seen[k]
 		var sku := state.products.get_sku(e["sku_id"])
 		e["weight"] = DemandModel.category_preference(sku["category"], state.balance) * StoreLocation.category_multiplier(state.location_id, sku["category"]) * float(sku["demand_weight"]) * _price_factor(state, e["sku_id"]) * _category_pull(state, fx, sku["category"])
+		if sku["category"] == CapsuleToys.CATEGORY:
+			e["weight"] = float(e["weight"]) * CapsuleToys.pull(state, e["sku_id"])   # #139: a limited series in its window
 		out.append(e)
 	return out
 
@@ -829,6 +831,7 @@ func _turn_machine(state: GameState, c: Dictionary, res_id: String) -> void:
 	state.emit_event("CAPSULE_TURNED", {"customer_id": c["customer_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"], "prize": prize["name"], "rare": prize["rare"], "revenue_yen": int(sale["revenue_yen"])})
 	if InventoryService.fixture_fill_ratio(state, sale["fixture_id"]) < LOW_STOCK_RATIO:
 		state.emit_event("STOCK_LOW", {"fixture_id": sale["fixture_id"]})
+	CapsuleToys.check_empty(state, sale["fixture_id"], c["sku_id"])   # #139 phase 2: refill notice
 
 
 ## A customer who only turned machines (#139) has paid and leaves without queueing.

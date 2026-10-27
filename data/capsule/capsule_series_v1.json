@@ -35,7 +35,14 @@
         "みどりロボ"
       ],
       "rare": "メタリックロボ",
-      "rare_one_in": 16
+      "rare_one_in": 16,
+      "limited": {
+        "every_days": 14,
+        "for_days": 7,
+        "pull": 1.5,
+        "name": "期間限定"
+      }
     }
-  ]
+  ],
+  "_comment_phase2": "Phase 2: a series with `limited` is sold in turns — it can be ordered only on days where (day % every_days) < for_days, and in those days customers want it more (pull); stock already in a machine still sells afterwards. A machine slot that turns empty is announced so it can be refilled."
 }

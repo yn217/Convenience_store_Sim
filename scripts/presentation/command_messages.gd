@@ -20,6 +20,7 @@ const BY_KEY := {
 	&"unknown_instance": "対象の什器が見つかりません",
 	&"sku_unknown": "その商品は存在しません",
 	&"campaign_only_sku": "増量キャンペーン中だけ発注できる商品です",
+	&"series_out_of_season": "期間限定のカプセルトイです。次の販売期間まで発注できません",
 	&"price_invalid": "価格は1〜99,999円の整数で入力してください",
 	&"ad_tier_invalid": "広告の予算は選択肢の中から選んでください",
 	&"already_open": "すでに営業中です",

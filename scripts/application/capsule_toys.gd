@@ -44,6 +44,45 @@ static func prize_of(sku_id: String, sale_id: String) -> Dictionary:
 	return {"name": String(variants[mini(int(rng.uniform_0_1() * variants.size()), variants.size() - 1)]), "rare": false}
 
 
+## A limited series (#139 phase 2) is on in its window of days: (day % every_days) < for_days. Others always are.
+static func in_season(sku_id: String, day: int) -> bool:
+	var lim: Dictionary = series(sku_id).get("limited", {})
+	if lim.is_empty():
+		return true
+	return posmod(day, int(lim["every_days"])) < int(lim["for_days"])
+
+
+## Can this SKU be ordered today? A limited series only in its window.
+static func orderable(state: GameState, sku_id: String) -> bool:
+	return in_season(sku_id, state.day)
+
+
+## Extra pull of a capsule SKU today: a limited series in its window (1 otherwise).
+static func pull(state: GameState, sku_id: String) -> float:
+	var lim: Dictionary = series(sku_id).get("limited", {})
+	if lim.is_empty() or not in_season(sku_id, state.day):
+		return 1.0
+	return float(lim.get("pull", 1.0))
+
+
+## Days until a limited series is on again (0 = on today, -1 = not limited).
+static func days_to_season(sku_id: String, day: int) -> int:
+	var lim: Dictionary = series(sku_id).get("limited", {})
+	if lim.is_empty():
+		return -1
+	var k := posmod(day, int(lim["every_days"]))
+	return 0 if k < int(lim["for_days"]) else int(lim["every_days"]) - k
+
+
+## After a turn: a machine slot left with nothing of this series is announced (refill it).
+static func check_empty(state: GameState, fixture_id: String, sku_id: String) -> void:
+	for seg in state.inventory_segments:
+		var loc: Dictionary = seg["location"]
+		if loc["kind"] == "FIXTURE" and loc["fixture_id"] == fixture_id and seg["sku_id"] == sku_id and int(seg["physical_qty"]) > 0:
+			return
+	state.emit_event("CAPSULE_EMPTY", {"fixture_id": fixture_id, "sku_id": sku_id, "name": state.products.get_sku(sku_id).get("display_name", "")})
+
+
 ## Counts a turn and announces a rare prize. -> the prize.
 static func on_turned(state: GameState, sku_id: String, sale_id: String, customer_id: String, fixture_id: String) -> Dictionary:
 	var prize := prize_of(sku_id, sale_id)

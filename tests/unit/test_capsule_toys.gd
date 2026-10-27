@@ -87,3 +87,28 @@ func test_no_machine_no_capsule_visitors(t, _tree) -> void:
 			m += 1
 	t.eq(n, 0, "no machine: nobody comes to turn one")
 	t.ok(m > 20, "with a machine some come for it after school (%d)" % m)
+
+
+## Phase 2: the robot series is sold in turns — orderable 7 days in every 14, wanted more in those days; stock
+## already in a machine still sells; a machine slot that turns empty is announced.
+func test_a_limited_series_and_the_empty_notice(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	t.ok(CapsuleToys.in_season("capsule_003", 0) and CapsuleToys.in_season("capsule_003", 6), "days 0-6: on")
+	t.ok(not CapsuleToys.in_season("capsule_003", 7) and not CapsuleToys.in_season("capsule_003", 13), "days 7-13: off")
+	t.ok(CapsuleToys.in_season("capsule_003", 14), "and on again")
+	t.ok(CapsuleToys.in_season("capsule_001", 9), "the other series are always on")
+	t.eq(CapsuleToys.days_to_season("capsule_003", 10), 4, "four days to the next window")
+	s.day = 2
+	t.ok(cmds.execute({"command_id": "o1", "kind": &"ORDER_STOCK", "sku_id": "capsule_003", "qty": 5}).ok, "orderable in its window")
+	t.ok(CapsuleToys.pull(s, "capsule_003") > 1.0, "wanted more in its window")
+	s.day = 9
+	var r := cmds.execute({"command_id": "o2", "kind": &"ORDER_STOCK", "sku_id": "capsule_003", "qty": 5})
+	t.ok(not r.ok and r.message_key == &"series_out_of_season", "not orderable out of it")
+	t.eq(CapsuleToys.pull(s, "capsule_003"), 1.0, "no extra pull out of it")
+	t.ok(CommandMessages.text(&"INVALID_OPERATION", &"series_out_of_season").contains("期間限定"), "the message says why")
+	s.take_events()
+	CapsuleToys.check_empty(s, "nowhere", "capsule_001")
+	t.ok(s.take_events().any(func(e): return e["type"] == "CAPSULE_EMPTY"), "an empty slot is announced")
+	t.ok(CueText.toast_text("capsule_empty", {"name": "どうぶつマスコット"}).contains("補充"), "with a refill reminder")
+
