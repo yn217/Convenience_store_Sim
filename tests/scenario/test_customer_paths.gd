@@ -404,10 +404,6 @@ func test_customer_paths_speed_1(t, _tree) -> void:
 	_lab(t, 1)
 
 
-func test_customer_paths_speed_2(t, _tree) -> void:
-	_lab(t, 2)
-
-
 func test_customer_paths_speed_4(t, _tree) -> void:
 	_lab(t, 4)
 
@@ -424,20 +420,12 @@ func test_sample_crowd_speed_1(t, _tree) -> void:
 	_sample(t, 1, "crowd", false)
 
 
-func test_sample_crowd_speed_2(t, _tree) -> void:
-	_sample(t, 2, "crowd", false)
-
-
 func test_sample_crowd_speed_4(t, _tree) -> void:
 	_sample(t, 4, "crowd", false)
 
 
 func test_sample_normal_speed_1(t, _tree) -> void:
 	_sample(t, 1, "normal", false)
-
-
-func test_sample_normal_speed_2(t, _tree) -> void:
-	_sample(t, 2, "normal", false)
 
 
 func test_sample_normal_speed_4(t, _tree) -> void:

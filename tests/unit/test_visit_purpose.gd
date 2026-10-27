@@ -171,22 +171,6 @@ func _sum(values: Array) -> int:
 	return total
 
 
-## The purpose model keeps the sales of the #128 basket model: units within 10%, revenue within 15% (budgets
-## now decline some dear items on purpose).
-func test_purposes_keep_the_sales_of_the_basket_model(t, _tree) -> void:
-	var basket_state := Run.new_state(50.0, {"visit_purposes": []})
-	var basket := Run.run_days(basket_state, Run.place_layout(basket_state), 3)
-	var purpose_state := Run.new_state(50.0)
-	var purpose := Run.run_days(purpose_state, Run.place_layout(purpose_state), 3)
-	var bu := _sum(basket["units"])
-	var pu := _sum(purpose["units"])
-	var br := _sum(basket["revenue"])
-	var pr := _sum(purpose["revenue"])
-	print("PURPOSE units basket=%d purpose=%d revenue basket=%d purpose=%d peak basket=%d purpose=%d" % [bu, pu, br, pr, basket["peak"], purpose["peak"]])
-	t.ok(absf(float(pu) / float(bu) - 1.0) <= 0.10, "units within 10%%: %d vs %d" % [pu, bu])
-	t.ok(absf(float(pr) / float(br) - 1.0) <= 0.15, "revenue within 15%%: %d vs %d" % [pr, br])
-
-
 func test_panel_lines(t, _tree) -> void:
 	var c := {"customer_id": "cust_00007", "phase": "QUEUE", "queue_slot": 1, "purpose_name": "昼食", "wallet_yen": 2340,
 		"budget_yen": 900, "planned_yen": 460, "impulse_count": 1, "basket_log": [

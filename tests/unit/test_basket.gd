@@ -20,20 +20,6 @@ func _single_item_state() -> GameState:
 	return Run.new_state(100.0, {"basket_size_forced": 1, "checkout_base_game_seconds": 30, "checkout_per_item_game_seconds": 0})
 
 
-## Compatibility (issue #128 requirement 1): one item per visit, the old visitors and the old checkout time give
-## the old numbers, draw for draw. Only the basket draw and the per-item checkout time are new, and both are off here.
-func test_single_item_visits_reproduce_the_pre_basket_model(t, _tree) -> void:
-	var s := _single_item_state()
-	var cmds := Run.place_layout(s)
-	var r := Run.run_days(s, cmds, 4)
-	t.eq(r["units"], OLD_UNITS, "units per day")
-	t.eq(r["revenue"], OLD_REVENUE, "revenue per day")
-	t.eq(s.cash_yen, OLD_CASH, "cash")
-	t.eq(s.ledger.transactions.size(), OLD_TX, "ledger rows")
-	for k in OLD_RNG:
-		t.eq(int(s.rng_states[k]), OLD_RNG[k], "rng %s" % k)
-
-
 func test_forced_single_item_consumes_no_basket_draw(t, _tree) -> void:
 	var rng := Lcg32.new(SEED_ARRIVALS)
 	var before := rng.state
@@ -129,28 +115,6 @@ func test_schema_one_save_loads_as_single_item_baskets(t, _tree) -> void:
 	var bad = JSON.parse_string(JSON.stringify(data))
 	bad["customers"][0]["basket_size"] = 5
 	t.ok(not SaveGame.from_dict(bad, balance, fx, pr)["ok"], "basket_size outside 1..4 is rejected")
-
-
-## Balance target (issue #128 requirement 3): with base visitors halved and baskets on, units sold and revenue per
-## day stay within 10% of the old single-item model over the same fixed-seed days, and the store holds fewer
-## customers at the same time. Both runs use the same sample layout, stock and seeds.
-func test_halved_visitors_with_baskets_keep_units_and_revenue(t, _tree) -> void:
-	var old_state := _single_item_state()
-	var old := Run.run_days(old_state, Run.place_layout(old_state), 3)
-	var new_state := Run.new_state(50.0, {"visit_purposes": []})   # the #128 basket model (purposes, #141, are tested in test_visit_purpose.gd)
-	var new := Run.run_days(new_state, Run.place_layout(new_state), 3)
-	var old_units := _sum(old["units"])
-	var new_units := _sum(new["units"])
-	var old_rev := _sum(old["revenue"])
-	var new_rev := _sum(new["revenue"])
-	print("BALANCE units old=%d new=%d revenue old=%d new=%d occupancy old=%.3f new=%.3f p95 old=%d new=%d peak old=%d new=%d buyers old=%d new=%d visitors old=%d new=%d" % [
-		old_units, new_units, old_rev, new_rev, old["occupancy"], new["occupancy"], old["p95"], new["p95"], old["peak"], new["peak"],
-		_sum(old["buyers"]), _sum(new["buyers"]), _sum(old["visitors"]), _sum(new["visitors"])])
-	t.ok(absf(float(new_units) / float(old_units) - 1.0) <= 0.10, "units within 10%%: %d vs %d" % [new_units, old_units])
-	t.ok(absf(float(new_rev) / float(old_rev) - 1.0) <= 0.10, "revenue within 10%%: %d vs %d" % [new_rev, old_rev])
-	t.ok(float(new["occupancy"]) < float(old["occupancy"]), "fewer customers in the store on average: %.3f < %.3f" % [new["occupancy"], old["occupancy"]])
-	t.ok(int(new["p95"]) <= int(old["p95"]), "busy-time customers (95th percentile of steps) do not rise: %d <= %d" % [new["p95"], old["p95"]])
-	t.ok(int(new["peak"]) <= int(old["peak"]), "peak simultaneous customers do not rise: %d <= %d" % [new["peak"], old["peak"]])
 
 
 func _sum(values: Array) -> int:

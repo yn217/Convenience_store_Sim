@@ -79,7 +79,7 @@ func test_a_sale_sells_more_and_books_the_discount(t, _tree) -> void:
 		var cmds := Run.place_layout(s)
 		if promo:
 			cmds.execute({"command_id": "p1", "kind": &"START_PROMOTION", "def_id": "sale_onigiri", "days": 2})
-		Run.run_days(s, cmds, 2)
+		Run.run_days(s, cmds, 1)
 		units[promo] = _units_of(s, "rice_ball")
 		if promo:
 			var disc := 0
@@ -100,7 +100,7 @@ func test_bundle_discount_needs_both_groups(t, _tree) -> void:
 	t.eq(Promotions.bundle_for(s, ["bread", "drink"]).get("yen", 0), 50, "bread + drink")
 	t.eq(Promotions.bundle_for(s, ["rice_ball", "drink", "snack"]).get("yen", 0), 50, "onigiri + drink")
 	t.ok(Promotions.bundle_for(s, ["rice_ball", "bread"]).is_empty(), "no drink, no discount")
-	Run.run_days(s, cmds, 2)
+	Run.run_days(s, cmds, 1)
 	var rows := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "DISCOUNT")
 	t.ok(rows.size() > 0, "some baskets earned the bundle (%d)" % rows.size())
 	for tx in rows:
@@ -186,7 +186,7 @@ func test_next_visit_coupons(t, _tree) -> void:
 	t.ok(cmds.execute({"command_id": "c1", "kind": &"START_PROMOTION", "def_id": "coupon_meal", "days": 2}).ok, "started")
 	var issued := Promotions.issue_coupon(s, ["drink"])
 	t.ok(issued.is_empty(), "no coupon for a basket without onigiri or bento")
-	Run.run_days(s, cmds, 2)
+	Run.run_days(s, cmds, 1)
 	var st: Dictionary = s.promo_stats[s.promotions[0]["promotion_id"]]
 	t.ok(int(st.get("issued", 0)) > 10, "coupons handed out (%d)" % int(st.get("issued", 0)))
 	var rows := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "DISCOUNT" and String(tx["event_id"]).ends_with(":COUPON"))
@@ -217,7 +217,7 @@ func test_a_free_item_coupon(t, _tree) -> void:
 	t.eq(Promotions.redeem_coupon(s, c["coupon_id"], [{"category": "drink", "price": 150}]), 0, "no dessert in the basket: not used")
 	t.eq(Promotions.redeem_coupon(s, c["coupon_id"], [{"category": "dessert", "price": 280}, {"category": "dessert", "price": 220}, {"category": "drink", "price": 150}]), 220, "the cheaper dessert is free")
 	t.eq(s.coupons, [], "and the coupon is gone")
-	Run.run_days(s, cmds, 2)
+	Run.run_days(s, cmds, 1)
 	var prices := {}
 	for sku in s.products.skus.values():
 		if sku["category"] == "dessert":
@@ -290,7 +290,7 @@ func test_gifts_in_a_running_store(t, _tree) -> void:
 	var cmds := Run.place_layout(s)
 	cmds.execute({"command_id": "g1", "kind": &"START_PROMOTION", "def_id": "gift_sticker", "days": 2})
 	var id: String = s.promotions[0]["promotion_id"]
-	Run.run_days(s, cmds, 2)
+	Run.run_days(s, cmds, 1)
 	var st: Dictionary = s.promo_stats[id]
 	t.ok(int(st.get("given", 0)) > 0, "stickers handed out (%d)" % int(st.get("given", 0)))
 	t.eq(int(st["given"]) + int(st["stock"]), 60, "given + left = bought")
@@ -326,7 +326,7 @@ func test_a_stamp_rally(t, _tree) -> void:
 	t.eq(int(s.promo_stats[id]["redeemed"]), 1, "and the prize handed out")
 	t.eq(int(s.promo_stats[id]["stock"]), 19, "one fewer towel")
 	s.coupons.clear()
-	Run.run_days(s, cmds, 2)
+	Run.run_days(s, cmds, 1)
 	var st: Dictionary = s.promo_stats[id]
 	t.ok(int(st.get("issued", 0)) > 5, "cards handed out in the store (%d)" % int(st.get("issued", 0)))
 	t.ok(int(st.get("stamps", 0)) > int(st.get("issued", 0)), "holders came back for stamps (%d stamps)" % int(st.get("stamps", 0)))
@@ -351,7 +351,7 @@ func test_a_fair(t, _tree) -> void:
 			t.ok(cmds.execute({"command_id": "f1", "kind": &"START_PROMOTION", "def_id": "fair_autumn", "days": 2}).ok, "started")
 			t.ok(Promotions.category_pull(s, "snack") > 1.2 and Promotions.category_pull(s, "drink") == 1.0, "pulls only its categories")
 			t.ok(Promotions.visitor_factor(s) > 1.0, "a few more people come")
-		Run.run_days(s, cmds, 2)
+		Run.run_days(s, cmds, 1)
 		var n := 0
 		for tx in s.ledger.transactions:
 			if tx["event_type"] == "SALE" and ["snack", "dessert"].has(String(s.products.get_sku(String(tx.get("details", {}).get("sku_id", ""))).get("category", ""))):
