@@ -56,3 +56,10 @@
 - 3状態とも個別商品のruntime配置なし、縦横共通スケールで正規化。FULL/HALFのalpha bboxは[38,8,403,425]、EMPTYは[40,8,402,425]で幅が3px狭い。
 - 各画像の生成やcrop/scaleは別々に行っているため、bbox値とanchorメタデータの指定だけでは棚の位置やガード支柱の一致は証明できない。見た目上もガード支柱や背板の差が残るため状態セットは未承認。
 - EMPTYは構造が見えるHALFを参照にした再生成を依頼中。runtime_approved:false。
+
+## 3状態への共通変換
+
+- `tools/assets/normalize_shelf_state_set.py` はFULL参照のalpha>=8 bboxから倍率と配置を求め、同じ元キャンバスサイズを持つFULL/HALF/EMPTYへ同一の水平反転・倍率・オフセットを適用する。商品を個別に配置しない。
+- `fixed_transform_v1/fixed_transform_report.json` と `fixed_transform_states_comparison.png` に結果を保存。名目スケールは0.315669947、キャンバスは442×449、オフセットは(36,7)。各画像の実効スケールはピクセル丸めにより約(0.31543052, 0.31543624)。
+- alpha>=8 bboxはFULL [38,8,403,425]、HALF [38,8,403,426]、EMPTY [38,8,404,428]。状態間で同一の外形にはなっていない。
+- 同一の画像変換は什器の構造一致や本来の接地点の証明ではない。独立確認と、HALFを参照するEMPTY再生成を実施中。runtime_approved:false。
