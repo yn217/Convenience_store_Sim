@@ -1,0 +1,651 @@
+{
+  "asset_id": "shelf_noodle",
+  "state": "FULL",
+  "direction": "r0",
+  "revision": "shallow_v2",
+  "guide_image": "assets\\generated\\fixtures\\shelf_noodle\\shelf_noodle_0_body.png",
+  "generation_method": "Built-in image generation; both attempts were newly generated using only the canonical body image as reference. No prior generated images were supplied as references.",
+  "constraints_requested": {
+    "five_continuous_stocked_tiers": true,
+    "shallow_single_row_shelves": true,
+    "depth_projection_about_15_percent_of_long_axis": true,
+    "narrow_vertical_backboard": true,
+    "color_blocked_cup_noodle_facings": true,
+    "transparent_background": true,
+    "integrated_shelf_and_products": true
+  },
+  "attempts": {
+    "attempt1_six_tiers.png": {
+      "canvas_px": [
+        1202,
+        1308
+      ],
+      "alpha_bbox_threshold_8_xyxy_exclusive": [
+        176,
+        49,
+        1053,
+        1308
+      ],
+      "bbox_aspect_width_over_height": 0.69658,
+      "alpha_pixels_threshold_8": 831135,
+      "long_diagonal_hough_segments": [
+        {
+          "length_px": 911.02,
+          "slope_dy_dx": -0.4872,
+          "xyxy": [
+            174,
+            557,
+            993,
+            158
+          ]
+        },
+        {
+          "length_px": 909.08,
+          "slope_dy_dx": -0.466,
+          "xyxy": [
+            201,
+            956,
+            1025,
+            572
+          ]
+        },
+        {
+          "length_px": 902.38,
+          "slope_dy_dx": -0.4658,
+          "xyxy": [
+            204,
+            957,
+            1022,
+            576
+          ]
+        },
+        {
+          "length_px": 880.1,
+          "slope_dy_dx": -0.4453,
+          "xyxy": [
+            222,
+            1114,
+            1026,
+            756
+          ]
+        },
+        {
+          "length_px": 855.94,
+          "slope_dy_dx": -0.445,
+          "xyxy": [
+            244,
+            1103,
+            1026,
+            755
+          ]
+        },
+        {
+          "length_px": 848.85,
+          "slope_dy_dx": -0.4875,
+          "xyxy": [
+            234,
+            521,
+            997,
+            149
+          ]
+        },
+        {
+          "length_px": 848.85,
+          "slope_dy_dx": -0.4875,
+          "xyxy": [
+            234,
+            520,
+            997,
+            148
+          ]
+        },
+        {
+          "length_px": 847.52,
+          "slope_dy_dx": -0.4869,
+          "xyxy": [
+            235,
+            525,
+            997,
+            154
+          ]
+        },
+        {
+          "length_px": 847.06,
+          "slope_dy_dx": -0.4888,
+          "xyxy": [
+            229,
+            552,
+            990,
+            180
+          ]
+        },
+        {
+          "length_px": 843.48,
+          "slope_dy_dx": -0.4881,
+          "xyxy": [
+            177,
+            415,
+            935,
+            45
+          ]
+        },
+        {
+          "length_px": 788.48,
+          "slope_dy_dx": -0.4866,
+          "xyxy": [
+            234,
+            391,
+            943,
+            46
+          ]
+        },
+        {
+          "length_px": 764.84,
+          "slope_dy_dx": 14.3962,
+          "xyxy": [
+            947,
+            280,
+            1000,
+            1043
+          ]
+        },
+        {
+          "length_px": 756.28,
+          "slope_dy_dx": -0.4868,
+          "xyxy": [
+            281,
+            386,
+            961,
+            55
+          ]
+        },
+        {
+          "length_px": 744.02,
+          "slope_dy_dx": 19.0513,
+          "xyxy": [
+            961,
+            272,
+            1000,
+            1015
+          ]
+        },
+        {
+          "length_px": 736.6,
+          "slope_dy_dx": -0.4879,
+          "xyxy": [
+            369,
+            1237,
+            1031,
+            914
+          ]
+        },
+        {
+          "length_px": 735.26,
+          "slope_dy_dx": -0.4871,
+          "xyxy": [
+            368,
+            1226,
+            1029,
+            904
+          ]
+        },
+        {
+          "length_px": 733.02,
+          "slope_dy_dx": -0.4871,
+          "xyxy": [
+            262,
+            372,
+            921,
+            51
+          ]
+        },
+        {
+          "length_px": 723.66,
+          "slope_dy_dx": -0.4039,
+          "xyxy": [
+            337,
+            645,
+            1008,
+            374
+          ]
+        },
+        {
+          "length_px": 695.01,
+          "slope_dy_dx": -0.4864,
+          "xyxy": [
+            235,
+            526,
+            860,
+            222
+          ]
+        },
+        {
+          "length_px": 688.74,
+          "slope_dy_dx": -0.4879,
+          "xyxy": [
+            414,
+            1205,
+            1033,
+            903
+          ]
+        },
+        {
+          "length_px": 687.4,
+          "slope_dy_dx": -0.4871,
+          "xyxy": [
+            416,
+            1205,
+            1034,
+            904
+          ]
+        },
+        {
+          "length_px": 682.93,
+          "slope_dy_dx": -0.487,
+          "xyxy": [
+            420,
+            1207,
+            1034,
+            908
+          ]
+        },
+        {
+          "length_px": 668.62,
+          "slope_dy_dx": -0.4875,
+          "xyxy": [
+            235,
+            523,
+            836,
+            230
+          ]
+        },
+        {
+          "length_px": 662.6,
+          "slope_dy_dx": 14.3696,
+          "xyxy": [
+            972,
+            372,
+            1018,
+            1033
+          ]
+        }
+      ],
+      "long_axis_slope_median_dy_dx": -0.4871,
+      "sha256": "5af698b1defeea89c0e9fe5d6c6ad2690f92995e123a6c8014e501d9c11ea904"
+    },
+    "shelf_noodle_full_r0_shallow_v2.png": {
+      "canvas_px": [
+        1202,
+        1308
+      ],
+      "alpha_bbox_threshold_8_xyxy_exclusive": [
+        134,
+        61,
+        1122,
+        1257
+      ],
+      "bbox_aspect_width_over_height": 0.82609,
+      "alpha_pixels_threshold_8": 849224,
+      "long_diagonal_hough_segments": [
+        {
+          "length_px": 993.94,
+          "slope_dy_dx": -0.3836,
+          "xyxy": [
+            161,
+            551,
+            1089,
+            195
+          ]
+        },
+        {
+          "length_px": 987.27,
+          "slope_dy_dx": -0.3829,
+          "xyxy": [
+            166,
+            554,
+            1088,
+            201
+          ]
+        },
+        {
+          "length_px": 985.4,
+          "slope_dy_dx": -0.3837,
+          "xyxy": [
+            168,
+            555,
+            1088,
+            202
+          ]
+        },
+        {
+          "length_px": 984.46,
+          "slope_dy_dx": -0.3841,
+          "xyxy": [
+            169,
+            556,
+            1088,
+            203
+          ]
+        },
+        {
+          "length_px": 983.53,
+          "slope_dy_dx": -0.3845,
+          "xyxy": [
+            171,
+            543,
+            1089,
+            190
+          ]
+        },
+        {
+          "length_px": 980.95,
+          "slope_dy_dx": -0.3832,
+          "xyxy": [
+            172,
+            557,
+            1088,
+            206
+          ]
+        },
+        {
+          "length_px": 979.08,
+          "slope_dy_dx": -0.384,
+          "xyxy": [
+            171,
+            557,
+            1085,
+            206
+          ]
+        },
+        {
+          "length_px": 978.15,
+          "slope_dy_dx": -0.3844,
+          "xyxy": [
+            193,
+            1116,
+            1106,
+            765
+          ]
+        },
+        {
+          "length_px": 977.21,
+          "slope_dy_dx": -0.3849,
+          "xyxy": [
+            193,
+            840,
+            1105,
+            489
+          ]
+        },
+        {
+          "length_px": 976.85,
+          "slope_dy_dx": -0.3838,
+          "xyxy": [
+            194,
+            1116,
+            1106,
+            766
+          ]
+        },
+        {
+          "length_px": 973.71,
+          "slope_dy_dx": -0.3639,
+          "xyxy": [
+            174,
+            559,
+            1089,
+            226
+          ]
+        },
+        {
+          "length_px": 973.7,
+          "slope_dy_dx": -0.3839,
+          "xyxy": [
+            195,
+            658,
+            1104,
+            309
+          ]
+        },
+        {
+          "length_px": 973.7,
+          "slope_dy_dx": -0.3839,
+          "xyxy": [
+            173,
+            558,
+            1082,
+            209
+          ]
+        },
+        {
+          "length_px": 973.7,
+          "slope_dy_dx": -0.3839,
+          "xyxy": [
+            180,
+            548,
+            1089,
+            199
+          ]
+        },
+        {
+          "length_px": 971.83,
+          "slope_dy_dx": -0.3647,
+          "xyxy": [
+            176,
+            560,
+            1089,
+            227
+          ]
+        },
+        {
+          "length_px": 969.27,
+          "slope_dy_dx": -0.3633,
+          "xyxy": [
+            182,
+            562,
+            1093,
+            231
+          ]
+        },
+        {
+          "length_px": 962.83,
+          "slope_dy_dx": -0.4031,
+          "xyxy": [
+            213,
+            1129,
+            1106,
+            769
+          ]
+        },
+        {
+          "length_px": 960.98,
+          "slope_dy_dx": -0.404,
+          "xyxy": [
+            215,
+            1130,
+            1106,
+            770
+          ]
+        },
+        {
+          "length_px": 958.22,
+          "slope_dy_dx": -0.3444,
+          "xyxy": [
+            181,
+            456,
+            1087,
+            144
+          ]
+        },
+        {
+          "length_px": 957.45,
+          "slope_dy_dx": -0.4032,
+          "xyxy": [
+            217,
+            944,
+            1105,
+            586
+          ]
+        },
+        {
+          "length_px": 954.74,
+          "slope_dy_dx": -0.3645,
+          "xyxy": [
+            193,
+            555,
+            1090,
+            228
+          ]
+        },
+        {
+          "length_px": 954.43,
+          "slope_dy_dx": -0.445,
+          "xyxy": [
+            234,
+            1032,
+            1106,
+            644
+          ]
+        },
+        {
+          "length_px": 951.22,
+          "slope_dy_dx": -0.384,
+          "xyxy": [
+            192,
+            541,
+            1080,
+            200
+          ]
+        },
+        {
+          "length_px": 951.13,
+          "slope_dy_dx": -0.4664,
+          "xyxy": [
+            243,
+            748,
+            1105,
+            346
+          ]
+        }
+      ],
+      "long_axis_slope_median_dy_dx": -0.3839,
+      "sha256": "d99f077c8cd83cb49961c1a18906162d7f4960a9de27e8b6e1a5b1880f5d42a0"
+    }
+  },
+  "runtime_approved": false,
+  "notes": [
+    "Attempt 1 was preserved but has six visible stocked levels, so it fails the five-tier count.",
+    "Attempt 2 is the selected shallow_v2 draft and visually shows five stocked levels with contiguous color groups.",
+    "No stretching or alpha-bound fitting was applied.",
+    "Hough slope and alpha bounds are diagnostics only; they do not certify exact tile projection, projected shelf-depth ratio, or anchor registration.",
+    "Visual inspection: the second draft has a narrow fixture profile and one product row per tier, but the perceived shelf surface depth still needs review at the game sprite scale. Not runtime-approved."
+  ],
+  "guide": {
+    "canvas_px": [
+      442,
+      481
+    ],
+    "alpha_bbox_threshold_8_xyxy_exclusive": [
+      38,
+      8,
+      404,
+      457
+    ],
+    "bbox_aspect_width_over_height": 0.81514,
+    "alpha_pixels_threshold_8": 124536,
+    "long_diagonal_hough_segments": [
+      {
+        "length_px": 243.29,
+        "slope_dy_dx": -0.5069,
+        "xyxy": [
+          185,
+          176,
+          402,
+          66
+        ]
+      },
+      {
+        "length_px": 177.1,
+        "slope_dy_dx": -0.5063,
+        "xyxy": [
+          163,
+          413,
+          321,
+          333
+        ]
+      },
+      {
+        "length_px": 175.76,
+        "slope_dy_dx": -0.5032,
+        "xyxy": [
+          78,
+          111,
+          235,
+          32
+        ]
+      },
+      {
+        "length_px": 175.76,
+        "slope_dy_dx": -0.5032,
+        "xyxy": [
+          232,
+          420,
+          389,
+          341
+        ]
+      },
+      {
+        "length_px": 139.09,
+        "slope_dy_dx": -0.5081,
+        "xyxy": [
+          273,
+          358,
+          397,
+          295
+        ]
+      },
+      {
+        "length_px": 132.38,
+        "slope_dy_dx": 0.5085,
+        "xyxy": [
+          37,
+          289,
+          155,
+          349
+        ]
+      },
+      {
+        "length_px": 130.14,
+        "slope_dy_dx": 0.5086,
+        "xyxy": [
+          39,
+          398,
+          155,
+          457
+        ]
+      },
+      {
+        "length_px": 126.56,
+        "slope_dy_dx": 0.5044,
+        "xyxy": [
+          43,
+          352,
+          156,
+          409
+        ]
+      },
+      {
+        "length_px": 107.33,
+        "slope_dy_dx": -0.5,
+        "xyxy": [
+          157,
+          457,
+          253,
+          409
+        ]
+      }
+    ],
+    "long_axis_slope_median_dy_dx": -0.5048,
+    "sha256": "4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976"
+  }
+}
