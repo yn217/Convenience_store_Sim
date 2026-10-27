@@ -1,0 +1,38 @@
+[
+  {
+    "schema_version": 1,
+    "sku_id": "snack_001",
+    "display_name": "ポテトスナック",
+    "category": "snack",
+    "purchase_cost_yen": 95,
+    "default_sell_price_yen": 160,
+    "expires_after_seconds": null,
+    "demand_weight": 1,
+    "visual_id": "snack_001_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "snack_002",
+    "display_name": "板チョコ",
+    "category": "snack",
+    "purchase_cost_yen": 80,
+    "default_sell_price_yen": 140,
+    "expires_after_seconds": null,
+    "demand_weight": 1,
+    "visual_id": "snack_002_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "snack_003",
+    "display_name": "グミ",
+    "category": "snack",
+    "purchase_cost_yen": 65,
+    "default_sell_price_yen": 120,
+    "expires_after_seconds": null,
+    "demand_weight": 1,
+    "visual_id": "snack_003_package",
+    "slot_units": 1
+  }
+]

@@ -1,0 +1,80 @@
+{
+  "asset": "shelf_snack",
+  "state": "FULL",
+  "rotation": 0,
+  "tool": "built-in image_gen.imagegen",
+  "only_input_image": "assets/generated/fixtures/shelf_snack/shelf_snack_0_body.png",
+  "guide_sha256": "b26ebbefb52e59e90d119215c24e86726ba9fad8b6b79d999cbdbbd738d9a29d",
+  "guide_unchanged": true,
+  "canvas_px": [
+    442,
+    465
+  ],
+  "anchor_px": [
+    285,
+    318
+  ],
+  "projection_id": "iso2x_v1",
+  "anchor_status": "Manifest anchor retained; bbox centering/bottom registration is approximate, not verified world-origin registration.",
+  "sku_reference": "data/products/mvp_v1.json",
+  "selected": {
+    "a": "shelf_snack_full_r0_a_delivery.png",
+    "b": "shelf_snack_full_r0_b_delivery.png"
+  },
+  "rounds": [
+    {
+      "id": "a_initial",
+      "prompt": "prompt_a.txt",
+      "raw": "a_generated_raw.png",
+      "tool_output_filename": "exec-6ce20914-8b8a-45bd-8f6a-7b9583214416.png",
+      "referenced_image_paths": [
+        "F:\\Cordex_OpenAI\\ゲーム製作_コンビニ経営\\assets\\generated\\fixtures\\shelf_snack\\shelf_snack_0_body.png"
+      ],
+      "transparent_background": true
+    },
+    {
+      "id": "b_initial",
+      "prompt": "prompt_b.txt",
+      "raw": "b_generated_raw.png",
+      "tool_output_filename": "exec-f83adfae-e0b2-43d1-b0bb-6c51416ab648.png",
+      "referenced_image_paths": [
+        "F:\\Cordex_OpenAI\\ゲーム製作_コンビニ経営\\assets\\generated\\fixtures\\shelf_snack\\shelf_snack_0_body.png"
+      ],
+      "transparent_background": true
+    },
+    {
+      "id": "a_geometry",
+      "prompt": "prompt_a_geometry.txt",
+      "raw": "a_geometry_raw.png",
+      "tool_output_filename": "exec-dbd282de-2fe0-490a-91a1-49322bbfa5f0.png",
+      "referenced_image_paths": [
+        "F:\\Cordex_OpenAI\\ゲーム製作_コンビニ経営\\assets\\generated\\fixtures\\shelf_snack\\shelf_snack_0_body.png"
+      ],
+      "transparent_background": true
+    },
+    {
+      "id": "b_geometry",
+      "prompt": "prompt_b_geometry.txt",
+      "raw": "b_geometry_raw.png",
+      "tool_output_filename": "exec-4229730e-5a43-4c32-ac19-4f32b89216b8.png",
+      "referenced_image_paths": [
+        "F:\\Cordex_OpenAI\\ゲーム製作_コンビニ経営\\assets\\generated\\fixtures\\shelf_snack\\shelf_snack_0_body.png"
+      ],
+      "transparent_background": true
+    },
+    {
+      "id": "b_four_rows",
+      "prompt": "prompt_b_four_rows.txt",
+      "raw": "b_four_rows_raw.png",
+      "tool_output_filename": "exec-75faee53-e185-46fd-b60a-f69307a09276.png",
+      "referenced_image_paths": [
+        "F:\\Cordex_OpenAI\\ゲーム製作_コンビニ経営\\assets\\generated\\fixtures\\shelf_snack\\shelf_snack_0_body.png"
+      ],
+      "transparent_background": true
+    }
+  ],
+  "production_approved": false,
+  "exact_geometry_guaranteed": false,
+  "postprocess": "Only uniform full-image resampling and translation to canonical canvas. No separate product cards, 3D product models, warp, alpha cleanup or shelf compositing.",
+  "validation": "Image-only QA and direct visual inspection; no game/full test suite; no runtime changes, commit or push."
+}

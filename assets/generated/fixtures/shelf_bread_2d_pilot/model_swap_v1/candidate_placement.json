@@ -1,0 +1,27 @@
+{
+  "projection_id": "iso2x_v1",
+  "rotation": 0,
+  "state": "FULL",
+  "canvas_px": [
+    442,
+    450
+  ],
+  "anchor_px": [
+    285,
+    303
+  ],
+  "sorting_anchor_px": [
+    285,
+    303
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "candidates": [
+    "shelf_bread_full_r0_candidate_a.png",
+    "shelf_bread_full_r0_candidate_b.png"
+  ],
+  "status": "generated_candidates_with_recorded_geometry_deviation",
+  "geometry_exact_match": false
+}

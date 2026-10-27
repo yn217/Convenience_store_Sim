@@ -1,0 +1,17 @@
+{
+  "candidate_placement.json": "b582cb8e693abc3e5eceb3d0722f97b3c0b0226fb5c4640068ad56acf4bffd45",
+  "comparison_same_scale.png": "a4c6df1a6908b29b75d2763f799abf1788b21160c1ea231c5b44f083f8e9abf7",
+  "generation_manifest.json": "6bb32fd19476ef42b3f71a1f549f331f158c4806022db0c77afa94c80722598c",
+  "generation_provenance.json": "7fdcbcde9e80a170d43676da348446e51b0d00fbecbd0266f503d6d1d7df8479",
+  "input_guide.png": "33d39423542507166e0a3f9ef6575e9ed7378b4b28532538b6a66738353e1715",
+  "measure_and_package.py": "c9f1e8768058674c5d491118346ded63bf828ef4d95dca2b584956213690c260",
+  "original_a.png": "63cd41e5d131ff85ad94f337bede7598eb0f30fbf018d625416e69bb6445af90",
+  "original_b.png": "fd407f86dc16c278562034f6e26bf3d326dde316755edb3afb4b34221b602d1b",
+  "prompt_a.txt": "34bda0c661e3f72c01c5c58e4e1b5681acf2f6c852d8b6831073f8b200e36031",
+  "prompt_b.txt": "c8c03fc91a50f8c9dae88bf0a1a5657b34037b89f0080a9aa26f43983173af58",
+  "qa_metrics.json": "56f82090d5dfa67e83cf7b40bd429084cd7f9c13865d151e502dbb7089b2bcf9",
+  "qa_visual.json": "d8b05b13788d19507388f5ad2b3f8d65f12225c420beefb6111338114714d384",
+  "README.md": "754cd32e56a5409a1f537981f7d888d754a774c16b360aba3f390dd82ff29388",
+  "shelf_bread_full_r0_candidate_a.png": "c4b7ac5df97391ead0943778ba4fcf47eb28a6ab4f3817d016a8863570cf56a9",
+  "shelf_bread_full_r0_candidate_b.png": "078dc4553fd4670c2f7999c211dc92e2e762498658d7838054de7d10aaa6f8e7"
+}
