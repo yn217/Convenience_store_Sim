@@ -154,6 +154,11 @@ func _run() -> void:
 		await _capture_intent(main, s, out_png)
 		quit(0)
 		return
+	if OS.get_cmdline_user_args().has("--blocked"):   # #20 SCR-14: the store could not pay its costs
+		s.business_state = GameState.PAYMENT_BLOCKED
+		s.unpaid_cost_yen = 25000
+		s.speed_setting = 0
+		app._publish_snapshot()
 	for i in 30:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)

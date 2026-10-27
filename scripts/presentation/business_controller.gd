@@ -45,11 +45,15 @@ var _entrance_key := []
 var _size_info: Label
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
+var _blocked: PanelContainer   # #20 SCR-14: the store cannot go on (payment blocked)
+var _blocked_text: Label
+var _blocked_load: Button
 
 
 func setup(app: Node, balance: Dictionary) -> void:
 	_app = app
 	_tiers = balance.get("advertising_tiers", [])
+	_build_blocked_panel()
 	var title := Label.new()
 	title.text = "営業"
 	title.add_theme_font_size_override("font_size", 20)
@@ -202,9 +206,71 @@ func setup(app: Node, balance: Dictionary) -> void:
 	_body.add_child(_status)
 
 
+## SCR-14 (#20): a panel over the store when the day's costs could not be paid — what happened, the unpaid
+## amount, and the two ways on: load the last good save, or start a new game. Nothing is rolled back by itself.
+func _build_blocked_panel() -> void:
+	_blocked = PanelContainer.new()
+	_blocked.name = "PaymentBlockedPanel"
+	_blocked.theme_type_variation = &"Card"
+	_blocked.visible = false
+	_blocked.custom_minimum_size = Vector2(460, 0)
+	_blocked.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	_blocked.grow_horizontal = Control.GROW_DIRECTION_BOTH   # grows out from the centre of the screen
+	_blocked.grow_vertical = Control.GROW_DIRECTION_BOTH
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 10)
+	_blocked.add_child(col)
+	var title := Label.new()
+	title.text = "営業の継続ができません"
+	title.theme_type_variation = &"SectionTitle"
+	col.add_child(title)
+	_blocked_text = Label.new()
+	_blocked_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	col.add_child(_blocked_text)
+	_blocked_load = Button.new()
+	_blocked_load.name = "LoadLatest"
+	_blocked_load.text = "直近の正常なセーブを読み込む"
+	_blocked_load.theme_type_variation = &"PrimaryButton"
+	_blocked_load.pressed.connect(load_latest)
+	col.add_child(_blocked_load)
+	var fresh := Button.new()
+	fresh.name = "NewGame"
+	fresh.text = "新しいゲームを開始"
+	fresh.pressed.connect(new_game)
+	col.add_child(fresh)
+	get_parent().add_child.call_deferred(_blocked)
+
+
+## What the panel says (#20).
+static func blocked_text(unpaid_yen: int, has_save: bool) -> String:
+	return "日付が変わったときの費用の支払いで、現金が足りなくなりました（未払い %s）。
+売上・在庫・予約を勝手に巻き戻すことはしません。%s" % [
+		GameHud.format_yen(unpaid_yen), "" if has_save else "
+（読み込めるセーブがありません）"]
+
+
+## Loads the slot saved last.
+func load_latest() -> CommandResult:
+	var slot := SaveStore.latest_slot(_app.save_dir)
+	if slot == "":
+		return CommandResult.failure(&"INVALID_OPERATION", 0, &"no_save")
+	return _app.run_command({"command_id": "ui_blocked_load_%d" % Time.get_ticks_usec(), "kind": &"LOAD_GAME", "slot_id": slot})
+
+
+## Starts over with a new store (reloads the main scene).
+func new_game() -> void:
+	get_tree().reload_current_scene()
+
+
 func apply_snapshot(snap: Dictionary) -> void:
 	_snap = snap
 	var state := String(snap.get("business_state", "SETUP"))
+	if _blocked != null:   # #20 SCR-14
+		_blocked.visible = state == "PAYMENT_BLOCKED"
+		if _blocked.visible:
+			var has_save := SaveStore.latest_slot(_app.save_dir) != ""
+			_blocked_text.text = blocked_text(int(snap.get("unpaid_cost_yen", 0)), has_save)
+			_blocked_load.disabled = not has_save
 	var opening: Dictionary = snap.get("opening", {})
 	_start.disabled = state != "SETUP" or (not opening.is_empty() and not opening["ready"])
 	_checklist.text = checklist_text(opening) if state == "SETUP" else ""
