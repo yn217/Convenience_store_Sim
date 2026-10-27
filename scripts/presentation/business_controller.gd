@@ -251,6 +251,8 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_expand.text = "増築なし（最大）" if nxt.is_empty() else "増築：%s %s" % [nxt["display_name"], GameHud.format_yen(int(nxt["expand_cost_yen"]))]
 	_expand.disabled = nxt.is_empty() or not _size.disabled or state != "SETUP"
 	_size_info.text = size_text(snap)
+	if int(snap.get("construction_days", 0)) > 0:   # #145
+		_size_info.text += "\n増築工事：次に開店するとき、工事の %d 日間を休業してから開店します（その間も固定費・電気代・人件費がかかり、売上はありません）。" % int(snap["construction_days"])
 	var unpaid := int(snap.get("unpaid_cost_yen", 0))
 	if state == "PAYMENT_BLOCKED":
 		_status.text = "費用を支払えず営業を停止しました（未払い %s）。セーブからやり直してください。" % GameHud.format_yen(unpaid)
@@ -321,7 +323,7 @@ func expand_store() -> CommandResult:
 static func size_text(snap: Dictionary) -> String:
 	if not bool(snap.get("location_locked", true)):
 		return "最初の営業開始までは無料で選べます。大きい店ほど棚を多く置け、大きい控え室（店員の上限）も置けます。"
-	return "増築は閉店中（準備中）にできます。奥と横に床が広がり、入口の壁と什器の並びはそのまま残ります。"
+	return "増築は閉店中（準備中）にできます。奥と横に床が広がり、入口の壁と什器の並びはそのまま残ります。工事のあいだ（中は2日・大は3日）は休業です。"
 
 
 ## Opens the area map (#150): sites to pick before the first opening, the facilities around them and a forecast.

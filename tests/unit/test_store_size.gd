@@ -86,3 +86,40 @@ func test_extend_while_closed(t, _tree) -> void:
 	var lr := SaveGame.from_dict(saved, s.balance, s.fixtures, s.products)
 	t.ok(lr["ok"], str(lr["errors"]))
 	t.eq((lr["state"] as GameState).grid.width, 20, "the size survives a save")
+
+
+## The expansion work (#145): opening after an extension first passes its days (medium 2, large 3) — charged like a
+## business day, reported with no sales — then the store opens; the days left survive a save.
+func test_expansion_work_keeps_the_store_shut(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	var r := cmds.execute({"command_id": "ex", "kind": &"EXPAND_STORE"})
+	t.ok(r.ok, "extended: %s" % r.message_key)
+	var days := int(StoreSize.find(s.balance, "large")["construction_days"])
+	t.eq([s.grid.width, s.grid.height], [20, 16], "medium to large")
+	t.eq(days, 3, "three days of work for the large store")
+	t.eq(s.construction_days, days, "the work is still to come")
+	t.ok(BusinessController.size_text({"location_locked": true}).contains("休業"), "the card says the store shuts for the work")
+	var saved := SaveGame.to_dict(s, "work", "2026-10-27T00:00:00Z")
+	var lr := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(lr["ok"], str(lr["errors"]))
+	t.eq((lr["state"] as GameState).construction_days, days, "the days of work survive a save")
+	Run.restock(s, cmds, 0)
+	var day0 := s.day
+	var reports0 := s.daily_reports.size()
+	r = cmds.execute({"command_id": "open", "kind": &"START_BUSINESS"})
+	t.ok(r.ok, "opens after the work: %s" % r.message_key)
+	t.eq(s.day, day0 + days, "the date moved on by the days of work")
+	t.eq(s.business_state, GameState.OPEN, "then the store is open")
+	t.eq(s.construction_days, 0, "the work is done")
+	t.eq(s.daily_reports.size(), reports0 + days, "a report for every day of work")
+	for rep in s.daily_reports.slice(reports0):
+		t.eq(int(rep["revenue_yen"]), 0, "no sales while shut")
+	for d in range(day0, day0 + days + 1):
+		t.ok(BusinessService.day_charged(s, d), "day %d charged" % d)
+	var fixed := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "DAILY_FIXED")
+	t.eq(fixed.size(), days + 1, "fixed cost for each day of work and the opening day")
+	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
+	var again := cmds.execute({"command_id": "open2", "kind": &"START_BUSINESS"})
+	t.ok(not again.ok, "only once")
+

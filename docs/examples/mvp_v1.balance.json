@@ -5,8 +5,8 @@
   "tile_meters": 1,
   "store_sizes": [
     {"size_id": "small", "display_name": "小", "width": 12, "height": 10, "expand_cost_yen": 0, "open_cost_yen": 3000000},
-    {"size_id": "medium", "display_name": "中", "width": 16, "height": 12, "expand_cost_yen": 600000, "open_cost_yen": 5000000},
-    {"size_id": "large", "display_name": "大", "width": 20, "height": 16, "expand_cost_yen": 1200000, "open_cost_yen": 8000000}
+    {"size_id": "medium", "display_name": "中", "width": 16, "height": 12, "expand_cost_yen": 600000, "construction_days": 2, "open_cost_yen": 5000000},
+    {"size_id": "large", "display_name": "大", "width": 20, "height": 16, "expand_cost_yen": 1200000, "construction_days": 3, "open_cost_yen": 8000000}
   ],
   "starting_cash_yen": 500000,
   "starting_reputation": 50,

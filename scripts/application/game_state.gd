@@ -41,6 +41,7 @@ var applied_ad_tier_yen: int = 0
 var next_day_ad_yen: int = 0
 ## Costs recognised but not paid because cash ran out (shown separately from cash).
 var unpaid_cost_yen: int = 0
+var construction_days: int = 0   # #145: days of expansion work still to pass before the store opens again
 ## Today's visitor counters, kept apart (03 §G): wished-to-visit / actually entered / turned away.
 var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 var staff: Array = []          # #143: store staff (StaffAI)
@@ -327,7 +328,7 @@ func snapshot() -> Dictionary:
 		"visitors_by_hour": visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": visitors_by_hour_yesterday.duplicate(),
 		"facilities": facilities.duplicate(), "facility_visits": facility_visits.duplicate(), "max_facilities": NearbyFacility.max_count(),
 		"store_size_id": String(StoreSize.of_grid(balance, grid).get("size_id", "")), "store_sizes": StoreSize.all(balance),
-		"next_store_size": StoreSize.next(balance, grid),
+		"next_store_size": StoreSize.next(balance, grid), "construction_days": construction_days,
 		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
 		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),
 		"passersby_per_day": int(balance.get("passersby_per_day", 0)) if bool(balance.get("outdoor_approach", false)) else 0,   # #142, presentation only   # the figures walk at the simulation's pace (#117 v2)

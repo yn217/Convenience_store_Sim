@@ -224,6 +224,11 @@ func _start_business(command_id: String) -> CommandResult:
 	var problem := BusinessService.opening_problem(_state)
 	if problem != &"":
 		return _fail(problem, StringName(String(problem).to_lower()))
+	var work := _state.construction_days
+	if work > 0:   # #145: the days of the expansion work pass first
+		if BusinessService.total(BusinessService.day_costs(_state)) * (work + 1) > _state.cash_yen:
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+		_pass_construction_days(work)
 	if not BusinessService.day_charged(_state, _state.day):
 		if BusinessService.total(BusinessService.day_costs(_state)) > _state.cash_yen:
 			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
@@ -232,7 +237,30 @@ func _start_business(command_id: String) -> CommandResult:
 	_state.speed_setting = 1
 	_state.last_nonzero_speed = 1
 	var events: Array[String] = ["%s:BUSINESS_STARTED" % command_id]
-	return _commit(command_id, events)
+	if work > 0:
+		events.push_front("%s:CONSTRUCTION_FINISHED" % command_id)
+	return _commit(command_id, events, {"construction_days": work})
+
+
+## The expansion work (#145): the store stays shut for `days` days before it opens. Each of them is charged like a
+## business day (fixed cost, electricity, wages, ads) and reported with no sales; the date moves on hour by hour,
+## so stock still expires, the day's events and the rivals move on, and the company's other stores keep trading.
+func _pass_construction_days(days: int) -> void:
+	for i in days:
+		if not BusinessService.day_charged(_state, _state.day):
+			BusinessService.charge_day(_state, _state.day, false)
+		var midnight := (_state.day + 1) * DemandModel.SECONDS_PER_DAY
+		while _state.time_sec < midnight:
+			var prev_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
+			_state.time_sec = mini((_state.time_sec / 3600 + 1) * 3600, midnight)
+			InventoryService.sweep_expired(_state)
+			EventService.step(_state)
+			var new_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
+			if new_day != prev_day:
+				SimulationRunner.roll_day(_state, prev_day, new_day)
+				Market.on_new_day(_state)
+			BranchSim.step(_state)
+	_state.construction_days = 0
 
 
 func _request_close(command_id: String) -> CommandResult:
@@ -292,7 +320,10 @@ func _expand_store(command_id: String) -> CommandResult:
 	var size := StoreSize.next(_state.balance, _state.grid)
 	if size.is_empty():
 		return _fail(&"INVALID_OPERATION", &"largest_store")
-	return _resize(command_id, size, int(size.get("expand_cost_yen", 0)), "STORE_EXPANDED")
+	var r := _resize(command_id, size, int(size.get("expand_cost_yen", 0)), "STORE_EXPANDED")
+	if r.ok:
+		_state.construction_days += int(size.get("construction_days", 0))   # #145: shut that long when it opens
+	return r
 
 
 func _resize(command_id: String, size: Dictionary, cost: int, event: String) -> CommandResult:
