@@ -326,7 +326,10 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 		var nn := _edge_len(near, width, height)
 		var f := 3.0
 		while f < nn:
-			_add(out, "flower_planter_painted_v1", near, width, height, 1.1, f)
+			# Leave a clear gap around the equipment on the east wall.
+			var near_equipment: bool = near == SIDE_EAST and side != SIDE_EAST and width >= 8 and height >= 8 and absf(f - float(height) * 0.41) < 1.5
+			if not near_equipment:
+				_add(out, "flower_planter_painted_v1", near, width, height, 1.1, f)
 			f += FLOWER_STRIDE
 	return out
 

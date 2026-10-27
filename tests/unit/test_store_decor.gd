@@ -170,3 +170,17 @@ func test_sync_caches_until_the_key_changes(t, _tree) -> void:
 	decor.sync(W, H, ENTR, [], null, _proj(1.6), Vector2(1280, 720))
 	t.ok(decor._ops != first, "a camera change rebuilds the ops")
 	decor.free()
+
+func test_large_store_equipment_does_not_overlap_planter(t, _tree) -> void:
+	var items := StoreDecor.exterior_items(20, 16, [Vector2i(8, 15)])
+	var equipment := Vector2.ZERO
+	var found := false
+	for item in items:
+		if item.get("id", "") == "exterior_hvac_v1":
+			equipment = Vector2(item["x"], item["y"])
+			found = true
+	t.ok(found, "large store has exterior equipment")
+	for item in items:
+		if item.get("id", "") == "flower_planter_painted_v1":
+			var point := Vector2(item["x"], item["y"])
+			t.ok(point.distance_to(equipment) >= 1.5, "planters leave room around equipment")
