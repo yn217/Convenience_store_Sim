@@ -238,6 +238,11 @@ func _build_blocked_panel() -> void:
 	fresh.text = "新しいゲームを開始"
 	fresh.pressed.connect(new_game)
 	col.add_child(fresh)
+	var to_title := Button.new()
+	to_title.name = "ToTitle"
+	to_title.text = "タイトルへ"   # #28
+	to_title.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/title/Title.tscn"))
+	col.add_child(to_title)
 	get_parent().add_child.call_deferred(_blocked)
 
 

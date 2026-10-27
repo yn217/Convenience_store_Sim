@@ -1,3 +1,4 @@
+class_name AppRoot
 extends Node
 ## Boot + dependency injection (01 §5). Starts paused in SETUP with an empty store.
 
@@ -17,6 +18,8 @@ var commands: GameCommands
 var runner: SimulationRunner
 ## Where save files live (tests point this at a scratch folder).
 var save_dir: String = SaveStore.DIR
+## The slot to load when the game starts (the title screen's 続きから, #28); "" = a new game.
+static var start_slot := ""
 var _balance: Dictionary
 var _fixtures: FixtureCatalog
 var cue_bridge := PresentationEventBridge.new()
@@ -92,6 +95,10 @@ func _ready() -> void:
 		pricer.setup(self, products)
 	ProgressionService.evaluate(state)   # tut_01: the game is running
 	_publish_snapshot()
+	if start_slot != "":   # #28: 続きから on the title screen
+		var slot := start_slot
+		start_slot = ""
+		_load_game(slot, false)
 
 
 func _process(delta: float) -> void:
