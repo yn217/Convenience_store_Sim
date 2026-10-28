@@ -16,6 +16,8 @@ var _company: Label   # #146: all stores of the company together
 var _day_end: PanelContainer   # #19 SCR-13: the day's result when the date moves on
 var _day_end_text: Label
 var _seen_reports := -1
+var _day_log := {}             # day -> {event, titles}: what each day had, gathered from the snapshots (#19)
+var _done_titles = null        # completed milestone ids at the last snapshot (null before the first)
 
 
 func setup(_app: Node) -> void:
@@ -111,13 +113,45 @@ func _build_day_end() -> void:
 	get_parent().add_child.call_deferred(_day_end)
 
 
+## Gathers the day's event and the titles won since the last snapshot into _day_log (the day-end card lists them).
+func _note_day(snap: Dictionary) -> void:
+	var ev: Dictionary = snap.get("gameplay_event", {})
+	if String(ev.get("status", "")) in ["active", "ended"]:
+		_entry(int(ev["day"]))["event"] = String(ev["name_ja"])
+	var done: Array = snap.get("progression", {}).get("completed_milestone_ids", [])
+	if _done_titles != null:
+		for m in snap.get("milestone_progress", []):
+			if done.has(m["milestone_id"]) and not (_done_titles as Array).has(m["milestone_id"]):
+				_entry(int(snap.get("day", 0)))["titles"].append(String(m["name_ja"]))
+	_done_titles = done.duplicate()
+
+
+func _entry(day: int) -> Dictionary:
+	if not _day_log.has(day):
+		_day_log[day] = {"event": "", "titles": []}
+	return _day_log[day]
+
+
+## The day's history under the result: its event, its daily challenge (achieved or not) and the titles won.
+## `entry` is {event, titles} for the day; `progression` the snapshot's (completed challenge ids).
+static func day_history_lines(day: int, entry: Dictionary, progression: Dictionary) -> Array[String]:
+	var out: Array[String] = []
+	var ev := String(entry.get("event", ""))
+	out.append("今日のイベント：%s" % (ev if ev != "" else "なし"))
+	var cid := ProgressionService.challenge_for_day(day)
+	if cid != "":
+		var done: Array = progression.get("completed_daily_challenge_ids", [])
+		var what := String(ProgressionText.CHALLENGE.get(cid, "")).trim_prefix("今日のチャレンジ: ")
+		out.append("チャレンジ：%s　%s" % ["達成" if done.has(ProgressionService.challenge_event_id(day, cid)) else "未達成", what])
+	var titles: Array = entry.get("titles", [])
+	out.append("獲得した称号：%s" % ("、".join(titles) if not titles.is_empty() else "なし"))
+	return out
+
+
 ## What the card says for one closed day.
 static func day_end_text(r: Dictionary) -> String:
-	return "DAY %d　営業結果
-売上高 %s
-粗利益 %s
-営業利益 %s
-今日の来店 %d人 ／ 購買 %d人 ／ 廃棄 %s" % [
+	# One row per line, joined with \n (the multi-line literal showed blank lines between the first rows on the card).
+	return "\n".join(["DAY %d　営業結果", "売上高 %s", "粗利益 %s", "営業利益 %s", "今日の来店 %d人 ／ 購買 %d人 ／ 廃棄 %s"]) % [
 		int(r["day_index"]), GameHud.format_yen(int(r["revenue_yen"])), GameHud.format_yen(int(r["gross_profit_yen"])),
 		GameHud.format_yen(int(r["operating_profit_yen"])), int(r["visitors"]), int(r["purchasing_customers"]), GameHud.format_yen(int(r["wastage_yen"]))]
 
@@ -125,8 +159,11 @@ static func day_end_text(r: Dictionary) -> String:
 func apply_snapshot(snap: Dictionary) -> void:
 	var reports: Array = snap.get("daily_reports", [])
 	if _day_end != null:   # shown when exactly one more day closed (not on a load or a store switch)
+		_note_day(snap)
 		if _seen_reports >= 0 and reports.size() == _seen_reports + 1:
-			_day_end_text.text = day_end_text(reports.back())
+			var closed: Dictionary = reports.back()
+			var day := int(closed["day_index"])
+			_day_end_text.text = day_end_text(closed) + "\n" + "\n".join(day_history_lines(day, _day_log.get(day, {}), snap.get("progression", {})))
 			_day_end.visible = true
 		_seen_reports = reports.size()
 	_label.text = summary_text(reports)

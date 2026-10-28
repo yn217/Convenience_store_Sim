@@ -178,6 +178,10 @@ func _run() -> void:
 		s.unpaid_cost_yen = 25000
 		s.speed_setting = 0
 		app._publish_snapshot()
+	if OS.get_cmdline_user_args().has("--day-end"):   # #19 SCR-13: close today now, the day-end card with its history
+		s.speed_setting = 0
+		s.close_day_once(s.day)
+		app._publish_snapshot()
 	for i in 30:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)
