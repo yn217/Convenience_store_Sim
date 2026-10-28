@@ -1,5 +1,6 @@
 """Focused validation for Issue #91 Blender inventory-state candidates."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -41,6 +42,23 @@ def main():
     origin = centers["marker_o"]
     projection = {}
     errors = []
+    fixture = manifest["fixture_type_id"]
+    if set(manifest.get("states", {})) != {"FULL", "HALF", "EMPTY"}:
+        errors.append("manifest must contain exactly FULL/HALF/EMPTY states")
+    expected_product_shapes = {
+        "fridge_drink": {"bottle_500": [0.068, 0.068, 0.225]},
+        "shelf_noodle": {"cup_noodle": [0.110, 0.110, 0.120]},
+        "shelf_general": {"snack_pouch": [0.130, 0.055, 0.215], "cup_noodle": [0.110, 0.110, 0.120]},
+    }
+    if manifest.get("product_setup", {}).get("shape_dimensions_m") != expected_product_shapes.get(fixture):
+        errors.append("product shape dimensions do not match the fixture contract")
+    repository_root = Path(__file__).resolve().parents[2]
+    for relative, digest in provenance.get("source_art_sha256", {}).items():
+        source_path = repository_root / relative
+        if not source_path.is_file():
+            errors.append("missing generated source art: %s" % relative)
+        elif hashlib.sha256(source_path.read_bytes()).hexdigest() != digest:
+            errors.append("generated source art hash mismatch: %s" % relative)
     for key, (dx, dy, tolerance) in EXPECTED_PROJECTION.items():
         actual = [centers[key][0] - origin[0], centers[key][1] - origin[1]]
         projection[key] = {"actual_px": actual, "expected_px": [dx, dy], "tolerance_px": tolerance}
@@ -52,15 +70,17 @@ def main():
 
     image_count = 0
     stock_counts = {"FULL": [], "HALF": [], "EMPTY": []}
-    fixture = manifest["fixture_type_id"]
+    expected_counts = manifest["product_counts_by_state"]
     for state, state_record in manifest["states"].items():
         if state not in stock_counts or set(state_record["rotations"]) != {"0", "1", "2", "3"}:
             errors.append("invalid stock state or rotation set: %s" % state)
             continue
         for rotation, record in state_record["rotations"].items():
             width, depth, height = [record["mesh_bbox"]["max"][i] - record["mesh_bbox"]["min"][i] for i in range(3)]
-            expected_width, expected_depth = ((0.92, 1.92) if int(rotation) % 2 == 0 else (1.92, 0.92))
-            if width > expected_width + 0.001 or depth > expected_depth + 0.001 or abs(height - 2.0) > 0.01:
+            expected_width, expected_depth = (manifest["dimensions_m"]["width"], manifest["dimensions_m"]["depth"])
+            if int(rotation) % 2:
+                expected_width, expected_depth = expected_depth, expected_width
+            if width > expected_width + 0.001 or depth > expected_depth + 0.001 or abs(height - manifest["dimensions_m"]["height"]) > 0.01:
                 errors.append("r%s mesh bbox outside fixture size: %.4f x %.4f x %.4f" % (rotation, width, depth, height))
             if not set(("body", "products", "glass_front", "shadow", "composite")).issubset(record["layers"]):
                 errors.append("missing required layers: %s r%s" % (state, rotation))
@@ -80,12 +100,8 @@ def main():
                 errors.append("stock-state crop/anchor mismatch: %s r%s" % (state, rotation))
             if manifest.get("runtime_approved") is not False:
                 errors.append("candidate must remain runtime_approved:false")
-            if state == "FULL" and record.get("product_count") != 24:
-                errors.append("FULL should contain 24 bottles, got %s" % record.get("product_count"))
-            if state == "HALF" and record.get("product_count") != 12:
-                errors.append("HALF should contain 12 bottles, got %s" % record.get("product_count"))
-            if state == "EMPTY" and record.get("product_count") != 0:
-                errors.append("EMPTY should contain 0 bottles, got %s" % record.get("product_count"))
+            if record.get("product_count") != expected_counts[state]:
+                errors.append("%s should contain %d modeled products, got %s" % (state, expected_counts[state], record.get("product_count")))
 
     for rotation in range(4):
         full_pixels = stock_counts["FULL"][rotation]
@@ -99,7 +115,7 @@ def main():
         "calibration": {"status": "PASS" if not errors else "FAIL", "origin_px": origin, "projection": projection},
         "mesh_dimensions": {"status": "PASS" if not errors else "FAIL", "expected_dimensions_m": manifest["dimensions_m"], "footprint": manifest["footprint"], "per_rotation_measured": {r: manifest["states"]["FULL"]["rotations"][r]["mesh_bbox"] for r in ("0", "1", "2", "3")}},
         "rgba_layer_images_checked": image_count,
-        "product_counts_by_state": {state: (24 if state == "FULL" else 12 if state == "HALF" else 0) for state in stock_counts},
+        "product_counts_by_state": expected_counts,
         "runtime_approved": False,
         "errors": errors,
     }
@@ -108,7 +124,7 @@ def main():
     if errors:
         print("FAIL\n- " + "\n- ".join(errors))
         raise SystemExit(1)
-    print("PASS: iso2x calibration, 12 states/rotations, 24/12/0 product counts, measured bbox, RGBA layer/crop consistency")
+    print("PASS: iso2x calibration, 12 states/rotations, product counts %s/%s/%s, measured bbox, RGBA layer/crop consistency" % (expected_counts["FULL"], expected_counts["HALF"], expected_counts["EMPTY"]))
     if args.report:
         print("REPORT:", args.report)
 
