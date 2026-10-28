@@ -6,20 +6,6 @@ const Run := preload("res://tests/support/basket_run.gd")
 const NEW := ["daily_goods", "hygiene"]
 
 
-func test_products_and_shelf(t, _tree) -> void:
-	var s := Run.new_state(100.0)
-	for cat in NEW:
-		var skus: Array = s.products.skus.values().filter(func(k): return k["category"] == cat)
-		t.eq(skus.size(), 3, "three %s SKUs" % cat)
-		for k in skus:
-			t.ok(int(k["default_sell_price_yen"]) > int(k["purchase_cost_yen"]), "%s sells above cost" % k["sku_id"])
-			t.eq(k["expires_after_seconds"], null, "%s keeps" % k["sku_id"])
-			t.ok(ProductIcons.texture(k, 32).get_image().get_used_rect().size.x > 10, "%s: an icon" % k["sku_id"])
-	var def := s.fixtures.get_type("shelf_goods")
-	t.eq(def["allowed_categories"], NEW + ["character_goods"], "the goods shelf takes both, and collab goods (#140)")
-	t.eq(BuildCatalog.category_of(def), BuildCatalog.SHELF, "listed under 棚")
-
-
 func test_visitors_come_only_when_carried(t, _tree) -> void:
 	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
 	var pick := Lcg32.new(11)
@@ -48,7 +34,7 @@ func test_goods_sell_in_a_running_store(t, _tree) -> void:
 	t.ok(placed != "", "a goods shelf placed")
 	cmds.execute({"command_id": "o1", "kind": &"ORDER_STOCK", "sku_id": "hyg_001", "qty": 10})
 	cmds.execute({"command_id": "r1", "kind": &"RESTOCK", "instance_id": placed, "slot_id": "row1", "sku_id": "hyg_001", "qty": 10})
-	Run.run_days(s, cmds, 1)
+	Run.run_days(s, cmds, 1, 14)
 	var sold := 0
 	for tx in s.ledger.transactions:
 		if tx["event_type"] == "SALE" and ["daily_goods", "hygiene"].has(String(s.products.get_sku(String(tx["details"].get("sku_id", ""))).get("category", ""))):

@@ -79,7 +79,7 @@ func test_a_sale_sells_more_and_books_the_discount(t, _tree) -> void:
 		var cmds := Run.place_layout(s)
 		if promo:
 			cmds.execute({"command_id": "p1", "kind": &"START_PROMOTION", "def_id": "sale_onigiri", "days": 2})
-		Run.run_days(s, cmds, 1)
+		Run.run_days(s, cmds, 1, 14)
 		units[promo] = _units_of(s, "rice_ball")
 		if promo:
 			var disc := 0
@@ -165,7 +165,7 @@ func test_a_multi_buy_deal_sells_more_units(t, _tree) -> void:
 		var cmds := Run.place_layout(s)
 		if promo:
 			cmds.execute({"command_id": "p1", "kind": &"START_PROMOTION", "def_id": "multi_snack", "days": 2})
-		Run.run_days(s, cmds, 1)
+		Run.run_days(s, cmds, 1, 16)
 		units[promo] = _units_of(s, "snack")
 		if promo:
 			var rows := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "DISCOUNT" and String(tx["event_id"]).contains(":MULTI:"))
@@ -290,7 +290,7 @@ func test_gifts_in_a_running_store(t, _tree) -> void:
 	var cmds := Run.place_layout(s)
 	cmds.execute({"command_id": "g1", "kind": &"START_PROMOTION", "def_id": "gift_sticker", "days": 2})
 	var id: String = s.promotions[0]["promotion_id"]
-	Run.run_days(s, cmds, 1)
+	Run.run_days(s, cmds, 1, 14)
 	var st: Dictionary = s.promo_stats[id]
 	t.ok(int(st.get("given", 0)) > 0, "stickers handed out (%d)" % int(st.get("given", 0)))
 	t.eq(int(st["given"]) + int(st["stock"]), 60, "given + left = bought")
@@ -378,7 +378,7 @@ func test_a_collab_fair_with_limited_goods(t, _tree) -> void:
 					shelf = p.data["instance_id"]
 	t.ok(cmds.execute({"command_id": "g1", "kind": &"ORDER_STOCK", "sku_id": "cgoods_002", "qty": 10}).ok, "orderable while it runs")
 	t.ok(cmds.execute({"command_id": "g2", "kind": &"RESTOCK", "instance_id": shelf, "slot_id": "row0", "sku_id": "cgoods_002", "qty": 10}).ok, "on the goods shelf")
-	Run.run_days(s, cmds, 1)
+	Run.run_days(s, cmds, 1, 18)
 	var sold := 0
 	for tx in s.ledger.transactions:
 		if tx["event_type"] == "SALE" and String(tx["details"].get("sku_id", "")).begins_with("cgoods_"):

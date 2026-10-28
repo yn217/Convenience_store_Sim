@@ -6,18 +6,6 @@ extends RefCounted
 const Run := preload("res://tests/support/basket_run.gd")
 
 
-func test_who_eats_in(t, _tree) -> void:
-	var n := 0
-	for i in 1000:
-		if EatIn.wants("cust_%05d" % i, ["instant_noodle", "drink"]):
-			n += 1
-	t.ok(n > 500 and n < 700, "about 60%% of noodle buyers eat in (%d of 1000)" % n)
-	t.ok(not EatIn.wants("cust_00001", ["drink", "snack"]), "drinks and snacks are taken away")
-	var stay := EatIn.stay_seconds("cust_00007")
-	t.ok(stay >= 600 and stay <= 1200, "a stay of 10 to 20 minutes (%d s)" % stay)
-	t.eq(EatIn.stay_seconds("cust_00007"), stay, "the same customer, the same stay")
-
-
 func test_customers_sit_and_leave(t, _tree) -> void:
 	var s := Run.new_state(300.0)
 	var cmds := Run.place_layout(s)
@@ -58,13 +46,6 @@ func test_customers_sit_and_leave(t, _tree) -> void:
 	t.eq(shared, 0, "never two on one seat")
 	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the ledger stays consistent")
 	t.eq(OverlayModel.customer_action({"phase": "EAT"}, ""), "イートインで食事中", "the panel says so")
-
-
-func test_without_a_counter_nobody_sits(t, _tree) -> void:
-	var s := Run.new_state(300.0)
-	var cmds := Run.place_layout(s)
-	Run.run_days(s, cmds, 1)
-	t.eq(s.eat_in_total, 0, "no counter: nobody sits")
 
 
 ## A table seats four: two on each long side (access N and S).

@@ -48,7 +48,9 @@ static func restock(s: GameState, cmds: GameCommands, round_no: int) -> void:
 
 ## Runs `days` full game days. Returns {units: Array, revenue: Array, buyers: Array, visitors: Array,
 ## peak: int, occupancy: float (mean customers in the store per step), steps: int}.
-static func run_days(s: GameState, cmds: GameCommands, days: int) -> Dictionary:
+## `until_hour` (< 24) stops the last day at that game hour: enough for a test that only needs the goods to sell
+## (the day is not closed then, so it has no daily report).
+static func run_days(s: GameState, cmds: GameCommands, days: int, until_hour: int = 24) -> Dictionary:
 	var out := {"units": [], "revenue": [], "buyers": [], "visitors": [], "peak": 0, "occupancy": 0.0, "steps": 0}
 	var runner := SimulationRunner.new(s)
 	var customer_steps := 0
@@ -60,7 +62,8 @@ static func run_days(s: GameState, cmds: GameCommands, days: int) -> Dictionary:
 			cmds.execute({"command_id": "open", "kind": &"START_BUSINESS"})
 		var guard := 0
 		var tx_before := s.ledger.transactions.size()
-		while s.day == day and guard < 100000:
+		var stop_sec := day * DemandModel.SECONDS_PER_DAY + until_hour * 3600 if day == days - 1 and until_hour < 24 else 1 << 62
+		while s.day == day and guard < 100000 and s.time_sec < stop_sec:
 			runner._run_step()
 			customer_steps += s.customers.size()
 			histogram[s.customers.size()] = int(histogram.get(s.customers.size(), 0)) + 1

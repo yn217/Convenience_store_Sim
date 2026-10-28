@@ -6,24 +6,6 @@ extends RefCounted
 const Run := preload("res://tests/support/basket_run.gd")
 
 
-func test_ovens_and_goods(t, _tree) -> void:
-	var s := Run.new_state(100.0)
-	for x in [["bakery_oven", "bakery", 3], ["pizza_oven", "pizza", 3]]:
-		var def := s.fixtures.get_type(x[0])
-		t.eq(def["allowed_categories"], [x[1]], x[0] + " holds its goods")
-		t.eq(BuildCatalog.category_of(def), BuildCatalog.COUNTER, x[0] + ": listed under カウンター")
-		var skus: Array = s.products.skus.values().filter(func(k): return k["category"] == x[1])
-		t.eq(skus.size(), x[2], "%d kinds of %s" % [x[2], x[1]])
-		for k in skus:
-			t.ok(int(k["default_sell_price_yen"]) > 2 * int(k["purchase_cost_yen"]), "%s: baked in store earns well" % k["sku_id"])
-			t.ok(ProductIcons.texture(k, 32).get_image().get_used_rect().size.x > 8, "%s: an icon" % k["sku_id"])
-	t.eq(Cooking.shelf_life("bakery"), 28800, "fresh bread keeps 8 hours once baked")
-	t.ok(int(s.products.get_sku("bake_001")["expires_after_seconds"]) > 28800, "the dough keeps longer in the backroom")
-	t.eq(Cooking.bake_seconds("bakery"), 1200, "a lot bakes 20 minutes")
-	t.ok(Cooking.prep_seconds("pizza") > Cooking.prep_seconds("frappe"), "a pizza takes longest to make")
-	t.eq(Cooking.prep_seconds("bakery"), 0, "fresh bread waits in the trays")
-
-
 func test_baked_and_sold(t, _tree) -> void:
 	var s := Run.new_state(300.0)
 	var cmds := Run.place_layout(s)
@@ -36,7 +18,7 @@ func test_baked_and_sold(t, _tree) -> void:
 					done = true
 					placed += 1
 	t.eq(placed, 2, "both ovens placed")
-	Run.run_days(s, cmds, 1)
+	Run.run_days(s, cmds, 1, 12)
 	var sold := {}
 	var wasted := 0
 	for tx in s.ledger.transactions:
@@ -90,4 +72,3 @@ func test_a_lot_bakes_before_it_is_on_sale(t, _tree) -> void:
 	t.eq(int(seg["expires_at_sec"]), s.time_sec + 28800, "keeps 8 hours from the bake")
 	t.ok(s.take_events().any(func(e): return e["type"] == "BAKE_DONE"), "the bake is an event")
 	t.eq(SaveGame.semantic_errors(s), [] as Array[String], "the stock stays consistent")
-

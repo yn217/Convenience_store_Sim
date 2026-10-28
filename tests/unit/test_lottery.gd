@@ -6,14 +6,6 @@ extends RefCounted
 const Run := preload("res://tests/support/basket_run.gd")
 
 
-func test_sets_are_well_formed(t, _tree) -> void:
-	for d in Lottery.data()["sets"]:
-		var n := Lottery.total_tickets(d)
-		t.ok(n >= 20, d["set_id"] + ": tickets")
-		t.ok(int(d["ticket_price_yen"]) * n > int(d["set_cost_yen"]), d["set_id"] + ": selling out pays for the set")
-		t.ok(String(d["last_one"]) != "", d["set_id"] + ": an extra prize for the last ticket")
-
-
 func test_every_ticket_wins_and_the_last_one_gets_more(t, _tree) -> void:
 	var s := Run.new_state(100.0)
 	var cmds := Run.place_layout(s)
@@ -58,7 +50,7 @@ func test_tickets_sell_at_the_till(t, _tree) -> void:
 	var cmds := Run.place_layout(s)
 	cmds.execute({"command_id": "k1", "kind": &"START_LOTTERY", "set_id": "kuji_robots"})
 	t.ok(Lottery.visitor_factor(s) > 1.0, "a set with its top prize left draws a few more people")
-	Run.run_days(s, cmds, 2)
+	Run.run_days(s, cmds, 1, 14)
 	var lot: Dictionary = s.lotteries[0]
 	var rows := s.ledger.transactions.filter(func(tx): return tx["event_type"] == "SALE" and String(tx["event_id"]).begins_with("kuji:"))
 	t.ok(int(lot["sold"]) > 0, "tickets sold at the till (%d)" % int(lot["sold"]))

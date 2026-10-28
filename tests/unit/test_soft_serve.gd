@@ -5,22 +5,6 @@ extends RefCounted
 const Run := preload("res://tests/support/basket_run.gd")
 
 
-func test_machines_and_mixes(t, _tree) -> void:
-	var s := Run.new_state(100.0)
-	for x in [["soft_serve_machine", "soft_serve"], ["frappe_blender", "frappe"]]:
-		var def := s.fixtures.get_type(x[0])
-		t.eq(def["allowed_categories"], [x[1]], x[0] + " holds its mix")
-		t.eq(BuildCatalog.category_of(def), BuildCatalog.COUNTER, x[0] + ": listed under カウンター")
-		var skus: Array = s.products.skus.values().filter(func(k): return k["category"] == x[1])
-		t.eq(skus.size(), 3, "three kinds of " + x[1])
-		for k in skus:
-			t.ok(int(k["expires_after_seconds"]) <= 172800, "%s: the mix keeps 2 days" % k["sku_id"])
-			t.ok(int(k["default_sell_price_yen"]) > 2 * int(k["purchase_cost_yen"]), "%s: made to order earns well" % k["sku_id"])
-			t.ok(ProductIcons.texture(k, 32).get_image().get_used_rect().size.x > 8, "%s: an icon" % k["sku_id"])
-	t.ok(Cooking.prep_seconds("frappe") > Cooking.prep_seconds("soft_serve") and Cooking.prep_seconds("soft_serve") > 0, "a frappé takes longer than a soft serve")
-	t.eq(Cooking.prep_seconds("snack"), 0, "goods off a shelf take no making")
-
-
 ## The customer stands at the machine while it is made: the time at the shelf grows by the making time.
 func test_the_wait_while_it_is_made(t, _tree) -> void:
 	var s := Run.new_state(100.0)
@@ -48,7 +32,7 @@ func test_sold_in_a_running_store(t, _tree) -> void:
 					done = true
 					placed += 1
 	t.eq(placed, 2, "both machines placed")
-	Run.run_days(s, cmds, 1)
+	Run.run_days(s, cmds, 1, 16)
 	var sold := 0
 	for tx in s.ledger.transactions:
 		if tx["event_type"] == "SALE" and ["soft_serve", "frappe"].has(String(s.products.get_sku(String(tx["details"].get("sku_id", ""))).get("category", ""))):

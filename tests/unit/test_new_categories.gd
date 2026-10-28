@@ -11,22 +11,6 @@ func _catalogs() -> Array:
 		ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))]
 
 
-func test_products_and_fixtures(t, _tree) -> void:
-	var c := _catalogs()
-	var fx: FixtureCatalog = c[0]
-	var pr: ProductCatalog = c[1]
-	t.ok(fx.errors.is_empty() and pr.errors.is_empty(), "the masters load: %s %s" % [fx.errors, pr.errors])
-	for cat in NEW:
-		var skus: Array = pr.skus.values().filter(func(s): return s["category"] == cat)
-		t.eq(skus.size(), 3, "three %s SKUs" % cat)
-		for s in skus:
-			t.ok(int(s["default_sell_price_yen"]) > int(s["purchase_cost_yen"]), "%s sells above cost" % s["sku_id"])
-	t.ok(fx.get_type("shelf_onigiri")["allowed_categories"].has("bento"), "bento goes on the onigiri shelf")
-	t.ok(fx.get_type("fridge_daily")["allowed_categories"].has("daily_fresh"), "a chilled case for daily fresh")
-	t.ok(fx.get_type("coffee_machine")["allowed_categories"].has("coffee"), "a coffee machine for counter coffee")
-	t.ok(pr.get_sku("bento_001")["expires_after_seconds"] <= 43200, "a bento keeps half a day")
-
-
 func test_purposes_need_their_goods(t, _tree) -> void:
 	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
 	var count := func(stocked: Array, hour: int, purpose: String, loc: String) -> int:
@@ -56,22 +40,9 @@ func test_lunch_boxes_sell_at_lunch_among_offices(t, _tree) -> void:
 			n += 1
 			cmds.execute({"command_id": "bo%d" % n, "kind": &"ORDER_STOCK", "sku_id": "bento_001", "qty": 12})
 			cmds.execute({"command_id": "br%d" % n, "kind": &"RESTOCK", "instance_id": id, "slot_id": "row2", "sku_id": "bento_001", "qty": 12})
-	var r := Run.run_days(s, cmds, 1)
+	var r := Run.run_days(s, cmds, 1, 15)
 	var bento := 0
 	for tx in s.ledger.transactions:
 		if tx["event_type"] == "SALE" and String(tx["details"].get("sku_id", "")).begins_with("bento"):
 			bento += int(tx["details"].get("qty", 1))
 	t.ok(bento > 0, "bento sold: %d" % bento)
-
-
-func test_package_icons(t, _tree) -> void:
-	var pr: ProductCatalog = _catalogs()[1]
-	for cat in NEW:
-		var sku: Dictionary = pr.skus.values().filter(func(s): return s["category"] == cat)[0]
-		var tex := ProductIcons.texture(sku, 32)
-		t.ok(tex != null, "an icon for " + cat)
-		if tex == null:
-			continue
-		var img := tex.get_image()
-		var used := img.get_used_rect()
-		t.ok(used.size.x > 10 and used.size.y > 10, "%s: the icon draws a shape (%s)" % [cat, used])

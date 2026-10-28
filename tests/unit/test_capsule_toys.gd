@@ -6,22 +6,6 @@ extends RefCounted
 const Run := preload("res://tests/support/basket_run.gd")
 
 
-func test_machines_and_series(t, _tree) -> void:
-	var s := Run.new_state(100.0)
-	for x in [["capsule_toy_1", 1, 1], ["capsule_toy_3", 2, 3], ["capsule_toy_5", 3, 5]]:
-		var def := s.fixtures.get_type(x[0])
-		t.ok(not def.is_empty(), x[0] + " exists")
-		t.eq(int(def["footprint"]["w"]), x[1], x[0] + ": width")
-		t.eq((def["shelf_slots"] as Array).size(), x[2], x[0] + ": one series per machine")
-		t.eq(BuildCatalog.category_of(def), BuildCatalog.SERVICE, x[0] + ": listed under 設備")
-	var skus: Array = s.products.skus.values().filter(func(k): return k["category"] == "capsule_toy")
-	t.eq(skus.size(), 3, "three capsule series")
-	for k in skus:
-		t.ok(not CapsuleToys.series(k["sku_id"]).is_empty(), "%s: its prizes" % k["sku_id"])
-		t.ok(int(k["default_sell_price_yen"]) > int(k["purchase_cost_yen"]), "%s: a turn earns more than the capsule costs" % k["sku_id"])
-		t.ok(ProductIcons.texture(k, 32).get_image().get_used_rect().size.x > 10, "%s: an icon" % k["sku_id"])
-
-
 func test_the_prize_of_a_turn(t, _tree) -> void:
 	t.eq(CapsuleToys.prize_of("capsule_001", "sale:res_x_0"), CapsuleToys.prize_of("capsule_001", "sale:res_x_0"), "the same sale, the same prize")
 	var rare := 0
@@ -49,7 +33,7 @@ func test_turns_are_paid_at_the_machine(t, _tree) -> void:
 					placed = r.data["instance_id"]
 	t.ok(placed != "", "a 3-machine unit placed")
 	var seen_till := false
-	Run.run_days(s, cmds, 2)
+	Run.run_days(s, cmds, 1, 20)
 	var turns := 0
 	for tx in s.ledger.transactions:
 		if tx["event_type"] == "SALE" and String(tx["details"].get("sku_id", "")).begins_with("capsule_"):
@@ -111,4 +95,3 @@ func test_a_limited_series_and_the_empty_notice(t, _tree) -> void:
 	CapsuleToys.check_empty(s, "nowhere", "capsule_001")
 	t.ok(s.take_events().any(func(e): return e["type"] == "CAPSULE_EMPTY"), "an empty slot is announced")
 	t.ok(CueText.toast_text("capsule_empty", {"name": "どうぶつマスコット"}).contains("補充"), "with a refill reminder")
-

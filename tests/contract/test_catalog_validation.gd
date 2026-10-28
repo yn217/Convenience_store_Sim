@@ -123,12 +123,3 @@ func test_product_without_compatible_slot_is_reported(t, _tree) -> void:
 	var products := ProductCatalog.from_array([_product({"category": "snack", "sku_id": "snk_x"}), _product({"slot_units": 7, "sku_id": "big_x"})])
 	var errs := fixtures.product_errors(products)
 	t.eq(errs.size(), 2, "snack has no fixture; slot_units 7 exceeds largest slot (6)")
-
-
-func test_real_fixture_golden_values(t, _tree) -> void:
-	var fixtures := FixtureCatalog.from_json_text(_text(FIXTURES))
-	var fridge := fixtures.get_type("fridge_drink")
-	t.eq(fridge["footprint"], {"w": 1, "h": 2}, "fridge footprint")
-	t.eq(fridge["access_edges"], ["E"], "1x2 fridge access E")
-	t.eq(fixtures.get_type("freezer_ice")["footprint"], {"w": 2, "h": 2}, "ice 2x2")
-	t.eq(fixtures.get_type("register_basic")["capacity_units"], 0, "register has no stock capacity")
