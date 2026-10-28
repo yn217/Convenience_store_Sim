@@ -196,6 +196,21 @@ Added opposing arrow markings in the two road lanes. Their vertices are defined 
 
 Focused `test_backdrop_layer` passed 20 tests / 229 assertions, including both arrow directions on all four store sides and arrow presence for all three store sizes. Full suite not run.
 
+## Urban grove panel behind the roadside (2026-10-29)
+
+The new generated `urban_grove_panel_v1` is a grouped transparent PNG of sakura, evergreen shrubs and flower beds. Its measured source ground-contact line runs from `(100, 680)` to `(2070, 680)` in a `2172x724` image. The transform maps those two endpoints to an 18m world-space line at z=0, beyond the outer sidewalk, using a rotation and uniform scale. The image is drawn before the road/paving mesh and far-wall occlusion, so roots and planter bases can be hidden by the foreground.
+
+Actual Godot 4.7.2 runtime captures at 1600x900, 16:00:
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `urban-grove-12x10-1600x900-2026-10-29.png` | Dense planting rises beyond the rear walls and continues beyond the short wall ends; the footprint uses a small register/shelf layout so exterior geometry is present. |
+| 16x12 | `urban-grove-16x12-1600x900-2026-10-29.png` | Rear and outer side greenery connect to the ground plane; source scale remains fixed. |
+| 20x16 | `urban-grove-20x16-1600x900-2026-10-29.png` | The long rear and roadside edges are covered, with remaining broad green field outside the planted strip. |
+| 20x16, 0.8x zoom and pan | `urban-grove-panzoom-20x16-1600x900-2026-10-29.png` | The view shifts while the planting remains anchored to the projected world edge. |
+
+Focused `test_backdrop_layer` passed 21 tests / 269 assertions, including loaded texture dimensions, all four side transforms at 12x10, 16x12 and 20x16, uniform scale, z=0 ground endpoints, and camera pan. `parse_all.gd` completed with no reported parse errors. The full suite was not run. The grove panel improves the target's dense planted perimeter, but does not remove the broad green field and has more overhang than desired at 12x10; this remains a visual review point.
+
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.

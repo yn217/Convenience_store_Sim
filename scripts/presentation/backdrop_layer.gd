@@ -36,6 +36,7 @@ const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
 const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v2/rear_greenbelt_group_v2.png")
+const UrbanGrovePanel := preload("res://assets/generated/backgrounds/urban_grove_panel_v1/urban_grove_panel_v1.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_sidewalk_strip_v1/outer_sidewalk_strip_v1.png")
 const SurroundingGround := preload("res://assets/generated/backgrounds/ground_texture_seamless_v2/ground_texture_seamless_v2.png")
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
@@ -54,6 +55,11 @@ const REAR_GROVE_GROUND_START_PX := Vector2(100.0, 663.0)
 const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 664.0)
 ## Keep the tree height in world units across store sizes. 18m matches the prior 16x12 + 3m ends fit.
 const REAR_GROVE_WORLD_LENGTH_M := 18.0
+## One landscape panel spans the long supported street edge, retaining fixed tree height across store sizes.
+const URBAN_GROVE_SOURCE_START_PX := Vector2(100.0, 680.0)
+const URBAN_GROVE_SOURCE_END_PX := Vector2(2070.0, 680.0)
+const URBAN_GROVE_WORLD_LENGTH_M := 18.0
+const URBAN_GROVE_DEPTH_M := 14.0
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
 const OUTER_SIDEWALK_START_PX := Vector2(72.5, 130.0)
 const OUTER_SIDEWALK_END_PX := Vector2(2050.0, 614.0)
@@ -93,6 +99,8 @@ var _environment_transform := Transform2D()
 var _environment_visible := false
 var _roadside_grove_transform := Transform2D()
 var _roadside_grove_visible := false
+var _urban_grove_transform := Transform2D()
+var _urban_grove_visible := false
 var _outer_sidewalk_transform := Transform2D()
 var _outer_sidewalk_visible := false
 var _roadside_sprite: Sprite2D
@@ -112,6 +120,7 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_sync_environment(proj, width, height)
 	_sync_roadside_grove(proj, width, height, entrances)
+	_sync_urban_grove(proj, width, height, entrances)
 	_sync_outer_sidewalk(proj, width, height, entrances)
 	_sync_area_a(proj, width, height, entrances)
 	_sync_roadside(proj, width, height, entrances)
@@ -158,6 +167,14 @@ func _sync_roadside_grove(proj: IsoProjection, width: int, height: int, entrance
 	if not _roadside_grove_visible:
 		return
 	_roadside_grove_transform = roadside_grove_transform(proj, width, height, entrance_side(width, height, entrances))
+
+
+## Dense tree-and-flower panel sits beyond the sidewalk at a fixed ground anchor; wall/road geometry covers its base.
+func _sync_urban_grove(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
+	_urban_grove_visible = width > 0 and height > 0
+	if not _urban_grove_visible:
+		return
+	_urban_grove_transform = urban_grove_transform(proj, width, height, entrance_side(width, height, entrances), Vector2(UrbanGrovePanel.get_size()))
 
 
 func _sync_outer_sidewalk(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
@@ -220,6 +237,10 @@ func _draw() -> void:
 	if _roadside_grove_visible:
 		draw_set_transform_matrix(_roadside_grove_transform)
 		draw_texture_rect(RearGrove, Rect2(Vector2.ZERO, Vector2(RearGrove.get_size())), false)
+		draw_set_transform_matrix(Transform2D.IDENTITY)
+	if _urban_grove_visible:
+		draw_set_transform_matrix(_urban_grove_transform)
+		draw_texture_rect(UrbanGrovePanel, Rect2(Vector2.ZERO, Vector2(UrbanGrovePanel.get_size())), false)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _outer_sidewalk_visible:
 		draw_set_transform_matrix(_outer_sidewalk_transform)
@@ -308,6 +329,30 @@ static func roadside_grove_transform(proj: IsoProjection, width: int, height: in
 	var basis_x := Vector2.RIGHT.rotated(angle) * scale
 	var basis_y := Vector2.DOWN.rotated(angle) * scale
 	return Transform2D(basis_x, basis_y, screen_start - basis_x * source_start.x - basis_y * source_start.y)
+
+
+## Place the grouped city grove behind the public sidewalk with its base fixed to world ground at z=0.
+static func urban_grove_transform(proj: IsoProjection, width: int, height: int, side: int, texture_size: Vector2) -> Transform2D:
+	if width <= 0 or height <= 0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return Transform2D.IDENTITY
+	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var along_start := (edge_length - URBAN_GROVE_WORLD_LENGTH_M) * 0.5
+	var depth := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M + KERB_M + OUTER_SIDEWALK_M + URBAN_GROVE_DEPTH_M
+	var target_start := side_point(side, depth, along_start, width, height)
+	var target_end := side_point(side, depth, along_start + URBAN_GROVE_WORLD_LENGTH_M, width, height)
+	if side == SIDE_WEST or side == SIDE_EAST:
+		var swap := target_start
+		target_start = target_end
+		target_end = swap
+	var screen_start := proj.world_to_screen(target_start.x, target_start.y)
+	var screen_end := proj.world_to_screen(target_end.x, target_end.y)
+	var source_run := URBAN_GROVE_SOURCE_END_PX - URBAN_GROVE_SOURCE_START_PX
+	var target_run := screen_end - screen_start
+	var scale := target_run.length() / source_run.length()
+	var angle := target_run.angle() - source_run.angle()
+	var basis_x := Vector2.RIGHT.rotated(angle) * scale
+	var basis_y := Vector2.DOWN.rotated(angle) * scale
+	return Transform2D(basis_x, basis_y, screen_start - basis_x * URBAN_GROVE_SOURCE_START_PX.x - basis_y * URBAN_GROVE_SOURCE_START_PX.y)
 
 
 ## Fit one generated sidewalk strip to the street-side world edge using its authored centerline endpoints.
