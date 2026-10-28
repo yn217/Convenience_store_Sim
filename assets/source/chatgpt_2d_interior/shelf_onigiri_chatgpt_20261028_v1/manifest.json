@@ -15,8 +15,7 @@
     "game_512": "game_512.png",
     "game_256": "game_256.png"
   },
-  "binary_git_status": "NOT_UPLOADED",
-  "source_png_sha256_prefix": "2514d1df7d7d",
+  "binary_git_status": "UPLOADED_AND_COMMITTED",
   "generated_files_available_in_conversation": true,
   "projection_target": {
     "projection_id": "iso2x_v1",
@@ -49,8 +48,8 @@
   "notes": [
     "Image is actual onigiri case, unlike previous wrong cup noodle generations",
     "Long visible shelf edge rises to left/down to right and may mismatch required r0 +X front slope -0.5. Do not flip package text.",
-    "Original and size variants created in ChatGPT conversation, not in Git yet. A separate binary upload step is required.",
-    "Do not merge this Draft PR until binaries uploaded and Codex Godot QA completed."
+    "Do not merge this Draft PR until binaries uploaded and Codex Godot QA completed.",
+    "All four binary source and LOD images are committed to Draft PR #164 as of 2026-10-28."
   ],
   "related_issues": [
     102,
@@ -58,5 +57,18 @@
     157,
     163
   ],
-  "related_pr": 164
+  "related_pr": 164,
+  "source_png_sha256": "2514d1df7d7db6d3e174da95990f3067bd98dc07c0666c56648c2740f48ae9e6",
+  "file_sha256": {
+    "source_original.png": "2514d1df7d7db6d3e174da95990f3067bd98dc07c0666c56648c2740f48ae9e6",
+    "source_fullres.webp": "ec3d8cc63b89d6928359ee5becdcdb8cd474282ed7881f10719111a8cb633f81",
+    "game_512.png": "c106700e8bef2bbcd6f77c623144a2e82b97a2dfcbce4e5c0b4990f197b331cd",
+    "game_256.png": "3fa158d1452e7289a12d10971a3098c56952d14c26e7490d6ad2c1fcc59e417f"
+  },
+  "git_blob_sha": {
+    "source_original.png": "465e8331d18511e7ebba51b46d0990128f8904da",
+    "source_fullres.webp": "d17559a1b16f20af31ed7c8479f7fad20c98882a",
+    "game_512.png": "878a52314bf3f3515e516766ef9051f01bdfcd34",
+    "game_256.png": "4cbee8870088ce4f21e2ca030aadb361820340fe"
+  }
 }
