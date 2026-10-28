@@ -135,23 +135,29 @@ An additional live capture pass compared the same fixed-height placement on all 
 
 The generated PNG still has isolated bright green edge pixels at the source silhouette; at runtime scale the remaining fringe is limited but should be improved in a later asset pass. The 12x10 overhang is the cost of one undistorted image covering the full 20x16 range; reducing it without exposing the longer wall requires a different authored V asset or a segmented art treatment.
 
-## Textured exterior ground and camera movement (2026-10-29)
+## Textured exterior ground v2 and daylight comparison (2026-10-29)
 
-A generated olive-green ground texture now overlays the exterior fill at 16% opacity. Its tile phase follows the camera origin so the ground continues to move with the store during pans. The authored surface has small edge-value differences rather than mathematically seamless edges; the low opacity was kept after checking it in the running game, where no strong tile boundary was visible at 1600x900.
+A generated olive-green ground texture v2 now overlays the exterior fill at 16% opacity. It adds finer leaf shadows and small sakura flecks. Its tile phase follows the camera origin. Opposite-edge RGB differences are slightly lower than v1 on average, but the source is not mathematically seamless; at 16% opacity no prominent repeat boundary was seen in the 1600x900 runtime views. The v1/v2 in-game crop comparison is `ground-texture-v1-v2-runtime-comparison-2026-10-29.png`.
 
 | Store size / view | Capture | Observation |
 |---|---|---|
-| 12x10 | `ground-texture-12x10-1600x900-2026-10-29.png` | Fine ground detail reduces the broad flat-color appearance without covering the road, sidewalk, or planting. |
-| 16x12 | `ground-texture-16x12-1600x900-2026-10-29.png` | Surface detail remains subtle around the full exterior. |
-| 20x16 | `ground-texture-20x16-1600x900-2026-10-29.png` | Texture retains the same screen-space density at the larger footprint. |
-| 20x16, camera panned | `ground-texture-pan-20x16-1600x900-2026-10-29.png` | The texture offset follows the translated camera; no obvious repeated tile seam appears in this view. |
+| 12x10, 16:00 | `daylight-ground-v2-12x10-1600x900-2026-10-29.png` | Canopy roots remain hidden, the canopy clears the wall, and the overlay preserves the road and paving colors. |
+| 16x12, 16:00 | `daylight-ground-v2-16x12-1600x900-2026-10-29.png` | Fine ground variation is visible around the full exterior without hiding assets. |
+| 20x16, 16:00 | `daylight-ground-v2-20x16-1600x900-2026-10-29.png` | Same texture density and opacity at the largest supported footprint. |
+| 20x16, zoomed/panned | `daylight-ground-v2-pan-20x16-1600x900-2026-10-29.png` | The texture follows the camera origin while store, road, and UI remain visible. |
 
-The texture softens the remaining green field but does not add the target's dense distant trees, varied flower beds, or street structures. Those remain visible differences for the final review.
+For time-of-day fidelity, the new captures use 16:00 to compare with the supplied 16:28 mockup. `daylight-16x12-1600x900-2026-10-29.png` and `daylight-20x16-1600x900-2026-10-29.png` retain the previous ground v1; `mockup-daylight-comparison-20x16-2026-10-29.png` places the supplied image next to the 20x16 runtime. It shows meaningful progress in garden density, parking markings, and daylight color, alongside remaining differences in camera framing, storefront glazing, facade signs, and street props. The comparison is visual rather than pixel-aligned because the mockup and game use different store layouts.
+
+The region-by-region target/current overview and prioritized next actions are in [`REMAINING_DIFFERENCES.md`](REMAINING_DIFFERENCES.md), with its image sheet at `regions-target-vs-daylight-20x16-2026-10-29.png`.
+
+Two long generated facade band candidates were not integrated. Both are single strips with perspective and material rendering that do not yet match the game's modular wall construction closely enough; the second also did not follow the requested module dimensions. A genuinely tileable facade unit still needs a separate generation and placement pass.
+
+The v2 texture softens the remaining green field, but does not replace it with the target's continuous flower beds, full-depth planting or street structures. These remain visible differences for the final review.
 
 ## Remaining differences from the target mockup
 
-- The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation and denser reflections are not present.
-- The ground artwork now has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The low-opacity ground texture softens the open green field, but the scene still lacks the target's dense distant trees, continuous flower beds, and street structures.
+- The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.
+- The ground artwork has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The low-opacity v2 texture adds fine variation, but the scene still lacks full-depth flower beds and street structures.
 - The target shows a busier street scene, multiple vehicles, dense flowers, street furniture, and storefront posters. Current runtime has one parked car and fewer visible exterior details.
 - Store shelves, people, and product presentation differ substantially from the target and were outside this exterior change.
 

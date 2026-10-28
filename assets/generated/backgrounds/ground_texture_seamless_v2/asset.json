@@ -1,0 +1,21 @@
+{
+  "manifest_version": 1,
+  "asset_id": "ground_texture_seamless_v2",
+  "category": "screen_space_surrounding_ground_texture",
+  "view_direction": "top_down_ground_surface",
+  "world_width": null,
+  "world_depth": null,
+  "world_height": 0.0,
+  "render_width_px": 1254,
+  "render_height_px": 1254,
+  "pivot_x": 0,
+  "pivot_y": 0,
+  "anchor_type": "camera_origin_offset_tiled_over_viewport",
+  "placement_offset": "camera-relative tile phase; low-opacity overlay on exterior ground fill",
+  "occlusion_group": "background_ground_texture",
+  "sort_key": "before_exterior_scenery_and_world_geometry",
+  "asset_variant": "v2_generated_fine_grass_and_flower_flecks",
+  "opacity": 0.16,
+  "repeat_edge_quality": "lower average opposite-edge RGB difference than v1; reviewed in repeated runtime pattern at 16 percent opacity",
+  "source_file": "assets/generated/backgrounds/ground_texture_seamless_v2/ground_texture_seamless_v2.png"
+}
