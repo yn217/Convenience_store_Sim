@@ -91,6 +91,19 @@ Actual runtime captures at 1600x900:
 
 Two newly generated transparent candidates were compared in the source artwork. Both retained bright green edge fringes, so neither replaced the current production strip. A large flat green area remains outside the paved/road scene, especially when panning; a separate surrounding-landscape backdrop is still needed to match the target environment more closely.
 
+## Textured exterior ground and camera movement (2026-10-29)
+
+A generated olive-green ground texture now overlays the exterior fill at 16% opacity. Its tile phase follows the camera origin so the ground continues to move with the store during pans. The authored surface has small edge-value differences rather than mathematically seamless edges; the low opacity was kept after checking it in the running game, where no strong tile boundary was visible at 1600x900.
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `ground-texture-12x10-1600x900-2026-10-29.png` | Fine ground detail reduces the broad flat-color appearance without covering the road, sidewalk, or planting. |
+| 16x12 | `ground-texture-16x12-1600x900-2026-10-29.png` | Surface detail remains subtle around the full exterior. |
+| 20x16 | `ground-texture-20x16-1600x900-2026-10-29.png` | Texture retains the same screen-space density at the larger footprint. |
+| 20x16, camera panned | `ground-texture-pan-20x16-1600x900-2026-10-29.png` | The texture offset follows the translated camera; no obvious repeated tile seam appears in this view. |
+
+The texture softens the remaining green field but does not add the target's dense distant trees, varied flower beds, or street structures. Those remain visible differences for the final review.
+
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation and denser reflections are not present.

@@ -100,6 +100,16 @@ func test_road_runs_beyond_viewport_and_pan_limit(t, _tree) -> void:
 			t.ok(margin * projected_run >= required, "road extends past the viewport and camera pan at %dx%d zoom %.1f" % [int(viewport.x), int(viewport.y), zoom])
 
 
+func test_surrounding_ground_texture_phase_tracks_camera(t, _tree) -> void:
+	var tile_size := Vector2(1254.0, 1254.0)
+	var initial := BackdropLayer.surrounding_ground_tile_offset(Vector2(512.0, 790.0), tile_size)
+	var pan := Vector2(31.0, -17.0)
+	var moved := BackdropLayer.surrounding_ground_tile_offset(Vector2(512.0, 790.0) + pan, tile_size)
+	var phase_delta := Vector2(fposmod(moved.x - initial.x + tile_size.x, tile_size.x), fposmod(moved.y - initial.y + tile_size.y, tile_size.y))
+	t.eq(phase_delta, Vector2(fposmod(pan.x, tile_size.x), fposmod(pan.y, tile_size.y)), "ground texture phase translates with the camera")
+	t.eq(BackdropLayer.surrounding_ground_tile_offset(Vector2(4.0, 9.0), Vector2.ZERO), Vector2.ZERO, "invalid texture size has a safe zero offset")
+
+
 func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
 	var proj := _proj(0.8)
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:

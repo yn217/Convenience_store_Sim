@@ -1,0 +1,12 @@
+{
+  "asset_id": "ground_texture_seamless_v1",
+  "category": "screen_space_surrounding_ground_texture",
+  "view_direction": "top_down_ground_surface",
+  "render_width_px": 1254,
+  "render_height_px": 1254,
+  "anchor_type": "camera_origin_offset_tiled_over_viewport",
+  "placement_offset": "low-opacity overlay on the exterior green fill; camera-relative tile phase",
+  "opacity": 0.16,
+  "repeat_edge_quality": "visually checked at runtime scale; source edges are not mathematically seamless",
+  "generated_prompt": "Subtle olive-green ground surface with fine leaf shadows and sparse understated flower flecks, no large objects or text."
+}

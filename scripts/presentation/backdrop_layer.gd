@@ -37,6 +37,7 @@ const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
 const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v1/rear_greenbelt_group_v1.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_sidewalk_strip_v1/outer_sidewalk_strip_v1.png")
+const SurroundingGround := preload("res://assets/generated/backgrounds/ground_texture_seamless_v1/ground_texture_seamless_v1.png")
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Distance behind the far corner to the V bed's ground contact line, in world metres.
@@ -79,6 +80,8 @@ var _key: Array = []
 var _ops: Array = []
 var _mesh: ArrayMesh          # road/paving faces batched after the static landscape panel
 var _ground_mesh: ArrayMesh    # viewport fill and soft pool, drawn before the combined scenery panel
+var _ground_texture_camera_origin := Vector2.ZERO
+var _ground_texture_viewport := Vector2.ZERO
 var _scenery_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
 var _environment_transform := Transform2D()
@@ -99,6 +102,8 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	if key == _key:
 		return
 	_key = key
+	_ground_texture_camera_origin = proj.origin
+	_ground_texture_viewport = viewport
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_sync_environment(proj, width, height)
 	_sync_roadside_grove(proj, width, height, entrances)
@@ -201,6 +206,7 @@ func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrance
 func _draw() -> void:
 	if _ground_mesh != null:
 		draw_mesh(_ground_mesh, null)
+	_draw_surrounding_ground_texture()
 	# Paint the combined V art after the ground fill, then road/paving geometry, then far-wall occlusion.
 	if _environment_visible:
 		draw_set_transform_matrix(_environment_transform)
@@ -221,6 +227,28 @@ func _draw() -> void:
 		owner_world.call("draw_background_wall_occlusion", self)
 	for op in _texts:
 		draw_string(ThemeDB.fallback_font, op["pos"], op["text"], HORIZONTAL_ALIGNMENT_CENTER, op["width"], op["size"], op["color"])
+
+
+## Add low-contrast natural variation to the flat exterior fill. The tile offset follows camera origin,
+## while the road, paved areas, planting, and vignette remain separate foreground layers.
+func _draw_surrounding_ground_texture() -> void:
+	var tile_size := Vector2(SurroundingGround.get_size())
+	if tile_size.x <= 0.0 or tile_size.y <= 0.0 or _ground_texture_viewport.x <= 0.0 or _ground_texture_viewport.y <= 0.0:
+		return
+	var offset := surrounding_ground_tile_offset(_ground_texture_camera_origin, tile_size)
+	var x := offset.x - tile_size.x
+	while x < _ground_texture_viewport.x:
+		var y := offset.y - tile_size.y
+		while y < _ground_texture_viewport.y:
+			draw_texture_rect(SurroundingGround, Rect2(Vector2(x, y), tile_size), false, Color(1.0, 1.0, 1.0, 0.16))
+			y += tile_size.y
+		x += tile_size.x
+
+
+static func surrounding_ground_tile_offset(camera_origin: Vector2, tile_size: Vector2) -> Vector2:
+	if tile_size.x <= 0.0 or tile_size.y <= 0.0:
+		return Vector2.ZERO
+	return Vector2(fposmod(camera_origin.x, tile_size.x), fposmod(camera_origin.y, tile_size.y))
 
 
 ## Ground root is fixed behind the far corner; each branch is measured against its own store edge.
