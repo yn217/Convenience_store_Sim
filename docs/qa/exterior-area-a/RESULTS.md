@@ -10,7 +10,7 @@ All images are actual Godot 4.7.2 captures at 1600x900, 16:00, whole-store camer
 | 16x12 | `after-16x12-1600x900.png` |
 | 20x16 | `after-20x16-1600x900.png` |
 
-`pan-zoom-16x12.png` checks the combined exterior while the camera is zoomed and panned. `build-mode-16x12.png` records the same exterior while the construction catalogue is open. `entrance-west-16x12.png` records a moved entrance; north/east CLI attempts did not change the game state, so those files are excluded as evidence.
+`pan-zoom-16x12.png` checks the combined exterior while the camera is zoomed and panned. `build-mode-16x12.png` records the same exterior while the construction catalogue is open. Entrance-orientation captures were excluded because the command-line entrance state was not reliable.
 
 The planting anchor and V-branch coverage were re-captured from the current code at 1600x900:
 
