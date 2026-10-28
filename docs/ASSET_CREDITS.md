@@ -1,6 +1,9 @@
 # 素材・AI生成アセット出典台帳
 
-登録済みの素材は**すべて本プロジェクトで生成した仮アセット**（Blenderの箱ジオメトリ / コード合成）で、外部素材・生成AI素材・第三者テクスチャは含まない。AI素材（#12/#61）は、生成モデル/版・プロンプト・seed・商用再配布可否を確認してから、この表に追記して採用する。`tools/validation/check_asset_credits.py` が、`assets/generated` の全ディレクトリが台帳にあり、ライセンス/再配布欄が空・不明でないことを検査する（run_tests.ps1に組込み）。
+登録済みの素材にはBlender、コード合成、生成AIによる画像が含まれる。
+生成方法、公開されているモデル情報、プロンプト、利用条件を素材ごとに記録する。
+ツールが公開しないseedやモデルの内部識別子は推測しない。
+`tools/validation/check_asset_credits.py` が台帳の登録漏れと利用条件の空欄を検査する。
 
 生成済みアセットの出典を、生成スクリプトと出力マニフェストに対応付ける台帳。第三者素材の利用条件は確認できていないため、再配布可否が未確認の行をリリース承認済みとして扱わない。
 
@@ -170,3 +173,6 @@ cross-check, not a license approval; the human review and redistribution fields 
 |map_kakogawa_city_v1|assets/generated/maps/kakogawa_city_v1|AI|ユーザー提供 kakogawa_map_v1_package.zip（kakogawa_base.png。ユーザーの ChatGPT/Codex 会話で生成、prompt はその会話に保存。#154 / PR #155）; assets/generated/maps/kakogawa_city_v1/PROVENANCE.json|ChatGPT 画像生成（ユーザー提供、版はユーザー記録）|ユーザーが本プロジェクト用に生成・提供した架空化コンセプト地図。実在の商標・ロゴなし、測量地図ではない|2026-10-26|目視（座標QA画像 kakogawa_coordinate_qa.png でピンと建物の一致を確認）|yes|
 |map_aoba_city_central_district_v2|assets/generated/maps/aoba_city_central_district_v2|AI|ユーザー提供 ui_free_map_bundle.zip（aoba_city_central_district_map_no_ui.png。ユーザーの ChatGPT/Codex 会話で生成、prompt はその会話に保存。#150）|ChatGPT 画像生成（ユーザー提供、版はユーザー記録）|ユーザーが本プロジェクト用に生成・提供した架空都市の地図。実在の商標・ロゴなし|2026-10-26|目視（ピン・ラベルの位置を測り直して座標と一致を確認）|yes|
 |map_kobe_akashi_awaji_region_v2|assets/generated/maps/kobe_akashi_awaji_region_v2|AI|ユーザー提供 ui_free_map_bundle.zip（kobe_akashi_awaji_region_map_no_ui.png。ユーザーの ChatGPT/Codex 会話で生成、prompt はその会話に保存。#150 / #153）|ChatGPT 画像生成（ユーザー提供、版はユーザー記録）|ユーザーが本プロジェクト用に生成・提供した概念地図（神戸・明石・淡路を参考にした架空化。測量地図ではない）。実在の商標・ロゴなし|2026-10-26|目視（ピン・ラベルの位置を測り直して座標と一致を確認。岩屋港の番号なしピンは区画として扱わない）|yes|
+|green_street_tree_v1|assets/generated/props/green_street_tree_v1|AI|assets/generated/props/green_street_tree_v1/PROVENANCE.json (prompt)|built-in image_gen (model identifier not exposed)|OpenAI generated output; project use|2026-10-26|local visual QA; final user acceptance pending|yes|
+|cherry_tree_painted_v1|assets/generated/props/cherry_tree_painted_v1|AI|assets/generated/props/cherry_tree_painted_v1/PROVENANCE.json (prompt)|built-in image_gen (model identifier not exposed)|OpenAI generated output; project use|2026-10-26|local visual QA; final user acceptance pending|yes|
+|flower_planter_painted_v1|assets/generated/props/flower_planter_painted_v1|AI|assets/generated/props/flower_planter_painted_v1/PROVENANCE.json (prompt)|built-in image_gen (model identifier not exposed)|OpenAI generated output; project use|2026-10-26|local visual QA; final user acceptance pending|yes|

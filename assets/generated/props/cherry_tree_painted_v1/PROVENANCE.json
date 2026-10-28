@@ -1,0 +1,11 @@
+{
+  "asset_id": "cherry_tree_painted_v1",
+  "producer": "OpenAI built-in image_gen edit",
+  "date": "2026-10-26",
+  "reference": "assets/source/exterior/green_street_tree_v1/source.png",
+  "source": "assets/source/exterior/cherry_tree_painted_v1/source.png",
+  "packager": "python tools/assets/package_exterior_tree.py --asset cherry_tree_painted_v1",
+  "prompt": "Lock exact tree canvas position, trunk/root, dimensions, irregular canopy silhouette, branching, 2:1 dimetric camera and upper-left daylight. Change ONLY canopy to dense small pale blush-pink and cream-white Japanese sakura blossoms with deeper dusty pink shade and a few green leaves. Preserve visible bark. No cotton candy spheres, no ground/shadow/pot/falling petals/text/glow. Preserve RGBA transparency and remove unnatural colour fringes. No zoom/crop/recenter/rotation/stretch.",
+  "generation_passes": 1,
+  "license_note": "Generated seasonal variant of project-owned generated image; no real brand."
+}

@@ -1,0 +1,14 @@
+{
+  "asset_id": "flower_planter_painted_v1",
+  "producer": "OpenAI built-in image_gen",
+  "date": "2026-10-26",
+  "reference": "User target image image-1792819026698.webp, style only",
+  "generation_passes": 4,
+  "selected_pass": 4,
+  "source": "assets/source/exterior/flower_planter_painted_v1/source.png",
+  "projection_guide": "assets/source/exterior/flower_planter_painted_v1/projection_guide.png",
+  "packager": "tools/assets/package_exterior_planter.py",
+  "prompt": "Precise-object-edit of geometric planter guide. LOCK exact box outline, corner positions, camera, edge slopes and object location; texture existing faces with warm pale-grey concrete. Fill existing soil opening with dense green leaves and many SMALL yellow white pink flowers. Foliage rises about 100px above rim. Upper-left daylight, shaded right face. Transparent RGBA, no cast shadow/glow/background. Long edges +0.5, short edges -0.5, orthographic 2:1 dimetric. Do not change geometry into photographic perspective.",
+  "qa": "First three unguided variants rejected for edge-angle mismatch. Selected guided variant measured slopes +0.507659 and -0.524057. Maximum residual absolute slope error .024057; requires runtime QA. No nonuniform warp or per-instance scale applied.",
+  "license_note": "Generated for this project from original geometric guide; target is style reference only."
+}
