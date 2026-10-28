@@ -35,7 +35,7 @@ const PLANTER := Color("7a5a43")
 const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
-const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v1/rear_greenbelt_group_v1.png")
+const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v2/rear_greenbelt_group_v2.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_sidewalk_strip_v1/outer_sidewalk_strip_v1.png")
 const SurroundingGround := preload("res://assets/generated/backgrounds/ground_texture_seamless_v1/ground_texture_seamless_v1.png")
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
@@ -45,8 +45,8 @@ const BACKDROP_GROUND_OFFSET_M := 0.45
 const BACKDROP_LEFT_END_PX := Vector2(0.0, 879.856)
 const BACKDROP_RIGHT_END_PX := Vector2(1773.0, 878.561)
 ## Ground edge measured along the lower base of the grouped tree backdrop image.
-const REAR_GROVE_GROUND_START_PX := Vector2(100.0, 610.0)
-const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 610.0)
+const REAR_GROVE_GROUND_START_PX := Vector2(100.0, 663.0)
+const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 664.0)
 ## Keep the tree height in world units across store sizes. 18m matches the prior 16x12 + 3m ends fit.
 const REAR_GROVE_WORLD_LENGTH_M := 18.0
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
