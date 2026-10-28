@@ -274,13 +274,13 @@ static func canopy_items(width: int, height: int, entrances: Array) -> Array:
 		var a := float(b) - 0.5
 		out.append({"kind": &"poly", "points": _band(side, plane, a - 0.018, a + 0.018, NEAR_FRAME_TOP, 2.28), "color": Color(0.45, 0.55, 0.57, 0.6)})
 	var label := fascia_label(side, width, height, plane)
-	label["font_px"] = 24
+	label["font_px"] = 32
 	label["color"] = FASCIA
 	var at: Vector3 = label["at"]
 	at.z = 2.53
 	label["at"] = at
 	var mid := float(n - 1) * 0.5
-	out.append({"kind": &"poly", "points": _band(side, plane, mid - 2.1, mid + 2.1, 2.32, 2.72), "color": Color("fbfcf8")})
+	out.append({"kind": &"poly", "points": _band(side, plane, mid - 2.6, mid + 2.6, 2.32, 2.72), "color": Color("fbfcf8")})
 	out.append(label)
 	return out
 

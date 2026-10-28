@@ -51,6 +51,9 @@ func test_fascia_and_store_name_above_the_glass(t, _tree) -> void:
 		t.ok(absf(p.z - StoreDecor.FASCIA_Z0) < 1e-5 or absf(p.z - StoreDecor.FASCIA_Z1) < 1e-5, "fascia sits between the sign heights")
 	var names := items.filter(func(it): return it["kind"] == &"text" and it["text"] == StoreDecor.NAME)
 	t.eq(names.size(), 1, "the fictional store name is drawn once")
+	var canopy_names := StoreDecor.canopy_items(W, H, SOUTH_ENTR).filter(func(it): return it["kind"] == &"text" and it["text"] == StoreDecor.NAME)
+	t.eq(canopy_names.size(), 1, "the observe canopy repeats the storefront name once")
+	t.eq(canopy_names[0]["font_px"], 32, "the storefront name is sized for fascia readability")
 
 
 func test_cooler_row_on_the_back_wall_only(t, _tree) -> void:

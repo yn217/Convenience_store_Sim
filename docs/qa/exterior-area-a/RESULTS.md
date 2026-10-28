@@ -150,6 +150,18 @@ For time-of-day fidelity, the new captures use 16:00 to compare with the supplie
 
 The region-by-region target/current overview and prioritized next actions are in [`REMAINING_DIFFERENCES.md`](REMAINING_DIFFERENCES.md), with its image sheet at `regions-target-vs-daylight-20x16-2026-10-29.png`.
 
+## Storefront fascia label readability (2026-10-29)
+
+The existing fictional store-name text on the near-side fascia now uses 32px authored text instead of 24px. Its white backing panel extends 5.2m along the wall plane. Placement remains centered on the projected wall; no screen-position offset or window/entrance geometry changed.
+
+| Store size | Capture | Observation |
+|---|---|---|
+| 12x10 | `fascia-label-12x10-1600x900-2026-10-29.png` | Label remains inside the fascia on the shorter wall. |
+| 16x12 | `fascia-label-16x12-1600x900-2026-10-29.png` | Name stays centered with the existing glass and entry opening. |
+| 20x16 | `fascia-label-20x16-1600x900-2026-10-29.png` | Larger signage is visible at full-scene fit; updated in the daylight comparison. |
+
+The fictional name improves fascia readability but does not reproduce the target's separate yellow/blue brand mark or promotional lettering.
+
 Two long generated facade band candidates were not integrated. Both are single strips with perspective and material rendering that do not yet match the game's modular wall construction closely enough; the second also did not follow the requested module dimensions. A genuinely tileable facade unit still needs a separate generation and placement pass.
 
 The v2 texture softens the remaining green field, but does not replace it with the target's continuous flower beds, full-depth planting or street structures. These remain visible differences for the final review.

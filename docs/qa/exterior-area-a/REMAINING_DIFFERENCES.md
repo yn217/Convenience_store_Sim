@@ -4,7 +4,7 @@ Reference: user-supplied `image-1792819026698.webp` (16:28) and the current Godo
 
 | Region | Target vs current | Remaining 2D work and world placement | Priority |
 |---|---|---|---|
-| Storefront | Target has a long, bright, branded fascia over tall glazed panes. The game has a blue/white band, cut-away glass facade and a plain name label; the continuous brand fascia is absent. | Create a short, repeatable fascia module fitted to each entrance-side wall segment by world endpoints. Preserve transparent shop visibility and the entrance opening. | P1 |
+| Storefront | Target has a long, bright, branded fascia over tall glazed panes. The game has a blue/white band, cut-away glass facade and a larger fictional store-name label; target logo art and denser framing remain absent. | Keep the name centered on its wall plane; create short repeatable fascia modules and additional window framing only where they preserve transparent shop visibility and the entrance opening. | P1 |
 | Entrance | Target has framed automatic glass doors, a dark entrance mat and nearby promotion. Game has an open entrance with a mat and does not animate sliding leaves. | Add door leaves as independently animated 2D pieces only if they leave the existing customer path and click-through behavior intact; place posters and mat from wall/world anchors. | P2 |
 | Parking | Both show asphalt, stalls and wheel stops. Target has richer surface detail, painted arrows and more varied car/curb details; game markings are legible but simpler. | Add low-contrast asphalt variation under existing stall/stop geometry; keep markings in world space with the entrance frontage. | P2 |
 | Road | Target shows a broader street, directional arrows and a moving/parked vehicle. Game has lane marks, edge line and crossing but fewer traffic cues. | Add directional road paint and a second static vehicle as separate world-anchored sprites, outside the store interaction footprint. | P2 |
@@ -18,13 +18,14 @@ Reference: user-supplied `image-1792819026698.webp` (16:28) and the current Godo
 ## Current-cycle result
 
 - The generated `ground_texture_seamless_v2` is now the low-opacity exterior overlay. It follows the camera tile phase and was captured at 12x10, 16x12, 20x16, and 20x16 with pan/zoom. It adds subtle surface variation; it does not close the broad green-field difference.
+- The near-side fascia label was enlarged from 24px to 32px and its white backing extended from 4.2m to 5.2m in wall-plane units. The label remains world-anchored and centered; captures at all three supported sizes show no clipping.
 - A generated long fascia strip was not integrated because it is one oversized perspective piece with bright edge fringing and does not fit the game's modular wall construction. A second requested module still arrived as a 1774x887 long strip, so it also remains a candidate only.
 - A 16x12-reference scale for rear planting was rejected because it failed to cover the 20x16 right wall endpoint. The fixed scale remains based on 20x16, leaving extra planted overhang at 12x10.
-- Focused checks: backdrop 18 tests / 196 assertions, camera/input scene 10 / 96, storefront decor 19 / 296; all passed. No full suite was run.
+- Focused checks: backdrop 18 tests / 196 assertions, camera/input scene 10 / 96, storefront decor 19 / 298; all passed. No full suite was run.
 
 ## Ordering
 
-1. Generate and integrate a genuinely modular storefront fascia with the correct projection and aligned ends.
+1. Generate and integrate a genuinely modular storefront trim/logo unit with the correct projection and aligned ends.
 2. Improve the road/parking and sidewalk materials without moving existing world geometry.
 3. Fill the remaining green field and increase service-panel/prop detail.
 4. Recompare at daylight with matching camera scale; ask for visual approval before marking the exterior goal complete.
