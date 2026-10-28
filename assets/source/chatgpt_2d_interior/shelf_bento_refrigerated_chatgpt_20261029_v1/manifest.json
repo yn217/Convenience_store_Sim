@@ -1,0 +1,35 @@
+{
+  "asset_id": "shelf_bento_refrigerated_full_chatgpt_20261029_v1",
+  "actual_subject": "Japanese convenience-store bento refrigerated open-front display",
+  "status": "draft_visual_candidate",
+  "source_model": "ChatGPT image generation",
+  "source_resolution_px": [
+    1536,
+    1024
+  ],
+  "source_pixel_format": "RGB, opaque dark studio background; transparency not yet processed",
+  "source_original": "source_original.png",
+  "preview_variants": [
+    "preview_512.png",
+    "preview_256.png"
+  ],
+  "projection_target": "iso2x_v1",
+  "world_footprint_tiles": [
+    1,
+    2
+  ],
+  "r0_customer_access_target": "+X",
+  "geometry_calibration": "UNVERIFIED: front edge appears to slope down toward right; target r0 must be measured in Godot",
+  "requires_background_removal": true,
+  "runtime_approved": false,
+  "human_approved": false,
+  "stock_state": "FULL",
+  "notes": [
+    "The image is of boxed bentos and prepared meals, not noodles or onigiri.",
+    "The source is preserved at full resolution without stretching or resampling.",
+    "Small files are display-resolution previews, not different equipment performance tiers.",
+    "Do not publish as a runtime sprite until transparency, projection, ground pivot and footprint QA pass."
+  ],
+  "issue": 163,
+  "draft_pr": 164
+}
