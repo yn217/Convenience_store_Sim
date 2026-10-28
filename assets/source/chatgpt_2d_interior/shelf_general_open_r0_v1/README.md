@@ -1,13 +1,12 @@
 # 日本のコンビニ：開放型常温ゴンドラ（先行2D試作 / 2026-10-28）
 
 ## 登録素材
-- `shelf_general_open_empty_r0_v1.svg` / `.png` — まず承認すべき**屋根なし空棚**
-- `shelf_general_open_half_r0_v1.svg` / `.png` — 同じ棚への商品半量表現（構造確認用）
-- `shelf_general_open_full_r0_v1.svg` / `.png` — 同じ棚の商品満量表現（構造確認用）
-- PNGはChatGPT作成SVGをCairoSVGで2倍・RGBAへ描画したもの。新たな絵は生成していない。
+- `shelf_general_open_empty_r0_v1.svg` / `.png` — まず承認する屋根なし空棚。唯一の校正済みPNG。
+- `shelf_general_open_half_r0_v1.svg` / `shelf_general_open_full_r0_v1.svg` — 既登録の参考状態。P0形状承認までPNG化・利用を保留。
+- EMPTY PNGはChatGPT作成SVGをCairoSVGで2倍・RGBAへ描画したもの。新たな絵は生成していない。
 - `projection_qa.json` と `review/projection_calibration_comparison.png` に投影計測と元絵/出力比較を保存。
 
-これらは**文字・UI・不透明背景を持たない2D SVG画像**で、プロンプトだけではない。PNGは透過付き1040×1080の2倍出力。元SVGは変更せず、PNG描画時だけ接地点を固定したワールドX方向1.010989倍を適用し、外側の短辺を0.91mから0.92mへ校正した。長辺1.92mと投影角度は変更していない。Ground anchorは最下部ベース角から算出したPNG座標(411.44, 891.26)。これは投影契約の校正であり、**Godot runtime上の配置確認ではない**。この枝は制作提案であり、ユーザー承認前のruntimeへは接続しない（`runtime_approved:false`）。
+これらは**文字・UI・不透明背景を持たない2D SVG画像**で、プロンプトだけではない。EMPTY PNGは透過付き1040×1080の2倍出力。元SVGは変更せず、PNG描画時だけ接地点を固定したワールドX方向1.010989倍を適用し、外側の短辺を0.91mから0.92mへ校正した。長辺1.92mと投影角度は変更していない。Ground anchorは最下部ベース角から算出したPNG座標(411.44, 891.26)。これは投影契約の校正であり、**Godot runtime上の配置確認ではない**。Issue #157のP0形状Gateに従い、EMPTYの形状承認までHALF/FULL PNG出力・利用は保留する。ユーザー承認前のruntimeへは接続しない（`runtime_approved:false`）。
 
 ## 旧失敗との違い
 PR #161の「屋根付き正規EMPTYに合わせる」「Keep the cap / empty top canopy / white top cap」という誤指示を採用しない。商品上部を覆う大面積屋根は描かない。薄い販売用棚板・支柱・レールだけにする。同じSVG作成方法から3状態を派生し、棚構造が状態間で変わらないようにした。商品表現は可読性調整が必要な簡易イラストであり、実在パッケージの精密再現は主目的ではない。

@@ -83,40 +83,6 @@
         827
       ],
       "alpha_nonzero_pixels": 417551
-    },
-    "HALF": {
-      "canvas_px": [
-        1040,
-        1080
-      ],
-      "alpha_bbox_px": [
-        172,
-        68,
-        915,
-        895
-      ],
-      "alpha_bbox_size_px": [
-        743,
-        827
-      ],
-      "alpha_nonzero_pixels": 419654
-    },
-    "FULL": {
-      "canvas_px": [
-        1040,
-        1080
-      ],
-      "alpha_bbox_px": [
-        172,
-        68,
-        915,
-        895
-      ],
-      "alpha_bbox_size_px": [
-        743,
-        827
-      ],
-      "alpha_nonzero_pixels": 419654
     }
   },
   "state_geometry_comparison": {
@@ -140,28 +106,10 @@
   },
   "files": {
     "png": {
-      "EMPTY": "shelf_general_open_empty_r0_v1.png",
-      "HALF": "shelf_general_open_half_r0_v1.png",
-      "FULL": "shelf_general_open_full_r0_v1.png"
+      "EMPTY": "shelf_general_open_empty_r0_v1.png"
     },
     "transform_matrix_svg": {
       "EMPTY": [
-        1.0054945054945055,
-        0.0027472527472527375,
-        0.01098901098901095,
-        1.0054945054945055,
-        -6.027362637362622,
-        -3.0136813186812788
-      ],
-      "HALF": [
-        1.0054945054945055,
-        0.0027472527472527375,
-        0.01098901098901095,
-        1.0054945054945055,
-        -6.027362637362622,
-        -3.0136813186812788
-      ],
-      "FULL": [
         1.0054945054945055,
         0.0027472527472527375,
         0.01098901098901095,
@@ -176,6 +124,7 @@
     "Only the already registered ChatGPT SVG artwork was rasterized; no new art was generated.",
     "A 1.1% world-X-only scale was applied to the output render to fit the 0.92 m outer footprint; source SVGs remain unchanged.",
     "Projected axis angles already matched iso2x_v1; no angle rotation was needed.",
+    "Only EMPTY was exported before the P0 shape gate; FULL/HALF PNG export is deferred until EMPTY approval.",
     "Art-form and Japanese retail visual approval remain open under issues #157/#123."
   ]
 }

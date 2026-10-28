@@ -26,6 +26,7 @@ MEASURED_OUTER_X_M = 0.91
 X_SCALE = EXPECTED_OUTER_X_M / MEASURED_OUTER_X_M
 PIVOT_SVG = (205.72, 445.63)
 STATES = ("empty", "half", "full")
+RENDER_STATES = ("empty",)
 REVIEW_DIR = ASSET_DIR / "review"
 
 
@@ -109,7 +110,7 @@ def main() -> None:
     manifests: dict[str, str] = {}
     matrices: dict[str, list[float]] = {}
     raw_images: dict[str, Image.Image] = {}
-    for state in STATES:
+    for state in RENDER_STATES:
         stem = f"shelf_general_open_{state}_r0_v1"
         svg_path = ASSET_DIR / f"{stem}.svg"
         png_path = ASSET_DIR / f"{stem}.png"
@@ -133,10 +134,10 @@ def main() -> None:
 
     images = {
         state.upper(): alpha_metrics(ASSET_DIR / f"shelf_general_open_{state}_r0_v1.png")
-        for state in STATES
+        for state in RENDER_STATES
     }
-    if len({tuple(v["canvas_px"]) for v in images.values()}) != 1:
-        raise ValueError("State PNG canvases do not match")
+    if tuple(images["EMPTY"]["canvas_px"]) != (1040, 1080):
+        raise ValueError("EMPTY PNG canvas does not match the 2x source contract")
 
     REVIEW_DIR.mkdir(parents=True, exist_ok=True)
     raw = raw_images["EMPTY"].resize((520, 540), Image.Resampling.LANCZOS)
@@ -205,6 +206,7 @@ def main() -> None:
             "Only the already registered ChatGPT SVG artwork was rasterized; no new art was generated.",
             "A 1.1% world-X-only scale was applied to the output render to fit the 0.92 m outer footprint; source SVGs remain unchanged.",
             "Projected axis angles already matched iso2x_v1; no angle rotation was needed.",
+            "Only EMPTY was exported before the P0 shape gate; FULL/HALF PNG export is deferred until EMPTY approval.",
             "Art-form and Japanese retail visual approval remain open under issues #157/#123.",
         ],
     }

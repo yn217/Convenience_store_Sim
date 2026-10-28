@@ -16,11 +16,11 @@
     },
     "HALF": {
       "svg": "shelf_general_open_half_r0_v1.svg",
-      "png_2x": "shelf_general_open_half_r0_v1.png"
+      "png_2x_status": "HELD_PENDING_EMPTY_SHAPE_APPROVAL"
     },
     "FULL": {
       "svg": "shelf_general_open_full_r0_v1.svg",
-      "png_2x": "shelf_general_open_full_r0_v1.png"
+      "png_2x_status": "HELD_PENDING_EMPTY_SHAPE_APPROVAL"
     }
   },
   "world_contract": {
@@ -80,6 +80,7 @@
   "projection_calibration": {
     "report": "projection_qa.json",
     "review_sheet": "review/projection_calibration_comparison.png",
+    "rasterized_state": "EMPTY only; FULL/HALF deferred pending P0 shape approval",
     "png_raster_scale": 2,
     "svg_source_modified": false,
     "projected_axis_rotation_deg": 0,
