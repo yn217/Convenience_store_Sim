@@ -1,0 +1,44 @@
+[
+  {
+    "file": "exterior_1600x900.png",
+    "width": 1600,
+    "height": 900,
+    "bytes": 901168,
+    "actual_game_capture": true
+  },
+  {
+    "file": "low_1280x720.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 412613,
+    "actual_game_capture": true
+  },
+  {
+    "file": "high_1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 859692,
+    "actual_game_capture": true
+  },
+  {
+    "file": "night_1600x900.png",
+    "width": 1600,
+    "height": 900,
+    "bytes": 880900,
+    "actual_game_capture": true
+  },
+  {
+    "file": "build_1600x900.png",
+    "width": 1600,
+    "height": 900,
+    "bytes": 842336,
+    "actual_game_capture": true
+  },
+  {
+    "file": "large_1280x720.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 495679,
+    "actual_game_capture": true
+  }
+]

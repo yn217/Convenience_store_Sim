@@ -96,6 +96,22 @@ func test_entrance_on_east_is_a_low_front(t, _tree) -> void:
 		t.ok(top <= StoreDecor.SILL_H + 1e-6, "sills stay under the sill height")
 
 
+func test_observe_canopy_adds_transparent_full_height_glazing(t, _tree) -> void:
+	var items := StoreDecor.canopy_items(W, H, SOUTH_ENTR)
+	var panes := items.filter(func(it): return it.get("role", &"") == &"glazing_pane")
+	var reflections := items.filter(func(it): return it.get("role", &"") == &"glazing_reflection")
+	t.eq(panes.size(), W - SOUTH_ENTR.size(), "every closed frontage tile receives a glass pane")
+	t.ok(not reflections.is_empty(), "some panes catch a subtle reflection")
+	for pane in panes:
+		var min_z := INF
+		var max_z := -INF
+		for point in pane["points"]:
+			min_z = minf(min_z, point.z)
+			max_z = maxf(max_z, point.z)
+		t.ok(min_z > StoreDecor.SILL_H and max_z == 2.25, "transparent glazing reaches close to the fascia")
+		t.ok(float(pane["color"].a) < 0.1, "interior remains legible through the glass")
+
+
 func test_wall_items_never_land_on_the_floor(t, _tree) -> void:
 	var layouts := [
 		[W, H, ENTR], [W, H, [Vector2i(3, 0)]], [W, H, [Vector2i(W - 1, 4)]], [W, H, [Vector2i(5, H - 1)]], [5, 4, [Vector2i(0, 1)]],
@@ -112,30 +128,43 @@ func test_exterior_is_outside_the_store_and_deterministic(t, _tree) -> void:
 	t.eq(a.size(), b.size(), "same inputs give the same number of items")
 	t.ok(a == b, "same inputs give the same items")
 	for it in a:
-		t.ok(not _inside_floor(it, W, H), "exterior %s stands outside the store" % it["id"])
+		if it["kind"] == &"sprite":
+			t.ok(not _inside_floor(it, W, H), "exterior %s stands outside the store" % it["id"])
+		elif it["kind"] == &"poly":
+			for p in it["points"]:
+				t.ok(p.x <= -0.5 or p.x >= W - 0.5 or p.y <= -0.5 or p.y >= H - 0.5, "markings stay outside walkable floor")
 
 
 func test_exterior_has_the_street_furniture(t, _tree) -> void:
 	# Default door on the south wall: the whole street set is placed in front of the storefront.
 	var items := StoreDecor.exterior_items(W, H, SOUTH_ENTR)
-	for id in ["open_a_board", "vending_machine", "trash_recycle_bins", "bicycle_stand", "bench", "nobori_banner_obento", "pole_sign", "street_lamp", "parking_lot_straight", "car_stop_bollard", "parked_car_blue", "cherry_tree_a", "flower_bed_planter", "potted_plant_large"]:
+	for id in ["open_a_board", "vending_painted_v1", "trash_recycle_bins", "bicycle_rack_painted_v1", "bench_painted_v1", "nobori_banner_obento", "street_lamp", "flower_planter_painted_v1"]:
 		t.ok(_sprites(items, id).size() > 0, "%s is placed" % id)
-	t.eq(_sprites(items, "parked_car_blue").size() + _sprites(items, "parked_car_red").size(), 2, "two parked cars")
+	t.eq(_sprites(items, "green_street_tree_v1").size() + _sprites(items, "cherry_tree_painted_v1").size(), 0, "temporary individual trees are replaced by the combined backdrop")
+	t.eq(_sprites(items, "parked_car_blue").size() + _sprites(items, "parked_car_red").size(), 0, "legacy side-view cars are not used")
 
 
 func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
 	# Parking used to go on the next side clockwise, which is a far wall (behind the store). It now stands on the
 	# entrance side itself, out on the street: west door -> x < -0.5, south door -> y > H - 0.5.
-	for it in _sprites(StoreDecor.exterior_items(W, H, ENTR), "parking_lot_straight"):
-		t.ok(it["x"] < -0.5, "west door: parking tiles lie west of the store")
-	for it in _sprites(StoreDecor.exterior_items(W, H, SOUTH_ENTR), "parking_lot_straight"):
-		t.ok(it["y"] > H - 0.5, "south door: parking tiles lie south of the store")
+	for side in [ENTR, SOUTH_ENTR]:
+		var markings := StoreDecor.exterior_items(W, H, side).filter(func(it): return it.get("role", "") == "parking")
+		t.ok(markings.size() > 0, "parking geometry exists")
+		for it in markings:
+			for p in it["points"]:
+				var depth: float = -0.5 - p.x if side == ENTR else p.y - (H - 0.5)
+				var along: float = p.y if side == ENTR else p.x
+				t.ok(depth >= 2.0 and depth <= 7.0, "parking stays between pedestrian apron and road")
+				t.ok(along < BackdropLayer.entrance_span(BackdropLayer.entrance_side(W, H, side), W, H, side).x, "door approach stays clear")
 
 
 func test_front_items_are_on_the_near_sides(t, _tree) -> void:
+	var landscape_side := BackdropLayer.landscape_side(BackdropLayer.entrance_side(W, H, ENTR))
 	for it in StoreDecor.exterior_items(W, H, ENTR):
-		if it["front"]:
+		if it["front"] and it["kind"] == &"sprite":
 			t.ok(it["x"] >= W - 0.5 or it["y"] >= H - 0.5, "%s is drawn over the floor only on a near side" % it["id"])
+	var all_planters := _sprites(StoreDecor.exterior_items(W, H, ENTR), "flower_planter_painted_v1")
+	t.eq(all_planters.size(), 5, "the selected combined side has no duplicate standalone planters")
 
 
 func test_prop_loader_reads_the_manifest_and_skips_missing_props(t, _tree) -> void:
@@ -160,3 +189,27 @@ func test_sync_caches_until_the_key_changes(t, _tree) -> void:
 	decor.sync(W, H, ENTR, [], null, _proj(1.6), Vector2(1280, 720))
 	t.ok(decor._ops != first, "a camera change rebuilds the ops")
 	decor.free()
+
+func test_large_store_equipment_does_not_overlap_planter(t, _tree) -> void:
+	var items := StoreDecor.exterior_items(20, 16, [Vector2i(8, 15)])
+	var equipment := Vector2.ZERO
+	var found := false
+	for item in items:
+		if item.get("id", "") == "exterior_hvac_v1":
+			equipment = Vector2(item["x"], item["y"])
+			found = true
+	t.ok(found, "large store has exterior equipment")
+	for item in items:
+		if item.get("id", "") == "flower_planter_painted_v1":
+			var point := Vector2(item["x"], item["y"])
+			t.ok(point.distance_to(equipment) >= 1.5, "planters leave room around equipment")
+
+func test_east_entrance_places_equipment_on_south_side(t, _tree) -> void:
+	var items := StoreDecor.exterior_items(16, 12, [Vector2i(15, 5)])
+	var found := false
+	for item in items:
+		if item.get("id", "") == "exterior_hvac_v1":
+			found = true
+			t.ok(float(item["y"]) > 11.5, "equipment remains outside the south wall")
+			t.ok(item.get("mirror", false), "equipment is mirrored for the south side")
+	t.ok(found, "east entrance still has equipment")

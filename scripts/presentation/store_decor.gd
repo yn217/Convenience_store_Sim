@@ -4,9 +4,8 @@ extends Node2D
 ## StoreWorld, each drawing one layer of the same pure layout:
 ##   LAYER_WALL     (WallDecor, over the WallLayer, under the fixtures): the storefront on the entrance-side wall,
 ##                  the reach-in cooler row and potted plants on the back walls.
-##   LAYER_EXTERIOR (ExteriorDecor, behind the floor): parking, street furniture and trees on the paving and road
-##                  beyond the back and entrance sides.
-##   LAYER_FRONT    (FrontDecor, over the floor, under the fixtures): trees, flower beds and planters on the near
+##   LAYER_EXTERIOR (ExteriorDecor, behind the floor): parking and street furniture beyond the entrance side.
+##   LAYER_FRONT    (FrontDecor, over the floor, under the fixtures): flower beds and planters on the near
 ##                  sides, which sit in front of the store.
 ##   LAYER_REG_FLOOR / LAYER_REG_TOP (#113, RegisterFloorDecor, RegisterTopDecor):
 ##                  the checkout area, built by RegisterDecor from the registers (back-counter props, queue markings,
@@ -18,8 +17,10 @@ extends Node2D
 const LAYER_WALL := 0
 const LAYER_EXTERIOR := 1
 const LAYER_FRONT := 2
+const LAYER_CANOPY := 3
 const LAYER_REG_FLOOR := 4
 const LAYER_REG_TOP := 5
+const LAYER_EQUIPMENT := 6
 
 const SIDE_WEST := 0
 const SIDE_NORTH := 1
@@ -36,25 +37,21 @@ const STOREFRONT_OUT := -1.0   ## storefront boxes stand one tile outside the en
 const FASCIA_Z0 := 2.4
 const FASCIA_Z1 := 3.0         ## the sign band rises a little above the wall top (2.6 m)
 const SILL_H := 0.45           ## near-side sill height (m)
-const NEAR_FRAME_TOP := 1.0    ## near-side window frames stop here (m)
-const NEAR_CAP_Z0 := 1.0       ## thin fascia cap on the near front, on top of the frames
-const NEAR_CAP_Z1 := 1.2
+const NEAR_FRAME_TOP := 2.25   ## transparent near-side glazing rises to the fascia (m)
+const NEAR_CAP_Z0 := 2.25      ## thin fascia cap at the top of the front windows
+const NEAR_CAP_Z1 := 2.4
 const COOLER_COUNT := 6
 const COOLER_START := 2
-const TREE_STRIDE := 6
-const TREE_DEPTH_NEAR := 1.3
-const TREE_DEPTH_BACK := 5.5
 const FLOWER_STRIDE := 4
 const LAMP_STRIDE := 6
-const PARK_ROW_A := 2.5
-const PARK_ROW_B := 3.5
-const PARK_BOLLARD := 4.5
-const PARK_MAX := 9
 
 ## Draw op tags.
 const OP_SPRITE := 0
 const OP_POLY := 1
 const OP_TEXT := 2
+const OP_MESH := 3
+const ExteriorMesh := preload("res://scripts/presentation/exterior_mesh.gd")
+const ExteriorHvac := preload("res://assets/generated/props/exterior_hvac_v1/exterior_hvac_v1.png")
 
 @export var layer := LAYER_EXTERIOR
 var _sprites := PropSprites.new()
@@ -69,7 +66,7 @@ func sync(width: int, height: int, entrances: Array, fixtures: Array, catalog: F
 	if key == _key:
 		return
 	_key = key
-	if layer >= LAYER_REG_FLOOR:
+	if layer == LAYER_REG_FLOOR or layer == LAYER_REG_TOP:
 		_items = RegisterDecor.layer_items(layer, width, height, entrances, fixtures, catalog)
 	else:
 		_items = _layer_items(width, height, entrances, occupied_cells(fixtures, catalog), layer)
@@ -81,11 +78,21 @@ func _draw() -> void:
 	for op in _ops:
 		match op[0]:
 			OP_SPRITE:
+				if op.size() > 3:
+					draw_set_transform_matrix(op[3])
 				draw_texture_rect(op[1], op[2], false)
+				if op.size() > 3:
+					draw_set_transform_matrix(Transform2D.IDENTITY)
 			OP_POLY:
 				draw_colored_polygon(op[1], op[2])
+			OP_MESH:
+				draw_mesh(op[1], null)
 			_:
+				if op.size() > 5:
+					draw_set_transform_matrix(op[5])
 				draw_string(_font(), op[1], op[2], HORIZONTAL_ALIGNMENT_LEFT, -1, op[3], op[4])
+				if op.size() > 5:
+					draw_set_transform_matrix(Transform2D.IDENTITY)
 
 
 func _font() -> Font:
@@ -107,7 +114,27 @@ func _build_ops(proj: IsoProjection) -> void:
 			others.append(it)
 	sprites.sort_custom(func(a, b): return _sprite_before(a, b))
 	var s := proj.zoom / IsoProjection.SOURCE_SCALE
+	# Road markings and contact faces belong below parked vehicles, never over their roofs.
+	for it in others:
+		if not it.get("ground", false):
+			continue
+		var points := PackedVector2Array()
+		for p in it["points"]:
+			points.append(proj.world_to_screen(p.x, p.y, p.z))
+		_ops.append([OP_POLY, points, it["color"]])
 	for it in sprites:
+		if it["id"] == "exterior_hvac_v1":
+			var ground := proj.world_to_screen(it["x"], it["y"])
+			var hvac_scale := 0.17 * proj.zoom
+			var anchor := Vector2(800, 900) * hvac_scale
+			var hvac_size := Vector2(ExteriorHvac.get_size()) * hvac_scale
+			if it.get("mirror", false):
+				var left := ground.x + anchor.x - hvac_size.x
+				var target := Rect2(Vector2(left, ground.y - anchor.y), hvac_size)
+				_ops.append([OP_SPRITE, ExteriorHvac, target, Transform2D(Vector2(-1, 0), Vector2(0, 1), Vector2(2.0 * left + hvac_size.x, 0))])
+			else:
+				_ops.append([OP_SPRITE, ExteriorHvac, Rect2(ground - anchor, hvac_size)])
+			continue
 		var info := _sprites.texture(it["id"], int(it.get("rot", 0)))
 		if info.is_empty():
 			continue
@@ -117,6 +144,8 @@ func _build_ops(proj: IsoProjection) -> void:
 		for tex in info["layers"]:
 			_ops.append([OP_SPRITE, tex, Rect2(top_left, size * s)])
 	for it in others:
+		if it.get("ground", false):
+			continue
 		if it["kind"] == &"poly":
 			var pts := PackedVector2Array()
 			for p in it["points"]:
@@ -124,10 +153,35 @@ func _build_ops(proj: IsoProjection) -> void:
 			_ops.append([OP_POLY, pts, it["color"]])
 		elif it["kind"] == &"text":
 			var at: Vector3 = it["at"]
-			var size_px := maxi(10, roundi(14.0 * proj.zoom))
+			var size_px := maxi(8, roundi(float(it.get("font_px", 14.0)) * proj.zoom))
 			var width := font.get_string_size(it["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 			var pos := proj.world_to_screen(at.x, at.y, at.z) + Vector2(-width * 0.5, size_px * 0.35 + float(it.get("dy", 0.0)) * proj.zoom)
-			_ops.append([OP_TEXT, pos, it["text"], size_px, it["color"]])
+			if it.has("wall_side"):
+				# A vertical sign plane has a sloping baseline, while glyph stems stay vertical.
+				var side: int = it["wall_side"]
+				var slope := -0.5 if side == SIDE_WEST or side == SIDE_EAST else 0.5
+				var basis := Transform2D(Vector2(1.0, slope), Vector2(0.0, 1.0), proj.world_to_screen(at.x, at.y, at.z))
+				_ops.append([OP_TEXT, Vector2(-width * 0.5, size_px * 0.35), it["text"], size_px, it["color"], basis])
+			else:
+				_ops.append([OP_TEXT, pos, it["text"], size_px, it["color"]])
+	_batch_polygons()
+
+
+## Batch only adjacent geometry so sprite/text/alpha paint order remains unchanged.
+func _batch_polygons() -> void:
+	var compact: Array = []
+	var faces: Array = []
+	for op in _ops:
+		if op[0] == OP_POLY:
+			faces.append({"points": op[1], "color": op[2]})
+		else:
+			if not faces.is_empty():
+				compact.append([OP_MESH, ExteriorMesh.from_faces(faces)])
+				faces = []
+			compact.append(op)
+	if not faces.is_empty():
+		compact.append([OP_MESH, ExteriorMesh.from_faces(faces)])
+	_ops = compact
 
 
 ## Sprite order: lower rank first (a counter's appliances have rank 1, so they draw over the counter), then back to front.
@@ -167,10 +221,67 @@ static func occupied_cells(fixtures: Array, catalog: FixtureCatalog) -> Dictiona
 static func _layer_items(width: int, height: int, entrances: Array, occupied: Dictionary, which: int) -> Array:
 	if which == LAYER_WALL:
 		return wall_items(width, height, entrances, occupied)
+	if which == LAYER_CANOPY:
+		return canopy_items(width, height, entrances)
 	var out: Array = []
 	for it in exterior_items(width, height, entrances):
+		var is_equipment: bool = it.get("id", "") == "exterior_hvac_v1"
+		if which == LAYER_EQUIPMENT:
+			if is_equipment:
+				out.append(it)
+			continue
+		if is_equipment:
+			continue
 		if (which == LAYER_FRONT) == bool(it.get("front", false)):
 			out.append(it)
+	return out
+
+
+## Thin architectural front frame. StoreWorld cuts it away while interacting with the floor.
+static func canopy_items(width: int, height: int, entrances: Array) -> Array:
+	var out: Array = []
+	if width <= 0 or height <= 0:
+		return out
+	var side := BackdropLayer.entrance_side(width, height, entrances)
+	if not _is_near(side):
+		return out
+	var n := _edge_len(side, width, height)
+	var plane := float(width) - 0.5 if side == SIDE_EAST else float(height) - 0.5
+	# A lightly tinted, full-height glazing pass restores the storefront silhouette in the observe view.
+	# It is deliberately drawn in the canopy layer (above people and fixtures) with low alpha, so the
+	# shop floor remains readable while reflections make the front read as glass rather than open air.
+	for a in n:
+		if _is_entrance_at(entrances, side, a, width, height):
+			continue
+		var pane_a := float(a) - 0.47
+		var pane_b := float(a) + 0.47
+		out.append({"kind": &"poly", "points": _band(side, plane, pane_a, pane_b, SILL_H + 0.01, 2.25), "color": Color(0.64, 0.83, 0.91, 0.075), "role": &"glazing_pane"})
+		if a % 3 == 1:
+			out.append({"kind": &"poly", "points": _band(side, plane - 0.004, pane_a + 0.11, pane_a + 0.19, 1.38, 2.18), "color": Color(1.0, 1.0, 1.0, 0.20), "role": &"glazing_reflection"})
+	for strip in [[2.28, 2.78, Color("f5f6ee")], [2.38, 2.56, FASCIA], [2.26, 2.30, Color("9caaaf")], [2.72, 2.78, Color("d4dcdb")]]:
+		out.append({"kind": &"poly", "points": _band(side, plane, -0.5, n - 0.5, strip[0], strip[1]), "color": strip[2]})
+	# A narrow outward roof return provides real projected depth without covering the interior.
+	var roof: Array = []
+	for v in [Vector2(-0.5, 0.0), Vector2(n - 0.5, 0.0), Vector2(n - 0.5, 0.26), Vector2(-0.5, 0.26)]:
+		var p := _plane_point(side, plane + v.y, 2.78)
+		if side == SIDE_EAST:
+			p.y = v.x
+		else:
+			p.x = v.x
+		roof.append(p)
+	out.append({"kind": &"poly", "points": roof, "color": Color("ffffff")})
+	for b in range(0, n + 1, 2):
+		var a := float(b) - 0.5
+		out.append({"kind": &"poly", "points": _band(side, plane, a - 0.018, a + 0.018, NEAR_FRAME_TOP, 2.28), "color": Color(0.45, 0.55, 0.57, 0.6)})
+	var label := fascia_label(side, width, height, plane)
+	label["font_px"] = 24
+	label["color"] = FASCIA
+	var at: Vector3 = label["at"]
+	at.z = 2.53
+	label["at"] = at
+	var mid := float(n - 1) * 0.5
+	out.append({"kind": &"poly", "points": _band(side, plane, mid - 2.1, mid + 2.1, 2.32, 2.72), "color": Color("fbfcf8")})
+	out.append(label)
 	return out
 
 
@@ -201,55 +312,81 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	var n := _edge_len(side, width, height)
 	# Along the entrance side, the street items are placed from the door span, so they follow the entrance wherever it is.
 	var span := BackdropLayer.entrance_span(side, width, height, entrances)
-	_add(out, "nobori_banner_obento", side, width, height, 1.0, n + 0.4)
-	_add(out, "open_a_board", side, width, height, 1.0, n + 1.6)
-	_add(out, "vending_machine", side, width, height, 1.0, span.y + 1.5)   # beside the door
+	_add(out, "nobori_banner_obento", side, width, height, 1.0, n - 1.0)
+	_add(out, "open_a_board", side, width, height, 1.0, span.x - 0.8)
+	_add(out, "vending_painted_v1", side, width, height, 1.0, span.y + 1.5)   # beside the door
 	_add(out, "trash_recycle_bins", side, width, height, 1.0, span.y + 3.0)
-	_add(out, "bicycle_stand", side, width, height, 1.1, n + 5.2)
-	_add(out, "bench", side, width, height, 1.0, n + 6.3)
-	_add(out, "pole_sign", side, width, height, 1.6, -1.0)
+	_add(out, "bicycle_rack_painted_v1", side, width, height, 1.1, 1.7)
+	_add(out, "bench_painted_v1", side, width, height, 1.1, span.x - 2.0)
+	if BackdropLayer.landscape_side(side) != side:
+		_add(out, "flower_planter_painted_v1", side, width, height, 1.05, float(n) - 1.4)
+	out.append_array(_pole_sign_items(side, width, height))
 	var a := -1.0
 	while a <= n + 6.0:
 		_add(out, "street_lamp", side, width, height, 2.0, a)
 		a += LAMP_STRIDE
-	# Parking on the street side of the entrance wall, to the left of the door: two rows of bays, wheel stops, two cars.
-	var last := mini(int(span.x) - 1, PARK_MAX)
-	var a2 := 0.0
-	while a2 < last:
-		_add(out, "parking_lot_straight", side, width, height, PARK_ROW_A, a2)
-		_add(out, "parking_lot_straight", side, width, height, PARK_ROW_B, a2)
-		if int(a2) % 2 == 0:
-			_add(out, "car_stop_bollard", side, width, height, PARK_BOLLARD, a2)
-		a2 += 1.0
-	if last >= 2:
-		_add(out, "parked_car_blue", side, width, height, PARK_ROW_A, 1.0)
-	if last >= 4:
-		_add(out, "parked_car_red", side, width, height, PARK_ROW_B, 3.0)
-	# Back sides: cherry trees beyond the parking lot (behind the store, so they stay above the wall).
-	for back in _back_walls(side):
-		var nb := _edge_len(back, width, height)
-		var t := 1.0
-		var k := 0
-		while t < nb:
-			_add(out, "cherry_tree_a" if k % 2 == 0 else "cherry_tree_b", back, width, height, TREE_DEPTH_BACK, t)
-			t += TREE_STRIDE
-			k += 1
-	# Near sides (in front of the store): cherry trees, flower beds and planters on the pavement.
+	# One row, measured in metres. Keep the doorway approach clear across the forecourt.
+	var bay := 0
+	var along := 0.0
+	while along + 2.5 <= span.x - 0.35:
+		out.append(_ground_patch(side, width, height, 2.12, 6.88, along, along + 0.065, Color("f5f0df")))
+		out.append(_ground_patch(side, width, height, 2.12, 6.88, along + 2.5, along + 2.565, Color("f5f0df")))
+		out.append(_ground_patch(side, width, height, 2.12, 2.185, along, along + 2.565, Color("f5f0df")))
+		out.append(_ground_patch(side, width, height, 2.32, 2.54, along + 0.65, along + 1.85, Color("a4a39c")))
+		out.append(_ground_patch(side, width, height, 2.32, 2.50, along + 0.65, along + 1.85, Color("e5e0d4"), 0.10))
+		# Only a genuinely projected sprite is accepted; the legacy side-view cars stay unused.
+		if bay == 0 and (side == SIDE_SOUTH or side == SIDE_NORTH) and PropSprites.is_available("compact_car_painted_v2"):
+			_add(out, "compact_car_painted_v2", side, width, height, 4.6, along + 1.25)
+			out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
+		along += 2.7
+		bay += 1
+	# Place the fixed equipment against the visible east side, away from the entrance.
+	if width >= 8 and height >= 8:
+		var equipment_side := SIDE_SOUTH if side == SIDE_EAST else SIDE_EAST
+		var equipment_along := float(width if equipment_side == SIDE_SOUTH else height) * 0.41
+		_add(out, "exterior_hvac_v1", equipment_side, width, height, 1.0, equipment_along)
+		out[-1]["mirror"] = equipment_side == SIDE_SOUTH
+	# The temporary individual tree placements are omitted. The combined BackdropLayer sidewalk panel replaces the
+	# repeated planters along its edge; planters remain on other visible sides.
+	var landscape_side := BackdropLayer.landscape_side(side)
 	for near in _near_sides(side):
+		if near == landscape_side:
+			continue
 		var nn := _edge_len(near, width, height)
-		var f := 1.0
-		var j := 0
+		var f := 3.0
 		while f < nn:
-			_add(out, "cherry_tree_b" if j % 2 == 0 else "cherry_tree_a", near, width, height, TREE_DEPTH_NEAR, f)
-			f += TREE_STRIDE
-			j += 1
-		f = 3.0
-		while f < nn:
-			_add(out, "flower_bed_planter", near, width, height, 1.1, f)
+			# Leave a clear gap around the equipment on the east wall.
+			var equipment_side := SIDE_SOUTH if side == SIDE_EAST else SIDE_EAST
+			var near_equipment: bool = near == equipment_side and width >= 8 and height >= 8 and absf(f - float(nn) * 0.41) < 1.5
+			if not near_equipment:
+				_add(out, "flower_planter_painted_v1", near, width, height, 1.1, f)
 			f += FLOWER_STRIDE
-		_add(out, "potted_plant_large", near, width, height, 1.2, 0.0)
-		_add(out, "potted_plant_large", near, width, height, 1.2, float(nn) - 1.0)
 	return out
+
+
+static func _pole_sign_items(side: int, width: int, height: int) -> Array:
+	var centre := BackdropLayer.side_point(side, 1.45, -0.8, width, height)
+	var plane := centre.x if side == SIDE_WEST or side == SIDE_EAST else centre.y
+	var mid := centre.y if side == SIDE_WEST or side == SIDE_EAST else centre.x
+	var out: Array = []
+	for part in [[-0.06, 0.06, 0.0, 2.6, Color("899599")], [-0.88, 0.88, 2.2, 3.8, Color("77868c")], [-0.82, 0.82, 2.26, 3.74, Color("fffdf1")], [-0.76, 0.76, 2.85, 3.67, FASCIA], [-0.76, 0.76, 2.31, 2.68, Color("b73550")]]:
+		out.append({"kind": &"poly", "points": _band(side, plane, mid + part[0], mid + part[1], part[2], part[3]), "color": part[4], "front": _is_near(side)})
+	for row in [["青葉24", 3.22, FASCIA_TEXT, 20], ["ATM  酒", 2.49, FASCIA_TEXT, 12]]:
+		var at := _plane_point(side, plane, row[1])
+		if side == SIDE_WEST or side == SIDE_EAST:
+			at.y = mid
+		else:
+			at.x = mid
+		out.append({"kind": &"text", "at": at, "text": row[0], "color": row[2], "font_px": row[3], "wall_side": side, "front": _is_near(side)})
+	return out
+
+
+static func _ground_patch(side: int, width: int, height: int, d0: float, d1: float, a0: float, a1: float, color: Color, z: float = 0.0) -> Dictionary:
+	var points: Array = []
+	for v in [Vector2(d0, a0), Vector2(d1, a0), Vector2(d1, a1), Vector2(d0, a1)]:
+		var p := BackdropLayer.side_point(side, v.x, v.y, width, height)
+		points.append(Vector3(p.x, p.y, z))
+	return {"kind": &"poly", "points": points, "color": color, "ground": true, "role": "parking", "front": _is_near(side)}
 
 
 ## Storefront on a far wall (west or north): a window per tile, storefront piers at both ends, the entrance tiles
@@ -271,9 +408,9 @@ static func _far_storefront(width: int, height: int, entrances: Array, side: int
 	return out
 
 
-## Near walls (east or south) get a LOW cut-away front: a sill (SILL_H), short window frames with a mullion every
-## other tile up to NEAR_FRAME_TOP, and a thin fascia cap on top (NEAR_CAP_Z0..NEAR_CAP_Z1). Nothing rises above
-## ~1.2 m, so the interior stays visible. The entrance is a clear opening with no sill or frame in front of it.
+## Near walls (east or south) get transparent, full-height shopfront glazing above a low sill, mullions every
+## other tile, and a thin fascia cap at the top. The alpha keeps customers and fixtures readable behind the glass.
+## The entrance is a clear opening with no sill, pane or frame in front of it.
 ## Sill and frames are merged into one polygon per run, which keeps the draw-op count low.
 static func _near_low_front(width: int, height: int, entrances: Array, side: int) -> Array:
 	var out: Array = []
@@ -285,18 +422,44 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 		if open and run_start < 0:
 			run_start = a
 		elif not open and run_start >= 0:
-			out.append({"kind": &"poly", "points": _band(side, plane, float(run_start) - 0.5, float(a) - 0.5, 0.0, SILL_H), "color": SILL})
+			var a0 := float(run_start) - 0.5
+			var a1 := float(a) - 0.5
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, 0.0, SILL_H), "color": SILL})
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, SILL_H, NEAR_FRAME_TOP), "color": Color(0.66, 0.86, 0.92, 0.16)})
+			# White metal housing above and below a slimmer blue ribbon; broken at the door opening.
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 - 0.025, NEAR_CAP_Z0 + 0.025), "color": Color("a0adb4")})
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 + 0.025, NEAR_CAP_Z1), "color": Color("f8faf8")})
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 + 0.065, NEAR_CAP_Z1 - 0.035), "color": FASCIA})
+			out.append(_canopy_top(side, plane, a0, a1, 0.09))
 			run_start = -1
 	for b in range(0, n + 1, 2):
+		if _is_entrance_at(entrances, side, b, width, height) or _is_entrance_at(entrances, side, b - 1, width, height):
+			continue
 		var fb := float(b) - 0.5
-		out.append({"kind": &"poly", "points": _band(side, plane, fb - 0.04, fb + 0.04, 0.0, NEAR_FRAME_TOP), "color": FRAME})
-	out.append({"kind": &"poly", "points": _band(side, plane, -0.5, float(n) - 0.5, NEAR_CAP_Z0, NEAR_CAP_Z1), "color": FASCIA})
-	var label := fascia_label(side, width, height, plane)
-	var at: Vector3 = label["at"]
-	at.z = (NEAR_CAP_Z0 + NEAR_CAP_Z1) * 0.5
-	label["at"] = at
-	out.append(label)
+		out.append({"kind": &"poly", "points": _band(side, plane, fb - 0.018, fb + 0.018, 0.0, NEAR_FRAME_TOP), "color": FRAME})
+	# Entrance jambs frame a clear opening. Only the thin white canopy bridges the top of the cutaway.
+	var door_start := -1
+	for a in range(n + 1):
+		var door := a < n and _is_entrance_at(entrances, side, a, width, height)
+		if door and door_start < 0:
+			door_start = a
+		elif not door and door_start >= 0:
+			var d0 := float(door_start) - 0.5
+			var d1 := float(a) - 0.5
+			for edge in [d0, d1]:
+				out.append({"kind": &"poly", "points": _band(side, plane, edge - 0.025, edge + 0.025, 0.0, NEAR_CAP_Z1 - 0.05), "color": FRAME})
+			out.append({"kind": &"poly", "points": _band(side, plane, d0 - 0.08, d1 + 0.08, NEAR_CAP_Z1 - 0.05, NEAR_CAP_Z1), "color": Color("f9faf6")})
+			out.append(_canopy_top(side, plane, d0 - 0.08, d1 + 0.08, 0.22))
+			door_start = -1
 	return out
+
+
+static func _canopy_top(side: int, plane: float, a0: float, a1: float, depth: float) -> Dictionary:
+	var p0 := _plane_point(side, plane, NEAR_CAP_Z1)
+	var p1 := _plane_point(side, plane + depth, NEAR_CAP_Z1)
+	if side == SIDE_EAST:
+		return {"kind": &"poly", "points": [Vector3(p0.x, a0, p0.z), Vector3(p0.x, a1, p0.z), Vector3(p1.x, a1, p1.z), Vector3(p1.x, a0, p1.z)], "color": Color("ffffff")}
+	return {"kind": &"poly", "points": [Vector3(a0, p0.y, p0.z), Vector3(a1, p0.y, p0.z), Vector3(a1, p1.y, p1.z), Vector3(a0, p1.y, p1.z)], "color": Color("ffffff")}
 
 
 ## Fascia: a blue band between FASCIA_Z0 and FASCIA_Z1 over the whole wall.
@@ -313,7 +476,7 @@ static func fascia_label(side: int, width: int, height: int, plane: float) -> Di
 		at.y = mid
 	else:
 		at.x = mid
-	return {"kind": &"text", "at": at, "text": NAME, "color": FASCIA_TEXT}
+	return {"kind": &"text", "at": at, "text": NAME, "color": FASCIA_TEXT, "wall_side": side}
 
 
 ## Back walls are the far walls that are not the entrance side: a reach-in cooler row along the middle of each,
@@ -337,6 +500,12 @@ static func _back_wall(width: int, height: int, wall: int, entrances: Array, occ
 ## Adds a sprite at `depth` metres out from side `side` at tile coordinate `along`.
 static func _add(out: Array, id: String, side: int, width: int, height: int, depth: float, along: float) -> void:
 	var p := BackdropLayer.side_point(side, depth, along, width, height)
+	if id == "green_street_tree_v1" or id == "cherry_tree_painted_v1":
+		var contact: Array = []
+		for i in 20:
+			var angle := TAU * float(i) / 20.0
+			contact.append(Vector3(p.x + cos(angle) * 0.65, p.y + sin(angle) * 0.65, 0.0))
+		out.append({"kind": &"poly", "points": contact, "color": Color(0.13, 0.20, 0.09, 0.16), "ground": true, "role": "tree_contact", "front": _is_near(side)})
 	out.append({"kind": &"sprite", "id": id, "x": p.x, "y": p.y, "front": _is_near(side)})
 
 

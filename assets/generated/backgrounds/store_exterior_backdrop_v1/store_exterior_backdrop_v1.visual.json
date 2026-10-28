@@ -1,0 +1,48 @@
+{
+  "manifest_version": 1,
+  "asset_id": "store_exterior_backdrop_v1",
+  "category": "static_screen_space_exterior_background",
+  "view_direction": "two far-wall edges in iso2x_v1, camera-facing composite",
+  "world_width": null,
+  "world_depth": null,
+  "world_height": null,
+  "render_width_px": 1672,
+  "render_height_px": 941,
+  "pivot_x": 835.088,
+  "pivot_y": 353.806,
+  "anchor_type": "behind_far_wall_corner",
+  "placement_offset": [
+    0,
+    0,
+    0
+  ],
+  "occlusion_group": "non_interactive_backdrop_before_store",
+  "sort_key": "BackdropLayer_before_store_world",
+  "asset_variant": "combined_v_green_trees_sakura_hedges_flowers_fence",
+  "source_file": "assets/source/background/store_exterior_backdrop_v1/corner_v2.png",
+  "runtime_fit": {
+    "uniform_aspect_preserved": true,
+    "tile_size_alignment_required": false,
+    "anchor": "projected north/west wall junction on the wall top; both planting-bed wings continue parallel to the far walls",
+    "source_apex_px": [
+      835.088,
+      353.806
+    ],
+    "edge_slopes": [
+      -0.49950002403730576,
+      0.5005384356521323
+    ]
+  },
+  "alpha_bbox_px": [
+    13,
+    24,
+    1672,
+    932
+  ],
+  "corner_alpha": [
+    0,
+    0,
+    0,
+    0
+  ]
+}

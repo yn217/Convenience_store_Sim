@@ -1,0 +1,19 @@
+{
+  "asset_id": "roadside_greenery_v2",
+  "source_type": "ai_generated",
+  "tool": "built-in image_gen via image-generation subagent",
+  "generation_id": "exec-6dc3588e-7135-4c78-8f10-972f660e4805",
+  "prompt": "Transparent long straight isometric garden strip: dense mature green trees, layered shrubs, pink and white flowers, narrow stone planter, vertical trunks, no pavement, lamp, signage, wall, people or text.",
+  "source_file": "assets/source/background/roadside_greenery_v2/side_strip_v1.png",
+  "original_sha256": "22bcdcdef592ef09d6f7ace57dc3f34c93e74db802761530fc8efa5021b38a0d",
+  "packaging_script": "tools/assets/package_roadside_greenery_v2.py",
+  "operations": [
+    "small measured vertical affine shear to align the planting ground edge to the +/-0.5 isometric wall slope; uniform runtime scaling"
+  ],
+  "source_ground_edge_slope": 0.3690891307322104,
+  "output_ground_edge_slope": 0.4999258304342062,
+  "limitations": [
+    "Thin generated color fringe remains at a few extreme silhouette pixels; inspect at game scale.",
+    "Static spring landscape; the wall occludes its planter roots."
+  ]
+}

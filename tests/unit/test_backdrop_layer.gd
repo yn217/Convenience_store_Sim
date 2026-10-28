@@ -89,6 +89,34 @@ func test_layout_is_deterministic_and_camera_dependent(t, _tree) -> void:
 	t.ok(a[10]["points"] != c[10]["points"], "zoom changes the screen geometry")
 
 
+func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> void:
+	var proj := _proj(1.25)
+	var backdrop_texture := load("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png") as Texture2D
+	var layer := BackdropLayer.new()
+	_tree.root.add_child(layer)
+	layer.sync(16, 12, [], proj, Vector2(1280, 720))
+	var transform: Transform2D = layer._environment_transform
+	var ground := transform * BackdropLayer.BACKDROP_GROUND_PX
+	t.ok(ground.distance_to(BackdropLayer.environment_ground_anchor(proj)) < 0.001, "planting base stays at the exterior ground anchor")
+	t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "vegetation art keeps its proportions")
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		var size_transform := BackdropLayer.environment_transform(proj, size.x, size.y, Vector2(backdrop_texture.get_size()))
+		var size_ground: Vector2 = size_transform * BackdropLayer.BACKDROP_GROUND_PX
+		var left_endpoint: Vector2 = size_transform * BackdropLayer.BACKDROP_LEFT_END_PX
+		var right_endpoint: Vector2 = size_transform * BackdropLayer.BACKDROP_RIGHT_END_PX
+		var expected_left := proj.world_to_screen(-0.5 - BackdropLayer.BACKDROP_GROUND_OFFSET_M, float(size.y) - 0.5 + BackdropLayer.BACKDROP_GROUND_OFFSET_M)
+		var expected_right := proj.world_to_screen(float(size.x) - 0.5 + BackdropLayer.BACKDROP_GROUND_OFFSET_M, -0.5 - BackdropLayer.BACKDROP_GROUND_OFFSET_M)
+		var left_coverage := (left_endpoint - size_ground).dot(expected_left - size_ground) / (expected_left - size_ground).length()
+		var right_coverage := (right_endpoint - size_ground).dot(expected_right - size_ground) / (expected_right - size_ground).length()
+		t.ok(left_coverage >= (expected_left - size_ground).length() - 1.0, "left V endpoint covers %dx%d far wall" % [size.x, size.y])
+		t.ok(right_coverage >= (expected_right - size_ground).length() - 1.0, "right V endpoint covers %dx%d far wall" % [size.x, size.y])
+	proj.pan(Vector2(29, -13))
+	layer.sync(16, 12, [], proj, Vector2(1280, 720))
+	var moved_ground: Vector2 = layer._environment_transform * BackdropLayer.BACKDROP_GROUND_PX
+	t.eq(moved_ground, ground + Vector2(29, -13), "camera panning moves the ground anchor with the store")
+	layer.queue_free()
+
+
 func test_sync_caches_until_the_key_changes(t, _tree) -> void:
 	var layer := BackdropLayer.new()
 	var vp := Vector2(1280, 720)
@@ -99,3 +127,51 @@ func test_sync_caches_until_the_key_changes(t, _tree) -> void:
 	layer.sync(16, 12, [Vector2i(0, 5)], _proj(2.0), vp)
 	t.ok(layer._ops != first, "a camera change rebuilds the pieces")
 	layer.free()
+
+func test_roadside_tracks_entrance_and_camera(t, tree) -> void:
+	var layer := BackdropLayer.new()
+	tree.root.add_child(layer)
+	var p := _proj()
+	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
+	var sprite: Sprite2D = layer._roadside_sprite
+	var initial := sprite.position
+	layer.sync(16, 12, [Vector2i(10, 11)], p, Vector2(1600, 900))
+	t.ok(sprite.position.distance_to(initial + Vector2(128, 64)) < 0.01, "roadside placement follows a moved entrance")
+	p.pan(Vector2(30, -10))
+	layer.sync(16, 12, [Vector2i(10, 11)], p, Vector2(1600, 900))
+	t.ok(sprite.position.distance_to(initial + Vector2(158, 54)) < 0.01, "roadside follows camera pan")
+	layer.sync(16, 12, [Vector2i(0, 5)], p, Vector2(1600, 900))
+	t.ok(sprite.scale.x < 0.0, "roadside mirrors to follow the other road angle")
+	layer.queue_free()
+
+
+func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
+	var layer := BackdropLayer.new()
+	tree.root.add_child(layer)
+	var p := _proj()
+	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
+	var sprite: Sprite2D = layer._side_landscape_sprite
+	t.ok(sprite.visible, "the combined sidewalk panel is shown for a supported store")
+	var first := sprite.transform
+	var east_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
+	t.eq(east_corner, Vector2(16.05, -0.5), "east strip root stays at the far wall with the requested setback")
+	t.ok(first.x.x > 0.0, "the east-side panel follows the visible rear wall direction")
+	var east_ground := BackdropLayer.SIDE_LANDSCAPE_GROUND_START_PX
+	t.ok((first * east_ground).distance_to(p.world_to_screen(east_corner.x, east_corner.y)) < 0.01, "measured planter root is fixed behind the east wall at ground level")
+	var shear := 0.5 - BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE
+	var east_slope := BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear
+	t.ok(absf(east_slope - 0.5) < 0.001, "runtime shear aligns the east-side planted edge with the +0.5 wall slope")
+	p.pan(Vector2(30, -10))
+	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
+	t.ok(sprite.transform.origin.distance_to(first.origin + Vector2(30, -10)) < 0.01, "the sidewalk panel follows camera panning")
+	layer.sync(16, 12, [Vector2i(15, 4)], p, Vector2(1600, 900))
+	t.ok(sprite.transform.x.x < 0.0, "the panel switches to the south side for an east entrance")
+	var south_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_SOUTH, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
+	t.eq(south_corner, Vector2(-0.5, 12.05), "south strip root stays at the far wall with the requested setback")
+	t.ok((sprite.transform * BackdropLayer.SIDE_LANDSCAPE_GROUND_START_PX).distance_to(p.world_to_screen(south_corner.x, south_corner.y)) < 0.01, "mirrored planter root is fixed behind the south wall at ground level")
+	var south_slope := -1.0 * (BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear)
+	t.ok(absf(south_slope + 0.5) < 0.001, "runtime shear aligns the south-side planted edge with the -0.5 wall slope")
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_EAST, size.x, size.y), float(size.y) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "east planting run reaches the full far edge for %dx%d" % [size.x, size.y])
+		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_SOUTH, size.x, size.y), float(size.x) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "south planting run reaches the full far edge for %dx%d" % [size.x, size.y])
+	layer.queue_free()

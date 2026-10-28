@@ -5,6 +5,26 @@ const NO_TILE := Vector2i(-1, -1)
 const PATH_WORLD := "Layout/MainArea/StoreViewport/SubViewport/StoreWorld"
 
 
+func test_front_canopy_cuts_away_without_blocking_floor_selection(t, tree) -> void:
+	var r: Array = await _boot(tree)
+	var world: Node2D = r[2]
+	var canopy: Node2D = world.get_node("FacadeCanopy")
+	world.set_hover_screen(Vector2(-1000, -1000))
+	t.ok(canopy.visible, "front frame is visible while viewing the exterior")
+	var tile := Vector2i(8, 10)
+	var point: Vector2 = world.projection.tile_center(tile)
+	world.set_hover_screen(point)
+	t.ok(not canopy.visible, "hovering the store reveals the full working area")
+	world.primary_click(point)
+	t.eq(world.selected_tile, tile, "front frame never catches the floor click")
+	world.set_hover_screen(Vector2(-1000, -1000))
+	t.ok(not canopy.visible, "selected floor stays unobscured")
+	world.select_screen(Vector2(-1000, -1000))
+	t.ok(canopy.visible, "clearing selection restores the facade")
+	r[0].queue_free()
+	await tree.process_frame
+
+
 func _boot(tree, container_size: Vector2 = Vector2(1920, 1080)) -> Array:
 	var holder := Control.new()
 	holder.size = container_size

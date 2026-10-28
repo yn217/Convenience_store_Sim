@@ -1,0 +1,16 @@
+{
+  "asset_id": "roadside_sidewalk_v1",
+  "source_type": "ai_generated",
+  "tool": "built-in image_gen via image-generation subagent",
+  "generation_id": "exec-8199f5e7-cd01-4a84-bd54-a4c22f022bee",
+  "prompt": "Transparent integrated Japanese convenience-store sidewalk scene with continuous paved walkway, flowerbed and hedge, several street trees, and small lamps. A single side-oriented 2:1 isometric game background strip, no store, road, people, vehicles, signs, text or UI; vertical tree trunks and lamp posts.",
+  "source_file": "assets/source/background/roadside_sidewalk_v1/original.png",
+  "original_sha256": "b683e64d446652e34fc238d7f5cffcca02adff63405a68ba1a491668f9569f33",
+  "operations": [
+    "runtime vertical affine shear of 0.0486 screen pixels per source pixel to align the planted sidewalk edge from slope +0.4514 to the game's +0.5 projection; horizontal mirroring yields -0.5 for the opposite side while vertical posts stay upright"
+  ],
+  "limitations": [
+    "Generated paving texture has visible joints and should be evaluated at normal gameplay zoom.",
+    "The composite is a static exterior strip; it is not tied to tile width."
+  ]
+}

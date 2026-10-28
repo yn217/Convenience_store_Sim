@@ -1,0 +1,32 @@
+{
+  "tests": {
+    "wall_layer": [
+      7,
+      503
+    ],
+    "backdrop_layer": [
+      9,
+      22
+    ],
+    "store_decor": [
+      15,
+      517
+    ],
+    "entrance_sides": [
+      1,
+      62
+    ],
+    "light_spill": [
+      3,
+      25
+    ],
+    "shell_camera_input": [
+      10,
+      96
+    ]
+  },
+  "test_count": 45,
+  "assertions": 1225,
+  "failures": 0,
+  "full_suite_run": false
+}

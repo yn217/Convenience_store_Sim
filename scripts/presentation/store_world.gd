@@ -71,6 +71,8 @@ var safe_inset := Vector4.ZERO
 @onready var _ext_decor: StoreDecor = get_node_or_null("ExteriorDecor") as StoreDecor   # #110 static dressing
 @onready var _wall_decor: StoreDecor = get_node_or_null("WallDecor") as StoreDecor
 @onready var _front_decor: StoreDecor = get_node_or_null("FrontDecor") as StoreDecor
+@onready var _equipment: StoreDecor = get_node_or_null("EquipmentDecor") as StoreDecor
+@onready var _facade_canopy: StoreDecor = get_node_or_null("FacadeCanopy") as StoreDecor
 @onready var _reg_floor: StoreDecor = get_node_or_null("RegisterFloorDecor") as StoreDecor   # #113 checkout area
 @onready var _reg_top: StoreDecor = get_node_or_null("RegisterTopDecor") as StoreDecor
 
@@ -228,6 +230,7 @@ func set_hover_screen(screen_pos: Vector2) -> Vector2i:
 	var tile := c if in_store(c) else NO_TILE
 	var changed := tile != hover_tile
 	hover_tile = tile
+	_update_canopy_visibility()
 	if _selection != null:
 		if hover_tile == NO_TILE:
 			_selection.clear()
@@ -396,6 +399,7 @@ var _ghost: Dictionary = {}
 func _set_selected(c: Vector2i) -> void:
 	var changed := c != selected_tile
 	selected_tile = c
+	_update_canopy_visibility()
 	if _selection != null:
 		if c == NO_TILE:
 			_selection.clear_selected()
@@ -430,6 +434,10 @@ func _refresh() -> void:
 			_wall_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 		if _front_decor != null:
 			_front_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _equipment != null:
+			_equipment.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _facade_canopy != null:
+			_facade_canopy.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 		for reg in [_reg_floor, _reg_top]:
 			if reg != null:
 				reg.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
@@ -446,7 +454,7 @@ func _apply_time_tint() -> void:
 	if indoor != null:
 		indoor.color = LightingModel.indoor(_time_sec)
 	var outdoor := LightingModel.outdoor_modulate(_time_sec)
-	for layer in [_backdrop, _ext_decor, _front_decor]:
+	for layer in [_backdrop, _ext_decor, _front_decor, _equipment]:
 		if layer != null and layer.modulate != outdoor:
 			layer.modulate = outdoor
 
@@ -460,6 +468,7 @@ func _sync_light_spill() -> void:
 
 ## Selection, ghost and the object layers. The floor and walls (this node's own _draw) are left alone.
 func _refresh_objects() -> void:
+	_update_canopy_visibility()
 	if _selection != null:
 		if selected_tile != NO_TILE:
 			_selection.show_selected(projection.tile_diamond(selected_tile))
@@ -468,6 +477,11 @@ func _refresh_objects() -> void:
 		if not _ghost.is_empty():
 			set_ghost(_ghost["cells"], _ghost["access"], _ghost["valid"], _ghost["queue"])
 	_redraw_objects()
+
+
+func _update_canopy_visibility() -> void:
+	if _facade_canopy != null:
+		_facade_canopy.visible = mode == Mode.OBSERVE and selected_tile == NO_TILE and hover_tile == NO_TILE
 
 
 ## Floor pass (issue #61): tiles, grout, sheen, wall occlusion, then fixture contact shadows, all under
@@ -492,6 +506,11 @@ func _draw() -> void:
 		draw_polyline(inset, FloorStyle.MAT_INSET, maxf(1.0, projection.zoom))
 	FloorStyle.draw_shadows(self, projection, _shadows)
 	_draw_perimeter()
+
+
+func draw_background_wall_occlusion(target: CanvasItem) -> void:
+	if _walls != null:
+		_walls.draw_occlusion_overlay(target, projection, store_width, store_height, entrance_tiles)
 
 
 ## Walls are edges of the outer cells (they never occupy a cell); each entrance tile is drawn as a door segment on

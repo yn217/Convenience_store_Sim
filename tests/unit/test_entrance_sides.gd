@@ -62,11 +62,11 @@ func _check_wall(t, name: String, ent: Array, side: int) -> void:
 	t.eq(BackdropLayer.entrance_side(W, H, ent), side, "%s: entrance side" % name)
 	var wall := StoreDecor.wall_items(W, H, ent, {})
 	var street := StoreDecor.exterior_items(W, H, ent)
-	var items: Array = wall + street
+	var items: Array = wall + street + StoreDecor.canopy_items(W, H, ent)
 
 	# Storefront: one blue fascia band on the entrance wall line, and a store name above it.
 	var fascia := items.filter(func(it): return it["kind"] == &"poly" and it["color"] == StoreDecor.FASCIA)
-	t.eq(fascia.size(), 1, "%s: one fascia band" % name)
+	t.ok(fascia.size() >= 1, "%s: fascia segments around the entrance" % name)
 	var on_wall := true
 	for p in fascia[0]["points"]:
 		on_wall = on_wall and absf(_across(p, side) - _plane(side)) < 1e-6
@@ -81,9 +81,9 @@ func _check_wall(t, name: String, ent: Array, side: int) -> void:
 			t.ok(_outside(d["x"], d["y"], side), "%s: door stands outside the entrance wall" % name)
 
 	# Street dressing: parking, the vending machine and the bins all stand on the entrance side, outside the store.
-	var parking := street.filter(func(it): return it["kind"] == &"sprite" and it["id"] == "parking_lot_straight")
+	var parking := street.filter(func(it): return it.get("role", "") == "parking")
 	t.ok(parking.size() > 0, "%s: parking on the entrance side" % name)
-	var vending := street.filter(func(it): return it["kind"] == &"sprite" and it["id"] == "vending_machine")
+	var vending := street.filter(func(it): return it["kind"] == &"sprite" and it["id"] == "vending_painted_v1")
 	t.eq(vending.size(), 1, "%s: one vending machine" % name)
 	if vending.size() == 1:
 		t.ok(_outside(vending[0]["x"], vending[0]["y"], side), "%s: vending machine on the street side" % name)
