@@ -25,11 +25,25 @@ def run(directory):
     return code, out.getvalue()
 
 
+def errors(directory, vid):
+    """Problems of one variant's manifest (the whole-folder rules need all variants; see run_tests.ps1)."""
+    r = vc.manifest_errors(os.path.join(directory, vid, "%s.character.json" % vid))
+    return "\n".join(r if isinstance(r, list) else r[0])
+
+
+# The committed assets themselves are checked by tools/run_tests.ps1 (validate_customers.py on the real folder).
 class CustomerAssets(unittest.TestCase):
+    # Only the variants the tests tamper with (and the calibration) are copied: decoding every frame of every
+    # variant took about 6 s per test.
+    VARIANTS = ("customer_a", "customer_b", "customer_c")
+
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
         self.dir = os.path.join(self.tmp, "characters")
-        shutil.copytree(ASSETS, self.dir)
+        os.makedirs(self.dir)
+        for t in self.VARIANTS + ("calibration",):
+            shutil.copytree(os.path.join(ASSETS, t), os.path.join(self.dir, t))
+        shutil.copy(os.path.join(ASSETS, "PROVENANCE.json"), self.dir)
 
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
@@ -37,9 +51,9 @@ class CustomerAssets(unittest.TestCase):
     def manifest(self, vid="customer_a"):
         return os.path.join(self.dir, vid, "%s.character.json" % vid)
 
-    def test_committed_assets_pass(self):
-        code, out = run(ASSETS)
-        self.assertEqual(code, 0, out)
+    def test_the_untouched_copies_pass(self):
+        for vid in self.VARIANTS:
+            self.assertEqual(errors(self.dir, vid), "", vid)
 
     def test_frame_counts_match_the_contract(self):
         self.assertEqual(figures.ANIMS, {"walk": 6, "idle": 2, "inspect": 4})
@@ -52,16 +66,12 @@ class CustomerAssets(unittest.TestCase):
 
     def test_missing_frame_fails(self):
         os.remove(os.path.join(self.dir, "customer_a", "d1_walk_f3.png"))
-        code, out = run(self.dir)
-        self.assertEqual(code, 1)
-        self.assertIn("d1_walk_f3.png missing", out)
+        self.assertIn("d1_walk_f3.png missing", errors(self.dir, "customer_a"))
 
     def test_wrong_canvas_fails(self):
         path = os.path.join(self.dir, "customer_b", "d2_idle_f0.png")
         Image.new("RGBA", (50, 60), (255, 0, 0, 255)).save(path)
-        code, out = run(self.dir)
-        self.assertEqual(code, 1)
-        self.assertIn("manifest says", out)
+        self.assertIn("manifest says", errors(self.dir, "customer_b"))
 
     def test_shifted_anchor_fails_height_check(self):
         with open(self.manifest("customer_c"), encoding="utf-8") as f:
@@ -69,9 +79,7 @@ class CustomerAssets(unittest.TestCase):
         m["anchor_px"][1] += 40
         with open(self.manifest("customer_c"), "w", encoding="utf-8") as f:
             json.dump(m, f)
-        code, out = run(self.dir)
-        self.assertEqual(code, 1)
-        self.assertIn("head top rows", out)
+        self.assertIn("head top rows", errors(self.dir, "customer_c"))
 
     def test_bad_frame_rate_fails(self):
         with open(self.manifest(), encoding="utf-8") as f:
@@ -79,14 +87,13 @@ class CustomerAssets(unittest.TestCase):
         m["animations"]["walk"]["fps"] = 30
         with open(self.manifest(), "w", encoding="utf-8") as f:
             json.dump(m, f)
-        code, out = run(self.dir)
-        self.assertEqual(code, 1)
-        self.assertIn("animation walk", out)
+        self.assertIn("animation walk", errors(self.dir, "customer_a"))
 
     def test_calibration_is_required(self):
         os.remove(os.path.join(self.dir, "calibration", "iso2x_v1_calibration.png"))
-        code, _ = run(self.dir)
-        self.assertEqual(code, 1)
+        with open(os.path.join(self.dir, "PROVENANCE.json"), encoding="utf-8") as f:
+            prov = json.load(f)
+        self.assertIn("calibration image missing", "\n".join(vc.vm.calibration_errors(prov, self.dir)))
 
     def test_four_facings_are_rendered_rotations_not_mirrors(self):
         # East and west views of an asymmetric figure (shoulder bag on one side) must differ in more than a flip.

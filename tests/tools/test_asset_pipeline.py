@@ -75,11 +75,8 @@ class Goldens(unittest.TestCase):
         self.assertTrue(any("height" in p for p in blueprints.problems(d)))
 
 
+# The committed assets themselves are checked by tools/run_tests.ps1 (validate_manifests.py on the real folder).
 class CommittedAssets(unittest.TestCase):
-    def test_committed_assets_pass(self):
-        code, out = run_validator(ASSETS)
-        self.assertEqual(code, 0, out)
-
     def test_every_manifest_has_all_four_rotations_and_layers(self):
         for t in blueprints.supported_types():
             with open(os.path.join(ASSETS, t, "%s_a.visual.json" % t), encoding="utf-8") as f:
@@ -103,10 +100,21 @@ class CommittedAssets(unittest.TestCase):
 
 
 class Tampering(unittest.TestCase):
+    # Only the two assets the tests tamper with (and the calibration) are copied and checked: decoding every
+    # sprite of every asset took about 5 s per test.
+    TYPES = ("shelf_general", "warmer_oden")
+
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
         self.dir = os.path.join(self.tmp, "fixtures")
-        shutil.copytree(ASSETS, self.dir)
+        os.makedirs(self.dir)
+        for t in self.TYPES + ("calibration",):
+            shutil.copytree(os.path.join(ASSETS, t), os.path.join(self.dir, t))
+        with open(os.path.join(ASSETS, "PROVENANCE.json"), encoding="utf-8") as f:
+            prov = json.load(f)
+        prov["types"] = [t for t in prov["types"] if t in self.TYPES]
+        with open(os.path.join(self.dir, "PROVENANCE.json"), "w", encoding="utf-8") as f:
+            json.dump(prov, f)
 
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
@@ -126,6 +134,10 @@ class Tampering(unittest.TestCase):
         code, out = run_validator(self.dir)
         self.assertEqual(code, 1, out)
         self.assertIn(needle, out)
+
+    def test_the_untouched_copy_passes(self):
+        code, out = run_validator(self.dir)
+        self.assertEqual(code, 0, out)
 
     def test_missing_layer_file_is_detected(self):
         os.remove(os.path.join(self.dir, "shelf_general", "shelf_general_2_shadow.png"))
