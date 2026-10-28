@@ -65,7 +65,7 @@ func test_slabs_only_outside_the_store(t, _tree) -> void:
 	var items := BackdropLayer.layout_items(_proj(), 4, 3, [], Vector2(1280, 720))
 	# Ring of width 2 around a 4x3 footprint: (4 + 4) * (3 + 4) - 4 * 3 = 44 slabs, each a pale paving colour.
 	var slabs := _count(items, BackdropLayer.PAVE) + _count(items, BackdropLayer.PAVE_ALT)
-	t.eq(slabs, 89, "paving-ring slabs plus one outer sidewalk slab per metre")
+	t.eq(slabs, 44, "store paving remains the only metre-grid slab set")
 
 
 func test_vignette_and_ground_are_screen_space(t, _tree) -> void:
@@ -120,6 +120,25 @@ func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
 	proj.pan(Vector2(31.0, -17.0))
 	var moved := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
 	t.eq(moved.origin, initial.origin + Vector2(31.0, -17.0), "grouped grove follows camera pan at its ground anchor")
+
+
+func test_generated_outer_sidewalk_anchors_to_world_centerline(t, _tree) -> void:
+	var proj := _proj(0.8)
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
+			var depth := BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M + BackdropLayer.KERB_M + BackdropLayer.OUTER_SIDEWALK_M * 0.5
+			var world_start := BackdropLayer.side_point(side, depth, -BackdropLayer.OUTER_SIDEWALK_EDGE_OVERHANG_M, size.x, size.y)
+			var world_end := BackdropLayer.side_point(side, depth, edge_length + BackdropLayer.OUTER_SIDEWALK_EDGE_OVERHANG_M, size.x, size.y)
+			if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST:
+				var swap := world_start
+				world_start = world_end
+				world_end = swap
+			var transform := BackdropLayer.outer_sidewalk_transform(proj, size.x, size.y, side, Vector2(2172.0, 724.0))
+			t.ok((transform * BackdropLayer.OUTER_SIDEWALK_START_PX).distance_to(proj.world_to_screen(world_start.x, world_start.y)) < 0.01, "sidewalk start anchors on side %d for %dx%d" % [side, size.x, size.y])
+			t.ok((transform * BackdropLayer.OUTER_SIDEWALK_END_PX).distance_to(proj.world_to_screen(world_end.x, world_end.y)) < 0.01, "sidewalk end anchors on side %d for %dx%d" % [side, size.x, size.y])
+			var transform_xform: Transform2D = transform
+			t.ok(absf(transform_xform.x.length() - transform_xform.y.length()) < 0.001, "sidewalk retains uniform scale on side %d" % side)
 
 
 func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:

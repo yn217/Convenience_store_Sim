@@ -1,0 +1,18 @@
+{
+  "asset_id": "outer_sidewalk_strip_v1",
+  "category": "exterior_sidewalk_background",
+  "view_direction": "isometric_diagonal",
+  "world_width": "selected_store_edge_length + 4.0m overhang",
+  "world_depth": 1.5,
+  "world_height": 0.0,
+  "render_width_px": 2172,
+  "render_height_px": 724,
+  "pivot_x": 72.5,
+  "pivot_y": 130.0,
+  "anchor_type": "world_ground_centerline_endpoints",
+  "placement_offset": "outside road, centered on outer sidewalk band",
+  "occlusion_group": "roadside_ground",
+  "sort_key": "behind_road_and_outer_curb",
+  "asset_variant": "v1",
+  "generated_prompt": "One continuous extra-wide isometric exterior pedestrian sidewalk strip for a Japanese convenience store, warm beige textured concrete, two curb edges, sparse widely spaced expansion joints, transparent outside silhouette, no trees, road, signs, or lettering."
+}
