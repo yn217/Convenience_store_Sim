@@ -3,12 +3,21 @@
   "asset_id": "store_exterior_backdrop_v2",
   "category": "static_world_anchored_exterior_vegetation",
   "view_direction": "iso2x_v1 rear V backdrop with tall trees",
+  "world_width": 20.956,
+  "world_width_by_arm_m": {
+    "left": 20.956,
+    "right": 20.9
+  },
+  "world_depth": 0.45,
+  "world_height": 8.093,
   "render_width_px": 1774,
   "render_height_px": 947,
   "ground_apex_px": [
     887.661,
     435.866
   ],
+  "pivot_x": 887.661,
+  "pivot_y": 435.866,
   "left_ground_endpoint_px": [
     0,
     879.856
@@ -18,11 +27,17 @@
     878.561
   ],
   "anchor_type": "behind_far_corner_ground_z0",
-  "sort_key": "vegetation_before_opaque_far_wall",
+  "placement_offset": [-0.45, -0.45, 0.0],
+  "occlusion_group": "rear_wall_vegetation",
+  "sort_key": "behind_store_wall_occlusion_overlay",
+  "asset_variant": "v2_fixed_world_height",
   "runtime_fit": {
     "uniform_scale_only": true,
-    "world_root_anchor": "(-0.5 - offset, -0.5 - offset, 0)",
+    "world_root_anchor": "(-0.5 - 0.45, -0.5 - 0.45, 0)",
     "separate_edge_checks": true,
+    "scale_policy": "fixed from the 20x16 maximum supported footprint; smaller stores retain the same world tree height and show surplus planting past their wall endpoints",
+    "fixed_world_height_m": 8.093,
+    "max_supported_store_dimensions_m": [20.0, 16.0],
     "edge_slopes": [
       -0.5001795801090549,
       0.5000279865105018

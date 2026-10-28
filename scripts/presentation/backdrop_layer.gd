@@ -40,8 +40,13 @@ const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_si
 const SurroundingGround := preload("res://assets/generated/backgrounds/ground_texture_seamless_v1/ground_texture_seamless_v1.png")
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
+## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
+const BACKDROP_TOP_Y_PX := 16.0
 ## Distance behind the far corner to the V bed's ground contact line, in world metres.
 const BACKDROP_GROUND_OFFSET_M := 0.45
+## Largest supported store footprint; author the backdrop scale once so smaller stores do not shrink the trees.
+const BACKDROP_MAX_STORE_WIDTH_M := 20.0
+const BACKDROP_MAX_STORE_HEIGHT_M := 16.0
 const BACKDROP_LEFT_END_PX := Vector2(0.0, 879.856)
 const BACKDROP_RIGHT_END_PX := Vector2(1773.0, 878.561)
 ## Ground edge measured along the lower base of the grouped tree backdrop image.
@@ -256,12 +261,12 @@ static func environment_transform(proj: IsoProjection, width: int, height: int, 
 	if width <= 0 or height <= 0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return Transform2D.IDENTITY
 	var ground := environment_ground_anchor(proj)
-	var left_end := proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, height - 0.5 + BACKDROP_GROUND_OFFSET_M)
-	var right_end := proj.world_to_screen(width - 0.5 + BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
+	var left_end := proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, BACKDROP_MAX_STORE_HEIGHT_M - 0.5 + BACKDROP_GROUND_OFFSET_M)
+	var right_end := proj.world_to_screen(BACKDROP_MAX_STORE_WIDTH_M - 0.5 + BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
 	var left_scale := environment_branch_scale(ground, left_end, BACKDROP_GROUND_PX, BACKDROP_LEFT_END_PX)
 	var right_scale := environment_branch_scale(ground, right_end, BACKDROP_GROUND_PX, BACKDROP_RIGHT_END_PX)
-	# Each V branch is measured against its own wall endpoint. Fit the longer branch so both walls stay covered;
-	# the shorter branch may extend behind the wall, preserving the artwork's proportions without a gap.
+	# Fit the longest supported store once. The same world-space tree height is retained at every store size;
+	# shorter footprints show the surplus planting beyond their wall ends instead of scaling the trees down.
 	var scale := maxf(left_scale, right_scale)
 	var x_axis := Vector2(scale, 0.0)
 	var y_axis := Vector2(0.0, scale)

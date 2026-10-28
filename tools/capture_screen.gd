@@ -126,12 +126,6 @@ func _run() -> void:
 		if a.begins_with("--map-zoom="):   # --map-zoom=1.8: zoomed about the centre of the map view
 			var mv: MapView = main.get_node("BusinessController")._map_view
 			mv.zoom_at(mv.size * 0.5, float(a.trim_prefix("--map-zoom=")))
-	if OS.get_cmdline_user_args().has("--whole"):   # --whole: the whole-store fit (F key) instead of the default interior fit (#109)
-		main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld").fit_whole()
-	for a in OS.get_cmdline_user_args():   # --zoom=1.2: capture at that camera zoom (package icons, #12)
-		if a.begins_with("--zoom="):
-			var store: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
-			store.zoom_at(store.viewport_size() * 0.5, float(a.trim_prefix("--zoom=")))
 	if OS.get_cmdline_user_args().has("--register-closed"):   # --register-closed: nobody at the till, the 休止中 sign (#113)
 		s.speed_setting = 0
 		for st in s.staff:
@@ -168,6 +162,10 @@ func _run() -> void:
 		review_world.set_hover_screen(review_world.projection.tile_center(Vector2i(2, 7)))
 	if OS.get_cmdline_user_args().has("--whole"):
 		review_world.fit_whole()
+	# Apply requested zoom after fit_whole so whole-store fitting cannot reset the test zoom.
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--zoom="):
+			review_world.zoom_at(review_world.viewport_size() * 0.5, float(a.trim_prefix("--zoom=")))
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--pan="):
 			var xy := a.trim_prefix("--pan=").split(",")

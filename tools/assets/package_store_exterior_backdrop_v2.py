@@ -2,6 +2,7 @@
 from pathlib import Path
 import hashlib
 import json
+import math
 
 import numpy as np
 from PIL import Image
@@ -10,6 +11,12 @@ ROOT = Path(__file__).resolve().parents[2]
 ASSET_ID = "store_exterior_backdrop_v2"
 SOURCE = ROOT / "assets/source/background" / ASSET_ID / "corner_v1.png"
 DEST = ROOT / "assets/generated/backgrounds" / ASSET_ID
+MAX_STORE_WIDTH_M = 20.0
+MAX_STORE_HEIGHT_M = 16.0
+GROUND_OFFSET_M = 0.45
+HALF_TILE_W = 64.0
+HALF_TILE_H = 32.0
+Z_PX_PER_M = 78.38367177
 
 
 def write_json(path: Path, value: dict) -> None:
@@ -67,22 +74,43 @@ def main() -> None:
     DEST.mkdir(parents=True, exist_ok=True)
     result.save(DEST / f"{ASSET_ID}.png", optimize=True)
     bbox = result.getchannel("A").getbbox()
+    max_left_run_px = math.hypot(HALF_TILE_W, HALF_TILE_H) * (MAX_STORE_HEIGHT_M + 2.0 * GROUND_OFFSET_M)
+    max_right_run_px = math.hypot(HALF_TILE_W, HALF_TILE_H) * (MAX_STORE_WIDTH_M + 2.0 * GROUND_OFFSET_M)
+    left_run_px = math.hypot(out_apex[0], out_left[1] - out_apex[1])
+    right_run_px = math.hypot(width - 1 - out_apex[0], out_right[0] * (width - 1) + out_right[1] - out_apex[1])
+    fixed_scale = max(max_left_run_px / left_run_px, max_right_run_px / right_run_px)
+    canopy_height_m = (out_apex[1] - bbox[1]) * fixed_scale / Z_PX_PER_M
+    projected_tile_run = math.hypot(HALF_TILE_W, HALF_TILE_H)
+    left_arm_m = left_run_px * fixed_scale / projected_tile_run
+    right_arm_m = right_run_px * fixed_scale / projected_tile_run
     metadata = {
         "manifest_version": 1,
         "asset_id": ASSET_ID,
         "category": "static_world_anchored_exterior_vegetation",
         "view_direction": "iso2x_v1 rear V backdrop with tall trees",
+        "world_width": round(max(left_arm_m, right_arm_m), 3),
+        "world_width_by_arm_m": {"left": round(left_arm_m, 3), "right": round(right_arm_m, 3)},
+        "world_depth": GROUND_OFFSET_M,
+        "world_height": round(canopy_height_m, 3),
         "render_width_px": width,
         "render_height_px": size[1],
         "ground_apex_px": [round(out_apex[0], 3), round(out_apex[1], 3)],
+        "pivot_x": round(out_apex[0], 3),
+        "pivot_y": round(out_apex[1], 3),
         "left_ground_endpoint_px": [0, round(out_left[0] * 0 + out_left[1], 3)],
         "right_ground_endpoint_px": [width - 1, round(out_right[0] * (width - 1) + out_right[1], 3)],
         "anchor_type": "behind_far_corner_ground_z0",
-        "sort_key": "vegetation_before_opaque_far_wall",
+        "placement_offset": [-GROUND_OFFSET_M, -GROUND_OFFSET_M, 0.0],
+        "occlusion_group": "rear_wall_vegetation",
+        "sort_key": "behind_store_wall_occlusion_overlay",
+        "asset_variant": "v2_fixed_world_height",
         "runtime_fit": {
             "uniform_scale_only": True,
-            "world_root_anchor": "(-0.5 - offset, -0.5 - offset, 0)",
+            "world_root_anchor": "(-0.5 - 0.45, -0.5 - 0.45, 0)",
             "separate_edge_checks": True,
+            "scale_policy": "fixed from the 20x16 maximum supported footprint; smaller stores retain the same world tree height and show surplus planting past their wall endpoints",
+            "fixed_world_height_m": round(canopy_height_m, 3),
+            "max_supported_store_dimensions_m": [MAX_STORE_WIDTH_M, MAX_STORE_HEIGHT_M],
             "edge_slopes": [out_left[0], out_right[0]],
             "root_and_planter_occlusion": "opaque far wall overlay",
         },

@@ -192,6 +192,17 @@ func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> vo
 		t.ok(left_coverage >= (expected_left - size_ground).length() - 1.0, "left V branch reaches its own far-wall endpoint for %dx%d" % [size.x, size.y])
 		t.ok(right_coverage >= (expected_right - size_ground).length() - 1.0, "right V branch reaches its own far-wall endpoint for %dx%d" % [size.x, size.y])
 		t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "V art keeps a uniform scale for %dx%d" % [size.x, size.y])
+		t.ok(absf(size_transform.x.length() - transform.x.length()) < 0.001, "tree art keeps one world scale across %dx%d" % [size.x, size.y])
+		var tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * size_transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
+		t.ok(tree_height_m > IsoProjection.WALL_HEIGHT_M, "canopy rises above the wall in world metres for %dx%d" % [size.x, size.y])
+		if size != Vector2i(12, 10):
+			var reference_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
+			t.ok(absf(tree_height_m - reference_height_m) < 0.001, "world tree height is identical across store sizes")
+	var zoomed_proj := _proj(0.75)
+	var zoomed_transform := BackdropLayer.environment_transform(zoomed_proj, 16, 12, Vector2(backdrop_texture.get_size()))
+	var zoomed_tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * zoomed_transform.y.length() / (IsoProjection.Z_PX_PER_M * zoomed_proj.zoom)
+	var expected_tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
+	t.ok(absf(zoomed_tree_height_m - expected_tree_height_m) < 0.001, "camera zoom changes pixel size without changing world tree height")
 	proj.pan(Vector2(29, -13))
 	layer.sync(16, 12, [], proj, Vector2(1280, 720))
 	var moved_ground: Vector2 = layer._environment_transform * BackdropLayer.BACKDROP_GROUND_PX

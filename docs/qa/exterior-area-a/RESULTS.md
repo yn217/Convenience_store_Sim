@@ -20,7 +20,7 @@ The planting anchor and V-branch coverage were re-captured from the current code
 | 16x12 | `roots-16x12-2026-10-29.png` |
 | 20x16 | `roots-20x16-2026-10-29.png` |
 
-`roots-pan-zoom-16x12-2026-10-29.png` verifies that the ground anchor follows a translated, zoomed camera. The new captures show the tree and shrub bases staying behind the far walls while the taller canopies remain visible above them. Both V branches are tested independently; uniform scaling is set by the longer required run so neither wall endpoint opens a gap, and the shorter branch's extra art remains behind the wall rather than being cropped or stretched.
+`roots-pan-zoom-16x12-2026-10-29.png` verifies that the ground anchor follows a translated, zoomed camera. Both V branches are tested independently. The root point stays fixed at z=0 behind the far corner, while the back walls cover the lower planting. The fixed-height follow-up below supersedes the earlier per-footprint scale.
 
 Viewport-size captures at 16x12 were also taken after the import cache was rebuilt:
 
@@ -103,6 +103,26 @@ The v2 strip adds varied tree crowns and a denser hedge with small flowers. It r
 | 20x16, camera panned | `greenbelt-v2-pan-20x16-1600x900-2026-10-29.png` | The group follows the camera; no root gap opens. |
 
 The v2 row improves the planted edge but does not fill the wide ground around the whole scene. The textured green field still needs more distant planting and street structures to match the reference.
+
+## Fixed world-height rear planting (2026-10-29)
+
+The rear V image now uses one uniform scale derived from the largest supported footprint (20x16), instead of scaling tree height to each store's edge. The ground anchor remains at the same world point and follows camera movement; the canopy is approximately 8.09m above ground against the 2.6m back wall. The shorter store edges show extra planted scenery beyond their wall ends. This preserves source proportions and covers the long side without stretching the image.
+
+Actual Godot captures:
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `fixed-height-12x10-1600x900-2026-10-29.png` | Roots remain behind the walls; the fixed canopy is visibly larger than the former size-fitted version and extends beyond the short walls. |
+| 16x12 | `fixed-height-16x12-1600x900-2026-10-29.png` | Tree height matches the other footprints; there is no wall gap at either V endpoint. |
+| 20x16 | `fixed-height-20x16-1600x900-2026-10-29.png` | Long edge coverage is retained with the same 8.09m canopy height. |
+| 20x16, camera panned toward back wall at 1.2x zoom | `fixed-height-highzoom-pan-20x16-1600x900-2026-10-29.png` | The planted roots stay attached to the projected world anchor; the far-wall canopy is still visible. |
+| 16x12, 1280x720 | `fixed-height-16x12-1280x720-2026-10-29.png` | No endpoint gap or clipped root line in the smaller viewport. |
+| 16x12, 1920x1080 | `fixed-height-16x12-1920x1080-2026-10-29.png` | Same geometry at the larger viewport. |
+| 16x12, 0.5x zoom | `fixed-height-lowzoom-16x12-1600x900-2026-10-29.png` | The store and canopy scale down together; world-space tree height remains 8.09m. |
+
+`tools/capture_screen.gd` now applies `--zoom` after `--whole`, so the zoom captures exercise the requested camera scale instead of silently returning to whole-store fit.
+
+The generated PNG still has isolated bright green edge pixels at the source silhouette; at runtime scale the remaining fringe is limited but should be improved in a later asset pass. The 12x10 overhang also needs final visual review for the intended amount of surrounding garden.
 
 ## Textured exterior ground and camera movement (2026-10-29)
 
