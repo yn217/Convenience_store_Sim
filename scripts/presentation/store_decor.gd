@@ -312,6 +312,15 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	var n := _edge_len(side, width, height)
 	# Along the entrance side, the street items are placed from the door span, so they follow the entrance wherever it is.
 	var span := BackdropLayer.entrance_span(side, width, height, entrances)
+	# One additional car sits in the outer road lane beside the store, clear of the crosswalk and parking bay.
+	# It uses a fixed ground anchor and the same axis rotation as the road, with no simulation or click target.
+	var door_mid := (span.x + span.y) * 0.5
+	var road_vehicle_a := float(n) * 0.25
+	var road_vehicle_b := float(n) * 0.75
+	var road_vehicle_along := road_vehicle_a if absf(road_vehicle_a - door_mid) > absf(road_vehicle_b - door_mid) else road_vehicle_b
+	_add(out, "compact_car_painted_v2", side, width, height, BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M * 0.5, road_vehicle_along)
+	out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
+	out[-1]["role"] = "road_vehicle"
 	_add(out, "nobori_banner_obento", side, width, height, 1.0, n - 1.0)
 	_add(out, "open_a_board", side, width, height, 1.0, span.x - 0.8)
 	_add(out, "vending_painted_v1", side, width, height, 1.0, span.y + 1.5)   # beside the door

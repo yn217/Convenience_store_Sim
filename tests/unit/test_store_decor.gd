@@ -180,6 +180,33 @@ func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
 			t.ok(along < BackdropLayer.entrance_span(BackdropLayer.entrance_side(W, H, side), W, H, side).x, "parked car clears the doorway approach")
 
 
+func test_outer_road_vehicle_tracks_entrance_side_without_blocking_crossing(t, _tree) -> void:
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
+			var middle := int(edge_length / 2.0)
+			var entrance: Vector2i
+			match side:
+				BackdropLayer.SIDE_WEST:
+					entrance = Vector2i(0, middle)
+				BackdropLayer.SIDE_NORTH:
+					entrance = Vector2i(middle, 0)
+				BackdropLayer.SIDE_EAST:
+					entrance = Vector2i(size.x - 1, middle)
+				_:
+					entrance = Vector2i(middle, size.y - 1)
+			var items := StoreDecor.exterior_items(size.x, size.y, [entrance])
+			var cars := items.filter(func(it): return it.get("role", "") == "road_vehicle")
+			t.eq(cars.size(), 1, "one outer-lane car exists for %dx%d side %d" % [size.x, size.y, side])
+			var car: Dictionary = cars[0]
+			t.eq(car["id"], "compact_car_painted_v2", "outer car uses the detailed compact model")
+			t.eq(car["rot"], 0 if side == BackdropLayer.SIDE_NORTH or side == BackdropLayer.SIDE_SOUTH else 1, "car aligns to the road axis on side %d" % side)
+			var depth := -0.5 - float(car["x"]) if side == BackdropLayer.SIDE_WEST else float(car["x"]) - (float(size.x) - 0.5) if side == BackdropLayer.SIDE_EAST else -0.5 - float(car["y"]) if side == BackdropLayer.SIDE_NORTH else float(car["y"]) - (float(size.y) - 0.5)
+			var along := float(car["y"]) if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else float(car["x"])
+			t.ok(depth >= BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M and depth <= BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M, "outer car sits on the road surface")
+			t.ok(absf(along - float(middle)) > 2.4, "outer car body stays clear of the crosswalk approach")
+
+
 func test_front_items_are_on_the_near_sides(t, _tree) -> void:
 	var landscape_side := BackdropLayer.landscape_side(BackdropLayer.entrance_side(W, H, ENTR))
 	for it in StoreDecor.exterior_items(W, H, ENTR):

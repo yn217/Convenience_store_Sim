@@ -213,9 +213,22 @@ Focused `test_backdrop_layer` passed 21 tests / 269 assertions, including loaded
 
 ## Remaining differences from the target mockup
 
+## Static road vehicle (2026-10-29)
+
+Added one compact car on the exterior road, oriented along the entrance-side street and anchored at the frontage quarter farthest from the doorway. It clears the pedestrian crossing and remains decorative. Runtime captures at 12x10, 16x12, 20x16, and a panned/zoomed 20x16 view confirm the vehicle stays on the road and in frame. On the 12x10 footprint, the road is still visually crowded by the existing parked car and the new road vehicle.
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `urban-grove-road-car-12x10-1600x900-2026-10-29.png` | Both cars remain visible; exterior planting extends past the short wall ends. |
+| 16x12 | `urban-grove-road-car-16x12-1600x900-2026-10-29.png` | The road vehicle is clear of the crossing, with a dense planted perimeter. |
+| 20x16 | `urban-grove-road-car-20x16-1600x900-2026-10-29.png` | The road car and parked car are both within the wider roadside scene. |
+| 20x16, 0.8x zoom and pan | `urban-grove-road-car-panzoom-20x16-1600x900-2026-10-29.png` | The vehicle stays anchored to the road while the camera moves. |
+
+Focused `test_store_decor` passed 21 tests / 371 assertions, including each supported footprint and entrance orientation. `git diff --check` is clean. Full suite not run.
+
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.
 - The ground artwork has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The low-opacity v2 texture adds fine variation, but the scene still lacks full-depth flower beds and street structures.
-- The target shows a busier street scene, multiple vehicles, dense flowers, street furniture, and storefront posters. Current runtime has one parked car and fewer visible exterior details.
+- The target shows a busier street scene, multiple vehicles, dense flowers, street furniture, and storefront posters. Current runtime has one parked car plus one static road car, with fewer visible exterior details.
 - Store shelves, people, and product presentation differ substantially from the target and were outside this exterior change.
 
 The side-by-side comparison is `target-vs-after-20x16.png`; it uses a different store aspect ratio from the supplied mockup and is not a pixel-matched image test. These captures establish placement and runtime appearance, not final art approval. The user's final visual review is still required.
