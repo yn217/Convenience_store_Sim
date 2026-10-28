@@ -1,0 +1,35 @@
+{
+  "asset_id": "bakery_mixed_display_chatgpt_20261029_v1",
+  "intended_subject": "oden warmer",
+  "actual_subject": "four-bay mixed bakery / sandwiches / deli bread / donuts display",
+  "category": "BAKERY_FOUR_BAY",
+  "source_provenance": "ChatGPT ImageGen",
+  "source_px": [
+    1536,
+    1024
+  ],
+  "source_original_png": "source_original.png",
+  "source_original_git_blob_sha1": "57ef093d81e27718b954e16c10d0d48a786aed71",
+  "preview_in_github": "preview_40.jpg",
+  "full_size_source_in_github": false,
+  "complete_zip_in_github": false,
+  "local_zip_name": "bakery_mixed_display_complete_20261029.zip",
+  "source_webp": "source_fullres.webp",
+  "game_lod": [
+    "game_512.png",
+    "game_256.png"
+  ],
+  "target_projection": "iso2x_v1",
+  "world_footprint_tiles": null,
+  "needs_godot_angle_and_anchor_calibration": true,
+  "equipment_size_tier": "large_4bay_candidate",
+  "equipment_performance_values": null,
+  "runtime_approved": false,
+  "human_approved": false,
+  "notes": [
+    "GitHub preview is only 40x27 pixels; DO NOT use as a runtime sprite.",
+    "Original full-resolution PNG and complete ZIP were generated in ChatGPT and still need GitHub binary import.",
+    "Generated image is not an oden warmer.",
+    "4-bay object may occupy more than 1x2 tiles."
+  ]
+}
