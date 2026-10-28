@@ -1,0 +1,141 @@
+{
+  "asset_id": "compact_car_painted_v2",
+  "status": "runtime_placement_qa_candidate",
+  "tool": "built-in image_gen",
+  "generation_id": "exec-a83d5f27-799c-4ae6-9064-a43378e7561e",
+  "original_sha256": "8b6beebac7634b6377ca3d55e1daf693ad4d7d7394069482ef499a81e95c8637",
+  "reference_inputs": [
+    "assets/source/exterior/compact_car_painted_v1/original.png",
+    "orthographic_guide.png"
+  ],
+  "guide_projection": {
+    "formula": "u=128(x-y), v=64(x+y)-156.76734354z",
+    "ground_pivot_px": [
+      700,
+      650
+    ],
+    "dimensions_m": [
+      1.65,
+      3.8,
+      1.45
+    ],
+    "footprint_corners_world": [
+      [
+        -0.825,
+        -1.9
+      ],
+      [
+        0.825,
+        -1.9
+      ],
+      [
+        0.825,
+        1.9
+      ],
+      [
+        -0.825,
+        1.9
+      ]
+    ]
+  },
+  "measurements": [
+    {
+      "edge": "roof_front_short",
+      "from_px": [
+        627,
+        287
+      ],
+      "to_px": [
+        855,
+        396
+      ],
+      "slope": 0.4780701754385965,
+      "ideal": 0.5,
+      "absolute_error": 0.02192982456140352,
+      "within_003": true
+    },
+    {
+      "edge": "lower_rocker_long",
+      "from_px": [
+        814,
+        805
+      ],
+      "to_px": [
+        1183,
+        621
+      ],
+      "slope": -0.4986449864498645,
+      "ideal": -0.5,
+      "absolute_error": 0.0013550135501355087,
+      "within_003": true
+    },
+    {
+      "edge": "roof_near_long",
+      "from_px": [
+        855,
+        396
+      ],
+      "to_px": [
+        1220,
+        185
+      ],
+      "slope": -0.5780821917808219,
+      "ideal": -0.5,
+      "absolute_error": 0.07808219178082187,
+      "within_003": false
+    },
+    {
+      "edge": "roof_far_long",
+      "from_px": [
+        627,
+        287
+      ],
+      "to_px": [
+        1015,
+        75
+      ],
+      "slope": -0.5463917525773195,
+      "ideal": -0.5,
+      "absolute_error": 0.046391752577319534,
+      "within_003": false
+    },
+    {
+      "edge": "roof_rear_short",
+      "from_px": [
+        1015,
+        75
+      ],
+      "to_px": [
+        1220,
+        185
+      ],
+      "slope": 0.5365853658536586,
+      "ideal": 0.5,
+      "absolute_error": 0.03658536585365857,
+      "within_003": false
+    }
+  ],
+  "measurement_method": "Manual endpoints on visually identifiable approximately straight edges; approximate pixel readings, not metrology.",
+  "alpha": {
+    "mode": "RGBA",
+    "canvas": [
+      1536,
+      1024
+    ],
+    "range": [
+      0,
+      254
+    ],
+    "corners": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "limitations": [
+    "One guide-conditioned regeneration improved two measured edge slopes but roof-long edges still converge.",
+    "Curved roof silhouette is not the sole acceptance criterion; lower-body ground axes and parking-bay contact require runtime QA.",
+    "Separate v2 manifest is packaged without renderer changes; v1 files preserved as candidate."
+  ]
+}

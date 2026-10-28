@@ -1,0 +1,15 @@
+{
+  "asset_id": "vending_painted_v1",
+  "source_type": "AI",
+  "tool": "OpenAI built-in image_gen",
+  "model": "built-in tool; model identifier not exposed",
+  "created_date": "2026-10-26",
+  "redistribution": "yes",
+  "fictional_brands_only": true,
+  "projection_id": "iso2x_v1",
+  "source": "assets/source/textures/exterior/vending_painted_v1/source.png",
+  "prompt": "assets/source/textures/exterior/vending_painted_v1/prompt.txt",
+  "spec": "assets/source/textures/exterior/vending_painted_v1/asset_spec.json",
+  "processing": "Exact projection guide as geometry edit target; original vending image used as materials reference; alpha-bounds trim and uniform Lanczos scaling only.",
+  "review_status": "in-game QA pending"
+}
