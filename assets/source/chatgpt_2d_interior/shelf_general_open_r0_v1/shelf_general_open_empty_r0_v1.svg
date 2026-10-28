@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="540" viewBox="0 0 520 540" role="img" aria-label="Japanese open-top convenience gondola EMPTY isometric illustration"><title>Japanese convenience store open gondola EMPTY — 2D painted proposal</title><defs><linearGradient id="metal" x1="0" x2=".8" y1="0" y2="1"><stop stop-color="#fffdf6"/><stop offset="1" stop-color="#b5c1c5"/></linearGradient><linearGradient id="base" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#6e747f"/><stop offset="1" stop-color="#363d47"/></linearGradient></defs>
+<polygon points="340.12,244.34 94.36,367.22 94.36,160.29 340.12,37.41" fill="#e7e9e4" stroke="#98a1a3" stroke-width="1.7" />
+<line x1="332.57" y1="226.30" x2="103.45" y2="340.86" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="332.57" y1="204.35" x2="103.45" y2="318.91" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="332.57" y1="182.40" x2="103.45" y2="296.96" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="332.57" y1="160.46" x2="103.45" y2="275.02" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="332.57" y1="138.51" x2="103.45" y2="253.07" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="332.57" y1="116.56" x2="103.45" y2="231.12" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="332.57" y1="94.61" x2="103.45" y2="209.17" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="332.57" y1="72.67" x2="103.45" y2="187.23" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="332.57" y1="50.72" x2="103.45" y2="165.28" stroke="#c8ced0" stroke-width="0.65" stroke-dasharray="1.5 5"/>
+<line x1="339.48" y1="259.70" x2="339.48" y2="37.09" stroke="#5e6973" stroke-width="7" />
+<line x1="339.48" y1="256.56" x2="339.48" y2="37.09" stroke="#c7d0d3" stroke-width="3" />
+<line x1="93.72" y1="382.58" x2="93.72" y2="159.97" stroke="#5e6973" stroke-width="7" />
+<line x1="93.72" y1="379.44" x2="93.72" y2="159.97" stroke="#c7d0d3" stroke-width="3" />
+<polygon points="339.48,266.75 451.48,322.75 205.72,445.63 93.72,389.63" fill="url(#base)" stroke="#303d46" stroke-width="1.3" />
+<polygon points="451.48,322.75 205.72,445.63 205.72,431.52 451.48,308.64" fill="#3b424b" stroke="#303841" stroke-width="1.2" />
+<polygon points="89.24,388.18 205.72,446.42 205.72,431.52 89.24,373.28" fill="#727b84" stroke="#4b525b" stroke-width="1.2" />
+<polygon points="339.48,250.29 451.48,306.29 205.72,429.17 93.72,373.17" fill="url(#metal)" stroke="#9ba5ab" stroke-width="1.2" />
+<polygon points="452.12,310.06 206.36,432.94 206.36,425.10 452.12,302.22" fill="#e8ebe6" stroke="#8999a0" stroke-width="0.8" />
+<line x1="450.33" y1="304.50" x2="209.05" y2="425.14" stroke="#fcfcfa" stroke-width="1.2" />
+<polygon points="93.72,376.31 207.00,432.95 207.00,427.15 93.72,370.51" fill="#c2ccd0" stroke="#87949a" stroke-width="0.8" />
+<polygon points="339.48,200.13 451.48,256.13 205.72,379.01 93.72,323.01" fill="url(#metal)" stroke="#9ba5ab" stroke-width="1.2" />
+<polygon points="452.12,259.90 206.36,382.78 206.36,374.94 452.12,252.06" fill="#e8ebe6" stroke="#8999a0" stroke-width="0.8" />
+<line x1="450.33" y1="254.34" x2="209.05" y2="374.98" stroke="#fcfcfa" stroke-width="1.2" />
+<polygon points="93.72,326.14 207.00,382.78 207.00,376.98 93.72,320.34" fill="#c2ccd0" stroke="#87949a" stroke-width="0.8" />
+<polygon points="339.48,148.39 451.48,204.39 205.72,327.27 93.72,271.27" fill="url(#metal)" stroke="#9ba5ab" stroke-width="1.2" />
+<polygon points="452.12,208.16 206.36,331.04 206.36,323.20 452.12,200.32" fill="#e8ebe6" stroke="#8999a0" stroke-width="0.8" />
+<line x1="450.33" y1="202.60" x2="209.05" y2="323.24" stroke="#fcfcfa" stroke-width="1.2" />
+<polygon points="93.72,274.41 207.00,331.05 207.00,325.25 93.72,268.61" fill="#c2ccd0" stroke="#87949a" stroke-width="0.8" />
+<polygon points="339.48,96.66 451.48,152.66 205.72,275.54 93.72,219.54" fill="url(#metal)" stroke="#9ba5ab" stroke-width="1.2" />
+<polygon points="452.12,156.43 206.36,279.31 206.36,271.47 452.12,148.59" fill="#e8ebe6" stroke="#8999a0" stroke-width="0.8" />
+<line x1="450.33" y1="150.87" x2="209.05" y2="271.51" stroke="#fcfcfa" stroke-width="1.2" />
+<polygon points="93.72,222.68 207.00,279.32 207.00,273.52 93.72,216.88" fill="#c2ccd0" stroke="#87949a" stroke-width="0.8" />
+<line x1="454.04" y1="316.98" x2="454.04" y2="91.23" stroke="#4d5a64" stroke-width="6.2" />
+<line x1="454.04" y1="316.98" x2="454.04" y2="91.23" stroke="#d8e0df" stroke-width="2.8" />
+<line x1="208.28" y1="439.86" x2="208.28" y2="214.11" stroke="#4d5a64" stroke-width="6.2" />
+<line x1="208.28" y1="439.86" x2="208.28" y2="214.11" stroke="#d8e0df" stroke-width="2.8" />
+<line x1="339.48" y1="37.09" x2="93.72" y2="159.97" stroke="#9daaa8" stroke-width="1.25" />
+</svg>
