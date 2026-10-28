@@ -89,7 +89,20 @@ Actual runtime captures at 1600x900:
 | 20x16 | `fixed-scale-20x16-1600x900-2026-10-29.png` | The same authored world length is centered on the longer edge; the roots stay occluded. |
 | 20x16, camera panned | `fixed-scale-pan-20x16-1600x900-2026-10-29.png` | The roadside strip follows the store camera while lower planting stays behind the street edge. |
 
-Two newly generated transparent candidates were compared in the source artwork. Both retained bright green edge fringes, so neither replaced the current production strip. A large flat green area remains outside the paved/road scene, especially when panning; a separate surrounding-landscape backdrop is still needed to match the target environment more closely.
+Additional generated transparent candidates were first rejected because their edge fringes remained prominent at source scale. One denser strip was later tested in the running game and accepted as `rear_greenbelt_group_v2`; another V-shaped boundary candidate with a visible high wall remains unintegrated.
+
+## Denser roadside greenbelt v2 (2026-10-29)
+
+The v2 strip adds varied tree crowns and a denser hedge with small flowers. It replaces the earlier grouped roadside strip while retaining the fixed 18m world length, ground endpoint mapping, and camera-follow behavior. Source edge fringing is still present, but it was not visually distracting at the actual in-game scale; roots remain occluded by the existing wall/road order.
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `greenbelt-v2-12x10-1600x900-2026-10-29.png` | The centered strip extends beyond both short-edge endpoints; lower foliage is hidden behind the street edge. |
+| 16x12 | `greenbelt-v2-16x12-1600x900-2026-10-29.png` | Denser varied foliage is visible behind the road; the store-edge angle remains aligned. |
+| 20x16 | `greenbelt-v2-20x16-1600x900-2026-10-29.png` | The same world-space height and anchor placement are preserved on the longer store. |
+| 20x16, camera panned | `greenbelt-v2-pan-20x16-1600x900-2026-10-29.png` | The group follows the camera; no root gap opens. |
+
+The v2 row improves the planted edge but does not fill the wide ground around the whole scene. The textured green field still needs more distant planting and street structures to match the reference.
 
 ## Textured exterior ground and camera movement (2026-10-29)
 
@@ -107,7 +120,7 @@ The texture softens the remaining green field but does not add the target's dens
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation and denser reflections are not present.
-- The ground artwork now has asphalt, parking bays, wheel stops, curb, sidewalk paving, and planting. Its painterly realism is still stronger than the game's older sprites, and the surrounding world beyond the road remains mostly a flat green field.
+- The ground artwork now has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The low-opacity ground texture softens the open green field, but the scene still lacks the target's dense distant trees, continuous flower beds, and street structures.
 - The target shows a busier street scene, multiple vehicles, dense flowers, street furniture, and storefront posters. Current runtime has one parked car and fewer visible exterior details.
 - Store shelves, people, and product presentation differ substantially from the target and were outside this exterior change.
 
