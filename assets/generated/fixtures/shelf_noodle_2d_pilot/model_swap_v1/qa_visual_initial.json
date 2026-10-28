@@ -1,0 +1,25 @@
+{
+  "method": "Direct visual inspection of both generated originals and canonical comparison",
+  "A_initial": {
+    "stocked_rows": 4,
+    "display_boards_including_top": 5,
+    "side_labels_visible": true,
+    "top_board_stocked": false,
+    "integrated_2d_rgba": true,
+    "five_row_requirement": "FAIL",
+    "exact_geometry_match": "NOT_CONFIRMED",
+    "observation": "Four lower levels stocked, top left empty; products also wrap around the short end. Automatic long-rail slope passes tolerance but this alone does not establish exact dimensions."
+  },
+  "B_initial": {
+    "stocked_rows": 4,
+    "display_boards_including_top": 4,
+    "side_labels_visible": true,
+    "top_board_stocked": true,
+    "integrated_2d_rgba": true,
+    "five_row_requirement": "FAIL",
+    "exact_geometry_match": "FAIL",
+    "observation": "Top-row stocking improved but a lower board was lost. Long rails became shallower. Do not promote this candidate."
+  },
+  "alpha_note": "RGBA and genuinely transparent exterior verified numerically; no background removal was applied.",
+  "next_action": "Use A as edit target and canonical as strict secondary guide, add only cups on existing top board; preserve all four lower rows."
+}

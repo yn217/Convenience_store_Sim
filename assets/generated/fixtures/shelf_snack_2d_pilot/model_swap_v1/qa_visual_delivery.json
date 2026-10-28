@@ -1,0 +1,36 @@
+{
+  "method": "Direct visual inspection of image_gen outputs and canonical comparisons; no OCR or semantic detector.",
+  "selected_a": {
+    "round": "a_initial",
+    "stocked_rows": 4,
+    "sku_categories": [
+      "potato snack",
+      "chocolate bar",
+      "gummy"
+    ],
+    "integrated_generation": true,
+    "package_form": "soft pouches and thin wrappers",
+    "readability": "Large short names and pictograms; miniature text not guaranteed.",
+    "geometry": "Lower board/rail heights and lower empty bay differ from guide."
+  },
+  "selected_b": {
+    "round": "b_initial",
+    "stocked_rows": 4,
+    "sku_categories": [
+      "potato snack",
+      "chocolate bar",
+      "gummy"
+    ],
+    "integrated_generation": true,
+    "package_form": "soft pouches and thin wrappers",
+    "readability": "Large names and pictograms visible at canonical size.",
+    "geometry": "Lower rail positions and lower empty bay differ from guide."
+  },
+  "excluded_rounds": {
+    "a_geometry": "4 stocked rows but silhouette width -24px (6.59%) after uniform fitting; original A retains closer overall width.",
+    "b_geometry": "Only 3 stocked rows, lowest board empty: reject as FULL, despite silhouette width delta 0px.",
+    "b_four_rows": "Explicit four-row instruction still resulted in only 3 stocked rows: rejected; retain original B with 4 stocked rows."
+  },
+  "geometry_gate": "NOT_PASSED_STRICT: canvas dimensions pass, but generated shelf landmarks, rail heights and world anchor are not an exact canonical match. Hough angles and silhouette bbox are diagnostics, not proof of calibrated projection.",
+  "transparency_note": "Raw alpha preserved. Faint edge/void artifacts may remain; opaque checkerboard was not painted into sprites."
+}

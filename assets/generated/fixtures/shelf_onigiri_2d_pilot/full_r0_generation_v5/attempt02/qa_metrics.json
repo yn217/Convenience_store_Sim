@@ -1,0 +1,154 @@
+{
+  "asset_id": "shelf_onigiri_FULL_r0_v5_attempt02",
+  "runtime_approved": false,
+  "reference_roles": {
+    "canonical": "camera/projection only",
+    "v4_fit": "shelf proportions, tiers, merchandise layout only; not camera"
+  },
+  "projection_id": "iso2x_v1",
+  "footprint": [
+    1,
+    2
+  ],
+  "canvas_px": [
+    442,
+    434
+  ],
+  "anchor_px": [
+    285,
+    287
+  ],
+  "normalization": "crop alpha>=8 largest connected component and uniform scale to canonical alpha height; no angle correction/nonuniform stretch/mirroring",
+  "uniform_scale": 0.3383838383838384,
+  "fitted_size_px": [
+    384,
+    402
+  ],
+  "offset_px": [
+    26,
+    8
+  ],
+  "target_slope": -0.5,
+  "tolerance": 0.05,
+  "angle_gate": "FAIL",
+  "depth_and_density_visual_note": "Three stocked shallow tiers; one front row per level; visual manual review pending.",
+  "metrics": {
+    "canonical": {
+      "size_px": [
+        442,
+        434
+      ],
+      "alpha_ge8_bbox_xyxy": [
+        38,
+        8,
+        404,
+        410
+      ],
+      "long_edge_segments": [
+        {
+          "length_px": 167,
+          "slope": -0.49102
+        },
+        {
+          "length_px": 157,
+          "slope": -0.50318
+        }
+      ],
+      "median_slope_top20": -0.4971
+    },
+    "raw": {
+      "size_px": [
+        1266,
+        1243
+      ],
+      "alpha_ge8_bbox_xyxy": [
+        92,
+        35,
+        1226,
+        1224
+      ],
+      "long_edge_segments": [
+        {
+          "length_px": 840,
+          "slope": -0.425
+        },
+        {
+          "length_px": 831,
+          "slope": -0.42479
+        },
+        {
+          "length_px": 776,
+          "slope": -0.42526
+        },
+        {
+          "length_px": 644,
+          "slope": -0.42547
+        },
+        {
+          "length_px": 639,
+          "slope": -0.42567
+        },
+        {
+          "length_px": 625,
+          "slope": -0.424
+        },
+        {
+          "length_px": 607,
+          "slope": -0.42339
+        },
+        {
+          "length_px": 577,
+          "slope": -0.42461
+        }
+      ],
+      "median_slope_top20": -0.42481
+    },
+    "uniform_fit": {
+      "size_px": [
+        442,
+        434
+      ],
+      "alpha_ge8_bbox_xyxy": [
+        26,
+        8,
+        410,
+        410
+      ],
+      "long_edge_segments": [
+        {
+          "length_px": 341,
+          "slope": -0.42522
+        },
+        {
+          "length_px": 340,
+          "slope": -0.40294
+        },
+        {
+          "length_px": 340,
+          "slope": -0.42353
+        },
+        {
+          "length_px": 337,
+          "slope": -0.42433
+        },
+        {
+          "length_px": 336,
+          "slope": -0.4256
+        },
+        {
+          "length_px": 334,
+          "slope": -0.46407
+        },
+        {
+          "length_px": 332,
+          "slope": -0.44578
+        },
+        {
+          "length_px": 331,
+          "slope": -0.42296
+        }
+      ],
+      "median_slope_top20": -0.42434
+    }
+  }
+}

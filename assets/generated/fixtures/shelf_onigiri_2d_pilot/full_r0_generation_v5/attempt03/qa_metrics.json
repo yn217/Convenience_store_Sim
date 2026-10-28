@@ -1,0 +1,140 @@
+{
+  "raw_size_px": [
+    1266,
+    1243
+  ],
+  "alpha_ge8_bbox_xyxy": [
+    99,
+    153,
+    1170,
+    1243
+  ],
+  "long_edge_segments": [
+    {
+      "length_px": 489,
+      "slope": -0.44581,
+      "xyxy": [
+        310,
+        739,
+        799,
+        521
+      ]
+    },
+    {
+      "length_px": 488,
+      "slope": -0.44672,
+      "xyxy": [
+        483,
+        640,
+        971,
+        422
+      ]
+    },
+    {
+      "length_px": 474,
+      "slope": -0.44726,
+      "xyxy": [
+        455,
+        1156,
+        929,
+        944
+      ]
+    },
+    {
+      "length_px": 454,
+      "slope": -0.46476,
+      "xyxy": [
+        310,
+        985,
+        764,
+        774
+      ]
+    },
+    {
+      "length_px": 448,
+      "slope": -0.44643,
+      "xyxy": [
+        347,
+        1205,
+        795,
+        1005
+      ]
+    },
+    {
+      "length_px": 418,
+      "slope": -0.46651,
+      "xyxy": [
+        710,
+        786,
+        1128,
+        591
+      ]
+    },
+    {
+      "length_px": 403,
+      "slope": -0.4665,
+      "xyxy": [
+        652,
+        1036,
+        1055,
+        848
+      ]
+    },
+    {
+      "length_px": 394,
+      "slope": -0.46701,
+      "xyxy": [
+        678,
+        1036,
+        1072,
+        852
+      ]
+    },
+    {
+      "length_px": 390,
+      "slope": -0.4641,
+      "xyxy": [
+        374,
+        941,
+        764,
+        760
+      ]
+    },
+    {
+      "length_px": 370,
+      "slope": -0.44595,
+      "xyxy": [
+        307,
+        719,
+        677,
+        554
+      ]
+    },
+    {
+      "length_px": 361,
+      "slope": -0.46537,
+      "xyxy": [
+        315,
+        982,
+        676,
+        814
+      ]
+    },
+    {
+      "length_px": 356,
+      "slope": -0.46629,
+      "xyxy": [
+        793,
+        786,
+        1149,
+        620
+      ]
+    }
+  ],
+  "median_top20_slope": -0.46443,
+  "canonical_slope": -0.4971,
+  "target_slope": -0.5,
+  "tolerance": 0.05,
+  "angle_gate": "PASS",
+  "visual_note": "Three product tiers and one row per tier; open shallow shelf after editing. Must compare proportions and depth to v4/canonical."
+}

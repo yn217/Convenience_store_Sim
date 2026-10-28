@@ -1,0 +1,14 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "canonical": "assets/generated/fixtures/shelf_general/shelf_general_0_body.png",
+  "attempts": [
+    {
+      "id": "a_initial",
+      "prompt": "Use case: precise-object-edit\nAsset type: finished transparent 2D sprite for a Japanese convenience-store management game, shelf_general FULL rotation r0, candidate A.\nInput image 1: canonical EMPTY r0 sprite, use as STRICT projection/geometry guide, not as a 3D rendering style reference.\nCreate ONE complete integrated shelf AND fully stocked products sprite. Keep exactly the reference camera, long-axis direction, overall length and outer silhouette. Preserve the four front shelf lip lines, vertical posts, top outline and bottom outline at the reference positions. The long edges rise to the right at dy/dx=-0.5; short edges descend to the right at dy/dx=+0.5. Orthographic, no vanishing points. Entire sprite same relative framing as reference; requested canvas 442x449 or a uniform integer enlargement only.\nStyle: polished hand-painted 2D game illustration with crisp restrained dark outlines, broad flat color areas, just two subtle shade values, no realistic rendering or dimensional box shading. Shallow DOUBLE-SIDED gondola with slim central spine implied; do not widen the depth. Keep the cap but paint it softly in flat cool gray.\nFill ALL FOUR existing shelf tiers densely with large readable adjacent snack pouches, rounded instant-noodle cups and a few soft bread packages; warm red/orange/yellow merchandise, some green/cream accents. Product fronts occupy most of each open shelf band and touch/overlap their neighbors in cohesive continuous stocked rows. Package bases sit directly on and are occluded by the thin continuous shelf front lip. Small crimped pouch tops, curved cups, bread shapes establish actual groceries, NOT rectangular cards. Follow same -0.5 row alignment. Show only very narrow slivers of bare shelf surfaces; products approximately 75-85% of usable shelf opening. Small flat contact accents bind merchandise to shelf. No detached floating icons, individually outlined white sticker borders, equal spaced cards, cuboid cartons, big visible box top/side planes, deep shelves, endcap display additions, people, logos, legible text, scenery, floor, cast shadow, background, checkerboard, dimension guides. Genuine alpha background including open spaces, single finished unified sprite."
+    },
+    {
+      "id": "a_refined"
+    }
+  ]
+}

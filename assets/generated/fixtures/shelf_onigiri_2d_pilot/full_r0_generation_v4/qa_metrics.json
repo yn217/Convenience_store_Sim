@@ -1,0 +1,190 @@
+{
+  "asset_id": "shelf_onigiri_full_r0_generation_v4",
+  "runtime_approved": false,
+  "source_reference": "assets/generated/fixtures/shelf_onigiri/shelf_onigiri_0_body.png",
+  "projection_id": "iso2x_v1",
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "target_canvas_px": [
+    442,
+    434
+  ],
+  "anchor_px": [
+    285,
+    287
+  ],
+  "normalization": {
+    "method": "largest alpha>=8 component; crop; uniform scale to canonical alpha height; anchor-to-alpha-bounds ratio preserved",
+    "scale": 0.3462532299741602,
+    "resized_px": [
+      386,
+      402
+    ],
+    "offset_px": [
+      25,
+      8
+    ],
+    "nonuniform_stretch": false,
+    "mirrored": false
+  },
+  "expected_axis_slope_dy_dx": -0.5,
+  "angle_tolerance": 0.05,
+  "angle_gate": "FAIL",
+  "product_data_check": {
+    "source": "data/products/mvp_v1.json",
+    "in_scope_skus": [
+      "rice_001",
+      "rice_002",
+      "rice_003"
+    ],
+    "category": "rice_ball",
+    "sushi_sku_exists": false,
+    "candidate_visual_scope": "onigiri only"
+  },
+  "visual_observation": "Three open shallow shelf tiers, one visible row of onigiri per tier, no tall pegboard or rear product face. Generated structure reads as a shallow front-access shelf.",
+  "metrics": {
+    "canonical": {
+      "size_px": [
+        442,
+        434
+      ],
+      "alpha_ge_8_bbox_xyxy": [
+        38,
+        8,
+        404,
+        410
+      ],
+      "alpha_ge_8_pixels": 107636,
+      "alpha_ge_128_bbox_xyxy": [
+        39,
+        9,
+        403,
+        410
+      ],
+      "alpha_ge_128_pixels": 106473,
+      "negative_long_edge_slope_segments": [
+        {
+          "length_px": 167,
+          "slope_dy_dx": -0.49102
+        },
+        {
+          "length_px": 157,
+          "slope_dy_dx": -0.50318
+        }
+      ],
+      "median_slope_top20": -0.4971
+    },
+    "raw": {
+      "size_px": [
+        1266,
+        1243
+      ],
+      "alpha_ge_8_bbox_xyxy": [
+        110,
+        63,
+        1224,
+        1224
+      ],
+      "alpha_ge_8_pixels": 822234,
+      "alpha_ge_128_bbox_xyxy": [
+        110,
+        64,
+        1223,
+        1223
+      ],
+      "alpha_ge_128_pixels": 811330,
+      "negative_long_edge_slope_segments": [
+        {
+          "length_px": 766,
+          "slope_dy_dx": -0.36423
+        },
+        {
+          "length_px": 765,
+          "slope_dy_dx": -0.40392
+        },
+        {
+          "length_px": 720,
+          "slope_dy_dx": -0.40417
+        },
+        {
+          "length_px": 699,
+          "slope_dy_dx": -0.40486
+        },
+        {
+          "length_px": 697,
+          "slope_dy_dx": -0.40459
+        },
+        {
+          "length_px": 681,
+          "slope_dy_dx": -0.40382
+        },
+        {
+          "length_px": 676,
+          "slope_dy_dx": -0.40385
+        },
+        {
+          "length_px": 655,
+          "slope_dy_dx": -0.36489
+        }
+      ],
+      "median_slope_top20": -0.40383
+    },
+    "fit": {
+      "size_px": [
+        442,
+        434
+      ],
+      "alpha_ge_8_bbox_xyxy": [
+        25,
+        8,
+        411,
+        410
+      ],
+      "alpha_ge_8_pixels": 99366,
+      "alpha_ge_128_bbox_xyxy": [
+        25,
+        8,
+        411,
+        410
+      ],
+      "alpha_ge_128_pixels": 97269,
+      "negative_long_edge_slope_segments": [
+        {
+          "length_px": 374,
+          "slope_dy_dx": -0.36364
+        },
+        {
+          "length_px": 370,
+          "slope_dy_dx": -0.36216
+        },
+        {
+          "length_px": 359,
+          "slope_dy_dx": -0.3454
+        },
+        {
+          "length_px": 350,
+          "slope_dy_dx": -0.40571
+        },
+        {
+          "length_px": 349,
+          "slope_dy_dx": -0.40401
+        },
+        {
+          "length_px": 348,
+          "slope_dy_dx": -0.4023
+        },
+        {
+          "length_px": 347,
+          "slope_dy_dx": -0.40634
+        },
+        {
+          "length_px": 346,
+          "slope_dy_dx": -0.40462
+        }
+      ],
+      "median_slope_top20": -0.40237
+    }
+  }
+}

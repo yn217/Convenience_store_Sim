@@ -1,0 +1,57 @@
+{
+  "asset": "shelf_noodle",
+  "state": "FULL",
+  "rotation": "r0",
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "canonical": "canonical_empty_reference.png",
+  "calls": [
+    {
+      "id": "A_initial",
+      "prompt": "prompt_a.txt",
+      "output": "shelf_noodle_full_r0_candidate_a.png",
+      "references": [
+        "canonical_empty_reference.png"
+      ],
+      "source_hint": "Generated images are saved to C:\\Users\\yuuna\\.codex\\generated_images\\01a17efe-9354-73f1-82f7-08240ce3b97f as C:\\Users\\yuuna\\.codex\\generated_images\\01a17efe-9354-73f1-82f7-08240ce3b97f\\exec-62ce4120-be6d-40bd-b94a-a70944cf0a33.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "id": "B_initial",
+      "prompt": "prompt_b.txt",
+      "output": "shelf_noodle_full_r0_candidate_b.png",
+      "references": [
+        "canonical_empty_reference.png"
+      ],
+      "source_hint": "Generated images are saved to C:\\Users\\yuuna\\.codex\\generated_images\\01a17efe-9354-73f1-82f7-08240ce3b97f as C:\\Users\\yuuna\\.codex\\generated_images\\01a17efe-9354-73f1-82f7-08240ce3b97f\\exec-12e90aee-57ce-4b75-a826-cc7ddd4c2189.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "id": "A_refined",
+      "prompt": "prompt_a_refined.txt",
+      "output": "shelf_noodle_full_r0_candidate_a_refined.png",
+      "references": [
+        "shelf_noodle_full_r0_candidate_a.png",
+        "canonical_empty_reference.png"
+      ],
+      "source_hint": "Generated images are saved to C:\\Users\\yuuna\\.codex\\generated_images\\01a17efe-9354-73f1-82f7-08240ce3b97f as C:\\Users\\yuuna\\.codex\\generated_images\\01a17efe-9354-73f1-82f7-08240ce3b97f\\exec-9c4f3a43-0ec1-4903-80ad-23ad1ea2eca6.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "id": "B_refined",
+      "prompt": "prompt_b_refined.txt",
+      "output": "shelf_noodle_full_r0_candidate_b_refined.png",
+      "references": [
+        "shelf_noodle_full_r0_candidate_a_refined.png",
+        "canonical_empty_reference.png"
+      ],
+      "source_hint": "Generated images are saved to C:\\Users\\yuuna\\.codex\\generated_images\\01a17efe-9354-73f1-82f7-08240ce3b97f as C:\\Users\\yuuna\\.codex\\generated_images\\01a17efe-9354-73f1-82f7-08240ce3b97f\\exec-420105b5-2b82-4ebe-85f6-2e9949afdac9.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  ],
+  "final_candidates": [
+    "shelf_noodle_full_r0_candidate_a_refined.png",
+    "shelf_noodle_full_r0_candidate_b_refined.png"
+  ],
+  "post_generation_asset_transform": "NONE; original generated RGBA PNG files copied byte-for-byte. Comparison/inspection images only use uniform scaling and compositing on display backgrounds.",
+  "runtime_approved": false,
+  "exact_geometry_match": "NOT_VERIFIED",
+  "issue_or_independent_review_performed": false,
+  "commit_or_push_performed": false
+}

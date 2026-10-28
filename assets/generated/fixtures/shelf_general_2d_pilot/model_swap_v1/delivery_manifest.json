@@ -1,0 +1,26 @@
+{
+  "fixture_type_id": "shelf_general",
+  "state": "FULL",
+  "rotation": 0,
+  "generator": "image_gen.imagegen",
+  "asset_type": "integrated_transparent_2d_sprite",
+  "canonical": "../../shelf_general/shelf_general_0_body.png",
+  "canvas_px": [442, 449],
+  "anchor_px": [285, 302],
+  "projection_id": "iso2x_v1",
+  "footprint": {"w": 1, "h": 2},
+  "candidates": {
+    "a": "shelf_general_full_r0_a_v2.png",
+    "b": "shelf_general_full_r0_b_v2.png"
+  },
+  "comparison": "comparison_v2.png",
+  "prompts": "prompts_complete.json",
+  "qa": "qa_metrics_v2.json",
+  "geometric_transform": "uniform_scale_and_translation_only",
+  "exact_geometry_match": false,
+  "geometry_residual_note": "A bbox width -4px; A/B long-edge angle delta +0.201/+0.177 degrees. No nonuniform correction applied.",
+  "runtime_approved": false,
+  "canonical_modified": false,
+  "committed": false,
+  "pushed": false
+}

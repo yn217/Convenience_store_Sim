@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "input": {
+    "only": "assets/generated/fixtures/fridge_drink/fridge_drink_0_body.png",
+    "referenced_image_paths": [
+      "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/generated/fixtures/fridge_drink/fridge_drink_0_body.png"
+    ]
+  },
+  "A": {
+    "output_hint": "Generated images are saved to C:\\Users\\yuuna\\.codex\\generated_images\\01a17f13-7632-78c3-b306-3c31b932e052 as C:\\Users\\yuuna\\.codex\\generated_images\\01a17f13-7632-78c3-b306-3c31b932e052\\exec-3bb84fd5-efb2-4707-b3a4-d7b134e1f04f.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "prompt": "prompt_a.txt"
+  },
+  "B": {
+    "output_hint": "Generated images are saved to C:\\Users\\yuuna\\.codex\\generated_images\\01a17f13-7632-78c3-b306-3c31b932e052 as C:\\Users\\yuuna\\.codex\\generated_images\\01a17f13-7632-78c3-b306-3c31b932e052\\exec-bd46a40d-ea7c-4fea-b572-bd0ae8d4d9c7.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "prompt": "prompt_b.txt"
+  },
+  "normalization": "The complete generated image was uniformly scaled to fit the canonical 442x527 canvas, with transparent padding as needed. No cropping, perspective transforms, per-bottle compositing or alpha removal."
+}

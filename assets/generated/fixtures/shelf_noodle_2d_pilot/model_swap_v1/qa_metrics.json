@@ -1,0 +1,640 @@
+{
+  "shelf_noodle_0_body.png": {
+    "canvas_px": [
+      442,
+      481
+    ],
+    "mode": "RGBA",
+    "alpha_bbox_threshold8_xyxy_exclusive": [
+      38,
+      8,
+      403,
+      457
+    ],
+    "bbox_aspect": 0.8129175946547884,
+    "transparent_pixel_fraction": 0.41353797236150175,
+    "partial_alpha_pixel_fraction": 0.014825824780575913,
+    "nontransparent_border_pixels": 0,
+    "long_axis_slope_median": -0.505925,
+    "long_edge_segments": [
+      {
+        "length_px": 260.28,
+        "slope": -0.50862,
+        "xyxy": [
+          165,
+          412,
+          397,
+          294
+        ]
+      },
+      {
+        "length_px": 206.17,
+        "slope": -0.50543,
+        "xyxy": [
+          179,
+          179,
+          363,
+          86
+        ]
+      },
+      {
+        "length_px": 197.22,
+        "slope": -0.50568,
+        "xyxy": [
+          106,
+          98,
+          282,
+          9
+        ]
+      },
+      {
+        "length_px": 181.57,
+        "slope": -0.50617,
+        "xyxy": [
+          40,
+          131,
+          202,
+          49
+        ]
+      },
+      {
+        "length_px": 156.97,
+        "slope": -0.50714,
+        "xyxy": [
+          257,
+          366,
+          397,
+          295
+        ]
+      },
+      {
+        "length_px": 139.09,
+        "slope": -0.50806,
+        "xyxy": [
+          157,
+          190,
+          281,
+          127
+        ]
+      },
+      {
+        "length_px": 131.03,
+        "slope": -0.50427,
+        "xyxy": [
+          283,
+          127,
+          400,
+          68
+        ]
+      },
+      {
+        "length_px": 115.38,
+        "slope": -0.50485,
+        "xyxy": [
+          162,
+          413,
+          265,
+          361
+        ]
+      }
+    ],
+    "sha256": "4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976"
+  },
+  "shelf_noodle_full_r0_candidate_a.png": {
+    "canvas_px": [
+      1202,
+      1308
+    ],
+    "mode": "RGBA",
+    "alpha_bbox_threshold8_xyxy_exclusive": [
+      122,
+      17,
+      1081,
+      1227
+    ],
+    "bbox_aspect": 0.7925619834710744,
+    "transparent_pixel_fraction": 0.43171485342980864,
+    "partial_alpha_pixel_fraction": 0.567528253115348,
+    "nontransparent_border_pixels": 0,
+    "long_axis_slope_median": -0.510965,
+    "long_edge_segments": [
+      {
+        "length_px": 814.85,
+        "slope": -0.50964,
+        "xyxy": [
+          348,
+          550,
+          1074,
+          180
+        ]
+      },
+      {
+        "length_px": 695.18,
+        "slope": -0.53094,
+        "xyxy": [
+          434,
+          581,
+          1048,
+          255
+        ]
+      },
+      {
+        "length_px": 684.71,
+        "slope": -0.50984,
+        "xyxy": [
+          435,
+          1045,
+          1045,
+          734
+        ]
+      },
+      {
+        "length_px": 681.12,
+        "slope": -0.50906,
+        "xyxy": [
+          433,
+          497,
+          1040,
+          188
+        ]
+      },
+      {
+        "length_px": 673.07,
+        "slope": -0.50833,
+        "xyxy": [
+          445,
+          1038,
+          1045,
+          733
+        ]
+      },
+      {
+        "length_px": 650.71,
+        "slope": -0.50862,
+        "xyxy": [
+          448,
+          1040,
+          1028,
+          745
+        ]
+      },
+      {
+        "length_px": 604.36,
+        "slope": -0.52996,
+        "xyxy": [
+          413,
+          1225,
+          947,
+          942
+        ]
+      },
+      {
+        "length_px": 583.47,
+        "slope": -0.72669,
+        "xyxy": [
+          554,
+          693,
+          1026,
+          350
+        ]
+      },
+      {
+        "length_px": 562.62,
+        "slope": -0.51098,
+        "xyxy": [
+          574,
+          705,
+          1075,
+          449
+        ]
+      },
+      {
+        "length_px": 529.97,
+        "slope": -0.51059,
+        "xyxy": [
+          476,
+          873,
+          948,
+          632
+        ]
+      },
+      {
+        "length_px": 510.41,
+        "slope": -0.52993,
+        "xyxy": [
+          597,
+          489,
+          1048,
+          250
+        ]
+      },
+      {
+        "length_px": 476.71,
+        "slope": -0.55396,
+        "xyxy": [
+          631,
+          497,
+          1048,
+          266
+        ]
+      },
+      {
+        "length_px": 461.54,
+        "slope": -0.51095,
+        "xyxy": [
+          454,
+          886,
+          865,
+          676
+        ]
+      },
+      {
+        "length_px": 457.52,
+        "slope": -0.48905,
+        "xyxy": [
+          434,
+          724,
+          845,
+          523
+        ]
+      },
+      {
+        "length_px": 456.76,
+        "slope": -0.5335,
+        "xyxy": [
+          631,
+          792,
+          1034,
+          577
+        ]
+      },
+      {
+        "length_px": 453.18,
+        "slope": -0.5325,
+        "xyxy": [
+          446,
+          576,
+          846,
+          363
+        ]
+      },
+      {
+        "length_px": 449.59,
+        "slope": -0.53149,
+        "xyxy": [
+          434,
+          586,
+          831,
+          375
+        ]
+      },
+      {
+        "length_px": 448.56,
+        "slope": -0.5075,
+        "xyxy": [
+          433,
+          1032,
+          833,
+          829
+        ]
+      },
+      {
+        "length_px": 448.24,
+        "slope": -0.5303,
+        "xyxy": [
+          434,
+          583,
+          830,
+          373
+        ]
+      },
+      {
+        "length_px": 445.44,
+        "slope": -0.50882,
+        "xyxy": [
+          442,
+          1034,
+          839,
+          832
+        ]
+      },
+      {
+        "length_px": 443.77,
+        "slope": -0.53061,
+        "xyxy": [
+          434,
+          578,
+          826,
+          370
+        ]
+      },
+      {
+        "length_px": 443.2,
+        "slope": -0.50886,
+        "xyxy": [
+          444,
+          1032,
+          839,
+          831
+        ]
+      },
+      {
+        "length_px": 442.31,
+        "slope": -0.51015,
+        "xyxy": [
+          440,
+          1031,
+          834,
+          830
+        ]
+      },
+      {
+        "length_px": 439.18,
+        "slope": -0.51151,
+        "xyxy": [
+          444,
+          1036,
+          835,
+          836
+        ]
+      }
+    ],
+    "sha256": "d1faf0a1294dcbaddd1e6ad732175b3d2cb4dda749ce4f44f4b111b28e016b20",
+    "slope_target_interval": [
+      -0.53,
+      -0.47
+    ],
+    "slope_pass": true,
+    "bbox_aspect_relative_error": -0.02504019019585635,
+    "caution": "Hough median is an automatic diagnostic, not proof of exact shelf geometry. Stock can extend above canonical silhouette."
+  },
+  "shelf_noodle_full_r0_candidate_b.png": {
+    "canvas_px": [
+      1202,
+      1308
+    ],
+    "mode": "RGBA",
+    "alpha_bbox_threshold8_xyxy_exclusive": [
+      98,
+      33,
+      1104,
+      1246
+    ],
+    "bbox_aspect": 0.8293487221764221,
+    "transparent_pixel_fraction": 0.4066311499183318,
+    "partial_alpha_pixel_fraction": 0.5927302609819516,
+    "nontransparent_border_pixels": 0,
+    "long_axis_slope_median": -0.403845,
+    "long_edge_segments": [
+      {
+        "length_px": 816.47,
+        "slope": -0.46622,
+        "xyxy": [
+          360,
+          911,
+          1100,
+          566
+        ]
+      },
+      {
+        "length_px": 801.17,
+        "slope": -0.38369,
+        "xyxy": [
+          281,
+          390,
+          1029,
+          103
+        ]
+      },
+      {
+        "length_px": 775.75,
+        "slope": -0.46657,
+        "xyxy": [
+          357,
+          630,
+          1060,
+          302
+        ]
+      },
+      {
+        "length_px": 775.33,
+        "slope": -0.46515,
+        "xyxy": [
+          357,
+          625,
+          1060,
+          298
+        ]
+      },
+      {
+        "length_px": 775.11,
+        "slope": -0.34379,
+        "xyxy": [
+          218,
+          302,
+          951,
+          50
+        ]
+      },
+      {
+        "length_px": 774.85,
+        "slope": -0.46724,
+        "xyxy": [
+          357,
+          635,
+          1059,
+          307
+        ]
+      },
+      {
+        "length_px": 767.67,
+        "slope": -0.40309,
+        "xyxy": [
+          357,
+          713,
+          1069,
+          426
+        ]
+      },
+      {
+        "length_px": 764.68,
+        "slope": -0.3444,
+        "xyxy": [
+          279,
+          284,
+          1002,
+          35
+        ]
+      },
+      {
+        "length_px": 764.51,
+        "slope": -0.40339,
+        "xyxy": [
+          357,
+          808,
+          1066,
+          522
+        ]
+      },
+      {
+        "length_px": 762.66,
+        "slope": -0.40453,
+        "xyxy": [
+          360,
+          499,
+          1067,
+          213
+        ]
+      },
+      {
+        "length_px": 761.35,
+        "slope": -0.40368,
+        "xyxy": [
+          361,
+          1012,
+          1067,
+          727
+        ]
+      },
+      {
+        "length_px": 758.2,
+        "slope": -0.40398,
+        "xyxy": [
+          357,
+          717,
+          1060,
+          433
+        ]
+      },
+      {
+        "length_px": 757.27,
+        "slope": -0.40456,
+        "xyxy": [
+          365,
+          1013,
+          1067,
+          729
+        ]
+      },
+      {
+        "length_px": 757.16,
+        "slope": -0.38331,
+        "xyxy": [
+          360,
+          994,
+          1067,
+          723
+        ]
+      },
+      {
+        "length_px": 755.97,
+        "slope": -0.40371,
+        "xyxy": [
+          357,
+          714,
+          1058,
+          431
+        ]
+      },
+      {
+        "length_px": 755.64,
+        "slope": -0.46569,
+        "xyxy": [
+          363,
+          940,
+          1048,
+          621
+        ]
+      },
+      {
+        "length_px": 755.04,
+        "slope": -0.40429,
+        "xyxy": [
+          357,
+          801,
+          1057,
+          518
+        ]
+      },
+      {
+        "length_px": 752.49,
+        "slope": -0.46628,
+        "xyxy": [
+          379,
+          613,
+          1061,
+          295
+        ]
+      },
+      {
+        "length_px": 747.6,
+        "slope": -0.4451,
+        "xyxy": [
+          362,
+          923,
+          1045,
+          619
+        ]
+      },
+      {
+        "length_px": 743.13,
+        "slope": -0.44477,
+        "xyxy": [
+          361,
+          924,
+          1040,
+          622
+        ]
+      },
+      {
+        "length_px": 733.4,
+        "slope": -0.38248,
+        "xyxy": [
+          368,
+          992,
+          1053,
+          730
+        ]
+      },
+      {
+        "length_px": 731.53,
+        "slope": -0.3836,
+        "xyxy": [
+          384,
+          983,
+          1067,
+          721
+        ]
+      },
+      {
+        "length_px": 710.66,
+        "slope": -0.40364,
+        "xyxy": [
+          409,
+          704,
+          1068,
+          438
+        ]
+      },
+      {
+        "length_px": 709.36,
+        "slope": -0.40274,
+        "xyxy": [
+          409,
+          989,
+          1067,
+          724
+        ]
+      }
+    ],
+    "sha256": "7ca26cf59ac6e8234ac057bec6f9e155e688cd99145c4d731a6908e8e6361614",
+    "slope_target_interval": [
+      -0.53,
+      -0.47
+    ],
+    "slope_pass": false,
+    "bbox_aspect_relative_error": 0.020212537690995847,
+    "caution": "Hough median is an automatic diagnostic, not proof of exact shelf geometry. Stock can extend above canonical silhouette."
+  },
+  "_method": "Canny 60/160; HoughLinesP rho1 theta1degree threshold60 minimum_length=min(canvas)/5 gap15; longest 24 negative diagonals in (-.9,-.15). Comparison uses uniform scaling and translation only; no asset transformations."
+}

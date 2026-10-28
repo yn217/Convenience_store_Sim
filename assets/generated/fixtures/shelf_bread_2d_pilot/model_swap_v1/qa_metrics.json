@@ -1,0 +1,622 @@
+{
+  "input_guide.png": {
+    "canvas_px": [
+      442,
+      450
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      38,
+      9,
+      403,
+      426
+    ],
+    "transparent_fraction": 0.4536953242835596,
+    "partial_alpha_fraction": 0.020412267471091,
+    "opaque_fraction": 0.5258924082453494,
+    "border_pixels_alpha_gt8": 0,
+    "components_area_ge4": 1,
+    "long_edge_slope_median": -0.505376,
+    "target_slope": -0.5,
+    "slope_diagnostic_pass": true,
+    "long_edge_segments": [
+      {
+        "xyxy": [
+          180,
+          414,
+          388,
+          309
+        ],
+        "length_px": 233.0,
+        "slope": -0.504808
+      },
+      {
+        "xyxy": [
+          187,
+          343,
+          395,
+          238
+        ],
+        "length_px": 233.0,
+        "slope": -0.504808
+      },
+      {
+        "xyxy": [
+          200,
+          169,
+          401,
+          67
+        ],
+        "length_px": 225.4,
+        "slope": -0.507463
+      },
+      {
+        "xyxy": [
+          40,
+          131,
+          226,
+          37
+        ],
+        "length_px": 208.403,
+        "slope": -0.505376
+      },
+      {
+        "xyxy": [
+          154,
+          192,
+          304,
+          116
+        ],
+        "length_px": 168.155,
+        "slope": -0.506667
+      },
+      {
+        "xyxy": [
+          154,
+          74,
+          283,
+          9
+        ],
+        "length_px": 144.451,
+        "slope": -0.503876
+      },
+      {
+        "xyxy": [
+          158,
+          425,
+          282,
+          362
+        ],
+        "length_px": 139.086,
+        "slope": -0.508065
+      }
+    ],
+    "sha256": "33d39423542507166e0a3f9ef6575e9ed7378b4b28532538b6a66738353e1715",
+    "corresponding_canopy_edge": {
+      "endpoints_px": [
+        [
+          38,
+          132
+        ],
+        [
+          285,
+          8
+        ]
+      ],
+      "method": "visual landmark estimate; uncertainty approximately 2 canonical pixels per endpoint",
+      "length_px": 276.3783638420345,
+      "length_ratio_to_guide": 1.0,
+      "slope": -0.5020242914979757
+    }
+  },
+  "shelf_bread_full_r0_candidate_a.png": {
+    "canvas_px": [
+      442,
+      450
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      38,
+      6,
+      402,
+      435
+    ],
+    "transparent_fraction": 0.4076269482151835,
+    "partial_alpha_fraction": 0.5850628456510809,
+    "opaque_fraction": 0.007310206133735546,
+    "border_pixels_alpha_gt8": 0,
+    "components_area_ge4": 1,
+    "long_edge_slope_median": -0.507324,
+    "target_slope": -0.5,
+    "slope_diagnostic_pass": true,
+    "long_edge_segments": [
+      {
+        "xyxy": [
+          40,
+          130,
+          283,
+          7
+        ],
+        "length_px": 272.356,
+        "slope": -0.506173
+      },
+      {
+        "xyxy": [
+          57,
+          239,
+          274,
+          133
+        ],
+        "length_px": 241.506,
+        "slope": -0.488479
+      },
+      {
+        "xyxy": [
+          186,
+          251,
+          389,
+          169
+        ],
+        "length_px": 218.936,
+        "slope": -0.403941
+      },
+      {
+        "xyxy": [
+          203,
+          164,
+          399,
+          68
+        ],
+        "length_px": 218.248,
+        "slope": -0.489796
+      },
+      {
+        "xyxy": [
+          224,
+          292,
+          401,
+          202
+        ],
+        "length_px": 198.567,
+        "slope": -0.508475
+      },
+      {
+        "xyxy": [
+          208,
+          315,
+          390,
+          238
+        ],
+        "length_px": 197.618,
+        "slope": -0.423077
+      },
+      {
+        "xyxy": [
+          222,
+          361,
+          397,
+          272
+        ],
+        "length_px": 196.331,
+        "slope": -0.508571
+      },
+      {
+        "xyxy": [
+          151,
+          433,
+          322,
+          346
+        ],
+        "length_px": 191.859,
+        "slope": -0.508772
+      },
+      {
+        "xyxy": [
+          227,
+          284,
+          395,
+          199
+        ],
+        "length_px": 188.279,
+        "slope": -0.505952
+      },
+      {
+        "xyxy": [
+          200,
+          361,
+          359,
+          266
+        ],
+        "length_px": 185.219,
+        "slope": -0.597484
+      },
+      {
+        "xyxy": [
+          236,
+          389,
+          398,
+          306
+        ],
+        "length_px": 182.025,
+        "slope": -0.512346
+      },
+      {
+        "xyxy": [
+          221,
+          291,
+          376,
+          212
+        ],
+        "length_px": 173.971,
+        "slope": -0.509677
+      }
+    ],
+    "sha256": "c4b7ac5df97391ead0943778ba4fcf47eb28a6ab4f3817d016a8863570cf56a9",
+    "bbox_delta_from_guide_px": [
+      0,
+      -3,
+      -1,
+      9
+    ],
+    "anchor_px": [
+      285,
+      303
+    ],
+    "anchor_status": "canonical metadata retained; generated geometry alignment evaluated by bbox and long edges, not an exact vertex proof",
+    "bbox_width_ratio_to_guide": 0.9972602739726028,
+    "corresponding_canopy_edge": {
+      "endpoints_px": [
+        [
+          39,
+          131
+        ],
+        [
+          283,
+          7
+        ]
+      ],
+      "method": "visual landmark estimate; uncertainty approximately 2 canonical pixels per endpoint",
+      "length_px": 273.70056631289606,
+      "length_ratio_to_guide": 0.9903111173685472,
+      "slope": -0.5081967213114754
+    }
+  },
+  "shelf_bread_full_r0_candidate_b.png": {
+    "canvas_px": [
+      442,
+      450
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      36,
+      8,
+      411,
+      432
+    ],
+    "transparent_fraction": 0.4045198592257416,
+    "partial_alpha_fraction": 0.5892156862745098,
+    "opaque_fraction": 0.0062644544997486175,
+    "border_pixels_alpha_gt8": 0,
+    "components_area_ge4": 1,
+    "long_edge_slope_median": -0.49986,
+    "target_slope": -0.5,
+    "slope_diagnostic_pass": true,
+    "long_edge_segments": [
+      {
+        "xyxy": [
+          83,
+          298,
+          408,
+          140
+        ],
+        "length_px": 361.371,
+        "slope": -0.486154
+      },
+      {
+        "xyxy": [
+          67,
+          279,
+          346,
+          124
+        ],
+        "length_px": 319.165,
+        "slope": -0.555556
+      },
+      {
+        "xyxy": [
+          69,
+          240,
+          337,
+          104
+        ],
+        "length_px": 300.533,
+        "slope": -0.507463
+      },
+      {
+        "xyxy": [
+          149,
+          429,
+          410,
+          296
+        ],
+        "length_px": 292.933,
+        "slope": -0.509579
+      },
+      {
+        "xyxy": [
+          150,
+          431,
+          409,
+          299
+        ],
+        "length_px": 290.697,
+        "slope": -0.509653
+      },
+      {
+        "xyxy": [
+          37,
+          136,
+          286,
+          9
+        ],
+        "length_px": 279.517,
+        "slope": -0.51004
+      },
+      {
+        "xyxy": [
+          181,
+          384,
+          405,
+          275
+        ],
+        "length_px": 249.112,
+        "slope": -0.486607
+      },
+      {
+        "xyxy": [
+          168,
+          333,
+          381,
+          229
+        ],
+        "length_px": 237.034,
+        "slope": -0.488263
+      },
+      {
+        "xyxy": [
+          77,
+          116,
+          288,
+          9
+        ],
+        "length_px": 236.58,
+        "slope": -0.507109
+      },
+      {
+        "xyxy": [
+          195,
+          316,
+          405,
+          213
+        ],
+        "length_px": 233.9,
+        "slope": -0.490476
+      },
+      {
+        "xyxy": [
+          137,
+          306,
+          351,
+          224
+        ],
+        "length_px": 229.172,
+        "slope": -0.383178
+      },
+      {
+        "xyxy": [
+          174,
+          395,
+          377,
+          295
+        ],
+        "length_px": 226.294,
+        "slope": -0.492611
+      }
+    ],
+    "sha256": "078dc4553fd4670c2f7999c211dc92e2e762498658d7838054de7d10aaa6f8e7",
+    "bbox_delta_from_guide_px": [
+      -2,
+      -1,
+      8,
+      6
+    ],
+    "anchor_px": [
+      285,
+      303
+    ],
+    "anchor_status": "canonical metadata retained; generated geometry alignment evaluated by bbox and long edges, not an exact vertex proof",
+    "bbox_width_ratio_to_guide": 1.0273972602739727,
+    "corresponding_canopy_edge": {
+      "endpoints_px": [
+        [
+          36,
+          136
+        ],
+        [
+          288,
+          8
+        ]
+      ],
+      "method": "visual landmark estimate; uncertainty approximately 2 canonical pixels per endpoint",
+      "length_px": 282.6446532308722,
+      "length_ratio_to_guide": 1.0226728652045254,
+      "slope": -0.5079365079365079
+    }
+  },
+  "original_a.png": {
+    "canvas_px": [
+      1243,
+      1266
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      108,
+      18,
+      1130,
+      1223
+    ],
+    "transparent_fraction": 0.41024937120227145,
+    "partial_alpha_fraction": 0.5889365915159649,
+    "opaque_fraction": 0.0008140372817636585,
+    "border_pixels_alpha_gt8": 0,
+    "components_area_ge4": 2,
+    "long_edge_slope_median": -0.4982215,
+    "target_slope": -0.5,
+    "slope_diagnostic_pass": true,
+    "long_edge_segments": [
+      {
+        "xyxy": [
+          112,
+          368,
+          796,
+          20
+        ],
+        "length_px": 767.437,
+        "slope": -0.508772
+      },
+      {
+        "xyxy": [
+          198,
+          325,
+          650,
+          95
+        ],
+        "length_px": 507.153,
+        "slope": -0.50885
+      },
+      {
+        "xyxy": [
+          431,
+          919,
+          796,
+          741
+        ],
+        "length_px": 406.09,
+        "slope": -0.487671
+      },
+      {
+        "xyxy": [
+          453,
+          1090,
+          808,
+          917
+        ],
+        "length_px": 394.91,
+        "slope": -0.487324
+      }
+    ],
+    "sha256": "63cd41e5d131ff85ad94f337bede7598eb0f30fbf018d625416e69bb6445af90"
+  },
+  "original_b.png": {
+    "canvas_px": [
+      1243,
+      1266
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      99,
+      22,
+      1155,
+      1214
+    ],
+    "transparent_fraction": 0.4069144237747182,
+    "partial_alpha_fraction": 0.5926629885653498,
+    "opaque_fraction": 0.00042258765993195385,
+    "border_pixels_alpha_gt8": 0,
+    "components_area_ge4": 1,
+    "long_edge_slope_median": -0.5091114999999999,
+    "target_slope": -0.5,
+    "slope_diagnostic_pass": true,
+    "long_edge_segments": [
+      {
+        "xyxy": [
+          488,
+          1178,
+          1153,
+          839
+        ],
+        "length_px": 746.422,
+        "slope": -0.509774
+      },
+      {
+        "xyxy": [
+          160,
+          355,
+          811,
+          24
+        ],
+        "length_px": 730.316,
+        "slope": -0.508449
+      },
+      {
+        "xyxy": [
+          517,
+          1160,
+          1150,
+          837
+        ],
+        "length_px": 710.646,
+        "slope": -0.510269
+      },
+      {
+        "xyxy": [
+          459,
+          732,
+          988,
+          474
+        ],
+        "length_px": 588.562,
+        "slope": -0.487713
+      }
+    ],
+    "sha256": "fd407f86dc16c278562034f6e26bf3d326dde316755edb3afb4b34221b602d1b"
+  },
+  "_method": "Alpha threshold 8; Canny 60/160; Hough longest 12 negative diagonals in (-.7,-.3). Slope tolerance .03 is diagnostic only; no claim of exact geometric match. Same-scale comparison shows complete canonical canvases at 1:1, without bbox-fitting.",
+  "_normalization": {
+    "a": {
+      "source_canvas_px": [
+        1243,
+        1266
+      ],
+      "uniform_scale": 0.35545023696682465,
+      "rounded_size_px": [
+        442,
+        450
+      ],
+      "offset_px": [
+        0,
+        0
+      ],
+      "operations": "whole-image uniform resize and transparent canvas only; no crop, warp, alpha removal or individual product placement",
+      "anchor_px": [
+        285,
+        303
+      ]
+    },
+    "b": {
+      "source_canvas_px": [
+        1243,
+        1266
+      ],
+      "uniform_scale": 0.35545023696682465,
+      "rounded_size_px": [
+        442,
+        450
+      ],
+      "offset_px": [
+        0,
+        0
+      ],
+      "operations": "whole-image uniform resize and transparent canvas only; no crop, warp, alpha removal or individual product placement",
+      "anchor_px": [
+        285,
+        303
+      ]
+    }
+  }
+}

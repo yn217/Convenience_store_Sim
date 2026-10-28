@@ -1,0 +1,387 @@
+{
+  "asset_id": "shelf_noodle",
+  "state": "FULL",
+  "direction": "r0",
+  "revision": "shallow_v4",
+  "reference_images": [
+    "assets\\generated\\fixtures\\shelf_noodle\\shelf_noodle_0_body.png"
+  ],
+  "previous_generated_images_used_as_reference": false,
+  "generation_method": "Built-in image generation from canonical body only. Explicit front-rail line segment constraint: Δy/Δx=-0.50.",
+  "requested_slope_interval": [
+    -0.53,
+    -0.47
+  ],
+  "slope_result": "FAIL",
+  "measurements": {
+    "guide": {
+      "canvas_px": [
+        442,
+        481
+      ],
+      "alpha_bbox_threshold_8_xyxy_exclusive": [
+        38,
+        8,
+        404,
+        457
+      ],
+      "bbox_aspect_width_over_height": 0.81514,
+      "alpha_pixels_threshold_8": 124536,
+      "long_diagonal_hough_segments_top24": [
+        {
+          "length_px": 243.29,
+          "slope_dy_dx": -0.5069,
+          "xyxy": [
+            185,
+            176,
+            402,
+            66
+          ]
+        },
+        {
+          "length_px": 177.1,
+          "slope_dy_dx": -0.5063,
+          "xyxy": [
+            163,
+            413,
+            321,
+            333
+          ]
+        },
+        {
+          "length_px": 175.76,
+          "slope_dy_dx": -0.5032,
+          "xyxy": [
+            78,
+            111,
+            235,
+            32
+          ]
+        },
+        {
+          "length_px": 175.76,
+          "slope_dy_dx": -0.5032,
+          "xyxy": [
+            232,
+            420,
+            389,
+            341
+          ]
+        },
+        {
+          "length_px": 139.09,
+          "slope_dy_dx": -0.5081,
+          "xyxy": [
+            273,
+            358,
+            397,
+            295
+          ]
+        },
+        {
+          "length_px": 132.38,
+          "slope_dy_dx": 0.5085,
+          "xyxy": [
+            37,
+            289,
+            155,
+            349
+          ]
+        },
+        {
+          "length_px": 130.14,
+          "slope_dy_dx": 0.5086,
+          "xyxy": [
+            39,
+            398,
+            155,
+            457
+          ]
+        },
+        {
+          "length_px": 126.56,
+          "slope_dy_dx": 0.5044,
+          "xyxy": [
+            43,
+            352,
+            156,
+            409
+          ]
+        },
+        {
+          "length_px": 107.33,
+          "slope_dy_dx": -0.5,
+          "xyxy": [
+            157,
+            457,
+            253,
+            409
+          ]
+        }
+      ],
+      "long_axis_slope_median_dy_dx": -0.5048,
+      "sha256": "4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976"
+    },
+    "candidate": {
+      "canvas_px": [
+        1313,
+        1198
+      ],
+      "alpha_bbox_threshold_8_xyxy_exclusive": [
+        142,
+        24,
+        1179,
+        1198
+      ],
+      "bbox_aspect_width_over_height": 0.8833,
+      "alpha_pixels_threshold_8": 934996,
+      "long_diagonal_hough_segments_top24": [
+        {
+          "length_px": 1025.24,
+          "slope_dy_dx": -0.3251,
+          "xyxy": [
+            180,
+            977,
+            1155,
+            660
+          ]
+        },
+        {
+          "length_px": 1007.87,
+          "slope_dy_dx": -0.3442,
+          "xyxy": [
+            223,
+            987,
+            1176,
+            659
+          ]
+        },
+        {
+          "length_px": 991.36,
+          "slope_dy_dx": -0.3059,
+          "xyxy": [
+            190,
+            409,
+            1138,
+            119
+          ]
+        },
+        {
+          "length_px": 990.12,
+          "slope_dy_dx": -0.3052,
+          "xyxy": [
+            190,
+            405,
+            1137,
+            116
+          ]
+        },
+        {
+          "length_px": 989.16,
+          "slope_dy_dx": -0.3055,
+          "xyxy": [
+            191,
+            414,
+            1137,
+            125
+          ]
+        },
+        {
+          "length_px": 975.3,
+          "slope_dy_dx": -0.3449,
+          "xyxy": [
+            233,
+            989,
+            1155,
+            671
+          ]
+        },
+        {
+          "length_px": 973.65,
+          "slope_dy_dx": -0.3061,
+          "xyxy": [
+            191,
+            420,
+            1122,
+            135
+          ]
+        },
+        {
+          "length_px": 973.08,
+          "slope_dy_dx": -0.3446,
+          "xyxy": [
+            234,
+            1002,
+            1154,
+            685
+          ]
+        },
+        {
+          "length_px": 933.54,
+          "slope_dy_dx": -0.3243,
+          "xyxy": [
+            267,
+            1132,
+            1155,
+            844
+          ]
+        },
+        {
+          "length_px": 932.89,
+          "slope_dy_dx": -0.3258,
+          "xyxy": [
+            268,
+            951,
+            1155,
+            662
+          ]
+        },
+        {
+          "length_px": 932.58,
+          "slope_dy_dx": -0.3247,
+          "xyxy": [
+            268,
+            1134,
+            1155,
+            846
+          ]
+        },
+        {
+          "length_px": 929.42,
+          "slope_dy_dx": -0.3247,
+          "xyxy": [
+            271,
+            1130,
+            1155,
+            843
+          ]
+        },
+        {
+          "length_px": 918.06,
+          "slope_dy_dx": -0.3445,
+          "xyxy": [
+            265,
+            1077,
+            1133,
+            778
+          ]
+        },
+        {
+          "length_px": 906.34,
+          "slope_dy_dx": -0.3248,
+          "xyxy": [
+            293,
+            1128,
+            1155,
+            848
+          ]
+        },
+        {
+          "length_px": 905.38,
+          "slope_dy_dx": -0.3252,
+          "xyxy": [
+            294,
+            1130,
+            1155,
+            850
+          ]
+        },
+        {
+          "length_px": 898.76,
+          "slope_dy_dx": -0.3435,
+          "xyxy": [
+            305,
+            1143,
+            1155,
+            851
+          ]
+        },
+        {
+          "length_px": 895.9,
+          "slope_dy_dx": -0.3251,
+          "xyxy": [
+            303,
+            1124,
+            1155,
+            847
+          ]
+        },
+        {
+          "length_px": 890.5,
+          "slope_dy_dx": -0.3632,
+          "xyxy": [
+            318,
+            1183,
+            1155,
+            879
+          ]
+        },
+        {
+          "length_px": 874.03,
+          "slope_dy_dx": -0.305,
+          "xyxy": [
+            301,
+            368,
+            1137,
+            113
+          ]
+        },
+        {
+          "length_px": 873.52,
+          "slope_dy_dx": -0.4037,
+          "xyxy": [
+            327,
+            415,
+            1137,
+            88
+          ]
+        },
+        {
+          "length_px": 873.07,
+          "slope_dy_dx": -0.3054,
+          "xyxy": [
+            190,
+            406,
+            1025,
+            151
+          ]
+        },
+        {
+          "length_px": 866.19,
+          "slope_dy_dx": -0.3443,
+          "xyxy": [
+            311,
+            1149,
+            1130,
+            867
+          ]
+        },
+        {
+          "length_px": 861.67,
+          "slope_dy_dx": -0.3058,
+          "xyxy": [
+            217,
+            422,
+            1041,
+            170
+          ]
+        },
+        {
+          "length_px": 847.12,
+          "slope_dy_dx": -0.3062,
+          "xyxy": [
+            214,
+            419,
+            1024,
+            171
+          ]
+        }
+      ],
+      "long_axis_slope_median_dy_dx": -0.3249,
+      "sha256": "1525ce8d63eb343b073c4ef6f654868e4d837cb668703748eb2478c0aada0517"
+    },
+    "hough_method": "RGB to grayscale, Canny 60/160, HoughLinesP rho=1 theta=1 degree threshold=90 minLineLength=min(canvas)/5 maxLineGap=20; top 24 diagonal lines; median negative slope below -0.15."
+  },
+  "visual_observation": "Five grouped color rows and cup side faces are visible. White shelf surfaces remain visible. The generated long rails did not follow the explicit requested slope; candidate measured -0.3250 versus guide -0.5048. No post-generation rotation, stretch, crop, or normalization was applied.",
+  "runtime_approved": false
+}
