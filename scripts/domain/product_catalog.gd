@@ -12,6 +12,7 @@ const CATEGORIES: Array[String] = [
 	"character_goods",   # #140: limited goods of a collab fair (fictional mascot)
 	"soft_serve", "frappe",   # #131: made to order at their machines
 	"bakery", "pizza",   # #130: fresh bread from the store's oven, pizza baked to order
+	"crane_prize",   # #132: plush prizes of the crane game
 ]
 const REQUIRED := [
 	"schema_version", "sku_id", "display_name", "category", "purchase_cost_yen",

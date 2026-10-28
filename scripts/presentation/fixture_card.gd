@@ -21,6 +21,7 @@ const CATEGORY_NAMES := {
 	"daily_goods": "日用品", "hygiene": "衛生用品", "character_goods": "限定グッズ",
 	"soft_serve": "ソフトクリーム", "frappe": "フラッペ",
 	"bakery": "焼きたてパン", "pizza": "ピザ",
+	"crane_prize": "UFOキャッチャー",
 }
 const STATUS_NAMES := {"SETUP": "設置中", "OPEN": "営業中", "CLOSING": "閉店中"}
 

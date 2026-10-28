@@ -171,6 +171,12 @@ static func _hit(category: String, u: float, v: float) -> int:
 			if v < 0.34:
 				return 3
 			return 2 if absf(v - 0.5) < 0.06 else 1
+		"crane_prize":   # a plush head: a round face with two round ears and a lighter muzzle
+			if pow(u - 0.5, 2.0) + pow(v - 0.6, 2.0) <= 0.3 * 0.3:
+				return 3 if pow(u - 0.5, 2.0) + pow(v - 0.7, 2.0) <= 0.11 * 0.11 else 1
+			if pow(u - 0.26, 2.0) + pow(v - 0.32, 2.0) <= 0.1 * 0.1 or pow(u - 0.74, 2.0) + pow(v - 0.32, 2.0) <= 0.1 * 0.1:
+				return 2
+			return 0
 		"capsule_toy":   # a round capsule: a coloured top half and a clear bottom half
 			var r := pow(u - 0.5, 2.0) + pow(v - 0.55, 2.0)
 			if r > 0.36 * 0.36:
@@ -218,6 +224,10 @@ static func _color_for(category: String, hit: int, body: Color) -> Color:
 			if hit == 3:
 				return Color(0.95, 0.95, 0.92)
 			return body.darkened(0.4) if hit == 2 else body
+		"crane_prize":
+			if hit == 3:
+				return body.lightened(0.55)
+			return body.darkened(0.2) if hit == 2 else body
 		"capsule_toy":
 			if hit == 3:
 				return Color(0.92, 0.95, 0.98)
@@ -276,6 +286,8 @@ static func _plate_rect(category: String) -> Rect2:
 			return Rect2(0.36, 0.5, 0.28, 0.12)
 		"capsule_toy":
 			return Rect2(0.36, 0.62, 0.28, 0.1)
+		"crane_prize":
+			return Rect2(0.4, 0.86, 0.2, 0.06)
 		"bakery":
 			return Rect2(0.34, 0.66, 0.32, 0.1)
 		"pizza":
@@ -336,6 +348,8 @@ static func _tint(category: String) -> Color:
 			return Color(0.92, 0.88, 0.8)
 		"capsule_toy":
 			return Color(0.9, 0.35, 0.6)
+		"crane_prize":
+			return Color(0.78, 0.55, 0.85)
 		"bakery":
 			return Color(0.88, 0.66, 0.36)
 		"pizza":

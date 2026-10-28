@@ -37,6 +37,10 @@ func _run() -> void:
 			if lay.has("store_size"):
 				app.run_command({"command_id": "lsize", "kind": &"SET_STORE_SIZE", "size_id": lay["store_size"]})
 			plan = (lay["placements"] as Array).map(func(p): return [String(p["type_id"]), int(p["x"]), int(p["y"]), int(p["rotation"])])
+	for a in OS.get_cmdline_user_args():   # --place=type_id,x,y,rotation: one more fixture after the layout (e.g. crane_game, #132)
+		if a.begins_with("--place="):
+			var f := a.trim_prefix("--place=").split(",")
+			plan = plan + [[f[0], int(f[1]), int(f[2]), int(f[3])]]
 	var placed := 0
 	for p in plan:
 		var r: CommandResult = app.run_command({"command_id": "pf%d" % placed, "kind": &"PLACE_FIXTURE", "type_id": p[0], "x": p[1], "y": p[2], "rotation": p[3]})

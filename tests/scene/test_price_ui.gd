@@ -15,7 +15,7 @@ func test_editing_a_price_changes_state_and_shows_errors(t, tree) -> void:
 	await tree.process_frame
 	var pc: Node = main.get_node("PriceController")
 	var app: Node = main.get_node("AppRoot")
-	t.eq(pc._rows.size(), 59, "one row per SKU")
+	t.eq(pc._rows.size(), 62, "one row per SKU")
 	var edit: LineEdit = pc._rows["rice_001"]
 	t.eq(edit.text, "150")
 	edit.text = "175"

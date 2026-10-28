@@ -188,6 +188,17 @@
   },
   {
     "schema_version": 1,
+    "cue_id": "crane_won",
+    "source_event_type": "CRANE_WON",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 600
+  },
+  {
+    "schema_version": 1,
     "cue_id": "capsule_empty",
     "source_event_type": "CAPSULE_EMPTY",
     "animation_id": "event_banner",

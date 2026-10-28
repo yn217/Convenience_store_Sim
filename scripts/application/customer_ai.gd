@@ -323,6 +323,8 @@ func _browsed(state: GameState, c: Dictionary) -> bool:
 	if int(c.get("browse_left", -1)) < 0:
 		c["browse_left"] = browse_seconds(state.balance, String(c["customer_id"]), String(c["fixture_id"])) \
 			+ Cooking.prep_seconds(String(state.products.get_sku(String(c.get("sku_id", ""))).get("category", "")))   # #131: made to order
+		if CraneGame.is_crane(state, String(c.get("sku_id", ""))):
+			c["browse_left"] = int(c["browse_left"]) + CraneGame.session_seconds(state, c)   # #132: the plays at the machine
 	c["browse_left"] = int(c["browse_left"]) - int(GameClock.STEP_GAME_SECONDS)
 	if int(c["browse_left"]) > 0:
 		return false
@@ -805,6 +807,8 @@ func _pick(state: GameState, c: Dictionary) -> void:
 	_res_dirty = true
 	if CapsuleToys.is_capsule(state, c["sku_id"]):
 		_turn_machine(state, c, res["reservation_id"])   # #139: paid at the machine
+	elif CraneGame.is_crane(state, c["sku_id"]):
+		_play_crane(state, c, res["reservation_id"])   # #132: played and paid at the machine
 	else:
 		held.append(res["reservation_id"])
 		_mark(c, c["sku_id"], "planned", "taken")
@@ -832,6 +836,22 @@ func _turn_machine(state: GameState, c: Dictionary, res_id: String) -> void:
 	if InventoryService.fixture_fill_ratio(state, sale["fixture_id"]) < LOW_STOCK_RATIO:
 		state.emit_event("STOCK_LOW", {"fixture_id": sale["fixture_id"]})
 	CapsuleToys.check_empty(state, sale["fixture_id"], c["sku_id"])   # #139 phase 2: refill notice
+
+
+## A crane game (#132): the plays are paid at the machine, each its own SALE row; a win takes the prize home.
+func _play_crane(state: GameState, c: Dictionary, res_id: String) -> void:
+	var r := CraneGame.play(state, c, res_id)
+	if not bool(r["ok"]):
+		InventoryService.release_reservation(state, res_id)
+		_mark(c, c["sku_id"], "planned", "stockout")
+		return
+	_taken_dirty = true
+	_mark(c, c["sku_id"], "planned", "taken")
+	c["planned_yen"] = int(c["planned_yen"]) + state.sell_price(c["sku_id"]) * (int(r["plays"]) - 1)   # the first play was planned
+	c["machine_bought"] = true
+	state.emit_event("CRANE_PLAYED", {"customer_id": c["customer_id"], "fixture_id": c["fixture_id"], "sku_id": c["sku_id"], "plays": r["plays"], "won": r["won"], "prize": r["prize"], "revenue_yen": r["revenue_yen"]})
+	if bool(r["won"]) and InventoryService.fixture_fill_ratio(state, c["fixture_id"]) < LOW_STOCK_RATIO:
+		state.emit_event("STOCK_LOW", {"fixture_id": c["fixture_id"]})
 
 
 ## A customer who only turned machines (#139) has paid and leaves without queueing.

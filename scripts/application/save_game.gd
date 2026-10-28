@@ -102,6 +102,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"construction_days": state.construction_days,   # #145
 			"lotteries": state.lotteries.duplicate(true),   # #138
 			"capsule_stats": state.capsule_stats.duplicate(true),   # #139
+			"crane_stats": state.crane_stats.duplicate(true),   # #132
 			"market_conditions": state.market_conditions.duplicate(true),
 			"branch_carry": state.branch_carry, "branch_items_carry": state.branch_items_carry, "branch_sku_acc": state.branch_sku_acc.duplicate(),
 			"branches": state.branches.map(func(b): return _branch_out(b, save_id, saved_at_utc)),
@@ -510,6 +511,13 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 					errs.append("runtime_state.capsule_stats: invalid")
 					break
 				s.capsule_stats[String(k)] = {"turns": int(cs["turns"]), "rare": int(cs["rare"])}
+		if typeof(rt.get("crane_stats")) == TYPE_DICTIONARY:   # #132 (absent in older saves)
+			for k in rt["crane_stats"]:
+				var cr = rt["crane_stats"][k]
+				if typeof(cr) != TYPE_DICTIONARY or not JsonCheck.is_int(cr.get("plays")) or not JsonCheck.is_int(cr.get("wins")):
+					errs.append("runtime_state.crane_stats: invalid")
+					break
+				s.crane_stats[String(k)] = {"plays": int(cr["plays"]), "wins": int(cr["wins"])}
 		if typeof(rt.get("lotteries")) == TYPE_ARRAY:   # #138 (absent in older saves)
 			for l in rt["lotteries"]:
 				if typeof(l) != TYPE_DICTIONARY or Lottery.definition(String(l.get("set_id", ""))).is_empty() or typeof(l.get("order")) != TYPE_ARRAY \

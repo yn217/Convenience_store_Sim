@@ -16,7 +16,7 @@ const TABS := [[ALL, "すべて"], [SHELF, "棚"], [COLD, "冷蔵・冷凍"], [C
 ## カウンター; every other shelf is 棚. A fixture with no products that is not a register (ATM, copier, staff rooms) is 設備.
 const COLD_PRODUCTS := ["drink", "dessert", "ice_cream", "daily_fresh"]
 const COUNTER_PRODUCTS := ["oden", "coffee", "soft_serve", "frappe", "bakery", "pizza"]   # #131 / #130: made-to-order machines, ovens
-const SERVICE_PRODUCTS := ["capsule_toy"]   # #139: the capsule machines sit with the ATM and the copier
+const SERVICE_PRODUCTS := ["capsule_toy", "crane_prize"]   # #139: the capsule machines sit with the ATM and the copier
 
 const CARD_SIZE := Vector2(108, 130)
 const THUMB_SIZE := Vector2(100, 70)

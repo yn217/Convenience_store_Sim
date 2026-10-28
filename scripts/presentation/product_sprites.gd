@@ -33,6 +33,7 @@ const CATEGORY_TINT := {
 	"daily_goods": Color(0.88, 0.92, 1), "hygiene": Color(0.88, 0.98, 1), "character_goods": Color(1, 0.95, 0.82),
 	"soft_serve": Color(1, 0.97, 0.9), "frappe": Color(1, 0.88, 0.92),
 	"bakery": Color(1, 0.93, 0.82), "pizza": Color(1, 0.88, 0.8),
+	"crane_prize": Color(0.97, 0.88, 1),
 }
 
 var _manifest: Dictionary = {}

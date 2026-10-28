@@ -82,7 +82,9 @@
     {"purpose_id": "fan_goods", "display_name": "コラボグッズを買いに", "targets": [["character_goods"], ["snack", "drink"]], "budget_yen": [500, 2000], "wallet_factor": [1.2, 2.5], "impulse": 1.0,
      "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0]},
     {"purpose_id": "capsule_toy", "display_name": "カプセルトイを回しに", "targets": [["capsule_toy"], ["drink", "snack"]], "budget_yen": [300, 900], "wallet_factor": [1.2, 2.5], "impulse": 0.8,
-     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 1, 1, 1, 0, 0, 0]}
+     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 1, 1, 1, 0, 0, 0]},
+    {"purpose_id": "crane_game", "display_name": "UFOキャッチャーで遊びに", "targets": [["crane_prize"], ["drink", "snack"]], "budget_yen": [300, 1000], "wallet_factor": [1.2, 2.5], "impulse": 0.6,
+     "hour_weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 1, 0, 0]}
   ],
   "impulse": {"base_probability": 0.12, "max_per_visit": 2},
   "daily_fixed_cost_yen": 1000,

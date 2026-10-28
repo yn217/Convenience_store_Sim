@@ -15,6 +15,7 @@ const CATEGORY_COLOR := {
 	"daily_goods": Color("7a8fb8"), "hygiene": Color("6cc3d5"), "character_goods": Color("f2b63d"),
 	"soft_serve": Color("f3e3c3"), "frappe": Color("f08aa8"),
 	"bakery": Color("d9a35f"), "pizza": Color("e0703a"),
+	"crane_prize": Color("c77dd9"),
 }
 const REGISTER_COLOR := Color("7f8c99")
 const FRONT_COLOR := Color("ffc873")
