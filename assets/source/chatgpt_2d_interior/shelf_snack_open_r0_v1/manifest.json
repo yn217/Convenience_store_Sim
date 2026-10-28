@@ -1,0 +1,68 @@
+{
+  "schema_version": "0.1-draft",
+  "asset_id": "shelf_snack_open_r0_v1",
+  "asset_family": "AMBIENT_GONDOLA_OPEN",
+  "status": "art_preview_unapproved",
+  "description_ja": "屋根なし日本式開放ゴンドラ菓子棚。袋菓子・米菓・チョコ・グミのイメージ、非実在ブランド。薄い棚板と細支柱。",
+  "style": "2D isometric sprite not 3D",
+  "source_authoring": "ChatGPT SVG geometry and raster preview, not ImageGen atlas",
+  "states": [
+    {
+      "state": "EMPTY",
+      "svg": "shelf_snack_open_empty_r0_v1.svg",
+      "png": "shelf_snack_open_empty_r0_v1.png"
+    },
+    {
+      "state": "HALF",
+      "svg": "shelf_snack_open_half_r0_v1.svg",
+      "png": "shelf_snack_open_half_r0_v1.png"
+    },
+    {
+      "state": "FULL",
+      "svg": "shelf_snack_open_full_r0_v1.svg",
+      "png": "shelf_snack_open_full_r0_v1.png"
+    }
+  ],
+  "pixel_size": [
+    580,
+    560
+  ],
+  "projection": "iso2x_v1",
+  "screen_basis_at_2x": {
+    "x": [
+      128,
+      64
+    ],
+    "y": [
+      -128,
+      64
+    ],
+    "z": [
+      0,
+      -156.76734354
+    ]
+  },
+  "tile_world_m": [
+    1,
+    1
+  ],
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "physical_size_m": [
+    0.52,
+    1.91,
+    1.8
+  ],
+  "same_shelf_structure_source": true,
+  "roof_canopy": false,
+  "wide_top_panel": false,
+  "goods_not_3d": true,
+  "reference_approved": false,
+  "runtime_approved": false,
+  "world_anchor_calibrated": false,
+  "visual_qa_approved": false,
+  "user_approved": false,
+  "notes": "Not an approved canonical. The reference atlas ImageGen image contains upper canopies; do not import or copy it as strict shape reference. Human fixture QA required."
+}
