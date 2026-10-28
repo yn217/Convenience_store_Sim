@@ -54,12 +54,16 @@ Actual runtime captures at 1600x900:
 
 | Store size | Capture | Observation |
 |---|---|---|
-| 12x10 | `grove-sidewalk-12x10-1600x900-2026-10-29.png` | Grove roots stay behind the road edge and wall; canopies remain above the rear wall. Capture landed in the game's construction/preparation state, so it is geometry evidence, not a business-running comparison. |
+| 12x10 | `grove-sidewalk-12x10-1600x900-2026-10-29.png` | A compatible minimal register/shelf layout is used so the store opens. The full exterior remains visible and the grove roots stay behind the wall. |
 | 16x12 | `grove-sidewalk-16x12-1600x900-2026-10-29.png` | Generated sidewalk strip and rooted grove visible; wall occludes the lower planting. |
 | 20x16 | `grove-sidewalk-20x16-1600x900-2026-10-29.png` | Both rear branches and the generated sidewalk strip reach the store ends without a visible root gap. |
 | 20x16, zoomed and panned | `grove-sidewalk-panzoom-20x16-2026-10-29.png` | Ground-anchored planting and sidewalk follow the camera; no wall gap appears during the changed view. |
+| 20x16, east entrance | `entrance-east-20x16-1600x900-2026-10-29.png` | Entrance move succeeded; road/sidewalk pivot with the frontage, while the rear planting keeps both wall endpoints covered. |
+| 20x16, north entrance | `entrance-north-20x16-1600x900-2026-10-29.png` | Entrance move succeeded; the rotated road remains connected to the store edge. The existing side planting reads as spaced planters from this view, not a continuous bed. |
 
-Focused placement checks cover all four sides for 12x10, 16x12, and 20x16 and assert both planting and sidewalk endpoints against projected world positions. `test_backdrop_layer` currently passes 17 tests / 173 assertions. The 16x12 and 20x16 captures show the running business state; the 12x10 capture is explicitly limited to geometry evidence because the capture helper left the store in preparation state.
+Focused placement checks cover all four sides for 12x10, 16x12, and 20x16 and assert both planting and sidewalk endpoints against projected world positions. `test_backdrop_layer` currently passes 17 tests / 173 assertions. The 12x10 capture uses a minimal compatible register/shelf layout so the store reaches the running business state. East/north entrance captures also show the running state; north-side planting density is still lower than the target mockup.
+
+Two additional grouped planting candidates were generated in parallel for outer greenery and flowering borders. They remain unintegrated: both have visible saturated color fringes at the transparency edge and would need corrected source art before adoption.
 
 ## Remaining differences from the target mockup
 
