@@ -15,7 +15,7 @@
   "occlusion_group": "background_ground_texture",
   "sort_key": "before_exterior_scenery_and_world_geometry",
   "asset_variant": "v2_generated_fine_grass_and_flower_flecks",
-  "opacity": 0.16,
-  "repeat_edge_quality": "lower average opposite-edge RGB difference than v1; reviewed in repeated runtime pattern at 16 percent opacity",
+  "opacity": 0.24,
+  "repeat_edge_quality": "lower average opposite-edge RGB difference than v1; reviewed in repeated runtime pattern at 24 percent opacity",
   "source_file": "assets/generated/backgrounds/ground_texture_seamless_v2/ground_texture_seamless_v2.png"
 }

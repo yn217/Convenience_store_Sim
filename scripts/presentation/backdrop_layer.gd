@@ -245,7 +245,7 @@ func _draw_surrounding_ground_texture() -> void:
 	while x < _ground_texture_viewport.x:
 		var y := offset.y - tile_size.y
 		while y < _ground_texture_viewport.y:
-			draw_texture_rect(SurroundingGround, Rect2(Vector2(x, y), tile_size), false, Color(1.0, 1.0, 1.0, 0.16))
+			draw_texture_rect(SurroundingGround, Rect2(Vector2(x, y), tile_size), false, Color(1.0, 1.0, 1.0, 0.24))
 			y += tile_size.y
 		x += tile_size.x
 

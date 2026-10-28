@@ -17,7 +17,7 @@ Reference: user-supplied `image-1792819026698.webp` (16:28) and the current Godo
 
 ## Current-cycle result
 
-- The generated `ground_texture_seamless_v2` is now the low-opacity exterior overlay. It follows the camera tile phase and was captured at 12x10, 16x12, 20x16, and 20x16 with pan/zoom. It adds subtle surface variation; it does not close the broad green-field difference.
+- The generated `ground_texture_seamless_v2` is now the 24%-opacity exterior overlay. It follows the camera tile phase and was captured at 12x10, 16x12, 20x16, and 20x16 with pan/zoom. The stronger flecks add surface variation; they do not close the broad green-field difference.
 - The near-side fascia label was enlarged from 24px to 32px and its white backing extended from 4.2m to 5.2m in wall-plane units. The label remains world-anchored and centered; captures at all three supported sizes show no clipping.
 - A generated long fascia strip was not integrated because it is one oversized perspective piece with bright edge fringing and does not fit the game's modular wall construction. A second requested module still arrived as a 1774x887 long strip, so it also remains a candidate only.
 - A 16x12-reference scale for rear planting was rejected because it failed to cover the 20x16 right wall endpoint. The fixed scale remains based on 20x16, leaving extra planted overhang at 12x10.
