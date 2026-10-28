@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.1-draft",
+  "asset_family": "AMBIENT_GONDOLA_OPEN",
+  "asset_id": "shelf_general_open_r0_v1",
+  "description_ja": "日本のコンビニ用・巨大天板のない常温開放ゴンドラ。2D SVGソース、同一棚形状で3在庫状態。",
+  "asset_type": "standalone_2d_vector_source",
+  "source_authoring": "ChatGPT-authored vector artwork (NOT 3D, NOT image-to-3D)",
+  "status": "art_concept_unreviewed",
+  "runtime_approved": false,
+  "generated_at": "2026-10-28",
+  "canonical_geometry": "new open gondola v1 proposal; do not reuse legacy roofed canonical",
+  "state_files": {
+    "EMPTY": "shelf_general_open_empty_r0_v1.svg",
+    "HALF": "shelf_general_open_half_r0_v1.svg",
+    "FULL": "shelf_general_open_full_r0_v1.svg"
+  },
+  "world_contract": {
+    "projection_id": "iso2x_v1",
+    "tile_world_m": [
+      1,
+      1
+    ],
+    "tile_screen_diamond_px_at_zoom_1": [
+      128,
+      64
+    ],
+    "sprite_source_to_screen_scale_at_zoom_1": 0.5,
+    "world_to_screen": "screen_u=origin_u+zoom*64*(x-y); screen_v=origin_v+zoom*(32*(x+y)-78.38367177*z)",
+    "source_px_per_world_axis": {
+      "X": [
+        128,
+        64
+      ],
+      "Y": [
+        -128,
+        64
+      ],
+      "Z": [
+        0,
+        -156.76734354
+      ]
+    },
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "physical_body_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "access_side_r0": "E / +X; long 2m face",
+    "legacy_game_anchor_px": [
+      285,
+      302
+    ],
+    "anchor_calibration_status": "NOT CALIBRATED: Codex must derive SVG viewBox world origin and generate calibrated PNG/anchor; do not reuse legacy pixel bbox"
+  },
+  "production_rules": [
+    "No opaque top canopy, no large roof/cap, no block/cuboid housing",
+    "Top merchandise shelf is open; only slim board and posts",
+    "The structural shelf geometry is identical for EMPTY, HALF, FULL",
+    "At runtime each state must resolve to one precomposed RGBA sprite; individual SKU overlays are not used",
+    "ImageGen atlas preview is illustrative and is NOT approved, its top canopy is still incorrect"
+  ],
+  "qa": {
+    "reference_approved": false,
+    "geometry_reference_approved": false,
+    "iso_placement_verified": false,
+    "same_geometry_by_shared_vector_source": true,
+    "godot_runtime_verified": false,
+    "japanese_retail_fixture_art_approved": false,
+    "user_visual_approved": false,
+    "next_action": "Render all SVGs to 2x transparent PNG; compare with #157 target and Japanese convenience-store references; human approve OPEN EMPTY/r0 before using FULL/HALF"
+  },
+  "links": {
+    "asset_issue": 157,
+    "structure_issue": 102,
+    "qa_issue": 123,
+    "pipeline_issue": 163
+  }
+}
