@@ -35,12 +35,17 @@ const PLANTER := Color("7a5a43")
 const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
+const RearGrove := preload("res://assets/generated/backgrounds/rear_grove_group_v1.png")
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Distance behind the far corner to the V bed's ground contact line, in world metres.
 const BACKDROP_GROUND_OFFSET_M := 0.45
 const BACKDROP_LEFT_END_PX := Vector2(0.0, 879.856)
 const BACKDROP_RIGHT_END_PX := Vector2(1773.0, 878.561)
+## Ground edge measured along the lower base of the grouped tree backdrop image.
+const REAR_GROVE_GROUND_START_PX := Vector2(64.0, 570.0)
+const REAR_GROVE_GROUND_END_PX := Vector2(1920.0, 752.0)
+const REAR_GROVE_EDGE_OVERHANG_M := 3.0
 const RoadsideLandscape := preload("res://assets/generated/backgrounds/roadside_landscape_v1/roadside_landscape_v1.png")
 const RoadsideKey := preload("res://assets/generated/backgrounds/roadside_landscape_v1/key.gdshader")
 const SideLandscape := preload("res://assets/generated/backgrounds/roadside_greenery_v2/roadside_greenery_v2.png")
@@ -60,7 +65,8 @@ const PAVE_M := 2.0       ## paving ring width around the store footprint (tiles
 const KERB_M := 0.18
 const PARK_DEPTH_M := 5.0  ## 3.8 m compact car plus wheel-stop and manoeuvring clearance
 const ROAD_M := 3.0
-const FAR_M := 14.0       ## how far the road and pool run along the edge, past the store
+const OUTER_SIDEWALK_M := 1.5
+const FAR_M := 14.0       ## minimum road extension along the edge, past the store
 const SLAB_INSET := 0.04
 
 var _key: Array = []
@@ -71,6 +77,8 @@ var _scenery_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
 var _environment_transform := Transform2D()
 var _environment_visible := false
+var _roadside_grove_transform := Transform2D()
+var _roadside_grove_visible := false
 var _roadside_sprite: Sprite2D
 var _side_landscape_sprite: Sprite2D
 var _area_a_sprite: Sprite2D
@@ -85,6 +93,7 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_key = key
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_sync_environment(proj, width, height)
+	_sync_roadside_grove(proj, width, height, entrances)
 	_sync_area_a(proj, width, height, entrances)
 	_sync_roadside(proj, width, height, entrances)
 	_sync_side_landscape(proj, width, height, entrances)
@@ -122,6 +131,14 @@ func _sync_environment(proj: IsoProjection, width: int, height: int) -> void:
 	if not _environment_visible:
 		return
 	_environment_transform = environment_transform(proj, width, height, Vector2(ExteriorBackdrop.get_size()))
+
+
+## The grouped tree bed sits beyond the public road; roadway paint hides its roots at the ground contact.
+func _sync_roadside_grove(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
+	_roadside_grove_visible = width > 0 and height > 0
+	if not _roadside_grove_visible:
+		return
+	_roadside_grove_transform = roadside_grove_transform(proj, width, height, entrance_side(width, height, entrances))
 
 
 ## The unified parking apron is anchored by its measured frontage edge, not by the image canvas bounds.
@@ -173,6 +190,10 @@ func _draw() -> void:
 		draw_set_transform_matrix(_environment_transform)
 		draw_texture_rect(ExteriorBackdrop, Rect2(Vector2.ZERO, Vector2(ExteriorBackdrop.get_size())), false)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
+	if _roadside_grove_visible:
+		draw_set_transform_matrix(_roadside_grove_transform)
+		draw_texture_rect(RearGrove, Rect2(Vector2.ZERO, Vector2(RearGrove.get_size())), false)
+		draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _mesh != null:
 		draw_mesh(_mesh, null)
 	var owner_world := get_parent()
@@ -209,6 +230,30 @@ static func environment_branch_scale(screen_ground: Vector2, screen_endpoint: Ve
 
 static func environment_ground_anchor(proj: IsoProjection) -> Vector2:
 	return proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
+
+
+## Fit a grouped tree row to the frontage plus a fixed world overhang, keeping one uniform scale.
+static func roadside_grove_transform(proj: IsoProjection, width: int, height: int, side: int) -> Transform2D:
+	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var depth := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M + KERB_M + OUTER_SIDEWALK_M + 0.2
+	var source_start := REAR_GROVE_GROUND_START_PX
+	var source_end := REAR_GROVE_GROUND_END_PX
+	var target_start := side_point(side, depth, -REAR_GROVE_EDGE_OVERHANG_M, width, height)
+	var target_end := side_point(side, depth, edge_length + REAR_GROVE_EDGE_OVERHANG_M, width, height)
+	# Reversing the longitudinal mapping on the y-oriented sides keeps the generated trees upright.
+	if side == SIDE_WEST or side == SIDE_EAST:
+		var swap := target_start
+		target_start = target_end
+		target_end = swap
+	var screen_start := proj.world_to_screen(target_start.x, target_start.y)
+	var screen_end := proj.world_to_screen(target_end.x, target_end.y)
+	var source_run := source_end - source_start
+	var target_run := screen_end - screen_start
+	var scale := target_run.length() / source_run.length()
+	var angle := target_run.angle() - source_run.angle()
+	var basis_x := Vector2.RIGHT.rotated(angle) * scale
+	var basis_y := Vector2.DOWN.rotated(angle) * scale
+	return Transform2D(basis_x, basis_y, screen_start - basis_x * source_start.x - basis_y * source_start.y)
 
 
 static func side_landscape_edge_length(side: int, width: int, height: int) -> float:
@@ -293,9 +338,10 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 		return out
 	var side := entrance_side(width, height, entrances)
 	var span := entrance_span(side, width, height, entrances)
-	var far := maxf(float(width), float(height)) + FAR_M
-	var along0 := -FAR_M
-	var along1 := far
+	var along_margin := road_along_margin(proj, viewport)
+	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var along0 := -along_margin
+	var along1 := edge_length + along_margin
 
 	# Ground: flat fill of the viewport, a soft lighter pool around the store, then the vignette on top.
 	out.append(_poly(PackedVector2Array([Vector2.ZERO, Vector2(viewport.x, 0.0), viewport, Vector2(0.0, viewport.y)]), GROUND))
@@ -307,10 +353,22 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	# Kerb and road on the entrance side, beyond the paving ring.
 	var parking_end := PAVE_M + PARK_DEPTH_M
 	var road_d0 := parking_end + KERB_M
+	var forecourt_along1 := edge_length + 4.0
 	out.append(_poly(_side_quad(proj, side, width, height, parking_end, road_d0, along0, along1), KERB))
 	out.append(_poly(_side_quad(proj, side, width, height, road_d0, road_d0 + ROAD_M, along0, along1), ROAD))
 	# A continuous forecourt supports the existing bay sprites instead of placing them on a traffic lane.
-	out.append(_poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, -2.5, along1), Color("626367")))
+	out.append(_poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, -2.5, forecourt_along1), Color("626367")))
+	# A narrow outer curb and paved pedestrian strip close the road edge before the green ground begins.
+	var outer_kerb_d0 := road_d0 + ROAD_M
+	var outer_walk_d0 := outer_kerb_d0 + KERB_M
+	var outer_walk_d1 := outer_walk_d0 + OUTER_SIDEWALK_M
+	out.append(_poly(_side_quad(proj, side, width, height, outer_kerb_d0, outer_walk_d0, along0, along1), KERB))
+	out.append(_poly(_side_quad(proj, side, width, height, outer_walk_d0, outer_walk_d1, along0, along1), PAVE_JOINT))
+	for k in range(int(along0), int(along1)):
+		var d0 := outer_walk_d0 + SLAB_INSET
+		var d1 := outer_walk_d1 - SLAB_INSET
+		var tile_color := PAVE if FloorStyle.hash01(k, 0, 83) < 0.5 else PAVE_ALT
+		out.append(_poly(_side_quad(proj, side, width, height, d0, d1, float(k) + SLAB_INSET, float(k + 1) - SLAB_INSET), tile_color))
 	# Fine deterministic aggregate: quiet at the normal view, without per-frame noise or texture seams.
 	for d in range(6):
 		for k in range(int(along0), int(along1)):
@@ -319,7 +377,7 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 			out.append(_poly(_side_quad(proj, side, width, height, depth, depth + 0.035, float(k) + jitter, float(k) + jitter + 0.16), Color(0.85, 0.86, 0.87, 0.07)))
 	var dash_mid := road_d0 + ROAD_M * 0.5
 	var a := along0
-	while a < far:
+	while a < along1:
 		out.append(_poly(_side_quad(proj, side, width, height, dash_mid - 0.06, dash_mid + 0.06, a, a + 1.2), ROAD_LINE))
 		a += 3.0
 
@@ -376,6 +434,16 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 
 	out.append_array(_vignette(viewport))
 	return out
+
+
+## Extend the street beyond the viewport even at low zoom and the allowed camera pan limit.
+static func road_along_margin(proj: IsoProjection, viewport: Vector2) -> float:
+	var projected_tile_run := Vector2(IsoProjection.HALF_TILE_W, IsoProjection.HALF_TILE_H).length() * proj.zoom
+	if projected_tile_run <= 0.0:
+		return FAR_M
+	var pan_clearance := IsoProjection.PAN_MARGIN_TILES * 2.0 * projected_tile_run
+	var required_px := viewport.length() * 0.5 + 128.0 * proj.zoom + pan_clearance
+	return maxf(FAR_M, ceilf(required_px / projected_tile_run))
 
 
 ## Side of the store the entrance is on: west (x = 0) by default, else north, east or south.

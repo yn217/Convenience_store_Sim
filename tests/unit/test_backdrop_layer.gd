@@ -65,7 +65,7 @@ func test_slabs_only_outside_the_store(t, _tree) -> void:
 	var items := BackdropLayer.layout_items(_proj(), 4, 3, [], Vector2(1280, 720))
 	# Ring of width 2 around a 4x3 footprint: (4 + 4) * (3 + 4) - 4 * 3 = 44 slabs, each a pale paving colour.
 	var slabs := _count(items, BackdropLayer.PAVE) + _count(items, BackdropLayer.PAVE_ALT)
-	t.eq(slabs, 44, "one slab per tile in the paving ring and none under the store")
+	t.eq(slabs, 89, "paving-ring slabs plus one outer sidewalk slab per metre")
 
 
 func test_vignette_and_ground_are_screen_space(t, _tree) -> void:
@@ -87,6 +87,39 @@ func test_layout_is_deterministic_and_camera_dependent(t, _tree) -> void:
 	t.ok(a[10]["points"] == b[10]["points"], "same inputs give the same points")
 	var c := BackdropLayer.layout_items(_proj(2.0), 16, 12, [Vector2i(0, 5)], Vector2(1280, 720))
 	t.ok(a[10]["points"] != c[10]["points"], "zoom changes the screen geometry")
+
+
+func test_road_runs_beyond_viewport_and_pan_limit(t, _tree) -> void:
+	for viewport in [Vector2(1280, 720), Vector2(1600, 900), Vector2(1920, 1080)]:
+		for zoom in [0.5, 1.0, 2.0]:
+			var proj := _proj(zoom)
+			var margin: float = BackdropLayer.road_along_margin(proj, viewport)
+			var projected_run: float = Vector2(IsoProjection.HALF_TILE_W, IsoProjection.HALF_TILE_H).length() * zoom
+			var pan_clearance: float = IsoProjection.PAN_MARGIN_TILES * 2.0 * projected_run
+			var required: float = viewport.length() * 0.5 + 128.0 * zoom + pan_clearance
+			t.ok(margin * projected_run >= required, "road extends past the viewport and camera pan at %dx%d zoom %.1f" % [int(viewport.x), int(viewport.y), zoom])
+
+
+func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
+	var proj := _proj(0.8)
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
+			var depth := BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M + BackdropLayer.KERB_M + BackdropLayer.OUTER_SIDEWALK_M + 0.2
+			var world_start := BackdropLayer.side_point(side, depth, -BackdropLayer.REAR_GROVE_EDGE_OVERHANG_M, size.x, size.y)
+			var world_end := BackdropLayer.side_point(side, depth, edge_length + BackdropLayer.REAR_GROVE_EDGE_OVERHANG_M, size.x, size.y)
+			if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST:
+				var swap := world_start
+				world_start = world_end
+				world_end = swap
+			var transform := BackdropLayer.roadside_grove_transform(proj, size.x, size.y, side)
+			t.ok((transform * BackdropLayer.REAR_GROVE_GROUND_START_PX).distance_to(proj.world_to_screen(world_start.x, world_start.y)) < 0.01, "grouped grove root start anchors on side %d for %dx%d" % [side, size.x, size.y])
+			t.ok((transform * BackdropLayer.REAR_GROVE_GROUND_END_PX).distance_to(proj.world_to_screen(world_end.x, world_end.y)) < 0.01, "grouped grove root end anchors on side %d for %dx%d" % [side, size.x, size.y])
+			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "grouped grove keeps uniform scale for side %d" % side)
+	var initial := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
+	proj.pan(Vector2(31.0, -17.0))
+	var moved := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
+	t.eq(moved.origin, initial.origin + Vector2(31.0, -17.0), "grouped grove follows camera pan at its ground anchor")
 
 
 func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:
