@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0-draft",
+  "asset_id": "hot_snack_oden_counter_combo_full_chatgpt_20261029_v1",
+  "classification": "Japanese convenience store hot snack + oden heated display dual-module combined unit",
+  "art_source": "ChatGPT ImageGen; one generated image, 2 fixture sections",
+  "display_name_ja": "ホットスナック＋おでんの複合加温ケース（大型）",
+  "source_resolution_px": [
+    1536,
+    1024
+  ],
+  "files": {
+    "original_png": "source_original.png",
+    "fullres_webp": "source_fullres.webp",
+    "game_512_png": "game_512.png",
+    "game_256_png": "game_256.png"
+  },
+  "inventory": {
+    "fried_snacks": [
+      "fried chicken",
+      "karaage",
+      "croquette",
+      "katsu",
+      "fries",
+      "skewers"
+    ],
+    "warm_section": [
+      "oden",
+      "steamed buns",
+      "sausages"
+    ]
+  },
+  "style": "detailed 2D isometric-style rendered illustration",
+  "projection": {
+    "required": "iso2x_v1",
+    "r0_customer_access_target": "+X",
+    "game_calibrated": false,
+    "view_mismatch_risk": "long edge appears to slope down right, inconsistent with r0 -0.5 target"
+  },
+  "physical_size": {
+    "world_footprint_tiles": null,
+    "requires_new_type": "two-bay hot food / oden warmer",
+    "one_unit_status": "two connected sections, NOT one compact desktop unit"
+  },
+  "alpha": {
+    "source": "semi-transparent RGBA background edges",
+    "preview_cleanup": "alpha<=5 ->0; alpha>=249 ->255",
+    "isolated_silhouette_reviewed": false
+  },
+  "variants": {
+    "source_master": "source_original.png",
+    "visual_lod": [
+      "game_512.png",
+      "game_256.png"
+    ],
+    "equipment_performance_tier": "not inferred from image resolution"
+  },
+  "reference_approved": false,
+  "runtime_approved": false,
+  "game_screenshot_qa": false,
+  "user_visual_approved": false,
+  "related_issue": 163,
+  "related_draft_pr": 164,
+  "do_not_merge_without": "geometry, alpha, game r0 orientation, product scale and customer-facing side review"
+}
