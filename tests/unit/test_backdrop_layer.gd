@@ -106,8 +106,9 @@ func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
 		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
 			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
 			var depth := BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M + BackdropLayer.KERB_M + BackdropLayer.OUTER_SIDEWALK_M + 0.2
-			var world_start := BackdropLayer.side_point(side, depth, -BackdropLayer.REAR_GROVE_EDGE_OVERHANG_M, size.x, size.y)
-			var world_end := BackdropLayer.side_point(side, depth, edge_length + BackdropLayer.REAR_GROVE_EDGE_OVERHANG_M, size.x, size.y)
+			var along_start := (edge_length - BackdropLayer.REAR_GROVE_WORLD_LENGTH_M) * 0.5
+			var world_start := BackdropLayer.side_point(side, depth, along_start, size.x, size.y)
+			var world_end := BackdropLayer.side_point(side, depth, along_start + BackdropLayer.REAR_GROVE_WORLD_LENGTH_M, size.x, size.y)
 			if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST:
 				var swap := world_start
 				world_start = world_end
@@ -116,6 +117,8 @@ func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
 			t.ok((transform * BackdropLayer.REAR_GROVE_GROUND_START_PX).distance_to(proj.world_to_screen(world_start.x, world_start.y)) < 0.01, "grouped grove root start anchors on side %d for %dx%d" % [side, size.x, size.y])
 			t.ok((transform * BackdropLayer.REAR_GROVE_GROUND_END_PX).distance_to(proj.world_to_screen(world_end.x, world_end.y)) < 0.01, "grouped grove root end anchors on side %d for %dx%d" % [side, size.x, size.y])
 			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "grouped grove keeps uniform scale for side %d" % side)
+			var expected_scale := BackdropLayer.REAR_GROVE_WORLD_LENGTH_M * Vector2(IsoProjection.HALF_TILE_W, IsoProjection.HALF_TILE_H).length() * proj.zoom / (BackdropLayer.REAR_GROVE_GROUND_END_PX - BackdropLayer.REAR_GROVE_GROUND_START_PX).length()
+			t.ok(absf(transform.x.length() - expected_scale) < 0.001, "grouped grove keeps the same world height and scale for %dx%d" % [size.x, size.y])
 	var initial := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
 	proj.pan(Vector2(31.0, -17.0))
 	var moved := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)

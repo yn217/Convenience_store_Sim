@@ -46,7 +46,8 @@ const BACKDROP_RIGHT_END_PX := Vector2(1773.0, 878.561)
 ## Ground edge measured along the lower base of the grouped tree backdrop image.
 const REAR_GROVE_GROUND_START_PX := Vector2(100.0, 610.0)
 const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 610.0)
-const REAR_GROVE_EDGE_OVERHANG_M := 3.0
+## Keep the tree height in world units across store sizes. 18m matches the prior 16x12 + 3m ends fit.
+const REAR_GROVE_WORLD_LENGTH_M := 18.0
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
 const OUTER_SIDEWALK_START_PX := Vector2(72.5, 130.0)
 const OUTER_SIDEWALK_END_PX := Vector2(2050.0, 614.0)
@@ -251,14 +252,15 @@ static func environment_ground_anchor(proj: IsoProjection) -> Vector2:
 	return proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
 
 
-## Fit a grouped tree row to the frontage plus a fixed world overhang, keeping one uniform scale.
+## Place a grouped tree row at a fixed world scale, centered on the selected store edge.
 static func roadside_grove_transform(proj: IsoProjection, width: int, height: int, side: int) -> Transform2D:
 	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
 	var depth := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M + KERB_M + OUTER_SIDEWALK_M + 0.2
 	var source_start := REAR_GROVE_GROUND_START_PX
 	var source_end := REAR_GROVE_GROUND_END_PX
-	var target_start := side_point(side, depth, -REAR_GROVE_EDGE_OVERHANG_M, width, height)
-	var target_end := side_point(side, depth, edge_length + REAR_GROVE_EDGE_OVERHANG_M, width, height)
+	var along_start := (edge_length - REAR_GROVE_WORLD_LENGTH_M) * 0.5
+	var target_start := side_point(side, depth, along_start, width, height)
+	var target_end := side_point(side, depth, along_start + REAR_GROVE_WORLD_LENGTH_M, width, height)
 	# Reversing the longitudinal mapping on the y-oriented sides keeps the generated trees upright.
 	if side == SIDE_WEST or side == SIDE_EAST:
 		var swap := target_start
@@ -268,7 +270,7 @@ static func roadside_grove_transform(proj: IsoProjection, width: int, height: in
 	var screen_end := proj.world_to_screen(target_end.x, target_end.y)
 	var source_run := source_end - source_start
 	var target_run := screen_end - screen_start
-	var scale := target_run.length() / source_run.length()
+	var scale := REAR_GROVE_WORLD_LENGTH_M * Vector2(IsoProjection.HALF_TILE_W, IsoProjection.HALF_TILE_H).length() * proj.zoom / source_run.length()
 	var angle := target_run.angle() - source_run.angle()
 	var basis_x := Vector2.RIGHT.rotated(angle) * scale
 	var basis_y := Vector2.DOWN.rotated(angle) * scale

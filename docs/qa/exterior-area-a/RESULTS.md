@@ -76,6 +76,21 @@ An additional generated group was tested as a replacement for the initial roadsi
 
 Other generated flowering-border candidates remain unintegrated because their high-saturation transparency fringe is visible in the source artwork and they duplicate planting already present at the parking corners.
 
+## Fixed-scale roadside greenbelt (2026-10-29)
+
+The grouped roadside tree strip now has a fixed 18m world length, centered on the selected store edge. Its source contact points map to the outside ground plane at z=0, and its uniform scale follows camera zoom rather than store-edge length. This keeps the tree height consistent for 12x10, 16x12, and 20x16 while extending beyond both ends on the smaller footprint. The wall and road remain in front of the roots.
+
+Actual runtime captures at 1600x900:
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `fixed-scale-12x10-1600x900-2026-10-29.png` | The strip reaches past both wall endpoints; the extra length is split evenly. Roots remain behind the wall/road. |
+| 16x12 | `fixed-scale-16x12-1600x900-2026-10-29.png` | The previous medium-size fit is retained at the same camera zoom. |
+| 20x16 | `fixed-scale-20x16-1600x900-2026-10-29.png` | The same authored world length is centered on the longer edge; the roots stay occluded. |
+| 20x16, camera panned | `fixed-scale-pan-20x16-1600x900-2026-10-29.png` | The roadside strip follows the store camera while lower planting stays behind the street edge. |
+
+Two newly generated transparent candidates were compared in the source artwork. Both retained bright green edge fringes, so neither replaced the current production strip. A large flat green area remains outside the paved/road scene, especially when panning; a separate surrounding-landscape backdrop is still needed to match the target environment more closely.
+
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation and denser reflections are not present.
