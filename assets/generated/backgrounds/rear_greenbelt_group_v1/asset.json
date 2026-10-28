@@ -1,0 +1,18 @@
+{
+  "asset_id": "rear_greenbelt_group_v1",
+  "category": "static_roadside_grouped_greenery",
+  "view_direction": "isometric_diagonal",
+  "world_width": "selected_store_edge_length + 6.0m overhang",
+  "world_depth": "anchored outside outer sidewalk and road",
+  "world_height": "preserved by uniform scale from paired ground endpoints",
+  "render_width_px": 2172,
+  "render_height_px": 724,
+  "pivot_x": 100.0,
+  "pivot_y": 610.0,
+  "anchor_type": "world_ground_endpoint_pair",
+  "placement_offset": "roadside edge beyond curb and sidewalk; lower foliage may be occluded",
+  "occlusion_group": "roadside_greenery",
+  "sort_key": "behind_road_mesh_and_wall_occlusion",
+  "asset_variant": "v1",
+  "generated_prompt": "Dense grouped isometric tree-and-shrub greenbelt with a few small pink and white flowering bushes, transparent outside silhouette, lower ground-contact edge, no buildings, signs, road, or UI."
+}

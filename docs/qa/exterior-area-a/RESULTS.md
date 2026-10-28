@@ -48,7 +48,7 @@ Only these focused suites were run. The full test suite was not run.
 
 ## Ground-anchored grove follow-up (2026-10-29)
 
-The grouped rear-grove PNG is fitted uniformly from its authored ground-contact endpoints to world-ground endpoints outside the road and outer sidewalk. The wall and roadway are painted afterward, so the trunk bases can be occluded. A generated single-piece sidewalk strip replaces the metre-by-metre outer-walk polygons; its measured centerline endpoints map to the projected world strip for each store size, with a uniform scale. The forecourt fill is restricted to the frontage to avoid a broad asphalt wedge at the road end. Asset anchors and dimensions are recorded in `assets/generated/backgrounds/outer_sidewalk_strip_v1/asset.json`.
+The grouped roadside greenbelt PNG is fitted uniformly from its authored ground-contact endpoints to world-ground endpoints outside the road and outer sidewalk. The wall and roadway are painted afterward, so the trunk and shrub bases can be occluded. A generated single-piece sidewalk strip replaces the metre-by-metre outer-walk polygons; its measured centerline endpoints map to the projected world strip for each store size, with a uniform scale. The forecourt fill is restricted to the frontage to avoid a broad asphalt wedge at the road end. Asset anchors and dimensions are recorded beside both images in their `asset.json` files.
 
 Actual runtime captures at 1600x900:
 
@@ -61,9 +61,20 @@ Actual runtime captures at 1600x900:
 | 20x16, east entrance | `entrance-east-20x16-1600x900-2026-10-29.png` | Entrance move succeeded; road/sidewalk pivot with the frontage, while the rear planting keeps both wall endpoints covered. |
 | 20x16, north entrance | `entrance-north-20x16-1600x900-2026-10-29.png` | Entrance move succeeded; the rotated road remains connected to the store edge. The existing side planting reads as spaced planters from this view, not a continuous bed. |
 
-Focused placement checks cover all four sides for 12x10, 16x12, and 20x16 and assert both planting and sidewalk endpoints against projected world positions. `test_backdrop_layer` currently passes 17 tests / 173 assertions. The 12x10 capture uses a minimal compatible register/shelf layout so the store reaches the running business state. East/north entrance captures also show the running state; north-side planting density is still lower than the target mockup.
+Focused placement checks cover all four sides for 12x10, 16x12, and 20x16 and assert both greenbelt and sidewalk endpoints against projected world positions. `test_backdrop_layer` currently passes 17 tests / 173 assertions. The 12x10 capture uses a minimal compatible register/shelf layout so the store reaches the running business state. East/north entrance captures also show the running state; north-side planting density is still lower than the target mockup.
 
-Two additional grouped planting candidates were generated in parallel for outer greenery and flowering borders. They remain unintegrated: both have visible saturated color fringes at the transparency edge and would need corrected source art before adoption.
+## Roadside greenbelt iteration (2026-10-29)
+
+An additional generated group was tested as a replacement for the initial roadside tree strip. It adds a lower, denser line of shrubs and trees beyond the curb, closer to the target's planted street edge. At the actual in-game scale its source color fringe is not visually apparent, and the road/curb cover the irregular base. Captures cover 12x10, 16x12, and 20x16 plus a zoomed/panned 20x16 view:
+
+| Size / view | Capture |
+|---|---|
+| 12x10 | `greenbelt-test-12x10-1600x900-2026-10-29.png` |
+| 16x12 | `greenbelt-test-1600x900-16x12-2026-10-29.png` |
+| 20x16 | `greenbelt-test-20x16-1600x900-2026-10-29.png` |
+| 20x16 zoomed/panned | `greenbelt-test-panzoom-20x16-2026-10-29.png` |
+
+Other generated flowering-border candidates remain unintegrated because their high-saturation transparency fringe is visible in the source artwork and they duplicate planting already present at the parking corners.
 
 ## Remaining differences from the target mockup
 
