@@ -353,11 +353,11 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	# Kerb and road on the entrance side, beyond the paving ring.
 	var parking_end := PAVE_M + PARK_DEPTH_M
 	var road_d0 := parking_end + KERB_M
-	var forecourt_along1 := edge_length + 4.0
+	var forecourt_along1 := edge_length
 	out.append(_poly(_side_quad(proj, side, width, height, parking_end, road_d0, along0, along1), KERB))
 	out.append(_poly(_side_quad(proj, side, width, height, road_d0, road_d0 + ROAD_M, along0, along1), ROAD))
-	# A continuous forecourt supports the existing bay sprites instead of placing them on a traffic lane.
-	out.append(_poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, -2.5, forecourt_along1), Color("626367")))
+	# A continuous forecourt supports the existing bay sprites only across the store frontage, avoiding an asphalt wedge.
+	out.append(_poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, 0.0, forecourt_along1), Color("626367")))
 	# A narrow outer curb and paved pedestrian strip close the road edge before the green ground begins.
 	var outer_kerb_d0 := road_d0 + ROAD_M
 	var outer_walk_d0 := outer_kerb_d0 + KERB_M

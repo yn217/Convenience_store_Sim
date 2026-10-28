@@ -46,6 +46,21 @@ After the V-branch endpoint assertions were added, `test_backdrop_layer` was rer
 
 Only these focused suites were run. The full test suite was not run.
 
+## Ground-anchored grove follow-up (2026-10-29)
+
+The grouped rear-grove PNG is fitted uniformly from its authored ground-contact endpoints to world-ground endpoints outside the road and outer sidewalk. The wall, roadway, and sidewalk are painted afterward, so the trunk bases can be occluded. The continuous outer sidewalk closes the road edge. The forecourt fill is restricted to the frontage to avoid a broad asphalt wedge at the road end.
+
+Actual runtime captures at 1600x900:
+
+| Store size | Capture | Observation |
+|---|---|---|
+| 12x10 | `grove-sidewalk-12x10-1600x900-2026-10-29.png` | Grove roots stay behind the road edge and wall; canopies remain above the rear wall. Capture landed in the game's construction/preparation state, so it is geometry evidence, not a business-running comparison. |
+| 16x12 | `current-grove-sidewalk-final-1600x900-16x12-2026-10-29.png` | Continuous sidewalk and rooted grove visible; wall occludes the lower planting. |
+| 20x16 | `grove-sidewalk-20x16-1600x900-2026-10-29.png` | Both rear branches and the roadside strip reach the store ends without a visible root gap. |
+| 20x16, zoomed and panned | `grove-sidewalk-panzoom-20x16-2026-10-29.png` | Ground-anchored planting follows the camera; no wall gap appears during the changed view. |
+
+Focused placement checks cover all four sides for 12x10, 16x12, and 20x16 and assert both planting endpoints against projected world positions. `test_backdrop_layer` currently passes 16 tests / 137 assertions. The 16x12 and 20x16 captures show the running business state; the 12x10 capture is explicitly limited to geometry evidence because the capture helper left the store in preparation state.
+
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation and denser reflections are not present.
