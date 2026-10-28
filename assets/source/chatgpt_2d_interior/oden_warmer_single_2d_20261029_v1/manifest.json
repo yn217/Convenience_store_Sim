@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0-draft",
+  "asset_id": "oden_warmer_single_2d_20261029_v1",
+  "display_name_ja": "コンビニ用 単体おでん加温鍋",
+  "asset_type": "2D vector illustration",
+  "generated_by": "ChatGPT direct SVG drawing",
+  "source_file": "source_original.svg",
+  "variants": [
+    "game_512.png",
+    "game_256.png"
+  ],
+  "projection_target": "iso2x_v1",
+  "access_direction_target": "+X",
+  "world_footprint_verified": false,
+  "alpha": true,
+  "game_qa_pass": false,
+  "runtime_approved": false,
+  "human_approved": false,
+  "draft_pr": 164,
+  "created_at": "2026-10-29"
+}
