@@ -13,9 +13,13 @@ var _chart: ReportChart
 
 var _detail_button: Button
 var _company: Label   # #146: all stores of the company together
+var _day_end: PanelContainer   # #19 SCR-13: the day's result when the date moves on
+var _day_end_text: Label
+var _seen_reports := -1
 
 
 func setup(_app: Node) -> void:
+	_build_day_end()
 	var title := Label.new()
 	title.text = "日次レポート"
 	title.add_theme_font_size_override("font_size", 20)
@@ -69,8 +73,62 @@ func _legend() -> HBoxContainer:
 	return row
 
 
+## SCR-13 (#19): a centred card when a day closes — its sales, gross and operating profit, visitors, buyers and
+## wastage from the closed report (the ledger), with 履歴を詳しく見る (the データ tab) and 翌日の経営へ (close).
+func _build_day_end() -> void:
+	_day_end = PanelContainer.new()
+	_day_end.name = "DayEndPanel"
+	_day_end.theme_type_variation = &"Card"
+	_day_end.visible = false
+	_day_end.custom_minimum_size = Vector2(420, 0)
+	_day_end.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	_day_end.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_day_end.grow_vertical = Control.GROW_DIRECTION_BOTH
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 10)
+	_day_end.add_child(col)
+	_day_end_text = Label.new()
+	_day_end_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	col.add_child(_day_end_text)
+	var row := HBoxContainer.new()
+	var more := Button.new()
+	more.name = "DayEndHistory"
+	more.text = "履歴を詳しく見る"
+	more.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	more.pressed.connect(func():
+		_day_end.visible = false
+		if get_parent().has_method("open_screen_tab"):
+			get_parent().call("open_screen_tab", "データ"))
+	row.add_child(more)
+	var next := Button.new()
+	next.name = "DayEndNext"
+	next.text = "翌日の経営へ"
+	next.theme_type_variation = &"PrimaryButton"
+	next.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	next.pressed.connect(func(): _day_end.visible = false)
+	row.add_child(next)
+	col.add_child(row)
+	get_parent().add_child.call_deferred(_day_end)
+
+
+## What the card says for one closed day.
+static func day_end_text(r: Dictionary) -> String:
+	return "DAY %d　営業結果
+売上高 %s
+粗利益 %s
+営業利益 %s
+今日の来店 %d人 ／ 購買 %d人 ／ 廃棄 %s" % [
+		int(r["day_index"]), GameHud.format_yen(int(r["revenue_yen"])), GameHud.format_yen(int(r["gross_profit_yen"])),
+		GameHud.format_yen(int(r["operating_profit_yen"])), int(r["visitors"]), int(r["purchasing_customers"]), GameHud.format_yen(int(r["wastage_yen"]))]
+
+
 func apply_snapshot(snap: Dictionary) -> void:
 	var reports: Array = snap.get("daily_reports", [])
+	if _day_end != null:   # shown when exactly one more day closed (not on a load or a store switch)
+		if _seen_reports >= 0 and reports.size() == _seen_reports + 1:
+			_day_end_text.text = day_end_text(reports.back())
+			_day_end.visible = true
+		_seen_reports = reports.size()
 	_label.text = summary_text(reports)
 	var totals: Dictionary = snap.get("company_totals", {})
 	_company.visible = not totals.is_empty()
