@@ -22,3 +22,12 @@ func test_price_override_wins_over_the_default(t, _tree) -> void:
 
 func test_empty_shelf_has_no_rows(t, _tree) -> void:
 	t.ok(Card.shelf_product_rows({}, {}, null).is_empty(), "nothing on the shelf")
+
+
+## #21: each product row says how many are left on this fixture, and 品切れ when none are.
+func test_rows_count_the_units_and_say_sold_out(t, _tree) -> void:
+	var rows := Card.shelf_product_rows({"s1": "snack_a", "s2": "snack_a", "s3": "drink_b"}, {}, null, {"s1": 3, "s2": 4, "s3": 0})
+	t.eq(rows[0]["units"], 7, "both slots of the SKU count")
+	t.eq(Card.units_text(rows[0]["units"]), "在庫 7")
+	t.eq(Card.units_text(rows[1]["units"]), "品切れ", "none left: 品切れ")
+
