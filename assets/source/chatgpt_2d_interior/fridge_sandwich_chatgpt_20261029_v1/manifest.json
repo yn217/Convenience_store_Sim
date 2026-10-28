@@ -1,0 +1,57 @@
+{
+  "asset_id": "fridge_sandwich_chatgpt_20261029_v1",
+  "asset_type": "open_front_chilled_sandwich_display",
+  "requested_asset": "hot_snack_warmer",
+  "actual_generated_content": "packaged sandwiches, rolls, wraps, burgers, salads; NOT heated fried snack case",
+  "art_source": "ChatGPT image generation (2026-10-29)",
+  "asset_status": "art_generated_but_binary_pending_git_upload",
+  "source_original": {
+    "filename": "source_original.png",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "sha256": "de206b8efcb37f6f",
+    "sha256_type": "prefix_only",
+    "source_preserved": true,
+    "github_binary_registered": false
+  },
+  "candidate_lod": [
+    {
+      "filename": "game_512.png",
+      "sha256_prefix": "234e2c5ec3519abb",
+      "github_binary_registered": false
+    },
+    {
+      "filename": "game_256.png",
+      "sha256_prefix": "8bb582fd74ca304e",
+      "github_binary_registered": false
+    },
+    {
+      "filename": "source_fullres.webp",
+      "sha256_prefix": "b905184a28bcb26a",
+      "github_binary_registered": false
+    }
+  ],
+  "render_projection": {
+    "target": "iso2x_v1",
+    "r0_access": "+X",
+    "verified": false,
+    "ground_anchor_verified": false,
+    "world_footprint": "TBD"
+  },
+  "transparency_verified": false,
+  "visual_qa_approved": false,
+  "runtime_approved": false,
+  "quality_notes": [
+    "Not the originally requested hot-snack asset; register as sandwich chilled case only.",
+    "Studio backdrop/soft alpha requires cleanup.",
+    "Do not mistake source resolution for in-game performance or fixture grade.",
+    "Original PNG and smaller previews currently available as conversation ZIP, NOT in GitHub."
+  ],
+  "related_pr": 164,
+  "related_issues": [
+    163,
+    157
+  ]
+}
