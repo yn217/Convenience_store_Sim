@@ -1,0 +1,58 @@
+{
+  "schema_version": "0.1-draft",
+  "asset_id": "shelf_noodle_open_r0_v1",
+  "asset_family": "AMBIENT_GONDOLA_OPEN",
+  "stock_type": "Japanese convenience store cup-noodle shelf",
+  "states": [
+    {
+      "state": "EMPTY",
+      "svg": "shelf_noodle_open_empty_r0_v1.svg",
+      "png": "shelf_noodle_open_empty_r0_v1.png"
+    },
+    {
+      "state": "HALF",
+      "svg": "shelf_noodle_open_half_r0_v1.svg",
+      "png": "shelf_noodle_open_half_r0_v1.png"
+    },
+    {
+      "state": "FULL",
+      "svg": "shelf_noodle_open_full_r0_v1.svg",
+      "png": "shelf_noodle_open_full_r0_v1.png"
+    }
+  ],
+  "source_authoring": "ChatGPT generated 2D vector artwork and matching transparent PNG previews. No 3D.",
+  "canvas_px": [
+    480,
+    480
+  ],
+  "rendering": "PNG indexed-palette alpha 8bit draft preview, SVG canonical 2D source",
+  "projection": "iso2x_v1",
+  "world_to_screen_at_2x": "[128*(x-y), 64*(x+y)-156.76734354*z]",
+  "tile_m": [
+    1,
+    1
+  ],
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "physical_dimensions_m": [
+    0.92,
+    1.92,
+    1.73
+  ],
+  "roof_or_canopy": false,
+  "product_shape": "tapered paper cups with oval lids; not cuboid merchandise",
+  "draw_order": "source vector shared between all three states",
+  "geometry_reference_approved": false,
+  "runtime_approved": false,
+  "world_anchor_calibrated": false,
+  "user_art_approved": false,
+  "issues": [
+    157,
+    102,
+    123,
+    163
+  ],
+  "note": "Initial art candidate. The previous roofed canonical is explicitly not a reference. Do not merge or deploy before EMPTY's Japanese fixture-form QA and runtime calibration."
+}
