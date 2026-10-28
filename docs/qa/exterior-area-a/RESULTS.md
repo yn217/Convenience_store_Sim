@@ -120,9 +120,20 @@ Actual Godot captures:
 | 16x12, 1920x1080 | `fixed-height-16x12-1920x1080-2026-10-29.png` | Same geometry at the larger viewport. |
 | 16x12, 0.5x zoom | `fixed-height-lowzoom-16x12-1600x900-2026-10-29.png` | The store and canopy scale down together; world-space tree height remains 8.09m. |
 
+An additional live capture pass compared the same fixed-height placement on all three requested sizes. A trial scale based on the 16x12 reference was rejected: it reduced the 12x10 overhang, but left the 20x16 right V edge short and failed the endpoint assertion. The 20x16 coverage scale remains authoritative.
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `refheight-12x10-1600x900-2026-10-29.png` | Roots stay behind the far wall and the canopy clears it; extra garden is visible beyond the shorter wall ends. |
+| 16x12 | `refheight-16x12-1600x900-2026-10-29.png` | Both V edges meet the wall endpoints and the tree scale remains unchanged. |
+| 20x16 | `refheight-20x16-1600x900-2026-10-29.png` | The long right wall endpoint remains covered without stretching the source art. |
+| 20x16, camera pan and 1.2x zoom | `refheight-pan-20x16-1600x900-2026-10-29.png` | Camera pan/zoom follows the store and does not change the world-space root anchor; this close view pans toward the store interior. |
+
+`rear-planting-12x10-comparison-2026-10-29.png` compares the target crop, the earlier size-fitted placement, and fixed-height placement. It shows the reduced 12x10 canopy scale before the rejected 16x12 trial; retain the live 20x16 coverage scale to keep the longest supported wall continuous.
+
 `tools/capture_screen.gd` now applies `--zoom` after `--whole`, so the zoom captures exercise the requested camera scale instead of silently returning to whole-store fit.
 
-The generated PNG still has isolated bright green edge pixels at the source silhouette; at runtime scale the remaining fringe is limited but should be improved in a later asset pass. The 12x10 overhang also needs final visual review for the intended amount of surrounding garden.
+The generated PNG still has isolated bright green edge pixels at the source silhouette; at runtime scale the remaining fringe is limited but should be improved in a later asset pass. The 12x10 overhang is the cost of one undistorted image covering the full 20x16 range; reducing it without exposing the longer wall requires a different authored V asset or a segmented art treatment.
 
 ## Textured exterior ground and camera movement (2026-10-29)
 
