@@ -508,6 +508,11 @@ func _draw() -> void:
 	_draw_perimeter()
 
 
+func draw_background_wall_occlusion(target: CanvasItem) -> void:
+	if _walls != null:
+		_walls.draw_occlusion_overlay(target, projection, store_width, store_height, entrance_tiles)
+
+
 ## Walls are edges of the outer cells (they never occupy a cell); each entrance tile is drawn as a door segment on
 ## the outer edge of its tile, on whichever wall it sits (see BackdropLayer.door_segment).
 func _draw_perimeter() -> void:

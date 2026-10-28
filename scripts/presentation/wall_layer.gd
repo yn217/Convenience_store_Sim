@@ -37,6 +37,12 @@ var _quads: Array = []
 var _mesh: ArrayMesh
 const ExteriorMesh := preload("res://scripts/presentation/exterior_mesh.gd")
 
+## Re-paints only the opaque wall planes after the background foliage, hiding roots and beds naturally.
+func draw_occlusion_overlay(target: CanvasItem, proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
+	for face in wall_quads(proj, width, height, entrances):
+		if face["kind"] == &"wall" or face["kind"] == &"wainscot" or face["kind"] == &"baseboard" or face["kind"] == &"stripe" or face["kind"] == &"stripe_edge" or face["kind"] == &"trim" or face["kind"] == &"panel_joint" or face["kind"] == &"cap_shadow" or face["kind"] == &"cap_edge" or face["kind"] == &"vent_frame" or face["kind"] == &"vent" or face["kind"] == &"door_frame" or face["kind"] == &"door_decal" or face["kind"] == &"door_handle" or face["kind"] == &"reflection":
+			target.draw_colored_polygon(face["points"], face["color"])
+
 
 ## Recomputes the wall quads when any input changed; otherwise does nothing.
 func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewport: Vector2) -> void:

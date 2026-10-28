@@ -34,16 +34,24 @@ const BUSH_HI := Color("6f9e62")
 const PLANTER := Color("7a5a43")
 const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
-const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v1/store_exterior_backdrop_v1.png")
-## Calibrated V apex in the generated PNG; the manifest records the measured +/-0.5 edge slopes.
-const BACKDROP_APEX_PX := Vector2(835.088, 353.806)
-const BACKDROP_WALL_OCCLUSION_M := 0.0
+const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
+## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
+const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
+## Distance behind the far corner to the V bed's ground contact line, in world metres.
+const BACKDROP_GROUND_OFFSET_M := 0.45
+const BACKDROP_LEFT_END_PX := Vector2(0.0, 879.856)
+const BACKDROP_RIGHT_END_PX := Vector2(1773.0, 878.561)
 const RoadsideLandscape := preload("res://assets/generated/backgrounds/roadside_landscape_v1/roadside_landscape_v1.png")
 const RoadsideKey := preload("res://assets/generated/backgrounds/roadside_landscape_v1/key.gdshader")
 const SideLandscape := preload("res://assets/generated/backgrounds/roadside_sidewalk_v1/roadside_sidewalk_v1.png")
 const SIDE_LANDSCAPE_SOURCE_SLOPE := 0.4514
 const SIDE_LANDSCAPE_ANCHOR_FRACTION := Vector2(0.5, 0.55)
 const SIDE_LANDSCAPE_DEPTH_M := 1.9
+const SIDE_LANDSCAPE_OVERHANG_M := 1.0
+const AreaABackground := preload("res://assets/generated/backgrounds/area_a_roadside_v1/area_a_roadside_v1.png")
+const AREA_A_FRONTAGE_P0 := Vector2(249.0, 29.0)
+const AREA_A_FRONTAGE_P1 := Vector2(1657.0, 604.0)
+const AREA_A_SOURCE_SLOPE := 0.4084
 const ROADSIDE_IMAGE_SCALE := 0.45
 const ROADSIDE_START_PX := Vector2(123.0, 465.0)
 const ROADSIDE_SPAN_M := 10.5
@@ -61,9 +69,11 @@ var _mesh: ArrayMesh          # road/paving faces batched after the static lands
 var _ground_mesh: ArrayMesh    # viewport fill and soft pool, drawn before the combined scenery panel
 var _scenery_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
-var _environment_rect := Rect2()
+var _environment_transform := Transform2D()
+var _environment_visible := false
 var _roadside_sprite: Sprite2D
 var _side_landscape_sprite: Sprite2D
+var _area_a_sprite: Sprite2D
 
 
 ## Recomputes the backdrop when the layout, camera or viewport changed; otherwise does nothing.
@@ -74,7 +84,8 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 		return
 	_key = key
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
-	_environment_rect = environment_rect(proj, width, height)
+	_sync_environment(proj, width, height)
+	_sync_area_a(proj, width, height, entrances)
 	_sync_roadside(proj, width, height, entrances)
 	_sync_side_landscape(proj, width, height, entrances)
 	_build_mesh()
@@ -105,6 +116,26 @@ func _sync_roadside(proj: IsoProjection, width: int, height: int, entrances: Arr
 	_roadside_sprite.position = proj.world_to_screen(point.x, point.y) - Vector2(direction * ROADSIDE_START_PX.x, ROADSIDE_START_PX.y) * scale
 
 
+## Uniformly place the V art by its ground-contact point, with independent checks for both world edges.
+func _sync_environment(proj: IsoProjection, width: int, height: int) -> void:
+	_environment_visible = width > 0 and height > 0
+	if not _environment_visible:
+		return
+	_environment_transform = environment_transform(proj, width, height, Vector2(ExteriorBackdrop.get_size()))
+
+
+## The unified parking apron is anchored by its measured frontage edge, not by the image canvas bounds.
+func _sync_area_a(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
+	if _area_a_sprite == null:
+		_area_a_sprite = Sprite2D.new()
+		_area_a_sprite.centered = false
+		_area_a_sprite.texture = AreaABackground
+		add_child(_area_a_sprite)
+	_area_a_sprite.visible = width >= 8 and height >= 8
+	if _area_a_sprite.visible:
+		_area_a_sprite.transform = area_a_transform(proj, width, height, entrance_side(width, height, entrances))
+
+
 ## A fixed, combined sidewalk/planting strip follows a visible store edge. The small source-slope correction is
 ## applied as a vertical affine shear: each image column moves together, so tree and lamp posts stay vertical.
 func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
@@ -118,9 +149,8 @@ func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrance
 		return
 	var entrance := entrance_side(width, height, entrances)
 	var landscape := landscape_side(entrance)
-	# A half-length run prevents the U's return edge from drifting away from the store corner;
-	# the other half of the return is the matching edge of the rear V backdrop.
-	var edge_len := float(height if landscape == SIDE_EAST else width) * 0.5
+	# Cover the full exterior edge and extend past its endpoint so the return never reveals a gap.
+	var edge_len := side_landscape_edge_length(landscape, width, height)
 	var image_size := Vector2(SideLandscape.get_size())
 	var scale := edge_len * IsoProjection.HALF_TILE_W * proj.zoom / (image_size.x * 0.9)
 	# Match the side's visible isometric branch: east uses the +0.5 screen slope, south the -0.5 slope.
@@ -139,26 +169,56 @@ func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrance
 func _draw() -> void:
 	if _ground_mesh != null:
 		draw_mesh(_ground_mesh, null)
-	# The static planting frame sits above the base colour, but below road, paving and curb geometry.
-	if _environment_rect.size.x > 0.0 and _environment_rect.size.y > 0.0:
-		draw_texture_rect(ExteriorBackdrop, _environment_rect, false)
+	# Paint the combined V art after the ground fill, then road/paving geometry, then far-wall occlusion.
+	if _environment_visible:
+		draw_set_transform_matrix(_environment_transform)
+		draw_texture_rect(ExteriorBackdrop, Rect2(Vector2.ZERO, Vector2(ExteriorBackdrop.get_size())), false)
+		draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _mesh != null:
 		draw_mesh(_mesh, null)
+	var owner_world := get_parent()
+	if owner_world != null and owner_world.has_method("draw_background_wall_occlusion"):
+		owner_world.call("draw_background_wall_occlusion", self)
 	for op in _texts:
 		draw_string(ThemeDB.fallback_font, op["pos"], op["text"], HORIZONTAL_ALIGNMENT_CENTER, op["width"], op["size"], op["color"])
 
 
-## Fit the combined landscape to the far-wall corner. The V apex lands on the wall-top junction;
-## its +/-0.5 planting-bed edges follow the two wall directions.
-static func environment_rect(proj: IsoProjection, width: int, height: int) -> Rect2:
-	if width <= 0 or height <= 0:
-		return Rect2()
-	var texture_size := Vector2(ExteriorBackdrop.get_size())
-	var source_half_span := minf(BACKDROP_APEX_PX.x, texture_size.x - BACKDROP_APEX_PX.x)
-	var screen_half_span := float(maxi(width, height)) * IsoProjection.HALF_TILE_W * proj.zoom
-	var scale := screen_half_span / source_half_span
-	var wall_apex := proj.world_to_screen(-0.5, -0.5, IsoProjection.WALL_HEIGHT_M - BACKDROP_WALL_OCCLUSION_M)
-	return Rect2(wall_apex - BACKDROP_APEX_PX * scale, texture_size * scale)
+## Ground root is fixed behind the far corner; each branch is measured against its own store edge.
+static func environment_transform(proj: IsoProjection, width: int, height: int, texture_size: Vector2) -> Transform2D:
+	if width <= 0 or height <= 0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return Transform2D.IDENTITY
+	var ground := environment_ground_anchor(proj)
+	var left_end := proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, height - 0.5 + BACKDROP_GROUND_OFFSET_M)
+	var right_end := proj.world_to_screen(width - 0.5 + BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
+	var left_scale := (left_end - ground).length() / (BACKDROP_LEFT_END_PX - BACKDROP_GROUND_PX).length()
+	var right_scale := (right_end - ground).length() / (BACKDROP_RIGHT_END_PX - BACKDROP_GROUND_PX).length()
+	var scale := maxf(left_scale, right_scale)
+	var x_axis := Vector2(scale, 0.0)
+	var y_axis := Vector2(0.0, scale)
+	var origin := ground - x_axis * BACKDROP_GROUND_PX.x - y_axis * BACKDROP_GROUND_PX.y
+	return Transform2D(x_axis, y_axis, origin)
+
+
+static func environment_ground_anchor(proj: IsoProjection) -> Vector2:
+	return proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
+
+
+static func side_landscape_edge_length(side: int, width: int, height: int) -> float:
+	return float(height if side == SIDE_EAST or side == SIDE_WEST else width) + SIDE_LANDSCAPE_OVERHANG_M
+
+
+## Match the source frontage to the entrance side while keeping the source image uniformly scaled.
+static func area_a_transform(proj: IsoProjection, width: int, height: int, side: int) -> Transform2D:
+	var edge_len := float(height if side == SIDE_EAST or side == SIDE_WEST else width)
+	var scale := edge_len * IsoProjection.HALF_TILE_W * proj.zoom / (AREA_A_FRONTAGE_P1.x - AREA_A_FRONTAGE_P0.x)
+	var direction_x := -1.0 if side == SIDE_EAST or side == SIDE_NORTH else 1.0
+	var direction_y := -1.0 if side == SIDE_WEST or side == SIDE_NORTH else 1.0
+	var shear := AREA_A_SOURCE_SLOPE - 0.5 if side == SIDE_WEST or side == SIDE_NORTH else 0.5 - AREA_A_SOURCE_SLOPE
+	var basis_x := Vector2(direction_x * scale, shear * scale)
+	var basis_y := Vector2(0.0, direction_y * scale)
+	var anchor_world := Vector2(-0.5, float(height) - 0.5) if side == SIDE_WEST or side == SIDE_SOUTH else Vector2(float(width) - 0.5, -0.5)
+	var screen_anchor := proj.world_to_screen(anchor_world.x, anchor_world.y)
+	return Transform2D(basis_x, basis_y, screen_anchor - basis_x * AREA_A_FRONTAGE_P0.x - basis_y * AREA_A_FRONTAGE_P0.y)
 
 
 ## Fan-triangulates the (convex) pieces in paint order into one vertex-coloured mesh.
