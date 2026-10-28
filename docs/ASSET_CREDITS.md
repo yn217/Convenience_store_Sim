@@ -198,4 +198,6 @@ cross-check, not a license approval; the human review and redistribution fields 
 
 | roadside_sidewalk_v1 | assets/generated/backgrounds/roadside_sidewalk_v1 | AI | assets/generated/backgrounds/roadside_sidewalk_v1/PROVENANCE.json (prompt) | built-in image_gen (image-generation subagent) | OpenAI generated output; project use | 2026-10-28 | projected side strip; final user acceptance pending | yes |
 
+|roadside_greenery_v2|assets/generated/backgrounds/roadside_greenery_v2|AI|assets/generated/backgrounds/roadside_greenery_v2/PROVENANCE.json (prompt)|built-in image_gen (image-generation subagent)|OpenAI generated output; project use|2026-10-28|dense full-length side planting; review pending|yes|
+
 | exterior_hvac_v1 | assets/generated/props/exterior_hvac_v1 | AI | prompt: isometric outdoor condensers and electrical equipment, transparent background | image_gen | OpenAI output | 2026-10-27 | provisional visual review | yes |

@@ -91,6 +91,7 @@ func test_layout_is_deterministic_and_camera_dependent(t, _tree) -> void:
 
 func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> void:
 	var proj := _proj(1.25)
+	var backdrop_texture := load("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png") as Texture2D
 	var layer := BackdropLayer.new()
 	_tree.root.add_child(layer)
 	layer.sync(16, 12, [], proj, Vector2(1280, 720))
@@ -99,7 +100,7 @@ func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> vo
 	t.ok(ground.distance_to(BackdropLayer.environment_ground_anchor(proj)) < 0.001, "planting base stays at the exterior ground anchor")
 	t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "vegetation art keeps its proportions")
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
-		var size_transform := BackdropLayer.environment_transform(proj, size.x, size.y, Vector2(BackdropLayer.ExteriorBackdrop.get_size()))
+		var size_transform := BackdropLayer.environment_transform(proj, size.x, size.y, Vector2(backdrop_texture.get_size()))
 		var size_ground: Vector2 = size_transform * BackdropLayer.BACKDROP_GROUND_PX
 		var left_endpoint: Vector2 = size_transform * BackdropLayer.BACKDROP_LEFT_END_PX
 		var right_endpoint: Vector2 = size_transform * BackdropLayer.BACKDROP_RIGHT_END_PX
@@ -153,8 +154,10 @@ func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
 	t.ok(sprite.visible, "the combined sidewalk panel is shown for a supported store")
 	var first := sprite.transform
 	var east_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
-	t.eq(east_corner, Vector2(17.4, -0.5), "east strip anchor shares the store's far corner")
+	t.eq(east_corner, Vector2(16.05, -0.5), "east strip root stays at the far wall with the requested setback")
 	t.ok(first.x.x > 0.0, "the east-side panel follows the visible rear wall direction")
+	var east_ground := BackdropLayer.SIDE_LANDSCAPE_GROUND_START_PX
+	t.ok((first * east_ground).distance_to(p.world_to_screen(east_corner.x, east_corner.y)) < 0.01, "measured planter root is fixed behind the east wall at ground level")
 	var shear := 0.5 - BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE
 	var east_slope := BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear
 	t.ok(absf(east_slope - 0.5) < 0.001, "runtime shear aligns the east-side planted edge with the +0.5 wall slope")
@@ -164,7 +167,8 @@ func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
 	layer.sync(16, 12, [Vector2i(15, 4)], p, Vector2(1600, 900))
 	t.ok(sprite.transform.x.x < 0.0, "the panel switches to the south side for an east entrance")
 	var south_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_SOUTH, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
-	t.eq(south_corner, Vector2(-0.5, 13.4), "south strip anchor shares the store's far corner")
+	t.eq(south_corner, Vector2(-0.5, 12.05), "south strip root stays at the far wall with the requested setback")
+	t.ok((sprite.transform * BackdropLayer.SIDE_LANDSCAPE_GROUND_START_PX).distance_to(p.world_to_screen(south_corner.x, south_corner.y)) < 0.01, "mirrored planter root is fixed behind the south wall at ground level")
 	var south_slope := -1.0 * (BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear)
 	t.ok(absf(south_slope + 0.5) < 0.001, "runtime shear aligns the south-side planted edge with the -0.5 wall slope")
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:

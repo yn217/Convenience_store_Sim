@@ -96,6 +96,22 @@ func test_entrance_on_east_is_a_low_front(t, _tree) -> void:
 		t.ok(top <= StoreDecor.SILL_H + 1e-6, "sills stay under the sill height")
 
 
+func test_observe_canopy_adds_transparent_full_height_glazing(t, _tree) -> void:
+	var items := StoreDecor.canopy_items(W, H, SOUTH_ENTR)
+	var panes := items.filter(func(it): return it.get("role", &"") == &"glazing_pane")
+	var reflections := items.filter(func(it): return it.get("role", &"") == &"glazing_reflection")
+	t.eq(panes.size(), W - SOUTH_ENTR.size(), "every closed frontage tile receives a glass pane")
+	t.ok(not reflections.is_empty(), "some panes catch a subtle reflection")
+	for pane in panes:
+		var min_z := INF
+		var max_z := -INF
+		for point in pane["points"]:
+			min_z = minf(min_z, point.z)
+			max_z = maxf(max_z, point.z)
+		t.ok(min_z > StoreDecor.SILL_H and max_z == 2.25, "transparent glazing reaches close to the fascia")
+		t.ok(float(pane["color"].a) < 0.1, "interior remains legible through the glass")
+
+
 func test_wall_items_never_land_on_the_floor(t, _tree) -> void:
 	var layouts := [
 		[W, H, ENTR], [W, H, [Vector2i(3, 0)]], [W, H, [Vector2i(W - 1, 4)]], [W, H, [Vector2i(5, H - 1)]], [5, 4, [Vector2i(0, 1)]],

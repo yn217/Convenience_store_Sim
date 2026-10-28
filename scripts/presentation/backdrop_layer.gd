@@ -43,10 +43,11 @@ const BACKDROP_LEFT_END_PX := Vector2(0.0, 879.856)
 const BACKDROP_RIGHT_END_PX := Vector2(1773.0, 878.561)
 const RoadsideLandscape := preload("res://assets/generated/backgrounds/roadside_landscape_v1/roadside_landscape_v1.png")
 const RoadsideKey := preload("res://assets/generated/backgrounds/roadside_landscape_v1/key.gdshader")
-const SideLandscape := preload("res://assets/generated/backgrounds/roadside_sidewalk_v1/roadside_sidewalk_v1.png")
-const SIDE_LANDSCAPE_SOURCE_SLOPE := 0.4514
-const SIDE_LANDSCAPE_ANCHOR_FRACTION := Vector2(0.5, 0.55)
-const SIDE_LANDSCAPE_DEPTH_M := 1.9
+const SideLandscape := preload("res://assets/generated/backgrounds/roadside_greenery_v2/roadside_greenery_v2.png")
+const SIDE_LANDSCAPE_SOURCE_SLOPE := 0.4999258304
+const SIDE_LANDSCAPE_GROUND_START_PX := Vector2(15.0, 261.0)
+const SIDE_LANDSCAPE_GROUND_END_PX := Vector2(1755.0, 1042.0)
+const SIDE_LANDSCAPE_DEPTH_M := 0.55
 const SIDE_LANDSCAPE_OVERHANG_M := 1.0
 const AreaABackground := preload("res://assets/generated/backgrounds/area_a_roadside_v1/area_a_roadside_v1.png")
 const AREA_A_FRONTAGE_P0 := Vector2(249.0, 29.0)
@@ -151,18 +152,17 @@ func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrance
 	var landscape := landscape_side(entrance)
 	# Cover the full exterior edge and extend past its endpoint so the return never reveals a gap.
 	var edge_len := side_landscape_edge_length(landscape, width, height)
-	var image_size := Vector2(SideLandscape.get_size())
-	var scale := edge_len * IsoProjection.HALF_TILE_W * proj.zoom / (image_size.x * 0.9)
+	var source_run_px := SIDE_LANDSCAPE_GROUND_END_PX.x - SIDE_LANDSCAPE_GROUND_START_PX.x
+	var scale := edge_len * IsoProjection.HALF_TILE_W * proj.zoom / source_run_px
 	# Match the side's visible isometric branch: east uses the +0.5 screen slope, south the -0.5 slope.
 	var direction := 1.0 if landscape == SIDE_EAST else -1.0
 	var shear := 0.5 - SIDE_LANDSCAPE_SOURCE_SLOPE
 	var basis_x := Vector2(direction * scale, shear * scale)
 	var basis_y := Vector2(0.0, scale)
-	# Start at the far corner shared with the rear V backdrop; use only the near half of the U return.
+	# Start at the far corner shared with the rear V; the measured garden edge spans the full side plus overhang.
 	var edge_corner := landscape_corner(landscape, SIDE_LANDSCAPE_DEPTH_M, width, height)
 	var point := proj.world_to_screen(edge_corner.x, edge_corner.y)
-	var anchor := Vector2(image_size.x * SIDE_LANDSCAPE_ANCHOR_FRACTION.x, image_size.y * SIDE_LANDSCAPE_ANCHOR_FRACTION.y)
-	var origin := point - basis_x * anchor.x - basis_y * anchor.y
+	var origin := point - basis_x * SIDE_LANDSCAPE_GROUND_START_PX.x - basis_y * SIDE_LANDSCAPE_GROUND_START_PX.y
 	_side_landscape_sprite.transform = Transform2D(basis_x, basis_y, origin)
 
 

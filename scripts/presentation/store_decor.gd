@@ -37,9 +37,9 @@ const STOREFRONT_OUT := -1.0   ## storefront boxes stand one tile outside the en
 const FASCIA_Z0 := 2.4
 const FASCIA_Z1 := 3.0         ## the sign band rises a little above the wall top (2.6 m)
 const SILL_H := 0.45           ## near-side sill height (m)
-const NEAR_FRAME_TOP := 1.0    ## near-side window frames stop here (m)
-const NEAR_CAP_Z0 := 1.0       ## thin fascia cap on the near front, on top of the frames
-const NEAR_CAP_Z1 := 1.2
+const NEAR_FRAME_TOP := 2.25   ## transparent near-side glazing rises to the fascia (m)
+const NEAR_CAP_Z0 := 2.25      ## thin fascia cap at the top of the front windows
+const NEAR_CAP_Z1 := 2.4
 const COOLER_COUNT := 6
 const COOLER_START := 2
 const FLOWER_STRIDE := 4
@@ -247,6 +247,17 @@ static func canopy_items(width: int, height: int, entrances: Array) -> Array:
 		return out
 	var n := _edge_len(side, width, height)
 	var plane := float(width) - 0.5 if side == SIDE_EAST else float(height) - 0.5
+	# A lightly tinted, full-height glazing pass restores the storefront silhouette in the observe view.
+	# It is deliberately drawn in the canopy layer (above people and fixtures) with low alpha, so the
+	# shop floor remains readable while reflections make the front read as glass rather than open air.
+	for a in n:
+		if _is_entrance_at(entrances, side, a, width, height):
+			continue
+		var pane_a := float(a) - 0.47
+		var pane_b := float(a) + 0.47
+		out.append({"kind": &"poly", "points": _band(side, plane, pane_a, pane_b, SILL_H + 0.01, 2.25), "color": Color(0.64, 0.83, 0.91, 0.075), "role": &"glazing_pane"})
+		if a % 3 == 1:
+			out.append({"kind": &"poly", "points": _band(side, plane - 0.004, pane_a + 0.11, pane_a + 0.19, 1.38, 2.18), "color": Color(1.0, 1.0, 1.0, 0.20), "role": &"glazing_reflection"})
 	for strip in [[2.28, 2.78, Color("f5f6ee")], [2.38, 2.56, FASCIA], [2.26, 2.30, Color("9caaaf")], [2.72, 2.78, Color("d4dcdb")]]:
 		out.append({"kind": &"poly", "points": _band(side, plane, -0.5, n - 0.5, strip[0], strip[1]), "color": strip[2]})
 	# A narrow outward roof return provides real projected depth without covering the interior.
@@ -397,9 +408,9 @@ static func _far_storefront(width: int, height: int, entrances: Array, side: int
 	return out
 
 
-## Near walls (east or south) get a LOW cut-away front: a sill (SILL_H), short window frames with a mullion every
-## other tile up to NEAR_FRAME_TOP, and a thin fascia cap on top (NEAR_CAP_Z0..NEAR_CAP_Z1). Nothing rises above
-## ~1.2 m, so the interior stays visible. The entrance is a clear opening with no sill or frame in front of it.
+## Near walls (east or south) get transparent, full-height shopfront glazing above a low sill, mullions every
+## other tile, and a thin fascia cap at the top. The alpha keeps customers and fixtures readable behind the glass.
+## The entrance is a clear opening with no sill, pane or frame in front of it.
 ## Sill and frames are merged into one polygon per run, which keeps the draw-op count low.
 static func _near_low_front(width: int, height: int, entrances: Array, side: int) -> Array:
 	var out: Array = []
@@ -414,7 +425,7 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 			var a0 := float(run_start) - 0.5
 			var a1 := float(a) - 0.5
 			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, 0.0, SILL_H), "color": SILL})
-			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, SILL_H, NEAR_FRAME_TOP), "color": Color(0.66, 0.86, 0.92, 0.13)})
+			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, SILL_H, NEAR_FRAME_TOP), "color": Color(0.66, 0.86, 0.92, 0.16)})
 			# White metal housing above and below a slimmer blue ribbon; broken at the door opening.
 			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 - 0.025, NEAR_CAP_Z0 + 0.025), "color": Color("a0adb4")})
 			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 + 0.025, NEAR_CAP_Z1), "color": Color("f8faf8")})
