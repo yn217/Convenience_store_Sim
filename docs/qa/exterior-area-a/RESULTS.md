@@ -213,16 +213,16 @@ Focused `test_backdrop_layer` passed 21 tests / 269 assertions at the time. That
 
 ## Compact urban grove for short store edges (2026-10-29)
 
-Added a second generated, grouped sakura/evergreen/flower panel for edges up to 12m. Its measured ground-contact endpoints `(358, 800)` and `(1544, 800)` in the `1825x862` image map to the exact wall-parallel edge endpoints at z=0 for 10m and 12m sides. The panel switches to the existing 18m source on longer edges. Both are rendered behind the store and road; their image proportions remain uniform. Runtime captures show that the former conspicuous fixed-length overhang at 12x10 is removed; on 20x16 the long panel still intentionally overlaps past the 18m root span to keep coverage.
+Added a second generated, grouped sakura/evergreen/flower panel for edges up to 12m. Its measured ground-contact endpoints `(358, 800)` and `(1544, 800)` in the `1825x862` image map to the exact wall-parallel edge endpoints at z=0 for 10m and 12m sides. Longer edges use the existing 18m source; for 20m edges, 1m low-shrub strips from the compact image complete both endpoints at its original uniform pixel scale. All panels remain behind the store and road. Runtime captures show that the former conspicuous short-store overhang is gone and the 20m edge is joined at both ends without stretching either image.
 
 | Store size / view | Capture | Observation |
 |---|---|---|
 | 12x10 | `compact-grove-12x10-1600x900-2026-10-29.png` | Compact group reaches the short back-wall endpoints without the former 18m strip extending past them. |
 | 16x12 | `compact-grove-16x12-1600x900-2026-10-29.png` | The 12m edge uses the compact source and planting remains continuous at the wall ends. |
-| 20x16 | `compact-grove-20x16-1600x900-2026-10-29.png` | The long generated source remains in use; the roadside planting continues past the far-wall silhouette. |
-| 20x16, 0.8x zoom and pan | `compact-grove-panzoom-20x16-1600x900-2026-10-29.png` | The long panel stays at its world ground anchors as the view moves. |
+| 20x16 | `urban-grove-endcaps-20x16-1600x900-2026-10-29.png` | Two 1m compact shrub strips join the long panel to the 20m edge endpoints. |
+| 20x16, 0.8x zoom and pan | `urban-grove-endcaps-panzoom-20x16-1600x900-2026-10-29.png` | Both end strips and the long panel stay anchored during the view move. |
 
-Focused `test_backdrop_layer` passed 21 tests / 271 assertions, covering source texture dimensions, exact projected root endpoints on all four sides at the three footprints, uniform source scale, and camera pan. The full suite was not run.
+Focused `test_backdrop_layer` passed 21 tests / 295 assertions, covering source texture dimensions, exact projected root endpoints and cap joins on all four sides at the three footprints, uniform source scale, and camera pan for both end strips. The full suite was not run.
 
 ## Static road vehicle (2026-10-29)
 

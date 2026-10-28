@@ -64,6 +64,9 @@ const URBAN_GROVE_WORLD_LENGTH_M := 18.0
 const URBAN_GROVE_COMPACT_START_PX := Vector2(358.0, 800.0)
 const URBAN_GROVE_COMPACT_END_PX := Vector2(1544.0, 800.0)
 const URBAN_GROVE_COMPACT_WORLD_LENGTH_M := 12.0
+## The long source covers 18m; compact low-shrub end pieces complete the two remaining metres on 20m edges.
+const URBAN_GROVE_LONG_WORLD_LENGTH_M := 18.0
+const URBAN_GROVE_ENDCAP_WORLD_LENGTH_M := 1.0
 const URBAN_GROVE_DEPTH_M := 14.0
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
 const OUTER_SIDEWALK_START_PX := Vector2(72.5, 130.0)
@@ -107,6 +110,7 @@ var _roadside_grove_visible := false
 var _urban_grove_transform := Transform2D()
 var _urban_grove_visible := false
 var _urban_grove_compact := false
+var _urban_grove_endcaps: Array[Dictionary] = []
 var _outer_sidewalk_transform := Transform2D()
 var _outer_sidewalk_visible := false
 var _roadside_sprite: Sprite2D
@@ -185,6 +189,7 @@ func _sync_urban_grove(proj: IsoProjection, width: int, height: int, entrances: 
 	_urban_grove_compact = edge_length <= URBAN_GROVE_COMPACT_WORLD_LENGTH_M
 	var texture_size := Vector2(UrbanGroveCompactPanel.get_size()) if _urban_grove_compact else Vector2(UrbanGrovePanel.get_size())
 	_urban_grove_transform = urban_grove_transform(proj, width, height, side, texture_size)
+	_urban_grove_endcaps = urban_grove_endcaps(proj, width, height, side, Vector2(UrbanGroveCompactPanel.get_size()))
 
 
 func _sync_outer_sidewalk(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
@@ -253,6 +258,10 @@ func _draw() -> void:
 		var grove_texture := UrbanGroveCompactPanel if _urban_grove_compact else UrbanGrovePanel
 		draw_texture_rect(grove_texture, Rect2(Vector2.ZERO, Vector2(grove_texture.get_size())), false)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
+		for cap in _urban_grove_endcaps:
+			draw_set_transform_matrix(cap["transform"])
+			draw_texture_rect_region(UrbanGroveCompactPanel, cap["source_rect"], cap["source_rect"], Color.WHITE)
+			draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _outer_sidewalk_visible:
 		draw_set_transform_matrix(_outer_sidewalk_transform)
 		draw_texture_rect(OuterSidewalkStrip, Rect2(Vector2.ZERO, Vector2(OuterSidewalkStrip.get_size())), false)
@@ -348,10 +357,40 @@ static func urban_grove_transform(proj: IsoProjection, width: int, height: int, 
 		return Transform2D.IDENTITY
 	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
 	var compact := edge_length <= URBAN_GROVE_COMPACT_WORLD_LENGTH_M
-	var world_length := minf(edge_length, URBAN_GROVE_COMPACT_WORLD_LENGTH_M) if compact else URBAN_GROVE_WORLD_LENGTH_M
+	var world_length := minf(edge_length, URBAN_GROVE_COMPACT_WORLD_LENGTH_M) if compact else URBAN_GROVE_LONG_WORLD_LENGTH_M
 	var source_start := URBAN_GROVE_COMPACT_START_PX if compact else URBAN_GROVE_SOURCE_START_PX
 	var source_end := URBAN_GROVE_COMPACT_END_PX if compact else URBAN_GROVE_SOURCE_END_PX
 	var along_start := (edge_length - world_length) * 0.5
+	return _urban_grove_strip_transform(proj, width, height, side, source_start, source_end, along_start, world_length)
+
+
+## Add two 1m natural shrub ends where the fixed 18m panel is shorter than the 20m store edge.
+static func urban_grove_endcaps(proj: IsoProjection, width: int, height: int, side: int, texture_size: Vector2) -> Array[Dictionary]:
+	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var missing := edge_length - URBAN_GROVE_LONG_WORLD_LENGTH_M
+	var caps: Array[Dictionary] = []
+	if missing <= 0.001 or texture_size.x <= URBAN_GROVE_COMPACT_END_PX.x or texture_size.y <= URBAN_GROVE_COMPACT_END_PX.y:
+		return caps
+	var cap_m := minf(URBAN_GROVE_ENDCAP_WORLD_LENGTH_M, missing * 0.5)
+	var source_cap_px := cap_m * (URBAN_GROVE_COMPACT_END_PX.x - URBAN_GROVE_COMPACT_START_PX.x) / URBAN_GROVE_COMPACT_WORLD_LENGTH_M
+	var left_source_start := URBAN_GROVE_COMPACT_START_PX
+	var left_source_end := Vector2(left_source_start.x + source_cap_px, left_source_start.y)
+	var right_source_end := URBAN_GROVE_COMPACT_END_PX
+	var right_source_start := Vector2(right_source_end.x - source_cap_px, right_source_end.y)
+	var start_segment := _urban_grove_strip_transform(proj, width, height, side, left_source_start, left_source_end, 0.0, cap_m)
+	var end_segment := _urban_grove_strip_transform(proj, width, height, side, right_source_start, right_source_end, edge_length - cap_m, cap_m)
+	var left_source_rect := Rect2(left_source_start.x, 0.0, left_source_end.x - left_source_start.x, texture_size.y)
+	var right_source_rect := Rect2(right_source_start.x, 0.0, right_source_end.x - right_source_start.x, texture_size.y)
+	if side == SIDE_WEST or side == SIDE_EAST:
+		caps.append({"transform": end_segment, "source_rect": left_source_rect})
+		caps.append({"transform": start_segment, "source_rect": right_source_rect})
+	else:
+		caps.append({"transform": start_segment, "source_rect": left_source_rect})
+		caps.append({"transform": end_segment, "source_rect": right_source_rect})
+	return caps
+
+
+static func _urban_grove_strip_transform(proj: IsoProjection, width: int, height: int, side: int, source_start: Vector2, source_end: Vector2, along_start: float, world_length: float) -> Transform2D:
 	var depth := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M + KERB_M + OUTER_SIDEWALK_M + URBAN_GROVE_DEPTH_M
 	var target_start := side_point(side, depth, along_start, width, height)
 	var target_end := side_point(side, depth, along_start + world_length, width, height)
@@ -361,8 +400,8 @@ static func urban_grove_transform(proj: IsoProjection, width: int, height: int, 
 		target_end = swap
 	var screen_start := proj.world_to_screen(target_start.x, target_start.y)
 	var screen_end := proj.world_to_screen(target_end.x, target_end.y)
-	var source_run := source_end - source_start
 	var target_run := screen_end - screen_start
+	var source_run := source_end - source_start
 	var scale := target_run.length() / source_run.length()
 	var angle := target_run.angle() - source_run.angle()
 	var basis_x := Vector2.RIGHT.rotated(angle) * scale
