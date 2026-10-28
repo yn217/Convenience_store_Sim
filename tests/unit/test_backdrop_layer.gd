@@ -59,6 +59,45 @@ func test_paving_ring_and_apron_colours_present(t, _tree) -> void:
 	t.eq(_count(items, BackdropLayer.APRON), 1, "one apron on the entrance side")
 	t.eq(_count(items, BackdropLayer.MAT), 2, "one door mat per entrance tile")
 	t.eq(_count(items, BackdropLayer.ROAD), 1, "one road strip on the entrance side")
+	var arrows := items.filter(func(it): return it.get("purpose", &"") == &"road_direction_arrow")
+	t.eq(arrows.size(), 2, "two opposing lane arrows are painted on the road")
+	for arrow in arrows:
+		t.eq(arrow["points"].size(), 7, "direction arrow has a closed polygon head and stem")
+		t.eq(arrow["color"], BackdropLayer.ROAD_LINE, "road arrows use the existing road-marking color")
+
+
+func test_road_direction_arrows_follow_each_isometric_side(t, _tree) -> void:
+	var proj := _proj(1.25)
+	for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+		var forward := BackdropLayer.road_direction_arrow_points(proj, side, 20, 16, 7.0, 8.0, 1.0)
+		var reverse := BackdropLayer.road_direction_arrow_points(proj, side, 20, 16, 7.0, 8.0, -1.0)
+		var forward_tip_world := BackdropLayer.side_point(side, 7.0, 8.65, 20, 16)
+		var reverse_tip_world := BackdropLayer.side_point(side, 7.0, 7.35, 20, 16)
+		t.eq(forward.size(), 7, "forward arrow is built on side %d" % side)
+		t.eq(reverse.size(), 7, "reverse arrow is built on side %d" % side)
+		t.ok(forward[4].distance_to(proj.world_to_screen(forward_tip_world.x, forward_tip_world.y)) < 0.01, "forward tip points along side %d" % side)
+		t.ok(reverse[4].distance_to(proj.world_to_screen(reverse_tip_world.x, reverse_tip_world.y)) < 0.01, "reverse tip points along side %d" % side)
+
+
+func test_two_lane_arrows_exist_for_all_supported_store_sizes(t, _tree) -> void:
+	var proj := _proj()
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			var mid_x := int(size.x / 2)
+			var mid_y := int(size.y / 2)
+			var entrances: Array[Vector2i] = []
+			match side:
+				BackdropLayer.SIDE_WEST:
+					entrances = [Vector2i(0, mid_y), Vector2i(0, mid_y + 1)]
+				BackdropLayer.SIDE_NORTH:
+					entrances = [Vector2i(mid_x, 0), Vector2i(mid_x + 1, 0)]
+				BackdropLayer.SIDE_EAST:
+					entrances = [Vector2i(size.x - 1, mid_y), Vector2i(size.x - 1, mid_y + 1)]
+				_:
+					entrances = [Vector2i(mid_x, size.y - 1), Vector2i(mid_x + 1, size.y - 1)]
+			var items := BackdropLayer.layout_items(proj, size.x, size.y, entrances, Vector2(1600, 900))
+			var arrows := items.filter(func(it): return it.get("purpose", &"") == &"road_direction_arrow")
+			t.eq(arrows.size(), 2, "two lane arrows exist for %dx%d on side %d" % [size.x, size.y, side])
 
 
 func test_slabs_only_outside_the_store(t, _tree) -> void:

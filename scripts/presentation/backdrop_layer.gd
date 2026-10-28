@@ -450,6 +450,15 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	while a < along1:
 		out.append(_poly(_side_quad(proj, side, width, height, dash_mid - 0.06, dash_mid + 0.06, a, a + 1.2), ROAD_LINE))
 		a += 3.0
+	# Add opposing lane arrows on the clearer side of the crossing, in ground-plane metres.
+	var door_mid := (span.x + span.y) * 0.5
+	var away_from_crossing := 1.0 if door_mid <= edge_length * 0.5 else -1.0
+	var arrow_along := door_mid + away_from_crossing * 2.1
+	for lane in [road_d0 + ROAD_M * 0.25, road_d0 + ROAD_M * 0.75]:
+		var arrow_direction := 1.0 if lane < dash_mid else -1.0
+		var arrow := _poly(road_direction_arrow_points(proj, side, width, height, lane, arrow_along, arrow_direction), ROAD_LINE)
+		arrow["purpose"] = &"road_direction_arrow"
+		out.append(arrow)
 
 	# Crossing is aligned with the actual doorway, and spans only the public road.
 	for stripe in range(6):
@@ -568,6 +577,22 @@ static func side_point(side: int, depth: float, along: float, width: int, height
 		SIDE_EAST:
 			return Vector2(x1 + depth, along)
 	return Vector2(along, y1 + depth)
+
+
+## A 1.3m two-way lane arrow projected from road-plane coordinates; direction is +/- along the store edge.
+static func road_direction_arrow_points(proj: IsoProjection, side: int, width: int, height: int, depth: float, along: float, direction: float) -> PackedVector2Array:
+	var d := 1.0 if direction >= 0.0 else -1.0
+	var shape := [
+		Vector2(-0.075, -0.65), Vector2(0.075, -0.65),
+		Vector2(0.075, 0.04), Vector2(0.25, 0.04),
+		Vector2(0.0, 0.65), Vector2(-0.25, 0.04),
+		Vector2(-0.075, 0.04),
+	]
+	var points := PackedVector2Array()
+	for offset in shape:
+		var world := side_point(side, depth + offset.x, along + offset.y * d, width, height)
+		points.append(proj.world_to_screen(world.x, world.y))
+	return points
 
 
 static func _on_side(side: int, t: Vector2i, width: int, height: int) -> bool:

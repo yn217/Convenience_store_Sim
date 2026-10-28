@@ -183,6 +183,19 @@ The same camera-following ground texture was increased from 16% to 24% opacity. 
 
 Focused `test_backdrop_layer` passed 18 tests / 196 assertions; `git diff --check` is clean. The full suite was not run.
 
+## Road direction arrows (2026-10-29)
+
+Added opposing arrow markings in the two road lanes. Their vertices are defined in the road's world-plane coordinates, placed clear of the entrance crossing, and projected with the selected entrance side; this keeps the markings aligned when the store turns. The 12x10, 16x12, and 20x16 16:00 captures show the marks at each footprint, while the low-zoom/panned capture checks that they remain attached to the road during camera movement.
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `road-arrows-12x10-1600x900-2026-10-29.png` | Both lane arrows fit between the entrance crossing and road edge. |
+| 16x12 | `road-arrows-16x12-1600x900-2026-10-29.png` | Arrow scale and lane spacing remain readable at the medium footprint. |
+| 20x16 | `road-arrows-20x16-1600x900-2026-10-29.png` | Opposing arrows remain within the wider store's entrance-side road. |
+| 20x16, 0.5x zoom and panned | `road-arrows-lowzoom-20x16-1600x900-2026-10-29.png` | The road markings move with the projected world geometry. |
+
+Focused `test_backdrop_layer` passed 20 tests / 229 assertions, including both arrow directions on all four store sides and arrow presence for all three store sizes. Full suite not run.
+
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.
