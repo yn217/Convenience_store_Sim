@@ -209,9 +209,20 @@ Actual Godot 4.7.2 runtime captures at 1600x900, 16:00:
 | 20x16 | `urban-grove-20x16-1600x900-2026-10-29.png` | The long rear and roadside edges are covered, with remaining broad green field outside the planted strip. |
 | 20x16, 0.8x zoom and pan | `urban-grove-panzoom-20x16-1600x900-2026-10-29.png` | The view shifts while the planting remains anchored to the projected world edge. |
 
-Focused `test_backdrop_layer` passed 21 tests / 269 assertions, including loaded texture dimensions, all four side transforms at 12x10, 16x12 and 20x16, uniform scale, z=0 ground endpoints, and camera pan. `git diff --check` was clean. The full suite was not run. The grove panel improves the target's dense planted perimeter, but does not remove the broad green field and has more overhang than desired at 12x10; this remains a visual review point.
+Focused `test_backdrop_layer` passed 21 tests / 269 assertions at the time. That capture set is superseded for the 12x10 footprint by the compact-panel follow-up below. The broad green field remains a visual difference.
 
-## Remaining differences from the target mockup
+## Compact urban grove for short store edges (2026-10-29)
+
+Added a second generated, grouped sakura/evergreen/flower panel for edges up to 12m. Its measured ground-contact endpoints `(358, 800)` and `(1544, 800)` in the `1825x862` image map to the exact wall-parallel edge endpoints at z=0 for 10m and 12m sides. The panel switches to the existing 18m source on longer edges. Both are rendered behind the store and road; their image proportions remain uniform. Runtime captures show that the former conspicuous fixed-length overhang at 12x10 is removed; on 20x16 the long panel still intentionally overlaps past the 18m root span to keep coverage.
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `compact-grove-12x10-1600x900-2026-10-29.png` | Compact group reaches the short back-wall endpoints without the former 18m strip extending past them. |
+| 16x12 | `compact-grove-16x12-1600x900-2026-10-29.png` | The 12m edge uses the compact source and planting remains continuous at the wall ends. |
+| 20x16 | `compact-grove-20x16-1600x900-2026-10-29.png` | The long generated source remains in use; the roadside planting continues past the far-wall silhouette. |
+| 20x16, 0.8x zoom and pan | `compact-grove-panzoom-20x16-1600x900-2026-10-29.png` | The long panel stays at its world ground anchors as the view moves. |
+
+Focused `test_backdrop_layer` passed 21 tests / 271 assertions, covering source texture dimensions, exact projected root endpoints on all four sides at the three footprints, uniform source scale, and camera pan. The full suite was not run.
 
 ## Static road vehicle (2026-10-29)
 
@@ -225,6 +236,8 @@ Added one compact car on the exterior road, oriented along the entrance-side str
 | 20x16, 0.8x zoom and pan | `urban-grove-road-car-panzoom-20x16-1600x900-2026-10-29.png` | The vehicle stays anchored to the road while the camera moves. |
 
 Focused `test_store_decor` passed 21 tests / 371 assertions, including each supported footprint and entrance orientation. `git diff --check` is clean. Full suite not run.
+
+## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.
 - The ground artwork has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The low-opacity v2 texture adds fine variation, but the scene still lacks full-depth flower beds and street structures.
