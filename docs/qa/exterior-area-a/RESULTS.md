@@ -137,7 +137,7 @@ The generated PNG still has isolated bright green edge pixels at the source silh
 
 ## Textured exterior ground v2 and daylight comparison (2026-10-29)
 
-A generated olive-green ground texture v2 now overlays the exterior fill at 16% opacity. It adds finer leaf shadows and small sakura flecks. Its tile phase follows the camera origin. Opposite-edge RGB differences are slightly lower than v1 on average, but the source is not mathematically seamless; at 16% opacity no prominent repeat boundary was seen in the 1600x900 runtime views. The v1/v2 in-game crop comparison is `ground-texture-v1-v2-runtime-comparison-2026-10-29.png`.
+A generated olive-green ground texture v2 was first introduced over the exterior fill at 16% opacity. It adds finer leaf shadows and small sakura flecks. Its tile phase follows the camera origin. Opposite-edge RGB differences are slightly lower than v1 on average, but the source is not mathematically seamless; at the initial 16% opacity no prominent repeat boundary was seen in the 1600x900 runtime views. The v1/v2 in-game crop comparison is `ground-texture-v1-v2-runtime-comparison-2026-10-29.png`; the current 24% presentation is recorded below.
 
 | Store size / view | Capture | Observation |
 |---|---|---|
