@@ -81,8 +81,12 @@ func _check_wall(t, name: String, ent: Array, side: int) -> void:
 			t.ok(_outside(d["x"], d["y"], side), "%s: door stands outside the entrance wall" % name)
 
 	# Street dressing: parking, the vending machine and the bins all stand on the entrance side, outside the store.
-	var parking := street.filter(func(it): return it.get("role", "") == "parking")
-	t.ok(parking.size() > 0, "%s: parking on the entrance side" % name)
+	# The parking is the combined Area A artwork (#165), anchored by its frontage edge on the entrance wall line.
+	var edge := BackdropLayer.area_a_world_endpoints(W, H, side)
+	var parked := edge.size() == 2
+	for p in edge:
+		parked = parked and absf(_across(Vector3(p.x, p.y, 0.0), side) - _plane(side)) < 1e-6
+	t.ok(parked, "%s: parking on the entrance side" % name)
 	var vending := street.filter(func(it): return it["kind"] == &"sprite" and it["id"] == "vending_painted_v1")
 	t.eq(vending.size(), 1, "%s: one vending machine" % name)
 	if vending.size() == 1:
