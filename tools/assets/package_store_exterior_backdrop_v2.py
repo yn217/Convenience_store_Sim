@@ -8,7 +8,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSET_ID = "store_exterior_backdrop_v2"
-SOURCE = ROOT / "assets/source/background" / ASSET_ID / "corner_v1.png"
+SOURCE = ROOT / "assets/source/background" / ASSET_ID / "corner_v2.png"
 DEST = ROOT / "assets/generated/backgrounds" / ASSET_ID
 
 
@@ -95,8 +95,8 @@ def main() -> None:
         "asset_id": ASSET_ID,
         "source_type": "ai_generated",
         "tool": "built-in image_gen via image-generation subagents",
-        "generation_id": "exec-d4d22a1c-a9c3-448a-8c8b-4e2762053adf",
-        "prompt": "Transparent isometric V-shaped rear landscaping, apex at upper center with two branches extending toward lower left and lower right. Tall trees above a 2.6 m store wall, dense shrubs and flowers, distinct stone planter ground-contact line. No store, wall, roads, UI, people or text.",
+        "generation_id": "exec-b48a3f16-d948-412b-8e82-56818f95b0bd",
+        "prompt": "Transparent isometric V-shaped rear landscaping with an upper-center apex and two clearly measured planter edges extending toward lower-left and lower-right endpoints. Tall mature trees rise well above a 2.6 m store wall, richly layered shrubs and pink, white, yellow flowers, detailed stone planter edge. No store, wall, road, UI, people or text.",
         "source_file": metadata["source_file"],
         "original_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "packaging_script": "tools/assets/package_store_exterior_backdrop_v2.py",

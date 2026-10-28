@@ -8,7 +8,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSET_ID = "roadside_greenery_v2"
-SOURCE = ROOT / "assets/source/background" / ASSET_ID / "side_strip_v1.png"
+SOURCE = ROOT / "assets/source/background" / ASSET_ID / "side_strip_v3.png"
 DEST = ROOT / "assets/generated/backgrounds" / ASSET_ID
 
 
@@ -93,8 +93,8 @@ def main() -> None:
         "asset_id": ASSET_ID,
         "source_type": "ai_generated",
         "tool": "built-in image_gen via image-generation subagent",
-        "generation_id": "exec-6dc3588e-7135-4c78-8f10-972f660e4805",
-        "prompt": "Transparent long straight isometric garden strip: dense mature green trees, layered shrubs, pink and white flowers, narrow stone planter, vertical trunks, no pavement, lamp, signage, wall, people or text.",
+        "generation_id": "exec-12482a60-6c41-46a8-b3d6-45d82e1bb91c",
+        "prompt": "Transparent long straight isometric garden strip with a diagonal stone planter base rising from upper-left to lower-right in image space. Tall upright trees over a 2.6m store wall, dense layered shrubs and pink, white, yellow flowers. Transparent background, no sky or glow; vertical trunks; no road, wall, lamp, sign, people or text.",
         "source_file": metadata["source_file"],
         "original_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "packaging_script": "tools/assets/package_roadside_greenery_v2.py",

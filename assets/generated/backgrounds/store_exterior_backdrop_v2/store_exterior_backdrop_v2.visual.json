@@ -4,18 +4,18 @@
   "category": "static_world_anchored_exterior_vegetation",
   "view_direction": "iso2x_v1 rear V backdrop with tall trees",
   "render_width_px": 1774,
-  "render_height_px": 947,
+  "render_height_px": 887,
   "ground_apex_px": [
-    887.661,
-    435.866
+    887.643,
+    440.155
   ],
   "left_ground_endpoint_px": [
     0,
-    879.856
+    883.868
   ],
   "right_ground_endpoint_px": [
     1773,
-    878.561
+    882.866
   ],
   "anchor_type": "behind_far_corner_ground_z0",
   "sort_key": "vegetation_before_opaque_far_wall",
@@ -24,17 +24,17 @@
     "world_root_anchor": "(-0.5 - offset, -0.5 - offset, 0)",
     "separate_edge_checks": true,
     "edge_slopes": [
-      -0.5001795801090549,
-      0.5000279865105018
+      -0.4998787251211586,
+      0.5000373153473359
     ],
     "root_and_planter_occlusion": "opaque far wall overlay"
   },
-  "source_file": "assets/source/background/store_exterior_backdrop_v2/corner_v1.png",
+  "source_file": "assets/source/background/store_exterior_backdrop_v2/corner_v2.png",
   "alpha_bbox_px": [
     0,
-    16,
+    6,
     1774,
-    947
+    882
   ],
   "corner_alpha": [
     0,
