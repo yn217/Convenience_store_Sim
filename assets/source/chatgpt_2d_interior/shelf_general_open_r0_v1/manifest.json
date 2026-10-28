@@ -3,16 +3,25 @@
   "asset_family": "AMBIENT_GONDOLA_OPEN",
   "asset_id": "shelf_general_open_r0_v1",
   "description_ja": "日本のコンビニ用・巨大天板のない常温開放ゴンドラ。2D SVGソース、同一棚形状で3在庫状態。",
-  "asset_type": "standalone_2d_vector_source",
+  "asset_type": "standalone_2d_vector_source_with_calibrated_png_previews",
   "source_authoring": "ChatGPT-authored vector artwork (NOT 3D, NOT image-to-3D)",
   "status": "art_concept_unreviewed",
   "runtime_approved": false,
   "generated_at": "2026-10-28",
   "canonical_geometry": "new open gondola v1 proposal; do not reuse legacy roofed canonical",
   "state_files": {
-    "EMPTY": "shelf_general_open_empty_r0_v1.svg",
-    "HALF": "shelf_general_open_half_r0_v1.svg",
-    "FULL": "shelf_general_open_full_r0_v1.svg"
+    "EMPTY": {
+      "svg": "shelf_general_open_empty_r0_v1.svg",
+      "png_2x": "shelf_general_open_empty_r0_v1.png"
+    },
+    "HALF": {
+      "svg": "shelf_general_open_half_r0_v1.svg",
+      "png_2x": "shelf_general_open_half_r0_v1.png"
+    },
+    "FULL": {
+      "svg": "shelf_general_open_full_r0_v1.svg",
+      "png_2x": "shelf_general_open_full_r0_v1.png"
+    }
   },
   "world_contract": {
     "projection_id": "iso2x_v1",
@@ -54,7 +63,34 @@
       285,
       302
     ],
-    "anchor_calibration_status": "NOT CALIBRATED: Codex must derive SVG viewBox world origin and generate calibrated PNG/anchor; do not reuse legacy pixel bbox"
+    "source_ground_anchor_svg": [
+      205.72,
+      445.63
+    ],
+    "png_2x_canvas_px": [
+      1040,
+      1080
+    ],
+    "png_2x_anchor_px": [
+      411.44,
+      891.26
+    ],
+    "anchor_calibration_status": "Projection-derived from the lowest base corner; not yet verified in Godot runtime"
+  },
+  "projection_calibration": {
+    "report": "projection_qa.json",
+    "review_sheet": "review/projection_calibration_comparison.png",
+    "png_raster_scale": 2,
+    "svg_source_modified": false,
+    "projected_axis_rotation_deg": 0,
+    "outer_short_axis_m_before": 0.91,
+    "outer_short_axis_m_target": 0.92,
+    "output_world_x_scale": 1.010989011,
+    "output_world_y_scale": 1.0,
+    "ground_pivot_svg": [
+      205.72,
+      445.63
+    ]
   },
   "production_rules": [
     "No opaque top canopy, no large roof/cap, no block/cuboid housing",
@@ -66,12 +102,14 @@
   "qa": {
     "reference_approved": false,
     "geometry_reference_approved": false,
+    "iso_axis_vectors_verified": true,
     "iso_placement_verified": false,
-    "same_geometry_by_shared_vector_source": true,
+    "same_geometry_by_identical_structural_vectors": true,
+    "state_geometry_report": "projection_qa.json",
     "godot_runtime_verified": false,
     "japanese_retail_fixture_art_approved": false,
     "user_visual_approved": false,
-    "next_action": "Render all SVGs to 2x transparent PNG; compare with #157 target and Japanese convenience-store references; human approve OPEN EMPTY/r0 before using FULL/HALF"
+    "next_action": "Review the transparent PNG and source shape against approved Japanese open-gondola references; verify ground anchor in Godot; obtain EMPTY/r0 approval before using FULL/HALF"
   },
   "links": {
     "asset_issue": 157,

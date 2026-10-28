@@ -1,0 +1,181 @@
+{
+  "asset_id": "shelf_general_open_r0_v1",
+  "source_svg_modified": false,
+  "render": {
+    "scale": 2,
+    "renderer": "CairoSVG",
+    "mode": "RGBA"
+  },
+  "projection": {
+    "projection_id": "iso2x_v1",
+    "long_axis_vector_svg_px": [
+      -245.76,
+      122.88
+    ],
+    "long_axis_angle_deg": -26.565051,
+    "long_axis_angle_definition": "undirected screen line angle normalized to [-90, 90) degrees",
+    "short_axis_vector_svg_px": [
+      112.0,
+      56.0
+    ],
+    "short_axis_angle_deg": 26.565051,
+    "target_axis_angles_deg": [
+      -26.565051,
+      26.565051
+    ],
+    "rotation_applied_deg": 0.0
+  },
+  "dimensions": {
+    "long_axis_m": 1.92,
+    "outer_short_axis_before_m": 0.91,
+    "outer_short_axis_target_m": 0.92,
+    "outer_short_axis_after_m": 0.92,
+    "outer_short_axis_vector_before_svg_px": [
+      116.48,
+      58.24
+    ],
+    "outer_short_axis_vector_after_svg_px": [
+      117.76,
+      58.88
+    ],
+    "world_x_scale": 1.010989011,
+    "world_y_scale": 1.0,
+    "scale_pivot_svg_px": [
+      205.72,
+      445.63
+    ]
+  },
+  "anchor_px_2x": [
+    411.44,
+    891.26
+  ],
+  "empty_source_render": {
+    "canvas_px": [
+      1040,
+      1080
+    ],
+    "alpha_bbox_px": [
+      177,
+      72,
+      915,
+      895
+    ],
+    "alpha_bbox_size_px": [
+      738,
+      823
+    ],
+    "alpha_nonzero_pixels": 413187
+  },
+  "states": {
+    "EMPTY": {
+      "canvas_px": [
+        1040,
+        1080
+      ],
+      "alpha_bbox_px": [
+        172,
+        68,
+        915,
+        895
+      ],
+      "alpha_bbox_size_px": [
+        743,
+        827
+      ],
+      "alpha_nonzero_pixels": 417551
+    },
+    "HALF": {
+      "canvas_px": [
+        1040,
+        1080
+      ],
+      "alpha_bbox_px": [
+        172,
+        68,
+        915,
+        895
+      ],
+      "alpha_bbox_size_px": [
+        743,
+        827
+      ],
+      "alpha_nonzero_pixels": 419654
+    },
+    "FULL": {
+      "canvas_px": [
+        1040,
+        1080
+      ],
+      "alpha_bbox_px": [
+        172,
+        68,
+        915,
+        895
+      ],
+      "alpha_bbox_size_px": [
+        743,
+        827
+      ],
+      "alpha_nonzero_pixels": 419654
+    }
+  },
+  "state_geometry_comparison": {
+    "exact_matching_vector_elements_all_states": 38,
+    "vector_elements_by_state": {
+      "EMPTY": 38,
+      "HALF": 114,
+      "FULL": 182
+    },
+    "exact_matches_by_state_pair": {
+      "EMPTY_HALF": 38,
+      "EMPTY_FULL": 38,
+      "HALF_FULL": 114
+    }
+  },
+  "approval": {
+    "shape_approved": false,
+    "visual_qa_passed": false,
+    "godot_runtime_verified": false,
+    "runtime_approved": false
+  },
+  "files": {
+    "png": {
+      "EMPTY": "shelf_general_open_empty_r0_v1.png",
+      "HALF": "shelf_general_open_half_r0_v1.png",
+      "FULL": "shelf_general_open_full_r0_v1.png"
+    },
+    "transform_matrix_svg": {
+      "EMPTY": [
+        1.0054945054945055,
+        0.0027472527472527375,
+        0.01098901098901095,
+        1.0054945054945055,
+        -6.027362637362622,
+        -3.0136813186812788
+      ],
+      "HALF": [
+        1.0054945054945055,
+        0.0027472527472527375,
+        0.01098901098901095,
+        1.0054945054945055,
+        -6.027362637362622,
+        -3.0136813186812788
+      ],
+      "FULL": [
+        1.0054945054945055,
+        0.0027472527472527375,
+        0.01098901098901095,
+        1.0054945054945055,
+        -6.027362637362622,
+        -3.0136813186812788
+      ]
+    }
+  },
+  "review_sheet": "review/projection_calibration_comparison.png",
+  "notes": [
+    "Only the already registered ChatGPT SVG artwork was rasterized; no new art was generated.",
+    "A 1.1% world-X-only scale was applied to the output render to fit the 0.92 m outer footprint; source SVGs remain unchanged.",
+    "Projected axis angles already matched iso2x_v1; no angle rotation was needed.",
+    "Art-form and Japanese retail visual approval remain open under issues #157/#123."
+  ]
+}
