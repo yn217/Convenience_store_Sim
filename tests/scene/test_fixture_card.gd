@@ -26,7 +26,7 @@ func test_card_follows_selection(t, tree) -> void:
 	t.eq(card._status.text, "設置中", "status chip: the store is still in setup")
 	t.eq(card._category.text, "おかし・カップ麺・パン", "category chip: the shelf's allowed categories, in Japanese")
 	t.ok(card._category.get_parent().visible, "the chip shows for a shelf")
-	t.eq(card._rows[0]["value"].text, "0 / 48", "empty shelf: nothing stocked yet")
+	t.eq(card._rows[0]["value"].text, "品切れ　0 / 48", "empty shelf: nothing stocked yet, 品切れ in words")
 	t.eq(card._rows[1]["value"].text, "¥500", "today's sales of this shelf come from the ledger")
 	t.eq(card._rows[1]["bar"].value, 1.0, "it is the whole store's sales today")
 	t.eq(card._rows[2]["value"].text, "¥300", "gross profit = revenue - cost")

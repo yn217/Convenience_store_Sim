@@ -66,7 +66,7 @@ func test_category_chip_names(t, _tree) -> void:
 func test_stock_text_shows_units_over_capacity(t, _tree) -> void:
 	t.eq(Card.stock_text(180, 140), "140 / 180")
 	t.eq(Card.stock_text(0, 0), "棚なし", "no room for stock: 棚なし, and the bar is hidden")
-	t.eq(Card.stock_text(12, 0), "0 / 12", "an empty shelf still shows its room")
+	t.eq(Card.stock_text(12, 0), "品切れ　0 / 12", "an empty shelf says 品切れ in words (#21) and still shows its room")
 
 
 func test_share_is_clamped(t, _tree) -> void:

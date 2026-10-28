@@ -8,6 +8,7 @@ extends Node
 const Hud := preload("res://scripts/presentation/game_hud.gd")
 const NONE_TEXT := "未選択"
 const NO_SHELF_TEXT := "棚なし"
+const SOLD_OUT_TEXT := "品切れ"
 const ROW_LABELS := ["在庫・陳列状況", "本日の売上", "本日の粗利"]
 const RESTOCK_TAB := "商品"
 const DETAILS_CLOSED := "詳細  ▸"
@@ -277,7 +278,7 @@ func catalog_products() -> ProductCatalog:
 
 ## Rebuilds the 棚の商品 list when the fixture's shelf contents or prices change.
 func _refresh_shelf(fid: String, products: ProductCatalog) -> void:
-	var rows := shelf_product_rows(_snap.get("shelf_skus", {}).get(fid, {}), _snap.get("product_price_overrides", {}), products)
+	var rows := shelf_product_rows(_snap.get("shelf_skus", {}).get(fid, {}), _snap.get("product_price_overrides", {}), products, _snap.get("shelf_stock", {}).get(fid, {}))
 	var key := str(rows)
 	if key == _shelf_key:
 		return
@@ -307,7 +308,7 @@ func _refresh_shelf(fid: String, products: ProductCatalog) -> void:
 		name_label.clip_text = true
 		text.add_child(name_label)
 		var price_label := Label.new()
-		price_label.text = Hud.format_yen(int(r["price"]))
+		price_label.text = "%s　%s" % [Hud.format_yen(int(r["price"])), units_text(int(r["units"]))]
 		price_label.theme_type_variation = &"TileValue"
 		text.add_child(price_label)
 		line.add_child(text)
@@ -328,10 +329,15 @@ func _open_price(sku_id: String) -> void:
 		main.open_price_for(sku_id)
 
 
-## The products on a fixture's shelves: one row per SKU, in first-slot order, {sku_id, name, price, slots} where slots
-## counts the shelf slots holding it. The price is the override when the player set one, else the SKU's default sell
-## price. Pure apart from the catalog lookup.
-static func shelf_product_rows(slots: Dictionary, overrides: Dictionary, products: ProductCatalog) -> Array:
+## 在庫 n, or 品切れ when none of the SKU is left on this fixture.
+static func units_text(units: int) -> String:
+	return SOLD_OUT_TEXT if units <= 0 else "在庫 %d" % units
+
+
+## The products on a fixture's shelves: one row per SKU, in first-slot order, {sku_id, name, price, slots, units} where
+## slots counts the shelf slots holding it and units the pieces on them (`stock` is {slot_id: qty}). The price is the
+## override when the player set one, else the SKU's default sell price. Pure apart from the catalog lookup.
+static func shelf_product_rows(slots: Dictionary, overrides: Dictionary, products: ProductCatalog, stock: Dictionary = {}) -> Array:
 	var out: Array = []
 	var by_sku := {}
 	var slot_ids := slots.keys()
@@ -340,6 +346,7 @@ static func shelf_product_rows(slots: Dictionary, overrides: Dictionary, product
 		var sku_id: String = slots[slot_id]
 		if by_sku.has(sku_id):
 			by_sku[sku_id]["slots"] += 1
+			by_sku[sku_id]["units"] += int(stock.get(slot_id, 0))
 			continue
 		var sku: Dictionary = products.get_sku(sku_id) if products != null else {}
 		var default_price := int(sku.get("default_sell_price_yen", 0))
@@ -348,6 +355,7 @@ static func shelf_product_rows(slots: Dictionary, overrides: Dictionary, product
 			"name": String(sku.get("display_name", sku_id)),
 			"price": int(overrides.get(sku_id, default_price)),
 			"slots": 1,
+			"units": int(stock.get(slot_id, 0)),
 		}
 		by_sku[sku_id] = row
 		out.append(row)
@@ -400,7 +408,9 @@ static func capacity(def: Dictionary) -> int:
 
 ## Stock figure: "units / capacity", or 棚なし for a fixture without room for stock.
 static func stock_text(cap: int, units: int) -> String:
-	return NO_SHELF_TEXT if cap <= 0 else "%d / %d" % [units, cap]
+	if cap <= 0:
+		return NO_SHELF_TEXT
+	return "%s%d / %d" % [SOLD_OUT_TEXT + "　" if units <= 0 else "", units, cap]   # #21: 品切れ in words, not only an empty bar
 
 
 ## The three rows of the block. `stock` is {slot_id: qty} of this fixture; `sales` holds this fixture's
