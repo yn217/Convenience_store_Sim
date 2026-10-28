@@ -209,7 +209,7 @@ Actual Godot 4.7.2 runtime captures at 1600x900, 16:00:
 | 20x16 | `urban-grove-20x16-1600x900-2026-10-29.png` | The long rear and roadside edges are covered, with remaining broad green field outside the planted strip. |
 | 20x16, 0.8x zoom and pan | `urban-grove-panzoom-20x16-1600x900-2026-10-29.png` | The view shifts while the planting remains anchored to the projected world edge. |
 
-Focused `test_backdrop_layer` passed 21 tests / 269 assertions, including loaded texture dimensions, all four side transforms at 12x10, 16x12 and 20x16, uniform scale, z=0 ground endpoints, and camera pan. `parse_all.gd` completed with no reported parse errors. The full suite was not run. The grove panel improves the target's dense planted perimeter, but does not remove the broad green field and has more overhang than desired at 12x10; this remains a visual review point.
+Focused `test_backdrop_layer` passed 21 tests / 269 assertions, including loaded texture dimensions, all four side transforms at 12x10, 16x12 and 20x16, uniform scale, z=0 ground endpoints, and camera pan. `git diff --check` was clean. The full suite was not run. The grove panel improves the target's dense planted perimeter, but does not remove the broad green field and has more overhang than desired at 12x10; this remains a visual review point.
 
 ## Remaining differences from the target mockup
 
