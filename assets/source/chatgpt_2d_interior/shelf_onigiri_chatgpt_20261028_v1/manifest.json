@@ -1,0 +1,62 @@
+{
+  "schema_version": "0.2-draft",
+  "asset_id": "shelf_onigiri_chatgpt_20261028_full_v1",
+  "type_id": "shelf_onigiri",
+  "classification": "triangular onigiri in Japanese open-front refrigerated display case",
+  "state": "FULL",
+  "source_model": "ChatGPT image generation",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "export_files": {
+    "source_original": "source_original.png",
+    "source_webp": "source_fullres.webp",
+    "game_512": "game_512.png",
+    "game_256": "game_256.png"
+  },
+  "binary_git_status": "NOT_UPLOADED",
+  "source_png_sha256_prefix": "2514d1df7d7d",
+  "generated_files_available_in_conversation": true,
+  "projection_target": {
+    "projection_id": "iso2x_v1",
+    "tile_m": [
+      1,
+      1
+    ],
+    "footprint": [
+      1,
+      2
+    ],
+    "height_m": 1.4,
+    "r0_customer_front": "+X",
+    "world_x_screen": [
+      64,
+      32
+    ],
+    "world_y_screen": [
+      -64,
+      32
+    ]
+  },
+  "qa": {
+    "subject_matches_requested": true,
+    "r0_angle_calibrated": false,
+    "ground_anchor_calibrated": false,
+    "runtime_approved": false,
+    "visual_approved": false
+  },
+  "notes": [
+    "Image is actual onigiri case, unlike previous wrong cup noodle generations",
+    "Long visible shelf edge rises to left/down to right and may mismatch required r0 +X front slope -0.5. Do not flip package text.",
+    "Original and size variants created in ChatGPT conversation, not in Git yet. A separate binary upload step is required.",
+    "Do not merge this Draft PR until binaries uploaded and Codex Godot QA completed."
+  ],
+  "related_issues": [
+    102,
+    123,
+    157,
+    163
+  ],
+  "related_pr": 164
+}
