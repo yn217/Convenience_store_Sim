@@ -1,0 +1,8 @@
+Use case: product-mockup
+Asset type: isolated fictional beverage package product-photo candidate for a Japanese convenience-store management game texture reference
+Primary request: Create one single chilled citrus soda PET bottle, upright and sealed, believable 500 ml proportions with clear lightly faceted PET and pale sparkling liquid. Give it a vivid but sophisticated tangerine-orange cap and a mostly white label with fresh orange and yuzu slice illustrations, crisp orange/leaf-green color blocking and tiny abstract decorative marks. No letters, numbers, logo, brand mark, barcode, QR code, or readable writing anywhere.
+Scene/backdrop: genuinely transparent background; exactly one product, no surface, no props, no scene.
+Style/medium: realistic premium Japanese convenience-store product photography, physically plausible PET transparency and condensation kept subtle, richly printed wrap label, suitable as package-design reference for a realistic 2.5D isometric game; not an isometric shelf sprite.
+Composition/framing: one complete bottle centered, front three-quarter view angled slightly to reveal its side, upright portrait silhouette, cap and base fully visible, generous transparent margins.
+Lighting/mood: soft broad studio key and fill, bright clean commercial lighting, restrained highlights, realistic colors.
+Constraints: fictional unbranded design only, absolutely no real trademarks, logos, readable text, watermark, extra objects, or background. Keep genuine transparent alpha. Product sample / texture candidate only; not a finished fixture sprite and not runtime approved.

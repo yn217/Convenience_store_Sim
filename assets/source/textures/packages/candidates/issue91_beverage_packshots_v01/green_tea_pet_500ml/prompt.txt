@@ -1,0 +1,8 @@
+Use case: product-mockup
+Asset type: isolated fictional beverage package product-photo candidate for a Japanese convenience-store management game texture reference
+Primary request: Create one single premium Japanese unsweetened green tea PET bottle, standing upright, sealed, filled with clear muted golden-green tea. The bottle has a believable 500 ml proportions, clear lightly ribbed PET body, dark forest-green cap, refined matte cream and deep green wrap label with subtle tea-leaf illustration and restrained geometric accents. Label must have NO letters, numbers, logo, brand mark, QR code or readable writing.
+Scene/backdrop: genuinely transparent background; one object only, no surface, no props, no scene.
+Style/medium: realistic high-end studio product photography with realistic PET reflections and finely detailed label print, suitable as a design/texture candidate for a realistic 2.5D isometric convenience-store game; not an isometric shelf sprite.
+Composition/framing: single complete bottle, centered, upright, front three-quarter view angled only slightly to reveal bottle depth, cap to base fully visible, clean silhouette, generous transparent margin, portrait object occupying most of the canvas.
+Lighting/mood: soft broad studio key light and gentle fill, natural highlights, subtle contact shadow only if it stays attached to the transparent product cutout; neutral balanced color.
+Constraints: no real trademark, no real logo, no readable text, no watermark, no other products, preserve actual transparent alpha. This is a product sample / package artwork candidate only, not a finished fixture sprite and not approved for runtime use.

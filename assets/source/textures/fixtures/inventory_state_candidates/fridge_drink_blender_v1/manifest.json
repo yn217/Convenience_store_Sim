@@ -1,0 +1,935 @@
+{
+  "manifest_version": 1,
+  "visual_id": "fridge_drink_a_inventory_v2",
+  "fixture_type_id": "fridge_drink",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1.0,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 2
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "front": "E",
+  "runtime_approved": false,
+  "states": {
+    "FULL": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            285.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_full_r0_body.png",
+            "products": "fridge_drink_full_r0_products.png",
+            "glass_front": "fridge_drink_full_r0_glass_front.png",
+            "shadow": "fridge_drink_full_r0_shadow.png",
+            "composite": "fridge_drink_full_r0_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              243.86,
+              367.7
+            ],
+            "row1": [
+              243.86,
+              289.32
+            ],
+            "row2": [
+              243.86,
+              210.93
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              317.0
+            ],
+            [
+              413.0,
+              381.0
+            ],
+            [
+              157.0,
+              509.0
+            ],
+            [
+              29.0,
+              445.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              2.0
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              0.2653000056743622,
+              -0.3847000002861023,
+              0.460999995470047
+            ],
+            "max": [
+              0.33469998836517334,
+              1.3846999406814575,
+              1.6859999895095825
+            ]
+          },
+          "product_count": 24
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            157.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_full_r1_body.png",
+            "products": "fridge_drink_full_r1_products.png",
+            "glass_front": "fridge_drink_full_r1_glass_front.png",
+            "shadow": "fridge_drink_full_r1_shadow.png",
+            "composite": "fridge_drink_full_r1_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              167.06,
+              352.16
+            ],
+            "row1": [
+              167.06,
+              273.78
+            ],
+            "row2": [
+              167.06,
+              195.39
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              317.0
+            ],
+            [
+              413.0,
+              445.0
+            ],
+            [
+              285.0,
+              509.0
+            ],
+            [
+              29.0,
+              381.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              2.0
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.3847000002861023,
+              0.2653000056743622,
+              0.460999995470047
+            ],
+            "max": [
+              1.3846999406814575,
+              0.33469998836517334,
+              1.6859999895095825
+            ]
+          },
+          "product_count": 24
+        },
+        "2": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            285.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_full_r2_body.png",
+            "products": "fridge_drink_full_r2_products.png",
+            "glass_front": "fridge_drink_full_r2_glass_front.png",
+            "shadow": "fridge_drink_full_r2_shadow.png",
+            "composite": "fridge_drink_full_r2_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              198.14,
+              313.76
+            ],
+            "row1": [
+              198.14,
+              235.38
+            ],
+            "row2": [
+              198.14,
+              156.99
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              317.0
+            ],
+            [
+              413.0,
+              381.0
+            ],
+            [
+              157.0,
+              509.0
+            ],
+            [
+              29.0,
+              445.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              2.0
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.33469998836517334,
+              -0.3847000002861023,
+              0.460999995470047
+            ],
+            "max": [
+              -0.2653000056743622,
+              1.3846999406814575,
+              1.6859999895095825
+            ]
+          },
+          "product_count": 24
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            157.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_full_r3_body.png",
+            "products": "fridge_drink_full_r3_products.png",
+            "glass_front": "fridge_drink_full_r3_glass_front.png",
+            "shadow": "fridge_drink_full_r3_shadow.png",
+            "composite": "fridge_drink_full_r3_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              274.94,
+              329.3
+            ],
+            "row1": [
+              274.94,
+              250.92
+            ],
+            "row2": [
+              274.94,
+              172.53
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              317.0
+            ],
+            [
+              413.0,
+              445.0
+            ],
+            [
+              285.0,
+              509.0
+            ],
+            [
+              29.0,
+              381.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              2.0
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.3847000002861023,
+              -0.33469998836517334,
+              0.460999995470047
+            ],
+            "max": [
+              1.3846999406814575,
+              -0.2653000056743622,
+              1.6859999895095825
+            ]
+          },
+          "product_count": 24
+        }
+      }
+    },
+    "HALF": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            285.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_half_r0_body.png",
+            "products": "fridge_drink_half_r0_products.png",
+            "glass_front": "fridge_drink_half_r0_glass_front.png",
+            "shadow": "fridge_drink_half_r0_shadow.png",
+            "composite": "fridge_drink_half_r0_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              243.86,
+              367.7
+            ],
+            "row1": [
+              243.86,
+              289.32
+            ],
+            "row2": [
+              243.86,
+              210.93
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              317.0
+            ],
+            [
+              413.0,
+              381.0
+            ],
+            [
+              157.0,
+              509.0
+            ],
+            [
+              29.0,
+              445.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              2.0
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              0.2653000056743622,
+              -0.3847000002861023,
+              0.460999995470047
+            ],
+            "max": [
+              0.33469998836517334,
+              1.3846999406814575,
+              1.6859999895095825
+            ]
+          },
+          "product_count": 12
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            157.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_half_r1_body.png",
+            "products": "fridge_drink_half_r1_products.png",
+            "glass_front": "fridge_drink_half_r1_glass_front.png",
+            "shadow": "fridge_drink_half_r1_shadow.png",
+            "composite": "fridge_drink_half_r1_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              167.06,
+              352.16
+            ],
+            "row1": [
+              167.06,
+              273.78
+            ],
+            "row2": [
+              167.06,
+              195.39
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              317.0
+            ],
+            [
+              413.0,
+              445.0
+            ],
+            [
+              285.0,
+              509.0
+            ],
+            [
+              29.0,
+              381.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              2.0
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.3847000002861023,
+              0.2653000056743622,
+              0.460999995470047
+            ],
+            "max": [
+              1.3846999406814575,
+              0.33469998836517334,
+              1.6859999895095825
+            ]
+          },
+          "product_count": 12
+        },
+        "2": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            285.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_half_r2_body.png",
+            "products": "fridge_drink_half_r2_products.png",
+            "glass_front": "fridge_drink_half_r2_glass_front.png",
+            "shadow": "fridge_drink_half_r2_shadow.png",
+            "composite": "fridge_drink_half_r2_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              198.14,
+              313.76
+            ],
+            "row1": [
+              198.14,
+              235.38
+            ],
+            "row2": [
+              198.14,
+              156.99
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              317.0
+            ],
+            [
+              413.0,
+              381.0
+            ],
+            [
+              157.0,
+              509.0
+            ],
+            [
+              29.0,
+              445.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              2.0
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.33469998836517334,
+              -0.3847000002861023,
+              0.460999995470047
+            ],
+            "max": [
+              -0.2653000056743622,
+              1.3846999406814575,
+              1.6859999895095825
+            ]
+          },
+          "product_count": 12
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            157.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_half_r3_body.png",
+            "products": "fridge_drink_half_r3_products.png",
+            "glass_front": "fridge_drink_half_r3_glass_front.png",
+            "shadow": "fridge_drink_half_r3_shadow.png",
+            "composite": "fridge_drink_half_r3_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              274.94,
+              329.3
+            ],
+            "row1": [
+              274.94,
+              250.92
+            ],
+            "row2": [
+              274.94,
+              172.53
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              317.0
+            ],
+            [
+              413.0,
+              445.0
+            ],
+            [
+              285.0,
+              509.0
+            ],
+            [
+              29.0,
+              381.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              2.0
+            ]
+          },
+          "products_bbox": {
+            "min": [
+              -0.3847000002861023,
+              -0.33469998836517334,
+              0.460999995470047
+            ],
+            "max": [
+              1.3846999406814575,
+              -0.2653000056743622,
+              1.6859999895095825
+            ]
+          },
+          "product_count": 12
+        }
+      }
+    },
+    "EMPTY": {
+      "rotations": {
+        "0": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            285.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_empty_r0_body.png",
+            "products": "fridge_drink_empty_r0_products.png",
+            "glass_front": "fridge_drink_empty_r0_glass_front.png",
+            "shadow": "fridge_drink_empty_r0_shadow.png",
+            "composite": "fridge_drink_empty_r0_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              243.86,
+              367.7
+            ],
+            "row1": [
+              243.86,
+              289.32
+            ],
+            "row2": [
+              243.86,
+              210.93
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              317.0
+            ],
+            [
+              413.0,
+              381.0
+            ],
+            [
+              157.0,
+              509.0
+            ],
+            [
+              29.0,
+              445.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              2.0
+            ]
+          },
+          "products_bbox": null,
+          "product_count": 0
+        },
+        "1": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            157.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_empty_r1_body.png",
+            "products": "fridge_drink_empty_r1_products.png",
+            "glass_front": "fridge_drink_empty_r1_glass_front.png",
+            "shadow": "fridge_drink_empty_r1_shadow.png",
+            "composite": "fridge_drink_empty_r1_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              167.06,
+              352.16
+            ],
+            "row1": [
+              167.06,
+              273.78
+            ],
+            "row2": [
+              167.06,
+              195.39
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              317.0
+            ],
+            [
+              413.0,
+              445.0
+            ],
+            [
+              285.0,
+              509.0
+            ],
+            [
+              29.0,
+              381.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              2.0
+            ]
+          },
+          "products_bbox": null,
+          "product_count": 0
+        },
+        "2": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            285.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_empty_r2_body.png",
+            "products": "fridge_drink_empty_r2_products.png",
+            "glass_front": "fridge_drink_empty_r2_glass_front.png",
+            "shadow": "fridge_drink_empty_r2_shadow.png",
+            "composite": "fridge_drink_empty_r2_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              198.14,
+              313.76
+            ],
+            "row1": [
+              198.14,
+              235.38
+            ],
+            "row2": [
+              198.14,
+              156.99
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              285.0,
+              317.0
+            ],
+            [
+              413.0,
+              381.0
+            ],
+            [
+              157.0,
+              509.0
+            ],
+            [
+              29.0,
+              445.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            285.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              0.46000000834465027,
+              1.4600000381469727,
+              2.0
+            ]
+          },
+          "products_bbox": null,
+          "product_count": 0
+        },
+        "3": {
+          "canvas_px": [
+            442,
+            528
+          ],
+          "anchor_px": [
+            157.0,
+            381.0
+          ],
+          "layers": {
+            "body": "fridge_drink_empty_r3_body.png",
+            "products": "fridge_drink_empty_r3_products.png",
+            "glass_front": "fridge_drink_empty_r3_glass_front.png",
+            "shadow": "fridge_drink_empty_r3_shadow.png",
+            "composite": "fridge_drink_empty_r3_composite.png"
+          },
+          "slot_anchors_px": {
+            "row0": [
+              274.94,
+              329.3
+            ],
+            "row1": [
+              274.94,
+              250.92
+            ],
+            "row2": [
+              274.94,
+              172.53
+            ]
+          },
+          "selection_polygon_px": [
+            [
+              157.0,
+              317.0
+            ],
+            [
+              413.0,
+              445.0
+            ],
+            [
+              285.0,
+              509.0
+            ],
+            [
+              29.0,
+              381.0
+            ]
+          ],
+          "sorting_anchor_px": [
+            157.0,
+            381.0
+          ],
+          "mesh_bbox": {
+            "min": [
+              -0.46000000834465027,
+              -0.46000000834465027,
+              0.0
+            ],
+            "max": [
+              1.4600000381469727,
+              0.46000000834465027,
+              2.0
+            ]
+          },
+          "products_bbox": null,
+          "product_count": 0
+        }
+      }
+    }
+  },
+  "composition_order": [
+    "shadow",
+    "body",
+    "products",
+    "glass_front"
+  ],
+  "note": "Per-state composite PNG is rendered as one Blender scene for correct depth. Separate layers are review/reference passes; their simple 2D stack is not a substitute for per-pixel depth occlusion."
+}

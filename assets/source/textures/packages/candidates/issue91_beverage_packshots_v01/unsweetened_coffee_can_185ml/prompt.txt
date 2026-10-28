@@ -1,0 +1,8 @@
+Use case: product-mockup
+Asset type: isolated fictional beverage package product-photo candidate for a Japanese convenience-store management game texture reference
+Primary request: Create exactly one single premium fictional unsweetened canned black coffee beverage, one sealed 185 ml slim aluminum can standing upright. Matte near-black deep espresso-brown can with a warm copper accent band, subtle roasted coffee bean and leaf illustration, elegant restrained metallic print; unmistakably a canned coffee but with NO letters, numbers, logo, brand mark, barcode, QR code or readable writing anywhere.
+Scene/backdrop: genuinely transparent background with no horizon, no surface, no props and no surrounding scene.
+Style/medium: realistic high-end studio product photography, finely detailed printed metal, physically plausible soft reflections, for a realistic 2.5D isometric convenience-store game texture-design candidate; not an isometric shelf sprite.
+Composition/framing: one complete can centered, upright, front three-quarter view angled slightly to show depth, top rim and bottom visible, clean edge silhouette, generous transparent margin.
+Lighting/mood: soft diffused studio key and fill, controlled highlight on metal, calm premium neutral lighting.
+Constraints: wholly fictional unbranded package; absolutely no real trademark, real logo, legible text, watermark, extra products, ground plane, backdrop, cast shadow outside the product silhouette. Genuine transparent alpha required. Product sample/texture candidate only, not a finished fixture sprite and not runtime approved.

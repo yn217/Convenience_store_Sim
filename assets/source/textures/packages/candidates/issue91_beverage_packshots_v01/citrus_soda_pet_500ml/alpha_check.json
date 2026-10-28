@@ -1,0 +1,14 @@
+{
+  "file": "citrus_soda_pet_500ml_v01.png",
+  "dimensions_px": [1024, 1536],
+  "mode": "RGBA",
+  "alpha_min": 0,
+  "alpha_max": 254,
+  "fully_transparent_pixels": 961077,
+  "partially_transparent_pixels": 611787,
+  "fully_opaque_pixels": 0,
+  "alpha_bbox_xyxy": [0, 14, 1023, 1536],
+  "corner_alpha": [0, 0, 0, 0],
+  "assessment": "Alpha channel and transparent corners present. Broad partially transparent studio glow reaches the image bounds; edge cleanup required before use.",
+  "runtime_approved": false
+}
