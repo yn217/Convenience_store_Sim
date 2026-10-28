@@ -1,14 +1,24 @@
-# サンドイッチ用冷蔵ケース FULL / 画像バイナリ未登録
+# Sandwich / packaged bakery chilled display — ImageGen original, not hot-snack warmer
 
-2026-10-29、ホットスナック用加温ケースを生成しようとしたところ、画像生成ツールが**サンドイッチ・惣菜パン用の開放型冷蔵ケース**を生成。誤分類しないよう、実際の画像に基づく候補として記録。
+ChatGPT was asked for a tabletop hot-snack warmer but produced a **large chilled sandwich/packaged-bread case**. It is intentionally filed by the **visible content**, not by the failed prompt.
 
-**重要：このコミットに画像本体のPNG/WebPは入っていない。** 原画PNG 1536×1024のSHA256プレフィックス`de206b8efcb37f6f`、縮小512px `234e2c5ec3519abb`、256px `8bb582fd74ca304e`。これらのファイル本体はChatGPTの会話内ZIP `sandwich_chilled_case_20261029.zip`にあり、GitHubへの画像バイナリアップロードが未完了。表示確認していない画像へのGitHubリンクを作らないこと。
+## Images registered in this draft PR
 
-## Codex への受け入れ条件
-- [ ] 元画像 `source_original.png`をハッシュ一致で登録し、512px/256pxと原寸WebPを**同じフォルダ**に格納。SVGの代替画像を元ImageGen原画と偽らない。
-- [ ] GitHub上で画像バイナリを再取得し、寸法・SHA256検証後に`github_binary_registered:true`へ変更。
-- [ ] 透過背景のフリンジを除去し、ゲーム`iso2x_v1`、`r0`販売面方向、world ground anchorとfootprintを実Godot画像と比較。
-- [ ] この素材はホットスナックではなくサンドイッチケースとして扱い、正式採用前は`runtime_approved:false`。
-- [ ] 原画・表示LODとゲーム設備の機能/グレードを分離する。
+- `source_original.png` — untouched **1536×1024** original PNG, SHA-256 `de206b8efcb37f6fd60486f577667a39a9e25bf7dbd4a7568137347a64b382c1`
+- `source_fullres.webp` — full-resolution high-quality alternate, SHA-256 `b905184a28bcb26a1f7f19c22561d4907249096f672f655ba9ddc6e3a6edf1b3`
+- `game_512.png` — 512px-wide renderer LOD image, original aspect ratio
+- `game_256.png` — 256px-wide renderer LOD image, original aspect ratio
+- `manifest.json` — truthful classification, hashes, projection target, approval state
 
-関連 Issue #163、Draft PR #164。
+**Actual image binaries are committed** in this branch, not merely listed as filenames. Their Git blob SHA IDs are recorded in `manifest.json`.
+
+## Remaining Codex tasks / STOP conditions
+
+- [ ] Verify `iso2x_v1` with projected 2:1 ground axes, world r0 access +X, matching 1×2 or measured footprint. Do not assume footprint from image aspect ratio.
+- [ ] Verify front-of-case directions and ground pivot against Godot screenshots at actual zoom.
+- [ ] Eliminate dark studio matte and halo while protecting glass, products, and reflections; inspect alpha at all edges.
+- [ ] Japanese retail product/package density review, renderer integration and performance check.
+- [ ] Do NOT reclassify this as a hot-snack case or promote it to canonical fixture before user approval.
+- [ ] Keep `runtime_approved:false`, Draft PR, no main merge.
+
+Related: #163, #157, PR #164.

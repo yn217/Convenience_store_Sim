@@ -1,57 +1,80 @@
 {
+  "schema_version": "1.1",
   "asset_id": "fridge_sandwich_chatgpt_20261029_v1",
-  "asset_type": "open_front_chilled_sandwich_display",
-  "requested_asset": "hot_snack_warmer",
-  "actual_generated_content": "packaged sandwiches, rolls, wraps, burgers, salads; NOT heated fried snack case",
-  "art_source": "ChatGPT image generation (2026-10-29)",
-  "asset_status": "art_generated_but_binary_pending_git_upload",
-  "source_original": {
-    "filename": "source_original.png",
-    "dimensions": [
-      1536,
-      1024
-    ],
-    "sha256": "de206b8efcb37f6f",
-    "sha256_type": "prefix_only",
-    "source_preserved": true,
-    "github_binary_registered": false
-  },
-  "candidate_lod": [
-    {
-      "filename": "game_512.png",
-      "sha256_prefix": "234e2c5ec3519abb",
-      "github_binary_registered": false
+  "asset_family": "FRIDGE_SANDWICH_OPEN_FRONT",
+  "requested_subject": "hot snack countertop warmer",
+  "actual_subject": "Japanese convenience store sandwich and ready-to-eat bread chilled case",
+  "generation_result": "subject_mismatch_retained_under_correct_category",
+  "generator": "ChatGPT image generation",
+  "status": "draft_visual_candidate",
+  "stock_level": "FULL",
+  "source_resolution": [
+    1536,
+    1024
+  ],
+  "repository_binary_registered": true,
+  "files": {
+    "source_original": {
+      "path": "source_original.png",
+      "sha256": "de206b8efcb37f6fd60486f577667a39a9e25bf7dbd4a7568137347a64b382c1",
+      "size_bytes": 2965556,
+      "git_blob_sha": "0bf7bbff24b4b931faf3c6a34c47cecdfc247455"
     },
-    {
-      "filename": "game_256.png",
-      "sha256_prefix": "8bb582fd74ca304e",
-      "github_binary_registered": false
+    "source_fullres": {
+      "path": "source_fullres.webp",
+      "sha256": "b905184a28bcb26a1f7f19c22561d4907249096f672f655ba9ddc6e3a6edf1b3",
+      "size_bytes": 739236,
+      "git_blob_sha": "e17a96900e780604f5ce28738a891cc69bf235cd"
     },
-    {
-      "filename": "source_fullres.webp",
-      "sha256_prefix": "b905184a28bcb26a",
-      "github_binary_registered": false
+    "game_512": {
+      "path": "game_512.png",
+      "sha256": "234e2c5ec3519abb63b1b7cf3db5be32e9342ddfc177146cebaaf3280da184d1",
+      "size_bytes": 396417,
+      "git_blob_sha": "f658236d06d14e84cc25ee11d02bbd329a513efe"
+    },
+    "game_256": {
+      "path": "game_256.png",
+      "sha256": "8bb582fd74ca304ecca927ba17b049f2aa01a1e36026686f8570f6be32517cb2",
+      "size_bytes": 111499,
+      "git_blob_sha": "b166f15c8abbc59331a7f6a52de49ead493aebc7"
     }
-  ],
-  "render_projection": {
-    "target": "iso2x_v1",
-    "r0_access": "+X",
-    "verified": false,
-    "ground_anchor_verified": false,
-    "world_footprint": "TBD"
   },
-  "transparency_verified": false,
-  "visual_qa_approved": false,
-  "runtime_approved": false,
-  "quality_notes": [
-    "Not the originally requested hot-snack asset; register as sandwich chilled case only.",
-    "Studio backdrop/soft alpha requires cleanup.",
-    "Do not mistake source resolution for in-game performance or fixture grade.",
-    "Original PNG and smaller previews currently available as conversation ZIP, NOT in GitHub."
+  "projection": {
+    "target": "iso2x_v1",
+    "front_world_direction_r0": "+X",
+    "camera_ground_axis_px_at_zoom_1": {
+      "x": [
+        64,
+        32
+      ],
+      "y": [
+        -64,
+        32
+      ]
+    },
+    "orientation_verified": false,
+    "ground_anchor_verified": false,
+    "world_footprint": "UNMEASURED"
+  },
+  "transparency": {
+    "file_mode": "RGBA",
+    "studio_background_contamination_possible": true,
+    "alpha_edges_verified": false
+  },
+  "asset_approval": {
+    "reference_approved": false,
+    "geometry_approved": false,
+    "visual_qa_approved": false,
+    "runtime_approved": false
+  },
+  "notes": [
+    "The actual illustration is a sandwich chilled case, not a hot snack warmer.",
+    "High-resolution original is retained unchanged.",
+    "512/256 PNG are renderer LOD candidates, not game equipment performance tiers.",
+    "Do not deploy without transparent background QA and Godot angle/anchor/footprint verification."
   ],
-  "related_pr": 164,
-  "related_issues": [
-    163,
-    157
-  ]
+  "links": {
+    "issue": 163,
+    "pr": 164
+  }
 }
