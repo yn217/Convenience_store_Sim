@@ -89,6 +89,22 @@ func test_layout_is_deterministic_and_camera_dependent(t, _tree) -> void:
 	t.ok(a[10]["points"] != c[10]["points"], "zoom changes the screen geometry")
 
 
+func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:
+	var proj := _proj(1.25)
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			var edge_start := Vector2(-0.5, size.y - 0.5) if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_SOUTH else Vector2(size.x - 0.5, -0.5)
+			var edge_end := Vector2(-0.5, -0.5) if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_NORTH else Vector2(size.x - 0.5, size.y - 0.5)
+			var transform := BackdropLayer.area_a_transform(proj, size.x, size.y, side)
+			var actual_start: Vector2 = transform * BackdropLayer.AREA_A_FRONTAGE_P0
+			var actual_end: Vector2 = transform * BackdropLayer.AREA_A_FRONTAGE_P1
+			var expected_start := proj.world_to_screen(edge_start.x, edge_start.y)
+			var expected_end := proj.world_to_screen(edge_end.x, edge_end.y)
+			t.ok(actual_start.distance_to(expected_start) < 0.01, "Area A frontage start meets side %d at %dx%d" % [side, size.x, size.y])
+			t.ok(actual_end.distance_to(expected_end) < 0.01, "Area A frontage end meets side %d at %dx%d" % [side, size.x, size.y])
+			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "Area A retains uniform scale for side %d" % side)
+
+
 func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> void:
 	var proj := _proj(1.25)
 	var backdrop_texture := load("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png") as Texture2D
@@ -108,13 +124,23 @@ func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> vo
 		var expected_right := proj.world_to_screen(float(size.x) - 0.5 + BackdropLayer.BACKDROP_GROUND_OFFSET_M, -0.5 - BackdropLayer.BACKDROP_GROUND_OFFSET_M)
 		var left_coverage := (left_endpoint - size_ground).dot(expected_left - size_ground) / (expected_left - size_ground).length()
 		var right_coverage := (right_endpoint - size_ground).dot(expected_right - size_ground) / (expected_right - size_ground).length()
-		t.ok(left_coverage >= (expected_left - size_ground).length() - 1.0, "left V endpoint covers %dx%d far wall" % [size.x, size.y])
-		t.ok(right_coverage >= (expected_right - size_ground).length() - 1.0, "right V endpoint covers %dx%d far wall" % [size.x, size.y])
+		t.ok(left_coverage >= (expected_left - size_ground).length() - 1.0, "left V branch reaches its own far-wall endpoint for %dx%d" % [size.x, size.y])
+		t.ok(right_coverage >= (expected_right - size_ground).length() - 1.0, "right V branch reaches its own far-wall endpoint for %dx%d" % [size.x, size.y])
+		t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "V art keeps a uniform scale for %dx%d" % [size.x, size.y])
 	proj.pan(Vector2(29, -13))
 	layer.sync(16, 12, [], proj, Vector2(1280, 720))
 	var moved_ground: Vector2 = layer._environment_transform * BackdropLayer.BACKDROP_GROUND_PX
 	t.eq(moved_ground, ground + Vector2(29, -13), "camera panning moves the ground anchor with the store")
 	layer.queue_free()
+
+
+func test_environment_branch_scale_is_independent(t, _tree) -> void:
+	var ground := Vector2(100.0, 200.0)
+	var image_ground := Vector2(800.0, 400.0)
+	var left := BackdropLayer.environment_branch_scale(ground, Vector2(200.0, 400.0), image_ground, Vector2(1000.0, 600.0))
+	var right := BackdropLayer.environment_branch_scale(ground, Vector2(500.0, 200.0), image_ground, Vector2(1200.0, 400.0))
+	t.ok(is_finite(left) and is_finite(right) and left != right, "left and right branches produce separately measured scale requirements")
+	t.ok(maxf(left, right) >= left and maxf(left, right) >= right, "the larger independently measured branch controls coverage")
 
 
 func test_sync_caches_until_the_key_changes(t, _tree) -> void:

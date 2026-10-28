@@ -96,6 +96,16 @@ func test_entrance_on_east_is_a_low_front(t, _tree) -> void:
 		t.ok(top <= StoreDecor.SILL_H + 1e-6, "sills stay under the sill height")
 
 
+func test_low_front_glass_reflections_stay_inside_closed_panes(t, _tree) -> void:
+	var items := StoreDecor.wall_items(W, H, SOUTH_ENTR, {})
+	var reflections := items.filter(func(it): return it.get("role", &"") == &"glass_reflection")
+	t.ok(not reflections.is_empty(), "cut-away shopfront glazing catches subtle reflected light")
+	for reflection in reflections:
+		for point in reflection["points"]:
+			t.ok(point.z > StoreDecor.SILL_H and point.z < StoreDecor.NEAR_FRAME_TOP, "reflection stays on the pane above the sill")
+			t.ok(point.x <= 7.5 or point.x >= 9.5, "reflection at x=%0.2f does not cross the south entrance opening" % point.x)
+
+
 func test_observe_canopy_adds_transparent_full_height_glazing(t, _tree) -> void:
 	var items := StoreDecor.canopy_items(W, H, SOUTH_ENTR)
 	var panes := items.filter(func(it): return it.get("role", &"") == &"glazing_pane")
@@ -145,17 +155,18 @@ func test_exterior_has_the_street_furniture(t, _tree) -> void:
 
 
 func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
-	# Parking used to go on the next side clockwise, which is a far wall (behind the store). It now stands on the
-	# entrance side itself, out on the street: west door -> x < -0.5, south door -> y > H - 0.5.
+	# Static parking lines and wheel stops belong to the combined Area A image; StoreDecor only places dynamic cars.
 	for side in [ENTR, SOUTH_ENTR]:
-		var markings := StoreDecor.exterior_items(W, H, side).filter(func(it): return it.get("role", "") == "parking")
-		t.ok(markings.size() > 0, "parking geometry exists")
-		for it in markings:
-			for p in it["points"]:
-				var depth: float = -0.5 - p.x if side == ENTR else p.y - (H - 0.5)
-				var along: float = p.y if side == ENTR else p.x
-				t.ok(depth >= 2.0 and depth <= 7.0, "parking stays between pedestrian apron and road")
-				t.ok(along < BackdropLayer.entrance_span(BackdropLayer.entrance_side(W, H, side), W, H, side).x, "door approach stays clear")
+		var items := StoreDecor.exterior_items(W, H, side)
+		var markings := items.filter(func(it): return it.get("role", "") == "parking")
+		var cars := items.filter(func(it): return it.get("role", "") == "parked_vehicle")
+		t.eq(markings.size(), 0, "static parking paint is not redrawn over the combined background")
+		t.eq(cars.size(), 1 if side == SOUTH_ENTR else 0, "a projected car remains separate from the background art")
+		for car in cars:
+			var depth: float = -0.5 - car["x"] if side == ENTR else car["y"] - (H - 0.5)
+			var along: float = car["y"] if side == ENTR else car["x"]
+			t.ok(depth >= 2.0 and depth <= 7.0, "parked car stays within the parking depth")
+			t.ok(along < BackdropLayer.entrance_span(BackdropLayer.entrance_side(W, H, side), W, H, side).x, "parked car clears the doorway approach")
 
 
 func test_front_items_are_on_the_near_sides(t, _tree) -> void:

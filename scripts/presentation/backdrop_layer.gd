@@ -52,7 +52,6 @@ const SIDE_LANDSCAPE_OVERHANG_M := 1.0
 const AreaABackground := preload("res://assets/generated/backgrounds/area_a_roadside_v1/area_a_roadside_v1.png")
 const AREA_A_FRONTAGE_P0 := Vector2(249.0, 29.0)
 const AREA_A_FRONTAGE_P1 := Vector2(1657.0, 604.0)
-const AREA_A_SOURCE_SLOPE := 0.4084
 const ROADSIDE_IMAGE_SCALE := 0.45
 const ROADSIDE_START_PX := Vector2(123.0, 465.0)
 const ROADSIDE_SPAN_M := 10.5
@@ -138,7 +137,7 @@ func _sync_area_a(proj: IsoProjection, width: int, height: int, entrances: Array
 
 
 ## A fixed, combined sidewalk/planting strip follows a visible store edge. The small source-slope correction is
-## applied as a vertical affine shear: each image column moves together, so tree and lamp posts stay vertical.
+## applied as a vertical affine shear so tree and lamp posts stay vertical.
 func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
 	if _side_landscape_sprite == null:
 		_side_landscape_sprite = Sprite2D.new()
@@ -190,13 +189,22 @@ static func environment_transform(proj: IsoProjection, width: int, height: int, 
 	var ground := environment_ground_anchor(proj)
 	var left_end := proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, height - 0.5 + BACKDROP_GROUND_OFFSET_M)
 	var right_end := proj.world_to_screen(width - 0.5 + BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
-	var left_scale := (left_end - ground).length() / (BACKDROP_LEFT_END_PX - BACKDROP_GROUND_PX).length()
-	var right_scale := (right_end - ground).length() / (BACKDROP_RIGHT_END_PX - BACKDROP_GROUND_PX).length()
+	var left_scale := environment_branch_scale(ground, left_end, BACKDROP_GROUND_PX, BACKDROP_LEFT_END_PX)
+	var right_scale := environment_branch_scale(ground, right_end, BACKDROP_GROUND_PX, BACKDROP_RIGHT_END_PX)
+	# Each V branch is measured against its own wall endpoint. Fit the longer branch so both walls stay covered;
+	# the shorter branch may extend behind the wall, preserving the artwork's proportions without a gap.
 	var scale := maxf(left_scale, right_scale)
 	var x_axis := Vector2(scale, 0.0)
 	var y_axis := Vector2(0.0, scale)
 	var origin := ground - x_axis * BACKDROP_GROUND_PX.x - y_axis * BACKDROP_GROUND_PX.y
 	return Transform2D(x_axis, y_axis, origin)
+
+
+static func environment_branch_scale(screen_ground: Vector2, screen_endpoint: Vector2, image_ground: Vector2, image_endpoint: Vector2) -> float:
+	var image_run := (image_endpoint - image_ground).length()
+	if image_run <= 0.0:
+		return 0.0
+	return (screen_endpoint - screen_ground).length() / image_run
 
 
 static func environment_ground_anchor(proj: IsoProjection) -> Vector2:
@@ -209,16 +217,29 @@ static func side_landscape_edge_length(side: int, width: int, height: int) -> fl
 
 ## Match the source frontage to the entrance side while keeping the source image uniformly scaled.
 static func area_a_transform(proj: IsoProjection, width: int, height: int, side: int) -> Transform2D:
-	var edge_len := float(height if side == SIDE_EAST or side == SIDE_WEST else width)
-	var scale := edge_len * IsoProjection.HALF_TILE_W * proj.zoom / (AREA_A_FRONTAGE_P1.x - AREA_A_FRONTAGE_P0.x)
-	var direction_x := -1.0 if side == SIDE_EAST or side == SIDE_NORTH else 1.0
-	var direction_y := -1.0 if side == SIDE_WEST or side == SIDE_NORTH else 1.0
-	var shear := AREA_A_SOURCE_SLOPE - 0.5 if side == SIDE_WEST or side == SIDE_NORTH else 0.5 - AREA_A_SOURCE_SLOPE
-	var basis_x := Vector2(direction_x * scale, shear * scale)
-	var basis_y := Vector2(0.0, direction_y * scale)
-	var anchor_world := Vector2(-0.5, float(height) - 0.5) if side == SIDE_WEST or side == SIDE_SOUTH else Vector2(float(width) - 0.5, -0.5)
-	var screen_anchor := proj.world_to_screen(anchor_world.x, anchor_world.y)
-	return Transform2D(basis_x, basis_y, screen_anchor - basis_x * AREA_A_FRONTAGE_P0.x - basis_y * AREA_A_FRONTAGE_P0.y)
+	var edge := area_a_world_endpoints(width, height, side)
+	var screen_start := proj.world_to_screen(edge[0].x, edge[0].y)
+	var screen_end := proj.world_to_screen(edge[1].x, edge[1].y)
+	var source_frontage := AREA_A_FRONTAGE_P1 - AREA_A_FRONTAGE_P0
+	var target_frontage := screen_end - screen_start
+	var scale := target_frontage.length() / source_frontage.length()
+	var angle := target_frontage.angle() - source_frontage.angle()
+	var basis_x := Vector2.RIGHT.rotated(angle) * scale
+	var basis_y := Vector2.DOWN.rotated(angle) * scale
+	return Transform2D(basis_x, basis_y, screen_start - basis_x * AREA_A_FRONTAGE_P0.x - basis_y * AREA_A_FRONTAGE_P0.y)
+
+
+## World endpoints for the combined parking artwork's measured frontage edge, ordered P0 to P1.
+static func area_a_world_endpoints(width: int, height: int, side: int) -> Array[Vector2]:
+	match side:
+		SIDE_WEST:
+			return [Vector2(-0.5, height - 0.5), Vector2(-0.5, -0.5)]
+		SIDE_NORTH:
+			return [Vector2(width - 0.5, -0.5), Vector2(-0.5, -0.5)]
+		SIDE_EAST:
+			return [Vector2(width - 0.5, -0.5), Vector2(width - 0.5, height - 0.5)]
+		_:
+			return [Vector2(-0.5, height - 0.5), Vector2(width - 0.5, height - 0.5)]
 
 
 ## Fan-triangulates the (convex) pieces in paint order into one vertex-coloured mesh.

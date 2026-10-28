@@ -11,8 +11,9 @@
   "runtime_fit": {
     "uniform_scale_only": true,
     "source_edge_slope": 0.4084,
-    "target_world_edge_slope": 0.5,
-    "runtime_vertical_shear": 0.0916,
+    "frontage_alignment": "measured source endpoints map to the projected entrance-side edge endpoints",
+    "runtime_rotation": "per entrance side",
+    "runtime_vertical_shear": 0.0,
     "entrance_crosswalk": "drawn dynamically by game geometry; omitted from artwork"
   },
   "source_file": "assets/source/background/area_a_roadside_v1/original.png",

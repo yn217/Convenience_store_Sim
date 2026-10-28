@@ -329,15 +329,12 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	var bay := 0
 	var along := 0.0
 	while along + 2.5 <= span.x - 0.35:
-		out.append(_ground_patch(side, width, height, 2.12, 6.88, along, along + 0.065, Color("f5f0df")))
-		out.append(_ground_patch(side, width, height, 2.12, 6.88, along + 2.5, along + 2.565, Color("f5f0df")))
-		out.append(_ground_patch(side, width, height, 2.12, 2.185, along, along + 2.565, Color("f5f0df")))
-		out.append(_ground_patch(side, width, height, 2.32, 2.54, along + 0.65, along + 1.85, Color("a4a39c")))
-		out.append(_ground_patch(side, width, height, 2.32, 2.50, along + 0.65, along + 1.85, Color("e5e0d4"), 0.10))
-		# Only a genuinely projected sprite is accepted; the legacy side-view cars stay unused.
+		# The combined Area A artwork already carries the static parking paint and wheel stops.
+		# Keep the vehicle as a separate world-anchored sprite so it can be changed independently.
 		if bay == 0 and (side == SIDE_SOUTH or side == SIDE_NORTH) and PropSprites.is_available("compact_car_painted_v2"):
 			_add(out, "compact_car_painted_v2", side, width, height, 4.6, along + 1.25)
 			out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
+			out[-1]["role"] = "parked_vehicle"
 		along += 2.7
 		bay += 1
 	# Place the fixed equipment against the visible east side, away from the entrance.
@@ -381,14 +378,6 @@ static func _pole_sign_items(side: int, width: int, height: int) -> Array:
 	return out
 
 
-static func _ground_patch(side: int, width: int, height: int, d0: float, d1: float, a0: float, a1: float, color: Color, z: float = 0.0) -> Dictionary:
-	var points: Array = []
-	for v in [Vector2(d0, a0), Vector2(d1, a0), Vector2(d1, a1), Vector2(d0, a1)]:
-		var p := BackdropLayer.side_point(side, v.x, v.y, width, height)
-		points.append(Vector3(p.x, p.y, z))
-	return {"kind": &"poly", "points": points, "color": color, "ground": true, "role": "parking", "front": _is_near(side)}
-
-
 ## Storefront on a far wall (west or north): a window per tile, storefront piers at both ends, the entrance tiles
 ## as doors, and a blue fascia band with the store name above the glass.
 static func _far_storefront(width: int, height: int, entrances: Array, side: int) -> Array:
@@ -426,6 +415,11 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 			var a1 := float(a) - 0.5
 			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, 0.0, SILL_H), "color": SILL})
 			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, SILL_H, NEAR_FRAME_TOP), "color": Color(0.66, 0.86, 0.92, 0.16)})
+			# Thin reflected sky streaks add depth to the cut-away glazing without hiding the shop interior.
+			var reflection_at := a0 + 0.2
+			while reflection_at + 0.5 < a1:
+				out.append(_glass_reflection(side, plane, reflection_at, 0.5, SILL_H + 0.08, NEAR_FRAME_TOP - 0.06))
+				reflection_at += 2.2
 			# White metal housing above and below a slimmer blue ribbon; broken at the door opening.
 			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 - 0.025, NEAR_CAP_Z0 + 0.025), "color": Color("a0adb4")})
 			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 + 0.025, NEAR_CAP_Z1), "color": Color("f8faf8")})
@@ -452,6 +446,17 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 			out.append(_canopy_top(side, plane, d0 - 0.08, d1 + 0.08, 0.22))
 			door_start = -1
 	return out
+
+
+## A narrow diagonal reflection painted on a pane in wall-plane coordinates; kept inside the glass opening.
+static func _glass_reflection(side: int, plane: float, along: float, width: float, z0: float, z1: float) -> Dictionary:
+	var points: Array[Vector3] = []
+	for p in [Vector2(along, z0), Vector2(along + width * 0.42, z0), Vector2(along + width, z1), Vector2(along + width * 0.58, z1)]:
+		if side == SIDE_EAST:
+			points.append(Vector3(plane, p.x, p.y))
+		else:
+			points.append(Vector3(p.x, plane, p.y))
+	return {"kind": &"poly", "points": points, "color": Color(0.92, 0.98, 1.0, 0.19), "role": "glass_reflection"}
 
 
 static func _canopy_top(side: int, plane: float, a0: float, a1: float, depth: float) -> Dictionary:
