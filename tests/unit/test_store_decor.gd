@@ -157,6 +157,14 @@ func test_exterior_has_the_street_furniture(t, _tree) -> void:
 	t.eq(_sprites(items, "parked_car_blue").size() + _sprites(items, "parked_car_red").size(), 0, "legacy side-view cars are not used")
 
 
+func test_pole_sign_lists_store_services_on_separate_panels(t, _tree) -> void:
+	var items := StoreDecor.exterior_items(W, H, SOUTH_ENTR)
+	var sign_text := items.filter(func(it): return it["kind"] == &"text" and ["たばこ", "酒", "ATM"].has(it["text"]))
+	t.eq(sign_text.map(func(it): return it["text"]), ["たばこ", "酒", "ATM"], "pole sign presents separate service panels in vertical order")
+	for label in sign_text:
+		t.eq(label["font_px"], 16, "service lettering is legible at full-scene camera fit")
+
+
 func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
 	# Static parking lines and wheel stops belong to the combined Area A image; StoreDecor only places dynamic cars.
 	for side in [ENTR, SOUTH_ENTR]:

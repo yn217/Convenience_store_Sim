@@ -166,6 +166,10 @@ Two long generated facade band candidates were not integrated. Both are single s
 
 The v2 texture softens the remaining green field, but does not replace it with the target's continuous flower beds, full-depth planting or street structures. These remain visible differences for the final review.
 
+## Pole sign service panels (2026-10-29)
+
+The pole sign now uses three distinct service-color panels below the blue store-name panel: tobacco, alcohol, and ATM. The labels are rendered as separate text elements and increased to 16px for legibility at the fitted game camera. The 20x16 in-game capture is `pole-sign-services-20x16-1600x900-2026-10-29.png`. This improves the target's stacked sign hierarchy; the fictional store mark and richer sign materials remain differences.
+
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.

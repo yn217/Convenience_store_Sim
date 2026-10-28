@@ -366,9 +366,17 @@ static func _pole_sign_items(side: int, width: int, height: int) -> Array:
 	var plane := centre.x if side == SIDE_WEST or side == SIDE_EAST else centre.y
 	var mid := centre.y if side == SIDE_WEST or side == SIDE_EAST else centre.x
 	var out: Array = []
-	for part in [[-0.06, 0.06, 0.0, 2.6, Color("899599")], [-0.88, 0.88, 2.2, 3.8, Color("77868c")], [-0.82, 0.82, 2.26, 3.74, Color("fffdf1")], [-0.76, 0.76, 2.85, 3.67, FASCIA], [-0.76, 0.76, 2.31, 2.68, Color("b73550")]]:
+	for part in [
+		[-0.06, 0.06, 0.0, 2.6, Color("899599")],
+		[-0.88, 0.88, 2.0, 3.8, Color("77868c")],
+		[-0.82, 0.82, 2.04, 3.76, Color("fffdf1")],
+		[-0.76, 0.76, 3.08, 3.68, FASCIA],
+		[-0.78, 0.78, 2.73, 3.03, Color("b73550")],
+		[-0.78, 0.78, 2.39, 2.69, Color("326d9d")],
+		[-0.78, 0.78, 2.05, 2.35, Color("7a4b91")],
+	]:
 		out.append({"kind": &"poly", "points": _band(side, plane, mid + part[0], mid + part[1], part[2], part[3]), "color": part[4], "front": _is_near(side)})
-	for row in [["青葉24", 3.22, FASCIA_TEXT, 20], ["ATM  酒", 2.49, FASCIA_TEXT, 12]]:
+	for row in [["青葉24", 3.36, FASCIA_TEXT, 20], ["たばこ", 2.88, FASCIA_TEXT, 16], ["酒", 2.54, FASCIA_TEXT, 16], ["ATM", 2.20, FASCIA_TEXT, 16]]:
 		var at := _plane_point(side, plane, row[1])
 		if side == SIDE_WEST or side == SIDE_EAST:
 			at.y = mid
