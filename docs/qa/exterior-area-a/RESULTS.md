@@ -22,6 +22,13 @@ The planting anchor and V-branch coverage were re-captured from the current code
 
 `roots-pan-zoom-16x12-2026-10-29.png` verifies that the ground anchor follows a translated, zoomed camera. The new captures show the tree and shrub bases staying behind the far walls while the taller canopies remain visible above them. Both V branches are tested independently; uniform scaling is set by the longer required run so neither wall endpoint opens a gap, and the shorter branch's extra art remains behind the wall rather than being cropped or stretched.
 
+Viewport-size captures at 16x12 were also taken after the import cache was rebuilt:
+
+| Viewport | Runtime capture | Observation |
+|---|---|---|
+| 1280x720 | `resolution-1280x720-16x12-2026-10-29.png` | Full exterior remains in frame; lower HUD cards are denser. No planting gap or clipped V endpoint observed. |
+| 1920x1080 | `resolution-1920x1080-16x12-2026-10-29.png` | Full exterior remains in frame with the same ground anchor and wall occlusion. |
+
 ## Changes
 
 - The Area A parking/sidewalk artwork now fits by a rotation and one uniform scale. Its measured frontage endpoints map to the selected store edge endpoints for 12x10, 16x12, and 20x16. The geometry check also covers all four entrance sides. The prior small vertical shear is removed, so the artwork is not distorted to force the edge angle.
