@@ -2,13 +2,13 @@
 
 **実画像を生成**：日本のコンビニのプリン、シュークリーム、ロールケーキ、ショートケーキ、パフェ、ヨーグルトを並べた低型冷蔵ショーケース。カップ麺や飲料ではない。
 
-## このPRへの登録範囲
-このコミットでは**仕様JSONと引継ぎREADMEのみ**を登録。ChatGPT上には原画1536×1024 RGBA PNG（3,110,856B, SHA-256 prefix `819cdf41da617dd1`）、原寸WebP、512px/256px PNGがあるが、**PNG/WebPのGitHubバイナリ登録は未完了**。メタデータ登録だけで画像登録済みと報告しないこと。
+## GitHub登録状況
+原画1536×1024 RGBA PNG（3,110,856B, SHA-256 prefix `819cdf41da617dd1`）、原寸WebP、512px/256px PNGはDraft PR #164に登録済み。作業環境へ取り込んだ原画のSHA-256はmanifestのprefixと一致し、WebP/LODもmanifest記載のサイズ・SHA prefixと一致した。コンパクトZIPは`_bundles/dessert_case_compact_20261029.zip`に登録済み。画像の存在確認と品質承認は別であり、以下のQAは未完了。
 
 ## Codexへの必須作業
-1. ユーザーから`dessert_case_full_small_json_20261029.zip`を受領し、このディレクトリへ`source_original.png`, `source_fullres.webp`, `game_512.png`, `game_256.png`を原寸・無破壊で追加。`sha256sum`で原画が`819cdf41da617dd1`から始まることを検証。`git add/commit/push`、PR #164でGitHubバイナリ実在を確認。
-2. 既存Godot`iso2x_v1`、r0販売面+X、長辺斜面−0.5、world footprint/ground pivotに実Gameで校正。**非等方伸縮/文字を反転させた鏡像修正禁止**。
-3. 背景の半透明黒フリンジ、透明マスク、低ズーム/1.0/1.6の画質、棚と商品のスケールを実測。修正は原画を残して別ファイルへ。
+1. ~~原画・WebP・LODの登録とSHA確認~~ 完了。元PNG、WebP、512/256 PNGおよびコンパクトZIPがPR上に存在する。
+2. `iso2x_v1`、r0販売面、world footprint/ground pivotの実ゲーム校正は未完了。ソース内の長い棚レールは画像上で約11–19°の範囲に傾き、対象軸のiso2x方向（±26.565°）と一致しない。位置によって角度が変わるため、単一回転では解消できず、今回は画像を変形しない。物理寸法・footprint実測とGodot表示が必要。**非等方伸縮/文字を反転させた鏡像修正は禁止**。
+3. 原画RGBAのalphaは0–254、alpha≥250の領域はほぼキャンバス全体（45,2–1488,1024）。背景/ガラス/半透明フリンジの分離は未検証。低ズーム/1.0/1.6の画質、棚と商品のスケールも未評価。修正する場合は原画を残して別ファイルへ。
 4. 食品がプリン・ケーキ等だけであることを独立QAし、EMPTY/HALFはFULLの**同一本体形状**に基づいて制作。
 5. ユーザー承認まで`runtime_approved:false`, PR Draftのまま、mainへマージしない。
 

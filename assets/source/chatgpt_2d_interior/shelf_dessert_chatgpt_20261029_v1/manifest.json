@@ -10,31 +10,31 @@
   ],
   "source_sha256": "819cdf41da617dd1",
   "source_bytes": 3110856,
-  "local_package": "dessert_case_full_small_json_20261029.zip",
+  "compact_bundle": "../_bundles/dessert_case_compact_20261029.zip",
   "intended_binary_files": [
     {
       "name": "source_original.png",
       "bytes": 3110856,
       "sha256_prefix": "819cdf41da617dd1",
-      "github_binary_committed": false
+      "github_binary_committed": true
     },
     {
       "name": "source_fullres.webp",
       "bytes": 779254,
       "sha256_prefix": "88d0ba7ca91421cb",
-      "github_binary_committed": false
+      "github_binary_committed": true
     },
     {
       "name": "game_512.png",
       "bytes": 408225,
       "sha256_prefix": "30278cd920afc83f",
-      "github_binary_committed": false
+      "github_binary_committed": true
     },
     {
       "name": "game_256.png",
       "bytes": 115011,
       "sha256_prefix": "a58d6b18d79d275d",
-      "github_binary_committed": false
+      "github_binary_committed": true
     }
   ],
   "projection_target": {
@@ -64,7 +64,7 @@
   "transparency_fringe_verified": false,
   "runtime_approved": false,
   "user_art_approved": false,
-  "asset_transfer_status": "BLOCKED: image bytes are in conversation ZIP, not committed to GitHub; import via authenticated Codex worktree and update this manifest",
+  "asset_transfer_status": "COMPLETE: source PNG and display/WebP binaries are committed to Draft PR #164; projection, alpha-edge, anchor, and visual QA remain pending",
   "issue": 163,
   "draft_pr": 164
 }
