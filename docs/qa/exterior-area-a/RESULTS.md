@@ -248,12 +248,42 @@ Extended the grouped grove from the single entrance-facing edge to the other thr
 | 20x16 | `perimeter-u-close-20x16-1600x900-2026-10-29.png` | Long rear and side bands close the U, with the 20m edge endcaps in place. |
 | 20x16, 0.8x zoom and pan | `perimeter-u-panzoom-20x16-1600x900-2026-10-29.png` | The three bands stay attached to their world-space edges as the camera moves. |
 
-Focused `test_backdrop_layer` passed 22 tests / 315 assertions, including all four entrance orientations, three-footprint endpoints, 20m endcap continuity, uniform scale, open-road side selection and endcap camera-follow. Full suite not run.
+Focused `test_backdrop_layer` passed 22 tests / 315 assertions at the time, including all four entrance orientations and the then-current 20m cap joins. That cap implementation and capture set were replaced by the three full-panel setup documented below. Full suite not run.
+
+## Green-forward grove panels, ground-anchored at all three lengths (2026-10-29)
+
+Replaced the pink-heavy/cropped-edge variation with three generated green-forward panels selected by world edge length: a 12m compact panel, an 18m panel for intermediate edges, and a single 20m panorama. Each panel is uniformly scaled from its authored baseline; its ground contact is placed at z=0, 2.43m outside the wall. Wall and paving draw over the roots and lower stems. The rear V branches remain independently fitted and endpoint-checked. No source panel is stretched or cropped into end caps.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00, stocked layout:
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `green-grove-v1-stocked-12x10-1600x900-2026-10-29.png` | Compact source fits the short edges; wall hides the lower planting while tree crowns rise above it. |
+| 16x12 | `green-grove-v1-stocked-16x12-1600x900-2026-10-29.png` | The 18m source covers the intermediate edge with the same world-space tree height. |
+| 20x16 | `green-grove-v1-stocked-20x16-1600x900-2026-10-29.png` | Dedicated 20m source reaches each wall endpoint without isolated cropped end pieces. |
+| 20x16, zoomed and panned | `green-grove-v1-stocked-pan-20x16-1600x900-2026-10-29.png` | Ground anchors and wall occlusion remain attached as the camera moves. |
+
+The three rear/side source baselines are separately asserted against the projected endpoints for all supported footprints. Focused `test_backdrop_layer` passed 22 tests / 299 assertions. The full suite was not run. The low-opacity ground tile is visible in these same captures; its close-up motif repetition and the remaining broad open field are recorded in `REMAINING_DIFFERENCES.md`.
+
+## Outer ground texture refinement (2026-10-29)
+
+Replaced the sparse fine-fleck ground overlay with a generated low-clover, leaf, and small-flower texture at the same camera-following screen-space tile scale. It remains behind the store scenery and geometry. A 36% opacity trial made the repeated motifs too prominent, so the integrated candidate is 24% opacity.
+
+Actual Godot 4.7.2 runtime captures at 1600x900, 16:00, whole-store camera:
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `outer-ground-v2-stocked-12x10-1600x900-2026-10-29.png` | Stocked fixtures remain visible; ground variation stays subdued around the parking area and planting. |
+| 16x12 | `outer-ground-v2-stocked-16x12-1600x900-2026-10-29.png` | The overlay follows the viewport while the stocked store and exterior remain in frame. |
+| 20x16 | `outer-ground-v2-stocked-20x16-1600x900-2026-10-29.png` | The broader field gains low vegetation and sparse blossoms; the perimeter grove stays distinct. |
+| 20x16, zoomed and panned | `outer-ground-v2-stocked-pan-20x16-1600x900-2026-10-29.png` | The texture phase follows the camera movement without a strong boundary. |
+
+The tile source has mean opposite-edge RGB differences of 20.50 horizontally and 18.23 vertically. At 24% the join is subdued in the runtime captures, although the motif repeats under close inspection. The flat open ground still differs from the target's richer surrounding street and planting.
 
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.
-- The ground artwork has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The low-opacity v2 texture adds fine variation, but the scene still lacks full-depth flower beds and street structures.
+- The ground artwork has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The new 24%-opacity ground tile adds low-clover, leaf, and flower variation, but a broad open field remains and the scene still lacks the target's full-depth flower beds and surrounding street structures.
 - The target shows a busier street scene, multiple vehicles, dense flowers, street furniture, and storefront posters. Current runtime has one parked car plus one static road car, with fewer visible exterior details.
 - Store shelves, people, and product presentation differ substantially from the target and were outside this exterior change.
 

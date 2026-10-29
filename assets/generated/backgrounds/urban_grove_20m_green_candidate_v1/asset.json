@@ -1,0 +1,15 @@
+{
+  "asset_id": "urban_grove_20m_green_candidate_v1",
+  "file": "urban_grove_20m_green_candidate_v1.png",
+  "status": "integrated_runtime_candidate",
+  "intended_use": "A single continuous grouped planting panel for 20m non-road store edges.",
+  "view_direction": "isometric-leaning 2D panorama",
+  "generation": {
+    "tool": "built-in image_gen",
+    "reference": "User-supplied convenience-store exterior mockup",
+    "prompt_summary": "Transparent wide green-forward planting band with varied deciduous trees, evergreens, layered shrubs, a few small pink flower clusters, continuous roots and no structures."
+  },
+  "review": "Inspected and integrated for 20m edges. Ground endpoints (100,541)-(2070,578) map to a 20m world baseline. Actual Godot captures at 20x16 and panned 20x16 confirm coverage at both ends, natural wall occlusion, and no cropped connector strips.",
+  "anchor_type": "ground_contact_baseline",
+  "placement": "World z=0, 2.43m outside the wall, behind wall/paving occlusion; uniformly fitted to an exact 20m world baseline."
+}

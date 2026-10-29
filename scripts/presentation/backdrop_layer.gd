@@ -36,10 +36,11 @@ const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
 const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v2/rear_greenbelt_group_v2.png")
-const UrbanGrovePanel := preload("res://assets/generated/backgrounds/urban_grove_panel_v1/urban_grove_panel_v1.png")
-const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urban_grove_compact_v1/urban_grove_compact_v1.png")
+const UrbanGrovePanel := preload("res://assets/generated/backgrounds/urban_grove_long_green_candidate_v1/urban_grove_long_green_candidate_v1.png")
+const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urban_grove_compact_green_candidate_v1/urban_grove_compact_green_candidate_v1.png")
+const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/urban_grove_20m_green_candidate_v1/urban_grove_20m_green_candidate_v1.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_sidewalk_strip_v1/outer_sidewalk_strip_v1.png")
-const SurroundingGround := preload("res://assets/generated/backgrounds/ground_texture_seamless_v2/ground_texture_seamless_v2.png")
+const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_texture_candidate_v2/outer_ground_texture_candidate_v2.png")
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
@@ -57,16 +58,17 @@ const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 664.0)
 ## Keep the tree height in world units across store sizes. 18m matches the prior 16x12 + 3m ends fit.
 const REAR_GROVE_WORLD_LENGTH_M := 18.0
 ## One landscape panel spans the long supported street edge, retaining fixed tree height across store sizes.
-const URBAN_GROVE_SOURCE_START_PX := Vector2(100.0, 680.0)
-const URBAN_GROVE_SOURCE_END_PX := Vector2(2070.0, 680.0)
-const URBAN_GROVE_WORLD_LENGTH_M := 18.0
+const URBAN_GROVE_SOURCE_START_PX := Vector2(100.0, 630.0)
+const URBAN_GROVE_SOURCE_END_PX := Vector2(2070.0, 630.0)
 ## A separate compact planting group matches the 10m and 12m store edges without enlarging the 18m panel.
-const URBAN_GROVE_COMPACT_START_PX := Vector2(358.0, 800.0)
-const URBAN_GROVE_COMPACT_END_PX := Vector2(1544.0, 800.0)
+const URBAN_GROVE_COMPACT_START_PX := Vector2(358.0, 789.0)
+const URBAN_GROVE_COMPACT_END_PX := Vector2(1544.0, 789.0)
 const URBAN_GROVE_COMPACT_WORLD_LENGTH_M := 12.0
-## The long source covers 18m; compact low-shrub end pieces complete the two remaining metres on 20m edges.
+## Separate full-length source covers the 20m edge without cropped connector strips.
 const URBAN_GROVE_LONG_WORLD_LENGTH_M := 18.0
-const URBAN_GROVE_ENDCAP_WORLD_LENGTH_M := 1.0
+const URBAN_GROVE_20M_START_PX := Vector2(100.0, 541.0)
+const URBAN_GROVE_20M_END_PX := Vector2(2070.0, 578.0)
+const URBAN_GROVE_20M_WORLD_LENGTH_M := 20.0
 const URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M := 0.25
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
 const OUTER_SIDEWALK_START_PX := Vector2(72.5, 130.0)
@@ -187,12 +189,13 @@ func _sync_urban_grove(proj: IsoProjection, width: int, height: int, entrances: 
 	for side in urban_grove_sides(entrance):
 		var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
 		var compact := edge_length <= URBAN_GROVE_COMPACT_WORLD_LENGTH_M
-		var texture_size := Vector2(UrbanGroveCompactPanel.get_size()) if compact else Vector2(UrbanGrovePanel.get_size())
+		var long20 := edge_length >= URBAN_GROVE_20M_WORLD_LENGTH_M
+		var grove_texture: Texture2D = UrbanGroveCompactPanel if compact else UrbanGrove20mPanel if long20 else UrbanGrovePanel
+		var texture_size := Vector2(grove_texture.get_size())
 		_urban_groves.append({
 			"side": side,
-			"compact": compact,
+			"texture": grove_texture,
 			"transform": urban_grove_transform(proj, width, height, side, texture_size),
-			"endcaps": urban_grove_endcaps(proj, width, height, side, Vector2(UrbanGroveCompactPanel.get_size())),
 		})
 
 
@@ -259,14 +262,10 @@ func _draw() -> void:
 		draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _urban_grove_visible:
 		for grove in _urban_groves:
-			var grove_texture := UrbanGroveCompactPanel if grove["compact"] else UrbanGrovePanel
+			var grove_texture: Texture2D = grove["texture"]
 			draw_set_transform_matrix(grove["transform"])
 			draw_texture_rect(grove_texture, Rect2(Vector2.ZERO, Vector2(grove_texture.get_size())), false)
 			draw_set_transform_matrix(Transform2D.IDENTITY)
-			for cap in grove["endcaps"]:
-				draw_set_transform_matrix(cap["transform"])
-				draw_texture_rect_region(UrbanGroveCompactPanel, cap["source_rect"], cap["source_rect"], Color.WHITE)
-				draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _outer_sidewalk_visible:
 		draw_set_transform_matrix(_outer_sidewalk_transform)
 		draw_texture_rect(OuterSidewalkStrip, Rect2(Vector2.ZERO, Vector2(OuterSidewalkStrip.get_size())), false)
@@ -362,9 +361,10 @@ static func urban_grove_transform(proj: IsoProjection, width: int, height: int, 
 		return Transform2D.IDENTITY
 	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
 	var compact := edge_length <= URBAN_GROVE_COMPACT_WORLD_LENGTH_M
-	var world_length := minf(edge_length, URBAN_GROVE_COMPACT_WORLD_LENGTH_M) if compact else URBAN_GROVE_LONG_WORLD_LENGTH_M
-	var source_start := URBAN_GROVE_COMPACT_START_PX if compact else URBAN_GROVE_SOURCE_START_PX
-	var source_end := URBAN_GROVE_COMPACT_END_PX if compact else URBAN_GROVE_SOURCE_END_PX
+	var long20 := edge_length >= URBAN_GROVE_20M_WORLD_LENGTH_M
+	var world_length := minf(edge_length, URBAN_GROVE_COMPACT_WORLD_LENGTH_M) if compact else URBAN_GROVE_20M_WORLD_LENGTH_M if long20 else URBAN_GROVE_LONG_WORLD_LENGTH_M
+	var source_start := URBAN_GROVE_COMPACT_START_PX if compact else URBAN_GROVE_20M_START_PX if long20 else URBAN_GROVE_SOURCE_START_PX
+	var source_end := URBAN_GROVE_COMPACT_END_PX if compact else URBAN_GROVE_20M_END_PX if long20 else URBAN_GROVE_SOURCE_END_PX
 	var along_start := (edge_length - world_length) * 0.5
 	return _urban_grove_strip_transform(proj, width, height, side, source_start, source_end, along_start, world_length)
 
@@ -379,32 +379,6 @@ static func urban_grove_sides(entrance: int) -> Array[int]:
 
 static func urban_grove_depth_m() -> float:
 	return PAVE_M + KERB_M + URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M
-
-
-## Add two 1m natural shrub ends where the fixed 18m panel is shorter than the 20m store edge.
-static func urban_grove_endcaps(proj: IsoProjection, width: int, height: int, side: int, texture_size: Vector2) -> Array[Dictionary]:
-	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
-	var missing := edge_length - URBAN_GROVE_LONG_WORLD_LENGTH_M
-	var caps: Array[Dictionary] = []
-	if missing <= 0.001 or texture_size.x <= URBAN_GROVE_COMPACT_END_PX.x or texture_size.y <= URBAN_GROVE_COMPACT_END_PX.y:
-		return caps
-	var cap_m := minf(URBAN_GROVE_ENDCAP_WORLD_LENGTH_M, missing * 0.5)
-	var source_cap_px := cap_m * (URBAN_GROVE_COMPACT_END_PX.x - URBAN_GROVE_COMPACT_START_PX.x) / URBAN_GROVE_COMPACT_WORLD_LENGTH_M
-	var left_source_start := URBAN_GROVE_COMPACT_START_PX
-	var left_source_end := Vector2(left_source_start.x + source_cap_px, left_source_start.y)
-	var right_source_end := URBAN_GROVE_COMPACT_END_PX
-	var right_source_start := Vector2(right_source_end.x - source_cap_px, right_source_end.y)
-	var start_segment := _urban_grove_strip_transform(proj, width, height, side, left_source_start, left_source_end, 0.0, cap_m)
-	var end_segment := _urban_grove_strip_transform(proj, width, height, side, right_source_start, right_source_end, edge_length - cap_m, cap_m)
-	var left_source_rect := Rect2(left_source_start.x, 0.0, left_source_end.x - left_source_start.x, texture_size.y)
-	var right_source_rect := Rect2(right_source_start.x, 0.0, right_source_end.x - right_source_start.x, texture_size.y)
-	if side == SIDE_WEST or side == SIDE_EAST:
-		caps.append({"transform": end_segment, "source_rect": left_source_rect})
-		caps.append({"transform": start_segment, "source_rect": right_source_rect})
-	else:
-		caps.append({"transform": start_segment, "source_rect": left_source_rect})
-		caps.append({"transform": end_segment, "source_rect": right_source_rect})
-	return caps
 
 
 static func _urban_grove_strip_transform(proj: IsoProjection, width: int, height: int, side: int, source_start: Vector2, source_end: Vector2, along_start: float, world_length: float) -> Transform2D:

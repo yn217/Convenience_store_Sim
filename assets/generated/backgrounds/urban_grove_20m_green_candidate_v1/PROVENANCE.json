@@ -1,0 +1,7 @@
+{
+  "asset_id": "urban_grove_20m_green_candidate_v1",
+  "source": "Built-in image_gen via generation subagent",
+  "generated_file": "urban_grove_20m_green_candidate_v1.png",
+  "prompt": "Create one wide horizontal panoramic grouped exterior planting strip for a Japanese convenience-store management game's isometric world, guided by the attached store exterior reference. A continuous dense band of mature mixed green deciduous trees, a few dark evergreen trees, layered shrubs and a low flowerbed. Predominantly natural leafy greens; only occasional small pink blossom clusters. Vary tree crown heights and silhouettes naturally across the full width. Continuous low greenery from left edge through right edge with no empty ends, for a 20m store edge. Complete lower trunks, roots, shrubs and flowerbed; vegetation reads about 4-5m beside a 2.6m wall. Hand-painted polished 2D game art with gentle isometric lean, 3:1 panoramic framing, ground-contact line near 88% image height and almost horizontal, transparent background. No signs, words, labels, fencing, lights, road, pavement, buildings, sky, people, vehicles, isolated tall objects, or abrupt end gaps.",
+  "integration": "Integrated as the exact 20m uniformly scaled source for 20m non-road perimeter edges. Source baseline (100,541)-(2070,578) maps to z=0 at 2.43m outside the wall; runtime verified at 20x16 and panned 20x16 with both endpoints continuous and no cropped connector strips."
+}

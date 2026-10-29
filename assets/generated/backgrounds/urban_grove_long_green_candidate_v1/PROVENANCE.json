@@ -1,0 +1,7 @@
+{
+  "asset_id": "urban_grove_long_green_candidate_v1",
+  "source": "Built-in image_gen generated using the user-provided convenience-store mockup as a style reference.",
+  "generated_file": "urban_grove_long_green_candidate_v1.png",
+  "prompt": "Create a single continuous grouped exterior garden panorama for a Japanese convenience-store management game's 2D isometric environment. Use the supplied reference image only as a style and planting-density reference. Wide landscape 3:1 composition. Predominantly varied natural green leafy trees, layered evergreen and deciduous shrubs, dense low groundcover, only occasional small pink flowering clusters. Tall tree crowns extend above a 2.6 meter store wall when placed from ground-contact roots; trunks and low shrubs occupy the lower half. Irregular varied tree heights and crowns, not a repeated row. Nearly horizontal ground-contact edge at about 90% image height. Polished hand-painted illustrated 2D game art with soft daylight. Transparent background; isolated planting band only. No sky, backdrop, buildings, wall, road, pavement, signs, labels, text, poles, lamps, fences, furniture, people, or vehicles.",
+  "integration": "Integrated as the 18m uniformly scaled source for non-road perimeter edges over 12m and under 20m. Source baseline (100,630)-(2070,630) maps to z=0 at 2.43m outside the wall; runtime verified at all three supported footprints and a panned 20x16 view."
+}
