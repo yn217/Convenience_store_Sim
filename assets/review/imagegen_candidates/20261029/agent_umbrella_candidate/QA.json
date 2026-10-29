@@ -1,0 +1,56 @@
+{
+  "asset_id": "umbrella_stand_candidate",
+  "status": "review_only",
+  "runtime_approved": false,
+  "source": "Codex ImageGen; generated with transparent_background=true",
+  "files": {
+    "candidate": "umbrella_stand_candidate.png",
+    "first_generation": "umbrella_stand_candidate_v1.png",
+    "original_source": "C:/Users/yuuna/.codex/generated_images/01a18655-9367-75d2-bb45-1f38c8b43ed3/exec-df138d86-6e38-46f4-92c2-c17e4cee1f88.png"
+  },
+  "image": {
+    "width": 1312,
+    "height": 1199,
+    "mode": "RGBA",
+    "alpha_bbox": [
+      81,
+      39,
+      1292,
+      1163
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "transparent_pixels": 1340417,
+    "partial_alpha_pixels": 232351,
+    "fully_opaque_pixels": 320,
+    "edge_alpha": {
+      "top_nonzero": 0,
+      "bottom_nonzero": 0,
+      "left_nonzero": 0,
+      "right_nonzero": 0,
+      "near_edge_nonzero_within_8px": 0
+    },
+    "sha256": "ca8da37037ad9675b47de092fcf44cba1956bf4ddc944a69a76e334a79565007"
+  },
+  "visual_qa": {
+    "subject": "one umbrella stand with exactly three closed folded umbrellas (red, yellow, teal) and shallow bottom drip tray",
+    "silhouette": "PASS: complete object with visible margin on all sides",
+    "category_readability": "PASS: unmistakably a compact umbrella stand with three folded umbrellas",
+    "style": "PASS: warm hand-painted tycoon-game illustration",
+    "background": "PASS: alpha channel present; no floor/environment; inspect composited output for subtle edge fringe",
+    "text_or_logo": "PASS: none"
+  },
+  "projection_qa": {
+    "target": "iso2x_v1 orthographic 2:1 game projection",
+    "result": "REVIEW_REQUIRED",
+    "notes": "Strong isometric-like three-quarter view with vertical posts, but this ImageGen output is not camera-calibrated; exact iso2x_v1 axis slopes/anchor have not been numerically verified. Do not use as runtime asset yet."
+  },
+  "known_issues": [
+    "Thin red/green antialias fringe is visible around some umbrella silhouettes on inspection.",
+    "Umbrella silhouettes and stand are stylized and narrow; exact in-game tile scale/anchor not calibrated.",
+    "The first generation v1 touched the top image edge and is retained only as a failed iteration; v2 is the selected candidate."
+  ],
+  "qa_summary": "Review-only candidate. The v2 has a complete silhouette, exactly three closed umbrellas, and a visible drip tray. It is a clear visual improvement over v1, but requires edge-fringe cleanup and game-projection/scale calibration before runtime approval."
+}

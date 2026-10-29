@@ -716,6 +716,58 @@
       "qa_observation": "Touchscreen, keypad and receipt printer are clearly readable as one compact POS station; genuine RGBA transparency with low-alpha haze around silhouette. Camera is strongly perspective-oblique rather than verified iso2x_v1, and glossy highlights exceed target game style. Review-only.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "agent_waste_bin_candidate/waste_bin_candidate.png",
+      "subject": "two-compartment convenience-store recycling bin candidate",
+      "dimensions_px": [
+        1374,
+        1145
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        57,
+        20,
+        1289,
+        1135
+      ],
+      "alpha_bbox_threshold_8": [
+        398,
+        202,
+        977,
+        969
+      ],
+      "sha256": "c4449222eaa126ee853634b14e8bb30b082bf8e95ebe13555fb59d32b77f88de",
+      "visual_status": "review_only_projection_unverified",
+      "qa_observation": "Two apertures and recycling pictograms are readable; true alpha with margin. Glossy, perspective-like geometry; exact iso2x projection and in-game scale are unverified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "agent_umbrella_candidate/umbrella_stand_candidate.png",
+      "subject": "umbrella stand with three closed umbrellas and drip tray",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        81,
+        39,
+        1292,
+        1163
+      ],
+      "alpha_bbox_threshold_8": [
+        458,
+        135,
+        858,
+        1019
+      ],
+      "sha256": "ca8da37037ad9675b47de092fcf44cba1956bf4ddc944a69a76e334a79565007",
+      "visual_status": "review_only_projection_unverified",
+      "qa_observation": "Complete warm hand-painted umbrella stand; true alpha and clear margin. Faint red/green edge fringe; game projection and scale remain uncalibrated.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [

@@ -136,3 +136,10 @@ A second agent-generated sign concept is preserved at `agent_sign_candidate/agen
 ## Additional checkout equipment — POS terminal
 
 `pos_terminal_candidate/pos_terminal_candidate.png` combines a touchscreen, keypad and receipt printer in one isolated image candidate. True RGBA alpha is present, but a low-alpha haze surrounds the art and the strong perspective/gloss do not match a calibrated iso2x game sprite. Kept review-only with alpha threshold bounds and SHA-256 in its QA record.
+
+## Issue #163 — bin and umbrella variations from parallel generation
+
+- `agent_waste_bin_candidate/waste_bin_candidate.png` — two-compartment recycling bin; both top openings and pictograms read, with real alpha and margin. It is glossier and more perspective-like than the target sprite projection. The game already contains a simple `trash_recycle_bins` placeholder, so this is a visual replacement study only.
+- `agent_umbrella_candidate/umbrella_stand_candidate.png` — three folded umbrellas and drip tray in a warm hand-painted style; complete silhouette and real alpha. Thin colored fringe remains and projection/scale are uncalibrated. This is a second visual direction alongside the earlier umbrella candidate.
+
+Both remain review-only. Per-agent QA and measured file metadata are retained; neither changes the generated runtime prop or its approval state.

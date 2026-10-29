@@ -1,0 +1,28 @@
+{
+  "asset_id": "agent_waste_bin_candidate",
+  "source": "Codex ImageGen (new generation; isolated sprite)",
+  "file": "waste_bin_candidate.png",
+  "dimensions_px": [1374, 1145],
+  "mode": "RGBA",
+  "alpha": {
+    "min_max": [0, 255],
+    "bbox_alpha_gt0_xyxy": [57, 20, 1289, 1135],
+    "bbox_alpha_gt8_xyxy": [398, 202, 977, 969],
+    "edge_pixels_alpha_gt0": 0,
+    "edge_pixels_alpha_gt8": 0,
+    "assessment": "True transparency confirmed; no nontransparent pixels touch the canvas edge. A discarded follow-up edit baked a checkerboard into RGB and is not included."
+  },
+  "sha256": "c4449222eaa126ee853634b14e8bb30b082bf8e95ebe13555fb59d32b77f88de",
+  "visual_qa": {
+    "category_readability": "PASS: clearly reads as a compact indoor two-compartment recycling/waste bin.",
+    "required_top_apertures": "PASS: one round and one rectangular aperture are visible on the top lid.",
+    "generic_pictogram": "PASS: simple recycling pictograms, no legible text or brand logos.",
+    "full_object_and_margin": "PASS: complete silhouette visible; transparent margin present, though top margin is relatively narrow (20 px to any alpha).",
+    "style": "PARTIAL: warm light body and simple colors fit a tycoon-game prop, but rendering is glossy and closer to polished 3D illustration than hand-painted art.",
+    "projection": "UNVERIFIED: image is isometric-like with verticals mostly upright, but iso2x_v1 axis slopes and tile-length alignment have not been measured against the running game camera.",
+    "background_shadow_glow": "PASS: no floor or environment; transparent exterior has no edge-connected alpha."
+  },
+  "status": "review_only",
+  "runtime_approved": false,
+  "integration": "Not integrated into game code; no runtime or shared QA changes."
+}
