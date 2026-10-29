@@ -1,0 +1,29 @@
+{
+  "asset_id": "oden_countertop_single_projection_edit_v6",
+  "file": "oden_countertop_candidate/oden_countertop_single_projection_edit_v6.png",
+  "generation_tool": "built-in Codex image_gen edit (transparent_background=true)",
+  "dimensions_px": [
+    1374,
+    1145
+  ],
+  "mode": "RGBA",
+  "alpha_bbox": [
+    0,
+    19,
+    1331,
+    1145
+  ],
+  "alpha_bbox_threshold_8": [
+    91,
+    49,
+    1283,
+    1134
+  ],
+  "sha256": "19199d05cb951efc631e5310cc4af79d290db8b602d6996d4af6a5ae7e33eee1",
+  "visual_observations": [
+    "A projection edit of v5 preserves the single 4-section pot and makes the front vertical face more visible, but the camera is still steep/perspective rather than verified iso2x_v1. Nonzero alpha again reaches left and bottom edges; keep as a separate review iteration."
+  ],
+  "status": "review_only_projection_and_margin_fail",
+  "runtime_approved": false,
+  "human_approved": false
+}

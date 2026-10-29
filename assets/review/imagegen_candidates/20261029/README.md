@@ -155,3 +155,5 @@ Both remain review-only. Per-agent QA and measured file metadata are retained; n
 ## Issue #163 P0 — single tabletop oden pot retry v5
 
 `oden_countertop_candidate/oden_countertop_single_alpha_candidate_v5.png` is explicitly one small countertop pot with four ingredient compartments, distinct from the large three-bay warmer cabinet. It has true RGBA alpha and the category reads clearly, but a low-alpha halo reaches left/bottom edges and its steep perspective does not match iso2x_v1. Review-only; do not use it as the large-case asset or distort it to fit.
+
+`oden_countertop_single_projection_edit_v6.png` is an angle-only edit of the v5 single pot. It reveals more of the front vertical face while preserving the four food sections, but perspective remains steep and alpha reaches left/bottom canvas edges. Retained separately; no crop or warp was applied.
