@@ -197,3 +197,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `agent_bun_v4/steamed_bun_warmer_candidate_v4.png` — correct compact two-tray bun warmer with five buns; glossy photoreal finish, left-edge fringe and bottom contact fail the current sprite gate. Review-only. The previous `agent_bun_v3` output was excluded because its PNG depicts unrelated greenery despite its bun-warmer filename/QA; no asset from that mismatched folder is registered.
 - `agent_coffee_v3/coffee_machine_candidate_v3.png` — recognizable single coffee machine; broad low-alpha fringe, glossy style and uncalibrated projection remain. Review-only.
 - `agent_umbrella_v3.png` — three folded umbrellas in a rack; readable soft-painted result, but alpha fringe reaches canvas edges and projection is uncalibrated. Review-only.
+
+- `rear_planting_candidate_v1/rear_planting_candidate_v1.png` — Codex ImageGen wide shallow-V Japanese spring planting scenery. The subject/composition is present, but world anchors and iso2x projection are uncalibrated; low-alpha color fringe reaches image edges. Review-only; no crop or warp.

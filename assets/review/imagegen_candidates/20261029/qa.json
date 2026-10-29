@@ -1243,6 +1243,30 @@
       "visual_status": "review_only_projection_unverified",
       "runtime_approved": false,
       "notes": "Metal umbrella rack with three folded umbrellas in blue, ivory, and sage. Readable soft-painted illustration with transparent RGBA. Alpha-1 fringe reaches canvas edges and projection/game scale are not calibrated. No crop or cleanup applied."
+    },
+    {
+      "file": "rear_planting_candidate_v1/rear_planting_candidate_v1.png",
+      "subject": "exterior_rear_planting_jp_v1",
+      "dimensions_px": [
+        2172,
+        724
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "alpha_bbox_ge_8": [
+        4,
+        13,
+        2171,
+        686
+      ],
+      "sha256": "3d1dfd4bec95829ce76923b08049a8d4b3929807f064fe63f69da9380ccebfe6",
+      "visual_status": "review_only_projection_and_alpha_fail",
+      "runtime_approved": false,
+      "notes": "A continuous shallow V-shaped planting strip with Japanese sakura, evergreens, layered shrubs and flowers. Composition is suitable as a candidate, but game projection/world anchors are uncalibrated and low-alpha color fringe touches the canvas edges. No crop, warp, or cleanup applied."
     }
   ],
   "comparisons": [
