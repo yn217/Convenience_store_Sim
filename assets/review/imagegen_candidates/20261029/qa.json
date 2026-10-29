@@ -387,6 +387,46 @@
       "qa_observation": "Three trays of buns are legible; upper housing reads as broad cap, and alpha>=16 leaves margin though three faint alpha pixels reach left edge. iso2x visually estimated only.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "microwave_candidate/microwave_candidate.png",
+      "subject": "standalone microwave candidate",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        344,
+        61,
+        1429,
+        855
+      ],
+      "transparent_top_left": true,
+      "sha256": "5a013a7f0dd326bb04dff26395f88b474bc47fa48d45b8f80b6bfdee412a22ab",
+      "visual_status": "review_only_projection_fail_style_partial",
+      "qa_observation": "Full appliance and controls are readable; depth does not match strict iso2x, and reflective finish is stronger than target.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "postbox_candidate/postbox_candidate.png",
+      "subject": "standalone Japanese public postbox candidate",
+      "dimensions_px": [
+        1212,
+        1298
+      ],
+      "alpha_bbox": [
+        57,
+        41,
+        1174,
+        1258
+      ],
+      "transparent_top_left": true,
+      "sha256": "1271253239e1d8edba1d3fd9a750da8249cac625d886f4006ae64c6628811c51",
+      "visual_status": "review_only_projection_unverified",
+      "qa_observation": "Recognizable cylindrical red postbox with slot, access hatch and base; strict game iso2x projection remains unverified.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [

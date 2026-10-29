@@ -1,0 +1,17 @@
+{
+  "asset_id": "microwave_candidate_20261029",
+  "file": "microwave_candidate.png",
+  "dimensions_px": { "width": 1774, "height": 887 },
+  "alpha_bbox_px": [344, 61, 1429, 855],
+  "sha256": "5a013a7f0dd326bb04dff26395f88b474bc47fa48d45b8f80b6bfdee412a22ab",
+  "prompt": "Use case: game-asset. Asset type: one standalone Japanese convenience-store microwave oven sprite for a warm painted tycoon management game. Primary request: a compact freestanding or countertop microwave oven appliance only, NOT a full self-service counter or kitchen. Scene/backdrop: true transparent background; no floor plane, no external cast shadow. Subject: compact stainless steel and warm cream microwave housing with short feet and a small grounded base; front face clearly visible with a dark glass door and subtle interior turntable tray visible through glass, a simple vertical numeric keypad/button panel and distinct door handle; show a narrow right side panel. Practical Japanese convenience-store appliance proportions. Style/medium: warm painted, softly shaded, crisp readable tycoon-game sprite art, slightly illustrated and hand-finished rather than photoreal or glossy 3D product render; coherent cozy store management game palette. Composition/framing: one whole microwave centered, full silhouette, generous transparent margin on every side. Exact 2:1 iso2x game projection: horizontal world axes project at 2:1 slopes, all vertical edges perfectly parallel, no perspective convergence. View customer-facing front and narrow right side, mild elevated view showing only a little top. Keep the appliance compact and readable at game-sprite scale. Constraints: one object only, isolated transparent sprite. No countertop scene, no cabinets, no people, no room, no collage/sheet, no text or logos, no watermark, no floor, no external shadow, no cropping, no added boxes or protrusions.",
+  "visual_qa": {
+    "projection": "FAIL: although the canvas itself has a 2:1 ratio, the appliance is drawn with perspective-like depth; top and front/side edges do not consistently match exact iso2x 2:1 axes. Vertical edges are mostly parallel but not perfectly uniform.",
+    "composition": "PASS: one complete microwave with clear margin on all sides; alpha bbox leaves 61 px top, 32 px bottom, 344 px left, and 345 px right.",
+    "subject_readability": "PASS: clearly a microwave; dark glass door, faint turntable, keypad/buttons, handle, side vents, feet are visible.",
+    "style": "PARTIAL: warm cream/stainless palette and clean illustrated shading, but surface reflections remain rather glossy and closer to a polished product render than hand-painted tycoon sprite art.",
+    "constraints": "PASS: no text, logos, room, people, collage, floor, or external shadow observed."
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

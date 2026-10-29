@@ -1,0 +1,25 @@
+{
+  "asset_id": "postbox_candidate",
+  "file": "postbox_candidate.png",
+  "generation_tool": "built-in image_gen",
+  "source_path": "C:\\Users\\yuuna\\.codex\\generated_images\\01a185d1-b5e3-7b63-9306-6bb53714c315\\exec-e6470227-b625-4855-810c-154cc694abae.png",
+  "width": 1212,
+  "height": 1298,
+  "alpha_bbox": [
+    57,
+    41,
+    1174,
+    1258
+  ],
+  "sha256": "1271253239e1d8edba1d3fd9a750da8249cac625d886f4006ae64c6628811c51",
+  "prompt": "Use case: stylized-concept. One isolated 2D isometric game sprite for a Japanese convenience-store tycoon game: a single standalone red public postal mailbox, clearly distinct from an ATM. Strict iso2x 2:1 orthographic projection, front and right side visible, parallel verticals, no perspective. Recognizable mail slot and small return/collection hatch, red body, neutral gray base, generic no readable lettering/logo. Warm hand-painted tycoon-game look inspired by image-1792819026698.webp. Full object with margin, transparent background. No environment, floor, external shadow, people, collage, signage, UI, watermark, ATM features, text, or 3D model.",
+  "visual_observations": [
+    "Single recognizable red cylindrical public post box with prominent mail slot, small lower access hatch, and gray base.",
+    "Front and a narrow right-side surface are visible; no ATM screen or keypad.",
+    "Warm painted highlights and isolated transparent presentation.",
+    "The rendered projection is not calibrated against the game iso2x camera; strict 2:1 slope remains visually unverified.",
+    "No post-generation scaling or stretching was applied."
+  ],
+  "status": "review_only",
+  "runtime_approved": false
+}
