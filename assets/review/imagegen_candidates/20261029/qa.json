@@ -1603,6 +1603,30 @@
       "visual_status": "review_only_alpha_projection_unverified",
       "runtime_approved": false,
       "notes": "Warm variant of v1; dark halo remains, projection uncalibrated."
+    },
+    {
+      "file": "frappe_blender_alpha_edit_v3/frappe_blender_alpha_edit_v3.png",
+      "subject": "frappe_blender_alpha_edit_v3",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        28,
+        972,
+        1504
+      ],
+      "alpha_bbox_ge_8": [
+        173,
+        30,
+        878,
+        1476
+      ],
+      "sha256": "d6acfd8f8f205a2ed0c48bb821e99068706bd94bbaf93f401709322763eeacf3",
+      "visual_status": "review_only_alpha_fail",
+      "runtime_approved": false,
+      "notes": "FAIL: dark halo persists and alpha=1 reaches left edge; no evidence of improved isolation."
     }
   ],
   "comparisons": [
