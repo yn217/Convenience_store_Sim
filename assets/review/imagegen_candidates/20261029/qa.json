@@ -1124,6 +1124,24 @@
       "visual_status": "review_only_projection_unverified",
       "runtime_approved": false,
       "notes": "Mostly frontal with right side visible and upright verticals; visible top/right-side perspective remains. iso2x_v1 is only a target and is not calibrated or verified. Warm hand-painted management-game illustration. Strong glass/metal highlights; transparent-margin alpha will be inspected against game background."
+    },
+    {
+      "file": "ice_cream_case_candidate_v1/ice_cream_case_candidate_v1.png",
+      "subject": "ice_cream_case_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1398,
+        1008
+      ],
+      "sha256": "af2b0bd87b13afbdf30f414211d8a50852b6d7d74810de3ddb4dbbdd88668f5e",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "Low island freezer, paired glass lids, ice cream bars/tubs and blue stripe read clearly. FAIL for target sprite: elevated overhead camera is too strong and long footprint axis is too shallow for iso2x_v1; substantial dark studio halo and glossy glass/metal. True alpha edge and game scale need separate calibration; no crop or scale applied."
     }
   ],
   "comparisons": [
