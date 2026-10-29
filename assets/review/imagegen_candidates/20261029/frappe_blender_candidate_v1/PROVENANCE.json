@@ -1,0 +1,13 @@
+{
+  "asset_id": "frappe_blender_candidate_v1",
+  "production_method": "Codex built-in ImageGen",
+  "generated_at": "2026-10-29",
+  "source_original": "assets/review/imagegen_candidates/20261029/frappe_blender_candidate_v1/frappe_blender_candidate_v1.png",
+  "source_unchanged": true,
+  "source_sha256": "15c188d8269e2bc68b43c57870c939285c2e885a53915ba171701cb84452a575",
+  "style_reference": "C:/Users/yuuna/Downloads/image-1792819026698.webp",
+  "style_reference_sha256": "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac",
+  "rights": "Codex ImageGen output; no third-party source artwork copied",
+  "review_status": "review_only",
+  "runtime_approved": false
+}

@@ -1,0 +1,33 @@
+{
+  "asset_id": "soft_serve_machine_candidate_v1",
+  "projection": "iso2x_v1",
+  "rotation": 0,
+  "customer_access_edge": "E",
+  "footprint_tiles": [
+    1,
+    1
+  ],
+  "dimensions_m": [
+    0.92,
+    0.92,
+    1.5
+  ],
+  "world_ground_origin_m": null,
+  "image_anchor_px": null,
+  "projection_control_points": [],
+  "expected_world_axis_vectors_zoom1": {
+    "+X": [
+      64,
+      32
+    ],
+    "+Y": [
+      -64,
+      32
+    ]
+  },
+  "measured_projection": "not_calibrated",
+  "crop": "none",
+  "rescale": "none",
+  "status": "review_only",
+  "runtime_approved": false
+}

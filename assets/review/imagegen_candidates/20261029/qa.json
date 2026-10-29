@@ -1435,6 +1435,78 @@
       "visual_status": "review_only_projection_style_and_alpha_edge_unverified",
       "runtime_approved": false,
       "notes": "Integrated continuous planter and two rooted trees. True RGBA output. Long-axis slope is visually about 0.19 rise/run vs. 0.5 target; style remains too detailed and foliage has colored fringe. No crop/warp/cleanup; world anchor and Godot size unverified."
+    },
+    {
+      "file": "soft_serve_machine_candidate_v1/soft_serve_machine_candidate_v1.png",
+      "subject": "soft_serve_machine_candidate_v1",
+      "dimensions_px": [
+        1327,
+        1185
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1270,
+        1161
+      ],
+      "alpha_bbox_ge_8": [
+        375,
+        58,
+        987,
+        1133
+      ],
+      "sha256": "a8f3f0d57f94ffe1808e1b725435f081ace6d4eb8a2112c61648a0620cac70c5",
+      "visual_status": "review_only_alpha_style_projection_and_geometry_unverified",
+      "runtime_approved": false,
+      "notes": "Standalone soft-serve machine with dual flavor indicators, lever/nozzle and drip tray. Real RGBA but low-alpha haze touches left/right canvas edges; glossy finish differs from target. Geometry, exact iso2x projection and Godot scale unverified. No crop/warp/cleanup."
+    },
+    {
+      "file": "soft_serve_machine_candidate_v2/soft_serve_machine_candidate_v2.png",
+      "subject": "soft_serve_machine_candidate_v2",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        65,
+        9,
+        1591,
+        855
+      ],
+      "alpha_bbox_ge_8": [
+        624,
+        37,
+        1161,
+        850
+      ],
+      "sha256": "8b4b81cbca280a778a4b42b5229acd9edb2190a400fde621699b5596cac7e351",
+      "visual_status": "review_only_alpha_style_projection_and_geometry_unverified",
+      "runtime_approved": false,
+      "notes": "Visual is more legible and less photoreal than v1, but alpha=1 haze remains broad and projection is uncalibrated."
+    },
+    {
+      "file": "frappe_blender_candidate_v1/frappe_blender_candidate_v1.png",
+      "subject": "frappe_blender_candidate_v1",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        66,
+        900,
+        1496
+      ],
+      "alpha_bbox_ge_8": [
+        181,
+        68,
+        866,
+        1455
+      ],
+      "sha256": "15c188d8269e2bc68b43c57870c939285c2e885a53915ba171701cb84452a575",
+      "visual_status": "review_only_alpha_style_projection_and_geometry_unverified",
+      "runtime_approved": false,
+      "notes": "Subject is distinct and readable; alpha haze touches left edge, finish is glossy, projection and fixture fit are unverified."
     }
   ],
   "comparisons": [
@@ -1442,6 +1514,11 @@
       "file": "bread_gondola_comparison.png",
       "sha256": "a4d8a492f21b4323dff6e634dec68a1e90e2fe0189f1e9929f2e3d7bb421822e",
       "note": "display-only fit-to-panel; not equal source scale and not a projection calibration"
+    },
+    {
+      "file": "interior_equipment_review_sheet_20261029.png",
+      "sha256": "433436f28156bb266c81d90d5bbf1c56549f697c9283006869b3579058ce31ea",
+      "note": "Display-only side-by-side of soft-serve v1/v2 and frappe blender; fit-to-panel preview, not projection or scale calibration."
     }
   ]
 }
