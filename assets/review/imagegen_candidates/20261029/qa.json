@@ -1699,6 +1699,30 @@
       "visual_status": "review_only_alpha_fail_geometry_unverified",
       "runtime_approved": false,
       "notes": "Style reference supplied; halo remains strong, 1x2 and projection unverified."
+    },
+    {
+      "file": "register_basic_counter_candidate_v3/register_basic_counter_candidate_v3.png",
+      "subject": "register_basic_counter_candidate_v3",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        43,
+        40,
+        1744,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        416,
+        62,
+        1465,
+        843
+      ],
+      "sha256": "7fdca2d5bd5b8f56b647ace2e4e29f89c4497ec8c9f972202f87a654d7b103ed",
+      "visual_status": "review_only_projection_provisional_fail",
+      "runtime_approved": false,
+      "notes": "Approximate manual slopes long -0.388, short 0.601; target -0.5/+0.5. No Godot or independent QA."
     }
   ],
   "comparisons": [
