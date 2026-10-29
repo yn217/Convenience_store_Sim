@@ -41,3 +41,12 @@ Generated two new complete shelf-and-merchandise images, rather than detached pa
 Issue #157's prior image set remains untouched. These new PNGs are review-only, not a canonical EMPTY/FULL sprite or runtime asset. No crop, nonuniform scaling, or alpha cleanup was applied. Exact footprint, r0 direction, ground anchor, and Godot display remain unverified. `runtime_approved:false`.
 
 A display-only side-by-side comparison is in read_gondola_comparison.png. Both originals are fitted to view panels for inspection; the sheet is not a scale or projection calibration.
+
+## 2026-10-29 — ATM and copier candidates
+
+Two additional standalone candidates were generated in parallel and preserved with per-image metadata:
+
+- `atm_candidate/atm_candidate.png` — front controls and right side are readable. Projection FAIL: perspective-like edges, converging verticals, and the base touches the bottom edge. Do not approve or stretch to fit.
+- `copier_candidate/copier_candidate.png` — ADF, blue touchscreen, output area, and drawers read clearly in the intended warm painted style. Exact `iso2x_v1`, anchor, footprint, and game-scale checks remain unverified.
+
+Both original PNGs remain unmodified, `review_only`, and `runtime_approved:false`. Per-candidate prompts, bounds, hashes, and visual findings are in each folder's `QA.json`.

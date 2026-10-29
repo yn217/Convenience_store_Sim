@@ -1,0 +1,18 @@
+{
+  "asset_id": "atm_candidate_20261029",
+  "file": "atm_candidate.png",
+  "dimensions_px": { "width": 1189, "height": 1323 },
+  "alpha_bbox_px": [57, 20, 1169, 1323],
+  "sha256": "fa4b1a82a9447947f8c2784a7a32b6dcd5d9228b9c708f30c766f067e294f6f4",
+  "prompt": "Use case: game-asset; Asset type: single transparent isometric game sprite for a Japanese convenience-store management tycoon game; Primary request: one complete standalone Japanese convenience-store ATM. Scene/backdrop: truly transparent background; no floor plane, no shadow outside the sprite. Subject: compact upright ATM kiosk with customer-facing front and narrow right side visible; clean red, white, and blue generic color blocking, no readable logos or text. Clearly visible dark screen, numeric keypad, card slot, cash dispensing/acceptance slots, small service panel, compact grounded dark base. Style/medium: warm hand-painted stylized game art matching polished isometric tycoon game sprites; crisp readable shapes, soft highlights, restrained outlines, appealing but practical. Composition/framing: one whole ATM centered with generous transparent margin, 2:1 isometric projection, camera elevated to show top and front plus a narrow right side; parallel verticals, no perspective convergence, no crop, no extra objects. Constraints: preserve coherent solid ATM proportions, detailed front controls readable at game-sprite scale, grounded base; transparent alpha. No photoreal cutout, no sheet, no UI, no room, no people, no extra props, no watermark, no text, no 3D model presentation.",
+  "observed_projection_issues": [
+    "FAIL: image does not follow a strict 2:1 isometric projection; visible side/top proportions read as perspective-like.",
+    "FAIL: vertical enclosure edges have slight lean/convergence rather than perfectly parallel sprite axes.",
+    "FAIL: sprite nearly touches the bottom canvas edge (alpha bbox bottom=1323 of 1323), so requested full margin is absent below the base.",
+    "PASS: customer-facing controls and a narrow side are both visible; screen, keypad, card/cash openings, service panel, and grounded base are present.",
+    "PASS: transparent alpha and no readable branding/text."
+  ],
+  "style_observation": "Polished, but closer to a glossy 3D-rendered product illustration than the requested warm painted tycoon-game sprite.",
+  "status": "review_only",
+  "runtime_approved": false
+}
