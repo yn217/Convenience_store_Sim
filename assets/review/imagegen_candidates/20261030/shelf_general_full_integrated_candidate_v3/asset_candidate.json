@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_full_integrated_candidate_v3",
+  "asset_class": "interior_fixture",
+  "requested_subject": "shelf_general FULL integrated with goods while preserving EMPTY geometry, iso2x_v1 projection and alpha margin",
+  "actual_subject": "Four-tier one-sided gondola with colorful fictional packages; structure visibly differs from supplied empty base",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v3/shelf_general_full_integrated_candidate_v3.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1540831,
+    "sha256": "6486fc8e63c172dad61598d6ca65dc6bfb408424ed4958b577129bf09d337626",
+    "reference_hashes": [
+      "4556ce7fb92b0d81d5760b37efad6b8ef03e2e5864ab7010d2106111d3537086",
+      "e96ee830985afdb53d816e2bf5f3188ebc9dead3ff8eb63bf825a85f10eb1d95",
+      "3823a4a43a26d69936c28b5d11afb049712c00b057d26da21947c054b2c78c70"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v3/shelf_general_full_integrated_candidate_v3.png",
+      "byte_size": 1540831,
+      "sha256": "6486fc8e63c172dad61598d6ca65dc6bfb408424ed4958b577129bf09d337626",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v3/alpha_preview_v3.png",
+      "byte_size": 333950,
+      "sha256": "2c5fcd53040463481a0c5f8853e90e66cc6688965cf93d79b4564779262f9c9f",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v3/comparison_empty_v13_full_v3.png",
+      "byte_size": 285514,
+      "sha256": "b494a790d8be71353d10c0f2e538142636c206c7d866d0fe14de9646af0bd4e3",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v3/QA.json",
+      "byte_size": 2802,
+      "sha256": "a21a0fe6e843b1b94534f3b24532f80aea4244f8b84119e7eb8367f6598c8a40",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v3/README.md",
+      "byte_size": 1987,
+      "sha256": "e734fdabf3cf64def6c82772df3b0c4d356dab9567ff30edc5933f8cfe24cdac",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "partial",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "partial",
+    "notes": [
+      "Integrated shelf+goods composition achieved.",
+      "Shelf geometry drifts from v13, with excessive blank shelf surface; mask overlap does not prove geometry preservation.",
+      "Products have strong side volume and retain box-like appearance.",
+      "Long-axis angle differs from iso2x_v1 guide; no calibrated control points.",
+      "Bottom transparent margin and alpha halo fail; dimensions/anchor/runtime not verified.",
+      "Review only; runtime_approved remains false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
