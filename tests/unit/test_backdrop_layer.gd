@@ -162,9 +162,9 @@ func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
 			var transform := BackdropLayer.roadside_grove_transform(proj, size.x, size.y, side)
 			t.ok((transform * BackdropLayer.REAR_GROVE_GROUND_START_PX).distance_to(proj.world_to_screen(world_start.x, world_start.y)) < 0.01, "grouped grove root start anchors on side %d for %dx%d" % [side, size.x, size.y])
 			t.ok((transform * BackdropLayer.REAR_GROVE_GROUND_END_PX).distance_to(proj.world_to_screen(world_end.x, world_end.y)) < 0.01, "grouped grove root end anchors on side %d for %dx%d" % [side, size.x, size.y])
-			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "grouped grove keeps uniform scale for side %d" % side)
+			t.ok(absf(transform.y.x) < 0.001 and transform.y.y > 0.0, "grouped grove keeps trunks vertical for side %d" % side)
 			var expected_scale := BackdropLayer.REAR_GROVE_WORLD_LENGTH_M * Vector2(IsoProjection.HALF_TILE_W, IsoProjection.HALF_TILE_H).length() * proj.zoom / (BackdropLayer.REAR_GROVE_GROUND_END_PX - BackdropLayer.REAR_GROVE_GROUND_START_PX).length()
-			t.ok(absf(transform.x.length() - expected_scale) < 0.001, "grouped grove keeps the same world height and scale for %dx%d" % [size.x, size.y])
+			t.ok(absf(transform.y.length() - expected_scale) < 0.001, "grouped grove keeps the same world height for %dx%d" % [size.x, size.y])
 	var initial := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
 	proj.pan(Vector2(31.0, -17.0))
 	var moved := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
@@ -225,7 +225,7 @@ func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
 			var transform := BackdropLayer.urban_grove_transform(proj, size.x, size.y, side, source_size)
 			t.ok((transform * source_start).distance_to(proj.world_to_screen(start.x, start.y)) < 0.01, "urban grove first root stays on ground behind side %d for %dx%d" % [side, size.x, size.y])
 			t.ok((transform * source_end).distance_to(proj.world_to_screen(finish.x, finish.y)) < 0.01, "urban grove last root stays on ground behind side %d for %dx%d" % [side, size.x, size.y])
-			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "urban grove art does not stretch for side %d" % side)
+			t.ok(absf(transform.y.x) < 0.001 and transform.y.y > 0.0, "urban grove keeps tree trunks vertical for side %d" % side)
 			if long20:
 				t.eq(world_length, edge_length, "20m grove reaches both projected wall endpoints on side %d" % side)
 	var west := BackdropLayer.urban_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST, image_size)
@@ -239,7 +239,7 @@ func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
 		var source_size := long20_image_size if (side == BackdropLayer.SIDE_NORTH or side == BackdropLayer.SIDE_SOUTH) else image_size
 		var before := BackdropLayer.urban_grove_transform(pan_start_proj, 20, 16, side, source_size)
 		var after := BackdropLayer.urban_grove_transform(pan_end_proj, 20, 16, side, source_size)
-		t.eq(after.origin, before.origin + Vector2(31.0, -17.0), "full-length grove follows camera pan on side %d" % side)
+		t.ok(after.origin.distance_to(before.origin + Vector2(31.0, -17.0)) < 0.01, "full-length grove follows camera pan on side %d" % side)
 
 
 func test_urban_grove_forms_a_three_side_band_around_the_entrance(t, _tree) -> void:

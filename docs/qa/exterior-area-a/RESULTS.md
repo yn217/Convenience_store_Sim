@@ -1,5 +1,20 @@
 # Area A / storefront follow-up QA (2026-10-29)
 
+## Upright planting alignment
+
+The grouped planting strips now fit their root endpoints to each projected store edge while keeping the image's vertical axis upright on screen. The previous rotation transformed the entire tree image along with the ground line, which made trunks lean on the isometric sides. The affine shear changes the strip's ground-line angle without moving the z=0 anchor; store walls continue to cover the roots and lower stems.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00:
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `upright-grove-v2-12x10-1600x900-2026-10-29.png` | Compact panel follows the wall angle; trunks stay upright and the wall covers the planting base. |
+| 16x12 | `upright-grove-v2-16x12-1600x900-2026-10-29.png` | Intermediate panel uses the same upright transform and stays aligned at both ends. |
+| 20x16 | `upright-grove-v2-20x16-1600x900-2026-10-29.png` | Long panel meets both wall endpoints without rotating the trees. |
+| 20x16, camera panned | `upright-grove-v2-pan-20x16-1600x900-2026-10-29.png` | World anchors follow the moved camera while the store and grove remain in frame. |
+
+Focused `test_backdrop_layer` passed 22 tests / 327 assertions, including all four side transforms and pan behavior. No full suite was run. New image-generation candidates were not integrated: several had a checkerboard baked into the image or visible colored fringes around transparent edges.
+
 ## Runtime captures
 
 All images are actual Godot 4.7.2 captures at 1600x900, 16:00, whole-store camera, frozen simulation.

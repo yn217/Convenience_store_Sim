@@ -366,10 +366,7 @@ static func roadside_grove_transform(proj: IsoProjection, width: int, height: in
 	var source_run := source_end - source_start
 	var target_run := screen_end - screen_start
 	var scale := REAR_GROVE_WORLD_LENGTH_M * Vector2(IsoProjection.HALF_TILE_W, IsoProjection.HALF_TILE_H).length() * proj.zoom / source_run.length()
-	var angle := target_run.angle() - source_run.angle()
-	var basis_x := Vector2.RIGHT.rotated(angle) * scale
-	var basis_y := Vector2.DOWN.rotated(angle) * scale
-	return Transform2D(basis_x, basis_y, screen_start - basis_x * source_start.x - basis_y * source_start.y)
+	return _upright_strip_transform(screen_start, screen_end, source_start, source_end, scale)
 
 
 ## Place the grouped city grove behind the public sidewalk with its base fixed to world ground at z=0.
@@ -411,10 +408,18 @@ static func _urban_grove_strip_transform(proj: IsoProjection, width: int, height
 	var target_run := screen_end - screen_start
 	var source_run := source_end - source_start
 	var scale := target_run.length() / source_run.length()
-	var angle := target_run.angle() - source_run.angle()
-	var basis_x := Vector2.RIGHT.rotated(angle) * scale
-	var basis_y := Vector2.DOWN.rotated(angle) * scale
-	return Transform2D(basis_x, basis_y, screen_start - basis_x * source_start.x - basis_y * source_start.y)
+	return _upright_strip_transform(screen_start, screen_end, source_start, source_end, scale)
+
+
+## Match a strip's ground line to the isometric edge while keeping trunks vertical on screen.
+static func _upright_strip_transform(screen_start: Vector2, screen_end: Vector2, source_start: Vector2, source_end: Vector2, scale: float) -> Transform2D:
+	var source_run := source_end - source_start
+	if absf(source_run.x) < 0.001:
+		return Transform2D.IDENTITY
+	var basis_y := Vector2.DOWN * scale
+	var basis_x := ((screen_end - screen_start) - basis_y * source_run.y) / source_run.x
+	var origin := screen_start - basis_x * source_start.x - basis_y * source_start.y
+	return Transform2D(basis_x, basis_y, origin)
 
 
 ## Fit one generated sidewalk strip to the street-side world edge using its authored centerline endpoints.
