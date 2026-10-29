@@ -1627,6 +1627,30 @@
       "visual_status": "review_only_alpha_fail",
       "runtime_approved": false,
       "notes": "FAIL: dark halo persists and alpha=1 reaches left edge; no evidence of improved isolation."
+    },
+    {
+      "file": "frappe_topping_dispenser_candidate_v1/frappe_topping_dispenser_candidate_v1.png",
+      "subject": "frappe_topping_dispenser_candidate_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        57,
+        38,
+        1706,
+        864
+      ],
+      "alpha_bbox_ge_8": [
+        514,
+        41,
+        1246,
+        858
+      ],
+      "sha256": "0837f11776505d2a9270537df18b2d7ee0fe46e876974abe384c2a99c80d5d87",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Three-compartment topping dispenser; fixture dimensions and game projection unverified."
     }
   ],
   "comparisons": [

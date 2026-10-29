@@ -1,0 +1,93 @@
+{
+  "purpose": "Display-only comparison, no crop or source modification; not Godot scale or projection calibration",
+  "cases": [
+    {
+      "name": "soft serve v3",
+      "source": "assets\\review\\imagegen_candidates\\20261029\\soft_serve_machine_candidate_v3\\soft_serve_machine_candidate_v3.png",
+      "sha256": "af86fafeec6a9cb5f57f30bc4c3ba6b30b54efa204f89ecca60eca66f63d1ec4",
+      "canvas_px": [
+        1402,
+        1122
+      ],
+      "alpha_bounds": {
+        "1": [
+          235,
+          26,
+          1082,
+          1104
+        ],
+        "8": [
+          347,
+          28,
+          1077,
+          1099
+        ],
+        "128": [
+          348,
+          29,
+          1075,
+          1098
+        ]
+      }
+    },
+    {
+      "name": "frappe v2",
+      "source": "assets\\review\\imagegen_candidates\\20261029\\frappe_blender_candidate_v2\\frappe_blender_candidate_v2.png",
+      "sha256": "41f7419ba8d5ae945cd13aa356bec3afc8612f5ea63b27462e610499e1c58bda",
+      "canvas_px": [
+        1024,
+        1536
+      ],
+      "alpha_bounds": {
+        "1": [
+          123,
+          25,
+          956,
+          1477
+        ],
+        "8": [
+          173,
+          41,
+          877,
+          1475
+        ],
+        "128": [
+          174,
+          42,
+          875,
+          1474
+        ]
+      }
+    },
+    {
+      "name": "frappe alpha edit v3",
+      "source": "assets\\review\\imagegen_candidates\\20261029\\frappe_blender_alpha_edit_v3\\frappe_blender_alpha_edit_v3.png",
+      "sha256": "d6acfd8f8f205a2ed0c48bb821e99068706bd94bbaf93f401709322763eeacf3",
+      "canvas_px": [
+        1024,
+        1536
+      ],
+      "alpha_bounds": {
+        "1": [
+          0,
+          28,
+          972,
+          1504
+        ],
+        "8": [
+          173,
+          30,
+          878,
+          1476
+        ],
+        "128": [
+          173,
+          31,
+          877,
+          1476
+        ]
+      }
+    }
+  ],
+  "runtime_approved": false
+}
