@@ -541,3 +541,11 @@ Two generation subagents attempted grouped, longer sidewalk and planting images.
 ## Extended sidewalk base probe (2026-10-29)
 
 A temporary world-space sidewalk base was extended to the same margin as the road, underneath the existing detailed sidewalk strip. Actual Godot 4.7.2 capture at 1600x900, 16:00, 0.5 zoom and a requested 900px pan: `sidewalk-base-probe-pan-2026-10-29.png`. It fills the missing footpath but produces an obvious change from detailed stone to a broad flat beige band at the original image end. The temporary code was reverted. A coherent long sidewalk/planting asset or naturally matched continuous surface is still required; no game code or tests changed in the final result.
+
+## Fixed-scale 30m roadside sidewalk candidate (2026-10-30)
+
+A generated edit of the existing sidewalk strip adds length while retaining its stone and curb presentation. The 2172x724 source uses a measured centerline (70,75)-(1990,650) mapped to a fixed 30m world-ground span centered on the entrance edge, with uniform rotation and scale. This avoids changing pavement width with store size. The image remains finite and its ends are still visible under extreme pan; roadside planting remains shorter.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00, empty and paused: `long-sidewalk-a-small-2026-10-30.png`, `long-sidewalk-a-whole-2026-10-30.png`, `long-sidewalk-a-large-2026-10-30.png`, `long-sidewalk-a-east-2026-10-30.png`, `long-sidewalk-a-north-2026-10-30.png`, and `long-sidewalk-a-pan-2026-10-30.png`. The visible sidewalk follows the road and extends beyond the previous strip without a flat beige continuation. Edge transparency, west orientation and distant continuity still need review. The visual target and user approval remain open.
+
+Focused `test_backdrop_layer` passed 24 tests / 352 assertions; `test_shell_camera_input` passed 10 tests / 96 assertions. Full suite not run.

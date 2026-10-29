@@ -38,7 +38,7 @@ const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_gr
 const UrbanGrovePanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
 const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
 const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
-const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_sidewalk_strip_v1/outer_sidewalk_strip_v1.png")
+const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/sidewalk_long_candidate_a/sidewalk_long_candidate_a.png")
 const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_field_v3/outer_ground_field_v3.png")
 const SURROUNDING_GROUND_OPACITY := 0.90
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
@@ -71,9 +71,9 @@ const URBAN_GROVE_20M_END_PX := Vector2(2070.0, 700.0)
 const URBAN_GROVE_20M_WORLD_LENGTH_M := 20.0
 const URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M := 0.25
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
-const OUTER_SIDEWALK_START_PX := Vector2(72.5, 130.0)
-const OUTER_SIDEWALK_END_PX := Vector2(2050.0, 614.0)
-const OUTER_SIDEWALK_EDGE_OVERHANG_M := 2.0
+const OUTER_SIDEWALK_START_PX := Vector2(70.0, 75.0)
+const OUTER_SIDEWALK_END_PX := Vector2(1990.0, 650.0)
+const OUTER_SIDEWALK_WORLD_LENGTH_M := 30.0
 const RoadsideLandscape := preload("res://assets/generated/backgrounds/roadside_landscape_v1/roadside_landscape_v1.png")
 const RoadsideKey := preload("res://assets/generated/backgrounds/roadside_landscape_v1/key.gdshader")
 const SideLandscape := preload("res://assets/generated/backgrounds/roadside_greenery_v2/roadside_greenery_v2.png")
@@ -546,8 +546,8 @@ static func outer_sidewalk_transform(proj: IsoProjection, width: int, height: in
 		return Transform2D.IDENTITY
 	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
 	var depth := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M + KERB_M + OUTER_SIDEWALK_M * 0.5
-	var target_start := side_point(side, depth, -OUTER_SIDEWALK_EDGE_OVERHANG_M, width, height)
-	var target_end := side_point(side, depth, edge_length + OUTER_SIDEWALK_EDGE_OVERHANG_M, width, height)
+	var target_start := side_point(side, depth, (edge_length - OUTER_SIDEWALK_WORLD_LENGTH_M) * 0.5, width, height)
+	var target_end := side_point(side, depth, (edge_length + OUTER_SIDEWALK_WORLD_LENGTH_M) * 0.5, width, height)
 	if side == SIDE_WEST or side == SIDE_EAST:
 		var swap := target_start
 		target_start = target_end

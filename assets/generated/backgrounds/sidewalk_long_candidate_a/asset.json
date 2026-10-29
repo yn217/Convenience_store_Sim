@@ -1,0 +1,13 @@
+{
+  "asset_id": "sidewalk_long_candidate_a",
+  "status": "runtime_candidate_not_user_approved",
+  "source": "OpenAI built-in image generation edit via delegated image-generation subagent, referencing outer_sidewalk_strip_v1",
+  "prompt_summary": "Long straight isometric stone sidewalk and parallel curbs, consistent with reference; transparent background and no plants, vehicles or people.",
+  "file": "sidewalk_long_candidate_a.png",
+  "canvas_size_px": [2172, 724],
+  "centerline_start_px": [70, 75],
+  "centerline_end_px": [1990, 650],
+  "world_length_m": 30,
+  "placement": "Centered along the entrance edge with a fixed world length and uniform scale; road-side centerline anchored to projected world ground.",
+  "review": "Godot 4.7.2 captures at 1600x900 for small, medium, large, north/east entrance and distant pan; the image still ends within extreme camera views. Final visual approval remains open."
+}

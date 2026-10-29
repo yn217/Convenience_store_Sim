@@ -48,3 +48,5 @@ Reference: user-supplied `image-1792819026698.webp` (16:28) and the current Godo
 - A single 36m asphalt surface candidate now covers the frontage underlay and road, fading into the flat base at both ends. Captures cover three sizes, east entrance and pan. The image has finite coverage, and distant views, all orientations, texture scale and final visual approval remain open.
 
 - At 0.5 zoom with a large leftward view shift, the road surface fades to a flat distant section and the roadside sidewalk and vegetation terminate visibly. The opposite shift exposes a broad empty field. Four 16x12 entrance orientations and both requested pan extremes are recorded in the QA results; wider streetscape continuity remains open.
+
+- A fixed-scale 30m generated sidewalk now extends farther along the road across all store sizes. Its far ends remain visible during extreme pan; roadside planting and the surrounding field still need a coherent continuation. See the 2026-10-30 captures in the QA results.

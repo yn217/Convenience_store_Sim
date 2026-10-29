@@ -207,8 +207,8 @@ func test_generated_outer_sidewalk_anchors_to_world_centerline(t, _tree) -> void
 		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
 			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
 			var depth := BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M + BackdropLayer.KERB_M + BackdropLayer.OUTER_SIDEWALK_M * 0.5
-			var world_start := BackdropLayer.side_point(side, depth, -BackdropLayer.OUTER_SIDEWALK_EDGE_OVERHANG_M, size.x, size.y)
-			var world_end := BackdropLayer.side_point(side, depth, edge_length + BackdropLayer.OUTER_SIDEWALK_EDGE_OVERHANG_M, size.x, size.y)
+			var world_start := BackdropLayer.side_point(side, depth, (edge_length - BackdropLayer.OUTER_SIDEWALK_WORLD_LENGTH_M) * 0.5, size.x, size.y)
+			var world_end := BackdropLayer.side_point(side, depth, (edge_length + BackdropLayer.OUTER_SIDEWALK_WORLD_LENGTH_M) * 0.5, size.x, size.y)
 			if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST:
 				var swap := world_start
 				world_start = world_end
