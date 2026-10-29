@@ -1,0 +1,25 @@
+{
+  "asset_id": "area_a_continuous_12m_candidate_v2",
+  "status": "runtime_candidate_not_user_approved",
+  "file": "area_a_continuous_12m_candidate_v2.png",
+  "target_world_length_m": 12,
+  "source_asset": "area_a_continuous_short_candidate_v1/area_a_continuous_12m_candidate_v1.png",
+  "projection": "Isometric ground panel, mapped to world frontage with uniform scale and reflection for east/west.",
+  "baseline": {
+    "source_start_px": [
+      360,
+      94
+    ],
+    "source_end_px": [
+      1753,
+      794
+    ],
+    "canvas_size_px": [
+      1774,
+      887
+    ]
+  },
+  "edit": "Generated asphalt mottling and warmer sidewalk hues; source geometry and markings were required to remain unchanged.",
+  "review": "Actual Godot captures at 1600x900: 12x10 south whole and pan/zoom, 16x12 east whole; visually aligned. Alpha bounds and edge color differ from source and require close-edge review.",
+  "generation": "OpenAI built-in image generation edit via image-generation subagent, based on the original 12m panel."
+}
