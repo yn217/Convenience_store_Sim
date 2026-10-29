@@ -537,3 +537,7 @@ At 16x12 with empty layout, 1600x900 and 16:00 paused, Godot captures `road-orie
 ## Long roadside image screening (2026-10-29)
 
 Two generation subagents attempted grouped, longer sidewalk and planting images. Their first outputs used the same path, so one was overwritten and the pair cannot be compared reliably. A separately saved replacement (`roadside_long_group_alt_v2`) was visually screened: its upper tree touches the canvas edge, the silhouette has strong yellow/green fringe, and the rightmost curb bends away from the straight road baseline. The surviving first-path image also shows bright fringe and clipped foliage. Neither was integrated. Generate a straight-baseline source with clean alpha and sufficient tree-head margin, then calibrate its actual ground line and verify it against the road at multiple camera positions. The current roadside remains visibly finite in distant views.
+
+## Extended sidewalk base probe (2026-10-29)
+
+A temporary world-space sidewalk base was extended to the same margin as the road, underneath the existing detailed sidewalk strip. Actual Godot 4.7.2 capture at 1600x900, 16:00, 0.5 zoom and a requested 900px pan: `sidewalk-base-probe-pan-2026-10-29.png`. It fills the missing footpath but produces an obvious change from detailed stone to a broad flat beige band at the original image end. The temporary code was reverted. A coherent long sidewalk/planting asset or naturally matched continuous surface is still required; no game code or tests changed in the final result.
