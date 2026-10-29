@@ -576,3 +576,11 @@ Godot 4.7.2 captures at 1600x900, 16:00, minimum zoom, empty store, whole view a
 The whole views show planting reaching both wall endpoints, and the fixed root line remains attached during pan. At extreme pan the store moves partly offscreen while the neighborhood panorama continues behind it; the planting stays attached to its wall run rather than being extended across the viewport. The generated source has a small remaining color fringe at some leaf edges, and its dense photoreal foliage is more prominent than in the existing in-game building art; final visual acceptance remains pending.
 
 Focused `test_backdrop_layer` passed 25 tests / 392 assertions, including ground-anchor alpha checks, both run endpoints for every supported store size and side, upright trunks, camera translation, and the independently measured rear-V branches. The full suite was not run.
+
+## Isometric urban-context camera alignment (2026-10-30)
+
+Replaced the point-perspective neighborhood panorama with `urban_context_isometric_b`, generated with parallel 2:1 dimetric ground axes matching the store's approximately +/-26.565 degree projection. The asset remains at a uniform scale and world-camera anchor; no runtime stretching or corrective rotation was added. The central paved courtyard is an asset composition choice and remains a visible quality issue.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00, paused, for 12x10, 16x12 and 20x16 are recorded as `urban-context-angle-b-small-1600x900-2026-10-30.png`, `urban-context-angle-b-medium-1600x900-2026-10-30.png`, and `urban-context-angle-b-large-1600x900-2026-10-30.png`. The 20x16 minimum-zoom opposite pan captures are `urban-context-angle-b-large-pan-left-1600x900-2026-10-30.png` and `urban-context-angle-b-large-pan-right-1600x900-2026-10-30.png`. Across sizes, neighborhood paths and planting rows now follow the store's two isometric axes, and the image remains attached during pan. The broad empty asphalt in the generated source and the photoreal-to-flat-art style difference remain for visual review.
+
+Focused `test_backdrop_layer` passed 25 tests / 392 assertions. The full suite was not run.
