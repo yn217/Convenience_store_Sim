@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0-draft",
+  "asset_id": "oden_heated_display_large_3bay_chatgpt_20261029_v1",
+  "actual_subject": "Japanese three-section oden heated showcase with large glass enclosure, warm broth ingredients",
+  "requested_subject": "single tabletop oden pot",
+  "source": "ChatGPT ImageGen 2026-10-29",
+  "status": "SOURCE_CREATED_BINARY_PENDING_GITHUB_UPLOAD",
+  "resolution": [
+    1536,
+    1024
+  ],
+  "files": {
+    "source_original.png": {
+      "size_bytes": 2831131,
+      "git_blob_sha": "ced69301ab68c34c81fa3b6b9c92fa24c0148825",
+      "github_uploaded": false
+    },
+    "sprite_fullres.png": {
+      "size_bytes": 2694182,
+      "git_blob_sha": "3b694e07ff32ea57b6ff4d0d004fa5b029c8af80",
+      "github_uploaded": false
+    },
+    "sprite_fullres.webp": {
+      "size_bytes": 555008,
+      "git_blob_sha": "f48e67855f528315c829234f4262c9838ab56851",
+      "github_uploaded": false
+    },
+    "game_512.png": {
+      "size_bytes": 328233,
+      "git_blob_sha": "6af37be8a85650565fc38e85add384c28094919a",
+      "github_uploaded": false
+    },
+    "game_256.png": {
+      "size_bytes": 92699,
+      "git_blob_sha": "93343117aa164c429e1b5d601e176285678610f3",
+      "github_uploaded": false
+    }
+  },
+  "bundle": {
+    "filename": "oden_large_3bay_full_bundle_20261029.zip",
+    "bytes": 6492099,
+    "git_blob_sha": "064428824c43149168671d50775b85f13a67044a",
+    "github_uploaded": false
+  },
+  "projection": {
+    "target": "iso2x_v1",
+    "r0_customer_access": "+X",
+    "game_alignment_verified": false,
+    "world_footprint_tiles": null,
+    "ground_anchor": null
+  },
+  "gameplay": {
+    "upgrade_grade": "large_3bay_candidate",
+    "performance_values_approved": false,
+    "notes": "Game-play inventory capacity, power costs and price must be balanced independently from image resolution"
+  },
+  "qa": {
+    "actual_oden_subject": true,
+    "single_tabletop_pot_formfactor": false,
+    "alpha_fringe_game_verified": false,
+    "runtime_approved": false,
+    "user_approved": false
+  },
+  "related_issue": 163,
+  "related_pr": 164
+}
