@@ -1555,6 +1555,30 @@
       "visual_status": "review_only_alpha_projection_unverified",
       "runtime_approved": false,
       "notes": "Menu POP, transparent alpha with stray fringe; projection and game scale unverified."
+    },
+    {
+      "file": "soft_serve_machine_candidate_v3/soft_serve_machine_candidate_v3.png",
+      "subject": "soft_serve_machine_candidate_v3",
+      "dimensions_px": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        235,
+        26,
+        1082,
+        1104
+      ],
+      "alpha_bbox_ge_8": [
+        347,
+        28,
+        1077,
+        1099
+      ],
+      "sha256": "af86fafeec6a9cb5f57f30bc4c3ba6b30b54efa204f89ecca60eca66f63d1ec4",
+      "visual_status": "review_only_alpha_projection_unverified",
+      "runtime_approved": false,
+      "notes": "ImageGen refinement from v2; inspect fringe and calibrate in game."
     }
   ],
   "comparisons": [
