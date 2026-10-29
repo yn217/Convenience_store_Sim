@@ -1016,6 +1016,24 @@
       "visual_status": "review_only_projection_fail",
       "runtime_approved": false,
       "notes": "This version reads as a freestanding double-sided stocked gondola with coherent merchandise on both faces and a visible center upright; stronger structural reference than v1/v2. FAIL as calibrated game sprite: long-axis slope remains visibly below 26.565 degrees, shelves do not share one exact 2:1 orthographic projection, and strong studio halo remains. Keep review-only; do not crop, stretch, or runtime-connect."
+    },
+    {
+      "file": "agent_atm_v3/atm_candidate_v3.png",
+      "subject": "atm_candidate_v3",
+      "dimensions_px": [
+        887,
+        1774
+      ],
+      "alpha_bbox": [
+        41,
+        25,
+        873,
+        1744
+      ],
+      "sha256": "96b4d7e6690ab7bf960a1e587b4945bb4ada11aeb3ae2618eea44ae9aeb25b73",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "FAIL target strict iso2x_v1: verticals are upright, but visible top planes and right side show perspective convergence rather than calibrated 2:1 isometric projection. Controls and red-white panels are readable; highlights remain glossy and a faint bright fringe is visible around silhouette. Transparent RGBA background; no visible environment."
     }
   ],
   "comparisons": [
