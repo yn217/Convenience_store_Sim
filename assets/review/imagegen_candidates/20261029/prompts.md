@@ -16,3 +16,7 @@ Used `C:\Users\yuuna\Downloads\image-1792819026698.webp` as a style/camera refer
 ## Small tabletop oden warmer prompt notes
 
 Generated one requested small countertop warmer, 3–4 broth divisions, daikon/egg/tofu/konjac/fish cake, clear sneeze guard, short stainless base/control, approx. 0.45×0.35×0.35 m, with the supplied game screenshot used for art style. v2 edits only the camera toward elevated orthographic 2:1 iso; v3 edits only framing to request 12% clear margin. Generation did not establish exact world projection. See `qa.json` for hashes and alpha bounds.
+
+## Bakery gondola prompt note
+
+Generated two integrated shelf-plus-bread images using the game screenshot as a style reference. v1 requested one-sided four-row shallow trays; v2 additionally specified 2.0×1.0×1.5m, a width:height sprite ratio near 0.90:1, exact opposing 2:1 screen-axis slopes, four shelves, no roof, and margin. Image generation did not satisfy all projection/margin constraints. See `qa.json` for measured alpha boxes, aspect, hashes, and visual findings.

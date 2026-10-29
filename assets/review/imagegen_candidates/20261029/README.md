@@ -30,3 +30,12 @@ Issue #163 distinguishes the requested single tabletop oden pot from the incorre
 - `oden_countertop_framed_candidate_v3.png` — framing-only regeneration from v2 to leave more room around the complete appliance; retains low-alpha studio haze.
 
 All are review candidates, not runtime assets. Original images were kept intact; no non-uniform scale/crop was applied. Need actual footprint, r0 orientation/anchor calibration and Godot-size review before promotion. `runtime_approved:false`.
+
+## Issue #157 — integrated bakery gondola candidates
+
+Generated two new complete shelf-and-merchandise images, rather than detached package icons:
+
+- `bread_gondola_integrated_candidate_v1.png` — the first filled shelf composition. It has rich bread variety, but the long shelf axis reads flatter than the target.
+- `bread_gondola_ratio_iso_candidate_v2.png` — regenerated with explicit 1×2 footprint proportions, four product levels, shallow trays and 2:1 isometric edge targets. The long front axis looks closer, but the side/depth axis still appears too steep, and the complete silhouette is tall relative to its width (solid-alpha bbox aspect about 0.804). The bottom margin is narrow and low-alpha haze reaches the image boundary.
+
+Issue #157's prior image set remains untouched. These new PNGs are review-only, not a canonical EMPTY/FULL sprite or runtime asset. No crop, nonuniform scaling, or alpha cleanup was applied. Exact footprint, r0 direction, ground anchor, and Godot display remain unverified. `runtime_approved:false`.

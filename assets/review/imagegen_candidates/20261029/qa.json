@@ -201,6 +201,56 @@
       "visual_status": "review_only_dimensions_and_runtime_unverified",
       "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
       "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA"
+    },
+    {
+      "file": "bread_gondola_integrated_candidate_v1.png",
+      "subject": "integrated Japanese bakery gondola with five stocked rows",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1488,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        188,
+        24,
+        1345,
+        1023
+      ],
+      "solid_alpha_bbox_aspect_width_over_height": 1.1582,
+      "transparent_top_left": true,
+      "sha256": "f8735d0479f92766da744ad8d1fd0b8cf8f634450daa90e5d78bc4e899fc5cf3",
+      "visual_status": "review_only_not_runtime_calibrated",
+      "qa_observation": "good product/shelf integration and open top; long-axis slope visually shallower than 2:1 target; one-end side merchandising appears"
+    },
+    {
+      "file": "bread_gondola_ratio_iso_candidate_v2.png",
+      "subject": "integrated bakery gondola regenerated with 1x2 footprint proportions and explicit 2:1 iso",
+      "dimensions_px": [
+        1190,
+        1322
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1172,
+        1322
+      ],
+      "alpha_bbox_ge_8": [
+        83,
+        47,
+        1096,
+        1307
+      ],
+      "solid_alpha_bbox_aspect_width_over_height": 0.804,
+      "transparent_top_left": true,
+      "sha256": "3edc90cb1470772fce8fe926966287c01111b8d8899b311483565f9176e2c67b",
+      "visual_status": "review_only_not_runtime_calibrated",
+      "qa_observation": "long front axis visually closer to 1:2 slope; depth-axis slope still appears steeper than target; bbox ratio closer to target but not a world-space calibration; bottom margin is small; transparent low-alpha haze at canvas edge"
     }
   ]
 }
