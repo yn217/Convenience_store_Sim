@@ -1,0 +1,43 @@
+{
+  "asset_id": "steamed_bun_warmer_candidate",
+  "issue": 163,
+  "status": "review_only",
+  "runtime_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen",
+    "transparent_background": true,
+    "prompt_summary": "Small countertop Japanese steamed-bun warmer; compact heated glass case, 2 trays of white buns, small temperature knob; warm hand-painted tycoon style; iso2x_v1 target; transparent background."
+  },
+  "file": "steamed_bun_warmer_candidate.png",
+  "bytes_sha256": "0c7b94c274f17985d3acaaa1e8d4baaf5f1e9d35bd1436e820f48b1907d6321e",
+  "image": {
+    "format": "PNG",
+    "dimensions_px": [1536, 1024],
+    "mode": "RGBA",
+    "alpha_bbox_gt_0": [380, 47, 1252, 1008],
+    "alpha_bbox_gt_1": [383, 47, 1161, 979],
+    "alpha_bbox_gt_8": [383, 49, 1159, 978],
+    "alpha_bbox_gt_16": [383, 49, 1159, 977],
+    "alpha_bbox_gt_32": [384, 49, 1159, 977],
+    "alpha_bbox_gt_64": [384, 49, 1158, 977],
+    "alpha_bbox_gt_128": [384, 50, 1158, 977],
+    "alpha_bbox_gt_250": [385, 51, 1157, 976],
+    "alpha_pixel_counts": {
+      "transparent_0": 971687,
+      "partial_1_to_254": 601177,
+      "opaque_255": 0,
+      "min": 0,
+      "max": 254
+    },
+    "nonzero_alpha_on_canvas_edges": 0
+  },
+  "visual_qa": {
+    "category_readability": "PASS: compact countertop warmer, glass enclosure, two bun trays and front temperature knob are legible.",
+    "scope": "PASS: one standalone warmer only; no floor-standing cabinet, counter or other equipment.",
+    "bun_count": "Four visible white buns across two trays.",
+    "projection": "UNVERIFIED: elevated three-quarter view with upright verticals and front/right faces visible, but exact iso2x_v1 ground-axis ratio, camera calibration, and target tile scale were not measured.",
+    "style": "PARTIAL: warm, polished tycoon-game rendering; substantially more glossy/photoreal metallic than the requested hand-painted game style.",
+    "alpha": "PARTIAL: transparent background and zero alpha on all canvas edges; a broad, faint semi-transparent glow remains around the appliance (alpha bbox at >0 extends to x=1252 versus x=1161 at >1). Do not treat glow as solid silhouette.",
+    "decision": "REVIEW ONLY: good category read and compact silhouette; projection calibration, style match and halo cleanup remain before runtime consideration."
+  }
+}

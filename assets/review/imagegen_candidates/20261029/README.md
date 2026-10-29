@@ -157,3 +157,13 @@ Both remain review-only. Per-agent QA and measured file metadata are retained; n
 `oden_countertop_candidate/oden_countertop_single_alpha_candidate_v5.png` is explicitly one small countertop pot with four ingredient compartments, distinct from the large three-bay warmer cabinet. It has true RGBA alpha and the category reads clearly, but a low-alpha halo reaches left/bottom edges and its steep perspective does not match iso2x_v1. Review-only; do not use it as the large-case asset or distort it to fit.
 
 `oden_countertop_single_projection_edit_v6.png` is an angle-only edit of the v5 single pot. It reveals more of the front vertical face while preserving the four food sections, but perspective remains steep and alpha reaches left/bottom canvas edges. Retained separately; no crop or warp was applied.
+
+
+## 2026-10-29 — ongoing Codex ImageGen candidates
+
+- `agent_coffee_v2/coffee_machine_candidate.png` — standalone warm-painted coffee appliance; readable, but faint alpha fringe and unverified iso projection remain.
+- `agent_bun_v2/steamed_bun_warmer_candidate.png` — single compact two-tray steamed-bun warmer; category reads clearly, but the halo/gloss and uncalibrated angle keep it review-only.
+- `microwave_candidate_v2/microwave_transparent_candidate_v2.png` — second compact microwave candidate. Controls and door are clear; its near-front view and dark halo fail the game projection/style gate. Original v1 is unchanged.
+- `integrated_snack_gondola_candidate/integrated_snack_gondola_candidate.png` — complete dense shelf and products in one image, as requested. Composition is useful, but the projection is near-front, the halo is strong, the alpha silhouette reaches the bottom edge, and some generated package lettering is distorted. It is not suitable as a calibrated sprite.
+
+All are preserved as review-only candidates. No cropping, anisotropic scaling, runtime hookup or approval; `runtime_approved:false`. Per-image measurements and hashes are in each folder's `QA.json`, and the index is `qa.json`.

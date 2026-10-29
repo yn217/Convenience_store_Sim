@@ -1,0 +1,42 @@
+{
+  "asset_id": "microwave_candidate_v2",
+  "status": "review_only",
+  "runtime_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen",
+    "transparent_background": true,
+    "prompt_summary": "Compact Japanese store microwave, stainless body, dark door, right control panel, warm painted casual-game style."
+  },
+  "file": "microwave_transparent_candidate_v2.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt_0": [
+    163,
+    58,
+    1424,
+    962
+  ],
+  "alpha_bbox_gt_8": [
+    169,
+    91,
+    1369,
+    960
+  ],
+  "alpha_bbox_gt_128": [
+    169,
+    92,
+    1368,
+    959
+  ],
+  "edge_alpha_max": {
+    "top": 0,
+    "bottom": 0,
+    "left": 0,
+    "right": 0
+  },
+  "sha256": "9e294d2d53d185367b8fab724f04f0655f43525e8d9b8c31f7fab3fa3b619947",
+  "visual_qa": "Recognizable appliance and controls. Projection FAIL: near-horizontal front edge and broad visible top do not match iso2x_v1; strong dark studio halo despite transparent canvas. Review-only; no crop or rescale."
+}

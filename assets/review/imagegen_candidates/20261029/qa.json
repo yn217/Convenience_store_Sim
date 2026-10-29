@@ -872,6 +872,96 @@
       "qa_observation": "A projection edit of v5 preserves the single 4-section pot and makes the front vertical face more visible, but the camera is still steep/perspective rather than verified iso2x_v1. Nonzero alpha again reaches left and bottom edges; keep as a separate review iteration.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "microwave_candidate/microwave_transparent_candidate_v2.png",
+      "subject": "microwave_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        163,
+        58,
+        1424,
+        962
+      ],
+      "sha256": "9e294d2d53d185367b8fab724f04f0655f43525e8d9b8c31f7fab3fa3b619947",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "The object is a countertop microwave with readable controls and cavity. The image is glossy, shows a broad dark studio halo, and uses a flatter perspective than iso2x_v1; projection and in-game footprint are uncalibrated."
+    },
+    {
+      "file": "integrated_snack_gondola_candidate/integrated_snack_gondola_candidate.png",
+      "subject": "integrated_snack_gondola_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1508,
+        1024
+      ],
+      "sha256": "8c7bbc1dbcb2d288aaaa8f3b8ac095a0122560e3a06358651ca7e778f69ed3e2",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "Shelf and products are integrated and dense, but the view is nearly front-facing rather than the target 2:1 isometric projection. Strong gray/brown halo is visible. Some package text is distorted. Keep as composition reference only; no crop or scaling applied."
+    },
+    {
+      "file": "agent_coffee_v2/coffee_machine_candidate.png",
+      "subject": "coffee_machine_candidate_v2",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        20,
+        936,
+        1536
+      ],
+      "sha256": "f06c34c27351d1b65ee977d984d9aee8aa81b2b0ae68783229cc4c8c406a17e2",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Warm hand-painted standalone bean-to-cup machine; projection uncalibrated and faint alpha fringe reaches left/bottom edges."
+    },
+    {
+      "file": "agent_bun_v2/steamed_bun_warmer_candidate.png",
+      "subject": "steamed_bun_warmer_candidate",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        380,
+        47,
+        1252,
+        1008
+      ],
+      "sha256": "0c7b94c274f17985d3acaaa1e8d4baaf5f1e9d35bd1436e820f48b1907d6321e",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Compact two-tray bun warmer; broad soft halo and glossy metal; projection unverified."
+    },
+    {
+      "file": "microwave_candidate_v2/microwave_transparent_candidate_v2.png",
+      "subject": "microwave_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        163,
+        58,
+        1424,
+        962
+      ],
+      "sha256": "9e294d2d53d185367b8fab724f04f0655f43525e8d9b8c31f7fab3fa3b619947",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Recognizable appliance and controls. Projection FAIL: near-horizontal front edge and broad visible top do not match iso2x_v1; strong dark studio halo despite transparent canvas. Review-only; no crop or rescale."
     }
   ],
   "comparisons": [

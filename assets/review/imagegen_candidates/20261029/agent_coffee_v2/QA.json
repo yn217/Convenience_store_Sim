@@ -1,0 +1,21 @@
+{
+  "asset_id": "coffee_machine_candidate_v2",
+  "status": "review_only",
+  "runtime_approved": false,
+  "source": "Codex ImageGen, generated with transparent_background=true",
+  "file": "coffee_machine_candidate.png",
+  "dimensions_px": [1024, 1536],
+  "mode": "RGBA",
+  "alpha_bbox_nonzero": [0, 20, 936, 1536],
+  "alpha_bbox_threshold_gt_16": [272, 22, 761, 1504],
+  "max_alpha_on_canvas_edges": {"top": 0, "bottom": 1, "left": 1, "right": 0},
+  "sha256": "f06c34c27351d1b65ee977d984d9aee8aa81b2b0ae68783229cc4c8c406a17e2",
+  "projection_findings": "Compact narrow standalone appliance with front and right side visible; verticals are near-parallel and no obvious perspective convergence. Isometric azimuth and 2:1 iso2x_v1 pixel-axis ratio have not been calibrated against the game's live tile camera; projection remains unverified.",
+  "style_findings": "Warm hand-painted tycoon-game presentation, cream/charcoal cabinet, generic screen with three cup icons, visible dispensing bay and one cup inside. Reads clearly as a bean-to-cup coffee appliance. No counter or detached props.",
+  "alpha_findings": "The strict nonzero alpha bbox reaches the left edge at alpha 1 and bottom edge at alpha 1 because of a very faint halo/fringe. Thresholded visible-object bbox is comfortably inside the canvas; no opaque edge clipping observed.",
+  "review_notes": [
+    "No game-scale rendering or tile-footprint calibration performed.",
+    "Appliance silhouette is narrow but tall; target in-game dimensions still need validation.",
+    "A single cup is inside the dispensing bay as part of the appliance presentation; no separate loose prop is present."
+  ]
+}
