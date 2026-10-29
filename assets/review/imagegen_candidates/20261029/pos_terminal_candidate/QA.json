@@ -1,0 +1,29 @@
+{
+  "asset_id": "pos_terminal_candidate",
+  "file": "pos_terminal_candidate/pos_terminal_candidate.png",
+  "generation_tool": "built-in Codex image_gen (transparent_background=true)",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox": [
+    81,
+    32,
+    1482,
+    960
+  ],
+  "alpha_bbox_threshold_8": [
+    312,
+    34,
+    1239,
+    956
+  ],
+  "sha256": "1b4a1feccec711c0100c8ff2b3270ec581a3091325cd3300715aadff8c351043",
+  "visual_observations": [
+    "Touchscreen, keypad and receipt printer are clearly readable as one compact POS station; genuine RGBA transparency with low-alpha haze around silhouette. Camera is strongly perspective-oblique rather than verified iso2x_v1, and glossy highlights exceed target game style. Review-only."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false
+}

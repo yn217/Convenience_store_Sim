@@ -690,6 +690,32 @@
       "qa_observation": "Three open lattice crates with readable rims and interiors; muted matte blue improved relative to v2, but diffuse blue alpha haze still surrounds the silhouette (alpha>=1 bbox is much wider than alpha>=8 bbox). The camera still appears perspective-like rather than calibrated iso2x; review-only.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "pos_terminal_candidate/pos_terminal_candidate.png",
+      "subject": "compact checkout POS terminal with touchscreen/keypad/receipt printer",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        81,
+        32,
+        1482,
+        960
+      ],
+      "alpha_bbox_threshold_8": [
+        312,
+        34,
+        1239,
+        956
+      ],
+      "sha256": "1b4a1feccec711c0100c8ff2b3270ec581a3091325cd3300715aadff8c351043",
+      "visual_status": "review_only_projection_style_unverified",
+      "qa_observation": "Touchscreen, keypad and receipt printer are clearly readable as one compact POS station; genuine RGBA transparency with low-alpha haze around silhouette. Camera is strongly perspective-oblique rather than verified iso2x_v1, and glossy highlights exceed target game style. Review-only.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [

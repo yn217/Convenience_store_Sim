@@ -132,3 +132,7 @@ A second agent-generated sign concept is preserved at `agent_sign_candidate/agen
 ## Issue #163 — reusable crate stack transparent retry v3
 
 `plastic_crate_stack_candidate/plastic_crate_stack_candidate_alpha_v3.png` was generated with explicit transparent-background output and a warmer, matte finish. Three open lattice crates are legible. There is still a diffuse blue alpha haze around the object (the alpha>=1 silhouette is substantially wider than alpha>=8), and camera projection is not proven against iso2x_v1. Review-only; no alpha cleanup/cropping or scale warp was applied.
+
+## Additional checkout equipment — POS terminal
+
+`pos_terminal_candidate/pos_terminal_candidate.png` combines a touchscreen, keypad and receipt printer in one isolated image candidate. True RGBA alpha is present, but a low-alpha haze surrounds the art and the strong perspective/gloss do not match a calibrated iso2x game sprite. Kept review-only with alpha threshold bounds and SHA-256 in its QA record.
