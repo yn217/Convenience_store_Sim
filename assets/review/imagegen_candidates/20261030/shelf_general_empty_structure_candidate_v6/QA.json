@@ -1,0 +1,63 @@
+{
+  "candidate_id": "shelf_general_empty_structure_candidate_v6",
+  "created_date": "2026-10-30",
+  "asset_type": "single_sided_gondola_empty_2d_sprite_candidate",
+  "runtime_approved": false,
+  "review_status": "reviewed_fail",
+  "generator": "Codex built-in ImageGen",
+  "references": [
+    "projection_guide.png",
+    "image-1792819026698.webp"
+  ],
+  "output": {
+    "file": "shelf_general_empty_structure_candidate_v6.png",
+    "width": 1312,
+    "height": 1199,
+    "format": "PNG",
+    "mode": "RGBA",
+    "sha256": "C010CD4230953AF626727DB84F22B6EC784F3B9A01DB8BC0B5B58DCF9B59BAEC"
+  },
+  "alpha_qa": {
+    "true_transparency": true,
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "unique_alpha_values": 256,
+    "nonzero_bbox_xyxy": [0, 37, 1286, 1199],
+    "alpha_gt_127_bbox_xyxy": [313, 142, 1035, 1174],
+    "edge_contact": ["left", "bottom"],
+    "result": "FAIL"
+  },
+  "visual_qa": {
+    "four_shelf_planes_visible": "PASS",
+    "back_panel_and_posts_visible": "PASS",
+    "no_products": "PASS",
+    "no_roof_or_canopy": "PASS",
+    "long_axis_iso2x_approximation": "PASS",
+    "projected_depth_to_long_axis": {
+      "observed_approximate": "1:7 to 1:9",
+      "target_approximate": "1:3 to 1:4",
+      "result": "FAIL"
+    },
+    "guide_geometry": "FAIL: encoded approximately 1:8 projected depth ratio, causing the candidate to miss the intended target",
+    "base_fascia_proportion": "FAIL: appears heavier than target",
+    "margin_and_alpha_fringe": "FAIL",
+    "style_match": "FAIL: metallic highlights and hard outlines are too strong",
+    "pixel_to_world_dimensions": "NOT_VERIFIED",
+    "Godot_display_scale": "NOT_VERIFIED",
+    "overall": "FAIL"
+  },
+  "independent_review": {
+    "reviewer": "gpt-6-luna subagent",
+    "status": "completed",
+    "result": "FAIL",
+    "findings": [
+      "Four shelf planes; no roof or products.",
+      "Long-axis projection is close to down-right +0.5.",
+      "Shelf depth is approximately 1/7–1/9 of the long run, too shallow versus target 1/3–1/4.",
+      "Alpha touches left and bottom edges.",
+      "Metallic highlights and heavy dark base are off-style."
+    ]
+  },
+  "comparison_image": "comparison_v5_v6_guide.png",
+  "prompt": "See README.md"
+}
