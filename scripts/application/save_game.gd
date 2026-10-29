@@ -517,7 +517,13 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 				if typeof(cr) != TYPE_DICTIONARY or not JsonCheck.is_int(cr.get("plays")) or not JsonCheck.is_int(cr.get("wins")):
 					errs.append("runtime_state.crane_stats: invalid")
 					break
-				s.crane_stats[String(k)] = {"plays": int(cr["plays"]), "wins": int(cr["wins"])}
+				var bad_extra: bool = (cr.has("since") and not JsonCheck.is_int(cr["since"])) or (cr.has("repairs") and not JsonCheck.is_int(cr["repairs"])) \
+						or (cr.has("broken") and typeof(cr["broken"]) != TYPE_BOOL)
+				if bad_extra:
+					errs.append("runtime_state.crane_stats: invalid")
+					break
+				s.crane_stats[String(k)] = {"plays": int(cr["plays"]), "wins": int(cr["wins"]), "since": int(cr.get("since", 0)),
+					"repairs": int(cr.get("repairs", 0)), "broken": bool(cr.get("broken", false))}   # phase 2 fields (absent before)
 		if typeof(rt.get("lotteries")) == TYPE_ARRAY:   # #138 (absent in older saves)
 			for l in rt["lotteries"]:
 				if typeof(l) != TYPE_DICTIONARY or Lottery.definition(String(l.get("set_id", ""))).is_empty() or typeof(l.get("order")) != TYPE_ARRAY \
@@ -609,7 +615,7 @@ static func _transaction_errors(tx, path: String) -> Array[String]:
 		return errs
 	if not JsonCheck.is_nonempty_string(tx["event_id"]):
 		errs.append("%s.event_id: empty" % path)
-	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WAGES", "PROMO", "DISCOUNT", "AD_SETUP", "AD_MEDIA", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL"].has(tx["event_type"]):
+	if not ["ORDER", "SALE", "AD", "DAILY_FIXED", "ELECTRICITY", "WAGES", "PROMO", "DISCOUNT", "AD_SETUP", "AD_MEDIA", "WASTAGE", "FIXTURE_PURCHASE", "REVERSAL", "REPAIR"].has(tx["event_type"]):
 		errs.append("%s.event_type: unknown" % path)
 	for k in ["day_index", "time_sec", "revenue_delta_yen", "cogs_delta_yen", "expense_delta_yen"]:
 		if not JsonCheck.is_int(tx[k]) or int(tx[k]) < 0:

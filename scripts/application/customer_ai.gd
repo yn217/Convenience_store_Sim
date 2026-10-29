@@ -768,7 +768,7 @@ func candidates(state: GameState) -> Array[Dictionary]:
 		if int(seg["physical_qty"]) - int(seg["reserved_qty"]) < 1 or not state.grid.instances.has(loc["fixture_id"]):
 			continue
 		var inst: Dictionary = state.grid.instances[loc["fixture_id"]]
-		if not inst.get("enabled", true):
+		if not inst.get("enabled", true) or CraneGame.is_broken(state, loc["fixture_id"]):   # #132: out of order
 			continue
 		var def := state.fixtures.get_type(inst["type_id"])
 		if not _access_cache.has(loc["fixture_id"]):

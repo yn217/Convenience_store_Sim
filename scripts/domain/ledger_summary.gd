@@ -35,7 +35,7 @@ static func summarize(ledger: Ledger, day_index: int = -1) -> Dictionary:
 				out["advertising_yen"] += int(tx["expense_delta_yen"])
 			"ELECTRICITY":
 				out["electricity_yen"] += int(tx["expense_delta_yen"])
-			"DAILY_FIXED":
+			"DAILY_FIXED", "REPAIR":   # #132: a machine repair counts with the fixed running costs
 				out["fixed_cost_yen"] += int(tx["expense_delta_yen"])
 			"WAGES":
 				out["wages_yen"] += int(tx["expense_delta_yen"])

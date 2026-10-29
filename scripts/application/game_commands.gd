@@ -114,6 +114,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _set_facilities(command_id, command.get("facility_ids", []))
 		&"SET_LOCATION":
 			result = _set_location(command_id, String(command.get("location_id", "")))
+		&"REPAIR_CRANE":   # #132 phase 2
+			result = _repair_crane(command_id, String(command.get("fixture_id", "")))
 		&"HIRE_STAFF":
 			result = _staff_result(command_id, StaffMarket.hire(_state, String(command.get("candidate_id", ""))), "STAFF_HIRED")
 		&"FIRE_STAFF":
@@ -430,6 +432,16 @@ func _set_location(command_id: String, location_id: String) -> CommandResult:
 
 
 ## HIRE_STAFF / FIRE_STAFF (#144): allowed in every business state and while paused.
+func _repair_crane(command_id: String, fixture_id: String) -> CommandResult:
+	var err := CraneGame.repair(_state, fixture_id, command_id)
+	if err == "not_enough_cash":
+		return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+	if err != "":
+		return _fail(&"INVALID_OPERATION", StringName(err))
+	var events: Array[String] = ["%s:CRANE_REPAIRED" % command_id]
+	return _commit(command_id, events, {"fixture_id": fixture_id})
+
+
 func _staff_result(command_id: String, err: String, event: String) -> CommandResult:
 	if not StaffAI.enabled(_state.balance):
 		return _fail(&"INVALID_OPERATION", &"staff_disabled")

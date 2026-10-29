@@ -23,6 +23,7 @@ const CATEGORY_NAMES := {
 	"bakery": "焼きたてパン", "pizza": "ピザ",
 	"crane_prize": "UFOキャッチャー",
 }
+const BROKEN_TEXT := "故障中"
 const STATUS_NAMES := {"SETUP": "設置中", "OPEN": "営業中", "CLOSING": "閉店中"}
 
 var _world: Node2D
@@ -44,6 +45,8 @@ var _shelf_title: Label
 var _shelf_list: VBoxContainer   # the products on this fixture's shelves: icon, name, price, 価格変更
 var _shelf_key := ""             # what the list was built from; rebuilt only when it changes
 var _set_goods: Button
+var _repair: Button   # #132: a broken crane game is repaired from its card
+var _repair_seq := 0
 
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -89,6 +92,13 @@ func _ready() -> void:
 	_set_goods.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_set_goods.pressed.connect(_open_prices)
 	actions.add_child(_set_goods)
+	_repair = Button.new()
+	_repair.name = "RepairButton"
+	_repair.theme_type_variation = &"PrimaryButton"
+	_repair.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_repair.visible = false
+	_repair.pressed.connect(_repair_selected)
+	actions.add_child(_repair)
 	_details_toggle = Button.new()
 	_details_toggle.flat = true
 	_details_toggle.focus_mode = Control.FOCUS_NONE
@@ -214,7 +224,10 @@ func _render() -> void:
 	if has_shelf:
 		_refresh_shelf(fid, catalog_products())
 	_thumb.texture = FixtureThumbnails.texture(inst["type_id"])
-	_set_chip(_status, status_text(str(_snap.get("business_state", "SETUP"))))
+	var broken := CraneGame.is_machine_type(def) and bool(_snap.get("crane_stats", {}).get(fid, {}).get("broken", false))
+	_set_chip(_status, BROKEN_TEXT if broken else status_text(str(_snap.get("business_state", "SETUP"))))
+	_repair.visible = broken
+	_repair.text = repair_text(CraneGame.repair_cost())
 	_set_chip(_category, category_text(def))
 	_size.text = "%d×%d" % [int(def["footprint"]["w"]), int(def["footprint"]["h"])]
 	_price.text = Hud.format_yen(int(def.get("placement_cost_yen", 0)))
@@ -261,6 +274,24 @@ func _open_prices() -> void:
 	var main := get_parent()
 	if main != null and main.has_method("open_prices_for"):
 		main.open_prices_for(skus)
+
+
+## 修理する (#132): repairs the selected crane game; the reason is told when it cannot be done.
+func _repair_selected() -> void:
+	var fid: String = _world.selected_fixture_id() if _world != null else ""
+	var main := get_parent()
+	var app: Node = main.get_node_or_null("AppRoot") if main != null else null
+	if fid == "" or app == null or not app.has_method("run_command"):
+		return
+	_repair_seq += 1
+	var r: CommandResult = app.run_command({"command_id": "ui_repair_%d" % _repair_seq, "kind": &"REPAIR_CRANE", "fixture_id": fid})
+	var build := main.get_node_or_null("BuildController")
+	if build != null and build.has_method("say"):   # the shared message line
+		build.say("UFOキャッチャーを修理しました" if r.ok else CommandMessages.text(r.code, r.message_key))
+
+
+static func repair_text(cost_yen: int) -> String:
+	return "修理する（%s）" % Hud.format_yen(cost_yen)
 
 
 ## 商品を補充: opens the 商品 tab at the restock section of the selected fixture.

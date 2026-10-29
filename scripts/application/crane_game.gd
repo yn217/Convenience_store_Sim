@@ -9,6 +9,8 @@ extends RefCounted
 ## which one wins follow from the customer and the machine (no draw from the game's random streams), and the time
 ## at the machine grows with the plays. Plays and wins are counted per machine (state.crane_stats); a win is
 ## announced, and so is a machine left without prizes (refill it). A store holds at most max_per_store machines.
+## A machine breaks after a number of plays since its last repair (breakdown.after_plays, a hash of the machine and
+## its repair count); a broken machine takes no players until the player repairs it (REPAIR_CRANE, a REPAIR row).
 ## In-game money only; no real-money play.
 
 const PATH := "res://data/crane/crane_v1.json"
@@ -83,6 +85,51 @@ static func check_empty(state: GameState, fixture_id: String) -> void:
 	state.emit_event("CRANE_EMPTY", {"fixture_id": fixture_id})
 
 
+## Plays since the last repair after which the machine breaks, or 0 when breakdowns are off. A hash of the machine
+## and its repair count picks it from breakdown.after_plays [min, max], so the same machine breaks at the same play.
+static func break_after(fixture_id: String, repairs: int) -> int:
+	var r: Array = data().get("breakdown", {}).get("after_plays", [0, 0])
+	var lo := int(r[0]) if r.size() > 0 else 0
+	var hi := maxi(int(r[1]) if r.size() > 1 else lo, lo)
+	if lo <= 0:
+		return 0
+	return lo + absi(("%s|break|%d" % [fixture_id, repairs]).hash()) % (hi - lo + 1)
+
+
+static func repair_cost() -> int:
+	return int(data().get("breakdown", {}).get("repair_cost_yen", 0))
+
+
+## Is the machine out of order (no players until repaired)?
+static func is_broken(state: GameState, fixture_id: String) -> bool:
+	return bool(state.crane_stats.get(fixture_id, {}).get("broken", false))
+
+
+static func _stats(state: GameState, fixture_id: String) -> Dictionary:
+	if not state.crane_stats.has(fixture_id):
+		state.crane_stats[fixture_id] = {"plays": 0, "wins": 0, "since": 0, "repairs": 0, "broken": false}
+	return state.crane_stats[fixture_id]
+
+
+## REPAIR_CRANE: pays repair_cost_yen (a REPAIR row) and puts the machine back in order. -> "" or the reason.
+static func repair(state: GameState, fixture_id: String, command_id: String) -> String:
+	if not state.grid.instances.has(fixture_id) or not is_machine_type(state.fixtures.get_type(state.grid.instances[fixture_id]["type_id"])):
+		return "unknown_instance"
+	if not is_broken(state, fixture_id):
+		return "crane_not_broken"
+	var cost := repair_cost()
+	if state.ledger.cash_yen < cost:
+		return "not_enough_cash"
+	if cost > 0 and not state.ledger.record("REPAIR", "%s:REPAIR" % command_id, -cost, state.day, state.time_sec, {"fixture_id": fixture_id}, {"expense": cost}):
+		return "not_enough_cash"
+	var st := _stats(state, fixture_id)
+	st["broken"] = false
+	st["since"] = 0
+	st["repairs"] = int(st.get("repairs", 0)) + 1
+	state.emit_event("CRANE_REPAIRED", {"fixture_id": fixture_id, "cost_yen": cost})
+	return ""
+
+
 ## Plays the session: a fee SALE per play without a win, the reserved prize sold on the winning play, released
 ## when there is none. -> {ok, plays, won, prize, revenue_yen}; ok false when the ledger refused a row.
 static func play(state: GameState, c: Dictionary, res_id: String) -> Dictionary:
@@ -109,13 +156,16 @@ static func play(state: GameState, c: Dictionary, res_id: String) -> Dictionary:
 	if not bool(out["won"]):
 		InventoryService.release_reservation(state, res_id)
 	out["ok"] = int(out["plays"]) > 0
-	if not state.crane_stats.has(fid):
-		state.crane_stats[fid] = {"plays": 0, "wins": 0}
-	var st: Dictionary = state.crane_stats[fid]
+	var st := _stats(state, fid)
 	st["plays"] = int(st["plays"]) + int(out["plays"])
+	st["since"] = int(st.get("since", 0)) + int(out["plays"])
 	if bool(out["won"]):
 		st["wins"] = int(st["wins"]) + 1
 		state.emit_event("CRANE_WON", {"customer_id": c["customer_id"], "fixture_id": fid, "sku_id": sku_id, "prize": out["prize"],
 			"plays": out["plays"], "name": state.products.get_sku(sku_id).get("display_name", "")})
 		check_empty(state, fid)
+	var limit := break_after(fid, int(st.get("repairs", 0)))
+	if limit > 0 and int(st["since"]) >= limit and not bool(st.get("broken", false)):
+		st["broken"] = true
+		state.emit_event("CRANE_BROKEN", {"fixture_id": fid, "cost_yen": repair_cost()})
 	return out

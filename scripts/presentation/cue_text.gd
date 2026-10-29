@@ -20,7 +20,7 @@ const LEVEL_OF := {
 	"daily_event_start": "info", "daily_event_end": "info", "daily_recap": "info",
 	"rival_opened": "warning", "rival_sale": "info", "condition_started": "info", "rival_renovation": "info", "rival_closed": "achievement",   # #129
 	"capsule_rare": "info", "capsule_empty": "warning",   # #139
-	"crane_won": "info", "crane_empty": "warning",   # #132
+	"crane_won": "info", "crane_empty": "warning", "crane_broken": "warning", "crane_repaired": "info",   # #132
 	"bake_done": "info",   # #130
 	"lottery_top": "info", "lottery_sold_out": "achievement",   # #138
 }
@@ -67,6 +67,10 @@ static func toast_text(cue_id: String, payload: Dictionary, fixture_name: String
 			return "焼きたて「%s」が焼き上がりました（%d個）" % [String(payload.get("name", "")), int(payload.get("qty", 0))]
 		"crane_won":
 			return "UFOキャッチャーで「%s」が取れました（%d回目）" % [String(payload.get("prize", "")), int(payload.get("plays", 1))]
+		"crane_broken":
+			return "UFOキャッチャーが故障しました。什器カードから修理できます（%s）" % preload("res://scripts/presentation/game_hud.gd").format_yen(int(payload.get("cost_yen", 0)))
+		"crane_repaired":
+			return "UFOキャッチャーを修理しました"
 		"crane_empty":
 			return "UFOキャッチャーの景品がなくなりました。補充しましょう"
 		"capsule_empty":
