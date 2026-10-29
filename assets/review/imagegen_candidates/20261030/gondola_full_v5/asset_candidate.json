@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "asset_id": "gondola_full_v5",
+  "asset_class": "interior_fixture",
+  "requested_subject": "shelf_general open gondola FULL with integrated products",
+  "actual_subject": "single-sided four-tier open gondola stocked with fictional snack, bread and cup packages",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/gondola_full_v5/gondola_full_v5.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1736822,
+    "sha256": "5c0542b415772feab9dd5326d1829dab9739db1e05d6418dd3815a0b82f8fc3d",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_full_v5/gondola_full_v5.png",
+      "byte_size": 1736822,
+      "sha256": "5c0542b415772feab9dd5326d1829dab9739db1e05d6418dd3815a0b82f8fc3d",
+      "git_blob_sha": "cf9f9a2b4b7034a05976257f99e7d3349b834537",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_full_v5/alpha_preview.png",
+      "byte_size": 1354651,
+      "sha256": "55b46b2fa016fe3dc8e96b4a1c567b3705592ccb16363d0f72db035b3c82225c",
+      "git_blob_sha": "93a0570ed30b2b0a3f07eac714479792656e22dc",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_full_v5/comparison_preview.png",
+      "byte_size": 481720,
+      "sha256": "39eac10f6091834b89499766c62c0bc288a678acbe0dac02bc845d94df2f0e57",
+      "git_blob_sha": "8cbf29917435bcc769b9ebead307ab16922e2ad4",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Integrated FULL concept only; not calibrated to projective control points.",
+      "Image generation prompt requested transparent background and >=14% margins; actual output failed transparency halo and top/bottom margin goals.",
+      "Products remain visibly volumetric despite request for almost flat faces."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
