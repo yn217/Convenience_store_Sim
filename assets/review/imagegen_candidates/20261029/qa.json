@@ -327,6 +327,26 @@
       "transparent_top_left": true,
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "oden_countertop_single_candidate_v4.png",
+      "subject": "single compact countertop oden warmer, ImageGen v4",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        41,
+        1498,
+        989
+      ],
+      "transparent_top_left": true,
+      "sha256": "2c2138f2fcb75903b7eb5a04ba9a01b9988da8bb0253d6dc4ceddf47dedaf2d3",
+      "visual_status": "review_only_projection_unverified_runtime_unapproved",
+      "qa_observation": "Correct single tabletop pan with visible oden and dividers; long front edge reads too horizontal for strict iso2x, low-alpha glow reaches the left canvas edge; background corner is transparent.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [

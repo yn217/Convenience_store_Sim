@@ -59,3 +59,7 @@ Following the latest issue gate, two EMPTY-only concepts were generated before m
 - `ambient_gondola_empty_iso_candidate_v2.png` — one regeneration aimed at shallower shelves and margin. The shelf planes still read broad, a dark edge haze remains, and the alpha silhouette again touches the bottom edge.
 
 Both are **shape FAIL / review_only**, not an approved new reference. Exact `iso2x_v1`, world footprint and ground anchor were not calibrated. Do not use them as FULL/HALF/EMPTY state bases. Further shelf image generation should wait for the reference/shape gate to be corrected rather than scaling these candidates.
+
+## Issue #163 — small tabletop oden warmer v4
+
+Generated `oden_countertop_single_candidate_v4.png` as a single small countertop pan, distinct from the large 3-bay cabinet. Oden ingredients and dividers read clearly. The long front edge appears too horizontal for strict `iso2x_v1`, and low-alpha glow reaches the left canvas edge (the top-left corner pixel itself is transparent). It remains review-only; do not non-uniformly stretch it. Projection/r0 orientation/ground anchor/game-size QA are pending.
