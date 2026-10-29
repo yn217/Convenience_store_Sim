@@ -186,3 +186,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `agent_freezer_upright_v1/upright_glass_door_freezer_candidate_v1.png` — full glass-door freezer with seven stocked rows; readable contents and near-clean alpha, but projection and in-game scale remain uncalibrated. Review-only.
 
 - `ice_cream_case_candidate_v1/ice_cream_case_candidate_v1.png` — island ice-cream freezer with glass lids and bars/tubs. Strong overhead view and dark halo fail game projection/style calibration; review-only.
+
+- `agent_handtruck_v2/handtruck_candidate_v2.png` — empty platform hand truck with both wheels visible; near-front composition and small alpha=1 bottom residue. Metallic gloss remains; projection uncalibrated. Review-only.

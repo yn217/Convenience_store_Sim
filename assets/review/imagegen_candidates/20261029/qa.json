@@ -1135,6 +1135,24 @@
       "visual_status": "review_only_projection_fail",
       "runtime_approved": false,
       "notes": "Low island freezer, paired glass lids, ice cream bars/tubs and blue stripe read clearly. FAIL for target sprite: elevated overhead camera is too strong and long footprint axis is too shallow for iso2x_v1; substantial dark studio halo and glossy glass/metal. True alpha edge and game scale need separate calibration; no crop or scale applied."
+    },
+    {
+      "file": "agent_handtruck_v2/handtruck_candidate_v2.png",
+      "subject": "handtruck_candidate_v2",
+      "dimensions_px": [
+        1145,
+        1374
+      ],
+      "alpha_bbox": [
+        29,
+        21,
+        1105,
+        1374
+      ],
+      "sha256": "bab4d8db88a303e787cb94ac99a270e522a3b21b96eccb927968481c48ff1ba6",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "One empty platform hand truck; vertical metal frame, top handle, low toe plate, and two distinct wheels are visible. No cargo present. Near-front with a slight visible side/top surface; frame uprights appear essentially vertical. Not calibrated against iso2x_v1. Friendly game-art silhouette is readable, but the rendering is more metallic/glossy and realistic than the requested soft hand-painted style."
     }
   ],
   "comparisons": [
