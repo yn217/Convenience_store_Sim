@@ -1,0 +1,35 @@
+{
+  "asset_id": "frappe_blender_candidate_v2",
+  "source": "frappe_blender_candidate_v2.png",
+  "sha256": "41f7419ba8d5ae945cd13aa356bec3afc8612f5ea63b27462e610499e1c58bda",
+  "dimensions_px": [
+    1024,
+    1536
+  ],
+  "alpha_bbox_by_threshold": {
+    "1": [
+      123,
+      25,
+      956,
+      1477
+    ],
+    "8": [
+      173,
+      41,
+      877,
+      1475
+    ],
+    "128": [
+      174,
+      42,
+      875,
+      1474
+    ]
+  },
+  "status": "review_only",
+  "runtime_approved": false,
+  "limitations": [
+    "Broad dark halo persists despite transparent-background request",
+    "iso2x projection, anchor, dimensions and Godot view unverified"
+  ]
+}

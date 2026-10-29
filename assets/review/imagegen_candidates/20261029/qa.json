@@ -1579,6 +1579,30 @@
       "visual_status": "review_only_alpha_projection_unverified",
       "runtime_approved": false,
       "notes": "ImageGen refinement from v2; inspect fringe and calibrate in game."
+    },
+    {
+      "file": "frappe_blender_candidate_v2/frappe_blender_candidate_v2.png",
+      "subject": "frappe_blender_candidate_v2",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        123,
+        25,
+        956,
+        1477
+      ],
+      "alpha_bbox_ge_8": [
+        173,
+        41,
+        877,
+        1475
+      ],
+      "sha256": "41f7419ba8d5ae945cd13aa356bec3afc8612f5ea63b27462e610499e1c58bda",
+      "visual_status": "review_only_alpha_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Warm variant of v1; dark halo remains, projection uncalibrated."
     }
   ],
   "comparisons": [
