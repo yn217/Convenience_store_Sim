@@ -1411,6 +1411,30 @@
       "visual_status": "review_only_style_alpha_projection_fail",
       "runtime_approved": false,
       "notes": "Edit of the v1 layout retains three clear food bays and slightly simplified linework, but remains glossy/photoreal and shows the same broad partial-alpha background haze; view is not calibrated to iso2x_v1. Does not substitute for missing ChatGPT source/ZIP. No cleanup or warp."
+    },
+    {
+      "file": "side_planting_candidate_v2/side_planting_candidate_v2.png",
+      "subject": "exterior_side_planting_jp_v2",
+      "dimensions_px": [
+        2022,
+        778
+      ],
+      "alpha_bbox": [
+        22,
+        0,
+        2008,
+        778
+      ],
+      "alpha_bbox_ge_8": [
+        26,
+        0,
+        2000,
+        775
+      ],
+      "sha256": "2c92fe0d516f34999dcb83766379e90433b04ac6f1ad8b049635c53523bcc3ea",
+      "visual_status": "review_only_projection_style_and_alpha_edge_unverified",
+      "runtime_approved": false,
+      "notes": "Integrated continuous planter and two rooted trees. True RGBA output. Long-axis slope is visually about 0.19 rise/run vs. 0.5 target; style remains too detailed and foliage has colored fringe. No crop/warp/cleanup; world anchor and Godot size unverified."
     }
   ],
   "comparisons": [

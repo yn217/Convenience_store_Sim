@@ -211,3 +211,7 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `hot_snack_three_bay_codex_v1/hot_snack_three_bay_candidate_v1.png` — distinct Codex ImageGen three-bay warmer candidate. Food zones read, but metallic photoreal finish, broad semitransparent haze and uncalibrated view fail; it does not replace the missing ChatGPT source bundle. Review-only; no cleanup/warp.
 
 - `hot_snack_three_bay_codex_v2/hot_snack_three_bay_candidate_v2.png` — style/alpha edit of the separate v1 Codex candidate. Three-bay content remains legible, but rendering is still glossy/photoreal, alpha-edge haze persists, and projection remains uncalibrated. Not the missing ChatGPT original; review-only.
+
+## Side planting strip v2
+
+`side_planting_candidate_v2/side_planting_candidate_v2.png` is a new integrated planting-bed candidate. It has a true RGBA channel and readable continuous planter/plant composition. QA found the long edge visibly too shallow for iso2x_v1 (visual estimate 0.19 vs target 0.5), detailed foliage, and colored fringe. No crop, warp, cleanup or runtime hookup was applied. Kept review-only; world anchor and Godot display are unverified.

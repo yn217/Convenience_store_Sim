@@ -1,0 +1,44 @@
+{
+  "asset_id": "exterior_side_planting_jp_v2",
+  "image": "side_planting_candidate_v2.png",
+  "dimensions_px": [
+    2022,
+    778
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0_xyxy": [
+    22,
+    0,
+    2008,
+    778
+  ],
+  "alpha_bbox_ge_8_xyxy": [
+    26,
+    0,
+    2000,
+    775
+  ],
+  "alpha_bbox_ge_128_xyxy": [
+    27,
+    4,
+    1997,
+    774
+  ],
+  "alpha_pixel_counts_ge_threshold": {
+    "1": 671744,
+    "8": 631510,
+    "128": 611355,
+    "250": 524791
+  },
+  "sha256": "2c92fe0d516f34999dcb83766379e90433b04ac6f1ad8b049635c53523bcc3ea",
+  "visual_review": {
+    "content": "pass: continuous planter, shrubs, flowers and two rooted trees are legible",
+    "style": "illustrated, closer to game art than v1 but still too detailed/realistic",
+    "projection": "FAIL: visual long-axis slope is approximately 0.19 rise/run, below iso2x_v1 target 0.5; estimate only, not calibrated",
+    "alpha": "real RGBA transparency; colored green fringe visible around foliage; alpha halo needs focused edge QA",
+    "scale_anchor": "unverified; no world-space guide or Godot-size comparison",
+    "runtime_approved": false
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}
