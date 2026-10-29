@@ -50,3 +50,12 @@ Two additional standalone candidates were generated in parallel and preserved wi
 - `copier_candidate/copier_candidate.png` — ADF, blue touchscreen, output area, and drawers read clearly in the intended warm painted style. Exact `iso2x_v1`, anchor, footprint, and game-scale checks remain unverified.
 
 Both original PNGs remain unmodified, `review_only`, and `runtime_approved:false`. Per-candidate prompts, bounds, hashes, and visual findings are in each folder's `QA.json`.
+
+## Issue #157 — empty ambient gondola shape candidates
+
+Following the latest issue gate, two EMPTY-only concepts were generated before making another FULL shelf. Both originals are preserved without cropping or non-uniform scaling:
+
+- `ambient_gondola_empty_candidate.png` — open four-tier shelf with no roof; shelves are still broad/deep and the alpha silhouette reaches the bottom canvas edge.
+- `ambient_gondola_empty_iso_candidate_v2.png` — one regeneration aimed at shallower shelves and margin. The shelf planes still read broad, a dark edge haze remains, and the alpha silhouette again touches the bottom edge.
+
+Both are **shape FAIL / review_only**, not an approved new reference. Exact `iso2x_v1`, world footprint and ground anchor were not calibrated. Do not use them as FULL/HALF/EMPTY state bases. Further shelf image generation should wait for the reference/shape gate to be corrected rather than scaling these candidates.

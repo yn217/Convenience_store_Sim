@@ -287,6 +287,46 @@
         1276,
         1173
       ]
+    },
+    {
+      "subject": "empty ambient gondola, initial ChatGPT ImageGen candidate",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "qa_observation": "No canopy and four shelf tiers, but shelf planes remain broad/deep and alpha reaches bottom canvas edge; iso2x and footprint unverified.",
+      "alpha_bbox": [
+        71,
+        19,
+        1266,
+        1024
+      ],
+      "sha256": "96cf23b14b2cc81f72a3abf7ead7c2a9250ef2c5e65b73cd75900653243a21a1",
+      "visual_status": "review_only_shape_projection_fail",
+      "file": "ambient_gondola_empty_candidate.png",
+      "transparent_top_left": true,
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "subject": "empty ambient gondola, regenerated shallow-shelf and framing attempt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "qa_observation": "No canopy and four tiers; shelves still read as broad exposed slabs, dark transparent-edge haze remains, and alpha touches bottom canvas edge. Not a strict calibrated 2:1 sprite.",
+      "alpha_bbox": [
+        41,
+        51,
+        1490,
+        1024
+      ],
+      "sha256": "2fac7222bc187616f7e80fe240ba6cab440d9706f2bb24901e4984fe27024915",
+      "visual_status": "review_only_shape_projection_fail",
+      "file": "ambient_gondola_empty_iso_candidate_v2.png",
+      "transparent_top_left": true,
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [
