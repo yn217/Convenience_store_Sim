@@ -381,3 +381,20 @@ The focused `test_backdrop_layer` suite passed 22 tests / 327 assertions, includ
 - Store shelves, people, and product presentation differ substantially from the target and were outside this exterior change.
 
 The side-by-side comparison is `target-vs-after-20x16.png`; it uses a different store aspect ratio from the supplied mockup and is not a pixel-matched image test. These captures establish placement and runtime appearance, not final art approval. The user's final visual review is still required.
+
+## Dense grouped perimeter grove candidate v2 (2026-10-29)
+
+Two image-generation subagents created grouped planting candidates. The first pair was rejected: one had an opaque checkerboard baked into its pixels; the other had strong bright color spill around the transparent edge. After more constrained regeneration, one alpha PNG was installed as a runtime candidate. Its isolated edge still has some bright pixels, but the in-game captures do not show a prominent halo at whole-scene size.
+
+The new panorama replaces the compact, intermediate and 20m sources with one grouped image. It uses the same (100,700)-(2070,700) ground-contact baseline for edge-specific 12m, 18m and 20m uniform scales, rooted at z=0 and 2.43m outside the wall. The opaque wall and paving layers still cover the roots and lower stems. No panel is non-uniformly stretched or cropped into connectors.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00, frozen:
+
+| Footprint/view | Capture | Observation |
+|---|---|---|
+| 12x10 | `grove-density-candidate-v2-12x10-1600x900-2026-10-29.png` | Denser tree crowns and flower clusters rise behind both rear walls; lower planting is occluded. |
+| 16x12 | `grove-density-candidate-v2-16x12-1600x900-2026-10-29.png` | Same panorama scales to the default footprint; both rear branches remain continuous. |
+| 20x16 | `grove-density-candidate-v2-20x16-1600x900-2026-10-29.png` | Long branch reaches the far endpoints; planting density improves behind the roofline. |
+| 20x16, panned and zoomed | `grove-density-candidate-v2-20x16-pan-1600x900-2026-10-29.png` | The image follows the world projection during camera movement without a gap at the wall edge. |
+
+Focused `test_backdrop_layer` passed 23 tests / 333 assertions, including the independent rear branches, endpoint anchors, upright trunks and camera pan. Focused `test_shell_camera_input` passed 10 tests / 96 assertions, including pan/zoom, selection after movement and UI click blocking. The new panel is still a runtime candidate, not user-approved; the broad open ground, overall scene style, seasonal rendering and performance gate remain open.

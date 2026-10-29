@@ -33,9 +33,9 @@ const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
 const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v2/rear_greenbelt_group_v2.png")
-const UrbanGrovePanel := preload("res://assets/generated/backgrounds/urban_grove_long_green_candidate_v1/urban_grove_long_green_candidate_v1.png")
-const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urban_grove_compact_green_candidate_v1/urban_grove_compact_green_candidate_v1.png")
-const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/urban_grove_20m_green_candidate_v1/urban_grove_20m_green_candidate_v1.png")
+const UrbanGrovePanel := preload("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png")
+const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png")
+const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_sidewalk_strip_v1/outer_sidewalk_strip_v1.png")
 const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_texture_candidate_v2/outer_ground_texture_candidate_v2.png")
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
@@ -55,16 +55,16 @@ const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 664.0)
 ## Keep the tree height in world units across store sizes. 18m matches the prior 16x12 + 3m ends fit.
 const REAR_GROVE_WORLD_LENGTH_M := 18.0
 ## One landscape panel spans the long supported street edge, retaining fixed tree height across store sizes.
-const URBAN_GROVE_SOURCE_START_PX := Vector2(100.0, 630.0)
-const URBAN_GROVE_SOURCE_END_PX := Vector2(2070.0, 630.0)
+const URBAN_GROVE_SOURCE_START_PX := Vector2(100.0, 700.0)
+const URBAN_GROVE_SOURCE_END_PX := Vector2(2070.0, 700.0)
 ## A separate compact planting group matches the 10m and 12m store edges without enlarging the 18m panel.
-const URBAN_GROVE_COMPACT_START_PX := Vector2(358.0, 789.0)
-const URBAN_GROVE_COMPACT_END_PX := Vector2(1544.0, 789.0)
+const URBAN_GROVE_COMPACT_START_PX := Vector2(100.0, 700.0)
+const URBAN_GROVE_COMPACT_END_PX := Vector2(2070.0, 700.0)
 const URBAN_GROVE_COMPACT_WORLD_LENGTH_M := 12.0
 ## Separate full-length source covers the 20m edge without cropped connector strips.
 const URBAN_GROVE_LONG_WORLD_LENGTH_M := 18.0
-const URBAN_GROVE_20M_START_PX := Vector2(100.0, 541.0)
-const URBAN_GROVE_20M_END_PX := Vector2(2070.0, 578.0)
+const URBAN_GROVE_20M_START_PX := Vector2(100.0, 700.0)
+const URBAN_GROVE_20M_END_PX := Vector2(2070.0, 700.0)
 const URBAN_GROVE_20M_WORLD_LENGTH_M := 20.0
 const URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M := 0.25
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.

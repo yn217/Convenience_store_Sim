@@ -222,15 +222,15 @@ func test_generated_outer_sidewalk_anchors_to_world_centerline(t, _tree) -> void
 
 func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
 	var proj := _proj(0.8)
-	var texture := load("res://assets/generated/backgrounds/urban_grove_long_green_candidate_v1/urban_grove_long_green_candidate_v1.png") as Texture2D
-	var compact_texture := load("res://assets/generated/backgrounds/urban_grove_compact_green_candidate_v1/urban_grove_compact_green_candidate_v1.png") as Texture2D
-	var long20_texture := load("res://assets/generated/backgrounds/urban_grove_20m_green_candidate_v1/urban_grove_20m_green_candidate_v1.png") as Texture2D
+	var texture := load("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png") as Texture2D
+	var compact_texture := load("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png") as Texture2D
+	var long20_texture := load("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png") as Texture2D
 	t.ok(texture != null and compact_texture != null and long20_texture != null, "generated urban grove panels import as runtime textures")
 	var image_size := Vector2(texture.get_size())
 	var compact_image_size := Vector2(compact_texture.get_size())
 	var long20_image_size := Vector2(long20_texture.get_size())
 	t.eq(image_size, Vector2(2172.0, 724.0), "long-panel ground anchors use the source image dimensions")
-	t.eq(compact_image_size, Vector2(1774.0, 887.0), "compact-panel ground anchors use the generated image dimensions")
+	t.eq(compact_image_size, Vector2(2172.0, 724.0), "compact-panel ground anchors use the generated image dimensions")
 	t.eq(long20_image_size, Vector2(2172.0, 724.0), "20m panel ground anchors use the generated image dimensions")
 	t.ok(BackdropLayer.URBAN_GROVE_SOURCE_START_PX.x >= 0.0 and BackdropLayer.URBAN_GROVE_SOURCE_END_PX.x < image_size.x, "long-panel ground anchors stay inside the image")
 	t.ok(BackdropLayer.URBAN_GROVE_COMPACT_START_PX.x >= 0.0 and BackdropLayer.URBAN_GROVE_COMPACT_END_PX.x < compact_image_size.x and BackdropLayer.URBAN_GROVE_COMPACT_END_PX.y < compact_image_size.y, "compact-panel ground anchors stay inside the image")
