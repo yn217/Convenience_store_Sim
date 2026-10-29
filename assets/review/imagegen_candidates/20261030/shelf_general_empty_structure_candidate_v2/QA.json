@@ -1,0 +1,40 @@
+{
+  "asset_id": "shelf_general_empty_structure_candidate_v2",
+  "kind": "review_only_candidate",
+  "runtime_approved": false,
+  "source_image": "shelf_general_empty_structure_candidate_v2.png",
+  "source_image_preserved_without_edits": true,
+  "dimensions_px": [1374, 1145],
+  "sha256": "787fc8840fe38a6c81c2e26663109001c63a5c76bcc0bb621ffb6f75afdd987e",
+  "alpha_bbox": {
+    "alpha_gt_0": [140, 9, 1354, 1145],
+    "alpha_gt_7": [227, 13, 1162, 1143],
+    "alpha_gt_127": [229, 14, 1159, 1142],
+    "alpha_levels": 256
+  },
+  "generation": {
+    "tool": "Codex built-in ImageGen",
+    "date": "2026-10-30",
+    "prompt": "Single isolated EMPTY Japanese convenience-store gondola shelf, polished hand-painted isometric game sprite matching the provided game-style reference. Open single-sided unit: perforated vertical back panel, two thin uprights, four very shallow shelves with narrow front price rails, compact dark base. No products, no signs, no labels, no canopy, no roof, no broad top slab, no catalog/collage/diagram, transparent background. Strict orthographic isometric projection aligned to 2:1 game grid: every long shelf/front edge slopes down-right exactly 1 vertical for 2 horizontal; every depth edge slopes up-right exactly 1 vertical for 2 horizontal. Compact slender proportions about 1.5m tall, 0.45m deep. Clean complete silhouette with margin, restrained cream-white metal, soft painted shading. Do not rotate toward viewer.",
+    "references": [
+      "User-provided open-gondola reference image codex-clipboard-064dab06-bef1-445c-b171-1d8affd66814.png",
+      "User-provided game-style screenshot image-1792819026698.webp"
+    ],
+    "transparent_background_requested": true
+  },
+  "content_qa": {
+    "visible": "Single open shelf unit with perforated back, four shelf levels, front rails and dark base; no merchandise or top canopy.",
+    "projection": "FAIL_PENDING_INDEPENDENT_REVIEW: visual inspection shows long shelf edges approximately near the requested down-right slope, but the depth edges appear too steep for the 2:1 game axes. No warp, mirror, or crop applied.",
+    "structure": "FAIL: shelf decks look too deep relative to a shallow 0.45m fixture; lower base touches the bottom image boundary with almost no transparent safety margin.",
+    "alpha": "FAIL: nonzero alpha touches the bottom boundary; colored fringe is visible at some outer edges.",
+    "dimensions_and_anchor": "UNVERIFIED: no world-space dimensions, tile footprint, or ground-anchor calibration performed.",
+    "game_scale": "UNVERIFIED: not rendered in Godot at runtime zoom.",
+    "independent_review": "Pending."
+  },
+  "status": "review_only_provisional_fail",
+  "notes": [
+    "This is a second empty-structure candidate only; no FULL/HALF state or additional direction was generated.",
+    "Do not use as a runtime asset or normalize by stretching to hide depth/projection mismatch.",
+    "The EMPTY structure gate remains open; runtime_approved must stay false."
+  ]
+}
