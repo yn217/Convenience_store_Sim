@@ -40,7 +40,10 @@ const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urba
 const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/sidewalk_long_candidate_a/sidewalk_long_candidate_a.png")
 const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_field_v3/outer_ground_field_v3.png")
+const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_context_candidate_subagent_3b/urban_context_candidate_subagent_3b.png")
 const SURROUNDING_GROUND_OPACITY := 0.90
+const URBAN_CONTEXT_COVER_SCALE := 1.25
+const URBAN_CONTEXT_CAMERA_PARALLAX := 0.35
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
@@ -117,6 +120,7 @@ var _ground_texture_mesh: ArrayMesh # camera-phased ground tile quads batched in
 var _batch_ground_texture := true
 var _ground_texture_camera_origin := Vector2.ZERO
 var _ground_texture_viewport := Vector2.ZERO
+var _urban_context_transform := Transform2D.IDENTITY
 var _scenery_break_index := -1
 var _area_a_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
@@ -145,6 +149,7 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_ground_texture_camera_origin = proj.origin
 	_ground_texture_viewport = viewport
 	_ground_texture_mesh = _build_surrounding_ground_mesh(proj.origin, viewport, Vector2(SurroundingGround.get_size()))
+	_urban_context_transform = urban_context_transform(proj, width, height, viewport, Vector2(UrbanContextBackdrop.get_size()))
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_sync_asphalt(proj, width, height, entrances, viewport)
 	_sync_environment(proj, width, height)
@@ -333,6 +338,9 @@ func _draw() -> void:
 	if _ground_mesh != null:
 		draw_mesh(_ground_mesh, null)
 	_draw_surrounding_ground_texture()
+	draw_set_transform_matrix(_urban_context_transform)
+	draw_texture_rect(UrbanContextBackdrop, Rect2(Vector2.ZERO, Vector2(UrbanContextBackdrop.get_size())), false)
+	draw_set_transform_matrix(Transform2D.IDENTITY)
 	# Paint the combined V art after the ground fill, then road/paving geometry, then far-wall occlusion.
 	if _environment_visible:
 		draw_set_transform_matrix(_environment_transform)
@@ -434,6 +442,19 @@ static func surrounding_ground_tile_offset(camera_origin: Vector2, tile_size: Ve
 	if tile_size.x <= 0.0 or tile_size.y <= 0.0:
 		return Vector2.ZERO
 	return Vector2(fposmod(camera_origin.x, tile_size.x), fposmod(camera_origin.y, tile_size.y))
+
+
+## A full-canvas distant neighborhood backdrop uses cover scaling and restrained camera parallax;
+## foreground geometry remains world-anchored above it and does not inherit the image's perspective.
+static func urban_context_transform(proj: IsoProjection, width: int, height: int, viewport: Vector2, texture_size: Vector2) -> Transform2D:
+	if width <= 0 or height <= 0 or viewport.x <= 0.0 or viewport.y <= 0.0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return Transform2D.IDENTITY
+	var scale := maxf(viewport.x / texture_size.x, viewport.y / texture_size.y) * URBAN_CONTEXT_COVER_SCALE
+	var store_center := proj.world_to_screen((float(width) - 1.0) * 0.5, (float(height) - 1.0) * 0.5)
+	var screen_center := viewport * 0.5 + (store_center - viewport * 0.5) * URBAN_CONTEXT_CAMERA_PARALLAX
+	var basis := Vector2(scale, scale)
+	var half_size := texture_size * scale * 0.5
+	return Transform2D(Vector2(basis.x, 0.0), Vector2(0.0, basis.y), screen_center - half_size)
 
 
 ## Ground root is fixed behind the far corner; each branch is measured against its own store edge.
