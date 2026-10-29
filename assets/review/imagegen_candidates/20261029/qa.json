@@ -1,0 +1,131 @@
+{
+  "created": "2026-10-29",
+  "generation_tool": "built-in Codex image_gen",
+  "projection_target": "iso2x_v1 (2:1 axes)",
+  "runtime_approved": false,
+  "human_approved": false,
+  "shipping_assets": false,
+  "items": [
+    {
+      "file": "hot_snack_three_bay_candidate_v1.png",
+      "subject": "three-bay hot snack warmer",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        47,
+        15,
+        1724,
+        887
+      ],
+      "transparent_top_left": true,
+      "sha256": "6d7ace7f00431aeaa31c8ebd9f2ad1029b4537b4b9da1658deac7822b0704df2",
+      "visual_status": "review_only_projection_not_calibrated",
+      "alpha_bbox_ge_8": [
+        51,
+        20,
+        1716,
+        887
+      ],
+      "solid_alpha_margin_px": {
+        "left": 51,
+        "top": 20,
+        "right": 58,
+        "bottom": 0
+      },
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed"
+    },
+    {
+      "file": "hot_snack_three_bay_projection_edit_v2.png",
+      "subject": "projection edit of three-bay warmer",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        35,
+        39,
+        1687,
+        887
+      ],
+      "transparent_top_left": true,
+      "sha256": "3aa95e1cc4b9b750694afd8183d2a3326b407306200f65fcebbb187be84fb49b",
+      "visual_status": "review_only_projection_not_calibrated",
+      "alpha_bbox_ge_8": [
+        121,
+        48,
+        1639,
+        887
+      ],
+      "solid_alpha_margin_px": {
+        "left": 121,
+        "top": 48,
+        "right": 135,
+        "bottom": 0
+      },
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed"
+    },
+    {
+      "file": "open_snack_gondola_candidate_v1.png",
+      "subject": "stocked open snack gondola",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1508,
+        1024
+      ],
+      "transparent_top_left": true,
+      "sha256": "06273c49f86a70cc2582e65217d5f834d5cad71577b43dc05cb7d041999e1263",
+      "visual_status": "review_only_projection_not_calibrated",
+      "alpha_bbox_ge_8": [
+        329,
+        24,
+        1224,
+        1016
+      ],
+      "solid_alpha_margin_px": {
+        "left": 329,
+        "top": 24,
+        "right": 312,
+        "bottom": 8
+      },
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed"
+    },
+    {
+      "file": "open_snack_gondola_style_ref_candidate_v2.png",
+      "subject": "stocked open snack gondola using game screenshot as style reference",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        23,
+        1516,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        323,
+        42,
+        1213,
+        1015
+      ],
+      "solid_alpha_margin_px": {
+        "left": 323,
+        "top": 42,
+        "right": 323,
+        "bottom": 9
+      },
+      "transparent_top_left": true,
+      "sha256": "542c3521a213e99fba373b9f80880ddf7f5b15ff98e3ae8c024ba0aec6b82e2b",
+      "visual_status": "best_projection_candidate_review_only_not_game_calibrated",
+      "projection_observation": "long shelf axis visually closer to 2:1 than v1; no trusted world landmarks or footprint metadata, so projection and anchor remain unverified",
+      "alpha_edge_observation": "low-alpha background haze reaches left canvas edge; foreground at alpha>=8 has a wide margin"
+    }
+  ]
+}
