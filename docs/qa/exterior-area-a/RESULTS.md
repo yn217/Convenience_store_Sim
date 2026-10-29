@@ -483,3 +483,7 @@ Actual Godot 4.7.2 captures at 1600x900, 16:00:
 | 12x10, rejected temporary edit | `area-a-surface-v2-12x10-west-1600x900-2026-10-29.png` | At the west-edge camera position the temporary panel transition and missing area are conspicuous; it was excluded and the original compact assets restored. |
 
 Focused `test_backdrop_layer` passed 23 tests / 333 assertions after restoring the 10m/12m sources and keeping only the 16m/20m edits active. No full suite was run. The separate outer road remains flat gray, and the full scene still differs substantially from the reference.
+
+## West-entrance baseline correction (2026-10-29)
+
+The earlier west-edge capture was a west entrance orientation, not just a camera movement. A new actual Godot capture with the original 10m source, `area-a-original-12x10-west-2026-10-29.png`, reproduces the triangular apron fragment seen with the temporary edit. Therefore that symptom alone does not establish an image-generation regression. The orientation transform, layer overlap, and source coverage need separate investigation before accepting a compact replacement. The previously excluded candidate remains unadopted pending that investigation.
