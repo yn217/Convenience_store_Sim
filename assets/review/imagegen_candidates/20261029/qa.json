@@ -820,6 +820,32 @@
       "qa_observation": "Standalone double-basket stainless fryer, both controls and baskets are clear and category is identifiable. RGBA alpha is present but diffuse halo reaches the left canvas edge (alpha>=8 has margin); camera is strongly perspective-like, not calibrated iso2x_v1, and highlights are glossy. Review-only.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "oden_countertop_candidate/oden_countertop_single_alpha_candidate_v5.png",
+      "subject": "single tabletop oden warmer, four compartments, alpha retry v5",
+      "dimensions_px": [
+        1374,
+        1145
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        12,
+        1354,
+        1145
+      ],
+      "alpha_bbox_threshold_8": [
+        159,
+        85,
+        1218,
+        1103
+      ],
+      "sha256": "699deecf7b8defe1458ed91fb92841c7a34a9ad7b4ac65ffca083867d58fa85b",
+      "visual_status": "review_only_projection_and_alpha_halo_fail",
+      "qa_observation": "One small countertop oden pan with four ingredient compartments, heater base and control knob; unmistakably a single tabletop pot, not a floor cabinet or three-bay unit. True RGBA alpha is present, but faint glow reaches left and bottom canvas edges, and the deep top-down perspective is not iso2x_v1. Keep review-only.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [

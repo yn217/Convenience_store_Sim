@@ -151,3 +151,7 @@ Both remain review-only. Per-agent QA and measured file metadata are retained; n
 ## Issue #163 priority A — single fryer candidate
 
 `fryer_candidate/fryer_candidate.png` is a standalone double-basket countertop fryer, separate from the multi-bay hot-snack case and coffee machine. The controls and baskets are readable with true RGBA; a low-alpha halo reaches the left canvas edge, the camera remains perspective-like, and exact game scale/projection are unverified. Kept review-only with no runtime changes.
+
+## Issue #163 P0 — single tabletop oden pot retry v5
+
+`oden_countertop_candidate/oden_countertop_single_alpha_candidate_v5.png` is explicitly one small countertop pot with four ingredient compartments, distinct from the large three-bay warmer cabinet. It has true RGBA alpha and the category reads clearly, but a low-alpha halo reaches left/bottom edges and its steep perspective does not match iso2x_v1. Review-only; do not use it as the large-case asset or distort it to fit.
