@@ -85,3 +85,10 @@ Both original images and per-asset QA are preserved without scaling. They remain
 ## Issue #163 — umbrella stand candidate
 
 `umbrella_stand_candidate.png` is a standalone umbrella rack with several umbrellas and a drip tray. The category reads clearly. A low-alpha background glow reaches the left alpha bound, and exact `iso2x_v1` projection/game scale remain unverified. Original image preserved; review-only, `runtime_approved:false`.
+
+## Issue #163 — hand truck and reusable crate candidates
+
+- `hand_truck_candidate/hand_truck_candidate.png` — a hand truck carrying blue beverage crates. The equipment is identifiable, but the load hides much of the frame and one wheel; the silhouette touches the lower image edge, and the iso2x projection is not calibrated.
+- `plastic_crate_stack_candidate/plastic_crate_stack_candidate.png` — three open-lattice reusable blue crates. The openings and rims read as crates rather than solid cuboids. Low-alpha blue fringe extends beyond the main silhouette, the color finish is cool/glossy, and exact game projection is unverified.
+
+Both remain review-only. Preserve the originals; do not stretch them to force projection agreement. Per-image QA is stored in each subfolder.

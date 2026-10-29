@@ -447,6 +447,46 @@
       "qa_observation": "Umbrella rack, umbrellas and drip tray are clear; low-alpha background glow reaches left alpha bbox edge. Strict iso2x axes and game scale are not calibrated.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "hand_truck_candidate/hand_truck_candidate.png",
+      "subject": "hand truck with blue beverage crates candidate",
+      "dimensions_px": [
+        1291,
+        1218
+      ],
+      "alpha_bbox": [
+        49,
+        29,
+        1251,
+        1218
+      ],
+      "transparent_top_left": true,
+      "sha256": "86eb74a2bd7bf2184be434da9928b6c8bc1cf44fe80c84325baed32737b0661c",
+      "visual_status": "review_only_projection_and_composition_fail",
+      "qa_observation": "Hand truck and loaded crates are identifiable, but crates obscure the frame and wheel; sprite touches bottom canvas edge; glossy style and iso2x are unverified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plastic_crate_stack_candidate/plastic_crate_stack_candidate.png",
+      "subject": "stack of reusable blue delivery crates candidate",
+      "dimensions_px": [
+        1412,
+        1114
+      ],
+      "alpha_bbox": [
+        27,
+        17,
+        1378,
+        1086
+      ],
+      "transparent_top_left": true,
+      "sha256": "5bddb064ccf741d6a93392d1faa9452895640febb71f2937f20d121c24355429",
+      "visual_status": "review_only_projection_and_style_unverified",
+      "qa_observation": "Three open lattice crates read clearly and are not solid cubes; low-alpha blue fringe extends beyond primary silhouette, cool saturated glossy highlights, strict iso2x uncalibrated.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [
