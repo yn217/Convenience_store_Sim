@@ -1,0 +1,8 @@
+{
+  "asset_id": "urban_context_candidate_subagent_2b",
+  "status": "integrated_source_copy",
+  "source": "OpenAI built-in image generation",
+  "prompt_summary": "Subtle stylized sage/olive isometric game ground sheet only; flat 2:1 orthographic iso plane, no road, pavement, store, focal objects, buildings, trees, text, UI, photo texture, horizon or repeated clover/tile motif.",
+  "file": "surrounding_ground_candidate_v1.png",
+  "notes": "Reviewed in Godot 4.7.2 captures at 12x10, 16x12, 20x16 and panned/zoomed 20x16; runtime uses a copy at 90% alpha as a camera-phased ground sheet. The source is a subtle broad green field only, not a complete urban exterior."
+}

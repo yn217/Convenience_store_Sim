@@ -376,8 +376,8 @@ The focused `test_backdrop_layer` suite passed 22 tests / 327 assertions, includ
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.
-- The ground artwork has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The new 24%-opacity ground tile adds low-clover, leaf, and flower variation, but a broad open field remains and the scene still lacks the target's full-depth flower beds and surrounding street structures.
-- The target shows a busier street scene, multiple vehicles, dense flowers, street furniture, and storefront posters. Current runtime has one parked car plus one static road car, with fewer visible exterior details.
+- The ground artwork has asphalt, parking bays, wheel stops, curb, sidewalk paving, and grouped planting. The current generated ground sheet removes the prominent clover repeat but remains a broad simple green field; the scene still lacks the target's full-depth flower beds and surrounding street structures.
+- The target shows a busier street scene, multiple vehicles, dense flowers, street furniture, and storefront posters. Current runtime has one static road car, with fewer visible exterior details and no moving traffic.
 - Store shelves, people, and product presentation differ substantially from the target and were outside this exterior change.
 
 The side-by-side comparison is `target-vs-after-20x16.png`; it uses a different store aspect ratio from the supplied mockup and is not a pixel-matched image test. These captures establish placement and runtime appearance, not final art approval. The user's final visual review is still required.
@@ -425,6 +425,21 @@ Four newly generated background candidates were screened before integration. The
 The near-side storefront now has a slightly stronger cool-glass tint and a narrow sky reflection on alternating closed panes, increasing the visible glazing rhythm while keeping the customer entrance clear and the interior readable. Actual Godot 4.7.2 capture at 1600x900 / 16:00: `glazing-reflection-v2-16x12-1600x900-2026-10-29.png`.
 
 Focused `test_store_decor` passed 24 tests / 496 assertions, including the reflection cadence, door clearance, posters, and supported entrance orientations. This is a modest facade detail improvement; the broader target still has much richer warm interior lighting, window contents and urban context.
+
+## Surrounding green ground field v3 (2026-10-29)
+
+Replaced the previous high-frequency clover repeat with a generated, muted sage/olive ground sheet. It is drawn below the world-anchored planting, walkway, apron, road and props; the camera-phased ground mesh preserves coverage during panning. The 90% overlay makes irregular variation visible at whole-store scale without a recognizable repeated flower/clover motif. It remains a simple green field, not a complete urban backdrop.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00:
+
+| Footprint/view | Capture | Observation |
+|---|---|---|
+| 12x10 | `ground-field-candidate-v3-small-1600x900-2026-10-29.png` | The exterior field stays visible beyond the roadside and planted borders; no strong seam appears in the whole-store view. |
+| 16x12 | `ground-field-candidate-v3-medium-1600x900-2026-10-29.png` | Same color and pattern scale with the intermediate store. |
+| 20x16 | `ground-field-candidate-v3-large-1600x900-2026-10-29.png` | The detailed tree band remains legible against the lower-contrast field. |
+| 20x16, panned/zoomed | `ground-field-candidate-v3-large-pan-1600x900-2026-10-29.png` | Camera-phased coverage remains filled after moving the view. |
+
+Focused `test_backdrop_layer` passed 23 tests / 333 assertions, including the batched texture opacity and camera phase. `git diff --check` passed. Full suite not run. The area A parking/road candidates generated in this cycle were rejected because their realistic perspective or plain outer background did not fit the runtime camera and alpha compositing needs.
 
 ## Single foreground road car (2026-10-29)
 

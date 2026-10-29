@@ -159,8 +159,8 @@ func test_surrounding_ground_mesh_batches_tiles_and_tracks_camera(t, _tree) -> v
 	t.eq(uvs.size(), vertices.size(), "each batched vertex keeps its tile UV")
 	var tint_matches := true
 	for color in colors:
-		tint_matches = tint_matches and absf(color.a - 0.24) < 0.002
-	t.ok(tint_matches, "batched ground retains the original 24 percent opacity")
+		tint_matches = tint_matches and absf(color.a - BackdropLayer.SURROUNDING_GROUND_OPACITY) < 0.002
+	t.ok(tint_matches, "batched ground uses the authored surrounding-ground opacity")
 	var min_x := INF
 	var min_y := INF
 	var max_x := -INF

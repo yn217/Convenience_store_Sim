@@ -37,7 +37,8 @@ const UrbanGrovePanel := preload("res://assets/generated/backgrounds/urban_grove
 const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
 const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_sidewalk_strip_v1/outer_sidewalk_strip_v1.png")
-const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_texture_candidate_v2/outer_ground_texture_candidate_v2.png")
+const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_field_v3/outer_ground_field_v3.png")
+const SURROUNDING_GROUND_OPACITY := 0.90
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
@@ -313,7 +314,7 @@ func _draw_surrounding_ground_texture() -> void:
 	while x < _ground_texture_viewport.x:
 		var y := offset.y - tile_size.y
 		while y < _ground_texture_viewport.y:
-			draw_texture_rect(SurroundingGround, Rect2(Vector2(x, y), tile_size), false, Color(1.0, 1.0, 1.0, 0.24))
+			draw_texture_rect(SurroundingGround, Rect2(Vector2(x, y), tile_size), false, Color(1.0, 1.0, 1.0, SURROUNDING_GROUND_OPACITY))
 			y += tile_size.y
 		x += tile_size.x
 
@@ -332,7 +333,7 @@ static func _build_surrounding_ground_mesh(camera_origin: Vector2, viewport: Vec
 	var verts := PackedVector2Array()
 	var uvs := PackedVector2Array()
 	var colors := PackedColorArray()
-	var tint := Color(1.0, 1.0, 1.0, 0.24)
+	var tint := Color(1.0, 1.0, 1.0, SURROUNDING_GROUND_OPACITY)
 	var x := offset.x - tile_size.x
 	while x < viewport.x:
 		var y := offset.y - tile_size.y
