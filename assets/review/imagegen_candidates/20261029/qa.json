@@ -427,6 +427,26 @@
       "qa_observation": "Recognizable cylindrical red postbox with slot, access hatch and base; strict game iso2x projection remains unverified.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "umbrella_stand_candidate.png",
+      "subject": "standalone umbrella stand candidate",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        46,
+        1452,
+        1002
+      ],
+      "transparent_top_left": true,
+      "sha256": "9fba86828c833ade0641294ab868b2fea170cd2da1702fb2bbc482ac583e6927",
+      "visual_status": "review_only_projection_and_alpha_halo_unverified",
+      "qa_observation": "Umbrella rack, umbrellas and drip tray are clear; low-alpha background glow reaches left alpha bbox edge. Strict iso2x axes and game scale are not calibrated.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [
