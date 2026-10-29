@@ -237,6 +237,19 @@ Added one compact car on the exterior road, oriented along the entrance-side str
 
 Focused `test_store_decor` passed 21 tests / 371 assertions, including each supported footprint and entrance orientation. `git diff --check` is clean. Full suite not run.
 
+## U-shaped grove on non-road sides (2026-10-29)
+
+Extended the grouped grove from the single entrance-facing edge to the other three store sides. This leaves the entrance road and crossing open. These sides have no public road, so the grove base now sits at 2.43m from the wall: just beyond the 2m paved ring and kerb, with wall/paving layers hiding the roots. The compact 10m/12m panel and the 18m panel with 20m endcaps retain their measured z=0 anchors and uniform image scaling. The generated width/height never change with camera movement; transforms are rebuilt from world coordinates.
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `perimeter-u-close-12x10-1600x900-2026-10-29.png` | Trees rise above the rear and side walls; the entrance-side road stays clear. |
+| 16x12 | `perimeter-u-close-16x12-1600x900-2026-10-29.png` | Planting joins around the far corners and remains behind the store walls. |
+| 20x16 | `perimeter-u-close-20x16-1600x900-2026-10-29.png` | Long rear and side bands close the U, with the 20m edge endcaps in place. |
+| 20x16, 0.8x zoom and pan | `perimeter-u-panzoom-20x16-1600x900-2026-10-29.png` | The three bands stay attached to their world-space edges as the camera moves. |
+
+Focused `test_backdrop_layer` passed 22 tests / 315 assertions, including all four entrance orientations, three-footprint endpoints, 20m endcap continuity, uniform scale, open-road side selection and endcap camera-follow. Full suite not run.
+
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.

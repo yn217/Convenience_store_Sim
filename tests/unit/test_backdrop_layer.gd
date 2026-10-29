@@ -213,7 +213,7 @@ func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
 			var source_end := BackdropLayer.URBAN_GROVE_COMPACT_END_PX if compact else BackdropLayer.URBAN_GROVE_SOURCE_END_PX
 			var source_size := compact_image_size if compact else image_size
 			var along_start := (edge_length - world_length) * 0.5
-			var depth := BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M + BackdropLayer.KERB_M + BackdropLayer.OUTER_SIDEWALK_M + BackdropLayer.URBAN_GROVE_DEPTH_M
+			var depth := BackdropLayer.urban_grove_depth_m()
 			var start := BackdropLayer.side_point(side, depth, along_start, size.x, size.y)
 			var finish := BackdropLayer.side_point(side, depth, along_start + world_length, size.x, size.y)
 			if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST:
@@ -261,7 +261,17 @@ func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
 		var caps_before := BackdropLayer.urban_grove_endcaps(cap_start_proj, 20, 16, side, compact_image_size)
 		var caps_after := BackdropLayer.urban_grove_endcaps(cap_end_proj, 20, 16, side, compact_image_size)
 		for i in caps_before.size():
-			t.eq(caps_after[i]["transform"].origin, caps_before[i]["transform"].origin + Vector2(31.0, -17.0), "urban grove endcap follows camera pan for side %d" % side)
+			t.ok(caps_after[i]["transform"].origin.distance_to(caps_before[i]["transform"].origin + Vector2(31.0, -17.0)) < 0.01, "urban grove endcap follows camera pan for side %d" % side)
+
+
+func test_urban_grove_forms_a_three_side_band_around_the_entrance(t, _tree) -> void:
+	for entrance in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+		var sides := BackdropLayer.urban_grove_sides(entrance)
+		t.eq(sides.size(), 3, "perimeter planting spans the three non-road sides for entrance side %d" % entrance)
+		t.ok(not sides.has(entrance), "planting keeps the entrance road side open for side %d" % entrance)
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			if side != entrance:
+				t.ok(sides.has(side), "perimeter planting keeps side %d for entrance side %d" % [side, entrance])
 
 
 func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:

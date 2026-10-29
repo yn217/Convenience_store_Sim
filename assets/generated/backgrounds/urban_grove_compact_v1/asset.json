@@ -10,7 +10,7 @@
   "ground_contact_end_px": [1544.0, 800.0],
   "anchor_type": "world_ground_endpoints_z0",
   "world_length_m": 12.0,
-  "placement_depth_m": 14.0,
+  "placement_depth_m": 2.43,
   "occlusion_group": "distant_exterior_planting",
   "sort_key": "behind_store_walls_and_roadside",
   "generated_prompt": "Compact group of Japanese roadside cherry trees, evergreen tree, shrubs and flowers. Tall mature canopy with tapered low flower-bed endings; transparent background, no structure or text."

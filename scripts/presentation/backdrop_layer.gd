@@ -67,7 +67,7 @@ const URBAN_GROVE_COMPACT_WORLD_LENGTH_M := 12.0
 ## The long source covers 18m; compact low-shrub end pieces complete the two remaining metres on 20m edges.
 const URBAN_GROVE_LONG_WORLD_LENGTH_M := 18.0
 const URBAN_GROVE_ENDCAP_WORLD_LENGTH_M := 1.0
-const URBAN_GROVE_DEPTH_M := 14.0
+const URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M := 0.25
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
 const OUTER_SIDEWALK_START_PX := Vector2(72.5, 130.0)
 const OUTER_SIDEWALK_END_PX := Vector2(2050.0, 614.0)
@@ -107,10 +107,8 @@ var _environment_transform := Transform2D()
 var _environment_visible := false
 var _roadside_grove_transform := Transform2D()
 var _roadside_grove_visible := false
-var _urban_grove_transform := Transform2D()
 var _urban_grove_visible := false
-var _urban_grove_compact := false
-var _urban_grove_endcaps: Array[Dictionary] = []
+var _urban_groves: Array[Dictionary] = []
 var _outer_sidewalk_transform := Transform2D()
 var _outer_sidewalk_visible := false
 var _roadside_sprite: Sprite2D
@@ -182,14 +180,20 @@ func _sync_roadside_grove(proj: IsoProjection, width: int, height: int, entrance
 ## Dense tree-and-flower panel sits beyond the sidewalk at a fixed ground anchor; wall/road geometry covers its base.
 func _sync_urban_grove(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
 	_urban_grove_visible = width > 0 and height > 0
+	_urban_groves.clear()
 	if not _urban_grove_visible:
 		return
-	var side := entrance_side(width, height, entrances)
-	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
-	_urban_grove_compact = edge_length <= URBAN_GROVE_COMPACT_WORLD_LENGTH_M
-	var texture_size := Vector2(UrbanGroveCompactPanel.get_size()) if _urban_grove_compact else Vector2(UrbanGrovePanel.get_size())
-	_urban_grove_transform = urban_grove_transform(proj, width, height, side, texture_size)
-	_urban_grove_endcaps = urban_grove_endcaps(proj, width, height, side, Vector2(UrbanGroveCompactPanel.get_size()))
+	var entrance := entrance_side(width, height, entrances)
+	for side in urban_grove_sides(entrance):
+		var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+		var compact := edge_length <= URBAN_GROVE_COMPACT_WORLD_LENGTH_M
+		var texture_size := Vector2(UrbanGroveCompactPanel.get_size()) if compact else Vector2(UrbanGrovePanel.get_size())
+		_urban_groves.append({
+			"side": side,
+			"compact": compact,
+			"transform": urban_grove_transform(proj, width, height, side, texture_size),
+			"endcaps": urban_grove_endcaps(proj, width, height, side, Vector2(UrbanGroveCompactPanel.get_size())),
+		})
 
 
 func _sync_outer_sidewalk(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
@@ -254,14 +258,15 @@ func _draw() -> void:
 		draw_texture_rect(RearGrove, Rect2(Vector2.ZERO, Vector2(RearGrove.get_size())), false)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _urban_grove_visible:
-		draw_set_transform_matrix(_urban_grove_transform)
-		var grove_texture := UrbanGroveCompactPanel if _urban_grove_compact else UrbanGrovePanel
-		draw_texture_rect(grove_texture, Rect2(Vector2.ZERO, Vector2(grove_texture.get_size())), false)
-		draw_set_transform_matrix(Transform2D.IDENTITY)
-		for cap in _urban_grove_endcaps:
-			draw_set_transform_matrix(cap["transform"])
-			draw_texture_rect_region(UrbanGroveCompactPanel, cap["source_rect"], cap["source_rect"], Color.WHITE)
+		for grove in _urban_groves:
+			var grove_texture := UrbanGroveCompactPanel if grove["compact"] else UrbanGrovePanel
+			draw_set_transform_matrix(grove["transform"])
+			draw_texture_rect(grove_texture, Rect2(Vector2.ZERO, Vector2(grove_texture.get_size())), false)
 			draw_set_transform_matrix(Transform2D.IDENTITY)
+			for cap in grove["endcaps"]:
+				draw_set_transform_matrix(cap["transform"])
+				draw_texture_rect_region(UrbanGroveCompactPanel, cap["source_rect"], cap["source_rect"], Color.WHITE)
+				draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _outer_sidewalk_visible:
 		draw_set_transform_matrix(_outer_sidewalk_transform)
 		draw_texture_rect(OuterSidewalkStrip, Rect2(Vector2.ZERO, Vector2(OuterSidewalkStrip.get_size())), false)
@@ -364,6 +369,18 @@ static func urban_grove_transform(proj: IsoProjection, width: int, height: int, 
 	return _urban_grove_strip_transform(proj, width, height, side, source_start, source_end, along_start, world_length)
 
 
+static func urban_grove_sides(entrance: int) -> Array[int]:
+	var sides: Array[int] = []
+	for side in [SIDE_WEST, SIDE_NORTH, SIDE_EAST, SIDE_SOUTH]:
+		if side != entrance:
+			sides.append(side)
+	return sides
+
+
+static func urban_grove_depth_m() -> float:
+	return PAVE_M + KERB_M + URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M
+
+
 ## Add two 1m natural shrub ends where the fixed 18m panel is shorter than the 20m store edge.
 static func urban_grove_endcaps(proj: IsoProjection, width: int, height: int, side: int, texture_size: Vector2) -> Array[Dictionary]:
 	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
@@ -391,7 +408,7 @@ static func urban_grove_endcaps(proj: IsoProjection, width: int, height: int, si
 
 
 static func _urban_grove_strip_transform(proj: IsoProjection, width: int, height: int, side: int, source_start: Vector2, source_end: Vector2, along_start: float, world_length: float) -> Transform2D:
-	var depth := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M + KERB_M + OUTER_SIDEWALK_M + URBAN_GROVE_DEPTH_M
+	var depth := urban_grove_depth_m()
 	var target_start := side_point(side, depth, along_start, width, height)
 	var target_end := side_point(side, depth, along_start + world_length, width, height)
 	if side == SIDE_WEST or side == SIDE_EAST:

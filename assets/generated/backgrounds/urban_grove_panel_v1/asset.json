@@ -10,7 +10,7 @@
   "ground_contact_end_px": [2070.0, 680.0],
   "anchor_type": "world_ground_endpoints_z0",
   "world_length_m": 18.0,
-  "placement_depth_m": 14.0,
+  "placement_depth_m": 2.43,
   "occlusion_group": "distant_exterior_planting",
   "sort_key": "behind_store_walls_and_roadside",
   "generated_prompt": "Single wide static 2D group of dense Japanese roadside sakura, evergreen shrubs and flower beds on a transparent background; tall canopy, one continuous ground baseline; no structure, text or logo."
