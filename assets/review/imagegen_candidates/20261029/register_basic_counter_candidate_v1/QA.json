@@ -1,0 +1,37 @@
+{
+  "asset_id": "register_basic_counter_candidate_v1",
+  "source": "register_basic_counter_candidate_v1.png",
+  "dimensions_px": [
+    1774,
+    887
+  ],
+  "sha256": "7d822559ae4d4873073106cdb44d407017f39651edd7ded6cb22992416dd51f0",
+  "alpha_bbox_by_threshold": {
+    "1": [
+      73,
+      62,
+      1718,
+      823
+    ],
+    "8": [
+      431,
+      65,
+      1466,
+      817
+    ],
+    "128": [
+      433,
+      66,
+      1465,
+      816
+    ]
+  },
+  "actual_subject": "One staffed checkout counter with POS, payment terminal, scanner, printer and receipt",
+  "style_reference": "Prompt description only; reference screenshot not supplied to generator",
+  "limitations": [
+    "Counter appears long; 1x2 physical footprint and iso2x projection unverified",
+    "Faint alpha fringe and game scale unverified",
+    "One image does not establish four rotations or depth layering"
+  ],
+  "runtime_approved": false
+}

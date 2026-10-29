@@ -1651,6 +1651,30 @@
       "visual_status": "review_only_projection_unverified",
       "runtime_approved": false,
       "notes": "Three-compartment topping dispenser; fixture dimensions and game projection unverified."
+    },
+    {
+      "file": "register_basic_counter_candidate_v1/register_basic_counter_candidate_v1.png",
+      "subject": "register_basic_counter_candidate_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        73,
+        62,
+        1718,
+        823
+      ],
+      "alpha_bbox_ge_8": [
+        431,
+        65,
+        1466,
+        817
+      ],
+      "sha256": "7d822559ae4d4873073106cdb44d407017f39651edd7ded6cb22992416dd51f0",
+      "visual_status": "review_only_geometry_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Standalone counter and POS; counter appears long; reference screenshot not actually supplied to generator."
     }
   ],
   "comparisons": [
