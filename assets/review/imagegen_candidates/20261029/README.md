@@ -147,3 +147,7 @@ Both remain review-only. Per-agent QA and measured file metadata are retained; n
 ## ATM projection-only edit v3
 
 `atm_candidate/atm_projection_edit_candidate_v3.png` is an edit of the existing ATM candidate intended to adjust projection only. The front controls and red panels remain legible, but strong perspective remains and nonzero alpha touches the left and bottom canvas edges. It is retained as a failed review iteration; it must not replace the prior source or be stretched/cropped to conceal the mismatch.
+
+## Issue #163 priority A — single fryer candidate
+
+`fryer_candidate/fryer_candidate.png` is a standalone double-basket countertop fryer, separate from the multi-bay hot-snack case and coffee machine. The controls and baskets are readable with true RGBA; a low-alpha halo reaches the left canvas edge, the camera remains perspective-like, and exact game scale/projection are unverified. Kept review-only with no runtime changes.
