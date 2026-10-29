@@ -1291,6 +1291,30 @@
       "visual_status": "review_only_projection_and_alpha_unverified",
       "runtime_approved": false,
       "notes": "Continuous right-side Japanese planting strip with sakura, evergreens, layered shrubs and flowers. Composition is readable, but world-space endpoints/iso2x_v1 are not calibrated and color fringe remains at the alpha edge. No crop or warp applied."
+    },
+    {
+      "file": "forecourt_ground_candidate_v1/forecourt_ground_candidate_v1.png",
+      "subject": "forecourt_parking_road_jp_candidate_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1774,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        0,
+        0,
+        1766,
+        878
+      ],
+      "sha256": "35b3bdd6d54b05dd06d782bf148312bf8144ee91d43cf8706f728a930490a7ec",
+      "visual_status": "review_only_style_projection_and_alpha_fail",
+      "runtime_approved": false,
+      "notes": "Japanese paved sidewalk, curb, parking spaces, road edge and crosswalk are readable, but the render has exaggerated slab extrusion, is not calibrated to iso2x_v1 or known world footprint, and alpha-edge residue reaches canvas edges. Review only; no crop/warp."
     }
   ],
   "comparisons": [
