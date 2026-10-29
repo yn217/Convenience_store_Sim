@@ -2,6 +2,6 @@
   "source": "OpenAI built-in image_gen",
   "prompt": "Broad full-canvas opaque 16:9 illustrated isometric Japanese spring neighborhood background plate; dense leafy trees and flowering shrubs, tiled sidewalks and urban block context; polished game art; elevated 2:1 isometric view; scene fills all edges; no store, UI, signs/text, people, vignette, black transparency, bright fringe, isolated oversized objects, or watermark.",
   "asset": "urban_context_candidate_subagent_3b.png",
-  "usage": "Runtime ambient neighborhood backdrop; uniformly cover-scaled beneath world-anchored store geometry with 0.35 camera parallax.",
+  "usage": "Superseded candidate; close foreground trees became oversized when scaled to cover camera movement as a world-anchored backdrop.",
   "generated_at": "2026-10-30"
 }

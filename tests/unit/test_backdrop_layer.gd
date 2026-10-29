@@ -146,19 +146,20 @@ func test_surrounding_ground_texture_phase_tracks_camera(t, _tree) -> void:
 	t.eq(BackdropLayer.surrounding_ground_tile_offset(Vector2(4.0, 9.0), Vector2.ZERO), Vector2.ZERO, "invalid texture size has a safe zero offset")
 
 
-func test_urban_context_backdrop_covers_viewport_with_camera_parallax(t, _tree) -> void:
+func test_urban_context_backdrop_is_world_anchored_and_covers_viewport(t, _tree) -> void:
 	var viewport := Vector2(1600.0, 900.0)
 	var texture_size := Vector2(1672.0, 941.0)
 	var proj := _proj(0.5)
 	var initial := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
 	var rect := Rect2(initial.origin, texture_size * initial.x.length())
-	t.ok(rect.size.x > viewport.x and rect.size.y > viewport.y, "the urban backdrop covers the viewport with room for camera movement")
+	t.ok(rect.size.x > viewport.x and rect.size.y > viewport.y, "the urban backdrop covers the viewport at minimum zoom")
 	t.ok(absf(initial.x.length() - initial.y.length()) < 0.0001, "the panorama uses uniform scale")
 	var old_center := initial.origin + rect.size * 0.5
 	proj.pan(Vector2(80.0, -40.0))
 	var moved := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
 	var new_center := moved.origin + texture_size * moved.x.length() * 0.5
-	t.ok(new_center.distance_to(old_center + Vector2(28.0, -14.0)) < 0.01, "the distant panorama follows camera movement at the authored parallax ratio")
+	t.ok(new_center.distance_to(old_center + Vector2(80.0, -40.0)) < 0.01, "the panorama follows the world camera at full translation")
+	t.ok(absf(moved.x.length() - 2.1) < 0.0001, "the panorama keeps sufficient cover scale at minimum zoom")
 	t.ok(BackdropLayer.urban_context_transform(proj, 0, 12, viewport, texture_size).x == Vector2.RIGHT, "invalid store bounds return the identity transform")
 
 

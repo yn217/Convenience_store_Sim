@@ -40,10 +40,10 @@ const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urba
 const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/sidewalk_long_candidate_a/sidewalk_long_candidate_a.png")
 const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_field_v3/outer_ground_field_v3.png")
-const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_context_candidate_subagent_3b/urban_context_candidate_subagent_3b.png")
+const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_context_candidate_subagent_3c/urban_context_candidate_subagent_3c.png")
 const SURROUNDING_GROUND_OPACITY := 0.90
-const URBAN_CONTEXT_COVER_SCALE := 1.25
-const URBAN_CONTEXT_CAMERA_PARALLAX := 0.35
+const URBAN_CONTEXT_WORLD_SCALE := 2.5
+const URBAN_CONTEXT_MIN_SCALE := 2.1
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
@@ -444,17 +444,16 @@ static func surrounding_ground_tile_offset(camera_origin: Vector2, tile_size: Ve
 	return Vector2(fposmod(camera_origin.x, tile_size.x), fposmod(camera_origin.y, tile_size.y))
 
 
-## A full-canvas distant neighborhood backdrop uses cover scaling and restrained camera parallax;
-## foreground geometry remains world-anchored above it and does not inherit the image's perspective.
+## A full-canvas neighborhood backdrop is anchored to the store's world center and scales with the camera.
+## Foreground geometry remains independently world-anchored above it.
 static func urban_context_transform(proj: IsoProjection, width: int, height: int, viewport: Vector2, texture_size: Vector2) -> Transform2D:
 	if width <= 0 or height <= 0 or viewport.x <= 0.0 or viewport.y <= 0.0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return Transform2D.IDENTITY
-	var scale := maxf(viewport.x / texture_size.x, viewport.y / texture_size.y) * URBAN_CONTEXT_COVER_SCALE
+	var scale := maxf(URBAN_CONTEXT_MIN_SCALE, URBAN_CONTEXT_WORLD_SCALE * proj.zoom)
 	var store_center := proj.world_to_screen((float(width) - 1.0) * 0.5, (float(height) - 1.0) * 0.5)
-	var screen_center := viewport * 0.5 + (store_center - viewport * 0.5) * URBAN_CONTEXT_CAMERA_PARALLAX
 	var basis := Vector2(scale, scale)
 	var half_size := texture_size * scale * 0.5
-	return Transform2D(Vector2(basis.x, 0.0), Vector2(0.0, basis.y), screen_center - half_size)
+	return Transform2D(Vector2(basis.x, 0.0), Vector2(0.0, basis.y), store_center - half_size)
 
 
 ## Ground root is fixed behind the far corner; each branch is measured against its own store edge.
