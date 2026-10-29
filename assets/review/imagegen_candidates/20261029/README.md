@@ -63,3 +63,12 @@ Both are **shape FAIL / review_only**, not an approved new reference. Exact `iso
 ## Issue #163 — small tabletop oden warmer v4
 
 Generated `oden_countertop_single_candidate_v4.png` as a single small countertop pan, distinct from the large 3-bay cabinet. Oden ingredients and dividers read clearly. The long front edge appears too horizontal for strict `iso2x_v1`, and low-alpha glow reaches the left canvas edge (the top-left corner pixel itself is transparent). It remains review-only; do not non-uniformly stretch it. Projection/r0 orientation/ground anchor/game-size QA are pending.
+
+## Issue #163 — coffee machine and steamed-bun warmer candidates
+
+Two independent image-generation candidates were added:
+
+- `coffee_machine_candidate/coffee_machine_candidate.png` — standalone coffee machine with screen, cup bay and integrated cup stack. It reads clearly, but the finish is glossier than the target painted game art, and the alpha bounds touch the top and left canvas edges. Projection is not calibrated.
+- `steamed_bun_case_candidate/steamed_bun_case_candidate.png` — small glass-front warmer with three bun trays. Product category is readable; the top housing is broad and the strict 2:1 projection is not verified. Three faint low-alpha pixels reach the left edge.
+
+Per-image prompts, source QA and hashes are in each subfolder. These remain review-only, `runtime_approved:false`; do not connect them to runtime before projection, anchor, footprint and in-game zoom review.

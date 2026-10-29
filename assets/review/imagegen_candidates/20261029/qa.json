@@ -347,6 +347,46 @@
       "qa_observation": "Correct single tabletop pan with visible oden and dividers; long front edge reads too horizontal for strict iso2x, low-alpha glow reaches the left canvas edge; background corner is transparent.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "coffee_machine_candidate/coffee_machine_candidate.png",
+      "subject": "standalone compact coffee machine candidate",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1286,
+        1193
+      ],
+      "transparent_top_left": true,
+      "sha256": "7aaa6d7fbee0c46a6895d453ef62c03ddb0193f0eed8ed9f8dc7b5ec694575a1",
+      "visual_status": "review_only_projection_and_style_unverified",
+      "qa_observation": "Machine controls and dispensing bay read; glossy product-render appearance, and alpha bounds touch top/left edges. iso2x uncalibrated.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "steamed_bun_case_candidate/steamed_bun_case_candidate.png",
+      "subject": "small countertop steamed-bun warmer candidate",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        0,
+        40,
+        1633,
+        857
+      ],
+      "transparent_top_left": true,
+      "sha256": "d4db2cb341797541491db088bbba454828d8055300a3b222db47c8e334a2f813",
+      "visual_status": "review_only_projection_shape_unverified",
+      "qa_observation": "Three trays of buns are legible; upper housing reads as broad cap, and alpha>=16 leaves margin though three faint alpha pixels reach left edge. iso2x visually estimated only.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [

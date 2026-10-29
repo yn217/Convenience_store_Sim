@@ -1,0 +1,17 @@
+{
+  "asset_id": "coffee_machine_candidate_20261029",
+  "file": "coffee_machine_candidate.png",
+  "dimensions_px": { "width": 1312, "height": 1199 },
+  "alpha_bbox_px": [0, 0, 1286, 1193],
+  "sha256": "7aaa6d7fbee0c46a6895d453ef62c03ddb0193f0eed8ed9f8dc7b5ec694575a1",
+  "prompt": "Use case: game-asset; Asset type: one standalone compact coffee machine sprite for a Japanese convenience-store management tycoon game, matching the supplied gameplay-art convention if the local reference is available. Primary request: a single countertop self-service convenience-store coffee machine, complete and grounded. Scene/backdrop: truly transparent background. Subject: compact upright machine on a small practical counter/base; customer-facing front and narrow right side visible. Dark coffee dispensing bay with cup niche, small clear control screen and a few simple buttons, bean hopper or upper housing, one or two paper cups integrated neatly at side, subtle generic red/white/blue convenience-store accents with no readable logos or text. Warm stainless gray, charcoal, cream details. Style/medium: stylized warm painted isometric tycoon-game sprite; crisp chunky shapes, hand-painted highlights, readable silhouette at small game size, coherent with bright cozy store-management game visuals. Avoid glossy photoreal product-render appearance. Composition/framing: one whole machine only, centered with generous transparent margin all sides, grounded contact base, 2:1 isometric sprite projection, customer-facing front plus narrow right side, elevated camera showing a little top, parallel verticals with no perspective convergence, no crop. Constraints: one object only, transparent alpha. No photoreal cutout, no sheet, no UI, no room, no people, no separate props outside the machine, no watermark, no text, no readable branding, no 3D model preview.",
+  "observed_projection_issues": [
+    "FAIL: not a strict 2:1 isometric projection; front, side, and top planes appear perspective-like.",
+    "FAIL: transparent alpha bounding box reaches the canvas top and left edges, leaving no safe margin there; inspect/trim only in a derivative if used.",
+    "PASS: one complete machine, with customer-facing screen/control panel, dispensing niche, cups, and a narrow side visible.",
+    "PASS: generic red/white/blue accents and no readable logo/text."
+  ],
+  "style_observation": "Clean stylized illustration, but highlights and materials look glossy/3D-rendered rather than the requested warm painted game sprite.",
+  "status": "review_only",
+  "runtime_approved": false
+}
