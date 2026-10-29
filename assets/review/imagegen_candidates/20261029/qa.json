@@ -1387,6 +1387,30 @@
       "visual_status": "review_only_alpha_style_and_projection_fail",
       "runtime_approved": false,
       "notes": "Three differentiated hot-food bays read clearly, but metallic photorealism, broad low-alpha background haze, and uncalibrated near-frontal projection fail. This new Codex candidate does not substitute for the missing ChatGPT source/ZIP. No cleanup or warp."
+    },
+    {
+      "file": "hot_snack_three_bay_codex_v2/hot_snack_three_bay_candidate_v2.png",
+      "subject": "hot_snack_warmer_three_bay_codex_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        28,
+        0,
+        1504,
+        998
+      ],
+      "alpha_bbox_ge_8": [
+        31,
+        51,
+        1500,
+        976
+      ],
+      "sha256": "0111dacfa438eda7cfff8c5067acf272c7ca8dc8189de86552e9014250630dd0",
+      "visual_status": "review_only_style_alpha_projection_fail",
+      "runtime_approved": false,
+      "notes": "Edit of the v1 layout retains three clear food bays and slightly simplified linework, but remains glossy/photoreal and shows the same broad partial-alpha background haze; view is not calibrated to iso2x_v1. Does not substitute for missing ChatGPT source/ZIP. No cleanup or warp."
     }
   ],
   "comparisons": [
