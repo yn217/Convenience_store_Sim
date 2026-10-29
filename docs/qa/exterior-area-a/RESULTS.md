@@ -1,5 +1,18 @@
 # Area A / storefront follow-up QA (2026-10-29)
 
+## Resolution, operation, and performance follow-up
+
+Actual Godot 4.7.2 captures at 16:00, 20x16, whole-store camera:
+
+| Viewport | Capture | Observation |
+|---|---|---|
+| 1280x720 | `complete-view-1280x720-20x16-2026-10-29.png` | Store, entrance road, and grove remain in frame. |
+| 1920x1080 | `complete-view-1920x1080-20x16-2026-10-29.png` | Same world anchors and wall occlusion at the larger viewport. |
+
+Focused operation checks passed without running the full suite: `test_shell_camera_input` 10 tests / 96 assertions; `test_overlays` 9 / 44; `test_panel_modes` 11 / 55; `test_build_ui` 9 / 69. These cover floor selection after camera movement, object picking, input blockers, panel transitions, and construction placement. `test_overlays` emitted two Viewport-not-inside-tree engine warnings during setup but reported 0 failures.
+
+The fixed 600-frame performance benchmark at 1920x1080 (`perf-upright-grove-v2-clean-1920x1080-2026-10-29.json`) measured 16.08 median FPS at x1 and 11.06 at x4; x4 median frame time was 90.44ms, with 1061 draw calls and 8.23ms presenter draw time. The diagnostic run (`perf-upright-grove-v2-probe-1920x1080-2026-10-29.json`) found that hiding `FixturePresenter` reduced a 60-frame sample from 96ms to 59ms, while hiding customer and stock data barely changed it. A historical same-condition record from 2026-10-27 reported 31.07 median FPS at x4. These are whole-game numbers and do not establish which recent feature is responsible. Performance remains an open quality gate and needs profiling before approval.
+
 ## Upright planting alignment
 
 The grouped planting strips now fit their root endpoints to each projected store edge while keeping the image's vertical axis upright on screen. The previous rotation transformed the entire tree image along with the ground line, which made trunks lean on the isometric sides. The affine shear changes the strip's ground-line angle without moving the z=0 anchor; store walls continue to cover the roots and lower stems.
