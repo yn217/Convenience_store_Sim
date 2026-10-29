@@ -24,40 +24,40 @@
       "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v4/shelf_general_full_integrated_candidate_v4.png",
       "byte_size": 1181431,
       "sha256": "09644a3708c9201364e6b62d8118f1af5855a03b313b4ced133964ab8373da89",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "7580b19dfe277090dff56737e08a5a77209022c9",
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
       "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v4/alpha_preview_v4.png",
       "byte_size": 260442,
       "sha256": "ec113b138c9337718444e016a04aec37d40d41a9072a5167bdaf101a88f489ad",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "c1c783e5ae186834a2ee47415659548d1d1c85e5",
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
       "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v4/comparison_empty_v13_full_v4.png",
       "byte_size": 244398,
       "sha256": "697831f909145ad26ca1d8335ad682ac6fc6a88013a8de82f48f9f2cc0ba6701",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "d1b0611c4f19769dd2a4a4739310e082cd60c4d1",
+      "github_uploaded": true
     },
     {
       "role": "other",
       "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v4/QA.json",
       "byte_size": 3573,
       "sha256": "e9707f4b2aef3dbf0317c6a57eea86f09f67392ac61edc8a833ed6b471e9296d",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "4cc4b5f16feb3d89196f8895700b8aa8c0bd2044",
+      "github_uploaded": true
     },
     {
       "role": "other",
       "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v4/README.md",
       "byte_size": 2161,
       "sha256": "62b385a7bce824a1e34d6df7113c4ff778276775429932e59dbf8330f2264c74",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "8449aa099946c840d378aa16b4da703c3abed90c",
+      "github_uploaded": true
     }
   ],
   "projection": {
