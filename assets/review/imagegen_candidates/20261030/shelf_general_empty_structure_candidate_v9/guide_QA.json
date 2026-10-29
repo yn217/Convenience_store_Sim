@@ -1,0 +1,48 @@
+{
+  "guide_id": "shelf_general_empty_structure_candidate_v9",
+  "canvas_px": [
+    1500,
+    1500
+  ],
+  "alpha_bbox_xyxy": [
+    190,
+    200,
+    946,
+    1282
+  ],
+  "alpha_touches_edge": false,
+  "product_shelf_planes": 4,
+  "base_is_separate": true,
+  "long_vector_px": [
+    540,
+    270
+  ],
+  "depth_vector_px": [
+    210,
+    -105
+  ],
+  "long_length_px": 603.74,
+  "depth_length_px": 234.79,
+  "depth_to_long_ratio": 0.3889,
+  "long_axis_slope": 0.5,
+  "depth_axis_slope": -0.5,
+  "backboard_vertical_direction": "positive image y",
+  "backboard_within_canvas": true,
+  "source_fixture_contract": {
+    "fixture_type_id": "shelf_general",
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "access_edge": "E"
+  },
+  "anchor_world_scale_and_godot_runtime": "not_verified",
+  "game_contract_ratio": 0.4791667,
+  "ratio_matches_contract": false,
+  "result": "FAIL: ratio 0.3889 does not match actual 0.47917 game dimension contract"
+}
