@@ -1088,6 +1088,24 @@
       "visual_status": "review_only_projection_fail",
       "runtime_approved": false,
       "notes": "One countertop fryer with two baskets and controls reads clearly. Strongly exposed top surfaces, metallic gloss and edge glow fail the intended projection/style."
+    },
+    {
+      "file": "freezer_chest_candidate_v1/freezer_chest_candidate_v1.png",
+      "subject": "freezer_chest_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        33,
+        1510,
+        1024
+      ],
+      "sha256": "67007256b78beeea1a6a711201dee613acbc6f870e1cef698db9d36632c4119e",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "The low chest form, paired sliding glass lids, frozen-food contents, navy band, vents and side panel read clearly. FAIL as game-ready sprite: camera is too high and long axis is too shallow for iso2x_v1; strong gray studio halo and metallic reflections remain. True alpha bounds and game footprint are not calibrated; no crop or scale applied."
     }
   ],
   "comparisons": [

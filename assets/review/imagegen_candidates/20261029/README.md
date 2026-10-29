@@ -180,3 +180,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 
 - `agent_copier_v2/copier_candidate_v2.png` — clear ADF, touchscreen, output tray and paper drawers; near-clean alpha; strict iso2x_v1 and in-game scale remain unverified.
 - `agent_fryer_v2/fryer_candidate_v2.png` — recognizable single two-basket fryer, but excessive top exposure, metal gloss and edge glow fail the target style/projection.
+
+- `freezer_chest_candidate_v1/freezer_chest_candidate_v1.png` — recognisable paired-lid frozen-food chest case. The overhead view, shallow long-axis slope and studio halo fail projection/style calibration; review-only.
