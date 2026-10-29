@@ -1,0 +1,29 @@
+{
+  "asset_id": "atm_projection_edit_candidate_v3",
+  "file": "atm_candidate/atm_projection_edit_candidate_v3.png",
+  "generation_tool": "built-in Codex image_gen edit (transparent_background=true)",
+  "dimensions_px": [
+    1312,
+    1199
+  ],
+  "mode": "RGBA",
+  "alpha_bbox": [
+    0,
+    42,
+    1288,
+    1199
+  ],
+  "alpha_bbox_threshold_8": [
+    417,
+    44,
+    875,
+    1154
+  ],
+  "sha256": "280d92796e575f771215072ece1d660af8c29d6ee850fa345bb5e4930d7f4497",
+  "visual_observations": [
+    "ATM controls, red side panels and silhouette remain readable after a projection-only edit. Camera still looks perspective-like rather than calibrated iso2x_v1; nonzero alpha reaches left and bottom canvas edges, so framing/edge QA fails. Keep original and this revision as separate review-only candidates."
+  ],
+  "status": "review_only_projection_and_margin_fail",
+  "runtime_approved": false,
+  "human_approved": false
+}

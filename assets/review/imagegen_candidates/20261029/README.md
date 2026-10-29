@@ -143,3 +143,7 @@ A second agent-generated sign concept is preserved at `agent_sign_candidate/agen
 - `agent_umbrella_candidate/umbrella_stand_candidate.png` — three folded umbrellas and drip tray in a warm hand-painted style; complete silhouette and real alpha. Thin colored fringe remains and projection/scale are uncalibrated. This is a second visual direction alongside the earlier umbrella candidate.
 
 Both remain review-only. Per-agent QA and measured file metadata are retained; neither changes the generated runtime prop or its approval state.
+
+## ATM projection-only edit v3
+
+`atm_candidate/atm_projection_edit_candidate_v3.png` is an edit of the existing ATM candidate intended to adjust projection only. The front controls and red panels remain legible, but strong perspective remains and nonzero alpha touches the left and bottom canvas edges. It is retained as a failed review iteration; it must not replace the prior source or be stretched/cropped to conceal the mismatch.
