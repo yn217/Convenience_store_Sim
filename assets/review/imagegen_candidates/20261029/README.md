@@ -207,3 +207,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `storefront_facade_candidate_v1/storefront_facade_candidate_v1.png` — Codex ImageGen facade with white panels, blue stripe, glass windows and sliding entrance. Legible, but scale/world endpoints/projection are uncalibrated and edge alpha residue remains. Review-only; no crop or warp.
 
 - `oden_large_3bay_codex_v1/oden_large_3bay_candidate_v1.png` — separate Codex ImageGen three-bay oden warmer candidate. Three bays and ingredients read, but broad semitransparent studio haze, photoreal metal, and uncalibrated near-front projection fail; it is not a replacement for the missing ChatGPT source bundle. Review-only; no cleanup or warp.
+
+- `hot_snack_three_bay_codex_v1/hot_snack_three_bay_candidate_v1.png` — distinct Codex ImageGen three-bay warmer candidate. Food zones read, but metallic photoreal finish, broad semitransparent haze and uncalibrated view fail; it does not replace the missing ChatGPT source bundle. Review-only; no cleanup/warp.

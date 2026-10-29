@@ -1363,6 +1363,30 @@
       "visual_status": "review_only_alpha_style_and_projection_fail",
       "runtime_approved": false,
       "notes": "Three-bay oden warmer with visible ingredients. It is a separate Codex ImageGen candidate and does not replace the missing ChatGPT source/ZIP. Though RGBA, the entire image is semitransparent and has broad background haze; photoreal metal finish and near-front view do not match the game sprite. No crop/cleanup/warp."
+    },
+    {
+      "file": "hot_snack_three_bay_codex_v1/hot_snack_three_bay_candidate_v1.png",
+      "subject": "hot_snack_warmer_three_bay_codex_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1504,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        32,
+        54,
+        1497,
+        974
+      ],
+      "sha256": "ab388da5c4a3373c1c025a949feebec5fc52d239881471ca9e193200f89648d4",
+      "visual_status": "review_only_alpha_style_and_projection_fail",
+      "runtime_approved": false,
+      "notes": "Three differentiated hot-food bays read clearly, but metallic photorealism, broad low-alpha background haze, and uncalibrated near-frontal projection fail. This new Codex candidate does not substitute for the missing ChatGPT source/ZIP. No cleanup or warp."
     }
   ],
   "comparisons": [
