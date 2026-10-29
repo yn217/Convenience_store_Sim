@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "asset_id": "nikuman_steamer_counter_2d_20261029_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "小型・単体ガラス製肉まん蒸し器",
+  "actual_subject": "三段棚の肉まん24個を陳列した日本のコンビニ向け卓上蒸し器（候補）",
+  "production_method": "svg_2d",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "nikuman_steamer_candidate",
+  "source": {
+    "path": "source_original.svg",
+    "unchanged_original": true,
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.svg"
+    },
+    {
+      "role": "game_512",
+      "path": "game_512.png"
+    },
+    {
+      "role": "game_256",
+      "path": "game_256.png"
+    },
+    {
+      "role": "stock_EMPTY_source",
+      "path": "empty_original.svg"
+    },
+    {
+      "role": "stock_EMPTY_preview",
+      "path": "empty_512.png"
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "proposed_S",
+    "checked_in_godot": false,
+    "art_local_mapping": "source_u=688+230*(x-y); source_v=515+115*(x+y)-281.6792*z [local art units, not world meters]",
+    "control_points_full_image": {
+      "top_front_left": [
+        366,
+        202.77894400000002
+      ],
+      "top_front_right": [
+        872,
+        455.778944
+      ],
+      "bottom_front_left": [
+        366,
+        676
+      ],
+      "bottom_front_right": [
+        872,
+        929
+      ],
+      "back_top_left": [
+        688,
+        41.778944000000024
+      ],
+      "front_ground_origin": [
+        366,
+        676
+      ]
+    },
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pending",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "not_checked",
+    "alpha": "not_checked",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "EMPTYとFULLは同じベクター骨格で商品有無のみ変更。包装に実在商標なし。",
+      "高精細ImageGenで生成された飲料アトラスは不適合のため未収録。",
+      "正本のworld footprint/4方向/ゲーム内接地点は未検証。"
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false,
+  "generated_at": "2026-10-29"
+}
