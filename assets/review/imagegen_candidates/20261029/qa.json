@@ -34,7 +34,8 @@
         "right": 58,
         "bottom": 0
       },
-      "edge_alpha_review": "candidate-only; no fringe cleanup performed"
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed",
+      "runtime_approved": false
     },
     {
       "file": "hot_snack_three_bay_projection_edit_v2.png",
@@ -64,7 +65,8 @@
         "right": 135,
         "bottom": 0
       },
-      "edge_alpha_review": "candidate-only; no fringe cleanup performed"
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed",
+      "runtime_approved": false
     },
     {
       "file": "open_snack_gondola_candidate_v1.png",
@@ -94,7 +96,8 @@
         "right": 312,
         "bottom": 8
       },
-      "edge_alpha_review": "candidate-only; no fringe cleanup performed"
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed",
+      "runtime_approved": false
     },
     {
       "file": "open_snack_gondola_style_ref_candidate_v2.png",
@@ -125,7 +128,8 @@
       "sha256": "542c3521a213e99fba373b9f80880ddf7f5b15ff98e3ae8c024ba0aec6b82e2b",
       "visual_status": "best_projection_candidate_review_only_not_game_calibrated",
       "projection_observation": "long shelf axis visually closer to 2:1 than v1; no trusted world landmarks or footprint metadata, so projection and anchor remain unverified",
-      "alpha_edge_observation": "low-alpha background haze reaches left canvas edge; foreground at alpha>=8 has a wide margin"
+      "alpha_edge_observation": "low-alpha background haze reaches left canvas edge; foreground at alpha>=8 has a wide margin",
+      "runtime_approved": false
     },
     {
       "file": "oden_countertop_single_candidate_v1.png",
@@ -150,7 +154,8 @@
       "sha256": "169222fb832e2706f0400320fc34de4c19d7601b624f10bacc220857aa5b9b2e",
       "visual_status": "review_only_dimensions_and_runtime_unverified",
       "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
-      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA"
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA",
+      "runtime_approved": false
     },
     {
       "file": "oden_countertop_iso_edit_candidate_v2.png",
@@ -175,7 +180,8 @@
       "sha256": "e1e38e6f5d0a52cc99843db59b5750812640a1a88deb3790ca9ad9a524c9d586",
       "visual_status": "review_only_dimensions_and_runtime_unverified",
       "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
-      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA"
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA",
+      "runtime_approved": false
     },
     {
       "file": "oden_countertop_framed_candidate_v3.png",
@@ -200,7 +206,8 @@
       "sha256": "3d43507d5c29945258effa4bea8fd20f9ee816b52b739ee36bce71c12f144939",
       "visual_status": "review_only_dimensions_and_runtime_unverified",
       "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
-      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA"
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA",
+      "runtime_approved": false
     },
     {
       "file": "bread_gondola_integrated_candidate_v1.png",
@@ -225,7 +232,8 @@
       "transparent_top_left": true,
       "sha256": "f8735d0479f92766da744ad8d1fd0b8cf8f634450daa90e5d78bc4e899fc5cf3",
       "visual_status": "review_only_not_runtime_calibrated",
-      "qa_observation": "good product/shelf integration and open top; long-axis slope visually shallower than 2:1 target; one-end side merchandising appears"
+      "qa_observation": "good product/shelf integration and open top; long-axis slope visually shallower than 2:1 target; one-end side merchandising appears",
+      "runtime_approved": false
     },
     {
       "file": "bread_gondola_ratio_iso_candidate_v2.png",
@@ -250,7 +258,8 @@
       "transparent_top_left": true,
       "sha256": "3edc90cb1470772fce8fe926966287c01111b8d8899b311483565f9176e2c67b",
       "visual_status": "review_only_not_runtime_calibrated",
-      "qa_observation": "long front axis visually closer to 1:2 slope; depth-axis slope still appears steeper than target; bbox ratio closer to target but not a world-space calibration; bottom margin is small; transparent low-alpha haze at canvas edge"
+      "qa_observation": "long front axis visually closer to 1:2 slope; depth-axis slope still appears steeper than target; bbox ratio closer to target but not a world-space calibration; bottom margin is small; transparent low-alpha haze at canvas edge",
+      "runtime_approved": false
     },
     {
       "sha256": "fa4b1a82a9447947f8c2784a7a32b6dcd5d9228b9c708f30c766f067e294f6f4",
@@ -268,7 +277,8 @@
         20,
         1169,
         1323
-      ]
+      ],
+      "runtime_approved": false
     },
     {
       "sha256": "cb31a8704c553f7140f382d72d9d0d9e33a7d6f21faf168adcc35f6517ab8345",
@@ -286,7 +296,8 @@
         23,
         1276,
         1173
-      ]
+      ],
+      "runtime_approved": false
     },
     {
       "subject": "empty ambient gondola, initial ChatGPT ImageGen candidate",
@@ -872,24 +883,6 @@
       "qa_observation": "A projection edit of v5 preserves the single 4-section pot and makes the front vertical face more visible, but the camera is still steep/perspective rather than verified iso2x_v1. Nonzero alpha again reaches left and bottom edges; keep as a separate review iteration.",
       "runtime_approved": false,
       "human_approved": false
-    },
-    {
-      "file": "microwave_candidate/microwave_transparent_candidate_v2.png",
-      "subject": "microwave_candidate_v2",
-      "dimensions_px": [
-        1536,
-        1024
-      ],
-      "alpha_bbox": [
-        163,
-        58,
-        1424,
-        962
-      ],
-      "sha256": "9e294d2d53d185367b8fab724f04f0655f43525e8d9b8c31f7fab3fa3b619947",
-      "visual_status": "review_only_projection_fail",
-      "runtime_approved": false,
-      "notes": "The object is a countertop microwave with readable controls and cavity. The image is glossy, shows a broad dark studio halo, and uses a flatter perspective than iso2x_v1; projection and in-game footprint are uncalibrated."
     },
     {
       "file": "integrated_snack_gondola_candidate/integrated_snack_gondola_candidate.png",
