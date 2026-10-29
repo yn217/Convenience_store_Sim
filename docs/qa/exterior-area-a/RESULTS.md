@@ -292,6 +292,7 @@ Actual Godot 4.7.2 runtime captures at 1600x900, 12:00:
 | 16x12 | `area-a-continuous-v1-16x12-1600x900-2026-10-29.png` | The medium panel reaches both wall ends with a continuous parking/sidewalk band. |
 | 20x16 | `area-a-continuous-v1-20x16-1600x900-2026-10-29.png` | The 20m panel covers the long facade without a visible edge gap. |
 | 20x16, 1.15x zoom and pan | `area-a-continuous-v1-pan-zoom-20x16-1600x900-2026-10-29.png` | Parking lines and wheel stops remain attached to the projected storefront edge. |
+| 20x16, east entrance | `area-a-continuous-v1-20x16-east-entrance-1600x900-2026-10-29.png` | The road panel pivots to the east wall; the three-side grove remains on the other walls. |
 
 The focused `test_backdrop_layer` suite passed 22 tests / 327 assertions, including all four entrance-side mappings, uniform scale, camera pan, and the continuous paving surface. Only this focused suite was run; the full suite was not run.
 
