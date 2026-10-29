@@ -1052,6 +1052,42 @@
       "visual_status": "review_only_projection_unverified",
       "runtime_approved": false,
       "notes": "Umbrella category, three colors and sleeve bin are clear; warm outlined game illustration. Angle reads as elevated three-quarter orthographic, but axis slopes are not calibrated to iso2x_v1. Dark translucent halo remains around the object; no canvas-edge clipping. Review-only; no crop or rescale."
+    },
+    {
+      "file": "agent_copier_v2/copier_candidate_v2.png",
+      "subject": "copier_candidate_v2",
+      "dimensions_px": [
+        1183,
+        1330
+      ],
+      "alpha_bbox": [
+        228,
+        106,
+        1005,
+        1258
+      ],
+      "sha256": "997B440CDBAF3F23B135E5D42A65ADAA657E862B43A9201F53979F47A81168F3",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "ADF, touchscreen, output tray and three paper drawers are clear. Alpha edges max 1/255 and no broad halo. Strict iso2x_v1 and game scale remain uncalibrated."
+    },
+    {
+      "file": "agent_fryer_v2/fryer_candidate_v2.png",
+      "subject": "single_countertop_fryer_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        53,
+        0,
+        1500,
+        997
+      ],
+      "sha256": "2d360b0766b308da4aef7b34591b285cca168587202b77858cad9359fae65eea",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "One countertop fryer with two baskets and controls reads clearly. Strongly exposed top surfaces, metallic gloss and edge glow fail the intended projection/style."
     }
   ],
   "comparisons": [
