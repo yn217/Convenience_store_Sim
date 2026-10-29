@@ -413,3 +413,9 @@ Actual Godot 4.7.2 captures at 1600x900, 16:00, frozen:
 | 20x16, panned and zoomed | `grove-detailed-candidate-v1-20x16-pan-1600x900-2026-10-29.png` | World-ground anchors and wall masking stay registered while the view moves. |
 
 Focused `test_backdrop_layer` passed 23 tests / 333 assertions. A focused renderer benchmark at 1920x1080, 16x12, 20 fixtures and 30 customers over 600 frames measured median 16.41 FPS at x1, 14.37 at x2 and 10.81 at x4; x4 median frame time was 92.51ms. The performance gate remains open. Full suite not run. The candidate has not received final visual approval; surrounding broad ground remains simpler than the reference.
+
+## Current focused operation rerun and generated-candidate screening (2026-10-29)
+
+The current runtime branch passed `test_shell_camera_input`: 10 tests / 96 assertions, 0 failures. This exercises canopy cutaway, fit, pan/zoom, tile selection after camera movement, cancel keys, UI input blocking, and selection inspection. No full suite was run.
+
+Four newly generated background candidates were screened before integration. The two grouped alpha panoramas had conspicuous green/yellow or red edge fringe; an opaque full-scene underlay had a top-down rather than game-matched view; and the edited panorama baked a checkerboard into the canvas. They were rejected and not copied into the runtime asset directory. The existing detailed grove remains the active candidate. The broad outer ground still needs a camera-matched continuous scene asset; the rejected images do not close that gap.
