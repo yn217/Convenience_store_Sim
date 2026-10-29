@@ -171,3 +171,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `agent_oden_v7/oden_countertop_single_candidate_v7.png` — single countertop oden unit with divided ingredients is clear, but the finish is photoreal/glossy and its elevated oblique view fails the calibrated game projection. Shape/style reference only; review-only.
 
 - `integrated_snack_gondola_candidate_v2/integrated_snack_gondola_candidate_v2.png` — projection-focused regeneration from v1. The stocked shelf remains coherent and the angle improved slightly, but the long axis is still too flat and a studio halo remains. Composition reference only; no crop or stretch.
+
+- `integrated_snack_gondola_candidate_v3/integrated_snack_gondola_candidate_v3.png` — image-to-image regeneration using the target game screenshot as style reference. It reads as a stocked double-sided gondola, which is structurally useful, but the long-axis slope is still too flat and a strong halo remains. Review-only; no crop or stretch.

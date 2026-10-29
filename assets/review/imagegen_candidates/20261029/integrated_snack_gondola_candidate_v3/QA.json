@@ -1,0 +1,47 @@
+{
+  "asset_id": "integrated_snack_gondola_candidate_v3",
+  "issue": 157,
+  "status": "review_only",
+  "runtime_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen image-to-image",
+    "references": [
+      "../integrated_snack_gondola_candidate_v2/integrated_snack_gondola_candidate_v2.png",
+      "C:/Users/yuuna/Downloads/image-1792819026698.webp"
+    ],
+    "transparent_background": true,
+    "prompt_summary": "Double-sided stocked gondola regeneration using target game screenshot style, strict orthographic 2:1 iso slopes, transparent background."
+  },
+  "file": "integrated_snack_gondola_candidate_v3.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt_0": [
+    0,
+    0,
+    1483,
+    1024
+  ],
+  "alpha_bbox_gt_8": [
+    305,
+    7,
+    1224,
+    1024
+  ],
+  "alpha_bbox_gt_128": [
+    308,
+    8,
+    1221,
+    1024
+  ],
+  "edge_alpha_max": {
+    "top": 2,
+    "bottom": 253,
+    "left": 1,
+    "right": 0
+  },
+  "sha256": "6cd4b095e491663e5f435662c92353f9099baad00950784b1facb14788230e41",
+  "visual_qa": "This version reads as a freestanding double-sided stocked gondola with coherent merchandise on both faces and a visible center upright; stronger structural reference than v1/v2. FAIL as calibrated game sprite: long-axis slope remains visibly below 26.565 degrees, shelves do not share one exact 2:1 orthographic projection, and strong studio halo remains. Keep review-only; do not crop, stretch, or runtime-connect."
+}

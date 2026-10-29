@@ -998,6 +998,24 @@
       "visual_status": "review_only_projection_fail",
       "runtime_approved": false,
       "notes": "Products remain grouped and the image retains the complete integrated shelf. Projection is somewhat more oblique but still substantially flatter than the required 26.565-degree long-axis slope, with perspective-like shelf depth. A broad studio halo remains. FAIL as calibrated game sprite; useful only as product-density composition reference. No crop or scaling."
+    },
+    {
+      "file": "integrated_snack_gondola_candidate_v3/integrated_snack_gondola_candidate_v3.png",
+      "subject": "integrated_snack_gondola_candidate_v3",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1483,
+        1024
+      ],
+      "sha256": "6cd4b095e491663e5f435662c92353f9099baad00950784b1facb14788230e41",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "This version reads as a freestanding double-sided stocked gondola with coherent merchandise on both faces and a visible center upright; stronger structural reference than v1/v2. FAIL as calibrated game sprite: long-axis slope remains visibly below 26.565 degrees, shelves do not share one exact 2:1 orthographic projection, and strong studio halo remains. Keep review-only; do not crop, stretch, or runtime-connect."
     }
   ],
   "comparisons": [
