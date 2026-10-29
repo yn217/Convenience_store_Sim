@@ -1,0 +1,36 @@
+{
+  "baseline": "game_demo_zoom1.png",
+  "baseline_sha256": "e4f19cd1fb663a17df5e8844745196318fc38e33f897f759d52132848644496a",
+  "threshold": "max absolute RGB channel difference > 8",
+  "excluded_register_rect_xyxy": [
+    320,
+    210,
+    550,
+    385
+  ],
+  "top_bar_y_lt": 64,
+  "cases": [
+    {
+      "file": "game_demo_repeat.png",
+      "sha256": "ffe3d6e5109eaf13a1b2dd6a56e96cc518f95c4da4893633496182660c38ae5f",
+      "counts": {
+        "total": 2339,
+        "outside_register": 2339,
+        "top_bar": 1711,
+        "below_top_outside_register": 628
+      }
+    },
+    {
+      "file": "register_same_state.png",
+      "sha256": "84a26eb5260c733ba2c6d1d791d1df176b523992ec116e4f13ad16492f4cddd6",
+      "counts": {
+        "total": 11653,
+        "outside_register": 1303,
+        "top_bar": 1225,
+        "below_top_outside_register": 78
+      }
+    }
+  ],
+  "interpretation": "Repeated baseline differs as well, especially in top bar; cause of individual differences not proven. Does not validate candidate anchor, geometry or runtime rendering.",
+  "runtime_approved": false
+}
