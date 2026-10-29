@@ -1,5 +1,8 @@
 # Asset generation and review record
 
+> **2026-10-29現行ワークフロー**: 以下のBlender中心・「AI候補未登録」の記述は過去時点のレビュー記録。現在は[2D制作・投影契約](2D_ASSET_PRODUCTION_AND_PROJECTION_V1.md)、[在庫/LOD/設備グレード契約](2D_ASSET_RUNTIME_AND_EQUIPMENT_V1.md)、[店舗外/納品/継続サブエージェント契約](2D_ASSET_EXTERIOR_AND_PIPELINE_V1.md)および[未定義事項監査](ASSET_SPEC_GAP_AUDIT_2026_10_29.md)が新規素材向けの正本。実画像候補はDraft PR #164の`assets/source/chatgpt_2d_interior`および`assets/review/imagegen_candidates/20261029`を参照し、**review_onlyをruntime採用と混同しない**。
+
+
 更新日: 2026-10-23
 
 ## 画風候補の比較
