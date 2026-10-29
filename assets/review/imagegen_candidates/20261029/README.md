@@ -20,3 +20,13 @@ The gondola candidate also shows low-alpha pixels extending to the left canvas e
 ## Additional style-reference candidate
 
 - `open_snack_gondola_style_ref_candidate_v2.png` was generated using the supplied game screenshot as a style reference. It is the strongest of these trials: all products are integrated into the shelf, the top is open, and the long shelf axis looks closer to the target 2:1 iso slope. A visual estimate is not a calibration; no world-space landmarks, confirmed footprint, r0 verification, or Godot-size comparison is available. The transparent source also contains a very low-alpha haze reaching the canvas edge. Keep it review-only and preserve the original.
+
+## Small tabletop oden warmer candidates
+
+Issue #163 distinguishes the requested single tabletop oden pot from the incorrectly substituted large three-bay cabinet. Three Codex ImageGen candidates are now preserved:
+
+- `oden_countertop_single_candidate_v1.png` — correct single-unit subject and recognizable oden, but camera is too near front-on.
+- `oden_countertop_iso_edit_candidate_v2.png` — regenerated from v1 with a higher, more elevated camera; stronger top visibility, but not yet proven against the game's exact 2:1 projection.
+- `oden_countertop_framed_candidate_v3.png` — framing-only regeneration from v2 to leave more room around the complete appliance; retains low-alpha studio haze.
+
+All are review candidates, not runtime assets. Original images were kept intact; no non-uniform scale/crop was applied. Need actual footprint, r0 orientation/anchor calibration and Godot-size review before promotion. `runtime_approved:false`.

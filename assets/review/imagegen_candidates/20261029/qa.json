@@ -126,6 +126,81 @@
       "visual_status": "best_projection_candidate_review_only_not_game_calibrated",
       "projection_observation": "long shelf axis visually closer to 2:1 than v1; no trusted world landmarks or footprint metadata, so projection and anchor remain unverified",
       "alpha_edge_observation": "low-alpha background haze reaches left canvas edge; foreground at alpha>=8 has a wide margin"
+    },
+    {
+      "file": "oden_countertop_single_candidate_v1.png",
+      "subject": "single tabletop oden warmer, initial camera",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        118,
+        0,
+        1760,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        381,
+        3,
+        1448,
+        887
+      ],
+      "transparent_top_left": true,
+      "sha256": "169222fb832e2706f0400320fc34de4c19d7601b624f10bacc220857aa5b9b2e",
+      "visual_status": "review_only_dimensions_and_runtime_unverified",
+      "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA"
+    },
+    {
+      "file": "oden_countertop_iso_edit_candidate_v2.png",
+      "subject": "single tabletop oden warmer, camera projection edit",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        8,
+        1480,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        222,
+        10,
+        1283,
+        1024
+      ],
+      "transparent_top_left": true,
+      "sha256": "e1e38e6f5d0a52cc99843db59b5750812640a1a88deb3790ca9ad9a524c9d586",
+      "visual_status": "review_only_dimensions_and_runtime_unverified",
+      "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA"
+    },
+    {
+      "file": "oden_countertop_framed_candidate_v3.png",
+      "subject": "single tabletop oden warmer, zoomed-out framing edit",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        45,
+        64,
+        1498,
+        990
+      ],
+      "alpha_bbox_ge_8": [
+        299,
+        66,
+        1249,
+        987
+      ],
+      "transparent_top_left": true,
+      "sha256": "3d43507d5c29945258effa4bea8fd20f9ee816b52b739ee36bce71c12f144939",
+      "visual_status": "review_only_dimensions_and_runtime_unverified",
+      "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA"
     }
   ]
 }

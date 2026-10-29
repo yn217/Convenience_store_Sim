@@ -12,3 +12,7 @@ Image-to-image edit of v1. Preserve the same three compartments, foods, case, an
 ## Open gondola style-reference prompt
 
 Used `C:\Users\yuuna\Downloads\image-1792819026698.webp` as a style/camera reference only. Requested one integrated stocked open snack gondola, no roof, dense fronts, transparent background, 2:1 orthographic game isometric axes, and no product cards/cubes. Generated image remains untouched. See `open_snack_gondola_style_ref_candidate_v2.png`.
+
+## Small tabletop oden warmer prompt notes
+
+Generated one requested small countertop warmer, 3–4 broth divisions, daikon/egg/tofu/konjac/fish cake, clear sneeze guard, short stainless base/control, approx. 0.45×0.35×0.35 m, with the supplied game screenshot used for art style. v2 edits only the camera toward elevated orthographic 2:1 iso; v3 edits only framing to request 12% clear margin. Generation did not establish exact world projection. See `qa.json` for hashes and alpha bounds.
