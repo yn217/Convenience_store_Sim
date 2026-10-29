@@ -199,3 +199,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `agent_umbrella_v3.png` — three folded umbrellas in a rack; readable soft-painted result, but alpha fringe reaches canvas edges and projection is uncalibrated. Review-only.
 
 - `rear_planting_candidate_v1/rear_planting_candidate_v1.png` — Codex ImageGen wide shallow-V Japanese spring planting scenery. The subject/composition is present, but world anchors and iso2x projection are uncalibrated; low-alpha color fringe reaches image edges. Review-only; no crop or warp.
+
+- `side_planting_candidate_v1/side_planting_candidate_v1.png` — Codex ImageGen continuous side planting strip. The diagonal composition is readable, but world-space endpoints and iso2x projection are unverified; colored fringe remains at the alpha edge. Review-only; no crop or warp.

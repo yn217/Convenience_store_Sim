@@ -1267,6 +1267,30 @@
       "visual_status": "review_only_projection_and_alpha_fail",
       "runtime_approved": false,
       "notes": "A continuous shallow V-shaped planting strip with Japanese sakura, evergreens, layered shrubs and flowers. Composition is suitable as a candidate, but game projection/world anchors are uncalibrated and low-alpha color fringe touches the canvas edges. No crop, warp, or cleanup applied."
+    },
+    {
+      "file": "side_planting_candidate_v1/side_planting_candidate_v1.png",
+      "subject": "exterior_side_planting_jp_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1774,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        5,
+        4,
+        1770,
+        878
+      ],
+      "sha256": "20528cca486b2094343a87e4f7e00ba03e4e92542ec4ef0aed96e0b66a23deef",
+      "visual_status": "review_only_projection_and_alpha_unverified",
+      "runtime_approved": false,
+      "notes": "Continuous right-side Japanese planting strip with sakura, evergreens, layered shrubs and flowers. Composition is readable, but world-space endpoints/iso2x_v1 are not calibrated and color fringe remains at the alpha edge. No crop or warp applied."
     }
   ],
   "comparisons": [
