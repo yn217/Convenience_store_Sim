@@ -252,5 +252,12 @@
       "visual_status": "review_only_not_runtime_calibrated",
       "qa_observation": "long front axis visually closer to 1:2 slope; depth-axis slope still appears steeper than target; bbox ratio closer to target but not a world-space calibration; bottom margin is small; transparent low-alpha haze at canvas edge"
     }
+  ],
+  "comparisons": [
+    {
+      "file": "bread_gondola_comparison.png",
+      "sha256": "a4d8a492f21b4323dff6e634dec68a1e90e2fe0189f1e9929f2e3d7bb421822e",
+      "note": "display-only fit-to-panel; not equal source scale and not a projection calibration"
+    }
   ]
 }

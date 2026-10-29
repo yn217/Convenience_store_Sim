@@ -39,3 +39,5 @@ Generated two new complete shelf-and-merchandise images, rather than detached pa
 - `bread_gondola_ratio_iso_candidate_v2.png` — regenerated with explicit 1×2 footprint proportions, four product levels, shallow trays and 2:1 isometric edge targets. The long front axis looks closer, but the side/depth axis still appears too steep, and the complete silhouette is tall relative to its width (solid-alpha bbox aspect about 0.804). The bottom margin is narrow and low-alpha haze reaches the image boundary.
 
 Issue #157's prior image set remains untouched. These new PNGs are review-only, not a canonical EMPTY/FULL sprite or runtime asset. No crop, nonuniform scaling, or alpha cleanup was applied. Exact footprint, r0 direction, ground anchor, and Godot display remain unverified. `runtime_approved:false`.
+
+A display-only side-by-side comparison is in read_gondola_comparison.png. Both originals are fitted to view panels for inspection; the sheet is not a scale or projection calibration.
