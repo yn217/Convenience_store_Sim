@@ -1,0 +1,10 @@
+{
+  "asset_id": "area_a_continuous_16m_candidate_v2",
+  "source_asset": "area_a_continuous_short_candidate_v1/area_a_continuous_16m_candidate_v1.png",
+  "generated_file": "area_a_continuous_16m_candidate_v2.png",
+  "source": "OpenAI built-in image generation edit via image-generation subagent",
+  "prompt_summary": "Preserve exact 16m isometric parking/apron panel, silhouette, canvas, parking lines, wheel stops, and curb; add subdued asphalt mottling and warm sidewalk stone variation.",
+  "integration": "Used for 16m Area A frontage. Measured baseline (330,80)-(1652,740) on 1774x887 canvas; rotation and uniform scale only.",
+  "qa": "Actual Godot 4.7.2 captures reviewed at 1600x900 for 16x12 whole-store and panned/zoomed. Focused test_backdrop_layer passed 23 tests / 333 assertions.",
+  "status": "runtime_verified_candidate_not_user_approved"
+}

@@ -1,0 +1,10 @@
+{
+  "asset_id": "area_a_continuous_20m_candidate_v6",
+  "source_asset": "area_a_continuous_20m_candidate_v5/area_a_continuous_20m_candidate_v5.png",
+  "generated_file": "area_a_continuous_20m_candidate_v6.png",
+  "source": "OpenAI built-in image generation edit via image-generation subagent",
+  "prompt_summary": "Preserve exact 20m non-tiled isometric parking and sidewalk panel, silhouette, dimensions, stall markings, wheel stops, and curb; refine only asphalt mottling and warm sidewalk stone detail.",
+  "integration": "Used as the 20m Area A panel. The measured frontage baseline remains (299,32)-(1980,630) on a 1983x793 image, transformed with uniform scale and rotation.",
+  "qa": "Actual Godot 4.7.2 captures reviewed at 1600x900 for 20x16 whole-store and panned/zoomed 20x16. Focused test_backdrop_layer passed 23 tests / 333 assertions. Other frontage variants are not updated by this asset.",
+  "status": "runtime_verified_candidate_not_user_approved"
+}

@@ -426,6 +426,19 @@ The near-side storefront now has a slightly stronger cool-glass tint and a narro
 
 Focused `test_store_decor` passed 24 tests / 496 assertions, including the reflection cadence, door clearance, posters, and supported entrance orientations. This is a modest facade detail improvement; the broader target still has much richer warm interior lighting, window contents and urban context.
 
+## Area A 20m surface pass v6 (2026-10-29)
+
+Updated the 20m continuous parking/apron panel with a generated asphalt and sidewalk material pass. The 1983x793 source dimensions and measured frontage baseline (299,32)-(1980,630) are unchanged; stall lines, wheel stops and curb retain their positions. The updated material is currently used by the 20m frontage profile only. The 10m, 12m and 16m profiles and the separate outer road still use their previous materials.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00:
+
+| Footprint/view | Capture | Observation |
+|---|---|---|
+| 20x16 | `area-a-surface-v6-20x16-1600x900-2026-10-29.png` | Asphalt mottling and warmer pavers read at whole-store scale; bay lines and wheel stops remain aligned. |
+| 20x16, panned/zoomed | `area-a-surface-v6-20x16-pan-1600x900-2026-10-29.png` | The panel follows the existing camera/world anchor without a visible boundary gap. |
+
+Focused `test_backdrop_layer` passed 23 tests / 333 assertions, covering measured panel profiles and transforms. No full suite was run. Two alternate generated candidates were rejected: one baked a checkerboard into transparency; the compact edits had bright colored edge fringe and shifted alpha bounds. Matching 10m/12m/16m variants still require clean source art.
+
 ## Surrounding green ground field v3 (2026-10-29)
 
 Replaced the previous high-frequency clover repeat with a generated, muted sage/olive ground sheet. It is drawn below the world-anchored planting, walkway, apron, road and props; the camera-phased ground mesh preserves coverage during panning. The 90% overlay makes irregular variation visible at whole-store scale without a recognizable repeated flower/clover motif. It remains a simple green field, not a complete urban backdrop.
@@ -455,3 +468,18 @@ Actual Godot 4.7.2 captures at 1600x900, 16:00:
 | 20x16, panned and zoomed | `road-car-single-v2-large-pan-1600x900-2026-10-29.png` | The car follows its world anchor during camera movement. |
 
 Focused `test_store_decor` passed 24 tests / 494 assertions, including one road car per supported entrance orientation and clear crossing geometry. `git diff --check` passed. No full suite was run.
+## Area A surface material pass (2026-10-29)
+
+Generated, dimension-matched edits add subtle asphalt mottling and warmer paving variation while preserving the measured parking-line, wheel-stop, curb and frontage geometry. The 16m and 20m panels are active candidates; the 10m and 12m versions were excluded after camera-edge review showed severe panel/artifact issues on the 12x10 west-edge view.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00:
+
+| Footprint/view | Capture | Observation |
+|---|---|---|
+| 16x12 | `area-a-surface-v2-16x12-1600x900-2026-10-29.png` | Pavement variation reads at full-scene scale; stall lines and wheel stops remain aligned. |
+| 16x12, panned/zoomed | `area-a-surface-v2-16x12-pan-1600x900-2026-10-29.png` | Panel follows the camera/world anchor without visible surface seams. |
+| 20x16 | `area-a-surface-v6-20x16-1600x900-2026-10-29.png` | Asphalt mottling and warmer pavers read at whole-store scale; bay geometry remains aligned. |
+| 20x16, panned/zoomed | `area-a-surface-v6-20x16-pan-1600x900-2026-10-29.png` | No visible boundary gap while panning. |
+| 12x10, rejected temporary edit | `area-a-surface-v2-12x10-west-1600x900-2026-10-29.png` | At the west-edge camera position the temporary panel transition and missing area are conspicuous; it was excluded and the original compact assets restored. |
+
+Focused `test_backdrop_layer` passed 23 tests / 333 assertions after restoring the 10m/12m sources and keeping only the 16m/20m edits active. No full suite was run. The separate outer road remains flat gray, and the full scene still differs substantially from the reference.
