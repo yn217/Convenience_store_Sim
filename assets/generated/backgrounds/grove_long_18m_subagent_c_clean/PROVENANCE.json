@@ -1,0 +1,8 @@
+{
+  "prompt": "Minimal cleanup edit: preserve original 18m-length 2172x724 canvas, same composition/tree count/scale/flowers/shrubs/baseline; remove neon lime/yellow fringe, natural transparent alpha, do not crop/rearrange/resize.",
+  "source": "OpenAI built-in image_gen",
+  "asset": "grove_long_18m_subagent_c_clean.png",
+  "edit_of": "assets/generated/backgrounds/grove_long_18m_subagent_c/grove_long_18m_subagent_c.png",
+  "generated_at": "2026-10-30",
+  "usage": "Clean-alpha edited candidate; unreviewed by generating subagent; preserves intended 18m grouped planting composition."
+}

@@ -1,0 +1,10 @@
+{
+  "asset": "grove_long_20m_subagent_d_clean.png",
+  "source_asset": "../grove_long_20m_subagent_d/grove_long_20m_subagent_d.png",
+  "generated_with": "built-in image_gen edit",
+  "dimensions_px": [2172, 724],
+  "intended_world_run_m": 20,
+  "background": "transparent",
+  "edit": "Only the fluorescent yellow-green fringe around the outer leaf and shrub silhouettes was targeted for replacement with a natural antialiased transparent edge. Composition, tree dimensions, colors, layout, canvas and baseline were requested to remain unchanged.",
+  "postprocessing": "None"
+}

@@ -35,9 +35,8 @@ const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
 const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v2/rear_greenbelt_group_v2.png")
-const UrbanGrovePanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
-const UrbanGroveCompactPanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
-const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png")
+const UrbanGrove18mPanel := preload("res://assets/generated/backgrounds/grove_long_18m_subagent_c_clean/grove_long_18m_subagent_c_clean.png")
+const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/grove_long_20m_subagent_d_clean/grove_long_20m_subagent_d_clean.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/sidewalk_long_candidate_a/sidewalk_long_candidate_a.png")
 const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_field_v3/outer_ground_field_v3.png")
 const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_context_candidate_subagent_3c/urban_context_candidate_subagent_3c.png")
@@ -60,18 +59,17 @@ const REAR_GROVE_GROUND_START_PX := Vector2(100.0, 663.0)
 const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 664.0)
 ## Keep the tree height in world units across store sizes. 18m matches the prior 16x12 + 3m ends fit.
 const REAR_GROVE_WORLD_LENGTH_M := 18.0
-## One landscape panel spans the long supported street edge, retaining fixed tree height across store sizes.
-const URBAN_GROVE_SOURCE_START_PX := Vector2(100.0, 700.0)
-const URBAN_GROVE_SOURCE_END_PX := Vector2(2070.0, 700.0)
-## A separate compact planting group matches the 10m and 12m store edges without enlarging the 18m panel.
-const URBAN_GROVE_COMPACT_START_PX := Vector2(100.0, 700.0)
-const URBAN_GROVE_COMPACT_END_PX := Vector2(2070.0, 700.0)
-const URBAN_GROVE_COMPACT_WORLD_LENGTH_M := 12.0
-## Separate full-length source covers the 20m edge without cropped connector strips.
-const URBAN_GROVE_LONG_WORLD_LENGTH_M := 18.0
-const URBAN_GROVE_20M_START_PX := Vector2(100.0, 700.0)
-const URBAN_GROVE_20M_END_PX := Vector2(2070.0, 700.0)
+## Use one grouped image per wall run, with only a small overhang at each end.
+const URBAN_GROVE_18M_WORLD_LENGTH_M := 18.0
 const URBAN_GROVE_20M_WORLD_LENGTH_M := 20.0
+const URBAN_GROVE_18M_START_PX := Vector2(100.0, 608.0)
+const URBAN_GROVE_18M_END_PX := Vector2(2070.0, 608.0)
+const URBAN_GROVE_20M_START_PX := Vector2(100.0, 522.0)
+const URBAN_GROVE_20M_END_PX := Vector2(2070.0, 525.0)
+const URBAN_GROVE_24M_START_PX := Vector2(100.0, 561.0)
+const URBAN_GROVE_24M_END_PX := Vector2(2070.0, 561.0)
+const URBAN_GROVE_28M_START_PX := Vector2(100.0, 563.0)
+const URBAN_GROVE_28M_END_PX := Vector2(2070.0, 563.0)
 const URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M := 0.25
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
 const OUTER_SIDEWALK_START_PX := Vector2(70.0, 75.0)
@@ -212,14 +210,12 @@ func _sync_urban_grove(proj: IsoProjection, width: int, height: int, entrances: 
 	var entrance := entrance_side(width, height, entrances)
 	for side in urban_grove_sides(entrance):
 		var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
-		var compact := edge_length <= URBAN_GROVE_COMPACT_WORLD_LENGTH_M
-		var long20 := edge_length >= URBAN_GROVE_20M_WORLD_LENGTH_M
-		var grove_texture: Texture2D = UrbanGroveCompactPanel if compact else UrbanGrove20mPanel if long20 else UrbanGrovePanel
-		var texture_size := Vector2(grove_texture.get_size())
+		var profile := urban_grove_edge_profile(edge_length)
+		var grove_texture: Texture2D = profile["texture"]
 		_urban_groves.append({
 			"side": side,
 			"texture": grove_texture,
-			"transform": urban_grove_transform(proj, width, height, side, texture_size),
+			"transform": urban_grove_transform(proj, width, height, side),
 		})
 
 
@@ -507,18 +503,24 @@ static func roadside_grove_transform(proj: IsoProjection, width: int, height: in
 	return _upright_strip_transform(screen_start, screen_end, source_start, source_end, scale)
 
 
-## Place the grouped city grove behind the public sidewalk with its base fixed to world ground at z=0.
-static func urban_grove_transform(proj: IsoProjection, width: int, height: int, side: int, texture_size: Vector2) -> Transform2D:
-	if width <= 0 or height <= 0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
+## Place one grouped city grove along a complete wall run, with its base fixed to world ground at z=0.
+static func urban_grove_transform(proj: IsoProjection, width: int, height: int, side: int) -> Transform2D:
+	if width <= 0 or height <= 0:
 		return Transform2D.IDENTITY
 	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
-	var compact := edge_length <= URBAN_GROVE_COMPACT_WORLD_LENGTH_M
-	var long20 := edge_length >= URBAN_GROVE_20M_WORLD_LENGTH_M
-	var world_length := minf(edge_length, URBAN_GROVE_COMPACT_WORLD_LENGTH_M) if compact else URBAN_GROVE_20M_WORLD_LENGTH_M if long20 else URBAN_GROVE_LONG_WORLD_LENGTH_M
-	var source_start := URBAN_GROVE_COMPACT_START_PX if compact else URBAN_GROVE_20M_START_PX if long20 else URBAN_GROVE_SOURCE_START_PX
-	var source_end := URBAN_GROVE_COMPACT_END_PX if compact else URBAN_GROVE_20M_END_PX if long20 else URBAN_GROVE_SOURCE_END_PX
+	var profile := urban_grove_edge_profile(edge_length)
+	var source_start: Vector2 = profile["source_start"]
+	var source_end: Vector2 = profile["source_end"]
+	var world_length: float = profile["world_length"]
 	var along_start := (edge_length - world_length) * 0.5
 	return _urban_grove_strip_transform(proj, width, height, side, source_start, source_end, along_start, world_length)
+
+
+## Match one grouped source to the edge; do not stretch it or stack overlapping scenery.
+static func urban_grove_edge_profile(edge_length: float) -> Dictionary:
+	if edge_length > URBAN_GROVE_18M_WORLD_LENGTH_M:
+		return {"texture": UrbanGrove20mPanel, "source_start": URBAN_GROVE_20M_START_PX, "source_end": URBAN_GROVE_20M_END_PX, "world_length": URBAN_GROVE_20M_WORLD_LENGTH_M}
+	return {"texture": UrbanGrove18mPanel, "source_start": URBAN_GROVE_18M_START_PX, "source_end": URBAN_GROVE_18M_END_PX, "world_length": URBAN_GROVE_18M_WORLD_LENGTH_M}
 
 
 static func urban_grove_sides(entrance: int) -> Array[int]:

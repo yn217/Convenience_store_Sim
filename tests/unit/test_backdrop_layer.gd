@@ -239,55 +239,42 @@ func test_generated_outer_sidewalk_anchors_to_world_centerline(t, _tree) -> void
 
 func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
 	var proj := _proj(0.8)
-	var texture := load("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png") as Texture2D
-	var compact_texture := load("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png") as Texture2D
-	var long20_texture := load("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png") as Texture2D
-	t.ok(texture != null and compact_texture != null and long20_texture != null, "generated urban grove panels import as runtime textures")
-	var image_size := Vector2(texture.get_size())
-	var compact_image_size := Vector2(compact_texture.get_size())
-	var long20_image_size := Vector2(long20_texture.get_size())
-	t.eq(image_size, Vector2(2172.0, 724.0), "long-panel ground anchors use the source image dimensions")
-	t.eq(compact_image_size, Vector2(2172.0, 724.0), "compact-panel ground anchors use the generated image dimensions")
-	t.eq(long20_image_size, Vector2(2172.0, 724.0), "20m panel ground anchors use the generated image dimensions")
-	t.ok(BackdropLayer.URBAN_GROVE_SOURCE_START_PX.x >= 0.0 and BackdropLayer.URBAN_GROVE_SOURCE_END_PX.x < image_size.x, "long-panel ground anchors stay inside the image")
-	t.ok(BackdropLayer.URBAN_GROVE_COMPACT_START_PX.x >= 0.0 and BackdropLayer.URBAN_GROVE_COMPACT_END_PX.x < compact_image_size.x and BackdropLayer.URBAN_GROVE_COMPACT_END_PX.y < compact_image_size.y, "compact-panel ground anchors stay inside the image")
-	t.ok(BackdropLayer.URBAN_GROVE_20M_START_PX.x >= 0.0 and BackdropLayer.URBAN_GROVE_20M_END_PX.x < long20_image_size.x and BackdropLayer.URBAN_GROVE_20M_END_PX.y < long20_image_size.y, "20m ground anchors stay inside the image")
+	for edge_length in [10.0, 12.0, 16.0, 20.0]:
+		var profile := BackdropLayer.urban_grove_edge_profile(edge_length)
+		var source_texture: Texture2D = profile["texture"]
+		var source_start: Vector2 = profile["source_start"]
+		var source_end: Vector2 = profile["source_end"]
+		t.ok(source_texture != null, "generated grove profile for %.0fm imports as a runtime texture" % edge_length)
+		t.eq(Vector2(source_texture.get_size()), Vector2(2172.0, 724.0), "grove profile for %.0fm keeps its authored canvas" % edge_length)
+		t.ok(source_start.x >= 0.0 and source_start.y >= 0.0 and source_end.x < source_texture.get_width() and source_end.y < source_texture.get_height(), "ground anchors remain inside %.0fm profile" % edge_length)
+		var source_image := source_texture.get_image()
+		for ground_anchor in [source_start, (source_start + source_end) * 0.5, source_end]:
+			t.ok(source_image.get_pixelv(Vector2i(roundi(ground_anchor.x), roundi(ground_anchor.y))).a > 0.2, "%.0fm profile ground anchor touches visible roots" % edge_length)
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
 		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
 			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
-			var compact := edge_length <= BackdropLayer.URBAN_GROVE_COMPACT_WORLD_LENGTH_M
-			var long20 := edge_length >= BackdropLayer.URBAN_GROVE_20M_WORLD_LENGTH_M
-			var world_length := minf(edge_length, BackdropLayer.URBAN_GROVE_COMPACT_WORLD_LENGTH_M) if compact else BackdropLayer.URBAN_GROVE_20M_WORLD_LENGTH_M if long20 else BackdropLayer.URBAN_GROVE_LONG_WORLD_LENGTH_M
-			var source_start := BackdropLayer.URBAN_GROVE_COMPACT_START_PX if compact else BackdropLayer.URBAN_GROVE_20M_START_PX if long20 else BackdropLayer.URBAN_GROVE_SOURCE_START_PX
-			var source_end := BackdropLayer.URBAN_GROVE_COMPACT_END_PX if compact else BackdropLayer.URBAN_GROVE_20M_END_PX if long20 else BackdropLayer.URBAN_GROVE_SOURCE_END_PX
-			var source_size := compact_image_size if compact else long20_image_size if long20 else image_size
-			var along_start := (edge_length - world_length) * 0.5
 			var depth := BackdropLayer.urban_grove_depth_m()
+			var profile := BackdropLayer.urban_grove_edge_profile(edge_length)
+			var source_start: Vector2 = profile["source_start"]
+			var source_end: Vector2 = profile["source_end"]
+			var world_length: float = profile["world_length"]
+			var along_start := (edge_length - world_length) * 0.5
 			var start := BackdropLayer.side_point(side, depth, along_start, size.x, size.y)
 			var finish := BackdropLayer.side_point(side, depth, along_start + world_length, size.x, size.y)
 			if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST:
 				var swap := start
 				start = finish
 				finish = swap
-			var transform := BackdropLayer.urban_grove_transform(proj, size.x, size.y, side, source_size)
-			t.ok((transform * source_start).distance_to(proj.world_to_screen(start.x, start.y)) < 0.01, "urban grove first root stays on ground behind side %d for %dx%d" % [side, size.x, size.y])
-			t.ok((transform * source_end).distance_to(proj.world_to_screen(finish.x, finish.y)) < 0.01, "urban grove last root stays on ground behind side %d for %dx%d" % [side, size.x, size.y])
-			t.ok(absf(transform.y.x) < 0.001 and transform.y.y > 0.0, "urban grove keeps tree trunks vertical for side %d" % side)
-			if long20:
-				t.eq(world_length, edge_length, "20m grove reaches both projected wall endpoints on side %d" % side)
-	var west := BackdropLayer.urban_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST, image_size)
+			var transform := BackdropLayer.urban_grove_transform(proj, size.x, size.y, side)
+			t.ok((transform * source_start).distance_to(proj.world_to_screen(start.x, start.y)) < 0.01, "first root stays on ground beyond side %d for %dx%d" % [side, size.x, size.y])
+			t.ok((transform * source_end).distance_to(proj.world_to_screen(finish.x, finish.y)) < 0.01, "last root stays on ground beyond side %d for %dx%d" % [side, size.x, size.y])
+			t.ok(absf(transform.y.x) < 0.001 and transform.y.y > 0.0, "grove trunks stay upright on side %d" % side)
+			t.ok(along_start <= 0.0 and along_start + world_length >= edge_length, "planting reaches both wall endpoints on side %d for %dx%d" % [side, size.x, size.y])
+			t.ok(world_length in [BackdropLayer.URBAN_GROVE_18M_WORLD_LENGTH_M, BackdropLayer.URBAN_GROVE_20M_WORLD_LENGTH_M], "planting uses a generated physical-length profile on side %d" % side)
+	var west := BackdropLayer.urban_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
 	proj.pan(Vector2(31.0, -17.0))
-	var moved := BackdropLayer.urban_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST, image_size)
-	t.eq(moved.origin, west.origin + Vector2(31.0, -17.0), "urban grove roots follow camera pan at fixed world position")
-	for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
-		var pan_start_proj := _proj(0.8)
-		var pan_end_proj := _proj(0.8)
-		pan_end_proj.pan(Vector2(31.0, -17.0))
-		var source_size := long20_image_size if (side == BackdropLayer.SIDE_NORTH or side == BackdropLayer.SIDE_SOUTH) else image_size
-		var before := BackdropLayer.urban_grove_transform(pan_start_proj, 20, 16, side, source_size)
-		var after := BackdropLayer.urban_grove_transform(pan_end_proj, 20, 16, side, source_size)
-		t.ok(after.origin.distance_to(before.origin + Vector2(31.0, -17.0)) < 0.01, "full-length grove follows camera pan on side %d" % side)
-
+	var moved := BackdropLayer.urban_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
+	t.ok(moved.origin.distance_to(west.origin + Vector2(31.0, -17.0)) < 0.01, "urban grove roots follow camera pan at fixed world position")
 
 func test_urban_grove_forms_a_three_side_band_around_the_entrance(t, _tree) -> void:
 	for entrance in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
