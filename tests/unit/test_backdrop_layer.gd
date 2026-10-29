@@ -53,10 +53,9 @@ func test_side_point_moves_outward(t, _tree) -> void:
 	t.ok(absf(s.x - 3.0) < 1e-6 and absf(s.y - 13.5) < 1e-6, "two metres south of the south edge")
 
 
-func test_paving_ring_and_apron_colours_present(t, _tree) -> void:
+func test_continuous_area_surface_keeps_entry_overlays(t, _tree) -> void:
 	var items := BackdropLayer.layout_items(_proj(), 16, 12, [Vector2i(0, 5), Vector2i(0, 6)], Vector2(1280, 720))
-	t.ok(_count(items, BackdropLayer.PAVE) + _count(items, BackdropLayer.PAVE_ALT) > 0, "paving slabs are drawn")
-	t.eq(_count(items, BackdropLayer.APRON), 1, "one apron on the entrance side")
+	t.eq(_count(items, BackdropLayer.PAVE), 1, "one broad paving underlay remains below the generated surface")
 	t.eq(_count(items, BackdropLayer.MAT), 2, "one door mat per entrance tile")
 	t.eq(_count(items, BackdropLayer.ROAD), 1, "one road strip on the entrance side")
 	var arrows := items.filter(func(it): return it.get("purpose", &"") == &"road_direction_arrow")
@@ -102,9 +101,7 @@ func test_two_lane_arrows_exist_for_all_supported_store_sizes(t, _tree) -> void:
 
 func test_slabs_only_outside_the_store(t, _tree) -> void:
 	var items := BackdropLayer.layout_items(_proj(), 4, 3, [], Vector2(1280, 720))
-	# Ring of width 2 around a 4x3 footprint: (4 + 4) * (3 + 4) - 4 * 3 = 44 slabs, each a pale paving colour.
-	var slabs := _count(items, BackdropLayer.PAVE) + _count(items, BackdropLayer.PAVE_ALT)
-	t.eq(slabs, 44, "store paving remains the only metre-grid slab set")
+	t.eq(_count(items, BackdropLayer.PAVE), 1, "exterior paving is one continuous surface without a metre grid")
 
 
 func test_vignette_and_ground_are_screen_space(t, _tree) -> void:
@@ -257,18 +254,23 @@ func test_urban_grove_forms_a_three_side_band_around_the_entrance(t, _tree) -> v
 
 func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:
 	var proj := _proj(1.25)
-	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+	for size in [Vector2i(10, 10), Vector2i(12, 12), Vector2i(16, 16), Vector2i(20, 20)]:
 		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
-			var edge_start := Vector2(-0.5, size.y - 0.5) if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_SOUTH else Vector2(size.x - 0.5, -0.5)
-			var edge_end := Vector2(-0.5, -0.5) if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_NORTH else Vector2(size.x - 0.5, size.y - 0.5)
-			var transform := BackdropLayer.area_a_transform(proj, size.x, size.y, side)
-			var actual_start: Vector2 = transform * BackdropLayer.AREA_A_FRONTAGE_P0
-			var actual_end: Vector2 = transform * BackdropLayer.AREA_A_FRONTAGE_P1
-			var expected_start := proj.world_to_screen(edge_start.x, edge_start.y)
-			var expected_end := proj.world_to_screen(edge_end.x, edge_end.y)
+			var edge := BackdropLayer.area_a_world_endpoints(size.x, size.y, side)
+			var panel := BackdropLayer.area_a_panel_profile(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
+			var transform := BackdropLayer.area_a_transform_for_panel(proj, size.x, size.y, side, panel["frontage_p0"], panel["frontage_p1"])
+			var actual_start: Vector2 = transform * panel["frontage_p0"]
+			var actual_end: Vector2 = transform * panel["frontage_p1"]
+			var expected_start := proj.world_to_screen(edge[0].x, edge[0].y)
+			var expected_end := proj.world_to_screen(edge[1].x, edge[1].y)
 			t.ok(actual_start.distance_to(expected_start) < 0.01, "Area A frontage start meets side %d at %dx%d" % [side, size.x, size.y])
 			t.ok(actual_end.distance_to(expected_end) < 0.01, "Area A frontage end meets side %d at %dx%d" % [side, size.x, size.y])
 			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "Area A retains uniform scale for side %d" % side)
+			t.ok(panel["world_length_m"] >= (size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x), "Area A panel profile covers the full edge length")
+	var before := BackdropLayer.area_a_transform_for_panel(proj, 16, 12, BackdropLayer.SIDE_EAST, BackdropLayer.AREA_A_12M_FRONTAGE_P0, BackdropLayer.AREA_A_12M_FRONTAGE_P1)
+	proj.pan(Vector2(31.0, -17.0))
+	var after := BackdropLayer.area_a_transform_for_panel(proj, 16, 12, BackdropLayer.SIDE_EAST, BackdropLayer.AREA_A_12M_FRONTAGE_P0, BackdropLayer.AREA_A_12M_FRONTAGE_P1)
+	t.eq(after.origin, before.origin + Vector2(31.0, -17.0), "Area A frontage follows camera pan")
 
 
 func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> void:

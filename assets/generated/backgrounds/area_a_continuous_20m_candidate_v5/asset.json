@@ -1,0 +1,17 @@
+{
+  "asset_id": "area_a_continuous_20m_candidate_v5",
+  "status": "runtime_verified_candidate",
+  "file": "area_a_continuous_20m_candidate_v5.png",
+  "target_world_length_m": 20,
+  "intended_use": "Continuous non-tiled entrance apron, sidewalk, and parking surface panel for a 20m frontage.",
+  "projection_request": "Orthographic isometric ground panel; mapped to the store edge with rotation and uniform scale only.",
+  "baseline": {
+    "edge": "store-side sidewalk edge",
+    "source_start_px": [299, 32],
+    "source_end_px": [1980, 630],
+    "world_length_m": 20,
+    "calibration_status": "Visually measured by root and checked in the 20x16 runtime and pan/zoom captures."
+  },
+  "scale_policy": "Uniform scale only; do not stretch non-uniformly.",
+  "excluded": ["crosswalk", "paver grid", "store", "wall", "plants", "people", "vehicles", "signage", "outside shadow", "halo"]
+}

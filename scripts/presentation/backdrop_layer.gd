@@ -1,6 +1,6 @@
 class_name BackdropLayer
 extends Node2D
-## Street scene around the store: a dark-teal ground that fades to a vignette, a paving ring with joints,
+## Street scene around the store: a dark-teal ground that fades to a vignette, a continuous paving ring,
 ## an apron with a door mat and an OPEN A-board on the entrance side, a kerb and road strip further out on that
 ## side, plus a combined generated landscape behind the store.
 ## The layer is drawn behind the store floor (show_behind_parent), uses the same IsoProjection as the floor, and
@@ -15,9 +15,6 @@ const SIDE_SOUTH := 3
 const GROUND := Color("62795b")
 const POOL := Color(0.30, 0.50, 0.46, 0.10)
 const PAVE := Color("d6d0c3")
-const PAVE_ALT := Color("e1d9ca")
-const PAVE_JOINT := Color("aca599")
-const APRON := Color("d6cbb4")
 const MAT := Color("3b3733")
 const MAT_EDGE := Color("5b544d")
 const KERB := Color("d8d5cc")
@@ -82,9 +79,19 @@ const SIDE_LANDSCAPE_GROUND_START_PX := Vector2(15.0, 261.0)
 const SIDE_LANDSCAPE_GROUND_END_PX := Vector2(1755.0, 1042.0)
 const SIDE_LANDSCAPE_DEPTH_M := 0.55
 const SIDE_LANDSCAPE_OVERHANG_M := 1.0
-const AreaABackground := preload("res://assets/generated/backgrounds/area_a_roadside_v1/area_a_roadside_v1.png")
-const AREA_A_FRONTAGE_P0 := Vector2(249.0, 29.0)
-const AREA_A_FRONTAGE_P1 := Vector2(1657.0, 604.0)
+const AreaA10m := preload("res://assets/generated/backgrounds/area_a_continuous_short_candidate_v1/area_a_continuous_10m_candidate_v1.png")
+const AreaA12m := preload("res://assets/generated/backgrounds/area_a_continuous_short_candidate_v1/area_a_continuous_12m_candidate_v1.png")
+const AreaA16m := preload("res://assets/generated/backgrounds/area_a_continuous_short_candidate_v1/area_a_continuous_16m_candidate_v1.png")
+const AreaA20m := preload("res://assets/generated/backgrounds/area_a_continuous_20m_candidate_v5/area_a_continuous_20m_candidate_v5.png")
+const AREA_A_10M_FRONTAGE_P0 := Vector2(512.0, 78.0)
+const AREA_A_10M_FRONTAGE_P1 := Vector2(1668.0, 608.0)
+const AREA_A_12M_FRONTAGE_P0 := Vector2(360.0, 94.0)
+const AREA_A_12M_FRONTAGE_P1 := Vector2(1753.0, 794.0)
+const AREA_A_16M_FRONTAGE_P0 := Vector2(330.0, 80.0)
+const AREA_A_16M_FRONTAGE_P1 := Vector2(1652.0, 740.0)
+## Manually measured store-side ground edge in the 20m panel; its source is rotated uniformly to the world edge.
+const AREA_A_20M_FRONTAGE_P0 := Vector2(299.0, 32.0)
+const AREA_A_20M_FRONTAGE_P1 := Vector2(1980.0, 630.0)
 const ROADSIDE_IMAGE_SCALE := 0.45
 const ROADSIDE_START_PX := Vector2(123.0, 465.0)
 const ROADSIDE_SPAN_M := 10.5
@@ -95,15 +102,16 @@ const PARK_DEPTH_M := 5.0  ## 3.8 m compact car plus wheel-stop and manoeuvring 
 const ROAD_M := 3.0
 const OUTER_SIDEWALK_M := 1.5
 const FAR_M := 14.0       ## minimum road extension along the edge, past the store
-const SLAB_INSET := 0.04
 
 var _key: Array = []
 var _ops: Array = []
 var _mesh: ArrayMesh          # road/paving faces batched after the static landscape panel
 var _ground_mesh: ArrayMesh    # viewport fill and soft pool, drawn before the combined scenery panel
+var _surface_mesh: ArrayMesh   # continuous base surfaces, drawn below the generated Area A art
 var _ground_texture_camera_origin := Vector2.ZERO
 var _ground_texture_viewport := Vector2.ZERO
 var _scenery_break_index := -1
+var _area_a_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
 var _environment_transform := Transform2D()
 var _environment_visible := false
@@ -115,7 +123,9 @@ var _outer_sidewalk_transform := Transform2D()
 var _outer_sidewalk_visible := false
 var _roadside_sprite: Sprite2D
 var _side_landscape_sprite: Sprite2D
-var _area_a_sprite: Sprite2D
+var _area_a_texture: Texture2D
+var _area_a_transform := Transform2D()
+var _area_a_visible := false
 
 
 ## Recomputes the backdrop when the layout, camera or viewport changed; otherwise does nothing.
@@ -208,14 +218,15 @@ func _sync_outer_sidewalk(proj: IsoProjection, width: int, height: int, entrance
 
 ## The unified parking apron is anchored by its measured frontage edge, not by the image canvas bounds.
 func _sync_area_a(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
-	if _area_a_sprite == null:
-		_area_a_sprite = Sprite2D.new()
-		_area_a_sprite.centered = false
-		_area_a_sprite.texture = AreaABackground
-		add_child(_area_a_sprite)
-	_area_a_sprite.visible = width >= 8 and height >= 8
-	if _area_a_sprite.visible:
-		_area_a_sprite.transform = area_a_transform(proj, width, height, entrance_side(width, height, entrances))
+	_area_a_visible = width >= 8 and height >= 8
+	if not _area_a_visible:
+		_area_a_texture = null
+		return
+	var side := entrance_side(width, height, entrances)
+	var edge_length := int(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var panel := area_a_panel_profile(edge_length)
+	_area_a_texture = panel["texture"]
+	_area_a_transform = area_a_transform_for_panel(proj, width, height, side, panel["frontage_p0"], panel["frontage_p1"])
 
 
 ## A fixed, combined sidewalk/planting strip follows a visible store edge. The small source-slope correction is
@@ -269,6 +280,12 @@ func _draw() -> void:
 	if _outer_sidewalk_visible:
 		draw_set_transform_matrix(_outer_sidewalk_transform)
 		draw_texture_rect(OuterSidewalkStrip, Rect2(Vector2.ZERO, Vector2(OuterSidewalkStrip.get_size())), false)
+		draw_set_transform_matrix(Transform2D.IDENTITY)
+	if _surface_mesh != null:
+		draw_mesh(_surface_mesh, null)
+	if _area_a_visible and _area_a_texture != null:
+		draw_set_transform_matrix(_area_a_transform)
+		draw_texture_rect(_area_a_texture, Rect2(Vector2.ZERO, Vector2(_area_a_texture.get_size())), false)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _mesh != null:
 		draw_mesh(_mesh, null)
@@ -429,16 +446,31 @@ static func side_landscape_edge_length(side: int, width: int, height: int) -> fl
 
 ## Match the source frontage to the entrance side while keeping the source image uniformly scaled.
 static func area_a_transform(proj: IsoProjection, width: int, height: int, side: int) -> Transform2D:
+	var panel := area_a_panel_profile(int(height if side == SIDE_WEST or side == SIDE_EAST else width))
+	return area_a_transform_for_panel(proj, width, height, side, panel["frontage_p0"], panel["frontage_p1"])
+
+
+static func area_a_panel_profile(edge_length: int) -> Dictionary:
+	if edge_length <= 10:
+		return {"texture": AreaA10m, "frontage_p0": AREA_A_10M_FRONTAGE_P0, "frontage_p1": AREA_A_10M_FRONTAGE_P1, "world_length_m": 10.0}
+	if edge_length <= 12:
+		return {"texture": AreaA12m, "frontage_p0": AREA_A_12M_FRONTAGE_P0, "frontage_p1": AREA_A_12M_FRONTAGE_P1, "world_length_m": 12.0}
+	if edge_length <= 16:
+		return {"texture": AreaA16m, "frontage_p0": AREA_A_16M_FRONTAGE_P0, "frontage_p1": AREA_A_16M_FRONTAGE_P1, "world_length_m": 16.0}
+	return {"texture": AreaA20m, "frontage_p0": AREA_A_20M_FRONTAGE_P0, "frontage_p1": AREA_A_20M_FRONTAGE_P1, "world_length_m": 20.0}
+
+
+static func area_a_transform_for_panel(proj: IsoProjection, width: int, height: int, side: int, source_p0: Vector2, source_p1: Vector2) -> Transform2D:
 	var edge := area_a_world_endpoints(width, height, side)
 	var screen_start := proj.world_to_screen(edge[0].x, edge[0].y)
 	var screen_end := proj.world_to_screen(edge[1].x, edge[1].y)
-	var source_frontage := AREA_A_FRONTAGE_P1 - AREA_A_FRONTAGE_P0
+	var source_frontage := source_p1 - source_p0
 	var target_frontage := screen_end - screen_start
 	var scale := target_frontage.length() / source_frontage.length()
 	var angle := target_frontage.angle() - source_frontage.angle()
 	var basis_x := Vector2.RIGHT.rotated(angle) * scale
 	var basis_y := Vector2.DOWN.rotated(angle) * scale
-	return Transform2D(basis_x, basis_y, screen_start - basis_x * AREA_A_FRONTAGE_P0.x - basis_y * AREA_A_FRONTAGE_P0.y)
+	return Transform2D(basis_x, basis_y, screen_start - basis_x * source_p0.x - basis_y * source_p0.y)
 
 
 ## World endpoints for the combined parking artwork's measured frontage edge, ordered P0 to P1.
@@ -459,6 +491,7 @@ func _build_mesh() -> void:
 	var verts := PackedVector2Array()
 	var cols := PackedColorArray()
 	_scenery_break_index = -1
+	_area_a_break_index = -1
 	_texts = []
 	for op in _ops:
 		if op["kind"] == &"text":
@@ -467,20 +500,25 @@ func _build_mesh() -> void:
 		if op["kind"] == &"scenery_break":
 			_scenery_break_index = verts.size()
 			continue
+		if op["kind"] == &"area_a_break":
+			_area_a_break_index = verts.size()
+			continue
 		var pts: PackedVector2Array = op["points"]
 		for k in range(1, pts.size() - 1):
 			for idx in [0, k, k + 1]:
 				verts.append(pts[idx])
 				cols.append(op["colors"][idx] if op["kind"] == &"gradient" else op["color"])
 	_ground_mesh = null
+	_surface_mesh = null
 	_mesh = null
 	if verts.is_empty():
 		return
-	if _scenery_break_index < 0:
+	if _scenery_break_index < 0 or _area_a_break_index < 0:
 		_mesh = _make_mesh(verts, cols)
 		return
 	_ground_mesh = _make_mesh(verts.slice(0, _scenery_break_index), cols.slice(0, _scenery_break_index))
-	_mesh = _make_mesh(verts.slice(_scenery_break_index), cols.slice(_scenery_break_index))
+	_surface_mesh = _make_mesh(verts.slice(_scenery_break_index, _area_a_break_index), cols.slice(_scenery_break_index, _area_a_break_index))
+	_mesh = _make_mesh(verts.slice(_area_a_break_index), cols.slice(_area_a_break_index))
 
 
 func _make_mesh(verts: PackedVector2Array, cols: PackedColorArray) -> ArrayMesh:
@@ -529,17 +567,7 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	var outer_kerb_d0 := road_d0 + ROAD_M
 	var outer_walk_d0 := outer_kerb_d0 + KERB_M
 	out.append(_poly(_side_quad(proj, side, width, height, outer_kerb_d0, outer_walk_d0, along0, along1), KERB))
-	# Fine deterministic aggregate: quiet at the normal view, without per-frame noise or texture seams.
-	for d in range(6):
-		for k in range(int(along0), int(along1)):
-			var jitter := FloorStyle.hash01(k, d, 19)
-			var depth := road_d0 + 0.2 + float(d) * 0.45
-			out.append(_poly(_side_quad(proj, side, width, height, depth, depth + 0.035, float(k) + jitter, float(k) + jitter + 0.16), Color(0.85, 0.86, 0.87, 0.07)))
 	var dash_mid := road_d0 + ROAD_M * 0.5
-	var a := along0
-	while a < along1:
-		out.append(_poly(_side_quad(proj, side, width, height, dash_mid - 0.06, dash_mid + 0.06, a, a + 1.2), ROAD_LINE))
-		a += 3.0
 	# Add opposing lane arrows on the clearer side of the crossing, in ground-plane metres.
 	var door_mid := (span.x + span.y) * 0.5
 	var away_from_crossing := 1.0 if door_mid <= edge_length * 0.5 else -1.0
@@ -554,32 +582,12 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	for stripe in range(6):
 		var d := road_d0 + 0.2 + float(stripe) * 0.45
 		out.append(_poly(_side_quad(proj, side, width, height, d, d + 0.24, span.x - 0.15, span.y + 0.15), ROAD_LINE))
-	# Kerb joints and small drainage grates establish the pavement/forecourt boundary.
-	for k in range(-2, int(along1), 2):
-		out.append(_poly(_side_quad(proj, side, width, height, parking_end, road_d0, float(k), float(k) + 0.025), Color("a3a39c")))
-		if k % 6 == 0:
-			out.append(_poly(_side_quad(proj, side, width, height, parking_end - 0.24, parking_end - 0.06, float(k), float(k) + 0.48), Color("42494b")))
-			for slit in range(5):
-				var a0 := float(k) + 0.04 + float(slit) * 0.09
-				out.append(_poly(_side_quad(proj, side, width, height, parking_end - 0.22, parking_end - 0.08, a0, a0 + 0.025), Color("8d9694")))
+	# A single calm paving ring avoids the visible 1m grid used by the old exterior mesh.
+	out.append(_poly(_world_pts(proj, _rect_world(width, height, PAVE_M)), PAVE))
+	# Area A replaces these broad road/paving fills; the entrance markings and props below remain on top.
+	out.append({"kind": &"area_a_break"})
 
-	# Paving ring: joint colour underneath, then one inset slab per tile outside the store footprint.
-	out.append(_poly(_world_pts(proj, _rect_world(width, height, PAVE_M)), PAVE_JOINT))
-	for j in range(-int(PAVE_M), height + int(PAVE_M)):
-		for i in range(-int(PAVE_M), width + int(PAVE_M)):
-			if i >= 0 and i < width and j >= 0 and j < height:
-				continue
-			var slab := Rect2(i - 0.5 + SLAB_INSET, j - 0.5 + SLAB_INSET, 1.0 - SLAB_INSET * 2.0, 1.0 - SLAB_INSET * 2.0)
-			var col := PAVE if FloorStyle.hash01(i, j, 7) < 0.5 else PAVE_ALT
-			out.append(_poly(_world_pts(proj, slab), col))
-			# Subdivide each metre slab into smaller, readable pavers while retaining the original ring geometry.
-			var joint := Rect2(float(i) - 0.48, float(j) - 0.015, 0.96, 0.03)
-			out.append(_poly(_world_pts(proj, joint), Color("c1b9ab")))
-			joint = Rect2(float(i) - 0.015, float(j) - 0.48, 0.03, 0.96)
-			out.append(_poly(_world_pts(proj, joint), Color("c1b9ab")))
-
-	# Apron along the entrance, door mats in front of each entrance tile, and the A-board sign.
-	out.append(_poly(_side_quad(proj, side, width, height, 0.0, PAVE_M, span.x - 1.0, span.y + 1.0), APRON))
+	# Door mats and optional street furniture remain dynamic overlays above the generated surface.
 	for e in entrances:
 		var t: Vector2i = e
 		var along := float(_along_coord(side, t))

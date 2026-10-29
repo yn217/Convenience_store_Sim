@@ -280,6 +280,21 @@ Actual Godot 4.7.2 runtime captures at 1600x900, 16:00, whole-store camera:
 
 The tile source has mean opposite-edge RGB differences of 20.50 horizontally and 18.23 vertically. At 24% the join is subdued in the runtime captures, although the motif repeats under close inspection. The flat open ground still differs from the target's richer surrounding street and planting.
 
+## Continuous entrance parking and sidewalk panels (2026-10-29)
+
+Generated panels now cover the complete entrance-side ground surface without the former 1m paver grid. The 10m, 12m, 16m, and 20m variants contain a continuous sidewalk/apron, parking bays, wheel stops, and road surface. Each uses a measured store-side sidewalk edge as its source anchor; code maps that line to the selected world-space wall edge with rotation and uniform scale. The image contains no fixed crosswalk, so the live entrance crossing remains aligned to the active door.
+
+Actual Godot 4.7.2 runtime captures at 1600x900, 12:00:
+
+| Store size / view | Capture | Observation |
+|---|---|---|
+| 12x10 | `area-a-continuous-v1-12x10-1600x900-2026-10-29.png` | The compact panel follows the south-facing entrance edge; parking paint stays clear of the store interior. |
+| 16x12 | `area-a-continuous-v1-16x12-1600x900-2026-10-29.png` | The medium panel reaches both wall ends with a continuous parking/sidewalk band. |
+| 20x16 | `area-a-continuous-v1-20x16-1600x900-2026-10-29.png` | The 20m panel covers the long facade without a visible edge gap. |
+| 20x16, 1.15x zoom and pan | `area-a-continuous-v1-pan-zoom-20x16-1600x900-2026-10-29.png` | Parking lines and wheel stops remain attached to the projected storefront edge. |
+
+The focused `test_backdrop_layer` suite passed 22 tests / 327 assertions, including all four entrance-side mappings, uniform scale, camera pan, and the continuous paving surface. Only this focused suite was run; the full suite was not run.
+
 ## Remaining differences from the target mockup
 
 - The target has a fully enclosed, highly reflective convenience-store facade. This game keeps its low cut-away front so the interior and existing store interaction remain visible; automatic sliding-door animation, brand signage on the long fascia and denser reflections are not present.
