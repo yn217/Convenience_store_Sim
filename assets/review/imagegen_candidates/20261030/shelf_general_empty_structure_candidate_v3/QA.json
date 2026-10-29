@@ -24,17 +24,18 @@
   },
   "content_qa": {
     "visible": "One single-sided open gondola with perforated back, four separate shelves, rails and slim low base; no products or roof.",
-    "change_from_v2": "The base and shelves appear shallower and the camera less oblique. Long shelf edges visually approach the 2:1 down-right slope; depth-axis slope is improved but not calibrated.",
-    "projection": "VISUAL_ESTIMATE_ONLY: no exact vector fit or Godot overlay. 2:1 axes and r0 access orientation remain unverified.",
-    "alpha": "FAIL: nonzero alpha reaches the left canvas edge; faint colored fringe remains. Strong-alpha bbox has a small bottom margin.",
+    "change_from_v2": "Independent reviewer found the shelf depth did not improve and appears larger; long-axis slope does not match the required +X projection.",
+    "projection": "FAIL per independent visual review: long-axis slope does not match iso2x_v1 +X. No exact vector fit or Godot overlay; dimensions and anchor remain UNKNOWN.",
+    "alpha": "FAIL per independent visual review: strong-alpha bbox does not touch the edge, but low-alpha pixels extend to the left edge and a bright translucent colored fringe remains. Alpha_gt_0 bbox [0,37,1331,1129], alpha_gt_127 bbox [243,48,1140,1126].",
     "dimensions_and_anchor": "UNVERIFIED: no world-space dimensions, tile footprint, or ground-anchor calibration performed.",
     "game_scale": "UNVERIFIED: not rendered in Godot at runtime zoom.",
-    "independent_review": "Pending."
+    "independent_review": "FAIL: open four-shelf structure is recognizable, but the decks are not shallow; iso2x_v1 long-axis alignment fails; translucent edge fringe remains. World dimensions/anchor cannot be determined from the image."
   },
-  "status": "review_only_provisional",
+  "status": "review_only_provisional_fail",
   "notes": [
     "This is EMPTY structure exploration only; no FULL/HALF state or additional direction was generated.",
     "Do not crop, warp, mirror, or stretch to hide projection or shape mismatch.",
     "runtime_approved remains false; all expansions wait for independent approval."
   ]
 }
+
