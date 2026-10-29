@@ -1339,6 +1339,30 @@
       "visual_status": "review_only_projection_alpha_and_scale_unverified",
       "runtime_approved": false,
       "notes": "Long white facade with blue stripe, glass storefront windows and centered sliding entry. No readable brand text. World dimensions and iso2x projection are uncalibrated; alpha fringe remains at outer edges. No crop/warp."
+    },
+    {
+      "file": "oden_large_3bay_codex_v1/oden_large_3bay_candidate_v1.png",
+      "subject": "oden_large_3bay_codex_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1526,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        29,
+        78,
+        1507,
+        923
+      ],
+      "sha256": "469c430ba41688c0354a6c7f945062e74da454dcf7425aa02aaf91e678bf898e",
+      "visual_status": "review_only_alpha_style_and_projection_fail",
+      "runtime_approved": false,
+      "notes": "Three-bay oden warmer with visible ingredients. It is a separate Codex ImageGen candidate and does not replace the missing ChatGPT source/ZIP. Though RGBA, the entire image is semitransparent and has broad background haze; photoreal metal finish and near-front view do not match the game sprite. No crop/cleanup/warp."
     }
   ],
   "comparisons": [

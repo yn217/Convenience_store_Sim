@@ -205,3 +205,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `forecourt_ground_candidate_v1/forecourt_ground_candidate_v1.png` — Codex ImageGen forecourt/parking/road composition. Markings are readable, but slab depth is exaggerated, projection/footprint are uncalibrated, and low-alpha edge residue remains. Review-only; no crop or warp.
 
 - `storefront_facade_candidate_v1/storefront_facade_candidate_v1.png` — Codex ImageGen facade with white panels, blue stripe, glass windows and sliding entrance. Legible, but scale/world endpoints/projection are uncalibrated and edge alpha residue remains. Review-only; no crop or warp.
+
+- `oden_large_3bay_codex_v1/oden_large_3bay_candidate_v1.png` — separate Codex ImageGen three-bay oden warmer candidate. Three bays and ingredients read, but broad semitransparent studio haze, photoreal metal, and uncalibrated near-front projection fail; it is not a replacement for the missing ChatGPT source bundle. Review-only; no cleanup or warp.
