@@ -296,6 +296,12 @@ func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:
 			t.ok(actual_start.distance_to(expected_start) < 0.01, "Area A frontage start meets side %d at %dx%d" % [side, size.x, size.y])
 			t.ok(actual_end.distance_to(expected_end) < 0.01, "Area A frontage end meets side %d at %dx%d" % [side, size.x, size.y])
 			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "Area A retains uniform scale for side %d" % side)
+			var mid := (expected_start + expected_end) * 0.5
+			var outside_world := Vector2(-1, 0) if side == BackdropLayer.SIDE_WEST else (Vector2(1, 0) if side == BackdropLayer.SIDE_EAST else (Vector2(0, -1) if side == BackdropLayer.SIDE_NORTH else Vector2(0, 1)))
+			var world_mid := (edge[0] + edge[1]) * 0.5
+			var outside_screen := proj.world_to_screen(world_mid.x + outside_world.x, world_mid.y + outside_world.y) - mid
+			var apron_sample: Vector2 = transform * ((panel["frontage_p0"] + panel["frontage_p1"]) * 0.5 + Vector2(0, 100)) - mid
+			t.ok((expected_end - expected_start).cross(outside_screen) * (expected_end - expected_start).cross(apron_sample) > 0.0, "Area A apron lies outside side %d" % side)
 			t.ok(panel["world_length_m"] >= (size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x), "Area A panel profile covers the full edge length")
 	var before := BackdropLayer.area_a_transform_for_panel(proj, 16, 12, BackdropLayer.SIDE_EAST, BackdropLayer.AREA_A_12M_FRONTAGE_P0, BackdropLayer.AREA_A_12M_FRONTAGE_P1)
 	proj.pan(Vector2(31.0, -17.0))
@@ -410,3 +416,4 @@ func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
 		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_EAST, size.x, size.y), float(size.y) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "east planting run reaches the full far edge for %dx%d" % [size.x, size.y])
 		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_SOUTH, size.x, size.y), float(size.x) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "south planting run reaches the full far edge for %dx%d" % [size.x, size.y])
 	layer.queue_free()
+

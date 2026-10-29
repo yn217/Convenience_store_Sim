@@ -487,3 +487,11 @@ Focused `test_backdrop_layer` passed 23 tests / 333 assertions after restoring t
 ## West-entrance baseline correction (2026-10-29)
 
 The earlier west-edge capture was a west entrance orientation, not just a camera movement. A new actual Godot capture with the original 10m source, `area-a-original-12x10-west-2026-10-29.png`, reproduces the triangular apron fragment seen with the temporary edit. Therefore that symptom alone does not establish an image-generation regression. The orientation transform, layer overlap, and source coverage need separate investigation before accepting a compact replacement. The previously excluded candidate remains unadopted pending that investigation.
+
+## East/west apron orientation correction (2026-10-29)
+
+The source apron extends below its measured frontage line. A rotation alone mapped that side of the image toward the store interior for east and west entrances; reflecting the source across its frontage line before uniform rotation places it outside while preserving both endpoint anchors and scale.
+
+Actual Godot 4.7.2 captures at 1600x900 and 16:00: `area-a-small-west-fixed-2026-10-29.png` shows the previously exposed triangular fragment gone; `area-a-medium-east-fixed-2026-10-29.png` shows the parking strip outside the east facade. Additional large east and panned east captures are recorded as `area-a-large-east-fixed-2026-10-29.png` and `area-a-medium-east-pan-fixed-2026-10-29.png`. Portions of the frontage are outside these frames; endpoint appearance still needs a whole-scene review.
+
+Focused `test_backdrop_layer` passed 23 tests / 349 assertions, including an exterior-side assertion for every supported frontage profile and orientation. `test_shell_camera_input` passed 10 tests / 96 assertions. Full suite not run. Compact surface candidates remain unadopted pending visual review.

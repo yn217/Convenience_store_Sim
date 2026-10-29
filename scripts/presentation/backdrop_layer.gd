@@ -520,8 +520,16 @@ static func area_a_transform_for_panel(proj: IsoProjection, width: int, height: 
 	var target_frontage := screen_end - screen_start
 	var scale := target_frontage.length() / source_frontage.length()
 	var angle := target_frontage.angle() - source_frontage.angle()
-	var basis_x := Vector2.RIGHT.rotated(angle) * scale
-	var basis_y := Vector2.DOWN.rotated(angle) * scale
+	var basis_x := Vector2.RIGHT
+	var basis_y := Vector2.DOWN
+	# Opposite isometric diagonals reverse handedness: reflect across the frontage
+	# before rotating so the apron remains on the exterior side of the wall.
+	if side == SIDE_WEST or side == SIDE_EAST:
+		var axis := source_frontage.normalized()
+		basis_x = 2.0 * axis * axis.dot(basis_x) - basis_x
+		basis_y = 2.0 * axis * axis.dot(basis_y) - basis_y
+	basis_x = basis_x.rotated(angle) * scale
+	basis_y = basis_y.rotated(angle) * scale
 	return Transform2D(basis_x, basis_y, screen_start - basis_x * source_p0.x - basis_y * source_p0.y)
 
 
