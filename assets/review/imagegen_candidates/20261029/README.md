@@ -128,3 +128,7 @@ A second agent-generated sign concept is preserved at `agent_sign_candidate/agen
 ## Issue #163 — shopping baskets with true transparency
 
 `shopping_basket_stack_candidate_alpha.png` is the transparent-background retry for the earlier opaque-checkerboard attempt. It shows three nested perforated blue hand baskets on a small caster base, with valid RGBA alpha. A blue fringe touches the left canvas edge; the camera remains perspective-like and glossy, so this is review-only until projection and game-scale calibration.
+
+## Issue #163 — reusable crate stack transparent retry v3
+
+`plastic_crate_stack_candidate/plastic_crate_stack_candidate_alpha_v3.png` was generated with explicit transparent-background output and a warmer, matte finish. Three open lattice crates are legible. There is still a diffuse blue alpha haze around the object (the alpha>=1 silhouette is substantially wider than alpha>=8), and camera projection is not proven against iso2x_v1. Review-only; no alpha cleanup/cropping or scale warp was applied.

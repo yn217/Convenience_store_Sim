@@ -664,6 +664,32 @@
       "qa_observation": "Three nested perforated shopping baskets on a caster base are unmistakable, with true RGBA transparency. Some blue fringe reaches the left edge; camera is strongly perspective-like and highlights are too glossy for strict iso2x/game style. Review-only.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "plastic_crate_stack_candidate/plastic_crate_stack_candidate_alpha_v3.png",
+      "subject": "three stacked reusable delivery crates, transparent retry v3",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        89,
+        23,
+        1482,
+        992
+      ],
+      "alpha_bbox_threshold_8": [
+        366,
+        35,
+        1171,
+        990
+      ],
+      "sha256": "c48869a46f7f24c7146555f9b9da57dcbdf3dfc0a6e75272d36cf91297642ffb",
+      "visual_status": "review_only_alpha_haze_projection_unverified",
+      "qa_observation": "Three open lattice crates with readable rims and interiors; muted matte blue improved relative to v2, but diffuse blue alpha haze still surrounds the silhouette (alpha>=1 bbox is much wider than alpha>=8 bbox). The camera still appears perspective-like rather than calibrated iso2x; review-only.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [
