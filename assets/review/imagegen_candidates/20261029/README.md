@@ -124,3 +124,7 @@ Explicit transparent-background generation produced three valid RGBA images:
 The PNGs remain unmodified review candidates. Each has a per-image QA record and SHA-256 entry in `qa.json`; `runtime_approved:false`.
 
 A second agent-generated sign concept is preserved at `agent_sign_candidate/agent_sign_candidate.png`. It has genuine RGBA alpha and a complete A-frame silhouette, but low-alpha fringe touches the top and its perspective is not calibrated. Its QA is kept beside the image; it remains review-only.
+
+## Issue #163 — shopping baskets with true transparency
+
+`shopping_basket_stack_candidate_alpha.png` is the transparent-background retry for the earlier opaque-checkerboard attempt. It shows three nested perforated blue hand baskets on a small caster base, with valid RGBA alpha. A blue fringe touches the left canvas edge; the camera remains perspective-like and glossy, so this is review-only until projection and game-scale calibration.

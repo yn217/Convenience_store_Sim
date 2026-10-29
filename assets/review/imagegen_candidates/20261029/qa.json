@@ -644,6 +644,26 @@
       "qa_observation": "A-frame form and abstract sandwich illustration are readable in a warm painted style. True RGBA transparency is present, though low-alpha fringe reaches top edge; perspective face is not calibrated to iso2x_v1.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "shopping_basket_stack_candidate_alpha.png",
+      "subject": "nested blue convenience-store shopping baskets on wheeled cart",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        39,
+        1298,
+        1175
+      ],
+      "sha256": "471c90d03f2e2dcbe15fc6002aef56824be3952e6a644369dd85ffe1189bde69",
+      "visual_status": "review_only_projection_and_style_unverified",
+      "qa_observation": "Three nested perforated shopping baskets on a caster base are unmistakable, with true RGBA transparency. Some blue fringe reaches the left edge; camera is strongly perspective-like and highlights are too glossy for strict iso2x/game style. Review-only.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [
