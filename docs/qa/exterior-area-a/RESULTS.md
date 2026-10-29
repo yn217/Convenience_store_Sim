@@ -584,3 +584,11 @@ Replaced the point-perspective neighborhood panorama with `urban_context_isometr
 Actual Godot 4.7.2 captures at 1600x900, 16:00, paused, for 12x10, 16x12 and 20x16 are recorded as `urban-context-angle-b-small-1600x900-2026-10-30.png`, `urban-context-angle-b-medium-1600x900-2026-10-30.png`, and `urban-context-angle-b-large-1600x900-2026-10-30.png`. The 20x16 minimum-zoom opposite pan captures are `urban-context-angle-b-large-pan-left-1600x900-2026-10-30.png` and `urban-context-angle-b-large-pan-right-1600x900-2026-10-30.png`. Across sizes, neighborhood paths and planting rows now follow the store's two isometric axes, and the image remains attached during pan. The broad empty asphalt in the generated source and the photoreal-to-flat-art style difference remain for visual review.
 
 Focused `test_backdrop_layer` passed 25 tests / 392 assertions. The full suite was not run.
+
+## Dense isometric neighborhood follow-up (2026-10-30)
+
+To replace the broad empty courtyard in candidate B, two image-generation subagents produced dense neighborhood candidates G and H. Runtime comparison at 20x16 favored G: it fills the courtyard with planted paths and low homes while leaving a more balanced perimeter; H places an oversized, cropped house at the right edge. Selected G preserves the same 1672x941 artwork size and uniform world-camera transform. Its ground paths and planted rows follow the two store-wall axes in the actual game view.
+
+Godot 4.7.2 captures at 1600x900, 16:00, paused cover 12x10, 16x12, 20x16, plus both minimum-zoom pan limits at 20x16: `urban-context-angle-g-small-1600x900-2026-10-30.png`, `urban-context-angle-g-medium-1600x900-2026-10-30.png`, `urban-context-angle-g-large-1600x900-2026-10-30.png`, `urban-context-angle-g-large-pan-left-1600x900-2026-10-30.png`, and `urban-context-angle-g-large-pan-right-1600x900-2026-10-30.png`. Neighborhood paths and planting remain visually aligned with the store through the camera shift. The source image is still more realistic and denser than the store's flat art; edge houses are cropped by the wide backdrop as intended but need final visual review.
+
+The earlier B captures remain for comparison. Focused `test_backdrop_layer` is the required gate after selecting the final runtime source; full suite not run.

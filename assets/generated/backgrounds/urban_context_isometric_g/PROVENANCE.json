@@ -1,0 +1,9 @@
+{
+  "asset_id": "urban_context_isometric_g",
+  "source": "OpenAI ImageGen",
+  "purpose": "Dense isometric Japanese residential neighborhood backdrop candidate with the empty central asphalt courtyard replaced by planting and paths.",
+  "reference_asset": "urban_context_isometric_b",
+  "prompt_summary": "Preserve the reference's orthographic 2:1 dimetric ground axes at approximately +/-26.565 degrees; fill the large empty plaza with low homes around edges, trees, flowering shrubs, pocket gardens, and paths; keep the store-covered center low-detail; no large bare asphalt, perspective convergence, store, UI, people, or vehicles.",
+  "dimensions": "1672x941",
+  "status": "selected_for_runtime_review_not_user_approved"
+}
