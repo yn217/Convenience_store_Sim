@@ -297,8 +297,55 @@ static func wall_items(width: int, height: int, entrances: Array, occupied: Dict
 		out.append_array(_far_storefront(width, height, entrances, side))
 	else:
 		out.append_array(_near_low_front(width, height, entrances, side))
+		out.append_array(_near_window_posters(width, height, entrances, side))
 	for wall in _back_walls(side):
 		out.append_array(_back_wall(width, height, wall, entrances, occupied))
+	return out
+
+
+## Small printed posters sit on closed near-side panes; the entrance and the shop floor stay fully interactive.
+static func _near_window_posters(width: int, height: int, entrances: Array, side: int) -> Array:
+	var out: Array = []
+	var n := _edge_len(side, width, height)
+	if n < 8:
+		return out
+	var plane := (float(width) - 0.5 if side == SIDE_EAST else float(height) - 0.5) + 0.018
+	var desired := [roundi((n - 1) * 0.24), roundi((n - 1) * 0.76)]
+	var selected: Array[int] = []
+	for wanted in desired:
+		var found := -1
+		for radius in range(n):
+			for candidate in [int(wanted) - radius, int(wanted) + radius]:
+				if candidate <= 0 or candidate >= n - 1 or selected.any(func(value): return abs(value - candidate) < 3):
+					continue
+				if _is_entrance_at(entrances, side, candidate, width, height):
+					continue
+				found = candidate
+				break
+			if found >= 0:
+				break
+		if found >= 0:
+			selected.append(found)
+	selected.sort()
+	for i in selected.size():
+		var center := float(selected[i])
+		var left := center - 0.29
+		var right := center + 0.29
+		var accent := Color("c24d5a") if i == 0 else Color("d77094")
+		var title := "お弁当" if i == 0 else "新生活"
+		var note := "できたて" if i == 0 else "フェア開催中"
+		out.append({"kind": &"poly", "points": _band(side, plane, left, right, 0.72, 1.73), "color": Color("fffdf3"), "role": &"window_poster_panel"})
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.003, left + 0.035, right - 0.035, 1.58, 1.68), "color": accent, "role": &"window_poster_accent"})
+		var title_at := _plane_point(side, plane + 0.006, 1.28)
+		var note_at := _plane_point(side, plane + 0.006, 0.97)
+		if side == SIDE_EAST:
+			title_at.y = center
+			note_at.y = center
+		else:
+			title_at.x = center
+			note_at.x = center
+		out.append({"kind": &"text", "at": title_at, "text": title, "color": accent, "font_px": 12, "wall_side": side, "role": &"window_poster_title"})
+		out.append({"kind": &"text", "at": note_at, "text": note, "color": Color("53636a"), "font_px": 8, "wall_side": side, "role": &"window_poster_note"})
 	return out
 
 

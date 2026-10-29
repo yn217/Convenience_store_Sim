@@ -56,6 +56,36 @@ func test_fascia_and_store_name_above_the_glass(t, _tree) -> void:
 	t.eq(canopy_names[0]["font_px"], 32, "the storefront name is sized for fascia readability")
 
 
+func test_near_window_posters_follow_the_glass_and_clear_the_door(t, _tree) -> void:
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [StoreDecor.SIDE_EAST, StoreDecor.SIDE_SOUTH]:
+			var store_size: Vector2i = size
+			var side_id: int = side
+			var along_length: int = store_size.y if side_id == StoreDecor.SIDE_EAST else store_size.x
+			var middle := int(along_length / 2)
+			var entrance := Vector2i(store_size.x - 1, middle) if side_id == StoreDecor.SIDE_EAST else Vector2i(middle, store_size.y - 1)
+			var items := StoreDecor.wall_items(store_size.x, store_size.y, [entrance], {})
+			var panels := items.filter(func(it): return it.get("role", &"") == &"window_poster_panel")
+			var titles := items.filter(func(it): return it.get("role", &"") == &"window_poster_title")
+			t.eq(panels.size(), 2, "two pane posters fit %dx%d on side %d" % [store_size.x, store_size.y, side_id])
+			t.eq(titles.size(), panels.size(), "each poster has one printed title")
+			var span := BackdropLayer.entrance_span(side_id, store_size.x, store_size.y, [entrance])
+			for panel in panels:
+				var along_values: Array[float] = []
+				for point in panel["points"]:
+					along_values.append(point.y if side_id == StoreDecor.SIDE_EAST else point.x)
+					t.ok(absf((point.x if side_id == StoreDecor.SIDE_EAST else point.y) - ((float(store_size.x) if side_id == StoreDecor.SIDE_EAST else float(store_size.y)) - 0.5 + 0.018)) < 1e-6, "poster stays on the outer glass plane")
+				var lo: float = along_values.min()
+				var hi: float = along_values.max()
+				t.ok(hi < span.x - 0.29 or lo > span.y + 0.29, "poster avoids the entrance span")
+				var z_values: Array[float] = []
+				for point in panel["points"]:
+					z_values.append(point.z)
+				var z_lo: float = z_values.min()
+				var z_hi: float = z_values.max()
+				t.ok(z_lo >= 0.72 - 1e-5 and z_hi <= 1.73 + 1e-5, "poster stays within the storefront glazing")
+
+
 func test_brand_mark_stays_on_the_fascia_away_from_each_entrance(t, _tree) -> void:
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
 		var cases := [

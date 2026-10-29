@@ -1,5 +1,17 @@
 # Area A / storefront follow-up QA (2026-10-29)
 
+## Near-side storefront promotions
+
+Added two small code-drawn promotion posters to closed near-side window panes. Placement uses wall-plane coordinates, checks the entrance span, and keeps the posters within glazing height; text is rendered by the game font. The posters avoid the interactive doorway and do not depend on generated lettering. Actual 1600x900 captures use the same 16:00 frozen setup:
+
+| Footprint | Capture | Observation |
+|---|---|---|
+| 12x10 | `storefront-posters-12x10-1600x900-2026-10-29.png` | Both posters stay on the near glazing and clear the center entrance. |
+| 16x12 | `storefront-posters-16x12-1600x900-2026-10-29.png` | Same placement on the default footprint; posters are visible at whole-store scale but smaller than the target's large promotion banners. |
+| 20x16 | `storefront-posters-20x16-1600x900-2026-10-29.png` | Both posters remain attached to the glazing; the broad ground and sparse near-side promotions remain visibly different from the target. |
+
+Focused `test_store_decor` passed 24 tests / 496 assertions, including east/south entrance orientations across all three footprints. This is a detail pass only; the remaining differences table still records open storefront, planting, pavement and surrounding-scene work.
+
 ## Fascia brand mark follow-up
 
 Added a small blue-and-yellow house mark beside the fictional store name. Its panel is placed on the fascia wall plane and chooses the side away from the active entrance; if neither side has room it is omitted. The mark is code-drawn, so no inaccurate generated lettering is baked into the art.
