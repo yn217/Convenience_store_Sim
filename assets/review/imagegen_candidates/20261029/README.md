@@ -175,3 +175,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `integrated_snack_gondola_candidate_v3/integrated_snack_gondola_candidate_v3.png` — image-to-image regeneration using the target game screenshot as style reference. It reads as a stocked double-sided gondola, which is structurally useful, but the long-axis slope is still too flat and a strong halo remains. Review-only; no crop or stretch.
 
 - `agent_atm_v3/atm_candidate_v3.png` — recognizable red-white ATM with screen, keypad and cash/card slots. True alpha and no edge clipping, but perspective convergence means strict iso2x_v1 is not met; glossy highlights remain. Review-only.
+
+- `umbrella_stand_candidate_v2/umbrella_stand_candidate_v2.png` — three-color umbrellas and sleeve bin read clearly in a warmer illustrated style. No edge clipping; a dark halo remains and projection is uncalibrated. Review-only.

@@ -1034,6 +1034,24 @@
       "visual_status": "review_only_projection_fail",
       "runtime_approved": false,
       "notes": "FAIL target strict iso2x_v1: verticals are upright, but visible top planes and right side show perspective convergence rather than calibrated 2:1 isometric projection. Controls and red-white panels are readable; highlights remain glossy and a faint bright fringe is visible around silhouette. Transparent RGBA background; no visible environment."
+    },
+    {
+      "file": "umbrella_stand_candidate_v2/umbrella_stand_candidate_v2.png",
+      "subject": "umbrella_stand_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        494,
+        98,
+        1476,
+        924
+      ],
+      "sha256": "eae76393c826772a5ff8e390adc968cc7afb1adf3066cdf97af2ae2966829a99",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Umbrella category, three colors and sleeve bin are clear; warm outlined game illustration. Angle reads as elevated three-quarter orthographic, but axis slopes are not calibrated to iso2x_v1. Dark translucent halo remains around the object; no canvas-edge clipping. Review-only; no crop or rescale."
     }
   ],
   "comparisons": [
