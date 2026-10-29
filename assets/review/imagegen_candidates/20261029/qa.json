@@ -1507,6 +1507,30 @@
       "visual_status": "review_only_alpha_style_projection_and_geometry_unverified",
       "runtime_approved": false,
       "notes": "Subject is distinct and readable; alpha haze touches left edge, finish is glossy, projection and fixture fit are unverified."
+    },
+    {
+      "file": "soft_serve_accessory_stand_candidate_v1/soft_serve_accessory_stand_candidate_v1.png",
+      "subject": "soft_serve_accessory_stand_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        87,
+        81,
+        1520,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        208,
+        89,
+        1375,
+        1008
+      ],
+      "sha256": "bd57ccdd9cf418feab64c182b6ca89a8ec9ae0a8f5df9a4b5e1655e6b4f219e9",
+      "visual_status": "review_only_alpha_style_projection_unverified",
+      "runtime_approved": false,
+      "notes": "The generated item is a grouped accessory caddy rather than the requested equipment machine; it is plausible as a standalone counter prop, but has a dark low-alpha background halo and the perspective is not calibrated. Review-only; do not treat this as the soft-serve machine or frappe blender."
     }
   ],
   "comparisons": [
@@ -1519,6 +1543,11 @@
       "file": "interior_equipment_review_sheet_20261029.png",
       "sha256": "433436f28156bb266c81d90d5bbf1c56549f697c9283006869b3579058ce31ea",
       "note": "Display-only side-by-side of soft-serve v1/v2 and frappe blender; fit-to-panel preview, not projection or scale calibration."
+    },
+    {
+      "file": "interior_equipment_review_sheet_20261029_v2.png",
+      "sha256": "c75430186ec54da4f00644dadbadbcb80b6e408017bfcf688d12e485b81e2bf7",
+      "note": "Four-up preview of equipment/accessory candidates; fit-to-panel only, not projection or scale calibration."
     }
   ]
 }

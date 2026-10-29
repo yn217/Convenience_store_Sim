@@ -1,0 +1,12 @@
+{
+  "asset_id": "soft_serve_accessory_stand_candidate_v1",
+  "fixture_type_id": null,
+  "projection_id": "iso2x_v1",
+  "target_footprint_tiles": null,
+  "target_dimensions_m": null,
+  "customer_access_edge": "NONE",
+  "ground_anchor_px": null,
+  "control_points": [],
+  "verified": false,
+  "runtime_approved": false
+}
