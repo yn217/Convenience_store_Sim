@@ -1,3 +1,5 @@
 # Interior asset reference capture
 
 Captured in an isolated F: worktree at commit 0233b017587c46049a2b78974d6675944531cc4f using Godot 4.7.2, `tools/screenshot.gd`, `demo zoom=1`, resolution 1280x720. The scene is a scripted demo with existing runtime fixtures and a selected shelf. It establishes the current tile and register display only. Generated candidate art has not been overlaid, calibrated, or approved. `runtime_approved:false` remains unchanged. The first run failed due to missing global class cache; editor import in this worktree resolved it. Godot import also modified and created `.import` files locally; none are included in this commit.
+
+A preliminary candidate overlay was drawn by Godot on the same demo scene and zoom. The old register remains visible, and candidate v1 was placed with uniform scale 0.185, estimated source pixel anchor (650,817), and screen offset (0,80) from tile (3,8). These are guesses solely for visual comparison: the resulting overlap and footprint mismatch mean this is not an anchor or 1x2 fit validation. register_comparison.png retains both 1280x720 frames without resizing. No runtime changes or approval.
