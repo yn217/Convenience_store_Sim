@@ -1,0 +1,26 @@
+{
+  "asset_id": "shelf_general_empty_structure_candidate_v10",
+  "reviewer": "parent visual review (independent from image generator)",
+  "overall": "FAIL",
+  "source_sha256": "c1e22b01f9359e8f2ab0bcfea836a40f4d227b748e6bc277adda36d29389b1d0",
+  "image": {
+    "width": 1402,
+    "height": 1122,
+    "format": "RGBA",
+    "alpha_bbox_any_nonzero_xyxy": [0, 69, 1189, 1122],
+    "alpha_bbox_gt_127_xyxy": [313, 72, 1031, 1081],
+    "alpha_touches_edges": ["left", "bottom"],
+    "alpha_levels": 256
+  },
+  "checks": {
+    "subject_is_empty_single_sided_gondola": "pass",
+    "shelf_boards_four_plus_separate_base": "fail: three distinct shelf boards are visible; base is separate",
+    "depth_to_long_ratio_0_47917": "fail: visual depth appears materially compressed; exact candidate vector measurement not established",
+    "transparent_safe_margin": "fail: nonzero alpha reaches left and bottom canvas edges",
+    "roof_absent": "pass",
+    "finish_matches_matte_warm_reference": "fail: highlights appear excessively glossy",
+    "game_anchor_and_display_scale": "not_checked",
+    "godot_runtime": "not_checked"
+  },
+  "decision": "Keep as a rejected review candidate. Do not promote or runtime-approve. The correct guide is preserved separately; request a new generated image that follows the guide rather than hiding structural or projection errors by resizing."
+}
