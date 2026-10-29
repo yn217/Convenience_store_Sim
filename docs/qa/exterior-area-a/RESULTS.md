@@ -602,3 +602,5 @@ Focused `test_shell_camera_input` passed 10 tests / 96 assertions. It covers whe
 ### Direct comparison against the supplied target mockup
 
 Compared the supplied 1672x941 target image against the 1600x900 20x16 game capture at the closest available isometric whole-store view. G brings the surrounding spring planting, trees, and low residential context closer to the target and removes the previously dominant bare courtyard. Remaining visible differences are the flatter store construction and simpler door/window/fascia details, the darker and more geometric parking/road surface, fewer visible exterior fixtures and pedestrians, and a photoreal neighborhood backdrop against flat in-game objects. These differences remain tracked for the next visual pass and user review.
+
+For a populated comparison, `urban-context-angle-g-large-stocked-20x16-1600x900-2026-10-30.png` captures the same layout and backdrop with the simulation running before pause (58 customers at capture time). The reference mockup shows 42 visitors; crowd composition is not deterministic, so this image supports scenery comparison only, not customer-count parity.
