@@ -146,6 +146,36 @@ func test_surrounding_ground_texture_phase_tracks_camera(t, _tree) -> void:
 	t.eq(BackdropLayer.surrounding_ground_tile_offset(Vector2(4.0, 9.0), Vector2.ZERO), Vector2.ZERO, "invalid texture size has a safe zero offset")
 
 
+func test_surrounding_ground_mesh_batches_tiles_and_tracks_camera(t, _tree) -> void:
+	var viewport := Vector2(1920, 1080)
+	var tile_size := Vector2(512, 512)
+	var first := BackdropLayer._build_surrounding_ground_mesh(Vector2(137, 82), viewport, tile_size)
+	t.ok(first != null, "surrounding ground builds for a non-empty viewport")
+	var arrays: Array = first.surface_get_arrays(0)
+	var vertices: PackedVector2Array = arrays[Mesh.ARRAY_VERTEX]
+	var uvs: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
+	var colors: PackedColorArray = arrays[Mesh.ARRAY_COLOR]
+	t.eq(vertices.size(), 90, "five by three screen tiles are batched into fifteen quads")
+	t.eq(uvs.size(), vertices.size(), "each batched vertex keeps its tile UV")
+	var tint_matches := true
+	for color in colors:
+		tint_matches = tint_matches and absf(color.a - 0.24) < 0.002
+	t.ok(tint_matches, "batched ground retains the original 24 percent opacity")
+	var min_x := INF
+	var min_y := INF
+	var max_x := -INF
+	var max_y := -INF
+	for vertex in vertices:
+		min_x = minf(min_x, vertex.x)
+		min_y = minf(min_y, vertex.y)
+		max_x = maxf(max_x, vertex.x)
+		max_y = maxf(max_y, vertex.y)
+	t.ok(min_x <= 0.0 and min_y <= 0.0 and max_x >= viewport.x and max_y >= viewport.y, "batched quads fully cover the viewport")
+	var panned := BackdropLayer._build_surrounding_ground_mesh(Vector2(147, 82), viewport, tile_size)
+	var panned_vertices: PackedVector2Array = panned.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
+	t.ok(absf((panned_vertices[0].x - vertices[0].x) - 10.0) < 0.01, "tile mesh phase follows a ten-pixel pan")
+
+
 func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
 	var proj := _proj(0.8)
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:

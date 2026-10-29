@@ -13,6 +13,14 @@ Focused operation checks passed without running the full suite: `test_shell_came
 
 The fixed 600-frame performance benchmark at 1920x1080 (`perf-upright-grove-v2-clean-1920x1080-2026-10-29.json`) measured 16.08 median FPS at x1 and 11.06 at x4; x4 median frame time was 90.44ms, with 1061 draw calls and 8.23ms presenter draw time. The diagnostic run (`perf-upright-grove-v2-probe-1920x1080-2026-10-29.json`) found that hiding `FixturePresenter` reduced a 60-frame sample from 96ms to 59ms, while hiding customer and stock data barely changed it. A historical same-condition record from 2026-10-27 reported 31.07 median FPS at x4. These are whole-game numbers and do not establish which recent feature is responsible. Performance remains an open quality gate and needs profiling before approval.
 
+## Exterior ground batching follow-up (2026-10-29)
+
+The full-screen ground variation used one texture draw per tile on every redraw. It is now assembled into a camera-phased `ArrayMesh` during backdrop sync and submitted as one textured mesh; opacity remains 24%, UVs repeat per tile, and panning rebuilds the same phase from the world camera origin. The 20x16 runtime capture `ground-mesh-batch-20x16-1600x900-2026-10-29.png` confirms the road, paved apron, wall occlusion, and grove retain their prior ordering and appearance. Focused `test_backdrop_layer` passes 23 tests / 333 assertions, including viewport coverage, UV count, alpha, and pan phase.
+
+An A/B/A runtime probe with 20 fixtures and 30 customers at 1920x1080 recorded 87.01ms/frame with tiled draws, 83.08ms with batching, and 89.32ms after batching was re-enabled (`perf-ground-batching-ab-1920x1080-2026-10-29.json`). The range shows a small improvement tendency but also substantial frame-time noise; the x4 600-frame median remains 95.72ms (10.45 FPS). This change does not close the performance gap against the earlier 31.07 FPS result, and no cause is assigned to the entire regression.
+
+Two grouped ImageGen panorama candidates and one edge-cleanup edit were also inspected. They had conspicuous lime/yellow halos on transparent silhouettes, so none was copied into the project or integrated. The existing clean-edge runtime panel remains in use.
+
 ## Upright planting alignment
 
 The grouped planting strips now fit their root endpoints to each projected store edge while keeping the image's vertical axis upright on screen. The previous rotation transformed the entire tree image along with the ground line, which made trunks lean on the isometric sides. The affine shear changes the strip's ground-line angle without moving the z=0 anchor; store walls continue to cover the roots and lower stems.

@@ -108,6 +108,8 @@ var _ops: Array = []
 var _mesh: ArrayMesh          # road/paving faces batched after the static landscape panel
 var _ground_mesh: ArrayMesh    # viewport fill and soft pool, drawn before the combined scenery panel
 var _surface_mesh: ArrayMesh   # continuous base surfaces, drawn below the generated Area A art
+var _ground_texture_mesh: ArrayMesh # camera-phased ground tile quads batched into one draw call
+var _batch_ground_texture := true
 var _ground_texture_camera_origin := Vector2.ZERO
 var _ground_texture_viewport := Vector2.ZERO
 var _scenery_break_index := -1
@@ -137,6 +139,7 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_key = key
 	_ground_texture_camera_origin = proj.origin
 	_ground_texture_viewport = viewport
+	_ground_texture_mesh = _build_surrounding_ground_mesh(proj.origin, viewport, Vector2(SurroundingGround.get_size()))
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_sync_environment(proj, width, height)
 	_sync_roadside_grove(proj, width, height, entrances)
@@ -299,6 +302,9 @@ func _draw() -> void:
 ## Add low-contrast natural variation to the flat exterior fill. The tile offset follows camera origin,
 ## while the road, paved areas, planting, and vignette remain separate foreground layers.
 func _draw_surrounding_ground_texture() -> void:
+	if _batch_ground_texture and _ground_texture_mesh != null:
+		draw_mesh(_ground_texture_mesh, SurroundingGround)
+		return
 	var tile_size := Vector2(SurroundingGround.get_size())
 	if tile_size.x <= 0.0 or tile_size.y <= 0.0 or _ground_texture_viewport.x <= 0.0 or _ground_texture_viewport.y <= 0.0:
 		return
@@ -310,6 +316,46 @@ func _draw_surrounding_ground_texture() -> void:
 			draw_texture_rect(SurroundingGround, Rect2(Vector2(x, y), tile_size), false, Color(1.0, 1.0, 1.0, 0.24))
 			y += tile_size.y
 		x += tile_size.x
+
+
+func set_ground_texture_batching(enabled: bool) -> void:
+	if _batch_ground_texture == enabled:
+		return
+	_batch_ground_texture = enabled
+	queue_redraw()
+
+
+static func _build_surrounding_ground_mesh(camera_origin: Vector2, viewport: Vector2, tile_size: Vector2) -> ArrayMesh:
+	if tile_size.x <= 0.0 or tile_size.y <= 0.0 or viewport.x <= 0.0 or viewport.y <= 0.0:
+		return null
+	var offset := surrounding_ground_tile_offset(camera_origin, tile_size)
+	var verts := PackedVector2Array()
+	var uvs := PackedVector2Array()
+	var colors := PackedColorArray()
+	var tint := Color(1.0, 1.0, 1.0, 0.24)
+	var x := offset.x - tile_size.x
+	while x < viewport.x:
+		var y := offset.y - tile_size.y
+		while y < viewport.y:
+			var tl := Vector2(x, y)
+			var tr := tl + Vector2(tile_size.x, 0.0)
+			var br := tl + tile_size
+			var bl := tl + Vector2(0.0, tile_size.y)
+			for uv in [Vector2.ZERO, Vector2(1.0, 0.0), Vector2.ONE, Vector2.ZERO, Vector2.ONE, Vector2(0.0, 1.0)]:
+				uvs.append(uv)
+				colors.append(tint)
+			for point in [tl, tr, br, tl, br, bl]:
+				verts.append(point)
+			y += tile_size.y
+		x += tile_size.x
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = verts
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_COLOR] = colors
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	return mesh
 
 
 static func surrounding_ground_tile_offset(camera_origin: Vector2, tile_size: Vector2) -> Vector2:

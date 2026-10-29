@@ -1,0 +1,83 @@
+{
+  "by_speed": {
+    "x1": {
+      "customers": 30,
+      "draw_calls": 1008,
+      "fps_median": 14.1027810684267,
+      "fps_p95": 11.6657528493601,
+      "max_ms": 111.885,
+      "median_ms": 70.908,
+      "objects": 2981,
+      "p95_ms": 85.721,
+      "presenter_draw_ms": 8.47487,
+      "prof_ms": {
+        "compose": 3.539655,
+        "customers": 1.83819666666667,
+        "fixtures": 2.37530333333333
+      }
+    },
+    "x2": {
+      "customers": 30,
+      "draw_calls": 1055,
+      "fps_median": 12.0689863258385,
+      "fps_p95": 10.0681614530371,
+      "max_ms": 127.285,
+      "median_ms": 82.857,
+      "objects": 3047,
+      "p95_ms": 99.323,
+      "presenter_draw_ms": 8.62438,
+      "prof_ms": {
+        "compose": 3.40873166666667,
+        "customers": 1.77959666666667,
+        "fixtures": 2.68983166666667
+      }
+    },
+    "x4": {
+      "customers": 30,
+      "draw_calls": 969,
+      "fps_median": 10.4476832262446,
+      "fps_p95": 7.71485881808363,
+      "max_ms": 156.867,
+      "median_ms": 95.715,
+      "objects": 2980,
+      "p95_ms": 129.62,
+      "presenter_draw_ms": 8.37662833333333,
+      "prof_ms": {
+        "compose": 3.17789,
+        "customers": 1.72769333333333,
+        "fixtures": 2.73419833333333
+      }
+    }
+  },
+  "compose_ms": 0.950133333333333,
+  "conditions": {
+    "customers_in_store": 30,
+    "fixtures_placed": 20,
+    "frames": 600,
+    "speed": 4,
+    "store": "16x12",
+    "window": "(1920, 1080)"
+  },
+  "environment": {
+    "cpu": "Intel(R) Core(TM) i9-10900F CPU @ 2.80GHz",
+    "godot": "4.7.2-stable (official)",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "os": "Windows 10.0.19045",
+    "renderer": "gl_compatibility",
+    "threads": 20
+  },
+  "probe_frame_ms": {
+    "CueLayer": 85.3760888888889,
+    "FixturePresenter": 60.6562277777778,
+    "OverlayLayer": 83.3357611111111,
+    "SelectionOverlay": 99.7237666666667,
+    "batch_off": 87.0130111111111,
+    "batch_on": 83.0824888888889,
+    "batch_on_again": 89.3174722222222,
+    "none": 95.0345777777778
+  },
+  "publish_ms": 21.1063,
+  "sim_step_ms": 1.743995,
+  "snapshot_ms": 7.0355,
+  "video_mem_mb": 254.355791091919
+}
