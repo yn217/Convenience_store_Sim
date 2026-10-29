@@ -25,15 +25,15 @@
       "byte_size": 908686,
       "sha256": "ddf3503acda087b22f0f027fdc7533db5e40b79404eb039f11951a5179af89a7",
       "git_blob_sha": "9683c25671c6dd20e09b996cd84aac17ec1412d8",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
       "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v8/comparison_guide_v8.png",
       "byte_size": 272997,
       "sha256": "1884e58e5b5f6bb665cca27f3eb9b3715fe811f3470fabe831fd52a71b4c6d33",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "7fdd8fa7f83a8a04e768e198b8fdc7a5cd3d2718",
+      "github_uploaded": true
     },
     {
       "role": "other",
@@ -41,7 +41,7 @@
       "byte_size": 24390,
       "sha256": "25add41659c2557e121ccad93a388502b849647296ebc082c5f30bcca75684fc",
       "git_blob_sha": "ee771f74cb3c2b4302ee91a4740ca142b06b448e",
-      "github_uploaded": false
+      "github_uploaded": true
     }
   ],
   "projection": {
