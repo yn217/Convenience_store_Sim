@@ -1,0 +1,37 @@
+{
+  "asset_id": "flavor_pop_candidate_v1",
+  "source": "flavor_pop_candidate_v1.png",
+  "sha256": "bac2420b7e491af0e31f87b7bef30e5554e1950b9cf3fc8188b557c778d208a4",
+  "dimensions_px": [
+    1312,
+    1199
+  ],
+  "alpha_bbox_by_threshold": {
+    "1": [
+      0,
+      0,
+      1290,
+      1199
+    ],
+    "8": [
+      47,
+      113,
+      1271,
+      1164
+    ],
+    "128": [
+      47,
+      114,
+      1271,
+      1164
+    ]
+  },
+  "subject": "Tabletop menu sign with soft-serve, frappe and strawberry illustrations; empty label boxes",
+  "limitations": [
+    "low-alpha fringe and stray pixels",
+    "perspective and game scale uncalibrated",
+    "empty label boxes require design decision"
+  ],
+  "runtime_approved": false,
+  "status": "review_only"
+}

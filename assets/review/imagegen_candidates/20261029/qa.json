@@ -1531,6 +1531,30 @@
       "visual_status": "review_only_alpha_style_projection_unverified",
       "runtime_approved": false,
       "notes": "The generated item is a grouped accessory caddy rather than the requested equipment machine; it is plausible as a standalone counter prop, but has a dark low-alpha background halo and the perspective is not calibrated. Review-only; do not treat this as the soft-serve machine or frappe blender."
+    },
+    {
+      "file": "flavor_pop_candidate_v1/flavor_pop_candidate_v1.png",
+      "subject": "flavor_pop_candidate_v1",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1290,
+        1199
+      ],
+      "alpha_bbox_ge_8": [
+        47,
+        113,
+        1271,
+        1164
+      ],
+      "sha256": "bac2420b7e491af0e31f87b7bef30e5554e1950b9cf3fc8188b557c778d208a4",
+      "visual_status": "review_only_alpha_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Menu POP, transparent alpha with stray fringe; projection and game scale unverified."
     }
   ],
   "comparisons": [
