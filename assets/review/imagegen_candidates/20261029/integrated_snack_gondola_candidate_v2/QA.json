@@ -1,0 +1,43 @@
+{
+  "asset_id": "integrated_snack_gondola_candidate_v2",
+  "status": "review_only",
+  "runtime_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen image-to-image",
+    "reference": "../integrated_snack_gondola_candidate/integrated_snack_gondola_candidate.png",
+    "transparent_background": true,
+    "prompt_summary": "Projection regeneration of same integrated snack gondola and product rows; strict 2:1 iso axes, orthographic, transparent, warm game illustration."
+  },
+  "file": "integrated_snack_gondola_candidate_v2.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt_0": [
+    0,
+    8,
+    1512,
+    1024
+  ],
+  "alpha_bbox_gt_8": [
+    313,
+    10,
+    1256,
+    1024
+  ],
+  "alpha_bbox_gt_128": [
+    318,
+    11,
+    1247,
+    1024
+  ],
+  "edge_alpha_max": {
+    "top": 0,
+    "bottom": 253,
+    "left": 1,
+    "right": 0
+  },
+  "sha256": "39088d4a243a4c2d81d28e872826e538b40ae32ab095d154074d307d0dd25107",
+  "visual_qa": "Products remain grouped and the image retains the complete integrated shelf. Projection is somewhat more oblique but still substantially flatter than the required 26.565-degree long-axis slope, with perspective-like shelf depth. A broad studio halo remains. FAIL as calibrated game sprite; useful only as product-density composition reference. No crop or scaling."
+}

@@ -980,6 +980,24 @@
       "visual_status": "review_only_projection_fail",
       "runtime_approved": false,
       "notes": "Single countertop unit and divided oden pot read clearly. FAIL for target use: highly photoreal glossy finish, strongly elevated oblique perspective rather than calibrated iso2x_v1; Japanese label is generated illustration text. Keep as shape/style reference only; no crop or rescale."
+    },
+    {
+      "file": "integrated_snack_gondola_candidate_v2/integrated_snack_gondola_candidate_v2.png",
+      "subject": "integrated_snack_gondola_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        8,
+        1512,
+        1024
+      ],
+      "sha256": "39088d4a243a4c2d81d28e872826e538b40ae32ab095d154074d307d0dd25107",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "Products remain grouped and the image retains the complete integrated shelf. Projection is somewhat more oblique but still substantially flatter than the required 26.565-degree long-axis slope, with perspective-like shelf depth. A broad studio halo remains. FAIL as calibrated game sprite; useful only as product-density composition reference. No crop or scaling."
     }
   ],
   "comparisons": [
