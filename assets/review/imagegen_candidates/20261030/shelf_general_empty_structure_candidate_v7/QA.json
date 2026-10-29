@@ -1,0 +1,90 @@
+{
+  "candidate_id": "shelf_general_empty_structure_candidate_v7",
+  "created_date": "2026-10-30",
+  "asset_type": "single_sided_gondola_empty_2d_sprite_candidate",
+  "runtime_approved": false,
+  "review_status": "reviewed_fail",
+  "generator": "Codex built-in ImageGen",
+  "references": [
+    "projection_guide.png",
+    "image-1792819026698.webp"
+  ],
+  "projection_guide": {
+    "long_vector_px": [
+      500,
+      250
+    ],
+    "depth_vector_px": [
+      170,
+      -85
+    ],
+    "long_length_px": 559.02,
+    "depth_length_px": 190.07,
+    "depth_to_long_ratio": 0.34,
+    "long_axis_screen_slope": 0.5,
+    "depth_axis_screen_slope": -0.5
+  },
+  "output": {
+    "file": "shelf_general_empty_structure_candidate_v7.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "PNG",
+    "mode": "RGBA",
+    "sha256": "0b614a1336de495c3e9960e8bf5496a9d12daa984593fdca3325230627625bd2"
+  },
+  "alpha_qa": {
+    "true_transparency": true,
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "unique_alpha_values": 256,
+    "nonzero_bbox_xyxy": [
+      0,
+      25,
+      1226,
+      1254
+    ],
+    "alpha_gt_127_bbox_xyxy": [
+      249,
+      67,
+      1020,
+      1214
+    ],
+    "edge_contact": [
+      "left",
+      "bottom"
+    ],
+    "result": "FAIL"
+  },
+  "visual_qa": {
+    "shelf_planes": {
+      "observed": 3,
+      "expected": 4,
+      "result": "FAIL"
+    },
+    "back_panel_and_posts": "PASS_PRELIMINARY",
+    "no_products": "PASS_PRELIMINARY",
+    "no_roof_or_canopy": "PASS_PRELIMINARY",
+    "projection_axis": "PASS_APPROXIMATE_ORIENTATION",
+    "depth_to_long_ratio": "FAIL: visually shallower than target according to independent reviewer",
+    "base_fascia_proportion": "PASS_VISUAL_REVIEW",
+    "alpha_margin": "FAIL_MEASURED_NONZERO_ALPHA_TOUCHES_LEFT_AND_BOTTOM; independent visual reviewer did not detect it",
+    "style_match": "FAIL: glossy finish and hard outlines",
+    "godot_display_scale": "NOT_VERIFIED",
+    "overall": "FAIL"
+  },
+  "independent_review": {
+    "reviewer": "gpt-6-luna subagent",
+    "status": "completed",
+    "result": "FAIL",
+    "findings": [
+      "Only three usable shelf planes are visible, not four.",
+      "Axis orientation is broadly aligned, but projected depth looks too shallow.",
+      "Recognizable single-sided roofless shelf.",
+      "Base fascia appears low in visual review.",
+      "Visual reviewer did not detect edge contact; pixel alpha measurement finds nonzero alpha at left and bottom edges.",
+      "Gloss and hard outlines do not match soft game-paint style."
+    ]
+  },
+  "comparison_image": "comparison_guide_v7.png",
+  "prompt": "See README.md"
+}
