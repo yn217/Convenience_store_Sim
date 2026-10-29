@@ -499,3 +499,9 @@ Focused `test_backdrop_layer` passed 23 tests / 349 assertions, including an ext
 ## Whole-store east/west orientation review (2026-10-29)
 
 Actual Godot 4.7.2 captures at 1600x900, 16:00, empty layout, paused, using `--whole`: `whole-small-west-orientation-2026-10-29.png` (12x10 west entrance), `whole-medium-east-orientation-2026-10-29.png` (16x12 east), and `whole-large-east-orientation-2026-10-29.png` (20x16 east). The east parking apron lies outside the facade and reaches the visible frontage ends; the west capture no longer shows the triangular fragment inside the non-entrance side. The west facade hides much of the apron in this camera direction, and its outer road and car are partially clipped by the viewport. `whole-medium-east-pan-orientation-2026-10-29.png` records a zoomed/panned view; the visible apron stays attached to the facade. These captures do not establish full appearance of the west parking area or all orientations at all sizes. The scene still differs materially from the mockup, particularly its broad simple ground and road.
+
+## 10m frontage material candidate v3 (2026-10-29)
+
+A generated edit of the existing 10m source adds asphalt and warm sidewalk variation while retaining the 1774x887 canvas and measured frontage baseline (512,78)-(1668,608). It is a runtime candidate, not user-approved. The alpha bounding box differs from the source and needs further close-edge review.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00, 12x10, empty and paused: `10m-surface-v3-east-2026-10-29.png`, `10m-surface-v3-west-2026-10-29.png`, and `10m-surface-v3-east-pan-2026-10-29.png`. In the east view the apron, stall lines and sidewalk remain attached to the facade during zoom/pan; in the west view most of the apron remains occluded by the building. Focused `test_backdrop_layer` passed 23 tests / 349 assertions; full suite not run. The 12m profile and separate flat road remain unfinished.
