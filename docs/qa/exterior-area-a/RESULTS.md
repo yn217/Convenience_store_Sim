@@ -15,6 +15,19 @@ Actual Godot 4.7.2 captures at 1600x900, 16:00:
 
 Focused `test_backdrop_layer` passed 22 tests / 327 assertions, including all four side transforms and pan behavior. No full suite was run. New image-generation candidates were not integrated: several had a checkerboard baked into the image or visible colored fringes around transparent edges.
 
+## Planting and road-side panel by entrance orientation
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00, 20x16. Each entrance move returned success, and the captured road apron follows the selected store edge while the planting remains on non-road sides.
+
+| Entrance | Capture |
+|---|---|
+| West | `planting-entry-west-20x16-1600x900-2026-10-29.png` |
+| North | `planting-entry-north-20x16-1600x900-2026-10-29.png` |
+| East | `planting-entry-east-20x16-1600x900-2026-10-29.png` |
+| South | `planting-entry-south-20x16-1600x900-2026-10-29.png` |
+
+`planting-night-south-20x16-1600x900-2026-10-29.png` checks the same scene at 22:00. The planted canopy darkens with the rest of the environment; no magenta-key halo is apparent at full-scene scale. Seasonal art variants and a focused interaction pass remain outstanding.
+
 ## Runtime captures
 
 All images are actual Godot 4.7.2 captures at 1600x900, 16:00, whole-store camera, frozen simulation.
