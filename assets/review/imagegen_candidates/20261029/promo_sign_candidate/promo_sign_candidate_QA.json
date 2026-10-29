@@ -1,0 +1,24 @@
+{
+  "asset_id": "promo_sign_candidate",
+  "file": "promo_sign_candidate/promo_sign_candidate.png",
+  "generation_tool": "built-in Codex image_gen (transparent_background=true)",
+  "dimensions_px": [
+    1402,
+    1122
+  ],
+  "mode": "RGBA",
+  "alpha_bbox": [
+    55,
+    53,
+    1382,
+    1090
+  ],
+  "sha256": "72d71650b77e066f6521069b0b7a29a6fdbffa59cf349351659d92892934e254",
+  "subject": "freestanding A-frame hot-snack promo sign with abstract fried-food illustration",
+  "visual_observations": [
+    "true RGBA alpha and complete silhouette; warm palette fits. Sign face is strongly perspective-oblique rather than verified iso2x, and no in-game scale/anchor calibration has been done. Review-only."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false
+}

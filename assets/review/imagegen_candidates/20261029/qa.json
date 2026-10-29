@@ -564,6 +564,86 @@
       "qa_observation": "FAIL: edit retained and intensified the checkerboard as opaque RGB; do not use as a sprite.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "plant_candidate/plant_candidate_alpha.png",
+      "subject": "indoor potted plant, explicitly generated with transparent background",
+      "dimensions_px": [
+        1278,
+        1230
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        23,
+        26,
+        1242,
+        1167
+      ],
+      "sha256": "a38a850af75c1ed5f0c79a70959c1c9315268ddcd44010a3599fee4957eab2fd",
+      "visual_status": "review_only_projection_and_game_scale_unverified",
+      "qa_observation": "warm painted plant/pot read well and true RGBA alpha is present. A faint bright-green edge fringe remains; projection/ground anchor and game scale are uncalibrated. Review-only, not runtime-ready.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "promo_sign_candidate/promo_sign_candidate.png",
+      "subject": "freestanding A-frame hot-snack promo sign with abstract fried-food illustration",
+      "dimensions_px": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        55,
+        53,
+        1382,
+        1090
+      ],
+      "sha256": "72d71650b77e066f6521069b0b7a29a6fdbffa59cf349351659d92892934e254",
+      "visual_status": "review_only_projection_and_game_scale_unverified",
+      "qa_observation": "true RGBA alpha and complete silhouette; warm palette fits. Sign face is strongly perspective-oblique rather than verified iso2x, and no in-game scale/anchor calibration has been done. Review-only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "atm_candidate/atm_transparent_candidate_v2.png",
+      "subject": "Japanese convenience-store ATM candidate v2",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        57,
+        33,
+        1292,
+        1167
+      ],
+      "sha256": "c412cce82346279e2718df3ace631a4472dd78fc197246620384dac4397de511",
+      "visual_status": "review_only_projection_fail",
+      "qa_observation": "True RGBA transparency and readable ATM controls/red side housing. The machine has a strongly perspective-like view and does not satisfy strict iso2x axis calibration; edge fringe and world scale/anchor remain unverified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "agent_sign_candidate/agent_sign_candidate.png",
+      "subject": "A-frame promotional sign, warm painted candidate (subagent generated)",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        0,
+        1506,
+        1009
+      ],
+      "sha256": "969459b14a05a6f081013fb86936b1694be44bd75a08882fde80331eac1a7abf",
+      "visual_status": "review_only_projection_unverified_alpha_fringe",
+      "qa_observation": "A-frame form and abstract sandwich illustration are readable in a warm painted style. True RGBA transparency is present, though low-alpha fringe reaches top edge; perspective face is not calibrated to iso2x_v1.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [

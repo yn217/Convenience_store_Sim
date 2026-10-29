@@ -103,3 +103,24 @@ Three new direct Codex ImageGen outputs were reviewed and preserved with exact f
 - `plant_candidate/plant_candidate.png` plus `plant_checkerboard_edit_v2.png` — plant art is legible, but both generation and attempted edit keep an opaque checkerboard (RGB, no alpha). The edit made the pattern denser, so it is a generation failure.
 
 These records diagnose an image-generation limitation; none is a usable transparent sprite. Original outputs are unchanged, not cropped or stretched, and remain `review_only` / `runtime_approved:false`. See per-candidate `*_QA.json` and `qa.json` for dimensions and hashes.
+
+## 2026-10-29 — transparent-background generation retry
+
+Using the generator's explicit transparent-background option produced valid RGBA results, unlike the earlier opaque checkerboard outputs:
+
+- `plant_candidate/plant_candidate_alpha.png` — warm hand-painted plant in a pot, with real alpha and generous margin. A faint green edge fringe remains; projection/anchor/game scale are not calibrated.
+- `promo_sign_candidate/promo_sign_candidate.png` — complete hot-snack A-frame promo sign with real alpha. The front face is perspective-oblique and does not yet meet strict iso2x calibration.
+
+Both are review-only candidates with per-image QA and SHA-256 in `qa.json`; neither is runtime approved.
+
+## Issue #163 — additional candidates with true alpha
+
+Explicit transparent-background generation produced three valid RGBA images:
+
+- `plant_candidate/plant_candidate_alpha.png` — warm potted plant, clear and full frame. A faint green fringe is visible; game projection and anchor are uncalibrated.
+- `promo_sign_candidate/promo_sign_candidate.png` — A-frame hot-snack promo board with abstract food artwork. Full silhouette and true alpha; front face remains too perspective-oblique for strict iso2x.
+- `atm_candidate/atm_transparent_candidate_v2.png` — ATM controls and red/gray housing read clearly with true alpha. Camera has perspective convergence, so projection fails the game target.
+
+The PNGs remain unmodified review candidates. Each has a per-image QA record and SHA-256 entry in `qa.json`; `runtime_approved:false`.
+
+A second agent-generated sign concept is preserved at `agent_sign_candidate/agent_sign_candidate.png`. It has genuine RGBA alpha and a complete A-frame silhouette, but low-alpha fringe touches the top and its perspective is not calibrated. Its QA is kept beside the image; it remains review-only.
