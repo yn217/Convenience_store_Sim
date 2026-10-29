@@ -1,0 +1,22 @@
+{
+  "asset_id": "plastic_crate_stack_candidate_v2",
+  "file": "plastic_crate_stack_candidate/plastic_crate_stack_candidate_v2.png",
+  "generation_tool": "built-in Codex image_gen",
+  "width": 1412,
+  "height": 1114,
+  "mode": "RGBA",
+  "alpha_bbox": [
+    0,
+    15,
+    1382,
+    1114
+  ],
+  "sha256": "fb83e426276fbdaf1b8d5f770ed4eebc465d641d1067de222fb33c54d5743fc6",
+  "subject": "three stacked blue reusable crates, regenerated for warmer matte finish and strict iso2x",
+  "visual_observations": [
+    "FAIL: vivid blue glow/outline remains; alpha reaches left and bottom canvas edges; projection is not calibrated. Keep as review-only; no stretching."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false
+}

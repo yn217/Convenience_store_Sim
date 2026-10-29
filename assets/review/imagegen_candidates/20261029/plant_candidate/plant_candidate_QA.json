@@ -1,0 +1,18 @@
+{
+  "asset_id": "plant_candidate",
+  "file": "plant_candidate/plant_candidate.png",
+  "generation_tool": "built-in Codex image_gen",
+  "dimensions_px": [
+    1254,
+    1254
+  ],
+  "mode": "RGB",
+  "alpha_bbox": null,
+  "sha256": "353440fe4265513a48cbdf9181e85712f2ca325718fa9f3c7604442719b521c3",
+  "visual_observations": [
+    "FAIL: checkerboard pattern is visibly baked into RGB pixels (no alpha channel); plant/pot are clear but projection is not verified."
+  ],
+  "status": "review_only_generation_fail",
+  "runtime_approved": false,
+  "human_approved": false
+}

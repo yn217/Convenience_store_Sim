@@ -487,6 +487,83 @@
       "qa_observation": "Three open lattice crates read clearly and are not solid cubes; low-alpha blue fringe extends beyond primary silhouette, cool saturated glossy highlights, strict iso2x uncalibrated.",
       "runtime_approved": false,
       "human_approved": false
+    },
+    {
+      "file": "plastic_crate_stack_candidate/plastic_crate_stack_candidate_v2.png",
+      "subject": "three stacked blue reusable crates, regenerated for warmer matte finish and strict iso2x",
+      "dimensions_px": [
+        1412,
+        1114
+      ],
+      "alpha_bbox": [
+        0,
+        15,
+        1382,
+        1114
+      ],
+      "sha256": "fb83e426276fbdaf1b8d5f770ed4eebc465d641d1067de222fb33c54d5743fc6",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: vivid blue glow/outline remains; alpha reaches left and bottom canvas edges; projection is not calibrated. Keep as review-only; no stretching.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "hand_truck_candidate/hand_truck_empty_candidate_v2.png",
+      "subject": "empty red-orange hand truck/dolly",
+      "dimensions_px": [
+        1223,
+        1286
+      ],
+      "alpha_bbox": null,
+      "sha256": "5b57a8a46eb3cc2aa27fb5701e1d0e54fe5567abb894d62789a8ad92b0846d8d",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: checkerboard transparency pattern is baked into RGB image (mode RGB); iso2x axes are not respected; reflective finish is too strong. Preserve for prompt diagnosis only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "shopping_basket_stack_candidate.png",
+      "subject": "stack of three nested blue convenience-store hand baskets on wheeled dolly",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha_bbox": null,
+      "sha256": "f55cc8d5bc6efeb9e97991e73a24e2889b003921057ac0b922665a15d3851d01",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: checkerboard transparency pattern is baked into RGB image; highlight finish is too glossy/cool; strict iso2x projection is unverified. Review-only prompt candidate.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plant_candidate/plant_candidate.png",
+      "subject": "indoor potted plant sprite candidate",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "alpha_bbox": null,
+      "sha256": "353440fe4265513a48cbdf9181e85712f2ca325718fa9f3c7604442719b521c3",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: checkerboard pattern is visibly baked into RGB pixels (no alpha channel); plant/pot are clear but projection is not verified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plant_candidate/plant_checkerboard_edit_v2.png",
+      "subject": "indoor potted plant sprite candidate",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "alpha_bbox": null,
+      "sha256": "bd24085cfee812b16ade038c86a842f6e112b2a324a2fe800cb283efd49b50ed",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: edit retained and intensified the checkerboard as opaque RGB; do not use as a sprite.",
+      "runtime_approved": false,
+      "human_approved": false
     }
   ],
   "comparisons": [

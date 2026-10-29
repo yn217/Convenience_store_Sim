@@ -92,3 +92,14 @@ Both original images and per-asset QA are preserved without scaling. They remain
 - `plastic_crate_stack_candidate/plastic_crate_stack_candidate.png` — three open-lattice reusable blue crates. The openings and rims read as crates rather than solid cuboids. Low-alpha blue fringe extends beyond the main silhouette, the color finish is cool/glossy, and exact game projection is unverified.
 
 Both remain review-only. Preserve the originals; do not stretch them to force projection agreement. Per-image QA is stored in each subfolder.
+
+## 2026-10-29 — crate, hand truck and store-prop generation iteration
+
+Three new direct Codex ImageGen outputs were reviewed and preserved with exact file metadata:
+
+- `plastic_crate_stack_candidate/plastic_crate_stack_candidate_v2.png` — three open lattice crates remain recognizable, but the blue halo blooms to the canvas edge and bottom; glossy cool finish and projection remain unsuitable.
+- `hand_truck_candidate/hand_truck_empty_candidate_v2.png` — empty dolly form is clear, but the checkerboard was baked into an RGB image and the shape is not strict iso2x.
+- `shopping_basket_stack_candidate.png` — three nested retail baskets on a wheeled rack; checkerboard is baked into RGB and finish is too glossy/cool.
+- `plant_candidate/plant_candidate.png` plus `plant_checkerboard_edit_v2.png` — plant art is legible, but both generation and attempted edit keep an opaque checkerboard (RGB, no alpha). The edit made the pattern denser, so it is a generation failure.
+
+These records diagnose an image-generation limitation; none is a usable transparent sprite. Original outputs are unchanged, not cropped or stretched, and remain `review_only` / `runtime_approved:false`. See per-candidate `*_QA.json` and `qa.json` for dimensions and hashes.
