@@ -416,3 +416,23 @@ func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
 		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_EAST, size.x, size.y), float(size.y) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "east planting run reaches the full far edge for %dx%d" % [size.x, size.y])
 		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_SOUTH, size.x, size.y), float(size.x) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "south planting run reaches the full far edge for %dx%d" % [size.x, size.y])
 	layer.queue_free()
+
+
+func test_asphalt_surface_follows_camera_and_fades_at_ends(t, tree) -> void:
+	var proj := _proj(1.0)
+	var layer := BackdropLayer.new()
+	tree.root.add_child(layer)
+	layer.sync(16, 12, [Vector2i(7, 11)], proj, Vector2(1600, 900))
+	var first := layer._asphalt_texture.surface_get_arrays(0)
+	var point: Vector2 = first[Mesh.ARRAY_VERTEX][0]
+	var uv: Vector2 = first[Mesh.ARRAY_TEX_UV][0]
+	var min_alpha := 1.0
+	for c in first[Mesh.ARRAY_COLOR]:
+		min_alpha = minf(min_alpha, c.a)
+	t.ok(min_alpha < 0.01, "asphalt fades transparent at outer end")
+	proj.pan(Vector2(31, -17))
+	layer.sync(16, 12, [Vector2i(7, 11)], proj, Vector2(1600, 900))
+	var moved := layer._asphalt_texture.surface_get_arrays(0)
+	t.ok((moved[Mesh.ARRAY_VERTEX][0] as Vector2).distance_to(point + Vector2(31, -17)) < 0.01, "asphalt follows camera pan")
+	t.eq(moved[Mesh.ARRAY_TEX_UV][0], uv, "asphalt sample stays world anchored")
+	layer.queue_free()

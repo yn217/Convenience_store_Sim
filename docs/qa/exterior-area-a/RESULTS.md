@@ -521,3 +521,11 @@ A temporary world-projected strip was drawn below the existing road markings ove
 ## Road texture faded-end probe (2026-10-29)
 
 A temporary 36m world-scaled road strip with alpha fading over both ends was drawn above a flat road base and below the live markings. Actual Godot captures at 1600x900, 16:00: `road-fade-small-2026-10-29.png`, `road-fade-medium-2026-10-29.png`, `road-fade-large-2026-10-29.png`, and `road-fade-pan-2026-10-29.png`. The crossing remained visible and the lengthwise transition was softened, but a broad flat region remains between the frontage artwork and the textured road strip, making the surface discontinuous. The pan view did not show enough road to prove camera coverage. The temporary code was reverted; a continuous design must cover the full exterior pavement and road surface with coherent scale and layering. No tests were run on the reverted probe.
+
+## Continuous apron and road surface candidate (2026-10-29)
+
+A single 36m world-scaled asphalt image now covers both the frontage-limited apron underlay and the adjacent road, with its ends fading to the flat road base. It is drawn below the existing parking artwork, curbs and live crossing/arrow marks. The untextured forecourt previously produced a broad flat band. The road continues beyond the finite image as flat base: full texture coverage at extreme pan/zoom remains unverified.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00: `road-full-v2-small-2026-10-29.png`, `road-full-v2-16x12-2026-10-29.png`, `road-full-v2-large-2026-10-29.png`, `road-full-v2-east-2026-10-29.png`, and `road-full-v2-pan-2026-10-29.png`. The large flat band is replaced by surface variation, crossing remains legible, and the visible pan view stays attached. Texture grain and the transition to the existing parking image remain visible; final visual approval and other entrance orientations remain open.
+
+Focused `test_backdrop_layer` passed 24 tests / 352 assertions, including camera anchoring and faded ends. `test_shell_camera_input` passed 10 tests / 96 assertions. Full suite not run.

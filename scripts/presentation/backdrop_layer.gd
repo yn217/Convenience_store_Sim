@@ -19,6 +19,8 @@ const MAT := Color("3b3733")
 const MAT_EDGE := Color("5b544d")
 const KERB := Color("d8d5cc")
 const ROAD := Color("50565b")
+const AsphaltTexture := preload("res://assets/generated/backgrounds/road_asphalt_long_candidate_v1/road_asphalt_long_candidate_v1.png")
+const ASPHALT_LENGTH_M := 36.0
 const ROAD_LINE := Color("e9e2c8")
 const SIGN_FRAME := Color("2b2b2b")
 const SIGN_FACE := Color("f4efe2")
@@ -108,6 +110,8 @@ var _key: Array = []
 var _ops: Array = []
 var _mesh: ArrayMesh          # road/paving faces batched after the static landscape panel
 var _ground_mesh: ArrayMesh    # viewport fill and soft pool, drawn before the combined scenery panel
+var _asphalt_base: ArrayMesh
+var _asphalt_texture: ArrayMesh
 var _surface_mesh: ArrayMesh   # continuous base surfaces, drawn below the generated Area A art
 var _ground_texture_mesh: ArrayMesh # camera-phased ground tile quads batched into one draw call
 var _batch_ground_texture := true
@@ -142,6 +146,7 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_ground_texture_viewport = viewport
 	_ground_texture_mesh = _build_surrounding_ground_mesh(proj.origin, viewport, Vector2(SurroundingGround.get_size()))
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
+	_sync_asphalt(proj, width, height, entrances, viewport)
 	_sync_environment(proj, width, height)
 	_sync_roadside_grove(proj, width, height, entrances)
 	_sync_urban_grove(proj, width, height, entrances)
@@ -233,6 +238,68 @@ func _sync_area_a(proj: IsoProjection, width: int, height: int, entrances: Array
 	_area_a_transform = area_a_transform_for_panel(proj, width, height, side, panel["frontage_p0"], panel["frontage_p1"])
 
 
+## Continuous world-scaled surface under the apron and road markings.
+func _sync_asphalt(proj: IsoProjection, width: int, height: int, entrances: Array, viewport: Vector2) -> void:
+	_asphalt_base = null
+	_asphalt_texture = null
+	if width <= 0 or height <= 0:
+		return
+	var side := entrance_side(width, height, entrances)
+	var edge := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var margin := road_along_margin(proj, viewport)
+	var d0 := PAVE_M
+	var d1 := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M
+	var indices := [0, 1, 2, 0, 2, 3]
+	var verts := PackedVector2Array()
+	var uvs := PackedVector2Array()
+	var colors := PackedColorArray()
+	var bverts := PackedVector2Array()
+	var bcolors := PackedColorArray()
+	var fractions := [0.0, 0.2, 0.8, 1.0]
+	var alphas := [0.0, 0.35, 0.35, 0.0]
+	# The apron exists only along the frontage; the public road continues beyond it.
+	for region in [[d0, PAVE_M + PARK_DEPTH_M, 0.0, edge], [PAVE_M + PARK_DEPTH_M + KERB_M, d1, -margin, edge + margin]]:
+		var rd0: float = region[0]
+		var rd1: float = region[1]
+		var ra0: float = region[2]
+		var ra1: float = region[3]
+		var base := _side_quad(proj, side, width, height, rd0, rd1, ra0, ra1)
+		for i in indices:
+			bverts.append(base[i])
+			bcolors.append(ROAD)
+		var v0 := 0.5 + (rd0 - (d0 + d1) * 0.5) / ASPHALT_LENGTH_M * float(AsphaltTexture.get_width()) / float(AsphaltTexture.get_height())
+		var v1 := 0.5 + (rd1 - (d0 + d1) * 0.5) / ASPHALT_LENGTH_M * float(AsphaltTexture.get_width()) / float(AsphaltTexture.get_height())
+		for n in range(3):
+			var left: float = fractions[n]
+			var right: float = fractions[n+1]
+			var seg0 := edge * 0.5 + (left - 0.5) * ASPHALT_LENGTH_M
+			var seg1 := edge * 0.5 + (right - 0.5) * ASPHALT_LENGTH_M
+			var a0 := maxf(seg0, ra0)
+			var a1 := minf(seg1, ra1)
+			if a1 <= a0:
+				continue
+			var u0 := (a0 - edge * 0.5) / ASPHALT_LENGTH_M + 0.5
+			var u1 := (a1 - edge * 0.5) / ASPHALT_LENGTH_M + 0.5
+			var alpha0 := lerpf(alphas[n], alphas[n+1], (a0-seg0)/(seg1-seg0))
+			var alpha1 := lerpf(alphas[n], alphas[n+1], (a1-seg0)/(seg1-seg0))
+			var quad := _side_quad(proj, side, width, height, rd0, rd1, a0, a1)
+			var uv := [Vector2(u0,v0), Vector2(u0,v1), Vector2(u1,v1), Vector2(u1,v0)]
+			var alpha := [alpha0, alpha0, alpha1, alpha1]
+			for i in indices:
+				verts.append(quad[i])
+				uvs.append(uv[i])
+				colors.append(Color(1, 1, 1, alpha[i]))
+	_asphalt_base = _make_mesh(bverts, bcolors)
+
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = verts
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_COLOR] = colors
+	_asphalt_texture = ArrayMesh.new()
+	_asphalt_texture.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+
+
 ## A fixed, combined sidewalk/planting strip follows a visible store edge. The small source-slope correction is
 ## applied as a vertical affine shear so tree and lamp posts stay vertical.
 func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
@@ -285,6 +352,10 @@ func _draw() -> void:
 		draw_set_transform_matrix(_outer_sidewalk_transform)
 		draw_texture_rect(OuterSidewalkStrip, Rect2(Vector2.ZERO, Vector2(OuterSidewalkStrip.get_size())), false)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
+	if _asphalt_base != null:
+		draw_mesh(_asphalt_base, null)
+	if _asphalt_texture != null:
+		draw_mesh(_asphalt_texture, AsphaltTexture)
 	if _surface_mesh != null:
 		draw_mesh(_surface_mesh, null)
 	if _area_a_visible and _area_a_texture != null:
@@ -554,6 +625,8 @@ func _build_mesh() -> void:
 	_area_a_break_index = -1
 	_texts = []
 	for op in _ops:
+		if op.get("purpose", &"") in [&"road_base", &"forecourt_base"]:
+			continue
 		if op["kind"] == &"text":
 			_texts.append(op)
 			continue
@@ -620,9 +693,13 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	var road_d0 := parking_end + KERB_M
 	var forecourt_along1 := edge_length
 	out.append(_poly(_side_quad(proj, side, width, height, parking_end, road_d0, along0, along1), KERB))
-	out.append(_poly(_side_quad(proj, side, width, height, road_d0, road_d0 + ROAD_M, along0, along1), ROAD))
+	var road_base := _poly(_side_quad(proj, side, width, height, road_d0, road_d0 + ROAD_M, along0, along1), ROAD)
+	road_base["purpose"] = &"road_base"
+	out.append(road_base)
 	# A continuous forecourt supports the existing bay sprites only across the store frontage, avoiding an asphalt wedge.
-	out.append(_poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, 0.0, forecourt_along1), Color("626367")))
+	var forecourt := _poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, 0.0, forecourt_along1), Color("626367"))
+	forecourt["purpose"] = &"forecourt_base"
+	out.append(forecourt)
 	# A narrow outer curb and paved pedestrian strip close the road edge before the green ground begins.
 	var outer_kerb_d0 := road_d0 + ROAD_M
 	var outer_walk_d0 := outer_kerb_d0 + KERB_M

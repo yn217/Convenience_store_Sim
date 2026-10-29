@@ -1,9 +1,13 @@
 {
   "asset_id": "road_asphalt_long_candidate_v1",
-  "status": "generation_candidate_not_integrated",
+  "status": "runtime_candidate_not_user_approved",
   "file": "road_asphalt_long_candidate_v1.png",
-  "canvas_size_px": [2172, 724],
+  "canvas_size_px": [
+    2172,
+    724
+  ],
   "source": "OpenAI built-in image generation via delegated image-generation subagent",
   "prompt_summary": "Wide top-down dark grey fine-grained asphalt with low contrast and no markings, vehicles, kerbs, shadows or text.",
-  "remaining": "Determine world dimensions and projection, continuous coverage beyond viewport, layer below live road markings, camera behavior and visible joins in actual game before use."
+  "remaining": "Check extreme camera positions, all entrance directions, lighting and target comparison; source fades to a flat base outside its finite 36m span.",
+  "placement": "36m fixed world-scaled source, fading to base over both ends; apron restricted to frontage and road extends past it; live markings remain above."
 }
