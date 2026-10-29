@@ -1153,6 +1153,24 @@
       "visual_status": "review_only_projection_unverified",
       "runtime_approved": false,
       "notes": "One empty platform hand truck; vertical metal frame, top handle, low toe plate, and two distinct wheels are visible. No cargo present. Near-front with a slight visible side/top surface; frame uprights appear essentially vertical. Not calibrated against iso2x_v1. Friendly game-art silhouette is readable, but the rendering is more metallic/glossy and realistic than the requested soft hand-painted style."
+    },
+    {
+      "file": "agent_postbox_v2/postbox_candidate_v2.png",
+      "subject": "postbox_candidate_v2",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        17,
+        39,
+        1004,
+        1518
+      ],
+      "sha256": "28979bab73c7422421def085cc3a18ba9bcfb5358550ac551e6703b869820dc1",
+      "visual_status": "review_only_projection_and_halo_fail",
+      "runtime_approved": false,
+      "notes": "FAIL: slight right side visible but perspective/top surface is stronger than specified; verticals approximately upright but not iso2x_v1 calibrated. FAIL: requested bright hand-painted game sprite is approximated, but the output has excessive glossy highlights and a broad red halo outside the object; re-generation/edit is needed before use."
     }
   ],
   "comparisons": [

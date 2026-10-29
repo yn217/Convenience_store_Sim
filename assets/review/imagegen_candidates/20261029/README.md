@@ -188,3 +188,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `ice_cream_case_candidate_v1/ice_cream_case_candidate_v1.png` — island ice-cream freezer with glass lids and bars/tubs. Strong overhead view and dark halo fail game projection/style calibration; review-only.
 
 - `agent_handtruck_v2/handtruck_candidate_v2.png` — empty platform hand truck with both wheels visible; near-front composition and small alpha=1 bottom residue. Metallic gloss remains; projection uncalibrated. Review-only.
+
+- `agent_postbox_v2/postbox_candidate_v2.png` — recognizable red postbox with mail slot and lower collection door, but broad red halo, glossy finish and uncalibrated perspective fail; review-only.
