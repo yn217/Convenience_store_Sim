@@ -1315,6 +1315,30 @@
       "visual_status": "review_only_style_projection_and_alpha_fail",
       "runtime_approved": false,
       "notes": "Japanese paved sidewalk, curb, parking spaces, road edge and crosswalk are readable, but the render has exaggerated slab extrusion, is not calibrated to iso2x_v1 or known world footprint, and alpha-edge residue reaches canvas edges. Review only; no crop/warp."
+    },
+    {
+      "file": "storefront_facade_candidate_v1/storefront_facade_candidate_v1.png",
+      "subject": "storefront_fixed_facade_jp_candidate_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1760,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        17,
+        136,
+        1757,
+        705
+      ],
+      "sha256": "668c6ed8914a97ccfd9f2ef159f7713006ae8801079bb3b6530fe8e803f8b3f3",
+      "visual_status": "review_only_projection_alpha_and_scale_unverified",
+      "runtime_approved": false,
+      "notes": "Long white facade with blue stripe, glass storefront windows and centered sliding entry. No readable brand text. World dimensions and iso2x projection are uncalibrated; alpha fringe remains at outer edges. No crop/warp."
     }
   ],
   "comparisons": [
