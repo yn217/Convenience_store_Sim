@@ -398,3 +398,18 @@ Actual Godot 4.7.2 captures at 1600x900, 16:00, frozen:
 | 20x16, panned and zoomed | `grove-density-candidate-v2-20x16-pan-1600x900-2026-10-29.png` | The image follows the world projection during camera movement without a gap at the wall edge. |
 
 Focused `test_backdrop_layer` passed 23 tests / 333 assertions, including the independent rear branches, endpoint anchors, upright trunks and camera pan. Focused `test_shell_camera_input` passed 10 tests / 96 assertions, including pan/zoom, selection after movement and UI click blocking. The new panel is still a runtime candidate, not user-approved; the broad open ground, overall scene style, seasonal rendering and performance gate remain open.
+
+## Detailed grouped grove candidate v1 (2026-10-29)
+
+An image-generation subagent produced a fuller illustrated planting band with layered shrubs, small blossoms, taller tree crowns and a continuous soil/root edge. It replaces the dense panorama as the runtime candidate. The authored 2172x724 image keeps the measured (100,700)-(2070,700) ground-contact baseline; runtime places that line at z=0, 2.43m behind the store wall. Roots, lower stems and soil may sit behind the opaque wall/paving; each rear and side edge retains its own world-space endpoints and uniform edge-specific scale.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00, frozen:
+
+| Footprint/view | Capture | Observation |
+|---|---|---|
+| 12x10 | `grove-detailed-candidate-v1-12x10-1600x900-2026-10-29.png` | Grouped flower beds and shrubs continue behind the short walls; the wall masks the lower edge. |
+| 16x12 | `grove-detailed-candidate-v1-16x12-1600x900-2026-10-29.png` | Same baseline and plant scale fit the intermediate footprint. |
+| 20x16 | `grove-detailed-candidate-v1-20x16-1600x900-2026-10-29.png` | The full edge reaches its endpoints with planted scenery behind the wall. |
+| 20x16, panned and zoomed | `grove-detailed-candidate-v1-20x16-pan-1600x900-2026-10-29.png` | World-ground anchors and wall masking stay registered while the view moves. |
+
+Focused `test_backdrop_layer` passed 23 tests / 333 assertions. A focused renderer benchmark at 1920x1080, 16x12, 20 fixtures and 30 customers over 600 frames measured median 16.41 FPS at x1, 14.37 at x2 and 10.81 at x4; x4 median frame time was 92.51ms. The performance gate remains open. Full suite not run. The candidate has not received final visual approval; surrounding broad ground remains simpler than the reference.

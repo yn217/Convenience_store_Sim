@@ -222,9 +222,9 @@ func test_generated_outer_sidewalk_anchors_to_world_centerline(t, _tree) -> void
 
 func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
 	var proj := _proj(0.8)
-	var texture := load("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png") as Texture2D
-	var compact_texture := load("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png") as Texture2D
-	var long20_texture := load("res://assets/generated/backgrounds/urban_grove_dense_candidate_v2/urban_grove_dense_candidate_v2.png") as Texture2D
+	var texture := load("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png") as Texture2D
+	var compact_texture := load("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png") as Texture2D
+	var long20_texture := load("res://assets/generated/backgrounds/urban_grove_detailed_candidate_v1/urban_grove_detailed_candidate_v1.png") as Texture2D
 	t.ok(texture != null and compact_texture != null and long20_texture != null, "generated urban grove panels import as runtime textures")
 	var image_size := Vector2(texture.get_size())
 	var compact_image_size := Vector2(compact_texture.get_size())

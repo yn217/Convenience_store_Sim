@@ -37,3 +37,5 @@ Reference: user-supplied `image-1792819026698.webp` (16:28) and the current Godo
 2. Improve the road/parking and sidewalk materials without moving existing world geometry.
 3. Fill the remaining green field and increase service-panel/prop detail.
 4. Recompare at daylight with matching camera scale; ask for visual approval before marking the exterior goal complete.
+
+- Detailed grove candidate v1: focused backdrop check passed 23 tests / 333 assertions. A same-condition 1920x1080, 16x12, 20-fixture, 30-customer, 600-frame sample measured x1 16.41 FPS, x2 14.37 FPS, x4 10.81 FPS (x4 median frame 92.51ms). Renderer performance remains a gate; this single-run sample is diagnostic, not a target achievement. The full suite was not run.
