@@ -65,6 +65,32 @@ func test_plays_are_paid_at_the_machine(t, _tree) -> void:
 	t.ok(CueText.toast_text("crane_won", {"prize": "しろねこ", "plays": 3}).contains("しろねこ"), "a win is announced")
 
 
+## Phase 2: a store holds at most max_per_store machines, and a machine emptied by a win is announced.
+func test_cap_and_empty_notice(t, _tree) -> void:
+	var s := Run.new_state(300.0)
+	var cmds := Run.place_layout(s)
+	var placed: Array[String] = []
+	var refused := ""
+	for y in range(1, s.grid.height - 1):
+		for x in range(1, s.grid.width - 2):
+			var r := cmds.execute({"command_id": "cr_%d_%d" % [x, y], "kind": &"PLACE_FIXTURE", "type_id": "crane_game", "x": x, "y": y, "rotation": 0})
+			if r.ok:
+				placed.append(String(r.data["instance_id"]))
+			elif r.message_key == &"crane_limit":
+				refused = "crane_limit"
+	var cap := int(CraneGame.data()["max_per_store"])
+	t.eq(placed.size(), cap, "at most %d machines in a store" % cap)
+	t.eq(refused, "crane_limit", "a further machine is refused with its own reason")
+	t.ok(CommandMessages.text(&"INVALID_OPERATION", &"crane_limit").contains("2台"), "the reason is shown to the player")
+
+	var fid := placed[0]
+	CraneGame.check_empty(s, fid)
+	var empties := s.event_log.filter(func(e): return e["type"] == "CRANE_EMPTY")
+	t.eq(empties.size(), 1, "an empty machine is announced")
+	t.eq(String(empties[0]["payload"]["fixture_id"]), fid, "for that machine")
+	t.ok(CueText.toast_text("crane_empty", {}).contains("補充"), "the notice asks for a refill")
+
+
 ## Without the machine nobody comes to play.
 func test_no_machine_no_players(t, _tree) -> void:
 	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))

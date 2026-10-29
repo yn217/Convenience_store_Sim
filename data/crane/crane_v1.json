@@ -1,9 +1,10 @@
 {
   "schema_version": 1,
-  "_comment": "Crane game (UFO catcher, issue #132). One play costs the prize SKU's sell price; a customer plays up to max_plays (patience and money permitting) and stops at the first win; each play wins with 1 / win_one_in; play_seconds is the time per play at the machine. A win takes one prize (named from `prizes`) out of the machine. Fictional plush goods only; no real brand or character; in-game money only.",
+  "_comment": "Crane game (UFO catcher, issue #132). One play costs the prize SKU's sell price; a customer plays up to max_plays (patience and money permitting) and stops at the first win; each play wins with 1 / win_one_in; play_seconds is the time per play at the machine. A win takes one prize (named from `prizes`) out of the machine. Fictional plush goods only; no real brand or character; in-game money only. max_per_store caps the machines in one store (phase 2); an emptied machine is announced (refill it).",
   "play_seconds": 40,
   "max_plays": 5,
   "win_one_in": 6,
+  "max_per_store": 2,
   "prizes": {
     "crane_001": [
       "しろねこ",

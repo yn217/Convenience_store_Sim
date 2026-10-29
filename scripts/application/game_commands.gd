@@ -470,6 +470,8 @@ func _place(command_id: String, command: Dictionary) -> CommandResult:
 			return _fail(&"INVALID_OPERATION", &"staff_room_exists")
 		if int(room_def.get("min_store_width", 0)) > _state.grid.width:
 			return _fail(&"INVALID_OPERATION", &"store_too_small")
+	if CraneGame.is_machine_type(room_def) and CraneGame.machines(_state, type_id) >= int(CraneGame.data().get("max_per_store", 2)):
+		return _fail(&"INVALID_OPERATION", &"crane_limit")   # #132 phase 2
 	var res := PlacementRules.validate(_state.grid, _state.fixtures, type_id, command["x"], command["y"], command["rotation"], _state.ledger.cash_yen)
 	if not res.ok:
 		return _fail(res.code, res.message_key)

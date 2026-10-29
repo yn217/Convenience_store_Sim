@@ -8,7 +8,8 @@ extends RefCounted
 ## machine (that play's SALE books the prize's cost); a play without a win books the fee only. How many plays and
 ## which one wins follow from the customer and the machine (no draw from the game's random streams), and the time
 ## at the machine grows with the plays. Plays and wins are counted per machine (state.crane_stats); a win is
-## announced. In-game money only; no real-money play.
+## announced, and so is a machine left without prizes (refill it). A store holds at most max_per_store machines.
+## In-game money only; no real-money play.
 
 const PATH := "res://data/crane/crane_v1.json"
 const CATEGORY := "crane_prize"
@@ -59,6 +60,29 @@ static func prize_of(sku_id: String, sale_id: String) -> String:
 	return String(names[absi(sale_id.hash()) % names.size()])
 
 
+## Machines of this type already in the store (the placement cap, max_per_store).
+static func machines(state: GameState, type_id: String) -> int:
+	var n := 0
+	for inst in state.grid.instances.values():
+		if String(inst["type_id"]) == type_id:
+			n += 1
+	return n
+
+
+## Is a fixture type a crane game (its slots hold crane prizes)?
+static func is_machine_type(def: Dictionary) -> bool:
+	return Array(def.get("allowed_categories", [])) == [CATEGORY]
+
+
+## A machine with no prize left in it is announced (refill it).
+static func check_empty(state: GameState, fixture_id: String) -> void:
+	for seg in state.inventory_segments:
+		var loc: Dictionary = seg["location"]
+		if loc["kind"] == "FIXTURE" and loc["fixture_id"] == fixture_id and int(seg["physical_qty"]) > 0:
+			return
+	state.emit_event("CRANE_EMPTY", {"fixture_id": fixture_id})
+
+
 ## Plays the session: a fee SALE per play without a win, the reserved prize sold on the winning play, released
 ## when there is none. -> {ok, plays, won, prize, revenue_yen}; ok false when the ledger refused a row.
 static func play(state: GameState, c: Dictionary, res_id: String) -> Dictionary:
@@ -93,4 +117,5 @@ static func play(state: GameState, c: Dictionary, res_id: String) -> Dictionary:
 		st["wins"] = int(st["wins"]) + 1
 		state.emit_event("CRANE_WON", {"customer_id": c["customer_id"], "fixture_id": fid, "sku_id": sku_id, "prize": out["prize"],
 			"plays": out["plays"], "name": state.products.get_sku(sku_id).get("display_name", "")})
+		check_empty(state, fid)
 	return out

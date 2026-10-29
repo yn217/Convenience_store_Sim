@@ -24,6 +24,7 @@ const BY_KEY := {
 	&"entrance_unchanged": "今の入口と同じ場所です",
 	&"entrance_blocked": "その場所には什器があります",
 	&"entrance_cuts_off": "そこに入口を移すと、棚かレジに客がたどり着けなくなります",
+	&"crane_limit": "UFOキャッチャーは1店舗に2台までです",
 	&"series_out_of_season": "期間限定のカプセルトイです。次の販売期間まで発注できません",
 	&"price_invalid": "価格は1〜99,999円の整数で入力してください",
 	&"ad_tier_invalid": "広告の予算は選択肢の中から選んでください",
