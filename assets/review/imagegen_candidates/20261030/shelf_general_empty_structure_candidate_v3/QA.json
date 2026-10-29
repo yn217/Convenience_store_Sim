@@ -1,0 +1,40 @@
+{
+  "asset_id": "shelf_general_empty_structure_candidate_v3",
+  "kind": "review_only_candidate",
+  "runtime_approved": false,
+  "source_image": "shelf_general_empty_structure_candidate_v3.png",
+  "source_image_preserved_without_edits": true,
+  "dimensions_px": [1374, 1145],
+  "sha256": "2850f780f9eb2c848c5583c4f077e897c723400796f1731ec641a8cd33257b00",
+  "alpha_bbox": {
+    "alpha_gt_0": [0, 37, 1331, 1129],
+    "alpha_gt_7": [243, 47, 1142, 1126],
+    "alpha_gt_127": [243, 48, 1140, 1126],
+    "alpha_levels": 256
+  },
+  "generation": {
+    "tool": "Codex built-in ImageGen edit",
+    "date": "2026-10-30",
+    "prompt": "Redesign the referenced empty gondola image as a new clean game sprite while keeping the same object category. Correct the failed proportions: make each shelf deck very shallow (depth roughly one quarter of the long shelf length, visibly only a narrow ledge behind the front rail), reduce the plinth/base to a thin low kick plate, keep four separate usable shelves, slim end uprights and a perforated vertical back. Absolutely no roof, no top cap, no broad horizontal slab. Preserve an open single-sided wall shelf with transparent background. Camera must be orthographic, not perspective: align all long shelf edges to the game +X axis, screen direction down-right at exactly 26.565 degrees (2 horizontal : 1 vertical); align shelf depth edges to +Y screen direction up-right at exactly 26.565 degrees. Vertical uprights remain vertical. Entire object centered with at least 8 percent fully transparent canvas margin on every side including below the feet; no pixels may touch any image edge. Remove all glow, colored fringe and cast shadow; crisp alpha silhouette. Use the second image only for its warm painted game-art style, not its scene. Muted cream metal and charcoal base, softer matte surfaces, clear readable construction at game scale. No products, text, signage, people, room, floor, catalog layout, multiple views, or extra props. Return one isolated asset.",
+    "references": [
+      "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v2/shelf_general_empty_structure_candidate_v2.png",
+      "User-provided game-style screenshot image-1792819026698.webp"
+    ],
+    "transparent_background_requested": true
+  },
+  "content_qa": {
+    "visible": "One single-sided open gondola with perforated back, four separate shelves, rails and slim low base; no products or roof.",
+    "change_from_v2": "The base and shelves appear shallower and the camera less oblique. Long shelf edges visually approach the 2:1 down-right slope; depth-axis slope is improved but not calibrated.",
+    "projection": "VISUAL_ESTIMATE_ONLY: no exact vector fit or Godot overlay. 2:1 axes and r0 access orientation remain unverified.",
+    "alpha": "FAIL: nonzero alpha reaches the left canvas edge; faint colored fringe remains. Strong-alpha bbox has a small bottom margin.",
+    "dimensions_and_anchor": "UNVERIFIED: no world-space dimensions, tile footprint, or ground-anchor calibration performed.",
+    "game_scale": "UNVERIFIED: not rendered in Godot at runtime zoom.",
+    "independent_review": "Pending."
+  },
+  "status": "review_only_provisional",
+  "notes": [
+    "This is EMPTY structure exploration only; no FULL/HALF state or additional direction was generated.",
+    "Do not crop, warp, mirror, or stretch to hide projection or shape mismatch.",
+    "runtime_approved remains false; all expansions wait for independent approval."
+  ]
+}
