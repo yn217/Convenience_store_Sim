@@ -48,6 +48,10 @@ Actual Godot 4.7.2 captures at 1600x900, 16:00:
 
 Focused `test_backdrop_layer` passed 22 tests / 327 assertions, including all four side transforms and pan behavior. No full suite was run. New image-generation candidates were not integrated: several had a checkerboard baked into the image or visible colored fringes around transparent edges.
 
+## Grouped planting-band candidate screening (2026-10-29)
+
+Two image-generation subagents produced grouped planting strips; a separate built-in generation and one edge-cleanup edit were also inspected. All four new outputs were rejected: the transparent edges still contain bright yellow/green color spill, and the direct-generation sample also has detached transparent holes or a background haze. None was copied into the runtime asset set. The existing grouped panels remain in use until a cleaner cutout can be placed at the same ground anchors and compared in the game.
+
 ## Planting and road-side panel by entrance orientation
 
 Actual Godot 4.7.2 captures at 1600x900, 16:00, 20x16. Each entrance move returned success, and the captured road apron follows the selected store edge while the planting remains on non-road sides.
