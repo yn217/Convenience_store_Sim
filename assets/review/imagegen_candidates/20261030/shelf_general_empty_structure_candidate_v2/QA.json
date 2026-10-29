@@ -29,7 +29,7 @@
     "alpha": "FAIL: nonzero alpha touches the bottom boundary; colored fringe is visible at some outer edges.",
     "dimensions_and_anchor": "UNVERIFIED: no world-space dimensions, tile footprint, or ground-anchor calibration performed.",
     "game_scale": "UNVERIFIED: not rendered in Godot at runtime zoom.",
-    "independent_review": "Pending."
+    "independent_review": "FAIL — independent reviewer confirms open single-sided shelf, four levels, no roof, and slim uprights; base is too prominent. Shelf depth is excessive, long-axis alignment to +X=(+128,+64) is unconfirmed, and depth axis appears too steep. Alpha touches the bottom edge and colored fringe is visible. Godot display, anchor, dimensions, and footprint are UNKNOWN."
   },
   "status": "review_only_provisional_fail",
   "notes": [
@@ -38,3 +38,4 @@
     "The EMPTY structure gate remains open; runtime_approved must stay false."
   ]
 }
+
