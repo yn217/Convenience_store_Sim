@@ -1,0 +1,56 @@
+{
+  "asset_id": "shelf_general_full_integrated_candidate_v1",
+  "reviewer": "independent parent visual/mask review; image produced by generation subagent",
+  "overall": "FAIL",
+  "source_sha256": "0f7c425838189223073e1a60696af58c8a032de3ce6ec966076738a1f305fa59",
+  "image": {
+    "width": 1536,
+    "height": 1024,
+    "format": "RGBA",
+    "alpha_min": 0,
+    "alpha_max": 254,
+    "transparent_pct": 53.799,
+    "alpha_le_8_pct": 54.541,
+    "semi_transparent_9_to_246_pct": 0.623,
+    "alpha_ge_247_pct": 44.836,
+    "alpha_bbox_gt_1_xyxy": [
+      342,
+      22,
+      1345,
+      1016
+    ],
+    "alpha_bbox_gt_8_xyxy": [
+      344,
+      23,
+      1343,
+      1014
+    ],
+    "alpha_bbox_gt_127_xyxy": [
+      345,
+      24,
+      1342,
+      1013
+    ],
+    "margin_gt_127_px": {
+      "left": 345,
+      "top": 24,
+      "right": 194,
+      "bottom": 11
+    },
+    "alpha_preview": "alpha_preview_v1.png"
+  },
+  "checks": {
+    "subject_is_single_sided_shelf_general_full": "pass",
+    "shelf_and_products_baked_into_one_image": "pass: one composed image; no separately floating package sprites",
+    "continuous_product_faces": "partial: shelf carries dense package faces, but category mix and overlaps need review",
+    "no_box_like_products": "fail: lower row includes strongly volumetric carton-like packages; product front/side volume is visible",
+    "projection_iso2x_v1": "fail: long shelf edges appear substantially shallower than the game contract +/-0.5 slope; not numerically calibrated",
+    "full_fixture_in_frame": "partial: alpha threshold bbox is within canvas, but top/bottom safety margin is only 2.3%/1.1%",
+    "alpha_transparency": "partial: 53.799% fully transparent; residual low-alpha fringe covers 0.742% of pixels; alpha preview supplied",
+    "footprint_and_world_dimensions": "not_checked: intended 1x2 tiles / 0.92x1.92x1.50m; image has no measured anchor",
+    "japanese_fixture_reference": "not_checked",
+    "game_zoom_and_godot_runtime": "not_checked",
+    "state_sync_with_half_empty": "not_checked"
+  },
+  "decision": "Review-only candidate. Do not runtime adopt: projection, alpha fringe/margins and visibly box-like packages fail or remain unverified. Preserve original unchanged; runtime_approved remains false."
+}

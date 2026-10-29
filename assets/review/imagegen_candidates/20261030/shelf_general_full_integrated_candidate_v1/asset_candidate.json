@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_full_integrated_candidate_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "shelf_general FULL integrated shelf and goods composition; no separate floating product sprites",
+  "actual_subject": "Single-sided four-tier gondola densely stocked with fictional ambient snack, bread and carton packages in one image",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v1/shelf_general_full_integrated_candidate_v1.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2170939,
+    "sha256": "0f7c425838189223073e1a60696af58c8a032de3ce6ec966076738a1f305fa59",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v1/shelf_general_full_integrated_candidate_v1.png",
+      "byte_size": 2170939,
+      "sha256": "0f7c425838189223073e1a60696af58c8a032de3ce6ec966076738a1f305fa59",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v1/alpha_preview_v1.png",
+      "byte_size": 498498,
+      "sha256": "a043a3ffa698d4bcc3e305b006db1e8e46c282b39ff27ad73430c6c0ec8e9fc2",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v1/QA.json",
+      "byte_size": 2319,
+      "sha256": "af467dbdbb4f4a85e5bc2de7040b03930fc6c3349b8960c968c1ec254c0919f2",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_full_integrated_candidate_v1/README.md",
+      "byte_size": 3011,
+      "sha256": "56b3b3a2cf48aaa97a8092119a528dc5832a7bdbfe5be1d235711451f165072a",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "partial",
+    "projection": "fail",
+    "alpha": "partial",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "partial",
+    "notes": [
+      "Shelf and goods are integrated in one image, without separate floating package cards.",
+      "Lower-row carton-like goods show strong side volume; fails the no-cuboid product rule.",
+      "Long shelf edges visually appear shallower than iso2x_v1 ±0.5 slopes; numerical projection is not calibrated.",
+      "Alpha>127 bbox margins are 2.3% top and 1.1% bottom, below 12% target; fringe remains.",
+      "Intended 1x2, 0.92x1.92x1.50m fixture dimensions are not image-measured; anchor and runtime remain unverified.",
+      "Review only; runtime_approved remains false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
