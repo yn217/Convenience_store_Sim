@@ -38,11 +38,11 @@
     "structure": "PASS partial: four shelf levels, open single-sided structure, vertical perforated back, no roof or products.",
     "shelf_depth": "FAIL: projected surfaces still read as broad shelf decks rather than very shallow ledges.",
     "base": "FAIL: dark base remains tall and visually heavy, not a thin kick plate.",
-    "projection": "FAIL: visual long-axis slope estimate is about 0.57 screen drop/run, versus target 0.50. Depth edge estimate is closer, about -0.50, but no pixel-vector fit or Godot overlay was done.",
+    "projection": "Independent reviewer: PASS as a visual approximation (long axis about +0.5, depth about -0.5). No exact vector fit or Godot overlay was performed, so mathematical alignment remains unverified.",
     "alpha": "FAIL margin: low-alpha reaches bottom and comes within 10px of right edge; strong-alpha margin below 10% at bottom. No background is baked; alpha is genuine RGBA.",
     "dimensions_and_anchor": "UNVERIFIED: no world-space dimensions, footprint, or ground-anchor calibration.",
     "game_scale": "UNVERIFIED: not rendered in Godot at runtime zoom.",
-    "independent_review": "Pending."
+    "independent_review": "FAIL overall. Structure and approximate iso2x_v1 slopes pass visually; shelf depth and base remain too large. Alpha=1 touches the bottom edge, so full transparent margin fails. Dimensions, anchor, and Godot display are UNKNOWN."
   },
   "status": "review_only_provisional_fail",
   "notes": [
@@ -51,3 +51,4 @@
     "Do not generate FULL/HALF or other directions until the EMPTY structure gate passes."
   ]
 }
+
