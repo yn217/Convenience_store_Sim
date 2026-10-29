@@ -167,3 +167,5 @@ Both remain review-only. Per-agent QA and measured file metadata are retained; n
 - `integrated_snack_gondola_candidate/integrated_snack_gondola_candidate.png` — complete dense shelf and products in one image, as requested. Composition is useful, but the projection is near-front, the halo is strong, the alpha silhouette reaches the bottom edge, and some generated package lettering is distorted. It is not suitable as a calibrated sprite.
 
 All are preserved as review-only candidates. No cropping, anisotropic scaling, runtime hookup or approval; `runtime_approved:false`. Per-image measurements and hashes are in each folder's `QA.json`, and the index is `qa.json`.
+
+- `agent_oden_v7/oden_countertop_single_candidate_v7.png` — single countertop oden unit with divided ingredients is clear, but the finish is photoreal/glossy and its elevated oblique view fails the calibrated game projection. Shape/style reference only; review-only.

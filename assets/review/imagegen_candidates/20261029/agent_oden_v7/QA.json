@@ -1,0 +1,43 @@
+{
+  "asset_id": "oden_countertop_single_candidate_v7",
+  "issue": 163,
+  "status": "review_only",
+  "runtime_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen",
+    "transparent_background": true,
+    "prompt_summary": "One small Japanese countertop oden warmer with divided pot, amber glass hood, visible oden ingredients, warm casual management game style."
+  },
+  "file": "oden_countertop_single_candidate_v7.png",
+  "dimensions_px": [
+    1295,
+    1214
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt_0": [
+    0,
+    29,
+    1283,
+    1214
+  ],
+  "alpha_bbox_gt_8": [
+    31,
+    32,
+    1281,
+    1203
+  ],
+  "alpha_bbox_gt_128": [
+    32,
+    32,
+    1280,
+    1203
+  ],
+  "edge_alpha_max": {
+    "top": 0,
+    "bottom": 1,
+    "left": 1,
+    "right": 0
+  },
+  "sha256": "56eadbf7be82f431f3908353ab623c53a36b0235b2a146a2e8a7d36a70e942c4",
+  "visual_qa": "Single countertop unit and divided oden pot read clearly. FAIL for target use: highly photoreal glossy finish, strongly elevated oblique perspective rather than calibrated iso2x_v1; Japanese label is generated illustration text. Keep as shape/style reference only; no crop or rescale."
+}
