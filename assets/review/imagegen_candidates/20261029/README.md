@@ -182,3 +182,5 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `agent_fryer_v2/fryer_candidate_v2.png` — recognizable single two-basket fryer, but excessive top exposure, metal gloss and edge glow fail the target style/projection.
 
 - `freezer_chest_candidate_v1/freezer_chest_candidate_v1.png` — recognisable paired-lid frozen-food chest case. The overhead view, shallow long-axis slope and studio halo fail projection/style calibration; review-only.
+
+- `agent_freezer_upright_v1/upright_glass_door_freezer_candidate_v1.png` — full glass-door freezer with seven stocked rows; readable contents and near-clean alpha, but projection and in-game scale remain uncalibrated. Review-only.

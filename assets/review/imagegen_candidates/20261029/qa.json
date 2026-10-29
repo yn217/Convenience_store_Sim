@@ -1106,6 +1106,24 @@
       "visual_status": "review_only_projection_fail",
       "runtime_approved": false,
       "notes": "The low chest form, paired sliding glass lids, frozen-food contents, navy band, vents and side panel read clearly. FAIL as game-ready sprite: camera is too high and long axis is too shallow for iso2x_v1; strong gray studio halo and metallic reflections remain. True alpha bounds and game footprint are not calibrated; no crop or scale applied."
+    },
+    {
+      "file": "agent_freezer_upright_v1/upright_glass_door_freezer_candidate_v1.png",
+      "subject": "upright_glass_door_freezer_candidate_v1",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        25,
+        916,
+        1509
+      ],
+      "sha256": "695d033c8f46e0c937a295d1b19e3a031a26b56ab363c347a5186bcb79267af6",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Mostly frontal with right side visible and upright verticals; visible top/right-side perspective remains. iso2x_v1 is only a target and is not calibrated or verified. Warm hand-painted management-game illustration. Strong glass/metal highlights; transparent-margin alpha will be inspected against game background."
     }
   ],
   "comparisons": [

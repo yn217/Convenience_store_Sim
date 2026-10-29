@@ -1,0 +1,65 @@
+{
+  "asset_id": "upright_glass_door_freezer_candidate_v1",
+  "status": "review_only",
+  "runtime_approved": false,
+  "source": "Codex built-in ImageGen; transparent-background request",
+  "file": "upright_glass_door_freezer_candidate_v1.png",
+  "image": {
+    "width_px": 1024,
+    "height_px": 1536,
+    "mode_original": "RGBA",
+    "mode_analyzed": "RGBA"
+  },
+  "alpha": {
+    "bbox_thresholds_1_16_64_128_250": {
+      "1": [
+        0,
+        25,
+        916,
+        1509
+      ],
+      "16": [
+        244,
+        29,
+        781,
+        1507
+      ],
+      "64": [
+        244,
+        30,
+        781,
+        1507
+      ],
+      "128": [
+        245,
+        30,
+        780,
+        1506
+      ],
+      "250": [
+        247,
+        31,
+        780,
+        1505
+      ]
+    },
+    "edge_alpha_min": 0,
+    "edge_alpha_max": 1,
+    "corner_alpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "transparent_pixel_count": 803654,
+    "nonzero_alpha_pixel_count": 769210
+  },
+  "sha256": "695d033c8f46e0c937a295d1b19e3a031a26b56ab363c347a5186bcb79267af6",
+  "assessment": {
+    "content": "One upright white cabinet with a full glass door, blue snowflake header band, handle and base vent; seven visibly stocked rows of varied frozen-food packs. Whole unit is in frame.",
+    "projection": "Mostly frontal with right side visible and upright verticals; visible top/right-side perspective remains. iso2x_v1 is only a target and is not calibrated or verified.",
+    "style": "Warm hand-painted management-game illustration. Strong glass/metal highlights; transparent-margin alpha will be inspected against game background.",
+    "decision": "Candidate only; needs game-scale and alpha-edge review before adoption."
+  },
+  "model": "OpenAI built-in ImageGen"
+}
