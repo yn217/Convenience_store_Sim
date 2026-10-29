@@ -1723,6 +1723,30 @@
       "visual_status": "review_only_projection_provisional_fail",
       "runtime_approved": false,
       "notes": "Approximate manual slopes long -0.388, short 0.601; target -0.5/+0.5. No Godot or independent QA."
+    },
+    {
+      "file": "register_basic_counter_candidate_v4/register_basic_counter_candidate_v4.png",
+      "subject": "register_basic_counter_candidate_v4",
+      "dimensions_px": [
+        1387,
+        1134
+      ],
+      "alpha_bbox": [
+        0,
+        23,
+        1315,
+        1100
+      ],
+      "alpha_bbox_ge_8": [
+        211,
+        169,
+        1247,
+        1025
+      ],
+      "sha256": "acdaca61988b1dbfe9f1ab32a3edcb2d339143147f4e0fd4e5202f212eab09e8",
+      "visual_status": "review_only_projection_alpha_provisional_fail",
+      "runtime_approved": false,
+      "notes": "Guide-based generation; rough edge slopes long -0.448, short 0.640; uncertain rounded endpoints."
     }
   ],
   "comparisons": [
