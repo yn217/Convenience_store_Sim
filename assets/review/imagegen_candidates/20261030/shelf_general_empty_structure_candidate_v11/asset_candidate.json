@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_empty_structure_candidate_v11",
+  "asset_class": "interior_fixture",
+  "requested_subject": "EMPTY single-sided shelf_general open gondola aligned to iso2x_v1",
+  "actual_subject": "EMPTY single-sided open gondola with four shelf boards and separate base; projection and alpha fail",
+  "production_method": "codex_imagegen",
+  "stock_state": "EMPTY",
+  "stock_rendering": "none",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v11/shelf_general_empty_structure_candidate_v11.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1418541,
+    "sha256": "a8c21618487335fe4293809d6b52509d9c67ea557d446e0392567ad0c70d5c10",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v11/shelf_general_empty_structure_candidate_v11.png",
+      "byte_size": 1418541,
+      "sha256": "a8c21618487335fe4293809d6b52509d9c67ea557d446e0392567ad0c70d5c10",
+      "git_blob_sha": "0e496366dc175c857cf55997046306c931260a26",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v11/comparison_v11.png",
+      "byte_size": 263615,
+      "sha256": "2f00a15ee047e6f6762091bd39aa5695bf3675e9f0edd3d229f8003fd71015c0",
+      "git_blob_sha": "b90ea006a3d1a62025e95fafa98745b9ca0e8d77",
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v11/QA.json",
+      "byte_size": 2086,
+      "sha256": "15c71420a0a472e70a9603d7faa6cb465afe32e66fd86c87a09e136c10f3a042",
+      "git_blob_sha": "234d0ce759100d3e2ec204368eb015d331f8c12d",
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v11/README.md",
+      "byte_size": 2713,
+      "sha256": "f6b35641c701bc2d38b27d964894579a178418450b7477c5926b7daf9afaffcb",
+      "git_blob_sha": "2139b1e448c534f5efed7b09d0a03779ea4eae37",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Four usable shelf boards and a separate base are visible.",
+      "Projection visibly conflicts with guide: long shelf edge has opposite slope and converging perspective; 0.47917 ratio is not satisfied.",
+      "Alpha fails safe margin; faint nonzero alpha reaches x=0 and top/bottom margins are below 12%.",
+      "A dark translucent halo/shadow remains; no Godot, anchor, or game-scale check performed.",
+      "Raw generated image preserved unchanged; review only."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

@@ -1,0 +1,65 @@
+{
+  "asset_id": "shelf_general_empty_structure_candidate_v11",
+  "reviewer": "parent visual review (independent from generator)",
+  "overall": "FAIL",
+  "source_sha256": "a8c21618487335fe4293809d6b52509d9c67ea557d446e0392567ad0c70d5c10",
+  "image": {
+    "width": 1536,
+    "height": 1024,
+    "format": "RGBA",
+    "alpha_bbox_any_nonzero_xyxy": [
+      0,
+      44,
+      1354,
+      1004
+    ],
+    "alpha_bbox_gt_1_xyxy": [
+      332,
+      46,
+      1277,
+      1003
+    ],
+    "alpha_bbox_gt_8_xyxy": [
+      334,
+      46,
+      1272,
+      1001
+    ],
+    "alpha_bbox_gt_127_xyxy": [
+      335,
+      47,
+      1272,
+      1000
+    ],
+    "edge_alpha_minmax": {
+      "top": [
+        0,
+        0
+      ],
+      "bottom": [
+        0,
+        0
+      ],
+      "left": [
+        0,
+        1
+      ],
+      "right": [
+        0,
+        0
+      ]
+    }
+  },
+  "checks": {
+    "subject_is_empty_single_sided_gondola": "pass",
+    "four_usable_shelf_boards_above_separate_base": "pass",
+    "projection_axes_match_iso2x_v1": "fail: prominent long shelf lip slopes approximately -0.23 image-y/image-x; guide long vector slope is +0.5; perspective-like convergence is visible",
+    "depth_to_long_ratio_0_47917": "fail: not geometrically consistent with the guide; exact ratio not measurable from converging edges",
+    "transparent_12_percent_safe_margin": "fail: nonzero alpha reaches x=0 at low value; top and bottom alpha bounds leave less than 12% margin",
+    "roof_absent": "pass",
+    "matte_style_and_halo": "fail: dark translucent halo/shadow remains around fixture and shelf surfaces are broadly pale/glossy",
+    "godot_anchor_and_display_scale": "not_checked",
+    "godot_runtime": "not_checked"
+  },
+  "decision": "Retain as rejected review candidate. Do not non-uniformly distort or runtime-approve. Next iteration must supply the actual projection-guide image to the generator and enforce edge directions; use alpha cleanup only on a derived copy if separately approved, never alter this original."
+}
