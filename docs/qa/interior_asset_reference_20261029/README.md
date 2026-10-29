@@ -1,0 +1,3 @@
+# Interior asset reference capture
+
+Captured in an isolated F: worktree at commit 0233b017587c46049a2b78974d6675944531cc4f using Godot 4.7.2, `tools/screenshot.gd`, `demo zoom=1`, resolution 1280x720. The scene is a scripted demo with existing runtime fixtures and a selected shelf. It establishes the current tile and register display only. Generated candidate art has not been overlaid, calibrated, or approved. `runtime_approved:false` remains unchanged. The first run failed due to missing global class cache; editor import in this worktree resolved it. Godot import also modified and created `.import` files locally; none are included in this commit.
