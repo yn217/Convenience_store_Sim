@@ -425,3 +425,18 @@ Four newly generated background candidates were screened before integration. The
 The near-side storefront now has a slightly stronger cool-glass tint and a narrow sky reflection on alternating closed panes, increasing the visible glazing rhythm while keeping the customer entrance clear and the interior readable. Actual Godot 4.7.2 capture at 1600x900 / 16:00: `glazing-reflection-v2-16x12-1600x900-2026-10-29.png`.
 
 Focused `test_store_decor` passed 24 tests / 496 assertions, including the reflection cadence, door clearance, posters, and supported entrance orientations. This is a modest facade detail improvement; the broader target still has much richer warm interior lighting, window contents and urban context.
+
+## Single foreground road car (2026-10-29)
+
+Removed the extra static car from the painted parking apron, leaving one car on the outer road as in the reference. Moved its along-edge ground anchor just beyond the entrance span to keep it visible in the foreground while clearing the crossing. The decorative car remains fixed and non-interactive.
+
+Actual Godot 4.7.2 captures at 1600x900, 16:00:
+
+| Footprint/view | Capture | Observation |
+|---|---|---|
+| 12x10 | `road-car-single-v2-small-1600x900-2026-10-29.png` | One car is visible on the foreground lane and the crossing remains unobstructed. |
+| 16x12 | `road-car-single-v2-medium-1600x900-2026-10-29.png` | One foreground road car; the parking apron stays open. |
+| 20x16 | `road-car-single-v2-large-1600x900-2026-10-29.png` | The car is visible in front of the road crossing, without a duplicate in the parking bays. |
+| 20x16, panned and zoomed | `road-car-single-v2-large-pan-1600x900-2026-10-29.png` | The car follows its world anchor during camera movement. |
+
+Focused `test_store_decor` passed 24 tests / 494 assertions, including one road car per supported entrance orientation and clear crossing geometry. `git diff --check` passed. No full suite was run.

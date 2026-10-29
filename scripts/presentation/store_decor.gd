@@ -361,12 +361,11 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	var n := _edge_len(side, width, height)
 	# Along the entrance side, the street items are placed from the door span, so they follow the entrance wherever it is.
 	var span := BackdropLayer.entrance_span(side, width, height, entrances)
-	# One additional car sits in the outer road lane beside the store, clear of the crosswalk and parking bay.
+	# A single decorative car sits in the visible outer road lane, clear of the crosswalk and parking bay.
 	# It uses a fixed ground anchor and the same axis rotation as the road, with no simulation or click target.
 	var door_mid := (span.x + span.y) * 0.5
-	var road_vehicle_a := float(n) * 0.25
-	var road_vehicle_b := float(n) * 0.75
-	var road_vehicle_along := road_vehicle_a if absf(road_vehicle_a - door_mid) > absf(road_vehicle_b - door_mid) else road_vehicle_b
+	# Keep the car just beyond the entrance span, in the visible foreground portion of the road.
+	var road_vehicle_along := clampf(door_mid + (2.7 if door_mid < float(n) * 0.5 else -2.7), 2.0, float(n) - 2.0)
 	_add(out, "compact_car_painted_v2", side, width, height, BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M * 0.5, road_vehicle_along)
 	out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
 	out[-1]["role"] = "road_vehicle"
@@ -383,18 +382,8 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	while a <= n + 6.0:
 		_add(out, "street_lamp", side, width, height, 2.0, a)
 		a += LAMP_STRIDE
-	# One row, measured in metres. Keep the doorway approach clear across the forecourt.
-	var bay := 0
-	var along := 0.0
-	while along + 2.5 <= span.x - 0.35:
-		# The combined Area A artwork already carries the static parking paint and wheel stops.
-		# Keep the vehicle as a separate world-anchored sprite so it can be changed independently.
-		if bay == 0 and (side == SIDE_SOUTH or side == SIDE_NORTH) and PropSprites.is_available("compact_car_painted_v2"):
-			_add(out, "compact_car_painted_v2", side, width, height, 4.6, along + 1.25)
-			out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
-			out[-1]["role"] = "parked_vehicle"
-		along += 2.7
-		bay += 1
+	# The frontage image carries the parking bays and wheel stops. Keep duplicate parked-car sprites out
+	# of the apron; the single independent road car is the vehicle visible in the target view.
 	# Place the fixed equipment against the visible east side, away from the entrance.
 	if width >= 8 and height >= 8:
 		var equipment_side := SIDE_SOUTH if side == SIDE_EAST else SIDE_EAST

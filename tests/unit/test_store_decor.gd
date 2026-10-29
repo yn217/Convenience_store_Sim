@@ -256,12 +256,7 @@ func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
 		var markings := items.filter(func(it): return it.get("role", "") == "parking")
 		var cars := items.filter(func(it): return it.get("role", "") == "parked_vehicle")
 		t.eq(markings.size(), 0, "static parking paint is not redrawn over the combined background")
-		t.eq(cars.size(), 1 if side == SOUTH_ENTR else 0, "a projected car remains separate from the background art")
-		for car in cars:
-			var depth: float = -0.5 - car["x"] if side == ENTR else car["y"] - (H - 0.5)
-			var along: float = car["y"] if side == ENTR else car["x"]
-			t.ok(depth >= 2.0 and depth <= 7.0, "parked car stays within the parking depth")
-			t.ok(along < BackdropLayer.entrance_span(BackdropLayer.entrance_side(W, H, side), W, H, side).x, "parked car clears the doorway approach")
+		t.eq(cars.size(), 0, "parking artwork has no duplicate parked car")
 
 
 func test_outer_road_vehicle_tracks_entrance_side_without_blocking_crossing(t, _tree) -> void:
