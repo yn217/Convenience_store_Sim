@@ -22,7 +22,7 @@
       "byte_size": 1418541,
       "sha256": "a8c21618487335fe4293809d6b52509d9c67ea557d446e0392567ad0c70d5c10",
       "git_blob_sha": "0e496366dc175c857cf55997046306c931260a26",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
@@ -30,7 +30,7 @@
       "byte_size": 263615,
       "sha256": "2f00a15ee047e6f6762091bd39aa5695bf3675e9f0edd3d229f8003fd71015c0",
       "git_blob_sha": "b90ea006a3d1a62025e95fafa98745b9ca0e8d77",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "other",
@@ -38,7 +38,7 @@
       "byte_size": 2086,
       "sha256": "15c71420a0a472e70a9603d7faa6cb465afe32e66fd86c87a09e136c10f3a042",
       "git_blob_sha": "234d0ce759100d3e2ec204368eb015d331f8c12d",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "other",
@@ -46,7 +46,7 @@
       "byte_size": 2713,
       "sha256": "f6b35641c701bc2d38b27d964894579a178418450b7477c5926b7daf9afaffcb",
       "git_blob_sha": "2139b1e448c534f5efed7b09d0a03779ea4eae37",
-      "github_uploaded": false
+      "github_uploaded": true
     }
   ],
   "projection": {
