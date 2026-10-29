@@ -45,7 +45,7 @@ func test_windows_and_piers_fill_the_rest_of_the_front(t, _tree) -> void:
 
 func test_fascia_and_store_name_above_the_glass(t, _tree) -> void:
 	var items := StoreDecor.wall_items(W, H, ENTR, {})
-	var bands := items.filter(func(it): return it["kind"] == &"poly" and it["color"] == StoreDecor.FASCIA)
+	var bands := items.filter(func(it): return it.get("role", &"") == &"fascia_band")
 	t.eq(bands.size(), 1, "one fascia band over the front")
 	for p in bands[0]["points"]:
 		t.ok(absf(p.z - StoreDecor.FASCIA_Z0) < 1e-5 or absf(p.z - StoreDecor.FASCIA_Z1) < 1e-5, "fascia sits between the sign heights")
@@ -54,6 +54,37 @@ func test_fascia_and_store_name_above_the_glass(t, _tree) -> void:
 	var canopy_names := StoreDecor.canopy_items(W, H, SOUTH_ENTR).filter(func(it): return it["kind"] == &"text" and it["text"] == StoreDecor.NAME)
 	t.eq(canopy_names.size(), 1, "the observe canopy repeats the storefront name once")
 	t.eq(canopy_names[0]["font_px"], 32, "the storefront name is sized for fascia readability")
+
+
+func test_brand_mark_stays_on_the_fascia_away_from_each_entrance(t, _tree) -> void:
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		var cases := [
+			[StoreDecor.SIDE_WEST, [Vector2i(0, size.y / 2)]],
+			[StoreDecor.SIDE_NORTH, [Vector2i(size.x / 2, 0)]],
+			[StoreDecor.SIDE_EAST, [Vector2i(size.x - 1, size.y / 2)]],
+			[StoreDecor.SIDE_SOUTH, [Vector2i(size.x / 2, size.y - 1)]],
+		]
+		for entry_case in cases:
+			var side: int = entry_case[0]
+			var entrances: Array = entry_case[1]
+			var items := StoreDecor.canopy_items(size.x, size.y, entrances) if StoreDecor._is_near(side) else StoreDecor.wall_items(size.x, size.y, entrances, {})
+			var panels := items.filter(func(it): return it.get("role", &"") == &"brand_logo_panel")
+			t.eq(panels.size(), 1, "one fascia logo for %dx%d entrance side %d" % [size.x, size.y, side])
+			if panels.is_empty():
+				continue
+			var lo := INF
+			var hi := -INF
+			var min_z := INF
+			var max_z := -INF
+			for point in panels[0]["points"]:
+				var along: float = point.y if side == StoreDecor.SIDE_WEST or side == StoreDecor.SIDE_EAST else point.x
+				lo = minf(lo, along)
+				hi = maxf(hi, along)
+				min_z = minf(min_z, point.z)
+				max_z = maxf(max_z, point.z)
+			var span := BackdropLayer.entrance_span(side, size.x, size.y, entrances)
+			t.ok(hi + 0.12 <= span.x or lo - 0.12 >= span.y, "brand mark stays clear of entrance for %dx%d side %d" % [size.x, size.y, side])
+			t.ok(min_z >= 2.339 and max_z <= 2.761, "brand mark stays within the sign band")
 
 
 func test_cooler_row_on_the_back_wall_only(t, _tree) -> void:

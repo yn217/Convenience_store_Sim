@@ -30,6 +30,7 @@ const SIDE_SOUTH := 3
 const NAME := "ミニマート青葉"   ## fictional store name (no real brand)
 const FASCIA := Color("2f6db5")
 const FASCIA_TEXT := Color("ffffff")
+const BRAND_YELLOW := Color("f2b52c")
 const SILL := Color("cfd9e2")
 const FRAME := Color("7d8a96")
 const WALL_OFFSET := -0.62     ## back-wall items stand just behind the wall plane (x or y = -0.5)
@@ -259,7 +260,7 @@ static func canopy_items(width: int, height: int, entrances: Array) -> Array:
 		if a % 3 == 1:
 			out.append({"kind": &"poly", "points": _band(side, plane - 0.004, pane_a + 0.11, pane_a + 0.19, 1.38, 2.18), "color": Color(1.0, 1.0, 1.0, 0.20), "role": &"glazing_reflection"})
 	for strip in [[2.28, 2.78, Color("f5f6ee")], [2.38, 2.56, FASCIA], [2.26, 2.30, Color("9caaaf")], [2.72, 2.78, Color("d4dcdb")]]:
-		out.append({"kind": &"poly", "points": _band(side, plane, -0.5, n - 0.5, strip[0], strip[1]), "color": strip[2]})
+		out.append({"kind": &"poly", "points": _band(side, plane, -0.5, n - 0.5, strip[0], strip[1]), "color": strip[2], "role": &"fascia_band" if strip[2] == FASCIA else &"fascia_trim"})
 	# A narrow outward roof return provides real projected depth without covering the interior.
 	var roof: Array = []
 	for v in [Vector2(-0.5, 0.0), Vector2(n - 0.5, 0.0), Vector2(n - 0.5, 0.26), Vector2(-0.5, 0.26)]:
@@ -281,6 +282,7 @@ static func canopy_items(width: int, height: int, entrances: Array) -> Array:
 	label["at"] = at
 	var mid := float(n - 1) * 0.5
 	out.append({"kind": &"poly", "points": _band(side, plane, mid - 2.6, mid + 2.6, 2.32, 2.72), "color": Color("fbfcf8")})
+	_append_store_brand_mark(out, side, plane, width, height, entrances)
 	out.append(label)
 	return out
 
@@ -411,6 +413,7 @@ static func _far_storefront(width: int, height: int, entrances: Array, side: int
 		out.append({"kind": &"sprite", "id": id, "x": g.x, "y": g.y, "front": false})
 	out.append(_fascia(side, -0.5, n))
 	out.append(fascia_label(side, width, height, -0.5))
+	_append_store_brand_mark(out, side, -0.5, width, height, entrances)
 	return out
 
 
@@ -511,7 +514,35 @@ static func _canopy_top(side: int, plane: float, a0: float, a1: float, depth: fl
 
 ## Fascia: a blue band between FASCIA_Z0 and FASCIA_Z1 over the whole wall.
 static func _fascia(side: int, plane: float, n: int) -> Dictionary:
-	return {"kind": &"poly", "points": _band(side, plane, -0.5, float(n) - 0.5, FASCIA_Z0, FASCIA_Z1), "color": FASCIA}
+	return {"kind": &"poly", "points": _band(side, plane, -0.5, float(n) - 0.5, FASCIA_Z0, FASCIA_Z1), "color": FASCIA, "role": &"fascia_band"}
+
+
+## Compact code-drawn house mark beside the store name, kept clear of the entrance and fascia ends.
+static func _append_store_brand_mark(out: Array, side: int, plane: float, width: int, height: int, entrances: Array) -> void:
+	var n := _edge_len(side, width, height)
+	var mid := (float(n) - 1.0) * 0.5
+	var half := 0.31
+	var preferred := -1.0 if side == SIDE_WEST or side == SIDE_EAST else 1.0
+	var selected := NAN
+	for direction in [preferred, -preferred]:
+		var center: float = mid + direction * 3.85
+		if center - half < -0.5 or center + half > float(n) - 0.5:
+			continue
+		var span := BackdropLayer.entrance_span(side, width, height, entrances)
+		if center + half + 0.12 > span.x and center - half - 0.12 < span.y:
+			continue
+		selected = center
+		break
+	if is_nan(selected):
+		return
+	var a0 := selected - half
+	var a1 := selected + half
+	var z0 := 2.34
+	var z1 := 2.76
+	out.append({"kind": &"poly", "points": _band(side, plane + 0.004, a0, a1, z0, z1), "color": Color("fbfcf8"), "role": &"brand_logo_panel"})
+	out.append({"kind": &"poly", "points": _band(side, plane + 0.008, selected - 0.22, selected + 0.22, 2.40, 2.69), "color": FASCIA, "role": &"brand_logo_body"})
+	out.append({"kind": &"poly", "points": _wall_shape(side, plane + 0.012, [Vector2(selected - 0.22, 2.61), Vector2(selected, 2.75), Vector2(selected + 0.22, 2.61), Vector2(selected + 0.15, 2.61), Vector2(selected + 0.15, 2.56), Vector2(selected - 0.15, 2.56)]), "color": BRAND_YELLOW, "role": &"brand_logo_roof"})
+	out.append({"kind": &"poly", "points": _band(side, plane + 0.016, selected - 0.045, selected + 0.045, 2.40, 2.54), "color": Color("ffffff"), "role": &"brand_logo_door"})
 
 
 ## The store name, centred on the fascia. Drawn after the fascia band.
@@ -626,6 +657,18 @@ static func _plane_point(side: int, plane: float, z: float) -> Vector3:
 	if side == SIDE_WEST or side == SIDE_EAST:
 		return Vector3(plane, 0.0, z)
 	return Vector3(0.0, plane, z)
+
+
+static func _wall_shape(side: int, plane: float, along_heights: Array[Vector2]) -> Array[Vector3]:
+	var points: Array[Vector3] = []
+	for point in along_heights:
+		var p := _plane_point(side, plane, point.y)
+		if side == SIDE_WEST or side == SIDE_EAST:
+			p.y = point.x
+		else:
+			p.x = point.x
+		points.append(p)
+	return points
 
 
 ## A vertical band on a wall plane between two along-wall positions and two heights, as four world points.

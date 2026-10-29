@@ -1,5 +1,11 @@
 # Area A / storefront follow-up QA (2026-10-29)
 
+## Fascia brand mark follow-up
+
+Added a small blue-and-yellow house mark beside the fictional store name. Its panel is placed on the fascia wall plane and chooses the side away from the active entrance; if neither side has room it is omitted. The mark is code-drawn, so no inaccurate generated lettering is baked into the art.
+
+Actual Godot 4.7.2 capture at 20x16 / 1600x900: `fascia-brand-mark-20x16-1600x900-2026-10-29.png`. `test_store_decor` passes 23 tests / 412 assertions, including mark bounds and clearance at 12x10, 16x12, and 20x16 for all four entrance directions. The full suite was not run. At whole-store scale the mark is small; matching the target's exact logotype and richer fascia/window framing remains future art work.
+
 ## Near-side automatic-door glazing follow-up
 
 Added two translucent sliding leaves to the near-side entrance facade. They sit in the side pockets and leave a 0.7m clear central route; this is a presentation-only wall-plane detail and does not change entrance tiles, customer routing, or input. The existing entrance jamb and top canopy remain in place.
