@@ -1,0 +1,84 @@
+{
+  "asset_id": "coffee_machine_candidate_v3",
+  "image_path": "coffee_machine_candidate_v3.png",
+  "width": 1024,
+  "height": 1536,
+  "mode": "RGBA",
+  "alpha_bbox": [
+    97,
+    33,
+    952,
+    1519
+  ],
+  "alpha_bbox_thresholds": {
+    "1": [
+      97,
+      33,
+      952,
+      1519
+    ],
+    "8": [
+      265,
+      39,
+      789,
+      1490
+    ],
+    "32": [
+      265,
+      39,
+      788,
+      1490
+    ],
+    "128": [
+      266,
+      40,
+      788,
+      1490
+    ],
+    "250": [
+      267,
+      42,
+      786,
+      1488
+    ]
+  },
+  "edge_alpha": {
+    "min": 0,
+    "max": 0,
+    "nonzero_pixels": 0,
+    "pixel_count": 5120
+  },
+  "sha256": "6f0b13c2f885cb65a2df9dfe602f85952455c5ac38a6c936338c3594b8049e1d",
+  "review_status": "review_only",
+  "runtime_approved": false,
+  "projection_review": {
+    "verticals": "visually near vertical",
+    "view": "front dominant with slight right side",
+    "top_surface": "limited",
+    "iso2x_v1_calibrated": false,
+    "result": "not calibrated; candidate only"
+  },
+  "style_review": {
+    "result": "fail",
+    "findings": [
+      "render is still photorealistic with glossy highlights rather than soft hand-painted management-game art",
+      "transparent canvas contains a broad very-low-alpha fringe (alpha 1 bbox is much wider than alpha 8 bbox); RGB values in fully transparent pixels are dark, so filtered edges may require careful alpha handling"
+    ]
+  },
+  "content_review": {
+    "result": "partial pass",
+    "findings": [
+      "single vertical coffee machine",
+      "touchscreen, dispenser, one cup, drip tray visible",
+      "cream and charcoal palette"
+    ]
+  },
+  "background_review": {
+    "result": "partial pass",
+    "findings": [
+      "RGBA alpha is present and all four image edges have alpha 0",
+      "52.56% of pixels are fully transparent",
+      "low-alpha fringe extends to bbox threshold 1: [97, 33, 952, 1519], while threshold 8 is [265, 39, 789, 1490]"
+    ]
+  }
+}

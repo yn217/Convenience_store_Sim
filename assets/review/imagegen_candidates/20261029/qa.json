@@ -1171,6 +1171,78 @@
       "visual_status": "review_only_projection_and_halo_fail",
       "runtime_approved": false,
       "notes": "FAIL: slight right side visible but perspective/top surface is stronger than specified; verticals approximately upright but not iso2x_v1 calibrated. FAIL: requested bright hand-painted game sprite is approximated, but the output has excessive glossy highlights and a broad red halo outside the object; re-generation/edit is needed before use."
+    },
+    {
+      "file": "agent_bun_v4/steamed_bun_warmer_candidate_v4.png",
+      "subject": "steamed_bun_warmer_candidate_v4",
+      "dimensions_px": [
+        1300,
+        1209
+      ],
+      "alpha_bbox": [
+        0,
+        8,
+        1294,
+        1153
+      ],
+      "alpha_bbox_ge_8": [
+        233,
+        196,
+        1087,
+        1093
+      ],
+      "sha256": "aa226db876168cb39fc6ed228b35fefd50591e5a1bc603ff89d748a950976d6b",
+      "visual_status": "review_only_projection_style_and_alpha_fail",
+      "runtime_approved": false,
+      "notes": "One compact two-tray glass bun warmer with five white buns and a lower control knob. Content is recognizable; finish remains photorealistic and glossy. Low-alpha colored fringe reaches the left canvas edge and the object touches the bottom edge; projection is not iso2x_v1 calibrated. No crop or cleanup applied."
+    },
+    {
+      "file": "agent_coffee_v3/coffee_machine_candidate_v3.png",
+      "subject": "coffee_machine_candidate_v3",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        97,
+        33,
+        952,
+        1519
+      ],
+      "alpha_bbox_ge_8": [
+        265,
+        39,
+        789,
+        1490
+      ],
+      "sha256": "6f0b13c2f885cb65a2df9dfe602f85952455c5ac38a6c936338c3594b8049e1d",
+      "visual_status": "review_only_projection_style_and_alpha_fail",
+      "runtime_approved": false,
+      "notes": "Single cream/charcoal coffee machine with touchscreen, dispenser, one cup, and drip tray. Recognizable, but photorealistic gloss and broad alpha-1 fringe remain; strict iso2x_v1 is unverified. No crop or cleanup applied."
+    },
+    {
+      "file": "agent_umbrella_v3.png",
+      "subject": "umbrella_stand_candidate_v3",
+      "dimensions_px": [
+        1243,
+        1266
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1203,
+        1266
+      ],
+      "alpha_bbox_ge_8": [
+        360,
+        83,
+        940,
+        1207
+      ],
+      "sha256": "e86092c42bde321c196e6a25e86ee4510b3e99253ae49d35b40c7fe48cc7d773",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Metal umbrella rack with three folded umbrellas in blue, ivory, and sage. Readable soft-painted illustration with transparent RGBA. Alpha-1 fringe reaches canvas edges and projection/game scale are not calibrated. No crop or cleanup applied."
     }
   ],
   "comparisons": [

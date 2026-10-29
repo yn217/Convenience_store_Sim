@@ -190,3 +190,10 @@ All are preserved as review-only candidates. No cropping, anisotropic scaling, r
 - `agent_handtruck_v2/handtruck_candidate_v2.png` — empty platform hand truck with both wheels visible; near-front composition and small alpha=1 bottom residue. Metallic gloss remains; projection uncalibrated. Review-only.
 
 - `agent_postbox_v2/postbox_candidate_v2.png` — recognizable red postbox with mail slot and lower collection door, but broad red halo, glossy finish and uncalibrated perspective fail; review-only.
+
+
+## Issue #163 — latest equipment image candidates
+
+- `agent_bun_v4/steamed_bun_warmer_candidate_v4.png` — correct compact two-tray bun warmer with five buns; glossy photoreal finish, left-edge fringe and bottom contact fail the current sprite gate. Review-only. The previous `agent_bun_v3` output was excluded because its PNG depicts unrelated greenery despite its bun-warmer filename/QA; no asset from that mismatched folder is registered.
+- `agent_coffee_v3/coffee_machine_candidate_v3.png` — recognizable single coffee machine; broad low-alpha fringe, glossy style and uncalibrated projection remain. Review-only.
+- `agent_umbrella_v3.png` — three folded umbrellas in a rack; readable soft-painted result, but alpha fringe reaches canvas edges and projection is uncalibrated. Review-only.

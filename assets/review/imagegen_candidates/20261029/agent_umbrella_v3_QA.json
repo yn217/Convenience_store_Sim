@@ -1,0 +1,17 @@
+{
+  "asset": "umbrella_stand.png",
+  "target": "iso2x_v1",
+  "width": 1243,
+  "height": 1266,
+  "format": "PNG",
+  "mode": "RGBA",
+  "alpha_thresholds": {
+    "transparent_alpha_0_pixels": 1160463,
+    "partial_alpha_1_to_249_pixels": 44686,
+    "near_opaque_alpha_250_to_255_pixels": 368489,
+    "alpha_gt_0_pixels": 413175,
+    "alpha_ge_128_pixels": 386278
+  },
+  "visual_notes": "Visual inspection: one freestanding rectangular metal umbrella stand/rack holding exactly three closed folded umbrellas (blue, ivory, sage), in a detailed soft-painted isometric style. Full prop is visible against transparent pixels; no obvious ground/cast shadow or glow. Alpha includes antialiased edge pixels (44,686 pixels at alpha 1–249), so inspect edges in target renderer for any fringe.",
+  "sha256": "e86092c42bde321c196e6a25e86ee4510b3e99253ae49d35b40c7fe48cc7d773"
+}
