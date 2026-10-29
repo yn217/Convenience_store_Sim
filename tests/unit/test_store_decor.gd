@@ -198,7 +198,7 @@ func test_observe_canopy_adds_transparent_full_height_glazing(t, _tree) -> void:
 	var panes := items.filter(func(it): return it.get("role", &"") == &"glazing_pane")
 	var reflections := items.filter(func(it): return it.get("role", &"") == &"glazing_reflection")
 	t.eq(panes.size(), W - SOUTH_ENTR.size(), "every closed frontage tile receives a glass pane")
-	t.ok(not reflections.is_empty(), "some panes catch a subtle reflection")
+	t.ok(reflections.size() >= int(panes.size() / 2) - 1, "alternating closed panes carry the sky reflection")
 	for pane in panes:
 		var min_z := INF
 		var max_z := -INF

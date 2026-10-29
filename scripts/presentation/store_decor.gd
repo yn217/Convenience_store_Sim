@@ -256,9 +256,9 @@ static func canopy_items(width: int, height: int, entrances: Array) -> Array:
 			continue
 		var pane_a := float(a) - 0.47
 		var pane_b := float(a) + 0.47
-		out.append({"kind": &"poly", "points": _band(side, plane, pane_a, pane_b, SILL_H + 0.01, 2.25), "color": Color(0.64, 0.83, 0.91, 0.075), "role": &"glazing_pane"})
-		if a % 3 == 1:
-			out.append({"kind": &"poly", "points": _band(side, plane - 0.004, pane_a + 0.11, pane_a + 0.19, 1.38, 2.18), "color": Color(1.0, 1.0, 1.0, 0.20), "role": &"glazing_reflection"})
+		out.append({"kind": &"poly", "points": _band(side, plane, pane_a, pane_b, SILL_H + 0.01, 2.25), "color": Color(0.64, 0.83, 0.91, 0.095), "role": &"glazing_pane"})
+		if a % 2 == 1:
+			out.append({"kind": &"poly", "points": _band(side, plane - 0.004, pane_a + 0.11, pane_a + 0.19, 1.38, 2.18), "color": Color(1.0, 1.0, 1.0, 0.28), "role": &"glazing_reflection"})
 	for strip in [[2.28, 2.78, Color("f5f6ee")], [2.38, 2.56, FASCIA], [2.26, 2.30, Color("9caaaf")], [2.72, 2.78, Color("d4dcdb")]]:
 		out.append({"kind": &"poly", "points": _band(side, plane, -0.5, n - 0.5, strip[0], strip[1]), "color": strip[2], "role": &"fascia_band" if strip[2] == FASCIA else &"fascia_trim"})
 	# A narrow outward roof return provides real projected depth without covering the interior.

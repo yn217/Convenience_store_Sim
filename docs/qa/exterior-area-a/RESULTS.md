@@ -419,3 +419,9 @@ Focused `test_backdrop_layer` passed 23 tests / 333 assertions. A focused render
 The current runtime branch passed `test_shell_camera_input`: 10 tests / 96 assertions, 0 failures. This exercises canopy cutaway, fit, pan/zoom, tile selection after camera movement, cancel keys, UI input blocking, and selection inspection. No full suite was run.
 
 Four newly generated background candidates were screened before integration. The two grouped alpha panoramas had conspicuous green/yellow or red edge fringe; an opaque full-scene underlay had a top-down rather than game-matched view; and the edited panorama baked a checkerboard into the canvas. They were rejected and not copied into the runtime asset directory. The existing detailed grove remains the active candidate. The broad outer ground still needs a camera-matched continuous scene asset; the rejected images do not close that gap.
+
+## Near-side glazing reflection refinement (2026-10-29)
+
+The near-side storefront now has a slightly stronger cool-glass tint and a narrow sky reflection on alternating closed panes, increasing the visible glazing rhythm while keeping the customer entrance clear and the interior readable. Actual Godot 4.7.2 capture at 1600x900 / 16:00: `glazing-reflection-v2-16x12-1600x900-2026-10-29.png`.
+
+Focused `test_store_decor` passed 24 tests / 496 assertions, including the reflection cadence, door clearance, posters, and supported entrance orientations. This is a modest facade detail improvement; the broader target still has much richer warm interior lighting, window contents and urban context.
