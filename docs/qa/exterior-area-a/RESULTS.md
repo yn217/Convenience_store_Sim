@@ -1,5 +1,11 @@
 # Area A / storefront follow-up QA (2026-10-29)
 
+## Near-side automatic-door glazing follow-up
+
+Added two translucent sliding leaves to the near-side entrance facade. They sit in the side pockets and leave a 0.7m clear central route; this is a presentation-only wall-plane detail and does not change entrance tiles, customer routing, or input. The existing entrance jamb and top canopy remain in place.
+
+Actual Godot 4.7.2 capture: `near-entrance-sliding-doors-16x12-1600x900-2026-10-29.png`. Focused `test_store_decor` passed 22 tests / 376 assertions; `test_shell_camera_input` passed 10 / 96, including floor selection, panning and UI input blocking. No full suite was run. The leaves are static and the reflections remain subtle at whole-store scale; automatic opening animation is still absent.
+
 ## Resolution, operation, and performance follow-up
 
 Actual Godot 4.7.2 captures at 16:00, 20x16, whole-store camera:

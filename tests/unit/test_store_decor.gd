@@ -109,6 +109,29 @@ func test_low_front_glass_reflections_stay_inside_closed_panes(t, _tree) -> void
 			t.ok(point.x <= 7.5 or point.x >= 9.5, "reflection at x=%0.2f does not cross the south entrance opening" % point.x)
 
 
+func test_near_entrance_uses_recessed_sliding_leaves_with_clear_center(t, _tree) -> void:
+	var items := StoreDecor.wall_items(W, H, SOUTH_ENTR, {})
+	var leaves := items.filter(func(it): return it.get("role", &"") == &"door_leaf_glass")
+	var safety_bands := items.filter(func(it): return it.get("role", &"") == &"door_safety_band")
+	t.eq(leaves.size(), 2, "the near entrance has two transparent sliding leaves")
+	t.eq(safety_bands.size(), 2, "each leaf has one subtle visibility band")
+	var spans: Array[Vector2] = []
+	for leaf in leaves:
+		var lo := INF
+		var hi := -INF
+		var min_z := INF
+		var max_z := -INF
+		for point in leaf["points"]:
+			lo = minf(lo, point.x)
+			hi = maxf(hi, point.x)
+			min_z = minf(min_z, point.z)
+			max_z = maxf(max_z, point.z)
+		spans.append(Vector2(lo, hi))
+		t.ok(min_z >= 0.079 and max_z < StoreDecor.NEAR_FRAME_TOP, "glass leaves stay within the entrance frame")
+	spans.sort_custom(func(a, b): return a.x < b.x)
+	t.ok(spans[1].x - spans[0].y >= 0.69, "the central customer route stays visibly clear")
+
+
 func test_observe_canopy_adds_transparent_full_height_glazing(t, _tree) -> void:
 	var items := StoreDecor.canopy_items(W, H, SOUTH_ENTR)
 	var panes := items.filter(func(it): return it.get("role", &"") == &"glazing_pane")

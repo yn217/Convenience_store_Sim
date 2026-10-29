@@ -461,8 +461,33 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 				out.append({"kind": &"poly", "points": _band(side, plane, edge - 0.025, edge + 0.025, 0.0, NEAR_CAP_Z1 - 0.05), "color": FRAME})
 			out.append({"kind": &"poly", "points": _band(side, plane, d0 - 0.08, d1 + 0.08, NEAR_CAP_Z1 - 0.05, NEAR_CAP_Z1), "color": Color("f9faf6")})
 			out.append(_canopy_top(side, plane, d0 - 0.08, d1 + 0.08, 0.22))
+			_append_sliding_door_leaves(out, side, plane, d0, d1)
 			door_start = -1
 	return out
+
+
+## The paired leaves sit in their side pockets, leaving a clear central route through the simulated entrance.
+static func _append_sliding_door_leaves(out: Array, side: int, plane: float, d0: float, d1: float) -> void:
+	var reveal := 0.08
+	var clear_center := 0.7
+	var leaf_width := ((d1 - d0) - reveal * 2.0 - clear_center) * 0.5
+	if leaf_width < 0.12:
+		return
+	var z0 := 0.08
+	var z1 := NEAR_FRAME_TOP - 0.06
+	var left0 := d0 + reveal
+	var right1 := d1 - reveal
+	var left1 := left0 + leaf_width
+	var right0 := right1 - leaf_width
+	for leaf in [Vector2(left0, left1), Vector2(right0, right1)]:
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.008, leaf.x, leaf.y, z0, z1), "color": Color(0.57, 0.79, 0.86, 0.17), "role": &"door_leaf_glass"})
+		for edge in [leaf.x, leaf.y - 0.024, leaf.y]:
+			out.append({"kind": &"poly", "points": _band(side, plane + 0.012, edge - 0.012, edge + 0.012, z0, z1), "color": FRAME, "role": &"door_leaf_frame"})
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.012, leaf.x, leaf.y, z0, z0 + 0.035), "color": Color("d8e0e2"), "role": &"door_leaf_frame"})
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.012, leaf.x, leaf.y, z1 - 0.035, z1), "color": Color("d8e0e2"), "role": &"door_leaf_frame"})
+		out.append(_glass_reflection(side, plane + 0.016, leaf.x + leaf_width * 0.12, leaf_width * 0.2, z0 + 0.16, z1 - 0.22))
+		out[-1]["role"] = &"door_leaf_reflection"
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.018, leaf.x + 0.035, leaf.y - 0.035, 1.02, 1.08), "color": Color(0.38, 0.7, 0.79, 0.46), "role": &"door_safety_band"})
 
 
 ## A narrow diagonal reflection painted on a pane in wall-plane coordinates; kept inside the glass opening.
