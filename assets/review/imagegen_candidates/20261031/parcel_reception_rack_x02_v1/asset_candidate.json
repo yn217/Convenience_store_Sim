@@ -57,19 +57,19 @@
   "outputs": [
     {
       "sha256": "086f706099a113289d6bf474496bebeab38871baced9a1e1e71f4ae43a456e07",
-      "git_blob_sha": null,
+      "git_blob_sha": "e618bf90fa621e606b57cf7dc1ee39452d88efc5",
       "path": "source_original.png",
       "byte_size": 1041773,
       "role": "source_original",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "sha256": "6665305112dd538fcc0771c7817fc05dfa90b2b37f997b596c77083f84330ce0",
-      "git_blob_sha": null,
+      "git_blob_sha": "6990c2234da866f7ac85bc1c41629f4fb83c61d5",
       "path": "qa_preview_white.jpg",
       "byte_size": 150724,
       "role": "qa_overlay",
-      "github_uploaded": false
+      "github_uploaded": true
     }
   ]
 }
