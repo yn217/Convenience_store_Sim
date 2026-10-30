@@ -53,16 +53,16 @@
       "role": "source_original",
       "sha256": "b9c890c982a2e71f1f2975b7653f0a80eeefd462865463a4bd9d1ae7e2499d45",
       "byte_size": 1520864,
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "bbccbb5d338455855209043dfd1f8ce4db4ab6a0",
+      "github_uploaded": true
     },
     {
       "path": "qa_preview_white.jpg",
       "role": "alpha_diagnostic",
       "sha256": "a49e59af4fa93984c8fe1d44e96cbf8260184195874df169b15ebd067f614a31",
       "byte_size": 307941,
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "743d1aa0a44742e63ec3ab5d7b531615e8cae436",
+      "github_uploaded": true
     }
   ],
   "github": {
