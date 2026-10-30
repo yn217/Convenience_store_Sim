@@ -31,6 +31,7 @@ var _heading: Label            # 目標達成！ while celebrating, hidden other
 var _figure: TextureRect
 var _celebrations: Array[Dictionary] = []   # queued {badge, line}; the first one is on screen
 var _celebrate_timer: Timer
+var _day_remark := ""          # her remark on the closed day while the day-end card is open ("" otherwise)
 var _achievements: Label
 var _history: Array[String] = []
 var _snap: Dictionary = {}
@@ -85,7 +86,7 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_achievements.text = "実績一覧\n" + "\n".join(lines) if not lines.is_empty() else ""
 
 
-## Celebration first, then the story line; nothing to say hides her.
+## Celebration first, then her day-end remark, then the story line; nothing to say hides her.
 func _refresh_stage() -> void:
 	if _stage == null:
 		return
@@ -94,9 +95,11 @@ func _refresh_stage() -> void:
 	_heading.visible = celebrating
 	if celebrating:
 		_assistant.text = String(_celebrations[0]["line"])
+	elif _day_remark != "":
+		_assistant.text = _day_remark
 	else:
 		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
-	_stage.visible = celebrating or cue != ""
+	_stage.visible = celebrating or _day_remark != "" or cue != ""
 
 
 func is_celebrating() -> bool:
@@ -112,9 +115,22 @@ func close_celebration() -> void:
 	_refresh_stage()
 
 
+## The day-end card opened (ReportController): she comments on the day until it closes.
+func say_day_end(remark: String) -> void:
+	_day_remark = remark
+	_refresh_stage()
+
+
+func end_day_end() -> void:
+	_day_remark = ""
+	_refresh_stage()
+
+
 func _on_dismiss_pressed() -> void:
 	if is_celebrating():
 		close_celebration()
+	elif _day_remark != "":
+		end_day_end()
 	else:
 		dismiss_cue()
 

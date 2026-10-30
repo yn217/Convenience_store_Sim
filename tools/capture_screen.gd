@@ -186,6 +186,9 @@ func _run() -> void:
 		s.speed_setting = 0
 		s.close_day_once(s.day)
 		app._publish_snapshot()
+		var guide: ProgressionController = main.get_node("ProgressionController")
+		while guide.is_celebrating():   # earlier titles' cheers are over by the end of the day: her day remark shows
+			guide.close_celebration()
 	for i in 30:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)

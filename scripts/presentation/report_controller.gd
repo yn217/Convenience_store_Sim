@@ -98,7 +98,7 @@ func _build_day_end() -> void:
 	more.text = "履歴を詳しく見る"
 	more.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	more.pressed.connect(func():
-		_day_end.visible = false
+		_close_day_end()
 		if get_parent().has_method("open_screen_tab"):
 			get_parent().call("open_screen_tab", "データ"))
 	row.add_child(more)
@@ -107,10 +107,17 @@ func _build_day_end() -> void:
 	next.text = "翌日の経営へ"
 	next.theme_type_variation = &"PrimaryButton"
 	next.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	next.pressed.connect(func(): _day_end.visible = false)
+	next.pressed.connect(_close_day_end)
 	row.add_child(next)
 	col.add_child(row)
 	get_parent().add_child.call_deferred(_day_end)
+
+
+func _close_day_end() -> void:
+	_day_end.visible = false
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null and guide.has_method("end_day_end"):
+		guide.end_day_end()
 
 
 ## Gathers the day's event and the titles won since the last snapshot into _day_log (the day-end card lists them).
@@ -165,6 +172,9 @@ func apply_snapshot(snap: Dictionary) -> void:
 			var day := int(closed["day_index"])
 			_day_end_text.text = day_end_text(closed) + "\n" + "\n".join(day_history_lines(day, _day_log.get(day, {}), snap.get("progression", {})))
 			_day_end.visible = true
+			var guide := get_node_or_null("../ProgressionController")   # 小春六花 comments on the day beside the card
+			if guide != null and guide.has_method("say_day_end"):
+				guide.say_day_end(ProgressionText.day_end_remark(reports))
 		_seen_reports = reports.size()
 	_label.text = summary_text(reports)
 	var totals: Dictionary = snap.get("company_totals", {})

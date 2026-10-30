@@ -62,6 +62,42 @@ static func celebration(event: Dictionary, milestones: Array) -> String:
 	return ""
 
 
+## What the assistant says over the day-end card (#19/#32 mockup 営業結果): praise or comfort for the result, the
+## change from the day before, and one tip from the day's numbers. `reports` are the closed days, newest last.
+static func day_end_remark(reports: Array) -> String:
+	if reports.is_empty():
+		return ""
+	var r: Dictionary = reports.back()
+	if int(r["purchasing_customers"]) == 0:
+		return "今日もお疲れさまでした。\n今日はお買い上げがありませんでした。棚に商品を並べて、営業を始めてみましょう！"
+	var lines: Array[String] = []
+	if int(r["operating_profit_yen"]) >= 0:
+		lines.append("今日もお疲れさまでした！黒字で締められましたね。")
+	else:
+		lines.append("今日もお疲れさまでした。赤字でしたが、まだまだこれからです！")
+	if reports.size() >= 2:
+		var d := int(r["revenue_yen"]) - int((reports[reports.size() - 2] as Dictionary)["revenue_yen"])
+		if d > 0:
+			lines.append("売上は前日より %s 増えました！" % GameHud.format_yen(d))
+		elif d < 0:
+			lines.append("売上は前日より %s 減りました。" % GameHud.format_yen(-d))
+	lines.append(_day_end_tip(r))
+	return "\n".join(lines)
+
+
+## The one tip of the day-end remark: the most pressing thing in the day's numbers, else a cheer.
+static func _day_end_tip(r: Dictionary) -> String:
+	if int(r.get("balked_customers", 0)) > 0:
+		return "混雑で引き返したお客様が %d 人いました。レジや店員を増やすと良さそうです。" % int(r["balked_customers"])
+	if int(r["lost_customers"]) > 0:
+		return "買えずに帰ったお客様が %d 人いました。品揃えと在庫を確かめましょう。" % int(r["lost_customers"])
+	if int(r["wastage_yen"]) > 0:
+		return "廃棄が %s ありました。仕入れの量を見直してみましょう。" % GameHud.format_yen(int(r["wastage_yen"]))
+	if r.has("satisfaction") and int(r["satisfaction"]) < 60:
+		return "お客様の満足度が %d でした。品切れやレジ待ちを減らしましょう。" % int(r["satisfaction"])
+	return "この調子で、もっと素敵なお店にしていきましょうね！"
+
+
 ## The goal sentence for the 本日の目標 card: what the next milestone asks for, e.g. "累計 10 件の会計を達成しよう".
 static func goal_text(metric: String, threshold: int) -> String:
 	match metric:

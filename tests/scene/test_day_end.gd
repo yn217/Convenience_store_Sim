@@ -15,8 +15,11 @@ func test_the_day_end_card(t, tree) -> void:
 	t.ok(rc._day_end.visible, "a day closed: the card shows")
 	t.ok(rc._day_end_text.text.contains("DAY 0　営業結果") and rc._day_end_text.text.contains("売上高"), rc._day_end_text.text)
 	t.ok(rc._day_end_text.text.contains("今日のイベント：なし") and rc._day_end_text.text.contains("獲得した称号："), "the day's history follows the result")
+	var pc: ProgressionController = main.get_node("ProgressionController")
+	t.ok(pc._stage.visible and pc._assistant.text.begins_with("今日もお疲れさまでした"), "小春六花 comments on the day: %s" % pc._assistant.text)
 	(rc._day_end.find_child("DayEndNext", true, false) as Button).pressed.emit()
 	t.ok(not rc._day_end.visible, "翌日の経営へ closes it")
+	t.ok(not pc._assistant.text.begins_with("今日もお疲れさまでした"), "and her remark goes with it")
 	app.call("_publish_snapshot")
 	t.ok(not rc._day_end.visible, "it does not come back without a new day")
 	main.queue_free()
@@ -34,3 +37,23 @@ func test_the_days_history_lines(t, _tree) -> void:
 	t.ok(quiet[1].begins_with("チャレンジ：未達成"), "not achieved: 未達成")
 	t.eq(ReportController.day_history_lines(0, {}, {}).size(), 2, "day 0 has no challenge")
 
+
+
+## #19/#32 営業結果: her remark follows the day's numbers: profit or loss, the change from the day before, one tip.
+func test_the_day_end_remark(t, _tree) -> void:
+	var day := {"purchasing_customers": 12, "operating_profit_yen": 3000, "revenue_yen": 9000, "lost_customers": 0,
+			"wastage_yen": 0, "balked_customers": 0}
+	t.eq(ProgressionText.day_end_remark([]), "", "no closed day: nothing to say")
+	var good := ProgressionText.day_end_remark([day])
+	t.ok(good.begins_with("今日もお疲れさまでした！黒字") and good.ends_with("素敵なお店にしていきましょうね！"), good)
+	var worse := day.duplicate()
+	worse.merge({"operating_profit_yen": -500, "revenue_yen": 7000, "lost_customers": 3}, true)
+	var lines := ProgressionText.day_end_remark([day, worse]).split("\n")
+	t.ok(lines[0].contains("赤字"), lines[0])
+	t.ok(lines[1].contains("2,000") and lines[1].contains("減りました"), lines[1])
+	t.ok(lines[2].contains("買えずに帰ったお客様が 3 人"), lines[2])
+	worse["balked_customers"] = 2
+	t.ok(ProgressionText.day_end_remark([worse]).contains("混雑で引き返したお客様が 2 人"), "a crowd at the door comes first")
+	var quiet := day.duplicate()
+	quiet["purchasing_customers"] = 0
+	t.ok(ProgressionText.day_end_remark([quiet]).contains("お買い上げがありませんでした"), "no sale: how to start")
