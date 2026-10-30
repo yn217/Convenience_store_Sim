@@ -151,13 +151,17 @@ func test_urban_context_backdrop_is_world_anchored_and_covers_viewport(t, _tree)
 	var texture_size := Vector2(1672.0, 941.0)
 	var proj := _proj(0.5)
 	var initial := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
-	var rect := Rect2(initial.origin, texture_size * initial.x.length())
-	t.ok(rect.size.x > viewport.x and rect.size.y > viewport.y, "the urban backdrop covers the viewport at minimum zoom")
+	var extent := Vector2(absf(initial.x.x) * texture_size.x + absf(initial.y.x) * texture_size.y, absf(initial.x.y) * texture_size.x + absf(initial.y.y) * texture_size.y)
+	t.ok(extent.x > viewport.x and extent.y > viewport.y, "the rotated urban backdrop covers the viewport at minimum zoom")
 	t.ok(absf(initial.x.length() - initial.y.length()) < 0.0001, "the panorama uses uniform scale")
-	var old_center := initial.origin + rect.size * 0.5
+	t.ok(absf(initial.x.angle() - deg_to_rad(BackdropLayer.URBAN_CONTEXT_ROTATION_DEG)) < 0.0001, "the panorama keeps its authored camera correction")
+	var center_offset := initial.x * texture_size.x * 0.5 + initial.y * texture_size.y * 0.5
+	var old_center := initial.origin + center_offset
+	var expected_center := proj.world_to_screen((16.0 - 1.0) * 0.5, (12.0 - 1.0) * 0.5)
+	t.ok(old_center.distance_to(expected_center) < 0.01, "the rotated panorama remains centered on the projected store")
 	proj.pan(Vector2(80.0, -40.0))
 	var moved := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
-	var new_center := moved.origin + texture_size * moved.x.length() * 0.5
+	var new_center := moved.origin + moved.x * texture_size.x * 0.5 + moved.y * texture_size.y * 0.5
 	t.ok(new_center.distance_to(old_center + Vector2(80.0, -40.0)) < 0.01, "the panorama follows the world camera at full translation")
 	t.ok(absf(moved.x.length() - 2.1) < 0.0001, "the panorama keeps sufficient cover scale at minimum zoom")
 	t.ok(BackdropLayer.urban_context_transform(proj, 0, 12, viewport, texture_size).x == Vector2.RIGHT, "invalid store bounds return the identity transform")
