@@ -8,8 +8,22 @@
   "generated_date": "2026-10-31",
   "stock_state": "FULL",
   "stock_rendering": "static_review_baked",
-  "projection": {"id": "iso2x_v1", "rotation": null, "control_points": [], "max_xy_error_source_px": null, "max_z_error_source_px": null, "checked_in_godot": false, "customer_access_edge": "FRONT"},
-  "geometry": {"image_anchor_px": null, "footprint_tiles": null, "dimensions_m": null, "world_ground_origin_m": null, "verified": false},
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": null,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
   "quality": {
     "subject": "pass",
     "alpha": "fail",
@@ -27,10 +41,37 @@
     ]
   },
   "runtime_approved": false,
-  "source": {"path": "source_original.png", "sha256": "5ab0421934a88f9fa4d3a84744616c4f3f897a496424976efcb31fd1167dd352", "file_size_bytes": 2330791, "unchanged_original": true, "generation_tool": "Codex built-in ImageGen", "generation_model_version": null, "prompt_file": "prompt.txt"},
+  "source": {
+    "path": "source_original.png",
+    "sha256": "5ab0421934a88f9fa4d3a84744616c4f3f897a496424976efcb31fd1167dd352",
+    "file_size_bytes": 2330791,
+    "unchanged_original": true,
+    "generation_tool": "Codex built-in ImageGen",
+    "generation_model_version": null,
+    "prompt_file": "prompt.txt"
+  },
   "outputs": [
-    {"path": "source_original.png", "role": "source_original", "sha256": "5ab0421934a88f9fa4d3a84744616c4f3f897a496424976efcb31fd1167dd352", "byte_size": 2330791, "github_uploaded": false},
-    {"path": "qa_preview_white.jpg", "role": "alpha_diagnostic", "github_uploaded": false}
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "5ab0421934a88f9fa4d3a84744616c4f3f897a496424976efcb31fd1167dd352",
+      "byte_size": 2330791,
+      "github_uploaded": true,
+      "git_blob_sha": "dfad222b87c7a6f293ea98f4da612f5f044fc472"
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "github_uploaded": true,
+      "byte_size": 368173,
+      "sha256": "62dff097e9cd21289301909aa4ce9001e63b57cfc60809b2279331fd57239a78",
+      "git_blob_sha": "0a8d2eadd3c3595652ea15e70d635f15fd15175a"
+    }
   ],
-  "github": {"repository": "yn217/Convenience_store_Sim", "branch": "art/chatgpt-interior-open-gondola-20261028", "draft_pr": 164, "issue": 113}
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164,
+    "issue": 113
+  }
 }
