@@ -1,0 +1,6 @@
+Use case: ui-mockup
+Asset type: 16:9 game screen mockup for a Japanese convenience-store management simulation
+Primary request: Create one polished in-game screen for Issue #143, focused on staff management and the staff break room. Use the user-provided character image as the identity reference for Koharu Rikka (小春六花), with a blue convenience-store manager apron and name badge.
+Composition: 16:9 landscape. Left 30% guide character and dialogue box. Right 70% large UI panel titled 「スタッフ管理」 with tabs 「控え室」「レジ担当」「品出し」「疲労度」, a 「控え室 M」 card, capacity 「4 / 6人」, assigned staff portraits, fatigue bars, work badges, and buttons 「休憩させる」「担当を変更」.
+Text: 「スタッフが疲れたら控え室で休ませましょう！」
+Constraints: one screen, one guide character, no collage, no unrelated screens, no watermark, no real company branding. Static mockup only.
