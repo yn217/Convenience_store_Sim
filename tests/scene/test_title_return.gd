@@ -2,7 +2,7 @@ extends RefCounted
 ## Title return flow: modal freezes simulation but Cancel restores the same clock/speed.
 
 func test_return_button_and_cancel(t, tree) -> void:
-	var main := load("res://scenes/main/Main.tscn").instantiate()
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
 	tree.root.add_child(main)
 	await tree.process_frame
 	var controller: TitleReturnController = main.get_node("TitleReturnController")
@@ -31,8 +31,37 @@ func test_title_art_and_continue_controls(t, tree) -> void:
 	await tree.process_frame
 	t.ok(title.find_child("TitleBackground", true, false) != null, "background art is a separate element")
 	t.ok(title.find_child("TitleLogo", true, false) != null, "title logo is a separate element")
+	var name_label := title.find_child("TitleName", true, false) as Label
+	t.ok(name_label != null and name_label.text == "コンビニ経営ゲーム", "the logo's words are a label (SVG text is not drawn by Godot)")
 	t.ok(title.find_child("NewGame", true, false) != null, "new-game button remains interactive")
 	t.ok(title.find_child("Continue", true, false) != null, "continue button remains interactive")
 	t.ok(title.find_child("Quit", true, false) != null, "quit button remains interactive")
 	title.queue_free()
+	await tree.process_frame
+
+
+## 保存せず戻る: the title scene replaces the game and no save is written; the tree is not left paused.
+func test_leaving_without_saving_opens_the_title(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var controller: TitleReturnController = main.get_node("TitleReturnController")
+	var app: AppRoot = main.get_node("AppRoot")
+	app.save_dir = "user://test_title_return_saves"
+	controller.ask_return_to_title()
+	var changed := [false]
+	var on_change := func(): changed[0] = true
+	tree.scene_changed.connect(on_change)
+	controller._dialog.confirmed.emit()
+	await tree.process_frame
+	await tree.process_frame
+	t.ok(not tree.paused, "the tree runs again")
+	t.eq(SaveStore.latest_slot(app.save_dir) if is_instance_valid(app) else SaveStore.latest_slot("user://test_title_return_saves"), "", "nothing was saved")
+	t.ok(changed[0] or (tree.current_scene != null and tree.current_scene.scene_file_path == TitleReturnController.TITLE_SCENE), "the title scene is opened")
+	tree.scene_changed.disconnect(on_change)
+	if is_instance_valid(main):
+		main.queue_free()
+	if tree.current_scene != null and tree.current_scene.scene_file_path == TitleReturnController.TITLE_SCENE:
+		tree.current_scene.queue_free()
 	await tree.process_frame

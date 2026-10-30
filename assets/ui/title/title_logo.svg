@@ -1,10 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 260" width="1100" height="260">
-<title>Convenience Store Sim — decorative title logo</title>
+<title>Convenience Store Sim — title logo plate (the words are Godot labels: SVG text does not render in Godot)</title>
 <defs><linearGradient id="banner" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#214c85"/><stop offset="1" stop-color="#102c53"/></linearGradient><linearGradient id="orange" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff1a2"/><stop offset=".5" stop-color="#ffa22d"/><stop offset="1" stop-color="#e56723"/></linearGradient></defs>
 <rect x="14" y="22" width="1072" height="203" rx="72" fill="#10274b" opacity=".5"/>
 <rect x="28" y="10" width="1044" height="204" rx="64" fill="url(#banner)" stroke="#fcf5cd" stroke-width="7"/>
 <g fill="#ffcd55"><circle cx="87" cy="64" r="10"/><circle cx="1000" cy="71" r="12"/><circle cx="987" cy="150" r="7"/></g>
-<text x="550" y="135" text-anchor="middle" font-family="Noto Sans CJK JP, sans-serif" font-weight="900" font-size="93" stroke="#13263e" stroke-width="11" paint-order="stroke" fill="url(#orange)">コンビニ経営ゲーム</text>
 <rect x="309" y="170" width="482" height="63" rx="25" fill="#fff8ed"/>
-<text x="550" y="215" text-anchor="middle" font-family="Noto Sans, sans-serif" font-weight="800" letter-spacing="3" font-size="30" fill="#23537c">CONVENIENCE STORE SIM</text>
 </svg>

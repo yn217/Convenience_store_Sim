@@ -47,6 +47,10 @@ func _ready() -> void:
 		logo.custom_minimum_size = Vector2(550, 150)
 		logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		col.add_child(logo)
+		# The plate is drawn at half size (1100x260 -> 550x130, 10 px down); the words sit on it as labels, since
+		# Godot's SVG import draws no <text>.
+		logo.add_child(_logo_label("TitleName", "コンビニ経営ゲーム", 46, Color("ffb03a"), Rect2(14, 14, 522, 74), 10))
+		logo.add_child(_logo_label("TitleSub", "CONVENIENCE STORE SIM", 15, Color("23537c"), Rect2(154, 95, 242, 32), 0))
 	else:
 		var name_label := Label.new()
 		name_label.text = "コンビニ経営ゲーム"
@@ -73,6 +77,23 @@ func _ready() -> void:
 	col.add_child(_settings)
 	col.add_child(_button("Quit", "ゲームを終了", func(): get_tree().quit(), false))
 	refresh()
+
+
+func _logo_label(node_name: String, text: String, size: int, color: Color, rect: Rect2, outline: int) -> Label:
+	var l := Label.new()
+	l.name = node_name
+	l.text = text
+	l.position = rect.position
+	l.size = rect.size
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	l.add_theme_font_size_override("font_size", size)
+	l.add_theme_color_override("font_color", color)
+	if outline > 0:
+		l.add_theme_constant_override("outline_size", outline)
+		l.add_theme_color_override("font_outline_color", Color("13263e"))
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return l
 
 
 func _button(node_name: String, text: String, on_press: Callable, primary: bool) -> Button:
