@@ -22,15 +22,15 @@
       "byte_size": 1884490,
       "sha256": "090a90b0e5e63fef0ae03ac6f83556b56ba83582da87cb66f2d1ca25db8913c1",
       "git_blob_sha": "c77a4c60ff298b53f5c920da840d0ae8e0305816",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "other",
       "path": "assets/review/imagegen_candidates/20261030/bakery_oven_hero_v1/qa_preview_white.png",
       "byte_size": 2001641,
       "sha256": "14b0e7a4b2840c5c75d01ac09e7b4ac034e3297da37333bf5dc4f7eef289f491",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "e2c7844c3d351e8a7dc00a08719c988606000dd7",
+      "github_uploaded": true
     }
   ],
   "projection": {
