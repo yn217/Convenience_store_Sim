@@ -1,0 +1,9 @@
+{
+  "asset_id": "urban_context_isometric_k",
+  "source": "OpenAI ImageGen edit",
+  "source_asset": "assets/generated/backgrounds/urban_context_isometric_b/urban_context_isometric_b.png",
+  "purpose": "Preserve residential perimeter context while replacing central asphalt plaza with garden and correcting ground projection to store axes.",
+  "requested_camera": "Orthographic 2:1 dimetric; ground-plane axes requested at +26.565 and -26.565 degrees from horizontal.",
+  "edit_scope": "Central plaza replacement and coherent paving axes; preserve framing and perimeter.",
+  "status": "generated_candidate_not_reviewed"
+}
