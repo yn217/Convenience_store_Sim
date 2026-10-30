@@ -3,11 +3,15 @@ extends Node
 ## "はじめかた" section of the inspector: tutorial card with skip / show again, today's challenge,
 ## milestone progress and the latest notices. It shows what ProgressionService decided; it never
 ## judges progress itself. Hiding the tutorial only flips `tutorial_skipped` (a Domain command),
-## so progress and notices are never lost.
+## so progress and notices are never lost. The assistant's lines are not in the card: she stands at the
+## bottom left of the screen (on the summary strip), over the store and any open window, and speaks in a bubble (mockup 2026-10-30).
 
 const NOTICE_LINES := 5
 const ASSISTANT_NAME := "小春六花"   # the manager assistant character (user's choice, 2026-10-30)
-const ASSISTANT_PORTRAIT := "res://assets/ui/characters/rikka_portrait.png"
+const ASSISTANT_FIGURE := "res://assets/ui/characters/rikka_stand.png"   # cut-out of the source art (tools/assets/cutout_rikka_stand.py)
+const FIGURE_SIZE := Vector2(300, 432)   # keeps the art's 512:737 aspect
+const Layout := preload("res://scripts/presentation/main_layout.gd")
+const BUBBLE_WIDTH := 420
 
 var _app: Node
 var _card: Label
@@ -15,8 +19,9 @@ var _challenge: Label
 var _milestones: Label
 var _notices: Label
 var _toggle: Button
-var _assistant: Label
-var _assistant_row: HBoxContainer   # portrait + the assistant's line
+var _assistant: Label          # her current line, inside the bubble
+var _stage: Control            # full-screen layer on Main: the standing figure and the bubble; takes no clicks itself
+var _bubble: PanelContainer
 var _dismiss: Button
 var _achievements: Label
 var _history: Array[String] = []
@@ -44,28 +49,13 @@ func setup(app: Node, milestones: Array) -> void:
 	_milestones.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_notices = Label.new()
 	_notices.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_assistant_row = HBoxContainer.new()
-	_assistant_row.name = "AssistantRow"
-	_assistant_row.add_theme_constant_override("separation", 10)
-	var portrait := TextureRect.new()
-	portrait.name = "AssistantPortrait"
-	portrait.texture = load(ASSISTANT_PORTRAIT) as Texture2D
-	portrait.custom_minimum_size = Vector2(72, 72)
-	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	portrait.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	_assistant_row.add_child(portrait)
-	_assistant = Label.new()
-	_assistant.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_assistant.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_assistant_row.add_child(_assistant)
-	_dismiss = Button.new()
-	_dismiss.text = "閉じる"
-	_dismiss.pressed.connect(dismiss_cue)
 	_achievements = Label.new()
 	_achievements.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	for c in [_card, _toggle, _challenge, _milestones, _notices, _assistant_row, _dismiss, _achievements]:
+	for c in [_card, _toggle, _challenge, _milestones, _notices, _achievements]:
 		_body.add_child(c)
+	_build_stage()
+	# Added after Main has built its management window, so she stands in front of it.
+	get_parent().add_child.call_deferred(_stage)
 	apply_snapshot({"progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [], "active_daily_challenge_id": null}})
 
 
@@ -80,14 +70,69 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_milestones.text = "称号 %d/%d（店のレベル %d）" % [done, maxi(_milestone_defs.size(), done), done]
 	_notices.text = "\n".join(_history.slice(maxi(_history.size() - NOTICE_LINES, 0)))
 	var cue := String(snap.get("story_cue", ""))
-	_assistant.text = ("%s（店長アシスタント）\n%s" % [ASSISTANT_NAME, ProgressionText.assistant_text(cue)]) if cue != "" else ""
-	_assistant.visible = cue != ""
-	_assistant_row.visible = cue != ""
-	_dismiss.visible = cue != ""
+	_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
+	_stage.visible = cue != ""
 	var lines: Array[String] = []
 	for entry in snap.get("milestone_progress", []):
 		lines.append(ProgressionText.progress_line(entry))
 	_achievements.text = "実績一覧\n" + "\n".join(lines) if not lines.is_empty() else ""
+
+
+func _build_stage() -> void:
+	_stage = Control.new()
+	_stage.name = "AssistantStage"
+	_stage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var figure := TextureRect.new()
+	figure.name = "AssistantFigure"
+	figure.texture = load(ASSISTANT_FIGURE) as Texture2D
+	figure.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	figure.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	figure.mouse_filter = Control.MOUSE_FILTER_IGNORE   # the rail and the store under her stay clickable
+	figure.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	figure.offset_left = 0
+	figure.offset_right = FIGURE_SIZE.x
+	figure.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT   # she stands on the summary strip, not over its cards
+	figure.offset_bottom = -Layout.BOTTOM_HEIGHT
+	_stage.add_child(figure)
+	_bubble = PanelContainer.new()
+	_bubble.name = "AssistantBubble"
+	_bubble.theme_type_variation = &"Card"
+	_bubble.mouse_filter = Control.MOUSE_FILTER_STOP
+	_bubble.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_bubble.offset_left = FIGURE_SIZE.x - 40          # beside her head, slightly over her shoulder
+	_bubble.offset_right = FIGURE_SIZE.x - 40 + BUBBLE_WIDTH
+	_bubble.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT + 40
+	_bubble.offset_bottom = _bubble.offset_top
+	_bubble.grow_vertical = Control.GROW_DIRECTION_END
+	_stage.add_child(_bubble)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 6)
+	_bubble.add_child(column)
+	var name_label := Label.new()
+	name_label.name = "AssistantName"
+	name_label.text = "%s（店長アシスタント）" % ASSISTANT_NAME
+	name_label.add_theme_color_override("font_color", UiTheme.WARM)
+	name_label.add_theme_font_size_override("font_size", 18)
+	column.add_child(name_label)
+	_assistant = Label.new()
+	_assistant.name = "AssistantLine"
+	_assistant.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_assistant.custom_minimum_size.x = BUBBLE_WIDTH - 40
+	_assistant.add_theme_font_size_override("font_size", 17)
+	column.add_child(_assistant)
+	_dismiss = Button.new()
+	_dismiss.name = "AssistantDismiss"
+	_dismiss.text = "閉じる"
+	_dismiss.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_dismiss.pressed.connect(dismiss_cue)
+	column.add_child(_dismiss)
+	# The bubble's tail points left, at her face.
+	var tail := Polygon2D.new()
+	tail.name = "BubbleTail"
+	tail.polygon = PackedVector2Array([Vector2(0, 30), Vector2(-22, 52), Vector2(0, 62)])
+	tail.color = UiTheme.CARD_TOP.lerp(UiTheme.CARD_BOTTOM, 0.2)   # the card's gradient near the top, where the tail sits
+	_bubble.add_child(tail)
 
 
 ## Called by AppRoot with the achievements that happened since the last snapshot.

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn6t2qjechyqc"
-path="res://.godot/imported/rikka_portrait.png-77c2e38f98d6e492989fce039c2ecdad.ctex"
+uid="uid://bq06qby8vvpla"
+path="res://.godot/imported/rikka_stand.png-ef683ab62e396d393e7a386f9dc10553.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/characters/rikka_portrait.png"
-dest_files=["res://.godot/imported/rikka_portrait.png-77c2e38f98d6e492989fce039c2ecdad.ctex"]
+source_file="res://assets/ui/characters/rikka_stand.png"
+dest_files=["res://.godot/imported/rikka_stand.png-ef683ab62e396d393e7a386f9dc10553.ctex"]
 
 [params]
 
