@@ -48,6 +48,20 @@ static func notice(event: Dictionary, milestones: Array) -> String:
 	return ""
 
 
+## What the assistant says when she celebrates an achievement (#32 達成演出): titles and daily challenges only;
+## tutorial steps stay in the notices. "" means no celebration.
+static func celebration(event: Dictionary, milestones: Array) -> String:
+	match event["kind"]:
+		"MILESTONE":
+			for m in milestones:
+				if m["milestone_id"] == event["id"]:
+					return "やりましたね、店長！\n称号「%s」を獲得しました。" % m["name_ja"]
+			return "やりましたね、店長！\n新しい称号を獲得しました。"
+		"CHALLENGE":
+			return "今日のチャレンジ達成です！\n%s" % String(CHALLENGE.get(event["challenge_id"], "")).trim_prefix("今日のチャレンジ: ")
+	return ""
+
+
 ## The goal sentence for the 本日の目標 card: what the next milestone asks for, e.g. "累計 10 件の会計を達成しよう".
 static func goal_text(metric: String, threshold: int) -> String:
 	match metric:

@@ -63,6 +63,7 @@ func test_first_five_minutes_within_the_starting_money(t, tree) -> void:
 	t.ok(pc._notices.text.contains("称号を獲得: ") or pc._history.any(func(l): return l.contains("手順 7 完了")))
 	t.ok(app.state.cash_yen > 0, "the whole opening fits the starting money: ¥%d left" % app.state.cash_yen)
 	t.ok(pc._history.any(func(l): return l.contains("称号を獲得")), "the first sale earned a title")
+	t.ok(pc.is_celebrating() and pc._heading.visible, "she celebrates the first title (#32)")
 	r[0].queue_free()
 	await tree.process_frame
 
@@ -125,5 +126,36 @@ func test_achievement_list_shows_progress(t, tree) -> void:
 	t.eq(pc._snap["milestone_progress"].size(), 12)
 	t.ok(pc._achievements.text.begins_with("実績一覧"))
 	t.ok(pc._achievements.text.contains("・ "), "unfinished entries show as open")
+	r[0].queue_free()
+	await tree.process_frame
+
+
+## #32 達成演出: titles and daily challenges make her cheer, one at a time, before her story line; the badge is the
+## only reward, and an event is celebrated once.
+func test_achievements_are_celebrated_once_without_rewards(t, tree) -> void:
+	var r: Array = await _boot(tree)
+	var app: Node = r[1]
+	var pc: ProgressionController = r[2]
+	var stage: Control = r[0].get_node("AssistantStage")
+	var cash: int = app.state.cash_yen
+	var first: Dictionary = app.state.milestones[0]
+	pc.show_events([
+		{"kind": "TUTORIAL_STEP", "id": "tut_02"},
+		{"kind": "MILESTONE", "id": first["milestone_id"]},
+		{"kind": "CHALLENGE", "challenge_id": "challenge_sales_3"},
+	])
+	t.ok(stage.visible and pc._heading.visible, "目標達成！ shows")
+	t.eq(pc._heading.text, "★ 目標達成！ ★")
+	t.ok(pc._assistant.text.contains("称号「%s」" % first["name_ja"]), "the title comes first: %s" % pc._assistant.text)
+	t.eq(pc._celebrations.size(), 2, "a tutorial step is not celebrated")
+	(stage.find_child("AssistantDismiss", true, false) as Button).pressed.emit()
+	t.ok(pc._assistant.text.contains("3件以上の会計") and not pc._assistant.text.contains("今日のチャレンジ:"), "then the challenge: %s" % pc._assistant.text)
+	t.eq(pc._snap["story_cue"], "story_start", "closing a celebration does not dismiss the story line")
+	pc._celebrate_timer.timeout.emit()
+	t.ok(not pc.is_celebrating() and not pc._heading.visible, "the timer closes a celebration by itself")
+	t.ok(stage.visible and pc._assistant.text.contains("どんなお店"), "her story line is back")
+	app._publish_snapshot()
+	t.ok(not pc.is_celebrating(), "a new snapshot does not celebrate again")
+	t.eq(app.state.cash_yen, cash, "no cash reward: the badge is the whole reward")
 	r[0].queue_free()
 	await tree.process_frame

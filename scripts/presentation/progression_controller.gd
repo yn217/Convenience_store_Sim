@@ -5,6 +5,8 @@ extends Node
 ## judges progress itself. Hiding the tutorial only flips `tutorial_skipped` (a Domain command),
 ## so progress and notices are never lost. The assistant's lines are not in the card: she stands at the
 ## bottom left of the screen (on the summary strip), over the store and any open window, and speaks in a bubble (mockup 2026-10-30).
+## When a title or a daily challenge is achieved she cheers first (目標達成！ with the badge, a small hop); the
+## celebration is presentation only: the badge is the whole reward, and each achievement event is shown once.
 
 const NOTICE_LINES := 5
 const ASSISTANT_NAME := "小春六花"   # the manager assistant character (user's choice, 2026-10-30)
@@ -12,6 +14,8 @@ const ASSISTANT_FIGURE := "res://assets/ui/characters/rikka_stand.png"   # cut-o
 const FIGURE_SIZE := Vector2(300, 432)   # keeps the art's 512:737 aspect
 const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
+const CELEBRATE_HEADING := "★ 目標達成！ ★"
+const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
 
 var _app: Node
 var _card: Label
@@ -23,6 +27,10 @@ var _assistant: Label          # her current line, inside the bubble
 var _stage: Control            # full-screen layer on Main: the standing figure and the bubble; takes no clicks itself
 var _bubble: PanelContainer
 var _dismiss: Button
+var _heading: Label            # 目標達成！ while celebrating, hidden otherwise
+var _figure: TextureRect
+var _celebrations: Array[Dictionary] = []   # queued {badge, line}; the first one is on screen
+var _celebrate_timer: Timer
 var _achievements: Label
 var _history: Array[String] = []
 var _snap: Dictionary = {}
@@ -70,12 +78,60 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_milestones.text = "称号 %d/%d（店のレベル %d）" % [done, maxi(_milestone_defs.size(), done), done]
 	_notices.text = "\n".join(_history.slice(maxi(_history.size() - NOTICE_LINES, 0)))
 	var cue := String(snap.get("story_cue", ""))
-	_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
-	_stage.visible = cue != ""
+	_refresh_stage()
 	var lines: Array[String] = []
 	for entry in snap.get("milestone_progress", []):
 		lines.append(ProgressionText.progress_line(entry))
 	_achievements.text = "実績一覧\n" + "\n".join(lines) if not lines.is_empty() else ""
+
+
+## Celebration first, then the story line; nothing to say hides her.
+func _refresh_stage() -> void:
+	if _stage == null:
+		return
+	var cue := String(_snap.get("story_cue", ""))
+	var celebrating := not _celebrations.is_empty()
+	_heading.visible = celebrating
+	if celebrating:
+		_assistant.text = String(_celebrations[0]["line"])
+	else:
+		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
+	_stage.visible = celebrating or cue != ""
+
+
+func is_celebrating() -> bool:
+	return not _celebrations.is_empty()
+
+
+## 閉じる (or the timer) ends the current celebration; the next queued one, or the story line, follows.
+func close_celebration() -> void:
+	if _celebrations.is_empty():
+		return
+	_celebrations.pop_front()
+	_start_celebration()
+	_refresh_stage()
+
+
+func _on_dismiss_pressed() -> void:
+	if is_celebrating():
+		close_celebration()
+	else:
+		dismiss_cue()
+
+
+func _start_celebration() -> void:
+	if _celebrations.is_empty() or _celebrate_timer == null:
+		return
+	if _celebrate_timer.is_inside_tree():
+		_celebrate_timer.start()
+	if _figure != null and _figure.is_inside_tree():   # a little hop for joy
+		var base := -Layout.BOTTOM_HEIGHT
+		var hop := _figure.create_tween()
+		for i in 2:
+			hop.tween_property(_figure, "offset_bottom", base - 18.0, 0.12).set_ease(Tween.EASE_OUT)
+			hop.parallel().tween_property(_figure, "offset_top", base - FIGURE_SIZE.y - 18.0, 0.12).set_ease(Tween.EASE_OUT)
+			hop.tween_property(_figure, "offset_bottom", base, 0.14).set_ease(Tween.EASE_IN)
+			hop.parallel().tween_property(_figure, "offset_top", base - FIGURE_SIZE.y, 0.14).set_ease(Tween.EASE_IN)
 
 
 func _build_stage() -> void:
@@ -95,6 +151,12 @@ func _build_stage() -> void:
 	figure.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT   # she stands on the summary strip, not over its cards
 	figure.offset_bottom = -Layout.BOTTOM_HEIGHT
 	_stage.add_child(figure)
+	_figure = figure
+	_celebrate_timer = Timer.new()
+	_celebrate_timer.one_shot = true
+	_celebrate_timer.wait_time = CELEBRATE_SECONDS
+	_celebrate_timer.timeout.connect(close_celebration)
+	_stage.add_child(_celebrate_timer)
 	_bubble = PanelContainer.new()
 	_bubble.name = "AssistantBubble"
 	_bubble.theme_type_variation = &"Card"
@@ -115,6 +177,14 @@ func _build_stage() -> void:
 	name_label.add_theme_color_override("font_color", UiTheme.WARM)
 	name_label.add_theme_font_size_override("font_size", 18)
 	column.add_child(name_label)
+	_heading = Label.new()
+	_heading.name = "CelebrateHeading"
+	_heading.text = CELEBRATE_HEADING
+	_heading.add_theme_color_override("font_color", UiTheme.WARM)
+	_heading.add_theme_font_size_override("font_size", 30)
+	_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_heading.visible = false
+	column.add_child(_heading)
 	_assistant = Label.new()
 	_assistant.name = "AssistantLine"
 	_assistant.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -125,7 +195,7 @@ func _build_stage() -> void:
 	_dismiss.name = "AssistantDismiss"
 	_dismiss.text = "閉じる"
 	_dismiss.size_flags_horizontal = Control.SIZE_SHRINK_END
-	_dismiss.pressed.connect(dismiss_cue)
+	_dismiss.pressed.connect(_on_dismiss_pressed)
 	column.add_child(_dismiss)
 	# The bubble's tail points left, at her face.
 	var tail := Polygon2D.new()
@@ -141,8 +211,15 @@ func show_events(events: Array) -> void:
 		var line := ProgressionText.notice(e, _milestone_defs)
 		if line != "":
 			_history.append(line)
+		var cheer := ProgressionText.celebration(e, _milestone_defs)
+		if cheer != "":
+			_celebrations.append({"kind": String(e["kind"]), "line": cheer})
+			if _celebrations.size() == 1:
+				_start_celebration()
 	if not events.is_empty() and not _snap.is_empty():
 		apply_snapshot(_snap)
+	else:
+		_refresh_stage()
 
 
 func dismiss_cue() -> CommandResult:
