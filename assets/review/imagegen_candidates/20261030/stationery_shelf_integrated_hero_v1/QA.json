@@ -1,0 +1,63 @@
+{
+  "asset_id": "stationery_shelf_integrated_hero_v1",
+  "reviewer": "parent static visual and alpha review; independent reviewer not run",
+  "overall": "FAIL",
+  "source_sha256": "e575332a71868add9060ed7918772570552e73dc6ec16ff4d654a238784aec28",
+  "image": {
+    "width": 1536,
+    "height": 1024,
+    "format": "PNG RGBA",
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "alpha_zero": 794190,
+    "alpha_1_to_127": 41342,
+    "alpha_128_to_254": 737332,
+    "alpha_255": 0,
+    "alpha_gt_0_bbox_xyxy_exclusive": [
+      49,
+      9,
+      1498,
+      1024
+    ],
+    "alpha_gt_0_margins_pct_approx": {
+      "left": 3.19,
+      "right": 2.47,
+      "top": 0.88,
+      "bottom": 0
+    },
+    "alpha_ge_128_bbox_xyxy_exclusive": [
+      291,
+      28,
+      1246,
+      1008
+    ],
+    "alpha_ge_128_margins_pct_approx": {
+      "left": 18.95,
+      "right": 18.88,
+      "top": 2.73,
+      "bottom": 1.56
+    },
+    "alpha_nonzero_touches_bottom_edge": true
+  },
+  "checks": {
+    "a02_stationery_phone_accessory_gondola": "pass: shelf clearly contains pens, notebooks, batteries, charging cables and blister-packed accessories",
+    "single_integrated_fixture": "pass",
+    "products_as_loose_cards": "pass: all products appear attached to shelves/hooks in one image",
+    "transparent_background": "fail: alpha channel exists, but no alpha=255 pixels and significant semitransparent fringe",
+    "safe_margin": "fail: alpha>=128 margins top/bottom 2.73%/1.56%; weak alpha touches bottom edge (requested 12%)",
+    "iso2x_v1_projection": "fail: visible axes not calibrated to iso2x_v1 control points; strong perspective/top planes",
+    "dimensions_footprint_ground_anchor": "not_checked",
+    "godot_game_scale": "not_checked",
+    "other_rotations": "not_checked",
+    "runtime_approved": false
+  },
+  "notes": [
+    "A02 stationery/phone-accessory subject and integrated stocking are recognizable.",
+    "The PNG has 0 fully opaque pixels (alpha max 254); weak nonzero alpha touches the bottom edge.",
+    "The case nearly fills the vertical canvas; transparent safety margin is below the 12% brief on top and bottom.",
+    "The view is a polished three-quarter illustration, not a measured iso2x_v1 render; world size, footprint, anchor and Godot display remain unchecked.",
+    "Original kept unchanged; the white preview is a separate QA composite. Review only, runtime_approved false."
+  ]
+}
