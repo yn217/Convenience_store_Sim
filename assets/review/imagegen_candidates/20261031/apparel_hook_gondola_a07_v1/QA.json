@@ -1,0 +1,53 @@
+{
+  "asset_id": "apparel_hook_gondola_a07_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [
+    1312,
+    1199
+  ],
+  "source_sha256": "80d2aedcd78165cce30d2a130abe55f207f4756ef4779cab04947a47a76f296f",
+  "content": {
+    "verdict": "PASS",
+    "notes": "Compact clothing essentials fixture with hook-hung socks, gloves, knit caps and folded shirts on two shelves; merchandise is physically supported by the fixture."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_pixels": 956883,
+    "alpha_1_to_127_pixels": 19118,
+    "alpha_128_to_254_pixels": 596901,
+    "fully_opaque_pixels": 186,
+    "nonzero_bbox_xyxy": [
+      49,
+      12,
+      1266,
+      1199
+    ],
+    "threshold_128_bbox_xyxy": [
+      345,
+      16,
+      1050,
+      1189
+    ],
+    "touches_any_edge": true,
+    "bottom_edge_nonzero_pixels": 24,
+    "reason": "Broad subject semitransparency and 24 nonzero alpha pixels touch the bottom edge; insufficient safe crop margin."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Uncalibrated perspective-like three-quarter view; no 2:1 control points or Godot validation."
+  },
+  "geometry": {
+    "verdict": "NOT_CHECKED",
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "ground_anchor": null
+  },
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}
