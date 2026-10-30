@@ -1,0 +1,8 @@
+Use case: game-asset
+Asset type: review-only 2D sprite candidate for a Japanese convenience-store interior
+Primary request: one compact wall-side eat-in set: narrow light-wood counter-height table, two stools tucked in front, short privacy divider behind the tabletop, small attached tray-return shelf at one end.
+Style: polished cozy Japanese convenience-store management game illustration, clean hand-painted isometric sprite, crisp readable edges, subtle warm highlights, restrained realistic materials.
+Composition: complete furniture set grounded on one small rectangular footprint, three-quarter isometric view aligned to 2:1 game iso axes, access/stool side faces lower-right, centered with broad transparent margin, parallel edges remain parallel, no wide-angle perspective.
+Palette: warm pale wood, charcoal metal, muted cream divider, tiny navy accent.
+Constraints: real furniture proportions, stools visibly separate and usable, tray-return shelf attached, transparent background, no text, branding, food, people, room, wall surface, floor plane.
+Avoid: cafe scene, multiple tables, floating chairs, detached trash bins, appliances, oversized partition, dramatic perspective, collage, labels, measurements, watermark.

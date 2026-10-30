@@ -1,0 +1,52 @@
+{
+  "asset_id": "eat_in_wall_counter_s04_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [
+    1536,
+    1024
+  ],
+  "source_sha256": "5902d96491751ae0eeb506fe7a549f5c659636c832144f8c090eec1046b2331a",
+  "content": {
+    "verdict": "PARTIAL",
+    "notes": "One counter-height table, two stools and a rear divider are visible with a tray-return shelf. The tray-return unit is oversized relative to the table; compact wall-side scale is not established."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 254,
+    "fully_transparent_pixels": 1068565,
+    "alpha_1_to_127_pixels": 34347,
+    "alpha_128_to_254_pixels": 469952,
+    "fully_opaque_pixels": 0,
+    "nonzero_bbox_xyxy": [
+      35,
+      32,
+      1490,
+      930
+    ],
+    "threshold_128_bbox_xyxy": [
+      274,
+      36,
+      1270,
+      917
+    ],
+    "touches_any_edge": false,
+    "reason": "Broad semi-transparent dark background and subject pixels remain; no fully opaque pixel exists."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Uncalibrated perspective-like three-quarter view; no 2:1 control points, tile footprint, dimensions, access clearance, anchor or Godot validation."
+  },
+  "geometry": {
+    "verdict": "NOT_CHECKED",
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "ground_anchor": null
+  },
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}

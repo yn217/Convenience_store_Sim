@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "asset_id": "eat_in_wall_counter_s04_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "S04 wall-side eat-in table, seating, divider and tray-return furniture set",
+  "actual_subject": "Long counter-height table with two stools, rear divider and oversized attached tray-return shelf",
+  "production_method": "codex_builtin_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "partial",
+    "alpha": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "state_sync": "not_applicable",
+    "notes": [
+      "Table, two stools, divider, and tray return are visible; tray return is oversized and the total set is not clearly compact.",
+      "Alpha contains extensive semitransparency and no fully opaque pixels.",
+      "Projection, dimensions, occupied tiles, access clearance, anchor, and Godot display are unverified.",
+      "No customer behavior or game logic is implied."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "5902d96491751ae0eeb506fe7a549f5c659636c832144f8c090eec1046b2331a",
+    "file_size_bytes": 1550149,
+    "unchanged_original": true,
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "5902d96491751ae0eeb506fe7a549f5c659636c832144f8c090eec1046b2331a",
+      "byte_size": 1550149,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "sha256": "cf63055625afcad4c8012317df8a45f3b86fdc8ae2e7247122a13e0f9062937f",
+      "byte_size": 161101,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164
+  },
+  "prompt_file": "prompt.txt"
+}
