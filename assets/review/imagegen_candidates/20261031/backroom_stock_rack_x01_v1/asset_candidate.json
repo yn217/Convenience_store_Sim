@@ -16,17 +16,17 @@
   "outputs": [
     {
       "path": "source_original.png",
-      "github_uploaded": false,
+      "github_uploaded": true,
       "role": "source_original",
-      "git_blob_sha": null,
+      "git_blob_sha": "cdac6781b82b12d4d1a27fe2610d5b1ebf37ae81",
       "sha256": "860997d9ad6fe2ac4fe3a4366c99ed149054dac65a8ada6a1851dcd75f5e2234",
       "byte_size": 1274906
     },
     {
       "path": "qa_preview_white.jpg",
-      "github_uploaded": false,
+      "github_uploaded": true,
       "role": "qa_overlay",
-      "git_blob_sha": null,
+      "git_blob_sha": "5297d11efafd18e4e560e49a460a2e1d4d74b23d",
       "sha256": "176101e4e353e4498877ee18becff4dcde2aafbb00a7a6fa59c24b115b833216",
       "byte_size": 222109
     }
