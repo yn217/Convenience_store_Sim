@@ -21,8 +21,8 @@
       "path": "assets/review/imagegen_candidates/20261030/snack_bakery_endcap_integrated_v1/source_original.png",
       "byte_size": 1945532,
       "sha256": "7beb20a3db8acff6d3eca765fc4f5833672c41733bab182fc18a7b8a20dd2758",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "860f296d86018858eefc05728ee2d91684e69847",
+      "github_uploaded": true
     }
   ],
   "projection": {
