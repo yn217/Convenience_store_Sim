@@ -1,0 +1,5 @@
+Use case: ui-mockup
+Asset type: one 16:9 game screen mockup for a Japanese convenience-store management simulation
+Primary request: Create one polished eat-in management screen for Issue #134. Use the user-provided Koharu Rikka reference for the guide character and the supplied store expansion/eat-in screenshot only as layout inspiration.
+Composition: isometric store with eat-in corner, tables, chairs, counter seats, self-service trash bins, tray return station, and seated customers. Right panel titled 「イートイン管理」 with tabs 「座席状況」「配置」「清掃」, 「空席 3 / 8席」, 「食事中」「退席待ち」「清掃待ち」 and buttons 「配置を変更」「清掃する」. Dialogue states 「再会計は発生しません」.
+Constraints: one screen, one guide character, no collage, no unrelated event or recruitment screen, static mockup only.

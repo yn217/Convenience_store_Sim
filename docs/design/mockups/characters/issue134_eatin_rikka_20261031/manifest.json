@@ -1,0 +1,10 @@
+{
+  "asset_id": "issue134_eatin_management_rikka_20261031",
+  "kind": "ui_mockup",
+  "issue": 134,
+  "character_identity": "Koharu Rikka (user-specified reference; rights review required before production redistribution)",
+  "source": "generated with user-provided character reference and user-provided eat-in layout reference",
+  "runtime_connected": false,
+  "file": "issue134_eatin_management_rikka.png",
+  "screen_role": "eat-in seating status, placement, cleanup, and post-purchase stay guidance"
+}
