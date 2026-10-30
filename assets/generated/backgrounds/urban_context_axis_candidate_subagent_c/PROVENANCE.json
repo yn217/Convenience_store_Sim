@@ -1,0 +1,7 @@
+{
+  "asset_id": "urban_context_axis_candidate_subagent_c",
+  "source": "OpenAI built-in ImageGen",
+  "purpose": "Strict 2:1 dimetric neighborhood backdrop candidate",
+  "dimensions": "1774x887",
+  "status": "generated_candidate_pending_root_review"
+}
