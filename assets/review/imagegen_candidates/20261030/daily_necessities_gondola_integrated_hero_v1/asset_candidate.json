@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "asset_id": "daily_necessities_gondola_integrated_hero_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "P1 A01 daily-necessities gondola for Issue #125",
+  "actual_subject": "One integrated freestanding gondola with tissue packs, toiletries, detergent/shampoo bottles, masks and household items",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/daily_necessities_gondola_integrated_hero_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1684713,
+    "sha256": "c1657f9a1f8835f8bb45f66b1e77e98b4d83f30055be0782acb31e87ff3c4efc",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/daily_necessities_gondola_integrated_hero_v1/source_original.png",
+      "byte_size": 1684713,
+      "sha256": "c1657f9a1f8835f8bb45f66b1e77e98b4d83f30055be0782acb31e87ff3c4efc",
+      "git_blob_sha": "bc87b77c7f5b5aaae0f87231fd677408d279d6d9",
+      "github_uploaded": true
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/daily_necessities_gondola_integrated_hero_v1/qa_preview_white.jpg",
+      "byte_size": 386981,
+      "sha256": "f604ca5e52f9483ce0ee440e2b82c1dc7a9f3ae6e2a901ee52ba383404853d3c",
+      "git_blob_sha": "f1b9e7784e793ab3f1cce6d511349e006b200323",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "A01 product category and integrated gondola are recognizable.",
+      "Weak alpha reaches image edges; 12% safe margins are not achieved.",
+      "Projection, world size, anchor and Godot runtime are unverified.",
+      "Review-only; runtime_approved false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
