@@ -1,0 +1,60 @@
+{
+  "asset_id": "gondola_edit_full_v1",
+  "reviewer": "independent parent visual and alpha QA; direct built-in ImageGen edit",
+  "overall": "FAIL",
+  "source_sha256": "ecaf3dff3b2d2c927ecce3e9337649d2423ef14475d628ce232097439025be07",
+  "image": {
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_zero_pct": 61.78,
+    "alpha_gt127_bbox_xyxy": [
+      166,
+      83,
+      929,
+      1161
+    ],
+    "margins_gt127_pct": {
+      "left": 13.24,
+      "right": 25.92,
+      "top": 6.62,
+      "bottom": 7.42
+    },
+    "alpha_preview": "alpha_preview.png",
+    "same_canvas_comparison": "comparison_same_canvas.png",
+    "empty_guide_alpha_gt127_bbox_xyxy": [
+      161,
+      147,
+      820,
+      1082
+    ],
+    "whole_alpha_mask_iou_with_empty_guide_no_transform": 0.7067,
+    "whole_alpha_mask_iou_caveat": "Includes product pixels and is not a fixture-only structural score.",
+    "candidate_alpha_bbox_vs_guide_bbox_pct_delta": {
+      "width": 15.78,
+      "height": 15.29
+    }
+  },
+  "checks": {
+    "integrated_shelf_plus_goods": "pass: one composed shelf-and-inventory image",
+    "four_shelf_rows": "partial: rows are visible but inventory obscures exact original shelf surfaces",
+    "product_front_readability": "pass/partial: package fronts are clear at source size",
+    "product_thickness": "fail: packages retain substantial bag/cup/bakery volume and visible sides",
+    "fixture_geometry_preserved": "fail: whole-image alpha bbox is about 15% larger than the guide; products obscure exact fixture edges, and inventory spills onto the base/plinth",
+    "alpha_safe_margin": "fail: 12% minimum missed on left, top and bottom",
+    "projection_iso2x_v1": "not verified: resembles the guide broadly, but no landmark/control-point calibration was performed",
+    "footprint_anchor": "not_checked",
+    "godot_runtime": "not_checked",
+    "runtime_approved": false
+  },
+  "notes": [
+    "Image 1 empty guide was directly edited; source guide and style reference were not modified.",
+    "The candidate comparison uses the original 1254x1254 canvases side-by-side without resizing or cropping.",
+    "Product imagery is integrated, but the output is review-only and fails exact geometry, base-stock, package-volume, and alpha-margin checks.",
+    "Untransformed whole-alpha-mask IoU against empty v13 is 0.70670, but goods contribute to the mask and this is not a fixture-only geometry score."
+  ]
+}
