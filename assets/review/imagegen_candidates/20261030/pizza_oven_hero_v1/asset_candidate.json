@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "asset_id": "pizza_oven_hero_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Compact countertop pizza/deck oven for Issue #130 bakery and pizza production",
+  "actual_subject": "One dark charcoal and stainless countertop deck oven with front glass window, one tray, two control knobs and side vents",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/pizza_oven_hero_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1656423,
+    "sha256": "3cf4a4aac055f4789a67e052776f4182541383391c6bc537b0c256b90fa81ab0",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/pizza_oven_hero_v1/source_original.png",
+      "byte_size": 1656423,
+      "sha256": "3cf4a4aac055f4789a67e052776f4182541383391c6bc537b0c256b90fa81ab0",
+      "git_blob_sha": "1c2b60ccb636f7d2af35af58e4332a393276c721",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/pizza_oven_hero_v1/qa_preview_white.png",
+      "byte_size": 1603343,
+      "sha256": "7af4ca8384100d970d62e3a2113596065260914acc430f5a448b5239af281e7d",
+      "git_blob_sha": "aa46146df8ca5b81158ce20dd408793e1172ae0d",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "The pizza oven is recognizable and has a readable window, tray, two controls, vents, and feet.",
+      "No alpha-positive pixels hit canvas edges, but margins are below requested 10%: bottom 2.64%; alpha>=128 vertical margins are 7.71% and 7.32%.",
+      "Perspective-like axes and broad top plane do not establish iso2x_v1. No world control points, dimensions, footprint, anchor, or Godot screen QA.",
+      "Review-only FAIL; keep runtime_approved false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
