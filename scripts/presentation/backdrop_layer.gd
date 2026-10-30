@@ -39,12 +39,10 @@ const UrbanGrove18mPanel := preload("res://assets/generated/backgrounds/grove_lo
 const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/grove_long_20m_subagent_d_clean/grove_long_20m_subagent_d_clean.png")
 const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/sidewalk_long_candidate_a/sidewalk_long_candidate_a.png")
 const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_field_v3/outer_ground_field_v3.png")
-const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_context_camera_match_candidate_c/urban_context_camera_match_candidate_c.png")
+const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_context_dimetric_v3/urban_context_dimetric_v3.png")
 const SURROUNDING_GROUND_OPACITY := 0.90
 const URBAN_CONTEXT_WORLD_SCALE := 2.5
 const URBAN_CONTEXT_MIN_SCALE := 2.1
-## Corrects the generated neighborhood's ground axes to the store's 2:1 dimetric camera.
-const URBAN_CONTEXT_ROTATION_DEG := 15.0
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
@@ -442,16 +440,15 @@ static func surrounding_ground_tile_offset(camera_origin: Vector2, tile_size: Ve
 	return Vector2(fposmod(camera_origin.x, tile_size.x), fposmod(camera_origin.y, tile_size.y))
 
 
-## The neighborhood backdrop is rotated uniformly, anchored to the store's world center, and follows camera zoom/pan.
+## The neighborhood backdrop keeps its authored dimetric axes, anchors to the store center, and follows camera zoom/pan.
 ## Foreground geometry remains independently world-anchored above it.
 static func urban_context_transform(proj: IsoProjection, width: int, height: int, viewport: Vector2, texture_size: Vector2) -> Transform2D:
 	if width <= 0 or height <= 0 or viewport.x <= 0.0 or viewport.y <= 0.0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return Transform2D.IDENTITY
 	var scale := maxf(URBAN_CONTEXT_MIN_SCALE, URBAN_CONTEXT_WORLD_SCALE * proj.zoom)
 	var store_center := proj.world_to_screen((float(width) - 1.0) * 0.5, (float(height) - 1.0) * 0.5)
-	var angle := deg_to_rad(URBAN_CONTEXT_ROTATION_DEG)
-	var basis_x := Vector2.RIGHT.rotated(angle) * scale
-	var basis_y := Vector2.DOWN.rotated(angle) * scale
+	var basis_x := Vector2.RIGHT * scale
+	var basis_y := Vector2.DOWN * scale
 	var half_size := (basis_x * texture_size.x + basis_y * texture_size.y) * 0.5
 	return Transform2D(basis_x, basis_y, store_center - half_size)
 

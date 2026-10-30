@@ -1,0 +1,12 @@
+{
+  "asset_id": "urban_context_dimetric_v3",
+  "source": "OpenAI ImageGen",
+  "generated_at": "2026-10-31",
+  "purpose": "Candidate backdrop authored for the store's strict 2:1 dimetric ground-plane axes.",
+  "source_reference": [
+    "docs/qa/exterior-area-a/urban-context-dimetric-v2-20x16-1600x900-2026-10-31.png",
+    "docs/qa/exterior-area-a/urban-context-dimetric-candidate-1-20x16-1600x900-2026-10-31.png"
+  ],
+  "prompt": "Landscape 16:9 Japanese residential neighborhood backdrop, orthographic 2:1 dimetric/isometric, every man-made ground edge at screen slopes +0.5 or -0.5, parallel with no convergence; homes, canal, bridge, sidewalks, roads, roof ridges, fences, paving all locked to the same two axes; no other direction, perspective, curving paths or open plaza; trees, shrubs, sakura; no store/UI/text.",
+  "status": "runtime_selected_pending_user_visual_approval"
+}

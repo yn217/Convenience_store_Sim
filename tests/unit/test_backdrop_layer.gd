@@ -148,17 +148,19 @@ func test_surrounding_ground_texture_phase_tracks_camera(t, _tree) -> void:
 
 func test_urban_context_backdrop_is_world_anchored_and_covers_viewport(t, _tree) -> void:
 	var viewport := Vector2(1600.0, 900.0)
-	var texture_size := Vector2(1672.0, 941.0)
+	var backdrop_texture: Texture2D = BackdropLayer.UrbanContextBackdrop
+	var texture_size := Vector2(backdrop_texture.get_size())
+	t.eq(texture_size, Vector2(1672.0, 941.0), "the selected neighborhood source retains its generated canvas")
 	var proj := _proj(0.5)
 	var initial := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
 	var extent := Vector2(absf(initial.x.x) * texture_size.x + absf(initial.y.x) * texture_size.y, absf(initial.x.y) * texture_size.x + absf(initial.y.y) * texture_size.y)
-	t.ok(extent.x > viewport.x and extent.y > viewport.y, "the rotated urban backdrop covers the viewport at minimum zoom")
+	t.ok(extent.x > viewport.x and extent.y > viewport.y, "the dimetric urban backdrop covers the viewport at minimum zoom")
 	t.ok(absf(initial.x.length() - initial.y.length()) < 0.0001, "the panorama uses uniform scale")
-	t.ok(absf(initial.x.angle() - deg_to_rad(BackdropLayer.URBAN_CONTEXT_ROTATION_DEG)) < 0.0001, "the panorama keeps its authored camera correction")
+	t.ok(initial.x.is_equal_approx(Vector2(BackdropLayer.URBAN_CONTEXT_MIN_SCALE, 0.0)) and initial.y.is_equal_approx(Vector2(0.0, BackdropLayer.URBAN_CONTEXT_MIN_SCALE)), "the authored dimetric ground axes are not rotated as a flat panorama")
 	var center_offset := initial.x * texture_size.x * 0.5 + initial.y * texture_size.y * 0.5
 	var old_center := initial.origin + center_offset
 	var expected_center := proj.world_to_screen((16.0 - 1.0) * 0.5, (12.0 - 1.0) * 0.5)
-	t.ok(old_center.distance_to(expected_center) < 0.01, "the rotated panorama remains centered on the projected store")
+	t.ok(old_center.distance_to(expected_center) < 0.01, "the panorama remains centered on the projected store")
 	proj.pan(Vector2(80.0, -40.0))
 	var moved := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
 	var new_center := moved.origin + moved.x * texture_size.x * 0.5 + moved.y * texture_size.y * 0.5
