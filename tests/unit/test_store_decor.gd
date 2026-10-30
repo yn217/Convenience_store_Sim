@@ -352,3 +352,10 @@ func test_large_store_hvac_has_an_open_gated_service_fence(t, _tree) -> void:
 	for item in rails + posts:
 		for point in item["points"]:
 			t.ok(point.x <= -0.5 or point.x >= 19.5 or point.y <= -0.5 or point.y >= 15.5, "HVAC fence remains outside the walkable floor")
+
+
+func test_large_store_adds_second_vending_machine_at_far_frontage(t, _tree) -> void:
+	var items := StoreDecor.exterior_items(20, 16, [Vector2i(8, 15)])
+	var painted := _sprites(items, "vending_painted_v1")
+	t.eq(painted.size(), 2, "the entrance and far-end vending machines use the angled painted asset")
+	t.ok(absf(float(painted[1]["x"]) - float(painted[0]["x"])) + absf(float(painted[1]["y"]) - float(painted[0]["y"])) >= 4.0, "the two machines remain separated along the frontage")

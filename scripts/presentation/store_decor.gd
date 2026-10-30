@@ -372,6 +372,8 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	_add(out, "nobori_banner_obento", side, width, height, 1.0, n - 1.0)
 	_add(out, "open_a_board", side, width, height, 1.0, span.x - 0.8)
 	_add(out, "vending_painted_v1", side, width, height, 1.0, span.y + 1.5)   # beside the door
+	if n >= 20:
+		_add(out, "vending_painted_v1", side, width, height, 1.0, float(n) - 4.0)  # second service machine at the far end
 	_add(out, "trash_recycle_bins", side, width, height, 1.0, span.y + 3.0)
 	_add(out, "bicycle_rack_painted_v1", side, width, height, 1.1, 1.7)
 	_add(out, "bench_painted_v1", side, width, height, 1.1, span.x - 2.0)

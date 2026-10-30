@@ -623,6 +623,10 @@ With C active, additional actual 20x16 captures cover 1280x720 (`context-c-1280x
 
 Added a low metal service railing around the paired exterior HVAC units. Three sides are continuous and the front is split around a 0.96m service gate; rails and posts use world-space polygons projected by the existing camera, and remain outside the walkable store floor. Actual 20x16 capture: `hvac-fence-v1-20x16-1600x900-2026-10-30.png`. Focused `test_store_decor` passed 25 tests / 738 assertions, including service-fence presence and exterior placement. No full suite was run. Rear-boundary fencing remains open.
 
+## Second frontage vending machine (2026-10-30)
+
+Large stores now receive a second `vending_painted_v1` at the far end of the entrance frontage, spaced at least 4m from the existing door-side unit. Smaller footprints retain one machine. A generated alternate machine was rejected because its halo/background and ground angle did not fit the runtime scene. Actual 20x16 capture: `vending-two-v2-20x16-1600x900-2026-10-30.png`. Focused `test_store_decor` passed 26 tests / 740 assertions. Both machines currently share artwork; differentiated coffee/ice art remains open. No full test suite was run.
+
 ## Near-side planter density follow-up (2026-10-30)
 
 Reduced the spacing between static near-side flower planters from 4m to 3m while keeping the grouped landscape edge free of duplicate planters and retaining the 1.5m equipment clearance. The 20x16 in-game capture is `planter-density-v2-20x16-1600x900-2026-10-30.png`. Focused `test_store_decor` passed 24 tests / 496 assertions. Full suite was not run; the difference is modest at whole-store scale and should be reviewed with the user's comparison image.
