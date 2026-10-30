@@ -1,0 +1,13 @@
+Use case: ui-mockup
+Asset type: one landscape concept mockup for a Japanese convenience-store management game, adding a character to a seasonal campaign screen outside the title screen
+Input images: Image 1 is a visual reference for the existing character-led mockup style only; do not copy its text, logo, layout, or exact character identity
+Scene/backdrop: a polished in-game campaign management modal over a bright convenience-store interior, with a softly blurred store aisle and seasonal spring decorations in the background
+Subject: one original adult female store manager/assistant with medium brown hair, a blue-striped convenience-store apron, name badge with no readable brand, smiling and presenting the campaign board with one hand; a small original cat-like mascot sticker may appear on the campaign card but must not resemble a real franchise character
+Style/medium: polished anime-inspired 2D game UI concept art, friendly Japanese management-simulation presentation, clean panels, strong hierarchy, not photorealistic
+Composition/framing: 16:9 landscape UI mockup; character occupies the left third without covering controls; the main campaign panel is centered; a compact right-side summary shows target products, reward stock, dates, and campaign status; clear separation between character art and functional controls
+Lighting/mood: warm spring daylight, optimistic and welcoming, restrained highlights
+Color palette: convenience-store blue, white, warm amber, spring pink, fresh green accents
+Materials/textures: crisp UI cards, subtle glass panels, soft illustrated store background, clean button shapes
+Text (verbatim): "季節フェア", "春の新生活フェア", "実施中", "対象商品", "特典残数", "期間", "詳しく見る", "キャンペーンを開始"
+Constraints: the text must be sparse and rendered exactly if visible; fictional generic store only; no real company names, no real product brands, no copyrighted characters, no title-screen layout, no game logo, no watermark; character must support the campaign decision and never obscure the buttons or product list
+Avoid: title screen, return-to-title menu, staff recruitment screen, customer detail screen, store expansion screen, achievement screen, unreadable paragraphs, random pseudo-Japanese text, real-world logos, excessive decorative clutter, multiple panels competing with the main campaign modal

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "issue": 140,
+  "asset_id": "character_seasonal_campaign_issue140_v01",
+  "status": "review_candidate",
+  "path": "docs/design/mockups/characters/issue140_seasonal_campaign/seasonal_campaign_character_mockup.png",
+  "screen": "seasonal_campaign",
+  "character_role": "store_manager_campaign_guide",
+  "source": "built-in image_gen",
+  "input_reference": "conversation attachment: existing character-led mockup style",
+  "runtime_connected": false,
+  "fictional_ip_only": true,
+  "related_issue": 140,
+  "related_existing_pr": 173
+}
