@@ -43,7 +43,7 @@ const NEAR_CAP_Z0 := 2.25      ## thin fascia cap at the top of the front window
 const NEAR_CAP_Z1 := 2.4
 const COOLER_COUNT := 6
 const COOLER_START := 2
-const FLOWER_STRIDE := 4
+const FLOWER_STRIDE := 3
 const LAMP_STRIDE := 6
 
 ## Draw op tags.

@@ -292,7 +292,7 @@ func test_front_items_are_on_the_near_sides(t, _tree) -> void:
 		if it["front"] and it["kind"] == &"sprite":
 			t.ok(it["x"] >= W - 0.5 or it["y"] >= H - 0.5, "%s is drawn over the floor only on a near side" % it["id"])
 	var all_planters := _sprites(StoreDecor.exterior_items(W, H, ENTR), "flower_planter_painted_v1")
-	t.eq(all_planters.size(), 5, "the selected combined side has no duplicate standalone planters")
+	t.eq(all_planters.size(), 6, "denser near-side planters leave the selected combined side to its grouped backdrop")
 
 
 func test_prop_loader_reads_the_manifest_and_skips_missing_props(t, _tree) -> void:
