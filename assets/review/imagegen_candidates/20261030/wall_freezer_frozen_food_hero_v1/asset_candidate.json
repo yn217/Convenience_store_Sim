@@ -22,7 +22,7 @@
       "byte_size": 1747396,
       "sha256": "871d187667eab253eb9585623b76482c136eb25c6ca359071eb2a24881fd9514",
       "git_blob_sha": "362de83617bae7e482630b34a3895d6a88bf8656",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "other",
@@ -30,7 +30,7 @@
       "byte_size": 1583450,
       "sha256": "a5b8d090b15f031f28bc59419bf86a02d6a62b5683bf41217c5a0fe89799e32a",
       "git_blob_sha": "7931657cdf805ee93d7023ed54e7251378ee8fda",
-      "github_uploaded": false
+      "github_uploaded": true
     }
   ],
   "projection": {
