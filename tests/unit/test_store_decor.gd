@@ -341,3 +341,14 @@ func test_east_entrance_places_equipment_on_south_side(t, _tree) -> void:
 			t.ok(float(item["y"]) > 11.5, "equipment remains outside the south wall")
 			t.ok(item.get("mirror", false), "equipment is mirrored for the south side")
 	t.ok(found, "east entrance still has equipment")
+
+
+func test_large_store_hvac_has_an_open_gated_service_fence(t, _tree) -> void:
+	var items := StoreDecor.exterior_items(20, 16, [Vector2i(8, 15)])
+	var rails := items.filter(func(it): return it.get("role", "") == &"equipment_fence_rail")
+	var posts := items.filter(func(it): return it.get("role", "") == &"equipment_fence_post")
+	t.ok(rails.size() >= 10, "paired HVAC units have rails on the rear, returns and split gate front")
+	t.ok(posts.size() >= 16, "service railing has regular supports")
+	for item in rails + posts:
+		for point in item["points"]:
+			t.ok(point.x <= -0.5 or point.x >= 19.5 or point.y <= -0.5 or point.y >= 15.5, "HVAC fence remains outside the walkable floor")

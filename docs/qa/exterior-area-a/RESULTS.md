@@ -619,6 +619,10 @@ The K artwork still had residential roof and street details with varying perspec
 
 With C active, additional actual 20x16 captures cover 1280x720 (`context-c-1280x720-20x16-2026-10-30.png`), 1920x1080 (`context-c-1920x1080-20x16-2026-10-30.png`), zoom 0.5 (`context-c-zoom-low-20x16-2026-10-30.png`) and zoom 2.0 (`context-c-zoom-high-20x16-2026-10-30.png`). Resolutions match their requested dimensions; the minimum zoom retains surrounding coverage and the maximum zoom appropriately focuses on the store. Focused `test_shell_camera_input` passed 10 tests / 96 assertions, including pan, zoom, selection after camera movement, fit-to-store and UI input isolation. No full test suite was run.
 
+## HVAC service fence detail (2026-10-30)
+
+Added a low metal service railing around the paired exterior HVAC units. Three sides are continuous and the front is split around a 0.96m service gate; rails and posts use world-space polygons projected by the existing camera, and remain outside the walkable store floor. Actual 20x16 capture: `hvac-fence-v1-20x16-1600x900-2026-10-30.png`. Focused `test_store_decor` passed 25 tests / 738 assertions, including service-fence presence and exterior placement. No full suite was run. Rear-boundary fencing remains open.
+
 ## Near-side planter density follow-up (2026-10-30)
 
 Reduced the spacing between static near-side flower planters from 4m to 3m while keeping the grouped landscape edge free of duplicate planters and retaining the 1.5m equipment clearance. The 20x16 in-game capture is `planter-density-v2-20x16-1600x900-2026-10-30.png`. Focused `test_store_decor` passed 24 tests / 496 assertions. Full suite was not run; the difference is modest at whole-store scale and should be reviewed with the user's comparison image.

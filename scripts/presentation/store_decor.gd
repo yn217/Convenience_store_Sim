@@ -390,6 +390,7 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 		var equipment_along := float(width if equipment_side == SIDE_SOUTH else height) * 0.41
 		_add(out, "exterior_hvac_v1", equipment_side, width, height, 1.0, equipment_along)
 		out[-1]["mirror"] = equipment_side == SIDE_SOUTH
+		out.append_array(_equipment_fence_items(equipment_side, width, height, equipment_along))
 	# The temporary individual tree placements are omitted. The combined BackdropLayer sidewalk panel replaces the
 	# repeated planters along its edge; planters remain on other visible sides.
 	var landscape_side := BackdropLayer.landscape_side(side)
@@ -405,6 +406,52 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 			if not near_equipment:
 				_add(out, "flower_planter_painted_v1", near, width, height, 1.1, f)
 			f += FLOWER_STRIDE
+	return out
+
+
+## A low service railing wraps the exposed sides of the paired outdoor units. Its open front gate keeps
+## maintenance access clear; individual world-space bars follow the same projected ground axes as the wall.
+static func _equipment_fence_items(side: int, width: int, height: int, along: float) -> Array:
+	var out: Array = []
+	var back_a := BackdropLayer.side_point(side, 0.35, along - 1.45, width, height)
+	var back_b := BackdropLayer.side_point(side, 0.35, along + 1.45, width, height)
+	var front_a := BackdropLayer.side_point(side, 2.15, along - 1.45, width, height)
+	var front_b := BackdropLayer.side_point(side, 2.15, along + 1.45, width, height)
+	out.append_array(_fence_segment_items(back_a, back_b))
+	out.append_array(_fence_segment_items(back_a, front_a))
+	out.append_array(_fence_segment_items(back_b, front_b))
+	var gate_half := 0.48
+	var gate_left := BackdropLayer.side_point(side, 2.15, along - gate_half, width, height)
+	var gate_right := BackdropLayer.side_point(side, 2.15, along + gate_half, width, height)
+	out.append_array(_fence_segment_items(front_a, gate_left))
+	out.append_array(_fence_segment_items(gate_right, front_b))
+	return out
+
+
+static func _fence_segment_items(a: Vector2, b: Vector2) -> Array:
+	var out: Array = []
+	var delta := b - a
+	var length := delta.length()
+	if length < 0.05:
+		return out
+	var direction := delta / length
+	var normal := Vector2(-direction.y, direction.x) * 0.025
+	var metal := Color("77868a")
+	for level in [0.34, 0.88]:
+		out.append({"kind": &"poly", "points": [
+			Vector3(a.x + normal.x, a.y + normal.y, level), Vector3(b.x + normal.x, b.y + normal.y, level),
+			Vector3(b.x - normal.x, b.y - normal.y, level + 0.055), Vector3(a.x - normal.x, a.y - normal.y, level + 0.055),
+		], "color": metal, "role": &"equipment_fence_rail", "front": true})
+	var post_count := ceili(length / 0.72)
+	for i in range(post_count + 1):
+		var center := a.lerp(b, float(i) / float(post_count))
+		var across := direction * 0.025
+		out.append({"kind": &"poly", "points": [
+			Vector3(center.x + across.x + normal.x, center.y + across.y + normal.y, 0.0),
+			Vector3(center.x - across.x + normal.x, center.y - across.y + normal.y, 0.0),
+			Vector3(center.x - across.x - normal.x, center.y - across.y - normal.y, 1.18),
+			Vector3(center.x + across.x - normal.x, center.y + across.y - normal.y, 1.18),
+		], "color": Color("5d6c70"), "role": &"equipment_fence_post", "front": true})
 	return out
 
 
