@@ -62,7 +62,9 @@
       "path": "qa_preview_white.jpg",
       "role": "alpha_diagnostic",
       "github_uploaded": true,
-      "sha256": "1c561f52a63b87c60081d71ccf13c656b10c4b1af9a7fae20c37b5888a9356e9"
+      "sha256": "1c561f52a63b87c60081d71ccf13c656b10c4b1af9a7fae20c37b5888a9356e9",
+      "byte_size": 389009,
+      "git_blob_sha": "d01a3434f0e0e1cdabee9a7e5fde2dd7881a3db3"
     }
   ],
   "github": {
