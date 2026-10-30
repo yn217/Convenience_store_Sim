@@ -82,7 +82,7 @@ func _build(night: float, width: int, height: int, entrances: Array, proj: IsoPr
 			var g := proj.world_to_screen(it["x"], it["y"])
 			_pools.append({"centre": g, "radius": LAMP_POOL_TILES * tile_px, "color": Color(SPILL_COLOR, LAMP_STRENGTH * night)})
 			_polys.append(_cone(proj, it["x"], it["y"], night))
-		elif it["id"] == "vending_machine" or it["id"] == "vending_painted_v1":
+		elif it["id"] == "vending_machine" or it["id"] == "vending_painted_v1" or it["id"] == "vending_coffee_painted_v1":
 			var v := proj.world_to_screen(it["x"], it["y"], 0.6)
 			_pools.append({"centre": v, "radius": VENDING_POOL_TILES * tile_px, "color": Color(0.85, 0.95, 1.0, VENDING_STRENGTH * night)})
 

@@ -302,6 +302,9 @@ func test_prop_loader_reads_the_manifest_and_skips_missing_props(t, _tree) -> vo
 	t.ok(entry["anchor"] == Vector2(160, 210), "anchor is the ground point at the bottom centre")
 	t.ok(entry["size"] == Vector2(320, 320), "canvas is 320 px")
 	t.ok(entry["layers"].size() >= 1, "at least the body layer")
+	var coffee := loader.texture("vending_coffee_painted_v1")
+	t.ok(not coffee.is_empty(), "the differentiated coffee machine loads from its manifest")
+	t.ok(coffee["size"] == Vector2(320, 480), "coffee machine uses the beverage machine canvas size")
 	t.ok(loader.texture("no_such_prop").is_empty(), "missing props return {} so they are skipped")
 	t.ok(not PropSprites.is_available("no_such_prop"), "missing manifests are reported")
 
@@ -355,7 +358,11 @@ func test_large_store_hvac_has_an_open_gated_service_fence(t, _tree) -> void:
 
 
 func test_large_store_adds_second_vending_machine_at_far_frontage(t, _tree) -> void:
-	var items := StoreDecor.exterior_items(20, 16, [Vector2i(8, 15)])
-	var painted := _sprites(items, "vending_painted_v1")
-	t.eq(painted.size(), 2, "the entrance and far-end vending machines use the angled painted asset")
-	t.ok(absf(float(painted[1]["x"]) - float(painted[0]["x"])) + absf(float(painted[1]["y"]) - float(painted[0]["y"])) >= 4.0, "the two machines remain separated along the frontage")
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		var items := StoreDecor.exterior_items(size.x, size.y, [Vector2i(size.x / 2, size.y - 1)])
+		var beverages := _sprites(items, "vending_painted_v1")
+		var coffee := _sprites(items, "vending_coffee_painted_v1")
+		t.eq(beverages.size(), 1, "%dx%d keeps the door-side beverage machine" % [size.x, size.y])
+		t.eq(coffee.size(), 1 if size.x >= 20 else 0, "%dx%d adds coffee artwork only when the frontage can fit two machines" % [size.x, size.y])
+		if not coffee.is_empty():
+			t.ok(absf(float(coffee[0]["x"]) - float(beverages[0]["x"])) + absf(float(coffee[0]["y"]) - float(beverages[0]["y"])) >= 4.0, "the two machines remain separated along the frontage")

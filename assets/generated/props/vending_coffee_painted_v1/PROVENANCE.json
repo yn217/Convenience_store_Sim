@@ -1,0 +1,22 @@
+{
+  "asset_id": "vending_coffee_painted_v1",
+  "description": "Coffee vending machine artwork for the far-end exterior service unit in large stores.",
+  "tool": "OpenAI ImageGen",
+  "model_selection": "The connected image-generation tool does not expose model selection.",
+  "source_candidate": "assets/generated/props/vending_coffee_match_candidate_a/vending_coffee_match_candidate_a.png",
+  "source_dimensions_px": [
+    1024,
+    1536
+  ],
+  "runtime_canvas_px": [
+    320,
+    480
+  ],
+  "runtime_scaling": "Uniform downscale to the same 2:3 canvas as vending_painted_v1.",
+  "runtime_anchor_px": [
+    160,
+    392
+  ],
+  "review_status": "Integrated for in-game review; not yet user-approved.",
+  "generated_at": "2026-10-31"
+}

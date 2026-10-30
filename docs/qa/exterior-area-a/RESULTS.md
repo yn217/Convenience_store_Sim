@@ -646,3 +646,12 @@ Created matched-size, subject-based crops for storefront, parking/road, sidewalk
 ## Neighborhood projection alignment (2026-10-31)
 
 Replaced the 15-degree flat-image rotation with the generated `urban_context_dimetric_v3` neighborhood, authored with the store's two 2:1 dimetric ground directions. The runtime transform keeps the image unrotated, uniformly scaled, centered on the projected store and camera-following. Actual Godot 4.7.2 captures at 1600x900 cover 12x10, 16x12, 20x16 and left/right pan views at 20x16: `urban-context-dimetric-v3-12x10-1600x900-2026-10-31.png`, `urban-context-dimetric-v3-16x12-1600x900-2026-10-31.png`, `urban-context-dimetric-v3-20x16-1600x900-2026-10-31.png`, `urban-context-dimetric-v3-20x16-pan-left-1600x900-2026-10-31.png`, and `urban-context-dimetric-v3-20x16-pan-right-1600x900-2026-10-31.png`. The dominant road, path, canal and roof axes now follow the store camera in each capture. Focused `test_backdrop_layer` passed 25 tests / 395 assertions, including source canvas size, unrotated basis, uniform scale, viewport coverage, store-center anchor and camera-pan translation. No full suite was run.
+
+
+## Differentiated frontage coffee machine (2026-10-31)
+
+Large stores now retain the original beverage vending machine beside the entrance and use a distinct coffee cup vending sprite at the far frontage. The 1024x1536 generated sprite is drawn uniformly on the matching 320x480 canvas with a ground anchor aligned to the beverage unit; no anisotropic stretch or interaction behavior was added. The existing night-time vending spill also covers the coffee unit. Small and medium stores still receive only the door-side machine.
+
+Actual Godot 4.7.2 capture at 1600x900: `vending-coffee-differentiated-20x16-south-1600x900-2026-10-31.png` (20x16 store, south frontage). It shows both machines at comparable scale, planted on the paved frontage; no obvious transparent halo is visible at full-scene scale. The generated cup graphics are more detailed than nearby flat props and remain a style difference for review. The first focused run exposed missing Godot import metadata; after the editor import pass, focused `test_store_decor` passed 26 tests / 747 assertions, including manifest loading, canvas consistency, all three store sizes and large-store separation. No full suite was run.
+
+The requested image-generation model cannot be selected in the currently connected image-generation tool. The configured local AUTOMATIC1111 WebUI was not running, so no alternate generation model was available in this session.

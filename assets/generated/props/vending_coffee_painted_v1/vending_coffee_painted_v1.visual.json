@@ -1,0 +1,58 @@
+{
+  "manifest_version": 1,
+  "visual_id": "vending_coffee_painted_v1",
+  "fixture_type_id": "vending_coffee_painted_v1",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 2,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 1.07,
+    "depth": 0.77,
+    "height": 1.87
+  },
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        320,
+        480
+      ],
+      "anchor_px": [
+        160,
+        392
+      ],
+      "layers": {
+        "body": "vending_coffee_painted_v1_body.png"
+      },
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          138.8,
+          321.12
+        ],
+        [
+          275.76,
+          389.6
+        ],
+        [
+          177.2,
+          438.88
+        ],
+        [
+          40.24,
+          370.4
+        ]
+      ],
+      "sorting_anchor_px": [
+        160,
+        392
+      ]
+    }
+  }
+}
