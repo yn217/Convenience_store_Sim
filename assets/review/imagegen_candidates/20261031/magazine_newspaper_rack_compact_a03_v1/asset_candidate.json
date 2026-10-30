@@ -1,0 +1,74 @@
+{
+  "asset_class": "interior_fixture",
+  "source": {
+    "file_size_bytes": 2237141,
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "sha256": "ef47fccfb4065b8ce20439574b3fc72f0bb427ba19242147fb5d8f6359e26ce7",
+    "reference_hashes": []
+  },
+  "fixture_type_id": null,
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "max_z_error_source_px": null,
+    "control_points": [],
+    "customer_access_edge": "NONE",
+    "id": "iso2x_v1",
+    "checked_in_godot": false,
+    "max_xy_error_source_px": null,
+    "rotation": 0
+  },
+  "github": {
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "repository": "yn217/Convenience_store_Sim"
+  },
+  "outputs": [
+    {
+      "byte_size": 2237141,
+      "role": "source_original",
+      "git_blob_sha": null,
+      "path": "source_original.png",
+      "sha256": "ef47fccfb4065b8ce20439574b3fc72f0bb427ba19242147fb5d8f6359e26ce7",
+      "github_uploaded": false
+    },
+    {
+      "byte_size": 327789,
+      "role": "qa_overlay",
+      "git_blob_sha": null,
+      "path": "qa_preview_white.jpg",
+      "sha256": "c2b057088ed0755ec3a8f64b7e597bf14d9c8ea2fa31a4a4a16c5ad5cabaf829",
+      "github_uploaded": false
+    }
+  ],
+  "geometry": {
+    "world_ground_origin_m": null,
+    "dimensions_m": null,
+    "verified": false,
+    "image_anchor_px": null,
+    "footprint_tiles": null
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass",
+    "human_visual": "not_checked",
+    "godot_runtime": "not_checked",
+    "state_sync": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "geometry": "not_checked",
+    "notes": [
+      "Subject is recognizable as a low magazine/newspaper rack; printed covers and papers are integrated in holders, not floating cards.",
+      "Alpha QA FAIL: 1536x1024 RGBA; alpha extrema 0..254, 879999 fully transparent, 18735 alpha 1..127, 674130 alpha 128..254, zero fully opaque pixels. Alpha>=128 bounds [240,72,1326,959]; the diffuse vignette/shadow causes broad semitransparency.",
+      "Projection QA FAIL: three-quarter perspective render; iso2x_v1 control points and exact world scale are absent.",
+      "No Godot render, approved dimensions, EMPTY/HALF states, or independent human approval. Review candidate only."
+    ]
+  },
+  "runtime_approved": false,
+  "asset_id": "magazine_newspaper_rack_compact_a03_v1",
+  "production_method": "codex_imagegen",
+  "actual_subject": "Two-tier low rack with fictional illustrated magazines and folded newspapers; illustration has alpha-faded dark vignette around the fixture",
+  "requested_subject": "A03: low-profile magazine, book, and newspaper display rack for a Japanese convenience store",
+  "stock_state": "FULL",
+  "schema_version": 1
+}
