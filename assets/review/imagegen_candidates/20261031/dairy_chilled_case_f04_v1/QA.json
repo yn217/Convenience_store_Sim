@@ -1,0 +1,44 @@
+{
+  "source_mode": "RGBA",
+  "projection": {
+    "verdict": "FAIL",
+    "reason": "Uncalibrated perspective-like three-quarter view; no control points, scale, ground anchor, or Godot display.",
+    "id": "iso2x_v1"
+  },
+  "content": {
+    "notes": "Milk, eggs, tofu, and processed meats are integrated in one chilled merchandiser.",
+    "verdict": "PASS"
+  },
+  "overall": "FAIL",
+  "runtime_approved": false,
+  "alpha": {
+    "reason": "No opaque pixels and strong semitransparent vignette; nonzero alpha reaches left edge.",
+    "minimum": 0,
+    "threshold_128_bbox_xyxy": [
+      303,
+      35,
+      1325,
+      999
+    ],
+    "fully_opaque_pixels": 0,
+    "verdict": "FAIL",
+    "nonzero_bbox_xyxy": [
+      0,
+      6,
+      1500,
+      1004
+    ],
+    "alpha_128_to_254_pixels": 771080,
+    "touches_left_edge": true,
+    "alpha_1_to_127_pixels": 12657,
+    "fully_transparent_pixels": 789127,
+    "maximum": 254
+  },
+  "source_sha256": "a7ddf462f68333f9faeb96a83414adfdda76769ec361260b4360b799fa365c0c",
+  "source_dimensions_px": [
+    1536,
+    1024
+  ],
+  "source_file": "source_original.png",
+  "asset_id": "dairy_chilled_case_f04_v1"
+}
