@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_full_integrated_edit_v3",
+  "asset_class": "interior_fixture",
+  "requested_subject": "shelf_general open gondola FULL, integrated goods with flatter front art",
+  "actual_subject": "four-tier open gondola with fictional flat illustrated snacks and bakery goods; base remains empty",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/gondola_edit_v3/gondola_edit_v3.png",
+    "unchanged_original": true,
+    "file_size_bytes": 917592,
+    "sha256": "697b608c6ff14a673e287e9e2bb6936109bfa8d97655192a8193f0ea40fbcf54",
+    "reference_hashes": [
+      "98a9f93b0fbf6938de7020b7e26508b2bd615e1917c0df6c9e98d4e4855dc5ca",
+      "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_edit_v3/gondola_edit_v3.png",
+      "byte_size": 917592,
+      "sha256": "697b608c6ff14a673e287e9e2bb6936109bfa8d97655192a8193f0ea40fbcf54",
+      "git_blob_sha": "14e65706d9a92e9ee3da82ecd6c4e5a34bb0011e",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_edit_v3/alpha_preview.png",
+      "byte_size": 746902,
+      "sha256": "18170c5b8fab6f89f03cde0bd83c31467d3828c6923d88f5191f8a291b9959d4",
+      "git_blob_sha": "4850c26a45f601e6fbc28150161b13838f21126a",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_edit_v3/comparison_same_canvas_v2_v3.png",
+      "byte_size": 2050692,
+      "sha256": "f82c8dd1ee82618549df0a8e21f43611f4d3b2093a477f951f88327804736e2a",
+      "git_blob_sha": "f7138d2945c9088c7b3936bdcf830a2b9d86ac10",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "not_checked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Product art is flatter than v2 and the base remains bare.",
+      "Fixture-only geometry, projection controls and anchor are not verified.",
+      "Top safe margin is 11.48%, below the 12% requirement.",
+      "Product thickness is reduced but some edge volume remains; review only."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
