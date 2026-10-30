@@ -1,0 +1,57 @@
+{
+  "asset_id": "shelf_general_full_integrated_edit_v4",
+  "reviewer": "independent parent visual/alpha QA; direct built-in ImageGen edit",
+  "overall": "FAIL",
+  "source_sha256": "81e496d7235d5050ffb6949e2f361fd8f1f26ffe40100df3eeef1687341be733",
+  "image": {
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_zero_pct": 70.42,
+    "alpha_gt127_bbox_xyxy": [
+      161,
+      143,
+      825,
+      1096
+    ],
+    "margins_gt127_pct": {
+      "left": 12.84,
+      "right": 34.21,
+      "top": 11.4,
+      "bottom": 12.6
+    },
+    "whole_alpha_mask_iou_with_empty_guide_no_transform": 0.963271,
+    "whole_alpha_mask_iou_with_v3_no_transform": 0.990863,
+    "mask_iou_caveat": "Includes products and does not certify fixture-only geometry.",
+    "alpha_preview": "alpha_preview.png",
+    "comparison": "comparison_same_canvas_v3_v4.png"
+  },
+  "checks": {
+    "integrated_shelf_plus_goods": "pass",
+    "dark_base_plinth_empty": "pass",
+    "four_visible_selling_rows": "pass",
+    "product_front_readability": "pass: graphic package faces are clear",
+    "product_thickness": "fail: package faces are flatter, but cups and baked goods retain volume shading; the result is still a 3D-looking shelf render",
+    "selling_face_balance": "fail: stocked products occupy only the right half while broad empty shelf boards project to the left; target density and composition are not achieved",
+    "fixture_only_geometry": "not_checked: no isolated shelf mask or landmark measurements",
+    "gross_outline": "not_checked: whole-alpha overlap includes products and broad projecting boards, so it does not establish fixture-only shape agreement",
+    "projection_iso2x_v1": "not_checked: no control-point calibration/Godot test",
+    "alpha_safe_margin": "fail: top margin remains below 12% target",
+    "footprint_anchor": "not_checked",
+    "godot_runtime": "not_checked",
+    "runtime_approved": false
+  },
+  "notes": [
+    "Edit preserves the broad shelf layout and empties the base; source retained unchanged.",
+    "Same-canvas review shows products concentrated on the right half while broad empty shelf boards extend left; this remains a major composition and structure mismatch.",
+    "The candidate remains a 3D-like render rather than a clean flat-sprite fixture composition.",
+    "The visible selling face is filled with front-oriented illustrated packs.",
+    "Top alpha margin remains below the 12% safe margin; no crop/scale correction was applied.",
+    "Whole-alpha overlap includes products and is not a fixture-only shape score.",
+    "Review-only, not runtime approved."
+  ]
+}
