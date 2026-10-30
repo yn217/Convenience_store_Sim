@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "asset_id": "register_backcounter_hotfood_coffee_113_v1",
+  "asset_class": "interior_fixture_vignette",
+  "requested_subject": "Issue #113: integrated register back-counter hot-food/coffee/product zone",
+  "actual_subject": "Hot-snack heated glass case beside a coffee machine, with stocked shelf/POP backing and shared base",
+  "production_method": "codex_builtin_imagegen",
+  "generated_date": "2026-10-31",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "projection": {"id": "iso2x_v1", "rotation": null, "control_points": [], "max_xy_error_source_px": null, "max_z_error_source_px": null, "checked_in_godot": false, "customer_access_edge": "FRONT"},
+  "geometry": {"image_anchor_px": null, "footprint_tiles": null, "dimensions_m": null, "world_ground_origin_m": null, "verified": false},
+  "quality": {
+    "subject": "pass",
+    "alpha": "fail",
+    "framing": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "Integrated service vignette shows a heated hot-snack case, coffee machine, stocked shelf and shared grounded fixture base.",
+      "Generic fictional packaging; no readable brand names.",
+      "RGBA alpha is broadly semi-transparent: 537 fully opaque pixels; 1,117,533 pixels at alpha 128-254.",
+      "Nonzero alpha touches the left and bottom canvas boundaries; thresholded subject has only 6px lower margin.",
+      "Three-quarter perspective is uncalibrated to iso2x_v1; Godot runtime not checked."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {"path": "source_original.png", "sha256": "5ab0421934a88f9fa4d3a84744616c4f3f897a496424976efcb31fd1167dd352", "file_size_bytes": 2330791, "unchanged_original": true, "generation_tool": "Codex built-in ImageGen", "generation_model_version": null, "prompt_file": "prompt.txt"},
+  "outputs": [
+    {"path": "source_original.png", "role": "source_original", "sha256": "5ab0421934a88f9fa4d3a84744616c4f3f897a496424976efcb31fd1167dd352", "byte_size": 2330791, "github_uploaded": false},
+    {"path": "qa_preview_white.jpg", "role": "alpha_diagnostic", "github_uploaded": false}
+  ],
+  "github": {"repository": "yn217/Convenience_store_Sim", "branch": "art/chatgpt-interior-open-gondola-20261028", "draft_pr": 164, "issue": 113}
+}

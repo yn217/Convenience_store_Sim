@@ -1,0 +1,39 @@
+{
+  "asset_id": "register_backcounter_hotfood_coffee_113_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [1312, 1199],
+  "source_sha256": "5ab0421934a88f9fa4d3a84744616c4f3f897a496424976efcb31fd1167dd352",
+  "content": {
+    "verdict": "PASS",
+    "notes": "Integrated hot-snack heated glass case, coffee machine, back product shelf and shared base; fictional products, no readable brands."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_pixels": 440357,
+    "alpha_1_to_127_pixels": 14661,
+    "alpha_128_to_254_pixels": 1117533,
+    "fully_opaque_pixels": 537,
+    "nonzero_bbox_xyxy": [0, 3, 1308, 1199],
+    "threshold_128_bbox_xyxy": [63, 28, 1247, 1193],
+    "touches_any_edge": true,
+    "nonzero_pixels_on_edges": {"top": 0, "bottom": 53, "left": 7, "right": 0},
+    "reason": "The matte is broadly semi-transparent; only 537 fully opaque pixels, with low-alpha pixels touching the left and bottom canvas edges."
+  },
+  "framing": {
+    "verdict": "FAIL",
+    "reason": "Thresholded subject leaves only a 6px lower margin and nonzero alpha reaches the bottom edge."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Three-quarter perspective view is not calibrated to iso2x_v1; no control points or Godot display validation."
+  },
+  "geometry": {"verdict": "NOT_CHECKED", "footprint_tiles": null, "dimensions_m": null, "ground_anchor": null},
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}
