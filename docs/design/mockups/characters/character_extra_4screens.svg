@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+<defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#ddf3ff"/><stop offset="1" stop-color="#fdf5ff"/></linearGradient></defs>
+<rect width="1600" height="1100" fill="url(#bg)"/>
+<text x="52" y="53" font-size="36" fill="#19549b" font-weight="900" text-anchor="start">キャラクター活用：追加4画面のUIモックアップ</text>
+<text x="55" y="83" font-size="18" fill="#5c7490" font-weight="500" text-anchor="start">コンビニ経営ゲーム  /  タイトル以外  /  デザイン検討用（実装・数値は未承認）</text>
+<g transform="translate(22,100)"><g transform="translate(0,0)">
+<rect x="0" y="0" width="760" height="480" rx="18" fill="#ffffff" stroke="#c4d7ea" stroke-width="3"/>
+<rect x="0" y="0" width="760" height="62" rx="18" fill="#1e65b9" stroke="none" stroke-width="1"/>
+<rect x="0" y="44" width="760" height="18" rx="0" fill="#1e65b9" stroke="none" stroke-width="1"/>
+<text x="24" y="40" font-size="25" fill="#ffffff" font-weight="800" text-anchor="start">① スタッフ採用・シフト</text>
+<rect x="674" y="14" width="67" height="34" rx="10" fill="#e7f3ff" stroke="none" stroke-width="1"/><text x="707" y="37" font-size="17" fill="#1d6abe" font-weight="800" text-anchor="middle">#144</text>
+</g>
+<text x="32" y="91" font-size="20" fill="#24334c" font-weight="600" text-anchor="start">本日の採用候補 3名</text>
+<text x="690" y="91" font-size="13" fill="#71809a" font-weight="400" text-anchor="end">例示データ</text>
+<g><rect x="24" y="109" width="220" height="292" rx="15" fill="#f6faff" stroke="#b5cadb" stroke-width="2"/><g transform="translate(134,211) scale(0.54)">
+<ellipse cx="0" cy="141" rx="77" ry="15" fill="#7a8596" opacity=".22"/>
+<path d="M -64 66 Q -98 104 -89 150 L 85 150 Q 101 107 59 64" fill="#286bb3" stroke="#235186" stroke-width="3"/>
+<path d="M -64 74 Q -16 91 0 147 Q 16 85 62 74" fill="#f7fcff" opacity=".83"/>
+<path d="M -80 38 Q -110 3 -68 -43 Q -55 -103 0 -100 Q 67 -100 78 -35 Q 118 1 80 61" fill="#7e6a5d" stroke="#62524d" stroke-width="4"/>
+<ellipse cx="0" cy="9" rx="66" ry="77" fill="#ffddc4" stroke="#b47f6b" stroke-width="3"/>
+<path d="M -69 -11 Q -49 -96 18 -70 Q 57 -76 70 -14 Q 45 -48 17 -44 Q -30 -31 -61 -7" fill="#8d7666"/>
+<path d="M -45 12 Q -28 0 -15 14 M 16 14 Q 29 -1 45 12" stroke="#3c3f53" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="-31" cy="17" rx="8" ry="10" fill="#473e48"/><ellipse cx="31" cy="17" rx="8" ry="10" fill="#473e48"/>
+<ellipse cx="-48" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/><ellipse cx="47" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/>
+<path d="M -15 50 Q 0 69 16 50" stroke="#ac5d5c" stroke-width="4" fill="#fff3e9" stroke-linecap="round"/>
+<path d="M -53 91 L -13 112 L 0 138 L 13 112 L 52 91" stroke="#dceaf8" stroke-width="10" fill="none"/>
+<path d="M 60 82 Q 104 86 116 49" stroke="#ffddc4" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="118" cy="47" r="13" fill="#ffddc4"/>
+</g><text x="134" y="302" font-size="20" fill="#223c59" font-weight="800" text-anchor="middle">佐藤</text><text x="134" y="326" font-size="15" fill="#527094" font-weight="600" text-anchor="middle">レジ特化</text><text x="134" y="354" font-size="11" fill="#5d6b80" font-weight="500" text-anchor="middle">レジ / 品出し / 体力 / 接客</text><text x="134" y="374" font-size="17" fill="#1f5c9a" font-weight="700" text-anchor="middle">5 / 2 / 3 / 2</text><text x="134" y="402" font-size="15" fill="#4a5a68" font-weight="600" text-anchor="middle">時給 ¥1,620</text><g><rect x="72" y="422" width="124" height="39" rx="11" fill="#2388ed" stroke="#b3cadf" stroke-width="1.2"/><text x="134" y="447.5" font-size="17" fill="#fff" font-weight="700" text-anchor="middle">候補を選ぶ</text></g></g><g><rect x="263" y="109" width="220" height="292" rx="15" fill="#fff7eb" stroke="#b5cadb" stroke-width="2"/><g transform="translate(373,211) scale(0.54)">
+<ellipse cx="0" cy="141" rx="77" ry="15" fill="#7a8596" opacity=".22"/>
+<path d="M -64 66 Q -98 104 -89 150 L 85 150 Q 101 107 59 64" fill="#fff2eb" stroke="#235186" stroke-width="3"/>
+<path d="M -64 74 Q -16 91 0 147 Q 16 85 62 74" fill="#f7fcff" opacity=".83"/>
+<path d="M -80 38 Q -110 3 -68 -43 Q -55 -103 0 -100 Q 67 -100 78 -35 Q 118 1 80 61" fill="#654943" stroke="#62524d" stroke-width="4"/>
+<ellipse cx="0" cy="9" rx="66" ry="77" fill="#ffddc4" stroke="#b47f6b" stroke-width="3"/>
+<path d="M -69 -11 Q -49 -96 18 -70 Q 57 -76 70 -14 Q 45 -48 17 -44 Q -30 -31 -61 -7" fill="#654943"/>
+<path d="M -45 12 Q -28 0 -15 14 M 16 14 Q 29 -1 45 12" stroke="#3c3f53" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="-31" cy="17" rx="8" ry="10" fill="#473e48"/><ellipse cx="31" cy="17" rx="8" ry="10" fill="#473e48"/>
+<ellipse cx="-48" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/><ellipse cx="47" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/>
+<path d="M -15 50 Q 0 69 16 50" stroke="#ac5d5c" stroke-width="4" fill="#fff3e9" stroke-linecap="round"/>
+<path d="M -53 91 L -13 112 L 0 138 L 13 112 L 52 91" stroke="#dceaf8" stroke-width="10" fill="none"/>
+<path d="M 60 82 Q 104 86 116 49" stroke="#ffddc4" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="118" cy="47" r="13" fill="#ffddc4"/>
+</g><text x="373" y="302" font-size="20" fill="#223c59" font-weight="800" text-anchor="middle">田中</text><text x="373" y="326" font-size="15" fill="#527094" font-weight="600" text-anchor="middle">品出し特化</text><text x="373" y="354" font-size="11" fill="#5d6b80" font-weight="500" text-anchor="middle">レジ / 品出し / 体力 / 接客</text><text x="373" y="374" font-size="17" fill="#1f5c9a" font-weight="700" text-anchor="middle">2 / 5 / 2 / 2</text><text x="373" y="402" font-size="15" fill="#4a5a68" font-weight="600" text-anchor="middle">時給 ¥1,560</text><g><rect x="311" y="422" width="124" height="39" rx="11" fill="#ff954a" stroke="#b3cadf" stroke-width="1.2"/><text x="373" y="447.5" font-size="17" fill="#fff" font-weight="700" text-anchor="middle">候補を選ぶ</text></g></g><g><rect x="502" y="109" width="220" height="292" rx="15" fill="#f6faff" stroke="#b5cadb" stroke-width="2"/><g transform="translate(612,211) scale(0.54)">
+<ellipse cx="0" cy="141" rx="77" ry="15" fill="#7a8596" opacity=".22"/>
+<path d="M -64 66 Q -98 104 -89 150 L 85 150 Q 101 107 59 64" fill="#286bb3" stroke="#235186" stroke-width="3"/>
+<path d="M -64 74 Q -16 91 0 147 Q 16 85 62 74" fill="#f7fcff" opacity=".83"/>
+<path d="M -80 38 Q -110 3 -68 -43 Q -55 -103 0 -100 Q 67 -100 78 -35 Q 118 1 80 61" fill="#7e6a5d" stroke="#62524d" stroke-width="4"/>
+<ellipse cx="0" cy="9" rx="66" ry="77" fill="#ffddc4" stroke="#b47f6b" stroke-width="3"/>
+<path d="M -69 -11 Q -49 -96 18 -70 Q 57 -76 70 -14 Q 45 -48 17 -44 Q -30 -31 -61 -7" fill="#8d7666"/>
+<path d="M -45 12 Q -28 0 -15 14 M 16 14 Q 29 -1 45 12" stroke="#3c3f53" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="-31" cy="17" rx="8" ry="10" fill="#473e48"/><ellipse cx="31" cy="17" rx="8" ry="10" fill="#473e48"/>
+<ellipse cx="-48" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/><ellipse cx="47" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/>
+<path d="M -15 50 Q 0 69 16 50" stroke="#ac5d5c" stroke-width="4" fill="#fff3e9" stroke-linecap="round"/>
+<path d="M -53 91 L -13 112 L 0 138 L 13 112 L 52 91" stroke="#dceaf8" stroke-width="10" fill="none"/>
+<path d="M 60 82 Q 104 86 116 49" stroke="#ffddc4" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="118" cy="47" r="13" fill="#ffddc4"/>
+</g><text x="612" y="302" font-size="20" fill="#223c59" font-weight="800" text-anchor="middle">鈴木</text><text x="612" y="326" font-size="15" fill="#527094" font-weight="600" text-anchor="middle">接客上手</text><text x="612" y="354" font-size="11" fill="#5d6b80" font-weight="500" text-anchor="middle">レジ / 品出し / 体力 / 接客</text><text x="612" y="374" font-size="17" fill="#1f5c9a" font-weight="700" text-anchor="middle">2 / 2 / 4 / 5</text><text x="612" y="402" font-size="15" fill="#4a5a68" font-weight="600" text-anchor="middle">時給 ¥1,680</text><g><rect x="550" y="422" width="124" height="39" rx="11" fill="#2388ed" stroke="#b3cadf" stroke-width="1.2"/><text x="612" y="447.5" font-size="17" fill="#fff" font-weight="700" text-anchor="middle">候補を選ぶ</text></g></g>
+</g><g transform="translate(818,100)"><g transform="translate(0,0)">
+<rect x="0" y="0" width="760" height="480" rx="18" fill="#ffffff" stroke="#c4d7ea" stroke-width="3"/>
+<rect x="0" y="0" width="760" height="62" rx="18" fill="#1e65b9" stroke="none" stroke-width="1"/>
+<rect x="0" y="44" width="760" height="18" rx="0" fill="#1e65b9" stroke="none" stroke-width="1"/>
+<text x="24" y="40" font-size="25" fill="#ffffff" font-weight="800" text-anchor="start">② お客様の詳細・接客</text>
+<rect x="674" y="14" width="67" height="34" rx="10" fill="#e7f3ff" stroke="none" stroke-width="1"/><text x="707" y="37" font-size="17" fill="#1d6abe" font-weight="800" text-anchor="middle">#141</text>
+</g>
+<rect x="26" y="79" width="320" height="362" rx="16" fill="#eaf6ff" stroke="none" stroke-width="1"/>
+<rect x="375" y="80" width="353" height="362" rx="16" fill="#f8fafc" stroke="#ccdde8" stroke-width="1"/>
+<g transform="translate(174,269) scale(1.08)">
+<ellipse cx="0" cy="141" rx="77" ry="15" fill="#7a8596" opacity=".22"/>
+<path d="M -64 66 Q -98 104 -89 150 L 85 150 Q 101 107 59 64" fill="#fff2eb" stroke="#235186" stroke-width="3"/>
+<path d="M -64 74 Q -16 91 0 147 Q 16 85 62 74" fill="#f7fcff" opacity=".83"/>
+<path d="M -80 38 Q -110 3 -68 -43 Q -55 -103 0 -100 Q 67 -100 78 -35 Q 118 1 80 61" fill="#654943" stroke="#62524d" stroke-width="4"/>
+<ellipse cx="0" cy="9" rx="66" ry="77" fill="#ffddc4" stroke="#b47f6b" stroke-width="3"/>
+<path d="M -69 -11 Q -49 -96 18 -70 Q 57 -76 70 -14 Q 45 -48 17 -44 Q -30 -31 -61 -7" fill="#654943"/>
+<path d="M -45 12 Q -28 0 -15 14 M 16 14 Q 29 -1 45 12" stroke="#3c3f53" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="-31" cy="17" rx="8" ry="10" fill="#473e48"/><ellipse cx="31" cy="17" rx="8" ry="10" fill="#473e48"/>
+<ellipse cx="-48" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/><ellipse cx="47" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/>
+<path d="M -15 50 Q 0 69 16 50" stroke="#ac5d5c" stroke-width="4" fill="#fff3e9" stroke-linecap="round"/>
+<path d="M -53 91 L -13 112 L 0 138 L 13 112 L 52 91" stroke="#dceaf8" stroke-width="10" fill="none"/>
+<path d="M 60 82 Q 104 86 116 49" stroke="#ffddc4" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="118" cy="47" r="13" fill="#ffddc4"/>
+</g>
+<text x="174" y="412" font-size="18" fill="#345779" font-weight="700" text-anchor="middle">選択したお客様</text>
+<text x="403" y="118" font-size="22" fill="#1b4b81" font-weight="800" text-anchor="start">来店目的： 昼食</text>
+<text x="403" y="156" font-size="15" fill="#24334c" font-weight="600" text-anchor="start">予算: ¥1,000  /  所持金: ¥2,000</text>
+<text x="403" y="200" font-size="18" fill="#1c5292" font-weight="800" text-anchor="start">かごの中身</text>
+<rect x="400" y="214" width="300" height="42" rx="8" fill="#fff" stroke="none" stroke-width="1"/><text x="419" y="241" font-size="16" fill="#24334c" font-weight="600" text-anchor="start">おにぎり（鮭） × 1</text>
+<rect x="400" y="265" width="300" height="42" rx="8" fill="#fff" stroke="none" stroke-width="1"/><text x="419" y="292" font-size="15" fill="#24334c" font-weight="600" text-anchor="start">★ カフェラテ × 1（寄り道）</text>
+<text x="403" y="336" font-size="16" fill="#277856" font-weight="600" text-anchor="start">気分：満足   待ち時間：1分</text>
+<g><rect x="410" y="369" width="283" height="50" rx="11" fill="#2388ed" stroke="#b3cadf" stroke-width="1.2"/><text x="551.5" y="400" font-size="17" fill="#fff" font-weight="700" text-anchor="middle">店内の位置を見る</text></g>
+</g><g transform="translate(22,590)"><g transform="translate(0,0)">
+<rect x="0" y="0" width="760" height="480" rx="18" fill="#ffffff" stroke="#c4d7ea" stroke-width="3"/>
+<rect x="0" y="0" width="760" height="62" rx="18" fill="#1e65b9" stroke="none" stroke-width="1"/>
+<rect x="0" y="44" width="760" height="18" rx="0" fill="#1e65b9" stroke="none" stroke-width="1"/>
+<text x="24" y="40" font-size="25" fill="#ffffff" font-weight="800" text-anchor="start">③ 店舗拡張・設備導入</text>
+<rect x="674" y="14" width="67" height="34" rx="10" fill="#e7f3ff" stroke="none" stroke-width="1"/><text x="707" y="37" font-size="17" fill="#1d6abe" font-weight="800" text-anchor="middle">#145</text>
+</g>
+<text x="29" y="93" font-size="21" fill="#214767" font-weight="800" text-anchor="start">増築で売り場を広げよう！</text>
+<rect x="27" y="112" width="704" height="217" rx="15" fill="#eff6ff" stroke="none" stroke-width="1"/>
+<rect x="56" y="155" width="250" height="140" rx="8" fill="#c1def5" stroke="#4d82b2" stroke-width="3"/>
+<rect x="362" y="136" width="334" height="159" rx="8" fill="#d1eddf" stroke="#469b83" stroke-width="3"/>
+<text x="177" y="184" font-size="21" fill="#244c71" font-weight="800" text-anchor="middle">小型店舗</text>
+<text x="177" y="218" font-size="19" fill="#234c71" font-weight="600" text-anchor="middle">12 × 10 マス</text>
+<text x="177" y="253" font-size="16" fill="#477397" font-weight="700" text-anchor="middle">現在</text>
+<text x="531" y="177" font-size="21" fill="#235f4e" font-weight="800" text-anchor="middle">中型店舗</text>
+<text x="531" y="211" font-size="19" fill="#235f4e" font-weight="600" text-anchor="middle">16 × 12 マス</text>
+<text x="531" y="251" font-size="16" fill="#46836e" font-weight="700" text-anchor="middle">増築後</text>
+<text x="333" y="224" font-size="35" fill="#e89e3f" font-weight="900" text-anchor="middle">→</text>
+<g transform="translate(93,386) scale(0.39)">
+<ellipse cx="0" cy="141" rx="77" ry="15" fill="#7a8596" opacity=".22"/>
+<path d="M -64 66 Q -98 104 -89 150 L 85 150 Q 101 107 59 64" fill="#286bb3" stroke="#235186" stroke-width="3"/>
+<path d="M -64 74 Q -16 91 0 147 Q 16 85 62 74" fill="#f7fcff" opacity=".83"/>
+<path d="M -80 38 Q -110 3 -68 -43 Q -55 -103 0 -100 Q 67 -100 78 -35 Q 118 1 80 61" fill="#7e6a5d" stroke="#62524d" stroke-width="4"/>
+<ellipse cx="0" cy="9" rx="66" ry="77" fill="#ffddc4" stroke="#b47f6b" stroke-width="3"/>
+<path d="M -69 -11 Q -49 -96 18 -70 Q 57 -76 70 -14 Q 45 -48 17 -44 Q -30 -31 -61 -7" fill="#8d7666"/>
+<path d="M -45 12 Q -28 0 -15 14 M 16 14 Q 29 -1 45 12" stroke="#3c3f53" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="-31" cy="17" rx="8" ry="10" fill="#473e48"/><ellipse cx="31" cy="17" rx="8" ry="10" fill="#473e48"/>
+<ellipse cx="-48" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/><ellipse cx="47" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/>
+<path d="M -15 50 Q 0 69 16 50" stroke="#ac5d5c" stroke-width="4" fill="#fff3e9" stroke-linecap="round"/>
+<path d="M -53 91 L -13 112 L 0 138 L 13 112 L 52 91" stroke="#dceaf8" stroke-width="10" fill="none"/>
+<path d="M 60 82 Q 104 86 116 49" stroke="#ffddc4" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="118" cy="47" r="13" fill="#ffddc4"/>
+</g>
+<rect x="161" y="343" width="555" height="69" rx="12" fill="#fff8eb" stroke="#eac89b" stroke-width="2"/>
+<text x="185" y="369" font-size="17" fill="#684a30" font-weight="700" text-anchor="start">小春：什器と在庫はそのまま引き継げます！</text>
+<text x="185" y="396" font-size="14" fill="#786b5b" font-weight="500" text-anchor="start">工事費・休業日数は確認画面で案内</text>
+<g><rect x="478" y="428" width="235" height="39" rx="11" fill="#ff954a" stroke="#b3cadf" stroke-width="1.2"/><text x="595.5" y="453.5" font-size="17" fill="#fff" font-weight="700" text-anchor="middle">増築内容を確認</text></g>
+</g><g transform="translate(818,590)"><g transform="translate(0,0)">
+<rect x="0" y="0" width="760" height="480" rx="18" fill="#ffffff" stroke="#c4d7ea" stroke-width="3"/>
+<rect x="0" y="0" width="760" height="62" rx="18" fill="#1e65b9" stroke="none" stroke-width="1"/>
+<rect x="0" y="44" width="760" height="18" rx="0" fill="#1e65b9" stroke="none" stroke-width="1"/>
+<text x="24" y="40" font-size="25" fill="#ffffff" font-weight="800" text-anchor="start">④ 実績解除・目標達成</text>
+<rect x="674" y="14" width="67" height="34" rx="10" fill="#e7f3ff" stroke="none" stroke-width="1"/><text x="707" y="37" font-size="17" fill="#1d6abe" font-weight="800" text-anchor="middle">#32</text>
+</g>
+<rect x="25" y="78" width="710" height="314" rx="18" fill="#fff9ed" stroke="#f3d49d" stroke-width="2"/>
+<g transform="translate(150,294) scale(0.82)">
+<ellipse cx="0" cy="141" rx="77" ry="15" fill="#7a8596" opacity=".22"/>
+<path d="M -64 66 Q -98 104 -89 150 L 85 150 Q 101 107 59 64" fill="#286bb3" stroke="#235186" stroke-width="3"/>
+<path d="M -64 74 Q -16 91 0 147 Q 16 85 62 74" fill="#f7fcff" opacity=".83"/>
+<path d="M -80 38 Q -110 3 -68 -43 Q -55 -103 0 -100 Q 67 -100 78 -35 Q 118 1 80 61" fill="#7e6a5d" stroke="#62524d" stroke-width="4"/>
+<ellipse cx="0" cy="9" rx="66" ry="77" fill="#ffddc4" stroke="#b47f6b" stroke-width="3"/>
+<path d="M -69 -11 Q -49 -96 18 -70 Q 57 -76 70 -14 Q 45 -48 17 -44 Q -30 -31 -61 -7" fill="#8d7666"/>
+<path d="M -45 12 Q -28 0 -15 14 M 16 14 Q 29 -1 45 12" stroke="#3c3f53" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="-31" cy="17" rx="8" ry="10" fill="#473e48"/><ellipse cx="31" cy="17" rx="8" ry="10" fill="#473e48"/>
+<ellipse cx="-48" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/><ellipse cx="47" cy="36" rx="16" ry="6" fill="#f29394" opacity=".5"/>
+<path d="M -15 50 Q 0 69 16 50" stroke="#ac5d5c" stroke-width="4" fill="#fff3e9" stroke-linecap="round"/>
+<path d="M -53 91 L -13 112 L 0 138 L 13 112 L 52 91" stroke="#dceaf8" stroke-width="10" fill="none"/>
+<path d="M 60 82 Q 104 86 116 49" stroke="#ffddc4" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="118" cy="47" r="13" fill="#ffddc4"/>
+</g>
+<g transform="translate(430,192)"><circle r="77" fill="#ffca4e" stroke="#f1a51f" stroke-width="9"/><path d="M -32 -3 l18 18 49 -56" stroke="white" stroke-width="14" stroke-linecap="round" fill="none"/><path d="M -63 47 l-22 88 65 -27 19 26 26 -87" fill="#ff935c" opacity=".92"/></g>
+<text x="536" y="117" font-size="31" fill="#c77729" font-weight="900" text-anchor="middle">実績達成！</text>
+<text x="540" y="321" font-size="23" fill="#244e7a" font-weight="800" text-anchor="middle">はじめての会計</text>
+<text x="540" y="353" font-size="17" fill="#7b643d" font-weight="600" text-anchor="middle">報酬：バッジのみ</text>
+<rect x="24" y="409" width="340" height="38" rx="10" fill="#e9f3fc" stroke="none" stroke-width="1"/><text x="42" y="436" font-size="17" fill="#246db2" font-weight="700" text-anchor="start">日替わり目標：3 / 3 達成</text>
+<g><rect x="445" y="404" width="270" height="52" rx="11" fill="#ff954a" stroke="#b3cadf" stroke-width="1.2"/><text x="580" y="436" font-size="17" fill="#fff" font-weight="700" text-anchor="middle">実績一覧を見る</text></g>
+</g>
+</svg>

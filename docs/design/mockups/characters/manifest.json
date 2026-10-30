@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "mockup_unapproved",
+  "title_excluded": true,
+  "files": [
+    "character_extra_4screens.svg",
+    "README.md"
+  ],
+  "screens": [
+    {
+      "name": "staff_hiring",
+      "issue": 144
+    },
+    {
+      "name": "customer_detail",
+      "issue": 141
+    },
+    {
+      "name": "store_expansion",
+      "issue": 145
+    },
+    {
+      "name": "milestone_achievement",
+      "issue": 32
+    }
+  ],
+  "source": "editable SVG reconstruction for GitHub review",
+  "relationship_to_imagegen": "separate redrawn SVG, not uploaded ImageGen PNG",
+  "runtime_approved": false
+}
