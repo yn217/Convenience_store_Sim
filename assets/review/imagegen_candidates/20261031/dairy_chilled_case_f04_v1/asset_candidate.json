@@ -3,18 +3,18 @@
   "outputs": [
     {
       "role": "source_original",
-      "github_uploaded": false,
+      "github_uploaded": true,
       "sha256": "a7ddf462f68333f9faeb96a83414adfdda76769ec361260b4360b799fa365c0c",
       "path": "source_original.png",
-      "git_blob_sha": null,
+      "git_blob_sha": "a5158c5598c59e3824c9b4015e8f311975956677",
       "byte_size": 2069213
     },
     {
       "role": "qa_overlay",
-      "github_uploaded": false,
+      "github_uploaded": true,
       "sha256": "6541ebca36f32988692c74f47aa34aa2152895053ad821edff79ad7dd866430f",
       "path": "qa_preview_white.jpg",
-      "git_blob_sha": null,
+      "git_blob_sha": "b4cae2a56f8cf6a82abfaeec2360a907844ffe0f",
       "byte_size": 284371
     }
   ],
