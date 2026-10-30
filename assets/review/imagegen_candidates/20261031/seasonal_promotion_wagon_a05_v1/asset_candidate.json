@@ -56,19 +56,19 @@
   "fixture_type_id": null,
   "outputs": [
     {
-      "git_blob_sha": null,
+      "git_blob_sha": "a3b1f0ac77222326cb6ae7c0c3dc6a1708e96370",
       "byte_size": 2025211,
       "role": "source_original",
       "sha256": "d8736807c1a3810c82ef4598b477d1da0b87273a6abd91459ae0703ad646d518",
-      "github_uploaded": false,
+      "github_uploaded": true,
       "path": "source_original.png"
     },
     {
-      "git_blob_sha": null,
+      "git_blob_sha": "1ecb4c9c20fb9fcbd7bd3d67d1d523f7b14ffdec",
       "byte_size": 375659,
       "role": "qa_overlay",
       "sha256": "d7dfa32c4b3cbeb2532ba2b482450bd01d46b59deae67b39c30b3eea056e363f",
-      "github_uploaded": false,
+      "github_uploaded": true,
       "path": "qa_preview_white.jpg"
     }
   ]
