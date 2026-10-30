@@ -1,0 +1,58 @@
+{
+  "asset_id": "shelf_general_full_integrated_edit_v2",
+  "reviewer": "independent parent visual/alpha QA; direct built-in ImageGen edit",
+  "overall": "FAIL",
+  "source_sha256": "98a9f93b0fbf6938de7020b7e26508b2bd615e1917c0df6c9e98d4e4855dc5ca",
+  "image": {
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_zero_pct": 70.69,
+    "alpha_gt127_bbox_xyxy": [
+      161,
+      146,
+      822,
+      1083
+    ],
+    "margins_gt127_pct": {
+      "left": 12.84,
+      "right": 34.45,
+      "top": 11.64,
+      "bottom": 13.64
+    },
+    "empty_guide_bbox_gt127_xyxy": [
+      161,
+      147,
+      820,
+      1082
+    ],
+    "whole_alpha_mask_iou_with_empty_guide_no_transform": 0.987027,
+    "whole_mask_iou_caveat": "Includes integrated goods; useful for gross outline consistency only, not a fixture-only shape score.",
+    "alpha_preview": "alpha_preview.png",
+    "same_canvas_comparison": "comparison_same_canvas.png"
+  },
+  "checks": {
+    "integrated_shelf_plus_goods": "pass: goods are baked into one image",
+    "dark_base_plinth_empty": "pass: no goods on the plinth",
+    "product_front_readability": "pass: package faces readable at source resolution",
+    "product_thickness": "fail: package sides/top surfaces remain visibly volumetric",
+    "gross_fixture_outline": "pass: whole-alpha bbox differs from empty guide by <=2 px and whole-mask IoU is 0.987, with goods included",
+    "fixture_only_geometry_and_control_points": "not_checked: goods obscure fixture portions; no isolated fixture mask or calibrated landmarks",
+    "projection_iso2x_v1": "not_checked: no camera control-point calibration or Godot render",
+    "alpha_safe_margin": "fail: top is 11.64%, below 12% minimum",
+    "footprint_anchor": "not_checked",
+    "godot_runtime": "not_checked",
+    "runtime_approved": false
+  },
+  "notes": [
+    "Direct edit from empty v13 guide; original candidate PNG preserved byte-for-byte.",
+    "The plinth remains empty and inventory is limited to the visible shelf rows.",
+    "Same-canvas comparison is unscaled and uncropped.",
+    "High whole-mask IoU includes product pixels and does not establish fixture-only structural correctness.",
+    "Review-only; runtime adoption is not approved."
+  ]
+}
