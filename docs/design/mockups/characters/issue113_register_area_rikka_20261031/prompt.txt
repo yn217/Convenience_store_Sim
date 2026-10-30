@@ -1,0 +1,5 @@
+Use case: ui-mockup
+Asset type: one 16:9 in-game screen mockup for a Japanese convenience-store management simulation
+Primary request: Create one polished register-area density screen for Issue #113. Use the user-provided Koharu Rikka reference for the cashier character, standing naturally behind a register and scanning an item.
+Composition: checkout area with two register lanes, short customer queue, floor-marked waiting positions, rear shelves, hot snacks, coffee machine, paper bags, receipt printer, counter POP, and bagging area. Right inspector titled 「レジ周辺」 lists 「レジ台」「コーヒーマシン」「ホットスナック」「袋詰め台」「レシート端末」. Bottom-left panel titled 「レジ待機スペース」 shows 「待機 3人」.
+Constraints: visual density and waiting-space presentation only; do not add staff management, new sales systems, or a full checkout transaction panel. One screen, no collage, static mockup only.
