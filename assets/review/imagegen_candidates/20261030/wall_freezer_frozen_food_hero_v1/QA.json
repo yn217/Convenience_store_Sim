@@ -1,0 +1,65 @@
+{
+  "asset_id": "wall_freezer_frozen_food_hero_v1",
+  "reviewer": "parent visual and alpha review; generated with Codex built-in image_gen",
+  "overall": "FAIL",
+  "source_sha256": "871d187667eab253eb9585623b76482c136eb25c6ca359071eb2a24881fd9514",
+  "image": {
+    "width": 1536,
+    "height": 1024,
+    "format": "PNG RGBA",
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "alpha_zero": 977158,
+    "alpha_1_to_127": 8414,
+    "alpha_128_to_254": 587292,
+    "alpha_255": 0,
+    "alpha_gt_0_bbox_xyxy_inclusive": [
+      81,
+      17,
+      1471,
+      1023
+    ],
+    "alpha_gt_0_margins_pct": {
+      "left": 5.27,
+      "right": 4.17,
+      "top": 1.66,
+      "bottom": 0
+    },
+    "alpha_ge_128_bbox_xyxy_inclusive": [
+      371,
+      91,
+      1165,
+      967
+    ],
+    "alpha_ge_128_margins_pct": {
+      "left": 24.15,
+      "right": 24.09,
+      "top": 8.89,
+      "bottom": 5.47
+    },
+    "alpha_nonzero_touches_bottom_edge": true
+  },
+  "checks": {
+    "f01_wall_freezer_identity": "pass",
+    "two_glass_doors_handles": "pass",
+    "frozen_food_goods_baked_in": "pass: visible frozen bags and meal trays behind glass",
+    "shelves_and_cool_led": "pass",
+    "transparent_background": "fail: no alpha=255 pixels; most case/food pixels are alpha 128–254, weak alpha also touches bottom edge",
+    "safe_margin": "fail: weak alpha extends to bottom edge; alpha>=128 top/bottom margins only 8.89%/5.47%",
+    "iso2x_v1_projection": "fail: visible width/depth directions are not matched to measured 2:1 world control points",
+    "dimensions_and_footprint": "not_checked",
+    "ground_anchor": "not_checked",
+    "godot_game_scale": "not_checked",
+    "orthographic_views": "not_checked: only hero image",
+    "runtime_approved": false
+  },
+  "notes": [
+    "The result matches F01's recognizable upright wall freezer with two glass doors, handles, multiple shelves, cool lighting and visible frozen food.",
+    "Products are represented inside the case, not as detached cards; packaging details are stylized and some items appear like trays/meal packs.",
+    "Alpha maximum is 254; zero fully opaque pixels. Weak nonzero alpha reaches the bottom edge. The white-matte preview is not the original source.",
+    "The camera looks near-front with perspective depth; no iso2x_v1 calibration/control points, world dimensions, footprint, anchor or Godot screenshot are available.",
+    "Review-only FAIL; do not connect to runtime. runtime_approved:false."
+  ]
+}
