@@ -1,15 +1,17 @@
 {
   "schema_version": 1,
   "issue": 140,
-  "asset_id": "character_seasonal_campaign_issue140_v01",
+  "asset_id": "character_seasonal_campaign_issue140_rikka_v02",
   "status": "review_candidate",
   "path": "docs/design/mockups/characters/issue140_seasonal_campaign/seasonal_campaign_character_mockup.png",
   "screen": "seasonal_campaign",
   "character_role": "store_manager_campaign_guide",
   "source": "built-in image_gen",
-  "input_reference": "conversation attachment: existing character-led mockup style",
+  "input_reference": "user-provided Koharu Rikka reference image plus existing campaign mockup edit target",
   "runtime_connected": false,
-  "fictional_ip_only": true,
+  "fictional_campaign_only": true,
+  "character_identity": "Koharu Rikka (user-specified reference; rights review required before production redistribution)",
+  "supersedes": "character_seasonal_campaign_issue140_v01",
   "related_issue": 140,
   "related_existing_pr": 173
 }
