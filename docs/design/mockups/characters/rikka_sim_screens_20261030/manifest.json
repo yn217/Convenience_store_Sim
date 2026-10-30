@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "asset_group": "character_rikka_sim_screens_20261030",
+  "status": "review_candidate",
+  "source": "user-provided mockup attachments",
+  "character_identity": "Koharu Rikka (小春六花; user-specified reference; rights review required)",
+  "runtime_connected": false,
+  "screens": [
+    {
+      "issue": 144,
+      "screen": "staff_recruitment",
+      "path": "docs/design/mockups/characters/rikka_sim_screens_20261030/issue144_staff_recruitment_rikka.png"
+    },
+    {
+      "issue": 145,
+      "screen": "store_expansion",
+      "path": "docs/design/mockups/characters/rikka_sim_screens_20261030/issue145_store_expansion_rikka.png"
+    },
+    {
+      "issue": 141,
+      "screen": "customer_service",
+      "path": "docs/design/mockups/characters/rikka_sim_screens_20261030/issue141_customer_service_rikka.png"
+    }
+  ]
+}
