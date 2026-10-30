@@ -1,0 +1,462 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yn217/Convenience_store_Sim/blob/main/docs/schemas/asset_candidate.schema.json",
+  "title": "Non-runtime 2D art candidate handoff contract v1",
+  "description": "For generated source art and QA only; does not replace visual_manifest.schema.json used by Godot. runtime_approved must remain false here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "asset_id",
+    "asset_class",
+    "requested_subject",
+    "actual_subject",
+    "production_method",
+    "stock_state",
+    "stock_rendering",
+    "source",
+    "outputs",
+    "projection",
+    "geometry",
+    "quality",
+    "github",
+    "runtime_approved"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "asset_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "asset_class": {
+      "enum": [
+        "interior_fixture",
+        "interior_prop",
+        "exterior_group",
+        "reference_only"
+      ]
+    },
+    "requested_subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actual_subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "production_method": {
+      "enum": [
+        "chatgpt_imagegen",
+        "codex_imagegen",
+        "svg_2d",
+        "layered_2d",
+        "other_2d"
+      ]
+    },
+    "stock_state": {
+      "enum": [
+        "EMPTY",
+        "LOW",
+        "MEDIUM",
+        "FULL",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "stock_rendering": {
+      "enum": [
+        "none",
+        "dynamic_overlay",
+        "static_review_baked",
+        "multi_state_candidate"
+      ]
+    },
+    "fixture_type_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "unchanged_original",
+        "file_size_bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "unchanged_original": {
+          "const": true
+        },
+        "file_size_bytes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha_nullable"
+        },
+        "reference_hashes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "path",
+          "byte_size",
+          "sha256",
+          "git_blob_sha",
+          "github_uploaded"
+        ],
+        "properties": {
+          "role": {
+            "enum": [
+              "source_original",
+              "sprite_fullres",
+              "source_webp",
+              "game_512",
+              "game_256",
+              "qa_overlay",
+              "mask",
+              "manifest",
+              "full_zip",
+              "compact_zip",
+              "other"
+            ]
+          },
+          "path": {
+            "$ref": "#/$defs/relative_path"
+          },
+          "byte_size": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "sha256": {
+            "$ref": "#/$defs/sha_nullable"
+          },
+          "git_blob_sha": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[a-f0-9]{40}$"
+          },
+          "github_uploaded": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rotation",
+        "customer_access_edge",
+        "checked_in_godot",
+        "control_points",
+        "max_xy_error_source_px",
+        "max_z_error_source_px"
+      ],
+      "properties": {
+        "id": {
+          "const": "iso2x_v1"
+        },
+        "rotation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "customer_access_edge": {
+          "enum": [
+            "N",
+            "E",
+            "S",
+            "W",
+            "ALL",
+            "NONE"
+          ]
+        },
+        "checked_in_godot": {
+          "type": "boolean"
+        },
+        "control_points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "world_m",
+              "image_px"
+            ],
+            "properties": {
+              "world_m": {
+                "$ref": "#/$defs/point3"
+              },
+              "image_px": {
+                "$ref": "#/$defs/point2"
+              }
+            }
+          }
+        },
+        "max_xy_error_source_px": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "max_z_error_source_px": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "footprint_tiles",
+        "dimensions_m",
+        "world_ground_origin_m",
+        "image_anchor_px",
+        "verified"
+      ],
+      "properties": {
+        "footprint_tiles": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ]
+        },
+        "dimensions_m": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              ],
+              "items": false,
+              "minItems": 3,
+              "maxItems": 3
+            }
+          ]
+        },
+        "world_ground_origin_m": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/point3"
+            }
+          ]
+        },
+        "image_anchor_px": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/point2"
+            }
+          ]
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject",
+        "japanese_fixture_reference",
+        "geometry",
+        "projection",
+        "alpha",
+        "state_sync",
+        "godot_runtime",
+        "human_visual",
+        "notes"
+      ],
+      "properties": {
+        "subject": {
+          "$ref": "#/$defs/gate_state"
+        },
+        "japanese_fixture_reference": {
+          "$ref": "#/$defs/gate_state"
+        },
+        "geometry": {
+          "$ref": "#/$defs/gate_state"
+        },
+        "projection": {
+          "$ref": "#/$defs/gate_state"
+        },
+        "alpha": {
+          "$ref": "#/$defs/gate_state"
+        },
+        "state_sync": {
+          "$ref": "#/$defs/gate_state"
+        },
+        "godot_runtime": {
+          "$ref": "#/$defs/gate_state"
+        },
+        "human_visual": {
+          "$ref": "#/$defs/gate_state"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "github": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "draft_pr",
+        "branch"
+      ],
+      "properties": {
+        "repository": {
+          "const": "yn217/Convenience_store_Sim"
+        },
+        "draft_pr": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "runtime_approved": {
+      "const": false
+    }
+  },
+  "$defs": {
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*\\.\\.)(?!.*\\\\)[A-Za-z0-9_./-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "sha_nullable": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/sha256"
+        }
+      ]
+    },
+    "gate_state": {
+      "enum": [
+        "not_checked",
+        "pass",
+        "fail",
+        "blocked"
+      ]
+    },
+    "point2": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false
+    },
+    "point3": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "minItems": 3,
+      "maxItems": 3,
+      "items": false
+    }
+  }
+}
+

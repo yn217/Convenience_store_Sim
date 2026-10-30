@@ -1,0 +1,14 @@
+{
+  "runtime_approved": false,
+  "full_source": "full_source_original.png",
+  "status": "FAIL state geometry",
+  "method": "teal rail Hough diagnostic, source 1254px image",
+  "observed_rail_width_px_approx": 600,
+  "observed_rail_spacing_px_approx": 150,
+  "target_rail_width_px_approx": 246,
+  "target_rail_spacing_px_approx": 50.2,
+  "width_fit_uniform_scale_approx": 0.41,
+  "spacing_fit_uniform_scale_approx": 0.335,
+  "finding": "A single uniform scale cannot fit both rail widths and spacing. Shelf has been redrawn. Do not use source as matching FULL state.",
+  "next_action": "Extract product row regions only and map to approved EMPTY; retain fixed structure from EMPTY. Preserve original."
+}

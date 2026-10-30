@@ -1,0 +1,6 @@
+{
+  "max_source_pixel_error": 0.000030517578125,
+  "pass": true,
+  "scope": "runtime projection numeric comparison only; no visual approval",
+  "vertices_checked": 96
+}
