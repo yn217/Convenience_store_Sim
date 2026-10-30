@@ -1,0 +1,5 @@
+Use case: ui-mockup
+Asset type: one 16:9 game screen mockup for a Japanese convenience-store management simulation
+Primary request: Create one polished first-day tutorial screen for Issue #28, showing the onboarding flow from ordering products to opening the store. Use the user-provided Koharu Rikka reference for the guide character and the supplied tutorial screen only as a layout reference.
+Composition: 16:9 landscape. Left tutorial panel titled 「チュートリアル 1/5」 with 「商品を発注する」「商品を棚に並べる」「レジで接客してみる」「売上を確認する」「1日の流れを確認する」. Highlight step 1, show product thumbnails, and a button 「仕入れ画面を開く」. Right side Rikka guide character and dialogue 「店長さん、まずは商品を発注してみましょう！」. Bottom navigation for store, purchasing, products, staff, management, expansion, missions, and settings.
+Constraints: one screen, one guide character, no collage, no watermark, no real company branding. Static mockup only.
