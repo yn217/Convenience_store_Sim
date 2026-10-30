@@ -1,0 +1,11 @@
+{
+  "asset_id": "area_a_continuous_16m_candidate_v2",
+  "status": "runtime_candidate_pending_qa",
+  "file": "area_a_continuous_16m_candidate_v2.png",
+  "target_world_length_m": 16,
+  "source_asset": "area_a_continuous_short_candidate_v1/area_a_continuous_16m_candidate_v1.png",
+  "projection": "Orthographic isometric continuous apron, mapped with rotation and uniform scale only.",
+  "baseline": {"source_start_px": [330,80], "source_end_px": [1652,740], "canvas_size_px": [1774,887]},
+  "edit": "Generated asphalt mottling and warmer sidewalk hues; source geometry and markings were required to remain unchanged.",
+  "review": "Visually checked at 16x12 whole-store and panned/zoomed. Geometry remains aligned and no checkerboard is visible in runtime; edge alpha should be tracked in the final asset record."
+}

@@ -1,0 +1,16 @@
+{
+  "asset_id": "urban_grove_compact_green_candidate_v1",
+  "file": "urban_grove_compact_green_candidate_v1.png",
+  "status": "integrated_runtime_candidate",
+  "intended_use": "Compact grouped planting panel for the store's non-road outer perimeter.",
+  "render_width_px": 1774,
+  "render_height_px": 887,
+  "anchor_type": "ground_contact_baseline",
+  "placement": "World z=0, 2.43m outside the wall, behind wall/paving occlusion; uniformly fitted to a 12m world baseline.",
+  "generation": {
+    "tool": "built-in image_gen",
+    "reference": "User-supplied convenience-store exterior mockup",
+    "prompt_summary": "Transparent isometric grouped planting, mostly varied green trees and shrubs, modest flowers and sparse small cherry blossoms; no structures or text."
+  },
+  "review": "Inspected and integrated for edges up to 12m. Ground endpoints (358,789)-(1544,789) map to a 12m world baseline. Actual Godot captures at 12x10, 16x12, and 20x16 confirm fixed source scale, wall occlusion, and endpoint coverage; the panel is not cropped into connector caps."
+}

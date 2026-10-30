@@ -1,0 +1,17 @@
+{
+  "asset_id": "urban_grove_panel_v1",
+  "category": "exterior_environment_group_2d",
+  "source_type": "ai_generated",
+  "tool": "image_gen",
+  "view_direction": "isometric_leaning_tree_and_flower_group",
+  "render_width_px": 2172,
+  "render_height_px": 724,
+  "ground_contact_start_px": [100.0, 680.0],
+  "ground_contact_end_px": [2070.0, 680.0],
+  "anchor_type": "world_ground_endpoints_z0",
+  "world_length_m": 18.0,
+  "placement_depth_m": 2.43,
+  "occlusion_group": "distant_exterior_planting",
+  "sort_key": "behind_store_walls_and_roadside",
+  "generated_prompt": "Single wide static 2D group of dense Japanese roadside sakura, evergreen shrubs and flower beds on a transparent background; tall canopy, one continuous ground baseline; no structure, text or logo."
+}

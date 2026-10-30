@@ -45,12 +45,76 @@ func test_windows_and_piers_fill_the_rest_of_the_front(t, _tree) -> void:
 
 func test_fascia_and_store_name_above_the_glass(t, _tree) -> void:
 	var items := StoreDecor.wall_items(W, H, ENTR, {})
-	var bands := items.filter(func(it): return it["kind"] == &"poly" and it["color"] == StoreDecor.FASCIA)
+	var bands := items.filter(func(it): return it.get("role", &"") == &"fascia_band")
 	t.eq(bands.size(), 1, "one fascia band over the front")
 	for p in bands[0]["points"]:
 		t.ok(absf(p.z - StoreDecor.FASCIA_Z0) < 1e-5 or absf(p.z - StoreDecor.FASCIA_Z1) < 1e-5, "fascia sits between the sign heights")
 	var names := items.filter(func(it): return it["kind"] == &"text" and it["text"] == StoreDecor.NAME)
 	t.eq(names.size(), 1, "the fictional store name is drawn once")
+	var canopy_names := StoreDecor.canopy_items(W, H, SOUTH_ENTR).filter(func(it): return it["kind"] == &"text" and it["text"] == StoreDecor.NAME)
+	t.eq(canopy_names.size(), 1, "the observe canopy repeats the storefront name once")
+	t.eq(canopy_names[0]["font_px"], 32, "the storefront name is sized for fascia readability")
+
+
+func test_near_window_posters_follow_the_glass_and_clear_the_door(t, _tree) -> void:
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [StoreDecor.SIDE_EAST, StoreDecor.SIDE_SOUTH]:
+			var store_size: Vector2i = size
+			var side_id: int = side
+			var along_length: int = store_size.y if side_id == StoreDecor.SIDE_EAST else store_size.x
+			var middle := int(along_length / 2)
+			var entrance := Vector2i(store_size.x - 1, middle) if side_id == StoreDecor.SIDE_EAST else Vector2i(middle, store_size.y - 1)
+			var items := StoreDecor.wall_items(store_size.x, store_size.y, [entrance], {})
+			var panels := items.filter(func(it): return it.get("role", &"") == &"window_poster_panel")
+			var titles := items.filter(func(it): return it.get("role", &"") == &"window_poster_title")
+			t.eq(panels.size(), 2, "two pane posters fit %dx%d on side %d" % [store_size.x, store_size.y, side_id])
+			t.eq(titles.size(), panels.size(), "each poster has one printed title")
+			var span := BackdropLayer.entrance_span(side_id, store_size.x, store_size.y, [entrance])
+			for panel in panels:
+				var along_values: Array[float] = []
+				for point in panel["points"]:
+					along_values.append(point.y if side_id == StoreDecor.SIDE_EAST else point.x)
+					t.ok(absf((point.x if side_id == StoreDecor.SIDE_EAST else point.y) - ((float(store_size.x) if side_id == StoreDecor.SIDE_EAST else float(store_size.y)) - 0.5 + 0.018)) < 1e-6, "poster stays on the outer glass plane")
+				var lo: float = along_values.min()
+				var hi: float = along_values.max()
+				t.ok(hi < span.x - 0.29 or lo > span.y + 0.29, "poster avoids the entrance span")
+				var z_values: Array[float] = []
+				for point in panel["points"]:
+					z_values.append(point.z)
+				var z_lo: float = z_values.min()
+				var z_hi: float = z_values.max()
+				t.ok(z_lo >= 0.72 - 1e-5 and z_hi <= 1.73 + 1e-5, "poster stays within the storefront glazing")
+
+
+func test_brand_mark_stays_on_the_fascia_away_from_each_entrance(t, _tree) -> void:
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		var cases := [
+			[StoreDecor.SIDE_WEST, [Vector2i(0, size.y / 2)]],
+			[StoreDecor.SIDE_NORTH, [Vector2i(size.x / 2, 0)]],
+			[StoreDecor.SIDE_EAST, [Vector2i(size.x - 1, size.y / 2)]],
+			[StoreDecor.SIDE_SOUTH, [Vector2i(size.x / 2, size.y - 1)]],
+		]
+		for entry_case in cases:
+			var side: int = entry_case[0]
+			var entrances: Array = entry_case[1]
+			var items := StoreDecor.canopy_items(size.x, size.y, entrances) if StoreDecor._is_near(side) else StoreDecor.wall_items(size.x, size.y, entrances, {})
+			var panels := items.filter(func(it): return it.get("role", &"") == &"brand_logo_panel")
+			t.eq(panels.size(), 1, "one fascia logo for %dx%d entrance side %d" % [size.x, size.y, side])
+			if panels.is_empty():
+				continue
+			var lo := INF
+			var hi := -INF
+			var min_z := INF
+			var max_z := -INF
+			for point in panels[0]["points"]:
+				var along: float = point.y if side == StoreDecor.SIDE_WEST or side == StoreDecor.SIDE_EAST else point.x
+				lo = minf(lo, along)
+				hi = maxf(hi, along)
+				min_z = minf(min_z, point.z)
+				max_z = maxf(max_z, point.z)
+			var span := BackdropLayer.entrance_span(side, size.x, size.y, entrances)
+			t.ok(hi + 0.12 <= span.x or lo - 0.12 >= span.y, "brand mark stays clear of entrance for %dx%d side %d" % [size.x, size.y, side])
+			t.ok(min_z >= 2.339 and max_z <= 2.761, "brand mark stays within the sign band")
 
 
 func test_cooler_row_on_the_back_wall_only(t, _tree) -> void:
@@ -106,12 +170,35 @@ func test_low_front_glass_reflections_stay_inside_closed_panes(t, _tree) -> void
 			t.ok(point.x <= 7.5 or point.x >= 9.5, "reflection at x=%0.2f does not cross the south entrance opening" % point.x)
 
 
+func test_near_entrance_uses_recessed_sliding_leaves_with_clear_center(t, _tree) -> void:
+	var items := StoreDecor.wall_items(W, H, SOUTH_ENTR, {})
+	var leaves := items.filter(func(it): return it.get("role", &"") == &"door_leaf_glass")
+	var safety_bands := items.filter(func(it): return it.get("role", &"") == &"door_safety_band")
+	t.eq(leaves.size(), 2, "the near entrance has two transparent sliding leaves")
+	t.eq(safety_bands.size(), 2, "each leaf has one subtle visibility band")
+	var spans: Array[Vector2] = []
+	for leaf in leaves:
+		var lo := INF
+		var hi := -INF
+		var min_z := INF
+		var max_z := -INF
+		for point in leaf["points"]:
+			lo = minf(lo, point.x)
+			hi = maxf(hi, point.x)
+			min_z = minf(min_z, point.z)
+			max_z = maxf(max_z, point.z)
+		spans.append(Vector2(lo, hi))
+		t.ok(min_z >= 0.079 and max_z < StoreDecor.NEAR_FRAME_TOP, "glass leaves stay within the entrance frame")
+	spans.sort_custom(func(a, b): return a.x < b.x)
+	t.ok(spans[1].x - spans[0].y >= 0.69, "the central customer route stays visibly clear")
+
+
 func test_observe_canopy_adds_transparent_full_height_glazing(t, _tree) -> void:
 	var items := StoreDecor.canopy_items(W, H, SOUTH_ENTR)
 	var panes := items.filter(func(it): return it.get("role", &"") == &"glazing_pane")
 	var reflections := items.filter(func(it): return it.get("role", &"") == &"glazing_reflection")
 	t.eq(panes.size(), W - SOUTH_ENTR.size(), "every closed frontage tile receives a glass pane")
-	t.ok(not reflections.is_empty(), "some panes catch a subtle reflection")
+	t.ok(reflections.size() >= int(panes.size() / 2) - 1, "alternating closed panes carry the sky reflection")
 	for pane in panes:
 		var min_z := INF
 		var max_z := -INF
@@ -154,6 +241,14 @@ func test_exterior_has_the_street_furniture(t, _tree) -> void:
 	t.eq(_sprites(items, "parked_car_blue").size() + _sprites(items, "parked_car_red").size(), 0, "legacy side-view cars are not used")
 
 
+func test_pole_sign_lists_store_services_on_separate_panels(t, _tree) -> void:
+	var items := StoreDecor.exterior_items(W, H, SOUTH_ENTR)
+	var sign_text := items.filter(func(it): return it["kind"] == &"text" and ["たばこ", "酒", "ATM"].has(it["text"]))
+	t.eq(sign_text.map(func(it): return it["text"]), ["たばこ", "酒", "ATM"], "pole sign presents separate service panels in vertical order")
+	for label in sign_text:
+		t.eq(label["font_px"], 16, "service lettering is legible at full-scene camera fit")
+
+
 func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
 	# Static parking lines and wheel stops belong to the combined Area A image; StoreDecor only places dynamic cars.
 	for side in [ENTR, SOUTH_ENTR]:
@@ -161,12 +256,34 @@ func test_parking_lot_is_on_the_entrance_side(t, _tree) -> void:
 		var markings := items.filter(func(it): return it.get("role", "") == "parking")
 		var cars := items.filter(func(it): return it.get("role", "") == "parked_vehicle")
 		t.eq(markings.size(), 0, "static parking paint is not redrawn over the combined background")
-		t.eq(cars.size(), 1 if side == SOUTH_ENTR else 0, "a projected car remains separate from the background art")
-		for car in cars:
-			var depth: float = -0.5 - car["x"] if side == ENTR else car["y"] - (H - 0.5)
-			var along: float = car["y"] if side == ENTR else car["x"]
-			t.ok(depth >= 2.0 and depth <= 7.0, "parked car stays within the parking depth")
-			t.ok(along < BackdropLayer.entrance_span(BackdropLayer.entrance_side(W, H, side), W, H, side).x, "parked car clears the doorway approach")
+		t.eq(cars.size(), 0, "parking artwork has no duplicate parked car")
+
+
+func test_outer_road_vehicle_tracks_entrance_side_without_blocking_crossing(t, _tree) -> void:
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
+			var middle := int(edge_length / 2.0)
+			var entrance: Vector2i
+			match side:
+				BackdropLayer.SIDE_WEST:
+					entrance = Vector2i(0, middle)
+				BackdropLayer.SIDE_NORTH:
+					entrance = Vector2i(middle, 0)
+				BackdropLayer.SIDE_EAST:
+					entrance = Vector2i(size.x - 1, middle)
+				_:
+					entrance = Vector2i(middle, size.y - 1)
+			var items := StoreDecor.exterior_items(size.x, size.y, [entrance])
+			var cars := items.filter(func(it): return it.get("role", "") == "road_vehicle")
+			t.eq(cars.size(), 1, "one outer-lane car exists for %dx%d side %d" % [size.x, size.y, side])
+			var car: Dictionary = cars[0]
+			t.eq(car["id"], "compact_car_painted_v2", "outer car uses the detailed compact model")
+			t.eq(car["rot"], 0 if side == BackdropLayer.SIDE_NORTH or side == BackdropLayer.SIDE_SOUTH else 1, "car aligns to the road axis on side %d" % side)
+			var depth := -0.5 - float(car["x"]) if side == BackdropLayer.SIDE_WEST else float(car["x"]) - (float(size.x) - 0.5) if side == BackdropLayer.SIDE_EAST else -0.5 - float(car["y"]) if side == BackdropLayer.SIDE_NORTH else float(car["y"]) - (float(size.y) - 0.5)
+			var along := float(car["y"]) if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else float(car["x"])
+			t.ok(depth >= BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M and depth <= BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M, "outer car sits on the road surface")
+			t.ok(absf(along - float(middle)) > 2.4, "outer car body stays clear of the crosswalk approach")
 
 
 func test_front_items_are_on_the_near_sides(t, _tree) -> void:

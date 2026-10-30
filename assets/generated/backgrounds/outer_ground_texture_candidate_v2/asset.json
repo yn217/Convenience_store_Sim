@@ -1,0 +1,16 @@
+{
+  "asset_id": "outer_ground_texture_candidate_v2",
+  "file": "outer_ground_texture_candidate_v2.png",
+  "status": "integrated_runtime_candidate",
+  "intended_use": "Subtle repeating ground fill for the exterior area beyond store landscaping.",
+  "render_width_px": 1254,
+  "render_height_px": 1254,
+  "placement": "Camera-relative screen-space tile drawn below exterior scenery and world geometry.",
+  "opacity": 0.24,
+  "generation": {
+    "tool": "built-in image_gen",
+    "reference": "No source image; generated as a seamless ground tile",
+    "prompt_summary": "Top-down opaque seamless moss and olive grass tile with low clover, subtle groundcover variation, sparse tiny pale flowers and fallen leaves; no trees, structures, roads, objects, text, borders, or lighting gradient."
+  },
+  "review": "Inspected and captured in Godot 4.7.2 at 12x10, 16x12, and 20x16 plus a zoomed/panned 20x16 view. At 24% opacity it adds low clover, flower, and leaf variation without a pronounced tile boundary; motif repetition remains visible under close inspection. A 36% trial made repetition too strong and was rejected."
+}

@@ -30,6 +30,7 @@ const SIDE_SOUTH := 3
 const NAME := "ミニマート青葉"   ## fictional store name (no real brand)
 const FASCIA := Color("2f6db5")
 const FASCIA_TEXT := Color("ffffff")
+const BRAND_YELLOW := Color("f2b52c")
 const SILL := Color("cfd9e2")
 const FRAME := Color("7d8a96")
 const WALL_OFFSET := -0.62     ## back-wall items stand just behind the wall plane (x or y = -0.5)
@@ -255,11 +256,11 @@ static func canopy_items(width: int, height: int, entrances: Array) -> Array:
 			continue
 		var pane_a := float(a) - 0.47
 		var pane_b := float(a) + 0.47
-		out.append({"kind": &"poly", "points": _band(side, plane, pane_a, pane_b, SILL_H + 0.01, 2.25), "color": Color(0.64, 0.83, 0.91, 0.075), "role": &"glazing_pane"})
-		if a % 3 == 1:
-			out.append({"kind": &"poly", "points": _band(side, plane - 0.004, pane_a + 0.11, pane_a + 0.19, 1.38, 2.18), "color": Color(1.0, 1.0, 1.0, 0.20), "role": &"glazing_reflection"})
+		out.append({"kind": &"poly", "points": _band(side, plane, pane_a, pane_b, SILL_H + 0.01, 2.25), "color": Color(0.64, 0.83, 0.91, 0.095), "role": &"glazing_pane"})
+		if a % 2 == 1:
+			out.append({"kind": &"poly", "points": _band(side, plane - 0.004, pane_a + 0.11, pane_a + 0.19, 1.38, 2.18), "color": Color(1.0, 1.0, 1.0, 0.28), "role": &"glazing_reflection"})
 	for strip in [[2.28, 2.78, Color("f5f6ee")], [2.38, 2.56, FASCIA], [2.26, 2.30, Color("9caaaf")], [2.72, 2.78, Color("d4dcdb")]]:
-		out.append({"kind": &"poly", "points": _band(side, plane, -0.5, n - 0.5, strip[0], strip[1]), "color": strip[2]})
+		out.append({"kind": &"poly", "points": _band(side, plane, -0.5, n - 0.5, strip[0], strip[1]), "color": strip[2], "role": &"fascia_band" if strip[2] == FASCIA else &"fascia_trim"})
 	# A narrow outward roof return provides real projected depth without covering the interior.
 	var roof: Array = []
 	for v in [Vector2(-0.5, 0.0), Vector2(n - 0.5, 0.0), Vector2(n - 0.5, 0.26), Vector2(-0.5, 0.26)]:
@@ -274,13 +275,14 @@ static func canopy_items(width: int, height: int, entrances: Array) -> Array:
 		var a := float(b) - 0.5
 		out.append({"kind": &"poly", "points": _band(side, plane, a - 0.018, a + 0.018, NEAR_FRAME_TOP, 2.28), "color": Color(0.45, 0.55, 0.57, 0.6)})
 	var label := fascia_label(side, width, height, plane)
-	label["font_px"] = 24
+	label["font_px"] = 32
 	label["color"] = FASCIA
 	var at: Vector3 = label["at"]
 	at.z = 2.53
 	label["at"] = at
 	var mid := float(n - 1) * 0.5
-	out.append({"kind": &"poly", "points": _band(side, plane, mid - 2.1, mid + 2.1, 2.32, 2.72), "color": Color("fbfcf8")})
+	out.append({"kind": &"poly", "points": _band(side, plane, mid - 2.6, mid + 2.6, 2.32, 2.72), "color": Color("fbfcf8")})
+	_append_store_brand_mark(out, side, plane, width, height, entrances)
 	out.append(label)
 	return out
 
@@ -295,8 +297,55 @@ static func wall_items(width: int, height: int, entrances: Array, occupied: Dict
 		out.append_array(_far_storefront(width, height, entrances, side))
 	else:
 		out.append_array(_near_low_front(width, height, entrances, side))
+		out.append_array(_near_window_posters(width, height, entrances, side))
 	for wall in _back_walls(side):
 		out.append_array(_back_wall(width, height, wall, entrances, occupied))
+	return out
+
+
+## Small printed posters sit on closed near-side panes; the entrance and the shop floor stay fully interactive.
+static func _near_window_posters(width: int, height: int, entrances: Array, side: int) -> Array:
+	var out: Array = []
+	var n := _edge_len(side, width, height)
+	if n < 8:
+		return out
+	var plane := (float(width) - 0.5 if side == SIDE_EAST else float(height) - 0.5) + 0.018
+	var desired := [roundi((n - 1) * 0.24), roundi((n - 1) * 0.76)]
+	var selected: Array[int] = []
+	for wanted in desired:
+		var found := -1
+		for radius in range(n):
+			for candidate in [int(wanted) - radius, int(wanted) + radius]:
+				if candidate <= 0 or candidate >= n - 1 or selected.any(func(value): return abs(value - candidate) < 3):
+					continue
+				if _is_entrance_at(entrances, side, candidate, width, height):
+					continue
+				found = candidate
+				break
+			if found >= 0:
+				break
+		if found >= 0:
+			selected.append(found)
+	selected.sort()
+	for i in selected.size():
+		var center := float(selected[i])
+		var left := center - 0.29
+		var right := center + 0.29
+		var accent := Color("c24d5a") if i == 0 else Color("d77094")
+		var title := "お弁当" if i == 0 else "新生活"
+		var note := "できたて" if i == 0 else "フェア開催中"
+		out.append({"kind": &"poly", "points": _band(side, plane, left, right, 0.72, 1.73), "color": Color("fffdf3"), "role": &"window_poster_panel"})
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.003, left + 0.035, right - 0.035, 1.58, 1.68), "color": accent, "role": &"window_poster_accent"})
+		var title_at := _plane_point(side, plane + 0.006, 1.28)
+		var note_at := _plane_point(side, plane + 0.006, 0.97)
+		if side == SIDE_EAST:
+			title_at.y = center
+			note_at.y = center
+		else:
+			title_at.x = center
+			note_at.x = center
+		out.append({"kind": &"text", "at": title_at, "text": title, "color": accent, "font_px": 12, "wall_side": side, "role": &"window_poster_title"})
+		out.append({"kind": &"text", "at": note_at, "text": note, "color": Color("53636a"), "font_px": 8, "wall_side": side, "role": &"window_poster_note"})
 	return out
 
 
@@ -312,6 +361,14 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	var n := _edge_len(side, width, height)
 	# Along the entrance side, the street items are placed from the door span, so they follow the entrance wherever it is.
 	var span := BackdropLayer.entrance_span(side, width, height, entrances)
+	# A single decorative car sits in the visible outer road lane, clear of the crosswalk and parking bay.
+	# It uses a fixed ground anchor and the same axis rotation as the road, with no simulation or click target.
+	var door_mid := (span.x + span.y) * 0.5
+	# Keep the car just beyond the entrance span, in the visible foreground portion of the road.
+	var road_vehicle_along := clampf(door_mid + (2.7 if door_mid < float(n) * 0.5 else -2.7), 2.0, float(n) - 2.0)
+	_add(out, "compact_car_painted_v2", side, width, height, BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M * 0.5, road_vehicle_along)
+	out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
+	out[-1]["role"] = "road_vehicle"
 	_add(out, "nobori_banner_obento", side, width, height, 1.0, n - 1.0)
 	_add(out, "open_a_board", side, width, height, 1.0, span.x - 0.8)
 	_add(out, "vending_painted_v1", side, width, height, 1.0, span.y + 1.5)   # beside the door
@@ -325,18 +382,8 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 	while a <= n + 6.0:
 		_add(out, "street_lamp", side, width, height, 2.0, a)
 		a += LAMP_STRIDE
-	# One row, measured in metres. Keep the doorway approach clear across the forecourt.
-	var bay := 0
-	var along := 0.0
-	while along + 2.5 <= span.x - 0.35:
-		# The combined Area A artwork already carries the static parking paint and wheel stops.
-		# Keep the vehicle as a separate world-anchored sprite so it can be changed independently.
-		if bay == 0 and (side == SIDE_SOUTH or side == SIDE_NORTH) and PropSprites.is_available("compact_car_painted_v2"):
-			_add(out, "compact_car_painted_v2", side, width, height, 4.6, along + 1.25)
-			out[-1]["rot"] = 0 if side == SIDE_SOUTH or side == SIDE_NORTH else 1
-			out[-1]["role"] = "parked_vehicle"
-		along += 2.7
-		bay += 1
+	# The frontage image carries the parking bays and wheel stops. Keep duplicate parked-car sprites out
+	# of the apron; the single independent road car is the vehicle visible in the target view.
 	# Place the fixed equipment against the visible east side, away from the entrance.
 	if width >= 8 and height >= 8:
 		var equipment_side := SIDE_SOUTH if side == SIDE_EAST else SIDE_EAST
@@ -366,9 +413,17 @@ static func _pole_sign_items(side: int, width: int, height: int) -> Array:
 	var plane := centre.x if side == SIDE_WEST or side == SIDE_EAST else centre.y
 	var mid := centre.y if side == SIDE_WEST or side == SIDE_EAST else centre.x
 	var out: Array = []
-	for part in [[-0.06, 0.06, 0.0, 2.6, Color("899599")], [-0.88, 0.88, 2.2, 3.8, Color("77868c")], [-0.82, 0.82, 2.26, 3.74, Color("fffdf1")], [-0.76, 0.76, 2.85, 3.67, FASCIA], [-0.76, 0.76, 2.31, 2.68, Color("b73550")]]:
+	for part in [
+		[-0.06, 0.06, 0.0, 2.6, Color("899599")],
+		[-0.88, 0.88, 2.0, 3.8, Color("77868c")],
+		[-0.82, 0.82, 2.04, 3.76, Color("fffdf1")],
+		[-0.76, 0.76, 3.08, 3.68, FASCIA],
+		[-0.78, 0.78, 2.73, 3.03, Color("b73550")],
+		[-0.78, 0.78, 2.39, 2.69, Color("326d9d")],
+		[-0.78, 0.78, 2.05, 2.35, Color("7a4b91")],
+	]:
 		out.append({"kind": &"poly", "points": _band(side, plane, mid + part[0], mid + part[1], part[2], part[3]), "color": part[4], "front": _is_near(side)})
-	for row in [["青葉24", 3.22, FASCIA_TEXT, 20], ["ATM  酒", 2.49, FASCIA_TEXT, 12]]:
+	for row in [["青葉24", 3.36, FASCIA_TEXT, 20], ["たばこ", 2.88, FASCIA_TEXT, 16], ["酒", 2.54, FASCIA_TEXT, 16], ["ATM", 2.20, FASCIA_TEXT, 16]]:
 		var at := _plane_point(side, plane, row[1])
 		if side == SIDE_WEST or side == SIDE_EAST:
 			at.y = mid
@@ -394,6 +449,7 @@ static func _far_storefront(width: int, height: int, entrances: Array, side: int
 		out.append({"kind": &"sprite", "id": id, "x": g.x, "y": g.y, "front": false})
 	out.append(_fascia(side, -0.5, n))
 	out.append(fascia_label(side, width, height, -0.5))
+	_append_store_brand_mark(out, side, -0.5, width, height, entrances)
 	return out
 
 
@@ -444,8 +500,33 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 				out.append({"kind": &"poly", "points": _band(side, plane, edge - 0.025, edge + 0.025, 0.0, NEAR_CAP_Z1 - 0.05), "color": FRAME})
 			out.append({"kind": &"poly", "points": _band(side, plane, d0 - 0.08, d1 + 0.08, NEAR_CAP_Z1 - 0.05, NEAR_CAP_Z1), "color": Color("f9faf6")})
 			out.append(_canopy_top(side, plane, d0 - 0.08, d1 + 0.08, 0.22))
+			_append_sliding_door_leaves(out, side, plane, d0, d1)
 			door_start = -1
 	return out
+
+
+## The paired leaves sit in their side pockets, leaving a clear central route through the simulated entrance.
+static func _append_sliding_door_leaves(out: Array, side: int, plane: float, d0: float, d1: float) -> void:
+	var reveal := 0.08
+	var clear_center := 0.7
+	var leaf_width := ((d1 - d0) - reveal * 2.0 - clear_center) * 0.5
+	if leaf_width < 0.12:
+		return
+	var z0 := 0.08
+	var z1 := NEAR_FRAME_TOP - 0.06
+	var left0 := d0 + reveal
+	var right1 := d1 - reveal
+	var left1 := left0 + leaf_width
+	var right0 := right1 - leaf_width
+	for leaf in [Vector2(left0, left1), Vector2(right0, right1)]:
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.008, leaf.x, leaf.y, z0, z1), "color": Color(0.57, 0.79, 0.86, 0.17), "role": &"door_leaf_glass"})
+		for edge in [leaf.x, leaf.y - 0.024, leaf.y]:
+			out.append({"kind": &"poly", "points": _band(side, plane + 0.012, edge - 0.012, edge + 0.012, z0, z1), "color": FRAME, "role": &"door_leaf_frame"})
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.012, leaf.x, leaf.y, z0, z0 + 0.035), "color": Color("d8e0e2"), "role": &"door_leaf_frame"})
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.012, leaf.x, leaf.y, z1 - 0.035, z1), "color": Color("d8e0e2"), "role": &"door_leaf_frame"})
+		out.append(_glass_reflection(side, plane + 0.016, leaf.x + leaf_width * 0.12, leaf_width * 0.2, z0 + 0.16, z1 - 0.22))
+		out[-1]["role"] = &"door_leaf_reflection"
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.018, leaf.x + 0.035, leaf.y - 0.035, 1.02, 1.08), "color": Color(0.38, 0.7, 0.79, 0.46), "role": &"door_safety_band"})
 
 
 ## A narrow diagonal reflection painted on a pane in wall-plane coordinates; kept inside the glass opening.
@@ -469,7 +550,35 @@ static func _canopy_top(side: int, plane: float, a0: float, a1: float, depth: fl
 
 ## Fascia: a blue band between FASCIA_Z0 and FASCIA_Z1 over the whole wall.
 static func _fascia(side: int, plane: float, n: int) -> Dictionary:
-	return {"kind": &"poly", "points": _band(side, plane, -0.5, float(n) - 0.5, FASCIA_Z0, FASCIA_Z1), "color": FASCIA}
+	return {"kind": &"poly", "points": _band(side, plane, -0.5, float(n) - 0.5, FASCIA_Z0, FASCIA_Z1), "color": FASCIA, "role": &"fascia_band"}
+
+
+## Compact code-drawn house mark beside the store name, kept clear of the entrance and fascia ends.
+static func _append_store_brand_mark(out: Array, side: int, plane: float, width: int, height: int, entrances: Array) -> void:
+	var n := _edge_len(side, width, height)
+	var mid := (float(n) - 1.0) * 0.5
+	var half := 0.31
+	var preferred := -1.0 if side == SIDE_WEST or side == SIDE_EAST else 1.0
+	var selected := NAN
+	for direction in [preferred, -preferred]:
+		var center: float = mid + direction * 3.85
+		if center - half < -0.5 or center + half > float(n) - 0.5:
+			continue
+		var span := BackdropLayer.entrance_span(side, width, height, entrances)
+		if center + half + 0.12 > span.x and center - half - 0.12 < span.y:
+			continue
+		selected = center
+		break
+	if is_nan(selected):
+		return
+	var a0 := selected - half
+	var a1 := selected + half
+	var z0 := 2.34
+	var z1 := 2.76
+	out.append({"kind": &"poly", "points": _band(side, plane + 0.004, a0, a1, z0, z1), "color": Color("fbfcf8"), "role": &"brand_logo_panel"})
+	out.append({"kind": &"poly", "points": _band(side, plane + 0.008, selected - 0.22, selected + 0.22, 2.40, 2.69), "color": FASCIA, "role": &"brand_logo_body"})
+	out.append({"kind": &"poly", "points": _wall_shape(side, plane + 0.012, [Vector2(selected - 0.22, 2.61), Vector2(selected, 2.75), Vector2(selected + 0.22, 2.61), Vector2(selected + 0.15, 2.61), Vector2(selected + 0.15, 2.56), Vector2(selected - 0.15, 2.56)]), "color": BRAND_YELLOW, "role": &"brand_logo_roof"})
+	out.append({"kind": &"poly", "points": _band(side, plane + 0.016, selected - 0.045, selected + 0.045, 2.40, 2.54), "color": Color("ffffff"), "role": &"brand_logo_door"})
 
 
 ## The store name, centred on the fascia. Drawn after the fascia band.
@@ -584,6 +693,18 @@ static func _plane_point(side: int, plane: float, z: float) -> Vector3:
 	if side == SIDE_WEST or side == SIDE_EAST:
 		return Vector3(plane, 0.0, z)
 	return Vector3(0.0, plane, z)
+
+
+static func _wall_shape(side: int, plane: float, along_heights: Array[Vector2]) -> Array[Vector3]:
+	var points: Array[Vector3] = []
+	for point in along_heights:
+		var p := _plane_point(side, plane, point.y)
+		if side == SIDE_WEST or side == SIDE_EAST:
+			p.y = point.x
+		else:
+			p.x = point.x
+		points.append(p)
+	return points
 
 
 ## A vertical band on a wall plane between two along-wall positions and two heights, as four world points.

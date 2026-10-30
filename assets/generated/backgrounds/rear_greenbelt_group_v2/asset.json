@@ -1,0 +1,18 @@
+{
+  "asset_id": "rear_greenbelt_group_v2",
+  "category": "static_roadside_grouped_greenery",
+  "view_direction": "isometric_diagonal",
+  "world_width": "18.0m fixed across store sizes, centered on the selected store edge",
+  "world_depth": "anchored outside outer sidewalk and road",
+  "world_height": "preserved by uniform scale derived from world length and camera zoom",
+  "render_width_px": 2164,
+  "render_height_px": 727,
+  "pivot_x": 100.0,
+  "pivot_y": 663.0,
+  "anchor_type": "world_ground_endpoint_pair",
+  "placement_offset": "roadside edge beyond curb and sidewalk; centered with equal overhang; lower foliage may be occluded",
+  "occlusion_group": "roadside_greenery",
+  "sort_key": "behind_road_mesh_and_wall_occlusion",
+  "asset_variant": "v2",
+  "generated_prompt": "Continuous isometric roadside tree and shrub strip with varied mature canopies, dense green hedge, and small pink and white flowering bushes; transparent outside silhouette, no buildings, signs, road, or UI."
+}

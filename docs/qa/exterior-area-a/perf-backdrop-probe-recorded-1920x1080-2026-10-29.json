@@ -1,0 +1,81 @@
+{
+  "by_speed": {
+    "x1": {
+      "customers": 30,
+      "draw_calls": 988,
+      "fps_median": 15.1636920557417,
+      "fps_p95": 12.0490637877437,
+      "max_ms": 102.643,
+      "median_ms": 65.947,
+      "objects": 3064,
+      "p95_ms": 82.994,
+      "presenter_draw_ms": 8.208765,
+      "prof_ms": {
+        "compose": 3.41506166666667,
+        "customers": 1.76883,
+        "fixtures": 2.30949333333333
+      }
+    },
+    "x2": {
+      "customers": 30,
+      "draw_calls": 1041,
+      "fps_median": 13.841596766603,
+      "fps_p95": 11.2439142314222,
+      "max_ms": 101.815,
+      "median_ms": 72.246,
+      "objects": 3090,
+      "p95_ms": 88.937,
+      "presenter_draw_ms": 8.02853,
+      "prof_ms": {
+        "compose": 3.24473166666667,
+        "customers": 1.67812,
+        "fixtures": 2.39788833333333
+      }
+    },
+    "x4": {
+      "customers": 30,
+      "draw_calls": 1026,
+      "fps_median": 9.96969213590684,
+      "fps_p95": 8.01166498421702,
+      "max_ms": 146.271,
+      "median_ms": 100.304,
+      "objects": 3059,
+      "p95_ms": 124.818,
+      "presenter_draw_ms": 8.54780333333333,
+      "prof_ms": {
+        "compose": 3.49085666666667,
+        "customers": 1.81343666666667,
+        "fixtures": 2.51752
+      }
+    }
+  },
+  "compose_ms": 0.962133333333333,
+  "conditions": {
+    "customers_in_store": 30,
+    "fixtures_placed": 20,
+    "frames": 600,
+    "speed": 4,
+    "store": "16x12",
+    "window": "(1920, 1080)"
+  },
+  "environment": {
+    "cpu": "Intel(R) Core(TM) i9-10900F CPU @ 2.80GHz",
+    "godot": "4.7.2-stable (official)",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "os": "Windows 10.0.19045",
+    "renderer": "gl_compatibility",
+    "threads": 20
+  },
+  "probe_frame_ms": {
+    "BackdropLayer": 71.6204833333333,
+    "CueLayer": 82.2627833333333,
+    "FixturePresenter": 67.59475,
+    "OverlayLayer": 85.56275,
+    "SelectionOverlay": 95.2077666666667,
+    "none": 90.975
+  },
+  "publish_ms": 22.325,
+  "sim_step_ms": 2.152375,
+  "snapshot_ms": 7.44173333333333,
+  "video_mem_mb": 254.219551086426
+}

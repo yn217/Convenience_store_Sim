@@ -1,0 +1,54 @@
+{
+  "asset_bundle_id": "area_a_continuous_short_candidate_v1",
+  "assets": [
+    {
+      "status": "runtime_verified_candidate",
+      "projection": "Orthographic isometric ground panel; mapped to the store edge with rotation and uniform scale only.",
+      "baseline": {
+        "edge": "store-side sidewalk edge",
+        "start_px": [512, 78],
+        "end_px": [1668, 608],
+        "world_length_m": 10,
+        "calibration_status": "Visually measured by root; edge mapping is checked for all four sides in focused geometry tests."
+      },
+      "intended_use": "Continuous non-tiled 2D entrance apron panel for 10m frontage; no fixed crosswalk.",
+      "target_world_length_m": 10,
+      "asset_id": "area_a_continuous_10m_candidate_v1",
+      "scale_policy": "Uniform scale only; root must measure the rendered store-side ground edge before runtime use.",
+      "file": "area_a_continuous_10m_candidate_v1.png"
+    },
+    {
+      "status": "runtime_verified_candidate",
+      "projection": "Orthographic isometric ground panel; mapped to the store edge with rotation and uniform scale only.",
+      "baseline": {
+        "edge": "store-side sidewalk edge",
+        "start_px": [360, 94],
+        "end_px": [1753, 794],
+        "world_length_m": 12,
+        "calibration_status": "Visually measured by root and checked in the 12x10 runtime capture."
+      },
+      "intended_use": "Continuous non-tiled 2D entrance apron panel for 12m frontage; no fixed crosswalk.",
+      "target_world_length_m": 12,
+      "asset_id": "area_a_continuous_12m_candidate_v1",
+      "scale_policy": "Uniform scale only; root must measure the rendered store-side ground edge before runtime use.",
+      "file": "area_a_continuous_12m_candidate_v1.png"
+    },
+    {
+      "status": "runtime_verified_candidate",
+      "projection": "Orthographic isometric ground panel; mapped to the store edge with rotation and uniform scale only.",
+      "baseline": {
+        "edge": "store-side sidewalk edge",
+        "start_px": [330, 80],
+        "end_px": [1652, 740],
+        "world_length_m": 16,
+        "calibration_status": "Visually measured by root and checked in the 16x12 runtime capture."
+      },
+      "intended_use": "Continuous non-tiled 2D entrance apron panel for 16m frontage; no fixed crosswalk.",
+      "target_world_length_m": 16,
+      "asset_id": "area_a_continuous_16m_candidate_v1",
+      "scale_policy": "Uniform scale only; root must measure the rendered store-side ground edge before runtime use.",
+      "file": "area_a_continuous_16m_candidate_v1.png"
+    }
+  ],
+  "status": "runtime_verified_candidate"
+}

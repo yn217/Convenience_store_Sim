@@ -1,0 +1,8 @@
+{
+  "asset_id": "outer_ground_field_v3",
+  "source": "OpenAI built-in image generation via delegated image-generation subagent",
+  "generated_file": "outer_ground_field_v3.png",
+  "prompt_summary": "Subtle stylized sage/olive isometric game ground sheet only; flat 2:1 orthographic iso plane, no road, pavement, store, focal objects, buildings, trees, text, UI, photo texture, horizon, or repeated clover/tile motif.",
+  "integration": "Used beneath world-anchored exterior scene elements as a camera-phased background variation layer at 90% texture alpha. Mesh remains screen-covered with its texture phase following camera origin.",
+  "qa": "Captured in Godot 4.7.2 at 1600x900, 16:00, whole-store view for 12x10, 16x12, 20x16, and panned/zoomed 20x16. Whole-view screenshots show no strong tile seam or recognizable repeated motif. The image does not supply road, pavement, trees, or storefront; the broad urban scene still requires more work."
+}

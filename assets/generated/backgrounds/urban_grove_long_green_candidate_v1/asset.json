@@ -1,0 +1,18 @@
+{
+  "asset_id": "urban_grove_long_green_candidate_v1",
+  "file": "urban_grove_long_green_candidate_v1.png",
+  "status": "integrated_runtime_candidate",
+  "intended_use": "Grouped green-heavy garden panorama behind 12m-to-under-20m convenience-store perimeter edges.",
+  "render_width_px": 2172,
+  "render_height_px": 724,
+  "view_direction": "isometric-style 2D panorama",
+  "ground_contact": "Nearly horizontal planting base around 90% image height; root mapping requires visual verification.",
+  "generation": {
+    "tool": "built-in image_gen",
+    "reference": "User-supplied convenience-store exterior mockup",
+    "prompt_summary": "Transparent wide planting band with varied leafy green trees, layered evergreen shrubs and groundcover, occasional small sakura clusters; no structures or signage."
+  },
+  "review": "Inspected and integrated for edges longer than 12m and shorter than 20m. Ground endpoints (100,630)-(2070,630) map to an 18m world baseline. Actual Godot captures at 12x10, 16x12, and 20x16 plus panned 20x16 confirm fixed height, wall occlusion, and full endpoint coverage.",
+  "anchor_type": "ground_contact_baseline",
+  "placement": "World z=0, 2.43m outside the wall, behind wall/paving occlusion; uniformly fitted to an 18m world baseline."
+}

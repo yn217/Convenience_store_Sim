@@ -1,0 +1,19 @@
+{
+  "asset_id": "urban_grove_dense_candidate_v2",
+  "file": "urban_grove_dense_candidate_v2.png",
+  "status": "integrated_runtime_candidate",
+  "runtime_approved": false,
+  "intended_use": "One continuous grouped garden panorama for all non-road store perimeter edges.",
+  "render_width_px": 2172,
+  "render_height_px": 724,
+  "view_direction": "isometric-style 2D panorama",
+  "anchor_type": "ground_contact_baseline",
+  "ground_contact": "Irregular planting base near y=700px; runtime baseline uses x=100..2070px at y=700px.",
+  "placement": "World z=0, 2.43m outside the wall, behind wall/paving occlusion; uniformly fitted to edge-specific 12m, 18m, or 20m baselines.",
+  "generation": {
+    "tool": "image_gen subagent",
+    "reference": "User-supplied convenience-store mockup",
+    "prompt_summary": "Wide transparent group of varied upright leafy trees, dense layered shrubs and a continuous small pink/white flower bed; no buildings, streets, signs, or background."
+  },
+  "review": "Actual Godot 4.7.2 captures at 12x10, 16x12, 20x16, and panned/zoomed 20x16 confirm wall occlusion, ground anchoring and continuous perimeter coverage. Bright edge pixels are visible in isolated image inspection but not prominent at whole-game-scene scale. Kept as a runtime candidate, pending user visual approval and broader performance review."
+}

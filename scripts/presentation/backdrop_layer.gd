@@ -1,6 +1,6 @@
 class_name BackdropLayer
 extends Node2D
-## Street scene around the store: a dark-teal ground that fades to a vignette, a paving ring with joints,
+## Street scene around the store: a dark-teal ground that fades to a vignette, a continuous paving ring,
 ## an apron with a door mat and an OPEN A-board on the entrance side, a kerb and road strip further out on that
 ## side, plus a combined generated landscape behind the store.
 ## The layer is drawn behind the store floor (show_behind_parent), uses the same IsoProjection as the floor, and
@@ -15,13 +15,12 @@ const SIDE_SOUTH := 3
 const GROUND := Color("62795b")
 const POOL := Color(0.30, 0.50, 0.46, 0.10)
 const PAVE := Color("d6d0c3")
-const PAVE_ALT := Color("e1d9ca")
-const PAVE_JOINT := Color("aca599")
-const APRON := Color("d6cbb4")
 const MAT := Color("3b3733")
 const MAT_EDGE := Color("5b544d")
 const KERB := Color("d8d5cc")
 const ROAD := Color("50565b")
+const AsphaltTexture := preload("res://assets/generated/backgrounds/road_asphalt_long_candidate_v1/road_asphalt_long_candidate_v1.png")
+const ASPHALT_LENGTH_M := 36.0
 const ROAD_LINE := Color("e9e2c8")
 const SIGN_FRAME := Color("2b2b2b")
 const SIGN_FACE := Color("f4efe2")
@@ -35,24 +34,47 @@ const PLANTER := Color("7a5a43")
 const VIGNETTE_EDGE := Color(0.0, 0.0, 0.0, 0.16)
 const VIGNETTE_CLEAR := Color(0.0, 0.0, 0.0, 0.0)
 const ExteriorBackdrop := preload("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png")
-const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v1/rear_greenbelt_group_v1.png")
-const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/outer_sidewalk_strip_v1/outer_sidewalk_strip_v1.png")
-const SurroundingGround := preload("res://assets/generated/backgrounds/ground_texture_seamless_v1/ground_texture_seamless_v1.png")
+const RearGrove := preload("res://assets/generated/backgrounds/rear_greenbelt_group_v2/rear_greenbelt_group_v2.png")
+const UrbanGrove18mPanel := preload("res://assets/generated/backgrounds/grove_long_18m_subagent_c_clean/grove_long_18m_subagent_c_clean.png")
+const UrbanGrove20mPanel := preload("res://assets/generated/backgrounds/grove_long_20m_subagent_d_clean/grove_long_20m_subagent_d_clean.png")
+const OuterSidewalkStrip := preload("res://assets/generated/backgrounds/sidewalk_long_candidate_a/sidewalk_long_candidate_a.png")
+const SurroundingGround := preload("res://assets/generated/backgrounds/outer_ground_field_v3/outer_ground_field_v3.png")
+const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_context_isometric_k/urban_context_isometric_k.png")
+const SURROUNDING_GROUND_OPACITY := 0.90
+const URBAN_CONTEXT_WORLD_SCALE := 2.5
+const URBAN_CONTEXT_MIN_SCALE := 2.1
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
+## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
+const BACKDROP_TOP_Y_PX := 16.0
 ## Distance behind the far corner to the V bed's ground contact line, in world metres.
 const BACKDROP_GROUND_OFFSET_M := 0.45
+## Largest supported store footprint; author the backdrop scale once so smaller stores do not shrink the trees.
+const BACKDROP_MAX_STORE_WIDTH_M := 20.0
+const BACKDROP_MAX_STORE_HEIGHT_M := 16.0
 const BACKDROP_LEFT_END_PX := Vector2(0.0, 879.856)
 const BACKDROP_RIGHT_END_PX := Vector2(1773.0, 878.561)
 ## Ground edge measured along the lower base of the grouped tree backdrop image.
-const REAR_GROVE_GROUND_START_PX := Vector2(100.0, 610.0)
-const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 610.0)
+const REAR_GROVE_GROUND_START_PX := Vector2(100.0, 663.0)
+const REAR_GROVE_GROUND_END_PX := Vector2(2070.0, 664.0)
 ## Keep the tree height in world units across store sizes. 18m matches the prior 16x12 + 3m ends fit.
 const REAR_GROVE_WORLD_LENGTH_M := 18.0
+## Use one grouped image per wall run, with only a small overhang at each end.
+const URBAN_GROVE_18M_WORLD_LENGTH_M := 18.0
+const URBAN_GROVE_20M_WORLD_LENGTH_M := 20.0
+const URBAN_GROVE_18M_START_PX := Vector2(100.0, 608.0)
+const URBAN_GROVE_18M_END_PX := Vector2(2070.0, 608.0)
+const URBAN_GROVE_20M_START_PX := Vector2(100.0, 522.0)
+const URBAN_GROVE_20M_END_PX := Vector2(2070.0, 525.0)
+const URBAN_GROVE_24M_START_PX := Vector2(100.0, 561.0)
+const URBAN_GROVE_24M_END_PX := Vector2(2070.0, 561.0)
+const URBAN_GROVE_28M_START_PX := Vector2(100.0, 563.0)
+const URBAN_GROVE_28M_END_PX := Vector2(2070.0, 563.0)
+const URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M := 0.25
 ## Centerline measured through the long sidewalk strip; its full width and both curbs remain in the source art.
-const OUTER_SIDEWALK_START_PX := Vector2(72.5, 130.0)
-const OUTER_SIDEWALK_END_PX := Vector2(2050.0, 614.0)
-const OUTER_SIDEWALK_EDGE_OVERHANG_M := 2.0
+const OUTER_SIDEWALK_START_PX := Vector2(70.0, 75.0)
+const OUTER_SIDEWALK_END_PX := Vector2(1990.0, 650.0)
+const OUTER_SIDEWALK_WORLD_LENGTH_M := 30.0
 const RoadsideLandscape := preload("res://assets/generated/backgrounds/roadside_landscape_v1/roadside_landscape_v1.png")
 const RoadsideKey := preload("res://assets/generated/backgrounds/roadside_landscape_v1/key.gdshader")
 const SideLandscape := preload("res://assets/generated/backgrounds/roadside_greenery_v2/roadside_greenery_v2.png")
@@ -61,9 +83,19 @@ const SIDE_LANDSCAPE_GROUND_START_PX := Vector2(15.0, 261.0)
 const SIDE_LANDSCAPE_GROUND_END_PX := Vector2(1755.0, 1042.0)
 const SIDE_LANDSCAPE_DEPTH_M := 0.55
 const SIDE_LANDSCAPE_OVERHANG_M := 1.0
-const AreaABackground := preload("res://assets/generated/backgrounds/area_a_roadside_v1/area_a_roadside_v1.png")
-const AREA_A_FRONTAGE_P0 := Vector2(249.0, 29.0)
-const AREA_A_FRONTAGE_P1 := Vector2(1657.0, 604.0)
+const AreaA10m := preload("res://assets/generated/backgrounds/area_a_10m_surface_candidate_v3/area_a_10m_surface_candidate_v3.png")
+const AreaA12m := preload("res://assets/generated/backgrounds/area_a_continuous_12m_candidate_v2/area_a_continuous_12m_candidate_v2.png")
+const AreaA16m := preload("res://assets/generated/backgrounds/area_a_continuous_16m_candidate_v2/area_a_continuous_16m_candidate_v2.png")
+const AreaA20m := preload("res://assets/generated/backgrounds/area_a_continuous_20m_candidate_v6/area_a_continuous_20m_candidate_v6.png")
+const AREA_A_10M_FRONTAGE_P0 := Vector2(512.0, 78.0)
+const AREA_A_10M_FRONTAGE_P1 := Vector2(1668.0, 608.0)
+const AREA_A_12M_FRONTAGE_P0 := Vector2(360.0, 94.0)
+const AREA_A_12M_FRONTAGE_P1 := Vector2(1753.0, 794.0)
+const AREA_A_16M_FRONTAGE_P0 := Vector2(330.0, 80.0)
+const AREA_A_16M_FRONTAGE_P1 := Vector2(1652.0, 740.0)
+## Manually measured store-side ground edge in the 20m panel; its source is rotated uniformly to the world edge.
+const AREA_A_20M_FRONTAGE_P0 := Vector2(299.0, 32.0)
+const AREA_A_20M_FRONTAGE_P1 := Vector2(1980.0, 630.0)
 const ROADSIDE_IMAGE_SCALE := 0.45
 const ROADSIDE_START_PX := Vector2(123.0, 465.0)
 const ROADSIDE_SPAN_M := 10.5
@@ -74,25 +106,35 @@ const PARK_DEPTH_M := 5.0  ## 3.8 m compact car plus wheel-stop and manoeuvring 
 const ROAD_M := 3.0
 const OUTER_SIDEWALK_M := 1.5
 const FAR_M := 14.0       ## minimum road extension along the edge, past the store
-const SLAB_INSET := 0.04
 
 var _key: Array = []
 var _ops: Array = []
 var _mesh: ArrayMesh          # road/paving faces batched after the static landscape panel
 var _ground_mesh: ArrayMesh    # viewport fill and soft pool, drawn before the combined scenery panel
+var _asphalt_base: ArrayMesh
+var _asphalt_texture: ArrayMesh
+var _surface_mesh: ArrayMesh   # continuous base surfaces, drawn below the generated Area A art
+var _ground_texture_mesh: ArrayMesh # camera-phased ground tile quads batched into one draw call
+var _batch_ground_texture := true
 var _ground_texture_camera_origin := Vector2.ZERO
 var _ground_texture_viewport := Vector2.ZERO
+var _urban_context_transform := Transform2D.IDENTITY
 var _scenery_break_index := -1
+var _area_a_break_index := -1
 var _texts: Array = []        # text ops, drawn after the mesh
 var _environment_transform := Transform2D()
 var _environment_visible := false
 var _roadside_grove_transform := Transform2D()
 var _roadside_grove_visible := false
+var _urban_grove_visible := false
+var _urban_groves: Array[Dictionary] = []
 var _outer_sidewalk_transform := Transform2D()
 var _outer_sidewalk_visible := false
 var _roadside_sprite: Sprite2D
 var _side_landscape_sprite: Sprite2D
-var _area_a_sprite: Sprite2D
+var _area_a_texture: Texture2D
+var _area_a_transform := Transform2D()
+var _area_a_visible := false
 
 
 ## Recomputes the backdrop when the layout, camera or viewport changed; otherwise does nothing.
@@ -104,9 +146,13 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_key = key
 	_ground_texture_camera_origin = proj.origin
 	_ground_texture_viewport = viewport
+	_ground_texture_mesh = _build_surrounding_ground_mesh(proj.origin, viewport, Vector2(SurroundingGround.get_size()))
+	_urban_context_transform = urban_context_transform(proj, width, height, viewport, Vector2(UrbanContextBackdrop.get_size()))
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
+	_sync_asphalt(proj, width, height, entrances, viewport)
 	_sync_environment(proj, width, height)
 	_sync_roadside_grove(proj, width, height, entrances)
+	_sync_urban_grove(proj, width, height, entrances)
 	_sync_outer_sidewalk(proj, width, height, entrances)
 	_sync_area_a(proj, width, height, entrances)
 	_sync_roadside(proj, width, height, entrances)
@@ -155,6 +201,24 @@ func _sync_roadside_grove(proj: IsoProjection, width: int, height: int, entrance
 	_roadside_grove_transform = roadside_grove_transform(proj, width, height, entrance_side(width, height, entrances))
 
 
+## Dense tree-and-flower panel sits beyond the sidewalk at a fixed ground anchor; wall/road geometry covers its base.
+func _sync_urban_grove(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
+	_urban_grove_visible = width > 0 and height > 0
+	_urban_groves.clear()
+	if not _urban_grove_visible:
+		return
+	var entrance := entrance_side(width, height, entrances)
+	for side in urban_grove_sides(entrance):
+		var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+		var profile := urban_grove_edge_profile(edge_length)
+		var grove_texture: Texture2D = profile["texture"]
+		_urban_groves.append({
+			"side": side,
+			"texture": grove_texture,
+			"transform": urban_grove_transform(proj, width, height, side),
+		})
+
+
 func _sync_outer_sidewalk(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
 	_outer_sidewalk_visible = width > 0 and height > 0
 	if not _outer_sidewalk_visible:
@@ -164,14 +228,77 @@ func _sync_outer_sidewalk(proj: IsoProjection, width: int, height: int, entrance
 
 ## The unified parking apron is anchored by its measured frontage edge, not by the image canvas bounds.
 func _sync_area_a(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
-	if _area_a_sprite == null:
-		_area_a_sprite = Sprite2D.new()
-		_area_a_sprite.centered = false
-		_area_a_sprite.texture = AreaABackground
-		add_child(_area_a_sprite)
-	_area_a_sprite.visible = width >= 8 and height >= 8
-	if _area_a_sprite.visible:
-		_area_a_sprite.transform = area_a_transform(proj, width, height, entrance_side(width, height, entrances))
+	_area_a_visible = width >= 8 and height >= 8
+	if not _area_a_visible:
+		_area_a_texture = null
+		return
+	var side := entrance_side(width, height, entrances)
+	var edge_length := int(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var panel := area_a_panel_profile(edge_length)
+	_area_a_texture = panel["texture"]
+	_area_a_transform = area_a_transform_for_panel(proj, width, height, side, panel["frontage_p0"], panel["frontage_p1"])
+
+
+## Continuous world-scaled surface under the apron and road markings.
+func _sync_asphalt(proj: IsoProjection, width: int, height: int, entrances: Array, viewport: Vector2) -> void:
+	_asphalt_base = null
+	_asphalt_texture = null
+	if width <= 0 or height <= 0:
+		return
+	var side := entrance_side(width, height, entrances)
+	var edge := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var margin := road_along_margin(proj, viewport)
+	var d0 := PAVE_M
+	var d1 := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M
+	var indices := [0, 1, 2, 0, 2, 3]
+	var verts := PackedVector2Array()
+	var uvs := PackedVector2Array()
+	var colors := PackedColorArray()
+	var bverts := PackedVector2Array()
+	var bcolors := PackedColorArray()
+	var fractions := [0.0, 0.2, 0.8, 1.0]
+	var alphas := [0.0, 0.35, 0.35, 0.0]
+	# The apron exists only along the frontage; the public road continues beyond it.
+	for region in [[d0, PAVE_M + PARK_DEPTH_M, 0.0, edge], [PAVE_M + PARK_DEPTH_M + KERB_M, d1, -margin, edge + margin]]:
+		var rd0: float = region[0]
+		var rd1: float = region[1]
+		var ra0: float = region[2]
+		var ra1: float = region[3]
+		var base := _side_quad(proj, side, width, height, rd0, rd1, ra0, ra1)
+		for i in indices:
+			bverts.append(base[i])
+			bcolors.append(ROAD)
+		var v0 := 0.5 + (rd0 - (d0 + d1) * 0.5) / ASPHALT_LENGTH_M * float(AsphaltTexture.get_width()) / float(AsphaltTexture.get_height())
+		var v1 := 0.5 + (rd1 - (d0 + d1) * 0.5) / ASPHALT_LENGTH_M * float(AsphaltTexture.get_width()) / float(AsphaltTexture.get_height())
+		for n in range(3):
+			var left: float = fractions[n]
+			var right: float = fractions[n+1]
+			var seg0 := edge * 0.5 + (left - 0.5) * ASPHALT_LENGTH_M
+			var seg1 := edge * 0.5 + (right - 0.5) * ASPHALT_LENGTH_M
+			var a0 := maxf(seg0, ra0)
+			var a1 := minf(seg1, ra1)
+			if a1 <= a0:
+				continue
+			var u0 := (a0 - edge * 0.5) / ASPHALT_LENGTH_M + 0.5
+			var u1 := (a1 - edge * 0.5) / ASPHALT_LENGTH_M + 0.5
+			var alpha0 := lerpf(alphas[n], alphas[n+1], (a0-seg0)/(seg1-seg0))
+			var alpha1 := lerpf(alphas[n], alphas[n+1], (a1-seg0)/(seg1-seg0))
+			var quad := _side_quad(proj, side, width, height, rd0, rd1, a0, a1)
+			var uv := [Vector2(u0,v0), Vector2(u0,v1), Vector2(u1,v1), Vector2(u1,v0)]
+			var alpha := [alpha0, alpha0, alpha1, alpha1]
+			for i in indices:
+				verts.append(quad[i])
+				uvs.append(uv[i])
+				colors.append(Color(1, 1, 1, alpha[i]))
+	_asphalt_base = _make_mesh(bverts, bcolors)
+
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = verts
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_COLOR] = colors
+	_asphalt_texture = ArrayMesh.new()
+	_asphalt_texture.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 
 
 ## A fixed, combined sidewalk/planting strip follows a visible store edge. The small source-slope correction is
@@ -207,6 +334,9 @@ func _draw() -> void:
 	if _ground_mesh != null:
 		draw_mesh(_ground_mesh, null)
 	_draw_surrounding_ground_texture()
+	draw_set_transform_matrix(_urban_context_transform)
+	draw_texture_rect(UrbanContextBackdrop, Rect2(Vector2.ZERO, Vector2(UrbanContextBackdrop.get_size())), false)
+	draw_set_transform_matrix(Transform2D.IDENTITY)
 	# Paint the combined V art after the ground fill, then road/paving geometry, then far-wall occlusion.
 	if _environment_visible:
 		draw_set_transform_matrix(_environment_transform)
@@ -216,9 +346,25 @@ func _draw() -> void:
 		draw_set_transform_matrix(_roadside_grove_transform)
 		draw_texture_rect(RearGrove, Rect2(Vector2.ZERO, Vector2(RearGrove.get_size())), false)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
+	if _urban_grove_visible:
+		for grove in _urban_groves:
+			var grove_texture: Texture2D = grove["texture"]
+			draw_set_transform_matrix(grove["transform"])
+			draw_texture_rect(grove_texture, Rect2(Vector2.ZERO, Vector2(grove_texture.get_size())), false)
+			draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _outer_sidewalk_visible:
 		draw_set_transform_matrix(_outer_sidewalk_transform)
 		draw_texture_rect(OuterSidewalkStrip, Rect2(Vector2.ZERO, Vector2(OuterSidewalkStrip.get_size())), false)
+		draw_set_transform_matrix(Transform2D.IDENTITY)
+	if _asphalt_base != null:
+		draw_mesh(_asphalt_base, null)
+	if _asphalt_texture != null:
+		draw_mesh(_asphalt_texture, AsphaltTexture)
+	if _surface_mesh != null:
+		draw_mesh(_surface_mesh, null)
+	if _area_a_visible and _area_a_texture != null:
+		draw_set_transform_matrix(_area_a_transform)
+		draw_texture_rect(_area_a_texture, Rect2(Vector2.ZERO, Vector2(_area_a_texture.get_size())), false)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _mesh != null:
 		draw_mesh(_mesh, null)
@@ -232,6 +378,9 @@ func _draw() -> void:
 ## Add low-contrast natural variation to the flat exterior fill. The tile offset follows camera origin,
 ## while the road, paved areas, planting, and vignette remain separate foreground layers.
 func _draw_surrounding_ground_texture() -> void:
+	if _batch_ground_texture and _ground_texture_mesh != null:
+		draw_mesh(_ground_texture_mesh, SurroundingGround)
+		return
 	var tile_size := Vector2(SurroundingGround.get_size())
 	if tile_size.x <= 0.0 or tile_size.y <= 0.0 or _ground_texture_viewport.x <= 0.0 or _ground_texture_viewport.y <= 0.0:
 		return
@@ -240,9 +389,49 @@ func _draw_surrounding_ground_texture() -> void:
 	while x < _ground_texture_viewport.x:
 		var y := offset.y - tile_size.y
 		while y < _ground_texture_viewport.y:
-			draw_texture_rect(SurroundingGround, Rect2(Vector2(x, y), tile_size), false, Color(1.0, 1.0, 1.0, 0.16))
+			draw_texture_rect(SurroundingGround, Rect2(Vector2(x, y), tile_size), false, Color(1.0, 1.0, 1.0, SURROUNDING_GROUND_OPACITY))
 			y += tile_size.y
 		x += tile_size.x
+
+
+func set_ground_texture_batching(enabled: bool) -> void:
+	if _batch_ground_texture == enabled:
+		return
+	_batch_ground_texture = enabled
+	queue_redraw()
+
+
+static func _build_surrounding_ground_mesh(camera_origin: Vector2, viewport: Vector2, tile_size: Vector2) -> ArrayMesh:
+	if tile_size.x <= 0.0 or tile_size.y <= 0.0 or viewport.x <= 0.0 or viewport.y <= 0.0:
+		return null
+	var offset := surrounding_ground_tile_offset(camera_origin, tile_size)
+	var verts := PackedVector2Array()
+	var uvs := PackedVector2Array()
+	var colors := PackedColorArray()
+	var tint := Color(1.0, 1.0, 1.0, SURROUNDING_GROUND_OPACITY)
+	var x := offset.x - tile_size.x
+	while x < viewport.x:
+		var y := offset.y - tile_size.y
+		while y < viewport.y:
+			var tl := Vector2(x, y)
+			var tr := tl + Vector2(tile_size.x, 0.0)
+			var br := tl + tile_size
+			var bl := tl + Vector2(0.0, tile_size.y)
+			for uv in [Vector2.ZERO, Vector2(1.0, 0.0), Vector2.ONE, Vector2.ZERO, Vector2.ONE, Vector2(0.0, 1.0)]:
+				uvs.append(uv)
+				colors.append(tint)
+			for point in [tl, tr, br, tl, br, bl]:
+				verts.append(point)
+			y += tile_size.y
+		x += tile_size.x
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = verts
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_COLOR] = colors
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	return mesh
 
 
 static func surrounding_ground_tile_offset(camera_origin: Vector2, tile_size: Vector2) -> Vector2:
@@ -251,17 +440,29 @@ static func surrounding_ground_tile_offset(camera_origin: Vector2, tile_size: Ve
 	return Vector2(fposmod(camera_origin.x, tile_size.x), fposmod(camera_origin.y, tile_size.y))
 
 
+## A full-canvas neighborhood backdrop is anchored to the store's world center and scales with the camera.
+## Foreground geometry remains independently world-anchored above it.
+static func urban_context_transform(proj: IsoProjection, width: int, height: int, viewport: Vector2, texture_size: Vector2) -> Transform2D:
+	if width <= 0 or height <= 0 or viewport.x <= 0.0 or viewport.y <= 0.0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return Transform2D.IDENTITY
+	var scale := maxf(URBAN_CONTEXT_MIN_SCALE, URBAN_CONTEXT_WORLD_SCALE * proj.zoom)
+	var store_center := proj.world_to_screen((float(width) - 1.0) * 0.5, (float(height) - 1.0) * 0.5)
+	var basis := Vector2(scale, scale)
+	var half_size := texture_size * scale * 0.5
+	return Transform2D(Vector2(basis.x, 0.0), Vector2(0.0, basis.y), store_center - half_size)
+
+
 ## Ground root is fixed behind the far corner; each branch is measured against its own store edge.
 static func environment_transform(proj: IsoProjection, width: int, height: int, texture_size: Vector2) -> Transform2D:
 	if width <= 0 or height <= 0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return Transform2D.IDENTITY
 	var ground := environment_ground_anchor(proj)
-	var left_end := proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, height - 0.5 + BACKDROP_GROUND_OFFSET_M)
-	var right_end := proj.world_to_screen(width - 0.5 + BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
+	var left_end := proj.world_to_screen(-0.5 - BACKDROP_GROUND_OFFSET_M, BACKDROP_MAX_STORE_HEIGHT_M - 0.5 + BACKDROP_GROUND_OFFSET_M)
+	var right_end := proj.world_to_screen(BACKDROP_MAX_STORE_WIDTH_M - 0.5 + BACKDROP_GROUND_OFFSET_M, -0.5 - BACKDROP_GROUND_OFFSET_M)
 	var left_scale := environment_branch_scale(ground, left_end, BACKDROP_GROUND_PX, BACKDROP_LEFT_END_PX)
 	var right_scale := environment_branch_scale(ground, right_end, BACKDROP_GROUND_PX, BACKDROP_RIGHT_END_PX)
-	# Each V branch is measured against its own wall endpoint. Fit the longer branch so both walls stay covered;
-	# the shorter branch may extend behind the wall, preserving the artwork's proportions without a gap.
+	# Fit the longest supported store once. The same world-space tree height is retained at every store size;
+	# shorter footprints show the surplus planting beyond their wall ends instead of scaling the trees down.
 	var scale := maxf(left_scale, right_scale)
 	var x_axis := Vector2(scale, 0.0)
 	var y_axis := Vector2(0.0, scale)
@@ -299,10 +500,66 @@ static func roadside_grove_transform(proj: IsoProjection, width: int, height: in
 	var source_run := source_end - source_start
 	var target_run := screen_end - screen_start
 	var scale := REAR_GROVE_WORLD_LENGTH_M * Vector2(IsoProjection.HALF_TILE_W, IsoProjection.HALF_TILE_H).length() * proj.zoom / source_run.length()
-	var angle := target_run.angle() - source_run.angle()
-	var basis_x := Vector2.RIGHT.rotated(angle) * scale
-	var basis_y := Vector2.DOWN.rotated(angle) * scale
-	return Transform2D(basis_x, basis_y, screen_start - basis_x * source_start.x - basis_y * source_start.y)
+	return _upright_strip_transform(screen_start, screen_end, source_start, source_end, scale)
+
+
+## Place one grouped city grove along a complete wall run, with its base fixed to world ground at z=0.
+static func urban_grove_transform(proj: IsoProjection, width: int, height: int, side: int) -> Transform2D:
+	if width <= 0 or height <= 0:
+		return Transform2D.IDENTITY
+	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
+	var profile := urban_grove_edge_profile(edge_length)
+	var source_start: Vector2 = profile["source_start"]
+	var source_end: Vector2 = profile["source_end"]
+	var world_length: float = profile["world_length"]
+	var along_start := (edge_length - world_length) * 0.5
+	return _urban_grove_strip_transform(proj, width, height, side, source_start, source_end, along_start, world_length)
+
+
+## Match one grouped source to the edge; do not stretch it or stack overlapping scenery.
+static func urban_grove_edge_profile(edge_length: float) -> Dictionary:
+	if edge_length > URBAN_GROVE_18M_WORLD_LENGTH_M:
+		return {"texture": UrbanGrove20mPanel, "source_start": URBAN_GROVE_20M_START_PX, "source_end": URBAN_GROVE_20M_END_PX, "world_length": URBAN_GROVE_20M_WORLD_LENGTH_M}
+	return {"texture": UrbanGrove18mPanel, "source_start": URBAN_GROVE_18M_START_PX, "source_end": URBAN_GROVE_18M_END_PX, "world_length": URBAN_GROVE_18M_WORLD_LENGTH_M}
+
+
+static func urban_grove_sides(entrance: int) -> Array[int]:
+	var sides: Array[int] = []
+	for side in [SIDE_WEST, SIDE_NORTH, SIDE_EAST, SIDE_SOUTH]:
+		if side != entrance:
+			sides.append(side)
+	return sides
+
+
+static func urban_grove_depth_m() -> float:
+	return PAVE_M + KERB_M + URBAN_GROVE_OUTSIDE_PAVE_OFFSET_M
+
+
+static func _urban_grove_strip_transform(proj: IsoProjection, width: int, height: int, side: int, source_start: Vector2, source_end: Vector2, along_start: float, world_length: float) -> Transform2D:
+	var depth := urban_grove_depth_m()
+	var target_start := side_point(side, depth, along_start, width, height)
+	var target_end := side_point(side, depth, along_start + world_length, width, height)
+	if side == SIDE_WEST or side == SIDE_EAST:
+		var swap := target_start
+		target_start = target_end
+		target_end = swap
+	var screen_start := proj.world_to_screen(target_start.x, target_start.y)
+	var screen_end := proj.world_to_screen(target_end.x, target_end.y)
+	var target_run := screen_end - screen_start
+	var source_run := source_end - source_start
+	var scale := target_run.length() / source_run.length()
+	return _upright_strip_transform(screen_start, screen_end, source_start, source_end, scale)
+
+
+## Match a strip's ground line to the isometric edge while keeping trunks vertical on screen.
+static func _upright_strip_transform(screen_start: Vector2, screen_end: Vector2, source_start: Vector2, source_end: Vector2, scale: float) -> Transform2D:
+	var source_run := source_end - source_start
+	if absf(source_run.x) < 0.001:
+		return Transform2D.IDENTITY
+	var basis_y := Vector2.DOWN * scale
+	var basis_x := ((screen_end - screen_start) - basis_y * source_run.y) / source_run.x
+	var origin := screen_start - basis_x * source_start.x - basis_y * source_start.y
+	return Transform2D(basis_x, basis_y, origin)
 
 
 ## Fit one generated sidewalk strip to the street-side world edge using its authored centerline endpoints.
@@ -311,8 +568,8 @@ static func outer_sidewalk_transform(proj: IsoProjection, width: int, height: in
 		return Transform2D.IDENTITY
 	var edge_length := float(height if side == SIDE_WEST or side == SIDE_EAST else width)
 	var depth := PAVE_M + PARK_DEPTH_M + KERB_M + ROAD_M + KERB_M + OUTER_SIDEWALK_M * 0.5
-	var target_start := side_point(side, depth, -OUTER_SIDEWALK_EDGE_OVERHANG_M, width, height)
-	var target_end := side_point(side, depth, edge_length + OUTER_SIDEWALK_EDGE_OVERHANG_M, width, height)
+	var target_start := side_point(side, depth, (edge_length - OUTER_SIDEWALK_WORLD_LENGTH_M) * 0.5, width, height)
+	var target_end := side_point(side, depth, (edge_length + OUTER_SIDEWALK_WORLD_LENGTH_M) * 0.5, width, height)
 	if side == SIDE_WEST or side == SIDE_EAST:
 		var swap := target_start
 		target_start = target_end
@@ -334,16 +591,39 @@ static func side_landscape_edge_length(side: int, width: int, height: int) -> fl
 
 ## Match the source frontage to the entrance side while keeping the source image uniformly scaled.
 static func area_a_transform(proj: IsoProjection, width: int, height: int, side: int) -> Transform2D:
+	var panel := area_a_panel_profile(int(height if side == SIDE_WEST or side == SIDE_EAST else width))
+	return area_a_transform_for_panel(proj, width, height, side, panel["frontage_p0"], panel["frontage_p1"])
+
+
+static func area_a_panel_profile(edge_length: int) -> Dictionary:
+	if edge_length <= 10:
+		return {"texture": AreaA10m, "frontage_p0": AREA_A_10M_FRONTAGE_P0, "frontage_p1": AREA_A_10M_FRONTAGE_P1, "world_length_m": 10.0}
+	if edge_length <= 12:
+		return {"texture": AreaA12m, "frontage_p0": AREA_A_12M_FRONTAGE_P0, "frontage_p1": AREA_A_12M_FRONTAGE_P1, "world_length_m": 12.0}
+	if edge_length <= 16:
+		return {"texture": AreaA16m, "frontage_p0": AREA_A_16M_FRONTAGE_P0, "frontage_p1": AREA_A_16M_FRONTAGE_P1, "world_length_m": 16.0}
+	return {"texture": AreaA20m, "frontage_p0": AREA_A_20M_FRONTAGE_P0, "frontage_p1": AREA_A_20M_FRONTAGE_P1, "world_length_m": 20.0}
+
+
+static func area_a_transform_for_panel(proj: IsoProjection, width: int, height: int, side: int, source_p0: Vector2, source_p1: Vector2) -> Transform2D:
 	var edge := area_a_world_endpoints(width, height, side)
 	var screen_start := proj.world_to_screen(edge[0].x, edge[0].y)
 	var screen_end := proj.world_to_screen(edge[1].x, edge[1].y)
-	var source_frontage := AREA_A_FRONTAGE_P1 - AREA_A_FRONTAGE_P0
+	var source_frontage := source_p1 - source_p0
 	var target_frontage := screen_end - screen_start
 	var scale := target_frontage.length() / source_frontage.length()
 	var angle := target_frontage.angle() - source_frontage.angle()
-	var basis_x := Vector2.RIGHT.rotated(angle) * scale
-	var basis_y := Vector2.DOWN.rotated(angle) * scale
-	return Transform2D(basis_x, basis_y, screen_start - basis_x * AREA_A_FRONTAGE_P0.x - basis_y * AREA_A_FRONTAGE_P0.y)
+	var basis_x := Vector2.RIGHT
+	var basis_y := Vector2.DOWN
+	# Opposite isometric diagonals reverse handedness: reflect across the frontage
+	# before rotating so the apron remains on the exterior side of the wall.
+	if side == SIDE_WEST or side == SIDE_EAST:
+		var axis := source_frontage.normalized()
+		basis_x = 2.0 * axis * axis.dot(basis_x) - basis_x
+		basis_y = 2.0 * axis * axis.dot(basis_y) - basis_y
+	basis_x = basis_x.rotated(angle) * scale
+	basis_y = basis_y.rotated(angle) * scale
+	return Transform2D(basis_x, basis_y, screen_start - basis_x * source_p0.x - basis_y * source_p0.y)
 
 
 ## World endpoints for the combined parking artwork's measured frontage edge, ordered P0 to P1.
@@ -364,13 +644,19 @@ func _build_mesh() -> void:
 	var verts := PackedVector2Array()
 	var cols := PackedColorArray()
 	_scenery_break_index = -1
+	_area_a_break_index = -1
 	_texts = []
 	for op in _ops:
+		if op.get("purpose", &"") in [&"road_base", &"forecourt_base"]:
+			continue
 		if op["kind"] == &"text":
 			_texts.append(op)
 			continue
 		if op["kind"] == &"scenery_break":
 			_scenery_break_index = verts.size()
+			continue
+		if op["kind"] == &"area_a_break":
+			_area_a_break_index = verts.size()
 			continue
 		var pts: PackedVector2Array = op["points"]
 		for k in range(1, pts.size() - 1):
@@ -378,14 +664,16 @@ func _build_mesh() -> void:
 				verts.append(pts[idx])
 				cols.append(op["colors"][idx] if op["kind"] == &"gradient" else op["color"])
 	_ground_mesh = null
+	_surface_mesh = null
 	_mesh = null
 	if verts.is_empty():
 		return
-	if _scenery_break_index < 0:
+	if _scenery_break_index < 0 or _area_a_break_index < 0:
 		_mesh = _make_mesh(verts, cols)
 		return
 	_ground_mesh = _make_mesh(verts.slice(0, _scenery_break_index), cols.slice(0, _scenery_break_index))
-	_mesh = _make_mesh(verts.slice(_scenery_break_index), cols.slice(_scenery_break_index))
+	_surface_mesh = _make_mesh(verts.slice(_scenery_break_index, _area_a_break_index), cols.slice(_scenery_break_index, _area_a_break_index))
+	_mesh = _make_mesh(verts.slice(_area_a_break_index), cols.slice(_area_a_break_index))
 
 
 func _make_mesh(verts: PackedVector2Array, cols: PackedColorArray) -> ArrayMesh:
@@ -427,55 +715,38 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	var road_d0 := parking_end + KERB_M
 	var forecourt_along1 := edge_length
 	out.append(_poly(_side_quad(proj, side, width, height, parking_end, road_d0, along0, along1), KERB))
-	out.append(_poly(_side_quad(proj, side, width, height, road_d0, road_d0 + ROAD_M, along0, along1), ROAD))
+	var road_base := _poly(_side_quad(proj, side, width, height, road_d0, road_d0 + ROAD_M, along0, along1), ROAD)
+	road_base["purpose"] = &"road_base"
+	out.append(road_base)
 	# A continuous forecourt supports the existing bay sprites only across the store frontage, avoiding an asphalt wedge.
-	out.append(_poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, 0.0, forecourt_along1), Color("626367")))
+	var forecourt := _poly(_side_quad(proj, side, width, height, PAVE_M, parking_end, 0.0, forecourt_along1), Color("626367"))
+	forecourt["purpose"] = &"forecourt_base"
+	out.append(forecourt)
 	# A narrow outer curb and paved pedestrian strip close the road edge before the green ground begins.
 	var outer_kerb_d0 := road_d0 + ROAD_M
 	var outer_walk_d0 := outer_kerb_d0 + KERB_M
 	out.append(_poly(_side_quad(proj, side, width, height, outer_kerb_d0, outer_walk_d0, along0, along1), KERB))
-	# Fine deterministic aggregate: quiet at the normal view, without per-frame noise or texture seams.
-	for d in range(6):
-		for k in range(int(along0), int(along1)):
-			var jitter := FloorStyle.hash01(k, d, 19)
-			var depth := road_d0 + 0.2 + float(d) * 0.45
-			out.append(_poly(_side_quad(proj, side, width, height, depth, depth + 0.035, float(k) + jitter, float(k) + jitter + 0.16), Color(0.85, 0.86, 0.87, 0.07)))
 	var dash_mid := road_d0 + ROAD_M * 0.5
-	var a := along0
-	while a < along1:
-		out.append(_poly(_side_quad(proj, side, width, height, dash_mid - 0.06, dash_mid + 0.06, a, a + 1.2), ROAD_LINE))
-		a += 3.0
+	# Add opposing lane arrows on the clearer side of the crossing, in ground-plane metres.
+	var door_mid := (span.x + span.y) * 0.5
+	var away_from_crossing := 1.0 if door_mid <= edge_length * 0.5 else -1.0
+	var arrow_along := door_mid + away_from_crossing * 2.1
+	for lane in [road_d0 + ROAD_M * 0.25, road_d0 + ROAD_M * 0.75]:
+		var arrow_direction := 1.0 if lane < dash_mid else -1.0
+		var arrow := _poly(road_direction_arrow_points(proj, side, width, height, lane, arrow_along, arrow_direction), ROAD_LINE)
+		arrow["purpose"] = &"road_direction_arrow"
+		out.append(arrow)
 
 	# Crossing is aligned with the actual doorway, and spans only the public road.
 	for stripe in range(6):
 		var d := road_d0 + 0.2 + float(stripe) * 0.45
 		out.append(_poly(_side_quad(proj, side, width, height, d, d + 0.24, span.x - 0.15, span.y + 0.15), ROAD_LINE))
-	# Kerb joints and small drainage grates establish the pavement/forecourt boundary.
-	for k in range(-2, int(along1), 2):
-		out.append(_poly(_side_quad(proj, side, width, height, parking_end, road_d0, float(k), float(k) + 0.025), Color("a3a39c")))
-		if k % 6 == 0:
-			out.append(_poly(_side_quad(proj, side, width, height, parking_end - 0.24, parking_end - 0.06, float(k), float(k) + 0.48), Color("42494b")))
-			for slit in range(5):
-				var a0 := float(k) + 0.04 + float(slit) * 0.09
-				out.append(_poly(_side_quad(proj, side, width, height, parking_end - 0.22, parking_end - 0.08, a0, a0 + 0.025), Color("8d9694")))
+	# A single calm paving ring avoids the visible 1m grid used by the old exterior mesh.
+	out.append(_poly(_world_pts(proj, _rect_world(width, height, PAVE_M)), PAVE))
+	# Area A replaces these broad road/paving fills; the entrance markings and props below remain on top.
+	out.append({"kind": &"area_a_break"})
 
-	# Paving ring: joint colour underneath, then one inset slab per tile outside the store footprint.
-	out.append(_poly(_world_pts(proj, _rect_world(width, height, PAVE_M)), PAVE_JOINT))
-	for j in range(-int(PAVE_M), height + int(PAVE_M)):
-		for i in range(-int(PAVE_M), width + int(PAVE_M)):
-			if i >= 0 and i < width and j >= 0 and j < height:
-				continue
-			var slab := Rect2(i - 0.5 + SLAB_INSET, j - 0.5 + SLAB_INSET, 1.0 - SLAB_INSET * 2.0, 1.0 - SLAB_INSET * 2.0)
-			var col := PAVE if FloorStyle.hash01(i, j, 7) < 0.5 else PAVE_ALT
-			out.append(_poly(_world_pts(proj, slab), col))
-			# Subdivide each metre slab into smaller, readable pavers while retaining the original ring geometry.
-			var joint := Rect2(float(i) - 0.48, float(j) - 0.015, 0.96, 0.03)
-			out.append(_poly(_world_pts(proj, joint), Color("c1b9ab")))
-			joint = Rect2(float(i) - 0.015, float(j) - 0.48, 0.03, 0.96)
-			out.append(_poly(_world_pts(proj, joint), Color("c1b9ab")))
-
-	# Apron along the entrance, door mats in front of each entrance tile, and the A-board sign.
-	out.append(_poly(_side_quad(proj, side, width, height, 0.0, PAVE_M, span.x - 1.0, span.y + 1.0), APRON))
+	# Door mats and optional street furniture remain dynamic overlays above the generated surface.
 	for e in entrances:
 		var t: Vector2i = e
 		var along := float(_along_coord(side, t))
@@ -563,6 +834,22 @@ static func side_point(side: int, depth: float, along: float, width: int, height
 		SIDE_EAST:
 			return Vector2(x1 + depth, along)
 	return Vector2(along, y1 + depth)
+
+
+## A 1.3m two-way lane arrow projected from road-plane coordinates; direction is +/- along the store edge.
+static func road_direction_arrow_points(proj: IsoProjection, side: int, width: int, height: int, depth: float, along: float, direction: float) -> PackedVector2Array:
+	var d := 1.0 if direction >= 0.0 else -1.0
+	var shape := [
+		Vector2(-0.075, -0.65), Vector2(0.075, -0.65),
+		Vector2(0.075, 0.04), Vector2(0.25, 0.04),
+		Vector2(0.0, 0.65), Vector2(-0.25, 0.04),
+		Vector2(-0.075, 0.04),
+	]
+	var points := PackedVector2Array()
+	for offset in shape:
+		var world := side_point(side, depth + offset.x, along + offset.y * d, width, height)
+		points.append(proj.world_to_screen(world.x, world.y))
+	return points
 
 
 static func _on_side(side: int, t: Vector2i, width: int, height: int) -> bool:

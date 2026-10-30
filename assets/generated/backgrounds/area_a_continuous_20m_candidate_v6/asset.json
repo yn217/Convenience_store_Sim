@@ -1,0 +1,23 @@
+{
+  "asset_id": "area_a_continuous_20m_candidate_v6",
+  "status": "runtime_verified_candidate",
+  "file": "area_a_continuous_20m_candidate_v6.png",
+  "target_world_length_m": 20,
+  "intended_use": "Continuous non-tiled entrance apron, sidewalk, and parking surface panel for a 20m frontage, with a refined asphalt and sidewalk material pass.",
+  "projection_request": "Orthographic isometric ground panel; mapped to the store edge with rotation and uniform scale only.",
+  "baseline": {
+    "edge": "store-side sidewalk edge",
+    "source_start_px": [299, 32],
+    "source_end_px": [1980, 630],
+    "world_length_m": 20,
+    "calibration_status": "Retained from v5 source coordinates; checked in 20x16 whole-store and panned/zoomed actual Godot captures."
+  },
+  "scale_policy": "Uniform scale only; do not stretch non-uniformly.",
+  "excluded": ["crosswalk", "store", "wall", "plants", "people", "vehicles", "signage", "outside shadow", "halo"],
+  "generation": {
+    "source_asset": "area_a_continuous_20m_candidate_v5/area_a_continuous_20m_candidate_v5.png",
+    "tool": "OpenAI built-in image generation edit via delegated image-generation subagent",
+    "edit_scope": "Refined asphalt tonal variation and sidewalk stone texture; retained parking lines, wheel stops, curb, and the 1983x793 canvas."
+  },
+  "qa": "Reviewed at 1600x900, 16:00 in actual Godot 4.7.2 at 20x16 whole-store and 1.1x panned/zoomed. Surface geometry stays aligned at this footprint. Other footprints still use their prior images and need matching variants."
+}

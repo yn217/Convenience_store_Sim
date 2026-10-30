@@ -1,0 +1,8 @@
+{
+  "asset_id": "urban_context_isometric_b",
+  "source": "OpenAI ImageGen",
+  "purpose": "Generated isometric neighborhood backdrop candidate to align ground axes with the game's 2:1 dimetric projection.",
+  "requested_canvas": "1672x941",
+  "prompt_summary": "Fixed orthographic 2:1 dimetric/isometric spring neighborhood background; parallel ground axes at +/-26.565 degrees; no vanishing point, perspective convergence, store, UI, people, cars or river; low-conflict central ground with perimeter trees, shrubs, gardens, paths and low homes.",
+  "status": "integrated_for_visual_review"
+}

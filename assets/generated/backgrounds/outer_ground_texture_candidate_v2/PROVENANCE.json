@@ -1,0 +1,7 @@
+{
+  "asset_id": "outer_ground_texture_candidate_v2",
+  "source": "Built-in image_gen",
+  "generated_file": "outer_ground_texture_candidate_v2.png",
+  "prompt": "Create one seamless repeating ground texture tile for a cozy Japanese convenience-store management game's outer environment. View is straight top-down, ground-plane texture only, no horizon. Natural muted moss-green and olive grass, finely painted low clover/groundcover, a restrained scattering of tiny cream and pale pink blossoms and a few fallen leaves, irregular soft tonal variation. Polished hand-painted 2D game art, subtle contrast so game objects remain the focus. Seamless repeat on all four edges with no visible seam or recognizable repeated motif. No trees, no tall shrubs, no trunks, no buildings, roads, pavement, objects, words, borders, vignette or lighting gradient. Opaque full-bleed square tile.",
+  "integration": "Used as the camera-relative exterior ground texture in scripts/presentation/backdrop_layer.gd at 24% opacity. Actual Godot captures were made at 12x10, 16x12, 20x16, and zoomed/panned 20x16. The 36% opacity experiment made the repeated motif too prominent and was reverted. Mean absolute RGB difference between opposing source edges is 20.50 (horizontal) and 18.23 (vertical), so seams are not mathematically eliminated; no strong seam was visible in the 24% runtime views."
+}

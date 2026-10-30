@@ -1,0 +1,17 @@
+{
+  "asset_id": "urban_grove_compact_v1",
+  "category": "exterior_environment_group_2d",
+  "source_type": "ai_generated",
+  "tool": "image_gen",
+  "view_direction": "isometric_leaning_compact_sakura_evergreen_flower_group",
+  "render_width_px": 1825,
+  "render_height_px": 862,
+  "ground_contact_start_px": [358.0, 800.0],
+  "ground_contact_end_px": [1544.0, 800.0],
+  "anchor_type": "world_ground_endpoints_z0",
+  "world_length_m": 12.0,
+  "placement_depth_m": 2.43,
+  "occlusion_group": "distant_exterior_planting",
+  "sort_key": "behind_store_walls_and_roadside",
+  "generated_prompt": "Compact group of Japanese roadside cherry trees, evergreen tree, shrubs and flowers. Tall mature canopy with tapered low flower-bed endings; transparent background, no structure or text."
+}

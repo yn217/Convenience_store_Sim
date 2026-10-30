@@ -1,0 +1,19 @@
+{
+  "asset_id": "urban_grove_detailed_candidate_v1",
+  "file": "urban_grove_detailed_candidate_v1.png",
+  "status": "integrated_runtime_candidate",
+  "runtime_approved": false,
+  "intended_use": "Grouped isometric garden panorama with layered shrubs and flowers around the non-road store edges.",
+  "render_width_px": 2172,
+  "render_height_px": 724,
+  "view_direction": "isometric-style 2D panorama",
+  "anchor_type": "ground_contact_baseline",
+  "ground_contact": "Continuous soil and planting base near y=700px; runtime baseline uses x=100..2070px at y=700px.",
+  "placement": "World z=0, 2.43m outside the wall, behind wall/paving occlusion; uniformly fitted to edge-specific 12m, 18m, or 20m baselines.",
+  "generation": {
+    "tool": "image_gen subagent",
+    "reference": "User-supplied convenience-store mockup",
+    "prompt_summary": "Wide transparent grouping of upright trees, layered green shrubs and small pink/white blossoms, with a continuous soil/root base, rendered in a restrained illustrated game-art style."
+  },
+  "review": "Actual Godot 4.7.2 screenshots at 12x10, 16x12, 20x16, and panned/zoomed 20x16 show continuous world-ground placement with wall occlusion. The soil edge and generated cutout fringe are mostly occluded or not prominent at whole-scene scale. Runtime candidate only; user visual approval and performance review remain pending."
+}

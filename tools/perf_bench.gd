@@ -98,6 +98,7 @@ func _run() -> void:
 		app._publish_snapshot()
 	var publish_ms := float(Time.get_ticks_usec() - t1) / 1000.0 / 10.0
 	var snapshot_ms := float(Time.get_ticks_usec() - t1) / 1000.0 / 30.0
+	var probe_results := {}
 	for i in WARMUP:
 		await process_frame
 	if OS.get_cmdline_user_args().has("probe"):
@@ -117,15 +118,27 @@ func _run() -> void:
 			await process_frame
 		print("PROBE nocustomers frame_ms=%.1f" % (float(Time.get_ticks_usec() - q0) / 60000.0))
 		world.customers = saved_customers
+		var backdrop: BackdropLayer = world.get_node("BackdropLayer")
+		for probe in ["batch_on", "batch_off", "batch_on_again"]:
+			backdrop.set_ground_texture_batching(probe != "batch_off")
+			var l0 := Time.get_ticks_usec()
+			for i in 180:
+				await process_frame
+			probe_results[probe] = float(Time.get_ticks_usec() - l0) / 180000.0
 		for probe in ["none", "FixturePresenter", "OverlayLayer", "CueLayer", "SelectionOverlay"]:
-			var node: CanvasItem = null if probe == "none" else (world.get_node("ObjectSortRoot/FixturePresenter") if probe == "FixturePresenter" else world.get_node(probe))
+			var node: CanvasItem = null
+			if probe == "FixturePresenter":
+				node = world.get_node("ObjectSortRoot/FixturePresenter")
+			elif probe != "none":
+				node = world.get_node(probe)
 			if node != null:
 				node.visible = false
 			var acc := 0.0
 			var l0 := Time.get_ticks_usec()
-			for i in 60:
+			for i in 180:
 				await process_frame
-			acc = float(Time.get_ticks_usec() - l0) / 60000.0
+			acc = float(Time.get_ticks_usec() - l0) / 180000.0
+			probe_results[probe] = acc
 			print("PROBE hide=%s frame_ms=%.1f" % [probe, acc])
 			if node != null:
 				node.visible = true
@@ -154,6 +167,7 @@ func _run() -> void:
 	var info := {
 		"conditions": {"store": "16x12", "fixtures_placed": s.grid.instances.size(), "customers_in_store": s.customers.size(), "window": str(get_root().size), "speed": s.speed_setting, "frames": FRAMES},
 		"by_speed": by_speed,
+		"probe_frame_ms": probe_results,
 		"sim_step_ms": sim_ms, "compose_ms": compose_ms, "snapshot_ms": snapshot_ms, "publish_ms": publish_ms,
 		"video_mem_mb": float(RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_VIDEO_MEM_USED)) / 1048576.0,
 		"environment": {"godot": Engine.get_version_info()["string"], "os": OS.get_name() + " " + OS.get_version(), "gpu": RenderingServer.get_video_adapter_name(), "renderer": str(ProjectSettings.get_setting("rendering/renderer/rendering_method")), "cpu": OS.get_processor_name(), "threads": OS.get_processor_count()},

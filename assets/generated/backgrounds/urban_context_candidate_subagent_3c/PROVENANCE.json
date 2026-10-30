@@ -1,0 +1,7 @@
+{
+  "prompt": "Opaque 16:9 distant wide isometric Japanese spring neighborhood panorama for a polished illustrated convenience-store game. Medium-distance detail distributed across entire frame: many small/modest trees, flowerbeds, low homes, street and tiled sidewalk fragments. Elevated 2:1 isometric projection, evenly layered full-canvas urban context, no close crop or dominant foreground object. Avoid large trees/buildings, cut-off close trunks, giant flowers, store, UI, signage, text, people, watermark, vignette, transparency or black corners.",
+  "usage": "Runtime neighborhood backdrop; uniformly scaled and anchored to the projected store center beneath store and outdoor geometry.",
+  "source": "OpenAI built-in image_gen",
+  "asset": "urban_context_candidate_subagent_3c.png",
+  "generated_at": "2026-10-30"
+}

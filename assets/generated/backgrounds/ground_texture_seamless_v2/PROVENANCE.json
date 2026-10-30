@@ -1,0 +1,11 @@
+{
+  "asset_id": "ground_texture_seamless_v2",
+  "source_type": "ai_generated",
+  "tool": "built-in image_gen via image-generation subagent",
+  "prompt": "Seamlessly repeating top-down outdoor ground texture for an isometric Japanese convenience store scene, muted olive grass and soil, subtle fine leaf shadows, small sparse pale-pink sakura petals, soft natural variation, no large flowers, no objects, no text, continuous edges on all four sides.",
+  "source_file": "assets/generated/backgrounds/ground_texture_seamless_v2/ground_texture_seamless_v2.png",
+  "limitations": [
+    "Opposite edges are not mathematically pixel-identical; runtime overlay remains at 16 percent opacity.",
+    "A subtle texture seam remains possible at high zoom or against high-contrast backgrounds."
+  ]
+}

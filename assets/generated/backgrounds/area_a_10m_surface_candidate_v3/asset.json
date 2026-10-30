@@ -1,0 +1,13 @@
+{
+  "asset_id": "area_a_10m_surface_candidate_v3",
+  "status": "runtime_candidate_not_user_approved",
+  "file": "area_a_10m_surface_candidate_v3.png",
+  "source_asset": "area_a_continuous_short_candidate_v1/area_a_continuous_10m_candidate_v1.png",
+  "generation": "OpenAI image generation edit via image-generation subagent; preserve transparent silhouette, dimensions, isometric view, frontage, markings and wheel stops while refining asphalt and paving texture.",
+  "canvas_size_px": [1774, 887],
+  "frontage_start_px": [512, 78],
+  "frontage_end_px": [1668, 608],
+  "world_length_m": 10,
+  "placement": "World frontage endpoints with uniform scale and reflection for east/west orientation.",
+  "review": "Godot 4.7.2, 1600x900, 12x10 east and west entrance, paused at 16:00; west wall hides much of apron. Alpha bounds differ slightly from source; review close edges at other views."
+}

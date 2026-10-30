@@ -53,19 +53,55 @@ func test_side_point_moves_outward(t, _tree) -> void:
 	t.ok(absf(s.x - 3.0) < 1e-6 and absf(s.y - 13.5) < 1e-6, "two metres south of the south edge")
 
 
-func test_paving_ring_and_apron_colours_present(t, _tree) -> void:
+func test_continuous_area_surface_keeps_entry_overlays(t, _tree) -> void:
 	var items := BackdropLayer.layout_items(_proj(), 16, 12, [Vector2i(0, 5), Vector2i(0, 6)], Vector2(1280, 720))
-	t.ok(_count(items, BackdropLayer.PAVE) + _count(items, BackdropLayer.PAVE_ALT) > 0, "paving slabs are drawn")
-	t.eq(_count(items, BackdropLayer.APRON), 1, "one apron on the entrance side")
+	t.eq(_count(items, BackdropLayer.PAVE), 1, "one broad paving underlay remains below the generated surface")
 	t.eq(_count(items, BackdropLayer.MAT), 2, "one door mat per entrance tile")
 	t.eq(_count(items, BackdropLayer.ROAD), 1, "one road strip on the entrance side")
+	var arrows := items.filter(func(it): return it.get("purpose", &"") == &"road_direction_arrow")
+	t.eq(arrows.size(), 2, "two opposing lane arrows are painted on the road")
+	for arrow in arrows:
+		t.eq(arrow["points"].size(), 7, "direction arrow has a closed polygon head and stem")
+		t.eq(arrow["color"], BackdropLayer.ROAD_LINE, "road arrows use the existing road-marking color")
+
+
+func test_road_direction_arrows_follow_each_isometric_side(t, _tree) -> void:
+	var proj := _proj(1.25)
+	for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+		var forward := BackdropLayer.road_direction_arrow_points(proj, side, 20, 16, 7.0, 8.0, 1.0)
+		var reverse := BackdropLayer.road_direction_arrow_points(proj, side, 20, 16, 7.0, 8.0, -1.0)
+		var forward_tip_world := BackdropLayer.side_point(side, 7.0, 8.65, 20, 16)
+		var reverse_tip_world := BackdropLayer.side_point(side, 7.0, 7.35, 20, 16)
+		t.eq(forward.size(), 7, "forward arrow is built on side %d" % side)
+		t.eq(reverse.size(), 7, "reverse arrow is built on side %d" % side)
+		t.ok(forward[4].distance_to(proj.world_to_screen(forward_tip_world.x, forward_tip_world.y)) < 0.01, "forward tip points along side %d" % side)
+		t.ok(reverse[4].distance_to(proj.world_to_screen(reverse_tip_world.x, reverse_tip_world.y)) < 0.01, "reverse tip points along side %d" % side)
+
+
+func test_two_lane_arrows_exist_for_all_supported_store_sizes(t, _tree) -> void:
+	var proj := _proj()
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			var mid_x := int(size.x / 2)
+			var mid_y := int(size.y / 2)
+			var entrances: Array[Vector2i] = []
+			match side:
+				BackdropLayer.SIDE_WEST:
+					entrances = [Vector2i(0, mid_y), Vector2i(0, mid_y + 1)]
+				BackdropLayer.SIDE_NORTH:
+					entrances = [Vector2i(mid_x, 0), Vector2i(mid_x + 1, 0)]
+				BackdropLayer.SIDE_EAST:
+					entrances = [Vector2i(size.x - 1, mid_y), Vector2i(size.x - 1, mid_y + 1)]
+				_:
+					entrances = [Vector2i(mid_x, size.y - 1), Vector2i(mid_x + 1, size.y - 1)]
+			var items := BackdropLayer.layout_items(proj, size.x, size.y, entrances, Vector2(1600, 900))
+			var arrows := items.filter(func(it): return it.get("purpose", &"") == &"road_direction_arrow")
+			t.eq(arrows.size(), 2, "two lane arrows exist for %dx%d on side %d" % [size.x, size.y, side])
 
 
 func test_slabs_only_outside_the_store(t, _tree) -> void:
 	var items := BackdropLayer.layout_items(_proj(), 4, 3, [], Vector2(1280, 720))
-	# Ring of width 2 around a 4x3 footprint: (4 + 4) * (3 + 4) - 4 * 3 = 44 slabs, each a pale paving colour.
-	var slabs := _count(items, BackdropLayer.PAVE) + _count(items, BackdropLayer.PAVE_ALT)
-	t.eq(slabs, 44, "store paving remains the only metre-grid slab set")
+	t.eq(_count(items, BackdropLayer.PAVE), 1, "exterior paving is one continuous surface without a metre grid")
 
 
 func test_vignette_and_ground_are_screen_space(t, _tree) -> void:
@@ -110,6 +146,53 @@ func test_surrounding_ground_texture_phase_tracks_camera(t, _tree) -> void:
 	t.eq(BackdropLayer.surrounding_ground_tile_offset(Vector2(4.0, 9.0), Vector2.ZERO), Vector2.ZERO, "invalid texture size has a safe zero offset")
 
 
+func test_urban_context_backdrop_is_world_anchored_and_covers_viewport(t, _tree) -> void:
+	var viewport := Vector2(1600.0, 900.0)
+	var texture_size := Vector2(1672.0, 941.0)
+	var proj := _proj(0.5)
+	var initial := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
+	var rect := Rect2(initial.origin, texture_size * initial.x.length())
+	t.ok(rect.size.x > viewport.x and rect.size.y > viewport.y, "the urban backdrop covers the viewport at minimum zoom")
+	t.ok(absf(initial.x.length() - initial.y.length()) < 0.0001, "the panorama uses uniform scale")
+	var old_center := initial.origin + rect.size * 0.5
+	proj.pan(Vector2(80.0, -40.0))
+	var moved := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
+	var new_center := moved.origin + texture_size * moved.x.length() * 0.5
+	t.ok(new_center.distance_to(old_center + Vector2(80.0, -40.0)) < 0.01, "the panorama follows the world camera at full translation")
+	t.ok(absf(moved.x.length() - 2.1) < 0.0001, "the panorama keeps sufficient cover scale at minimum zoom")
+	t.ok(BackdropLayer.urban_context_transform(proj, 0, 12, viewport, texture_size).x == Vector2.RIGHT, "invalid store bounds return the identity transform")
+
+
+func test_surrounding_ground_mesh_batches_tiles_and_tracks_camera(t, _tree) -> void:
+	var viewport := Vector2(1920, 1080)
+	var tile_size := Vector2(512, 512)
+	var first := BackdropLayer._build_surrounding_ground_mesh(Vector2(137, 82), viewport, tile_size)
+	t.ok(first != null, "surrounding ground builds for a non-empty viewport")
+	var arrays: Array = first.surface_get_arrays(0)
+	var vertices: PackedVector2Array = arrays[Mesh.ARRAY_VERTEX]
+	var uvs: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
+	var colors: PackedColorArray = arrays[Mesh.ARRAY_COLOR]
+	t.eq(vertices.size(), 90, "five by three screen tiles are batched into fifteen quads")
+	t.eq(uvs.size(), vertices.size(), "each batched vertex keeps its tile UV")
+	var tint_matches := true
+	for color in colors:
+		tint_matches = tint_matches and absf(color.a - BackdropLayer.SURROUNDING_GROUND_OPACITY) < 0.002
+	t.ok(tint_matches, "batched ground uses the authored surrounding-ground opacity")
+	var min_x := INF
+	var min_y := INF
+	var max_x := -INF
+	var max_y := -INF
+	for vertex in vertices:
+		min_x = minf(min_x, vertex.x)
+		min_y = minf(min_y, vertex.y)
+		max_x = maxf(max_x, vertex.x)
+		max_y = maxf(max_y, vertex.y)
+	t.ok(min_x <= 0.0 and min_y <= 0.0 and max_x >= viewport.x and max_y >= viewport.y, "batched quads fully cover the viewport")
+	var panned := BackdropLayer._build_surrounding_ground_mesh(Vector2(147, 82), viewport, tile_size)
+	var panned_vertices: PackedVector2Array = panned.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
+	t.ok(absf((panned_vertices[0].x - vertices[0].x) - 10.0) < 0.01, "tile mesh phase follows a ten-pixel pan")
+
+
 func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
 	var proj := _proj(0.8)
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
@@ -126,9 +209,9 @@ func test_grouped_roadside_grove_anchors_to_world_ground(t, _tree) -> void:
 			var transform := BackdropLayer.roadside_grove_transform(proj, size.x, size.y, side)
 			t.ok((transform * BackdropLayer.REAR_GROVE_GROUND_START_PX).distance_to(proj.world_to_screen(world_start.x, world_start.y)) < 0.01, "grouped grove root start anchors on side %d for %dx%d" % [side, size.x, size.y])
 			t.ok((transform * BackdropLayer.REAR_GROVE_GROUND_END_PX).distance_to(proj.world_to_screen(world_end.x, world_end.y)) < 0.01, "grouped grove root end anchors on side %d for %dx%d" % [side, size.x, size.y])
-			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "grouped grove keeps uniform scale for side %d" % side)
+			t.ok(absf(transform.y.x) < 0.001 and transform.y.y > 0.0, "grouped grove keeps trunks vertical for side %d" % side)
 			var expected_scale := BackdropLayer.REAR_GROVE_WORLD_LENGTH_M * Vector2(IsoProjection.HALF_TILE_W, IsoProjection.HALF_TILE_H).length() * proj.zoom / (BackdropLayer.REAR_GROVE_GROUND_END_PX - BackdropLayer.REAR_GROVE_GROUND_START_PX).length()
-			t.ok(absf(transform.x.length() - expected_scale) < 0.001, "grouped grove keeps the same world height and scale for %dx%d" % [size.x, size.y])
+			t.ok(absf(transform.y.length() - expected_scale) < 0.001, "grouped grove keeps the same world height for %dx%d" % [size.x, size.y])
 	var initial := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
 	proj.pan(Vector2(31.0, -17.0))
 	var moved := BackdropLayer.roadside_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
@@ -141,8 +224,8 @@ func test_generated_outer_sidewalk_anchors_to_world_centerline(t, _tree) -> void
 		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
 			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
 			var depth := BackdropLayer.PAVE_M + BackdropLayer.PARK_DEPTH_M + BackdropLayer.KERB_M + BackdropLayer.ROAD_M + BackdropLayer.KERB_M + BackdropLayer.OUTER_SIDEWALK_M * 0.5
-			var world_start := BackdropLayer.side_point(side, depth, -BackdropLayer.OUTER_SIDEWALK_EDGE_OVERHANG_M, size.x, size.y)
-			var world_end := BackdropLayer.side_point(side, depth, edge_length + BackdropLayer.OUTER_SIDEWALK_EDGE_OVERHANG_M, size.x, size.y)
+			var world_start := BackdropLayer.side_point(side, depth, (edge_length - BackdropLayer.OUTER_SIDEWALK_WORLD_LENGTH_M) * 0.5, size.x, size.y)
+			var world_end := BackdropLayer.side_point(side, depth, (edge_length + BackdropLayer.OUTER_SIDEWALK_WORLD_LENGTH_M) * 0.5, size.x, size.y)
 			if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST:
 				var swap := world_start
 				world_start = world_end
@@ -154,20 +237,80 @@ func test_generated_outer_sidewalk_anchors_to_world_centerline(t, _tree) -> void
 			t.ok(absf(transform_xform.x.length() - transform_xform.y.length()) < 0.001, "sidewalk retains uniform scale on side %d" % side)
 
 
-func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:
-	var proj := _proj(1.25)
+func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
+	var proj := _proj(0.8)
+	for edge_length in [10.0, 12.0, 16.0, 20.0]:
+		var profile := BackdropLayer.urban_grove_edge_profile(edge_length)
+		var source_texture: Texture2D = profile["texture"]
+		var source_start: Vector2 = profile["source_start"]
+		var source_end: Vector2 = profile["source_end"]
+		t.ok(source_texture != null, "generated grove profile for %.0fm imports as a runtime texture" % edge_length)
+		t.eq(Vector2(source_texture.get_size()), Vector2(2172.0, 724.0), "grove profile for %.0fm keeps its authored canvas" % edge_length)
+		t.ok(source_start.x >= 0.0 and source_start.y >= 0.0 and source_end.x < source_texture.get_width() and source_end.y < source_texture.get_height(), "ground anchors remain inside %.0fm profile" % edge_length)
+		var source_image := source_texture.get_image()
+		for ground_anchor in [source_start, (source_start + source_end) * 0.5, source_end]:
+			t.ok(source_image.get_pixelv(Vector2i(roundi(ground_anchor.x), roundi(ground_anchor.y))).a > 0.2, "%.0fm profile ground anchor touches visible roots" % edge_length)
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
 		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
-			var edge_start := Vector2(-0.5, size.y - 0.5) if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_SOUTH else Vector2(size.x - 0.5, -0.5)
-			var edge_end := Vector2(-0.5, -0.5) if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_NORTH else Vector2(size.x - 0.5, size.y - 0.5)
-			var transform := BackdropLayer.area_a_transform(proj, size.x, size.y, side)
-			var actual_start: Vector2 = transform * BackdropLayer.AREA_A_FRONTAGE_P0
-			var actual_end: Vector2 = transform * BackdropLayer.AREA_A_FRONTAGE_P1
-			var expected_start := proj.world_to_screen(edge_start.x, edge_start.y)
-			var expected_end := proj.world_to_screen(edge_end.x, edge_end.y)
+			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
+			var depth := BackdropLayer.urban_grove_depth_m()
+			var profile := BackdropLayer.urban_grove_edge_profile(edge_length)
+			var source_start: Vector2 = profile["source_start"]
+			var source_end: Vector2 = profile["source_end"]
+			var world_length: float = profile["world_length"]
+			var along_start := (edge_length - world_length) * 0.5
+			var start := BackdropLayer.side_point(side, depth, along_start, size.x, size.y)
+			var finish := BackdropLayer.side_point(side, depth, along_start + world_length, size.x, size.y)
+			if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST:
+				var swap := start
+				start = finish
+				finish = swap
+			var transform := BackdropLayer.urban_grove_transform(proj, size.x, size.y, side)
+			t.ok((transform * source_start).distance_to(proj.world_to_screen(start.x, start.y)) < 0.01, "first root stays on ground beyond side %d for %dx%d" % [side, size.x, size.y])
+			t.ok((transform * source_end).distance_to(proj.world_to_screen(finish.x, finish.y)) < 0.01, "last root stays on ground beyond side %d for %dx%d" % [side, size.x, size.y])
+			t.ok(absf(transform.y.x) < 0.001 and transform.y.y > 0.0, "grove trunks stay upright on side %d" % side)
+			t.ok(along_start <= 0.0 and along_start + world_length >= edge_length, "planting reaches both wall endpoints on side %d for %dx%d" % [side, size.x, size.y])
+			t.ok(world_length in [BackdropLayer.URBAN_GROVE_18M_WORLD_LENGTH_M, BackdropLayer.URBAN_GROVE_20M_WORLD_LENGTH_M], "planting uses a generated physical-length profile on side %d" % side)
+	var west := BackdropLayer.urban_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
+	proj.pan(Vector2(31.0, -17.0))
+	var moved := BackdropLayer.urban_grove_transform(proj, 16, 12, BackdropLayer.SIDE_WEST)
+	t.ok(moved.origin.distance_to(west.origin + Vector2(31.0, -17.0)) < 0.01, "urban grove roots follow camera pan at fixed world position")
+
+func test_urban_grove_forms_a_three_side_band_around_the_entrance(t, _tree) -> void:
+	for entrance in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+		var sides := BackdropLayer.urban_grove_sides(entrance)
+		t.eq(sides.size(), 3, "perimeter planting spans the three non-road sides for entrance side %d" % entrance)
+		t.ok(not sides.has(entrance), "planting keeps the entrance road side open for side %d" % entrance)
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			if side != entrance:
+				t.ok(sides.has(side), "perimeter planting keeps side %d for entrance side %d" % [side, entrance])
+
+
+func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:
+	var proj := _proj(1.25)
+	for size in [Vector2i(10, 10), Vector2i(12, 12), Vector2i(16, 16), Vector2i(20, 20)]:
+		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
+			var edge := BackdropLayer.area_a_world_endpoints(size.x, size.y, side)
+			var panel := BackdropLayer.area_a_panel_profile(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
+			var transform := BackdropLayer.area_a_transform_for_panel(proj, size.x, size.y, side, panel["frontage_p0"], panel["frontage_p1"])
+			var actual_start: Vector2 = transform * panel["frontage_p0"]
+			var actual_end: Vector2 = transform * panel["frontage_p1"]
+			var expected_start := proj.world_to_screen(edge[0].x, edge[0].y)
+			var expected_end := proj.world_to_screen(edge[1].x, edge[1].y)
 			t.ok(actual_start.distance_to(expected_start) < 0.01, "Area A frontage start meets side %d at %dx%d" % [side, size.x, size.y])
 			t.ok(actual_end.distance_to(expected_end) < 0.01, "Area A frontage end meets side %d at %dx%d" % [side, size.x, size.y])
 			t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "Area A retains uniform scale for side %d" % side)
+			var mid := (expected_start + expected_end) * 0.5
+			var outside_world := Vector2(-1, 0) if side == BackdropLayer.SIDE_WEST else (Vector2(1, 0) if side == BackdropLayer.SIDE_EAST else (Vector2(0, -1) if side == BackdropLayer.SIDE_NORTH else Vector2(0, 1)))
+			var world_mid := (edge[0] + edge[1]) * 0.5
+			var outside_screen := proj.world_to_screen(world_mid.x + outside_world.x, world_mid.y + outside_world.y) - mid
+			var apron_sample: Vector2 = transform * ((panel["frontage_p0"] + panel["frontage_p1"]) * 0.5 + Vector2(0, 100)) - mid
+			t.ok((expected_end - expected_start).cross(outside_screen) * (expected_end - expected_start).cross(apron_sample) > 0.0, "Area A apron lies outside side %d" % side)
+			t.ok(panel["world_length_m"] >= (size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x), "Area A panel profile covers the full edge length")
+	var before := BackdropLayer.area_a_transform_for_panel(proj, 16, 12, BackdropLayer.SIDE_EAST, BackdropLayer.AREA_A_12M_FRONTAGE_P0, BackdropLayer.AREA_A_12M_FRONTAGE_P1)
+	proj.pan(Vector2(31.0, -17.0))
+	var after := BackdropLayer.area_a_transform_for_panel(proj, 16, 12, BackdropLayer.SIDE_EAST, BackdropLayer.AREA_A_12M_FRONTAGE_P0, BackdropLayer.AREA_A_12M_FRONTAGE_P1)
+	t.eq(after.origin, before.origin + Vector2(31.0, -17.0), "Area A frontage follows camera pan")
 
 
 func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> void:
@@ -192,6 +335,17 @@ func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> vo
 		t.ok(left_coverage >= (expected_left - size_ground).length() - 1.0, "left V branch reaches its own far-wall endpoint for %dx%d" % [size.x, size.y])
 		t.ok(right_coverage >= (expected_right - size_ground).length() - 1.0, "right V branch reaches its own far-wall endpoint for %dx%d" % [size.x, size.y])
 		t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "V art keeps a uniform scale for %dx%d" % [size.x, size.y])
+		t.ok(absf(size_transform.x.length() - transform.x.length()) < 0.001, "tree art keeps one world scale across %dx%d" % [size.x, size.y])
+		var tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * size_transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
+		t.ok(tree_height_m > IsoProjection.WALL_HEIGHT_M, "canopy rises above the wall in world metres for %dx%d" % [size.x, size.y])
+		if size != Vector2i(12, 10):
+			var reference_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
+			t.ok(absf(tree_height_m - reference_height_m) < 0.001, "world tree height is identical across store sizes")
+	var zoomed_proj := _proj(0.75)
+	var zoomed_transform := BackdropLayer.environment_transform(zoomed_proj, 16, 12, Vector2(backdrop_texture.get_size()))
+	var zoomed_tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * zoomed_transform.y.length() / (IsoProjection.Z_PX_PER_M * zoomed_proj.zoom)
+	var expected_tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
+	t.ok(absf(zoomed_tree_height_m - expected_tree_height_m) < 0.001, "camera zoom changes pixel size without changing world tree height")
 	proj.pan(Vector2(29, -13))
 	layer.sync(16, 12, [], proj, Vector2(1280, 720))
 	var moved_ground: Vector2 = layer._environment_transform * BackdropLayer.BACKDROP_GROUND_PX
@@ -265,4 +419,24 @@ func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
 		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_EAST, size.x, size.y), float(size.y) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "east planting run reaches the full far edge for %dx%d" % [size.x, size.y])
 		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_SOUTH, size.x, size.y), float(size.x) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "south planting run reaches the full far edge for %dx%d" % [size.x, size.y])
+	layer.queue_free()
+
+
+func test_asphalt_surface_follows_camera_and_fades_at_ends(t, tree) -> void:
+	var proj := _proj(1.0)
+	var layer := BackdropLayer.new()
+	tree.root.add_child(layer)
+	layer.sync(16, 12, [Vector2i(7, 11)], proj, Vector2(1600, 900))
+	var first := layer._asphalt_texture.surface_get_arrays(0)
+	var point: Vector2 = first[Mesh.ARRAY_VERTEX][0]
+	var uv: Vector2 = first[Mesh.ARRAY_TEX_UV][0]
+	var min_alpha := 1.0
+	for c in first[Mesh.ARRAY_COLOR]:
+		min_alpha = minf(min_alpha, c.a)
+	t.ok(min_alpha < 0.01, "asphalt fades transparent at outer end")
+	proj.pan(Vector2(31, -17))
+	layer.sync(16, 12, [Vector2i(7, 11)], proj, Vector2(1600, 900))
+	var moved := layer._asphalt_texture.surface_get_arrays(0)
+	t.ok((moved[Mesh.ARRAY_VERTEX][0] as Vector2).distance_to(point + Vector2(31, -17)) < 0.01, "asphalt follows camera pan")
+	t.eq(moved[Mesh.ARRAY_TEX_UV][0], uv, "asphalt sample stays world anchored")
 	layer.queue_free()
