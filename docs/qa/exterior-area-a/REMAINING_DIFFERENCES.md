@@ -1,6 +1,6 @@
 # Mockup comparison: remaining exterior work
 
-Reference: user-supplied `image-1792819026698.webp` (16:28) and the current Godot 4.7.2 20x16 capture at 16:00, `green-grove-v1-stocked-20x16-1600x900-2026-10-29.png`. Earlier daylight comparison files (`regions-target-vs-daylight-20x16-2026-10-29.png`, `mockup-daylight-comparison-20x16-2026-10-29.png`) predate the new ground tile and green-forward grove and are useful only for the non-planting regions. Crops are selected by visual subject, not pixel registration: the mockup and game use different camera framing and store contents.
+Reference: user-supplied `image-1792819026698.webp` (16:28) and the current Godot 4.7.2 20x16 capture at 16:00, `urban-context-rotation-20x16-1600x900-2026-10-31.png`. Earlier daylight comparisons predate later exterior changes and are historical only. The current six-region baseline/target/current crop set is in `comparison-2026-10-31/04_comparison/mockup_region_comparison.png`; full and individual crops are in `01_before`, `02_target` and `03_after`. Crops are selected by visual subject, not pixel registration: the mockup and game use different camera framing, store contents, UI and object density.
 
 | Region | Target vs current | Remaining 2D work and world placement | Priority |
 |---|---|---|---|
