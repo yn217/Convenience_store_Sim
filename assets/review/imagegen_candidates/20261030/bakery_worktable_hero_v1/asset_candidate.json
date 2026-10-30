@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "asset_id": "bakery_worktable_hero_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Compact stainless bakery preparation worktable for Issue #130",
+  "actual_subject": "Single stainless preparation worktable with large top, short backsplash, shallow front drawer, lower shelf and four square legs",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/bakery_worktable_hero_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 839834,
+    "sha256": "f38024cf223b38582bf4e3f23aa93e14deebc3b5614ccef8d9d12fe34557d358",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/bakery_worktable_hero_v1/source_original.png",
+      "byte_size": 839834,
+      "sha256": "f38024cf223b38582bf4e3f23aa93e14deebc3b5614ccef8d9d12fe34557d358",
+      "git_blob_sha": "bb021fe893241b7c2d0361dfc198bb1c38a52f1c",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/bakery_worktable_hero_v1/qa_preview_white.png",
+      "byte_size": 955591,
+      "sha256": "21ae821e08f0040e9f5f2b9f39c45126ed4605294b9cd549a29a5b4aab9d1c84",
+      "git_blob_sha": "d96bca498daff9b13c8119daf2bac6c5fbace51f",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "The worktable is recognizable and its requested components are visible.",
+      "Most fixture pixels are semitransparent (alpha 128–254); only 813 pixels are alpha 255. Low-alpha fringe leaves only 1.16% right and 1.75% left margins.",
+      "Large tabletop plane and unmeasured perspective directions do not establish iso2x_v1. Dimensions, footprint, anchor and Godot display not checked.",
+      "Review-only FAIL; runtime_approved remains false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
