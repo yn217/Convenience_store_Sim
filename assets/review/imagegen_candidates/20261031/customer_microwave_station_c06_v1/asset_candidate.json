@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "asset_id": "customer_microwave_station_c06_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "C06: customer/staff microwave station for convenience store",
+  "actual_subject": "Single stainless microwave on integrated compact counter with landing shelf",
+  "production_method": "codex_builtin_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "alpha": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "state_sync": "not_applicable",
+    "notes": [
+      "Image shows a single microwave and integrated landing counter.",
+      "Alpha has no fully opaque pixels and retains extensive semitransparency.",
+      "Perspective-like 3/4 view is not calibrated to iso2x_v1.",
+      "No EMPTY/HALF states or service/economy behavior are implied."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "8da8bcf9f5b29607a95e05ac316f871998c57aea44f4e5e77800f0a402bf2204",
+    "file_size_bytes": 1545950,
+    "unchanged_original": true,
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "8da8bcf9f5b29607a95e05ac316f871998c57aea44f4e5e77800f0a402bf2204",
+      "byte_size": 1545950,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "sha256": "d75ef2193a8c878b624b784c48eeca796f98effb8e527e334bd20ab986ec850f",
+      "byte_size": 140768,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164
+  },
+  "prompt_file": "prompt.txt"
+}

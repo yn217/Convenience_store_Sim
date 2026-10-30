@@ -1,0 +1,52 @@
+{
+  "asset_id": "customer_microwave_station_c06_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [
+    1536,
+    1024
+  ],
+  "source_sha256": "8da8bcf9f5b29607a95e05ac316f871998c57aea44f4e5e77800f0a402bf2204",
+  "content": {
+    "verdict": "PASS",
+    "notes": "Single Japanese convenience-store customer microwave counter with one microwave and adjacent landing shelf; no competing machine or detached products."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 254,
+    "fully_transparent_pixels": 844527,
+    "alpha_1_to_127_pixels": 11493,
+    "alpha_128_to_254_pixels": 716844,
+    "fully_opaque_pixels": 0,
+    "nonzero_bbox_xyxy": [
+      41,
+      25,
+      1340,
+      1007
+    ],
+    "threshold_128_bbox_xyxy": [
+      265,
+      41,
+      1280,
+      1003
+    ],
+    "touches_any_edge": false,
+    "reason": "Large semi-transparent dark backdrop/subject pixels remain; alpha is not cleanly cut out."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Uncalibrated perspective-like three-quarter view; no 2:1 control points or world projection checks."
+  },
+  "geometry": {
+    "verdict": "NOT_CHECKED",
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "ground_anchor": null
+  },
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}

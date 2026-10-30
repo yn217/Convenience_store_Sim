@@ -1,0 +1,8 @@
+Use case: game-asset
+Asset type: review-only isolated 2D sprite for a Japanese convenience-store interior
+Primary request: a single compact customer microwave counter fixture, with one stainless commercial microwave integrated on a short sturdy counter and a narrow clear landing shelf beside it.
+Style: polished cozy Japanese convenience-store management game illustration, crisp painted 2D sprite, fine readable edges, soft highlights and warm interior lighting.
+Composition: whole fixture from a clean three-quarter isometric game view aligned to 2:1 iso axes, front controls facing lower-right and right side visible, centered with generous transparent margin, no wide-angle convergence.
+Materials: brushed stainless, warm gray cabinet, restrained navy-blue accent, dark glass microwave window with simple controls. Grounded on a small rectangular foot/base.
+Constraints: transparent background, no brands, no legible lettering, no people, no room, no wall, no floor plane.
+Avoid: multiple machines, ATM, register, vending machine, detached props, cuboid packaging, excessive perspective, collage, labels, arrows, measurements, watermark.
