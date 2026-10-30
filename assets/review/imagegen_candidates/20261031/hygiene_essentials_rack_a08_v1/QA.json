@@ -1,0 +1,52 @@
+{
+  "asset_id": "hygiene_essentials_rack_a08_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [
+    1230,
+    1278
+  ],
+  "source_sha256": "b9c890c982a2e71f1f2975b7653f0a80eeefd462865463a4bd9d1ae7e2499d45",
+  "content": {
+    "verdict": "PASS",
+    "notes": "Integrated compact rack for masks, bandage strips, cotton swabs, wipes/tissue, and sanitary products; no medicines, medical cross, or health claims."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_pixels": 875920,
+    "alpha_1_to_127_pixels": 15462,
+    "alpha_128_to_254_pixels": 679263,
+    "fully_opaque_pixels": 1295,
+    "nonzero_bbox_xyxy": [
+      60,
+      30,
+      1167,
+      1261
+    ],
+    "threshold_128_bbox_xyxy": [
+      291,
+      33,
+      1003,
+      1258
+    ],
+    "touches_any_edge": false,
+    "reason": "Broad semitransparency remains despite safe canvas margins; only 1,295 pixels are fully opaque."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Uncalibrated perspective-like three-quarter view; no control points or Godot validation."
+  },
+  "geometry": {
+    "verdict": "NOT_CHECKED",
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "ground_anchor": null
+  },
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}

@@ -1,0 +1,8 @@
+Use case: game-asset
+Asset type: review-only integrated 2D sprite for a Japanese convenience-store interior hygiene essentials fixture
+Primary request: one compact narrow wall-side organizer rack stocked with generic non-medicinal hygiene items only: plain face-mask packs, adhesive bandage boxes with abstract colored stripes but no medical cross, cotton swabs, wet wipes, small tissue packs, and sanitary pads. All items sit on shallow shelves or hang from real peg hooks, attached to the rack.
+Style: polished cozy Japanese convenience-store management game art, clean detailed illustrated isometric sprite with crisp outlines and warm subtle highlights.
+Composition: complete grounded compact rack, three-quarter isometric view aligned to strict 2:1 game iso axes, customer-facing fronts toward lower-right, centered with safe transparent margin, parallel edges, no wide-angle perspective.
+Palette: cream metal frame, soft white/teal/rose packages, modest realistic retail density.
+Constraints: transparent background, fictional generic packaging, no brands, no legible text, no drug names, no medicine, no efficacy claims, no medical symbols, no people, no room, no floor plane.
+Avoid: pharmacy counter, prescription medicines, red cross, medical claims, detached packaging, floating boxes, broad empty shelves, collage, labels, arrows, dimensions, watermark.

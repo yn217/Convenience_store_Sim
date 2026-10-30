@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "asset_id": "hygiene_essentials_rack_a08_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "A08: non-medicinal hygiene essentials display rack",
+  "actual_subject": "Compact peg-and-shelf fixture with masks, bandages, cotton swabs, wipes/tissue and sanitary products",
+  "production_method": "codex_builtin_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "alpha": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "state_sync": "not_applicable",
+    "notes": [
+      "Non-medicinal hygiene items are integrated into hooks and shelves.",
+      "No drugs, medical symbols, or efficacy claims.",
+      "Broad semitransparency remains in the alpha channel.",
+      "Projection, dimensions, footprint, anchor and Godot display are unverified.",
+      "No SKU, regulation decision, sales system or runtime behavior is implied."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "b9c890c982a2e71f1f2975b7653f0a80eeefd462865463a4bd9d1ae7e2499d45",
+    "file_size_bytes": 1520864,
+    "unchanged_original": true,
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "b9c890c982a2e71f1f2975b7653f0a80eeefd462865463a4bd9d1ae7e2499d45",
+      "byte_size": 1520864,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "sha256": "a49e59af4fa93984c8fe1d44e96cbf8260184195874df169b15ebd067f614a31",
+      "byte_size": 307941,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164
+  },
+  "prompt_file": "prompt.txt"
+}
