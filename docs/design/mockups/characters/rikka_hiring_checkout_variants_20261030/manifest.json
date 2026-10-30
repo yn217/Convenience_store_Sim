@@ -1,0 +1,29 @@
+{
+  "asset_id": "character_rikka_hiring_checkout_variants_20261030",
+  "kind": "ui_mockup_set",
+  "character_identity": "Koharu Rikka (user-specified reference; rights review required before production redistribution)",
+  "source": "user-provided mockup attachments",
+  "runtime_connected": false,
+  "screens": [
+    {
+      "file": "issue144_staff_recruitment_variant_a_rikka.png",
+      "issues": [144],
+      "role": "candidate comparison with a large guide character"
+    },
+    {
+      "file": "issue144_staff_recruitment_variant_b_rikka.png",
+      "issues": [144],
+      "role": "staff recruitment with compact navigation and three candidate cards"
+    },
+    {
+      "file": "issue144_staff_recruitment_variant_c_rikka.png",
+      "issues": [144],
+      "role": "staff recruitment with structured candidate cards and current staff summary"
+    },
+    {
+      "file": "issue16_17_21_checkout_rikka.png",
+      "issues": [16, 17, 21],
+      "role": "checkout, customer context, waiting queue, and payment confirmation"
+    }
+  ]
+}

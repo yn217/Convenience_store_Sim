@@ -1,0 +1,29 @@
+{
+  "asset_id": "character_rikka_customer_expansion_world_20261030",
+  "kind": "ui_mockup_set",
+  "character_identity": "Koharu Rikka (user-specified reference; rights review required before production redistribution)",
+  "source": "user-provided mockup attachments",
+  "runtime_connected": false,
+  "screens": [
+    {
+      "file": "issue141_customer_service_alt_rikka.png",
+      "issues": [141],
+      "role": "customer profile, purchase history, satisfaction, and service memo"
+    },
+    {
+      "file": "issue145_store_expansion_alt_a_rikka.png",
+      "issues": [145],
+      "role": "store expansion plan comparison and expansion effects"
+    },
+    {
+      "file": "issue145_store_expansion_alt_b_rikka.png",
+      "issues": [145],
+      "role": "alternate store expansion plan presentation"
+    },
+    {
+      "file": "issue150_world_map_location_rikka.png",
+      "issues": [150],
+      "role": "world map, area POIs, catchment indicators, and new store placement"
+    }
+  ]
+}
