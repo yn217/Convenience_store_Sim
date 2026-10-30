@@ -343,8 +343,8 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 		var equipment_along := float(width if equipment_side == SIDE_SOUTH else height) * 0.41
 		_add(out, "exterior_hvac_v1", equipment_side, width, height, 1.0, equipment_along)
 		out[-1]["mirror"] = equipment_side == SIDE_SOUTH
-	# The temporary individual tree placements are omitted. The combined BackdropLayer sidewalk panel replaces the
-	# repeated planters along its edge; planters remain on other visible sides.
+	# The temporary individual tree placements are omitted. The landscape side (the equipment side) stays clear lawn
+	# without repeated planters (#170); planters remain on other visible sides.
 	var landscape_side := BackdropLayer.landscape_side(side)
 	for near in _near_sides(side):
 		if near == landscape_side:

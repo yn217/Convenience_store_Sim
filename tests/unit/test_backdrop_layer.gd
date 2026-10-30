@@ -236,33 +236,17 @@ func test_roadside_tracks_entrance_and_camera(t, tree) -> void:
 	layer.queue_free()
 
 
-func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
+## #170: the long planted strip that ran from the store's side wall to the screen edge is gone for every store size
+## and entrance; the ground there is the surrounding ground texture.
+func test_no_side_planting_strip(t, tree) -> void:
 	var layer := BackdropLayer.new()
 	tree.root.add_child(layer)
 	var p := _proj()
-	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
-	var sprite: Sprite2D = layer._side_landscape_sprite
-	t.ok(sprite.visible, "the combined sidewalk panel is shown for a supported store")
-	var first := sprite.transform
-	var east_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
-	t.eq(east_corner, Vector2(16.05, -0.5), "east strip root stays at the far wall with the requested setback")
-	t.ok(first.x.x > 0.0, "the east-side panel follows the visible rear wall direction")
-	var east_ground := BackdropLayer.SIDE_LANDSCAPE_GROUND_START_PX
-	t.ok((first * east_ground).distance_to(p.world_to_screen(east_corner.x, east_corner.y)) < 0.01, "measured planter root is fixed behind the east wall at ground level")
-	var shear := 0.5 - BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE
-	var east_slope := BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear
-	t.ok(absf(east_slope - 0.5) < 0.001, "runtime shear aligns the east-side planted edge with the +0.5 wall slope")
-	p.pan(Vector2(30, -10))
-	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
-	t.ok(sprite.transform.origin.distance_to(first.origin + Vector2(30, -10)) < 0.01, "the sidewalk panel follows camera panning")
-	layer.sync(16, 12, [Vector2i(15, 4)], p, Vector2(1600, 900))
-	t.ok(sprite.transform.x.x < 0.0, "the panel switches to the south side for an east entrance")
-	var south_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_SOUTH, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
-	t.eq(south_corner, Vector2(-0.5, 12.05), "south strip root stays at the far wall with the requested setback")
-	t.ok((sprite.transform * BackdropLayer.SIDE_LANDSCAPE_GROUND_START_PX).distance_to(p.world_to_screen(south_corner.x, south_corner.y)) < 0.01, "mirrored planter root is fixed behind the south wall at ground level")
-	var south_slope := -1.0 * (BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear)
-	t.ok(absf(south_slope + 0.5) < 0.001, "runtime shear aligns the south-side planted edge with the -0.5 wall slope")
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
-		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_EAST, size.x, size.y), float(size.y) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "east planting run reaches the full far edge for %dx%d" % [size.x, size.y])
-		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_SOUTH, size.x, size.y), float(size.x) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "south planting run reaches the full far edge for %dx%d" % [size.x, size.y])
-	layer.queue_free()
+		for ent in [[Vector2i(size.x / 2, size.y - 1)], [Vector2i(size.x - 1, 4)]]:
+			layer.sync(size.x, size.y, ent, p, Vector2(1600, 900))
+			var strips := 0
+			for child in layer.get_children():
+				if child is Sprite2D and child.texture != null and child.texture.resource_path.contains("roadside_greenery"):
+					strips += 1
+			t.eq(strips, 0, "no side planting strip for %dx%d, entrance %s" % [size.x, size.y, ent[0]])
