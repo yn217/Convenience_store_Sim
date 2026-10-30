@@ -1,0 +1,10 @@
+{
+  "asset_id": "issue105_store_main_ui_rikka_20261031",
+  "kind": "ui_mockup",
+  "issue": 105,
+  "character_identity": "Koharu Rikka (user-specified reference; rights review required before production redistribution)",
+  "source": "generated with user-provided character reference and user-provided store-main layout reference",
+  "runtime_connected": false,
+  "file": "issue105_store_main_ui_rikka.png",
+  "screen_role": "normal-play store view with HUD, goals, event timeline, average basket value, and category pills"
+}
