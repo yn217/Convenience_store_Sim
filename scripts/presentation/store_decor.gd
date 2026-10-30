@@ -27,7 +27,7 @@ const SIDE_NORTH := 1
 const SIDE_EAST := 2
 const SIDE_SOUTH := 3
 
-const NAME := "ミニマート青葉"   ## fictional store name (no real brand)
+const NAME := "コンビニ24"   ## fictional storefront name matching the visual reference
 const FASCIA := Color("2f6db5")
 const FASCIA_TEXT := Color("ffffff")
 const BRAND_YELLOW := Color("f2b52c")
@@ -275,13 +275,13 @@ static func canopy_items(width: int, height: int, entrances: Array) -> Array:
 		var a := float(b) - 0.5
 		out.append({"kind": &"poly", "points": _band(side, plane, a - 0.018, a + 0.018, NEAR_FRAME_TOP, 2.28), "color": Color(0.45, 0.55, 0.57, 0.6)})
 	var label := fascia_label(side, width, height, plane)
-	label["font_px"] = 32
+	label["font_px"] = 40
 	label["color"] = FASCIA
 	var at: Vector3 = label["at"]
 	at.z = 2.53
 	label["at"] = at
 	var mid := float(n - 1) * 0.5
-	out.append({"kind": &"poly", "points": _band(side, plane, mid - 2.6, mid + 2.6, 2.32, 2.72), "color": Color("fbfcf8")})
+	out.append({"kind": &"poly", "points": _band(side, plane, mid - 3.1, mid + 3.1, 2.32, 2.72), "color": Color("fbfcf8"), "role": &"fascia_name_panel"})
 	_append_store_brand_mark(out, side, plane, width, height, entrances)
 	out.append(label)
 	return out
@@ -472,7 +472,7 @@ static func _pole_sign_items(side: int, width: int, height: int) -> Array:
 		[-0.78, 0.78, 2.05, 2.35, Color("7a4b91")],
 	]:
 		out.append({"kind": &"poly", "points": _band(side, plane, mid + part[0], mid + part[1], part[2], part[3]), "color": part[4], "front": _is_near(side)})
-	for row in [["青葉24", 3.36, FASCIA_TEXT, 20], ["たばこ", 2.88, FASCIA_TEXT, 16], ["酒", 2.54, FASCIA_TEXT, 16], ["ATM", 2.20, FASCIA_TEXT, 16]]:
+	for row in [[NAME, 3.36, FASCIA_TEXT, 12], ["たばこ", 2.88, FASCIA_TEXT, 16], ["酒", 2.54, FASCIA_TEXT, 16], ["ATM", 2.20, FASCIA_TEXT, 16]]:
 		var at := _plane_point(side, plane, row[1])
 		if side == SIDE_WEST or side == SIDE_EAST:
 			at.y = mid

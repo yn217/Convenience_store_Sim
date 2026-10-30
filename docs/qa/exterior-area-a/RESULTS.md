@@ -655,3 +655,10 @@ Large stores now retain the original beverage vending machine beside the entranc
 Actual Godot 4.7.2 captures at 1600x900: `vending-coffee-differentiated-20x16-south-1600x900-2026-10-31.png` (20x16 store, south frontage), plus left/right camera pans `vending-coffee-differentiated-20x16-pan-left-1600x900-2026-10-31.png` and `vending-coffee-differentiated-20x16-pan-right-1600x900-2026-10-31.png`. Both machines stay attached to the frontage during both pans and appear at comparable scale on the paved apron; no obvious transparent halo is visible at full-scene scale. The generated cup graphics are more detailed than nearby flat props and remain a style difference for review. The first focused run exposed missing Godot import metadata; after the editor import pass, focused `test_store_decor` passed 26 tests / 747 assertions, including manifest loading, canvas consistency, all three store sizes and large-store separation. No full suite was run.
 
 The requested image-generation model cannot be selected in the currently connected image-generation tool. The configured local AUTOMATIC1111 WebUI was not running, so no alternate generation model was available in this session.
+
+
+## Storefront fascia and sign title match (2026-10-31)
+
+The visual storefront title now reads コンビニ24 on both the near-side fascia and the top panel of the pole sign. The fascia title is 40px, backed by a 6.2m white sign panel; the pole sign uses a smaller 12px title to fit its existing panel. This changes presentation art only; store simulation state and service labels are unchanged. The façade title and panel remain world-plane geometry and scale with the camera.
+
+Actual Godot 4.7.2 captures at 1600x900 cover 12x10, 16x12 and 20x16: `fascia-name-12x10-1600x900-2026-10-31.png`, `fascia-name-16x12-1600x900-2026-10-31.png` and `fascia-name-20x16-1600x900-2026-10-31.png`. The title and panel fit all three footprints; the shorter 12x10 façade shows no edge clipping. Focused `test_store_decor` passed 26 tests / 751 assertions, including the 6.2m panel width, pole-sign title consistency, prop manifest, and vending-unit placement at all three store sizes. No full suite was run.

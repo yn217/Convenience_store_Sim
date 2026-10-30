@@ -53,7 +53,14 @@ func test_fascia_and_store_name_above_the_glass(t, _tree) -> void:
 	t.eq(names.size(), 1, "the fictional store name is drawn once")
 	var canopy_names := StoreDecor.canopy_items(W, H, SOUTH_ENTR).filter(func(it): return it["kind"] == &"text" and it["text"] == StoreDecor.NAME)
 	t.eq(canopy_names.size(), 1, "the observe canopy repeats the storefront name once")
-	t.eq(canopy_names[0]["font_px"], 32, "the storefront name is sized for fascia readability")
+	t.eq(canopy_names[0]["font_px"], 40, "the storefront name is sized for fascia readability")
+	var name_panels := StoreDecor.canopy_items(W, H, SOUTH_ENTR).filter(func(it): return it.get("role", &"") == &"fascia_name_panel")
+	t.eq(name_panels.size(), 1, "one white sign panel backs the storefront name")
+	if not name_panels.is_empty():
+		var along: Array[float] = []
+		for point in name_panels[0]["points"]:
+			along.append(point.x)
+		t.ok(is_equal_approx(along.max() - along.min(), 6.2), "the enlarged name panel remains a fixed 6.2m world width")
 
 
 func test_near_window_posters_follow_the_glass_and_clear_the_door(t, _tree) -> void:
@@ -243,6 +250,10 @@ func test_exterior_has_the_street_furniture(t, _tree) -> void:
 
 func test_pole_sign_lists_store_services_on_separate_panels(t, _tree) -> void:
 	var items := StoreDecor.exterior_items(W, H, SOUTH_ENTR)
+	var name := items.filter(func(it): return it["kind"] == &"text" and it["text"] == StoreDecor.NAME)
+	t.eq(name.size(), 1, "pole sign uses the same fictional store name as the fascia")
+	if not name.is_empty():
+		t.eq(name[0]["font_px"], 12, "pole-sign store name fits its compact top panel")
 	var sign_text := items.filter(func(it): return it["kind"] == &"text" and ["たばこ", "酒", "ATM"].has(it["text"]))
 	t.eq(sign_text.map(func(it): return it["text"]), ["たばこ", "酒", "ATM"], "pole sign presents separate service panels in vertical order")
 	for label in sign_text:
