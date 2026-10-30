@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "asset_id": "pizza_menu_pop_hero_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "Fictional Japanese menu POP for fresh pizza sales, Issue #130",
+  "actual_subject": "One A-frame tabletop sign with Japanese text 焼きたてピザ, price ¥398〜, and pizza illustration",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/pizza_menu_pop_hero_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 946247,
+    "sha256": "83df3fcda318c6b943c20ec3a34292d4f30bbce013097850563aeef6ca6f67e3",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/pizza_menu_pop_hero_v1/source_original.png",
+      "byte_size": 946247,
+      "sha256": "83df3fcda318c6b943c20ec3a34292d4f30bbce013097850563aeef6ca6f67e3",
+      "git_blob_sha": "a6018ed6feda6bc1255028867463c2a04c516bd5",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/pizza_menu_pop_hero_v1/qa_preview_white.png",
+      "byte_size": 1239051,
+      "sha256": "bd516677becedcdb727d0dd1637932238f94cfeaf59a0a917717ae108cb6692b",
+      "git_blob_sha": "6c5ff8b7a35d2e8222c681013039912fd1501109",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Headline 焼きたてピザ and price ¥398〜 are present and legible.",
+      "Alpha-positive right margin is 1.27%; most image content is semitransparent (alpha 128–254).",
+      "Projection has no iso2x_v1 control-point comparison; dimensions, anchor, and Godot display remain unchecked.",
+      "Review-only FAIL. runtime_approved remains false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
