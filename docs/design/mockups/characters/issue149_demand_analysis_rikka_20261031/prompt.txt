@@ -1,0 +1,5 @@
+Use case: ui-mockup
+Asset type: one 16:9 game screen mockup for a Japanese convenience-store management simulation
+Primary request: Create one polished customer-segment and demand-analysis screen for Issue #149. Use the user-provided Koharu Rikka reference as a data advisor character.
+Composition: header 「客層・需要分析」, filters for store/date/time/nearby facility, panels for 「周辺施設」, 「客層の構成」, 「時間帯別来店数」, 「来店目的」 and 「カテゴリ別の売れ筋」. Use abstract groups such as 「学生」「通勤客」「宿泊客」「観光客」「近隣住民」 and purposes such as 「朝食」「昼食」「飲料」「おやつ」「夜食」「まとめ買い」.
+Constraints: groups are statistical game data, not inferences from character appearance; one screen, one guide character, no real personal data, static mockup only.
