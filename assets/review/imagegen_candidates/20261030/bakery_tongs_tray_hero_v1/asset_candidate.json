@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "asset_id": "bakery_tongs_tray_hero_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "One grouped serving tongs and tray prop for convenience-store bakery prep, Issue #130",
+  "actual_subject": "One shallow rectangular stainless tray with one pair of metal serving tongs resting across it",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/bakery_tongs_tray_hero_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 736805,
+    "sha256": "eced978664b46fd96a207fef551111f939f5d9b0b6b17cc89161ef7e7b1c11a4",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/bakery_tongs_tray_hero_v1/source_original.png",
+      "byte_size": 736805,
+      "sha256": "eced978664b46fd96a207fef551111f939f5d9b0b6b17cc89161ef7e7b1c11a4",
+      "git_blob_sha": "c05776a0f62966f8826920475f0dac756717deb4",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/bakery_tongs_tray_hero_v1/qa_preview_white.png",
+      "byte_size": 918954,
+      "sha256": "c019c532fdc7674e22a6ea8ff1848047f48053b803cec685531c03a4e106bcef",
+      "git_blob_sha": "eebe75554a273c06b76a056fb7244d06fd4f34b0",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "The tray and tongs form a coherent single grouped prop.",
+      "Only 714 pixels are alpha 255; 381,404 pixels are alpha 128–254, so most of the sprite is semitransparent.",
+      "Nonzero-alpha margins are right 3.95% and bottom 4.06%, below prompt target 12%.",
+      "The apparent perspective is not calibrated to iso2x_v1. No anchor, world dimensions, footprint, or Godot preview supplied.",
+      "Do not use at runtime; runtime_approved stays false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
