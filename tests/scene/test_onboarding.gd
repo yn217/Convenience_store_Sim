@@ -94,9 +94,12 @@ func test_assistant_cues_show_in_order_and_stay_dismissed(t, tree) -> void:
 	var pc: ProgressionController = r[2]
 	t.eq(pc._snap["story_cue"], "story_start")
 	t.ok(pc._assistant.visible and pc._assistant.text.contains("どんなお店"))
+	t.ok(pc._assistant.text.begins_with("小春六花"), "the assistant is named")
+	var portrait := pc._assistant_row.get_node("AssistantPortrait") as TextureRect
+	t.ok(pc._assistant_row.visible and portrait.texture != null, "her portrait shows beside the line")
 	t.ok(pc.dismiss_cue().ok)
 	t.eq(pc._snap["story_cue"], "", "nothing else is eligible yet")
-	t.ok(not pc._assistant.visible)
+	t.ok(not pc._assistant.visible and not pc._assistant_row.visible, "the line and the portrait hide together")
 	t.eq(pc.dismiss_cue().code, &"INVALID_OPERATION", "no cue to close")
 	_cmd(app, "a1", &"PLACE_FIXTURE", {"type_id": "register_basic", "x": 8, "y": 5, "rotation": 0})
 	t.eq(pc._snap["story_cue"], "story_register")

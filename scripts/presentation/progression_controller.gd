@@ -6,6 +6,8 @@ extends Node
 ## so progress and notices are never lost.
 
 const NOTICE_LINES := 5
+const ASSISTANT_NAME := "小春六花"   # the manager assistant character (user's choice, 2026-10-30)
+const ASSISTANT_PORTRAIT := "res://assets/ui/characters/rikka_portrait.png"
 
 var _app: Node
 var _card: Label
@@ -14,6 +16,7 @@ var _milestones: Label
 var _notices: Label
 var _toggle: Button
 var _assistant: Label
+var _assistant_row: HBoxContainer   # portrait + the assistant's line
 var _dismiss: Button
 var _achievements: Label
 var _history: Array[String] = []
@@ -41,14 +44,27 @@ func setup(app: Node, milestones: Array) -> void:
 	_milestones.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_notices = Label.new()
 	_notices.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_assistant_row = HBoxContainer.new()
+	_assistant_row.name = "AssistantRow"
+	_assistant_row.add_theme_constant_override("separation", 10)
+	var portrait := TextureRect.new()
+	portrait.name = "AssistantPortrait"
+	portrait.texture = load(ASSISTANT_PORTRAIT) as Texture2D
+	portrait.custom_minimum_size = Vector2(72, 72)
+	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	portrait.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	_assistant_row.add_child(portrait)
 	_assistant = Label.new()
 	_assistant.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_assistant.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_assistant_row.add_child(_assistant)
 	_dismiss = Button.new()
 	_dismiss.text = "閉じる"
 	_dismiss.pressed.connect(dismiss_cue)
 	_achievements = Label.new()
 	_achievements.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	for c in [_card, _toggle, _challenge, _milestones, _notices, _assistant, _dismiss, _achievements]:
+	for c in [_card, _toggle, _challenge, _milestones, _notices, _assistant_row, _dismiss, _achievements]:
 		_body.add_child(c)
 	apply_snapshot({"progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [], "active_daily_challenge_id": null}})
 
@@ -64,8 +80,9 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_milestones.text = "称号 %d/%d（店のレベル %d）" % [done, maxi(_milestone_defs.size(), done), done]
 	_notices.text = "\n".join(_history.slice(maxi(_history.size() - NOTICE_LINES, 0)))
 	var cue := String(snap.get("story_cue", ""))
-	_assistant.text = ("店長アシスタント: " + ProgressionText.assistant_text(cue)) if cue != "" else ""
+	_assistant.text = ("%s（店長アシスタント）\n%s" % [ASSISTANT_NAME, ProgressionText.assistant_text(cue)]) if cue != "" else ""
 	_assistant.visible = cue != ""
+	_assistant_row.visible = cue != ""
 	_dismiss.visible = cue != ""
 	var lines: Array[String] = []
 	for entry in snap.get("milestone_progress", []):
