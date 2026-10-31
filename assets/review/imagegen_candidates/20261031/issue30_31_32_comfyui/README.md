@@ -13,6 +13,7 @@ These PNGs are review-stage concept candidates generated in ComfyUI. They are no
 - `management_events_1344x768/`: first-pass management/event scene candidates; generated without readable management text, numbers, or UI overlays so Godot can compose those elements.
 - `management_events_revision2_1344x768/`: reviewed revisions for sold-out shelves, checkout queue, word-of-mouth, autumn fair, and closing success.
 - `management_events_revision3_1344x768/`: single-hero base candidates for sold-out, checkout queue, word-of-mouth, autumn fair, and closing success. Multi-person Inpaint prototypes remain outside the accepted asset folders until mask seams are resolved.
+- `new_event_cg_1344x768/`: ten new event CG candidates for promotion, seasonal campaigns, store operations, and regional events (Issues #30/#32/#137/#140); the lost-customer scene uses one background customer while keeping a single Koharu Rikka.
 - `assistant/`: Issue #32 manager-assistant expression references at `512x512`; display target is approximately `256-300px` in the 340px inspector panel.
 - `event_icons/`: Issue #31 daily-event POP/HUD icon references at `512x512`; display target is approximately `64-96px`.
 - `vfx_icons/`: Issue #30 presentation/VFX icon references at `512x512`; display target is approximately `64-128px`.
@@ -37,3 +38,5 @@ The attached Node 70 error (`mat1 and mat2 shapes cannot be multiplied (181x5120
 The images have white backgrounds and are not alpha-cut. Production use still requires rights/provenance review, transparent extraction where needed, Godot integration, and the project's `iso2x_v1` scale/anchor checks. The full-screen images are presentation references, not replacements for 4-direction Blender/Godot character sprites.
 
 The revision pass keeps both LoRAs at `0.8` and uses `1344x768`. It standardizes the white blouse, burgundy ribbon, and dark navy apron uniform, reserves text and numeric UI for Godot, and avoids recognizable real-world store branding.
+
+The new event pass also uses `1344x768`, keeps both LoRAs at `0.8`, and leaves readable campaign copy, prices, and UI to Godot. The discount-sticker image is a visual work-step reference; its sticker lettering is intentionally not production text.

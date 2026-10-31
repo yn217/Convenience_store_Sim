@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-31",
+  "generated_at": "2026-11-01",
   "tool": "ComfyUI",
   "model": "Anima-Base-v1.0.safetensors",
   "loras": {
@@ -125,6 +125,22 @@
         "management_event_revision3_1344x768_word_of_mouth_v3_00001_.png": 2602103,
         "management_event_revision3_1344x768_autumn_fair_v3_00001_.png": 2602104,
         "management_event_revision3_1344x768_closing_success_v3_00001_.png": 2602105
+      }
+    },
+    "new_event_cg_1344x768": {
+      "size": [1344, 768],
+      "purpose": "Ten new Issues #30/#32/#137/#140 event CG candidates with character and store background only",
+      "files": {
+        "new_event2_1344x768__onigiri_sale_00001_.png": 2602401,
+        "new_event2_1344x768__rain_umbrellas_00001_.png": 2602402,
+        "new_event2_1344x768__local_gourmet_fair_00001_.png": 2602403,
+        "new_event2_1344x768__sakura_sweets_fair_00001_.png": 2602404,
+        "new_event2_1344x768__discount_sticker_00001_.png": 2602405,
+        "new_event2_1344x768__disaster_preparedness_00001_.png": 2602406,
+        "new_event2_1344x768__limited_goods_arrival_00001_.png": 2602407,
+        "new_event2_1344x768__layout_improvement_00001_.png": 2602408,
+        "new_event2_1344x768__lost_customer_00001_.png": 2602409,
+        "new_event2_1344x768__christmas_reservation_00001_.png": 2602410
       }
     },
     "assistant": {
