@@ -67,6 +67,8 @@
     "attempted": true,
     "result": "BLOCKED_BY_IMAGEGEN_USAGE_LIMIT",
     "error": "Built-in ImageGen returned HTTP 429 usage_limit_reached when requesting a four-level correction; no output was generated. Retry after the service reset.",
-    "action": "Do not manually erase a tier or stretch this five-tier image; preserve it as rejected evidence and regenerate the complete integrated asset once ImageGen is available."
+    "action": "Do not manually erase a tier or stretch this five-tier image; preserve it as rejected evidence and regenerate the complete integrated asset once ImageGen is available.",
+    "quota_reset_at_utc": "2026-10-31T17:39:59Z",
+    "retry_after_local": "2026-11-01 02:39:59 Asia/Tokyo"
   }
 }
