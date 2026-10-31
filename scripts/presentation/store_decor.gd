@@ -329,23 +329,25 @@ static func _near_window_posters(width: int, height: int, entrances: Array, side
 	selected.sort()
 	for i in selected.size():
 		var center := float(selected[i])
-		var left := center - 0.29
-		var right := center + 0.29
+		var left := center - 0.34
+		var right := center + 0.34
 		var accent := Color("c24d5a") if i == 0 else Color("d77094")
 		var title := "お弁当" if i == 0 else "新生活"
 		var note := "できたて" if i == 0 else "フェア開催中"
-		out.append({"kind": &"poly", "points": _band(side, plane, left, right, 0.72, 1.73), "color": Color("fffdf3"), "role": &"window_poster_panel"})
-		out.append({"kind": &"poly", "points": _band(side, plane + 0.003, left + 0.035, right - 0.035, 1.58, 1.68), "color": accent, "role": &"window_poster_accent"})
-		var title_at := _plane_point(side, plane + 0.006, 1.28)
-		var note_at := _plane_point(side, plane + 0.006, 0.97)
+		# The mockup uses tall in-window promotions; give the paper a fine edge and most of the pane height.
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.003, left - 0.015, right + 0.015, 0.465, 1.915), "color": Color("ccd4d7"), "role": &"window_poster_frame"})
+		out.append({"kind": &"poly", "points": _band(side, plane, left, right, 0.48, 1.90), "color": Color("fffdf3"), "role": &"window_poster_panel"})
+		out.append({"kind": &"poly", "points": _band(side, plane + 0.006, left + 0.035, right - 0.035, 1.73, 1.84), "color": accent, "role": &"window_poster_accent"})
+		var title_at := _plane_point(side, plane + 0.009, 1.40)
+		var note_at := _plane_point(side, plane + 0.009, 0.87)
 		if side == SIDE_EAST:
 			title_at.y = center
 			note_at.y = center
 		else:
 			title_at.x = center
 			note_at.x = center
-		out.append({"kind": &"text", "at": title_at, "text": title, "color": accent, "font_px": 12, "wall_side": side, "role": &"window_poster_title"})
-		out.append({"kind": &"text", "at": note_at, "text": note, "color": Color("53636a"), "font_px": 8, "wall_side": side, "role": &"window_poster_note"})
+		out.append({"kind": &"text", "at": title_at, "text": title, "color": accent, "font_px": 14, "wall_side": side, "role": &"window_poster_title"})
+		out.append({"kind": &"text", "at": note_at, "text": note, "color": Color("53636a"), "font_px": 9, "wall_side": side, "role": &"window_poster_note"})
 	return out
 
 

@@ -702,3 +702,8 @@ Actual Godot 4.7.2 screenshots: 12x10, 16x12 and 20x16 at 1600x900; 20x16 left/r
 Tightened the near-side storefront mullions from every two tiles to every one-metre boundary. Mullions at the entrance edges remain omitted where they would cross the clear doorway. This adds window rhythm while preserving the existing glass alpha, shop visibility and entrance path.
 
 Actual Godot 4.7.2 captures at 1600x900 cover 12x10, 16x12 and 20x16: `front-mullions-v1-2026-10-31/front-mullions-v1-12x10-1600x900.png`, `front-mullions-v1-2026-10-31/front-mullions-v1-16x12-1600x900.png`, and `front-mullions-v1-2026-10-31/front-mullions-v1-20x16-1600x900.png`; see the `contact.png` sheet in that folder. Focused `test_store_decor` passed 27 tests / 796 assertions, including mullion boundaries at all three store widths and door clearance. No full suite was run.
+
+
+## Enlarged in-window promotions (2026-10-31)
+
+Raised two near-side window promotions to span most of the glazing height and widened each paper panel to 0.68m. Added a fine metal-gray edge and increased title/note sizes; poster geometry remains on the glass plane and clears the entrance. Actual Godot 4.7.2 screenshots at 1600x900 cover 12x10, 16x12 and 20x16: `window-promotions-v2-2026-10-31/promotions-v2-12x10-1600x900.png`, `window-promotions-v2-2026-10-31/promotions-v2-16x12-1600x900.png` and `window-promotions-v2-2026-10-31/promotions-v2-20x16-1600x900.png`. Focused `test_store_decor` passed 27 tests / 802 assertions. No full suite was run.

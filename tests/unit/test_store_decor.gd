@@ -73,8 +73,10 @@ func test_near_window_posters_follow_the_glass_and_clear_the_door(t, _tree) -> v
 			var entrance := Vector2i(store_size.x - 1, middle) if side_id == StoreDecor.SIDE_EAST else Vector2i(middle, store_size.y - 1)
 			var items := StoreDecor.wall_items(store_size.x, store_size.y, [entrance], {})
 			var panels := items.filter(func(it): return it.get("role", &"") == &"window_poster_panel")
+			var frames := items.filter(func(it): return it.get("role", &"") == &"window_poster_frame")
 			var titles := items.filter(func(it): return it.get("role", &"") == &"window_poster_title")
 			t.eq(panels.size(), 2, "two pane posters fit %dx%d on side %d" % [store_size.x, store_size.y, side_id])
+			t.eq(frames.size(), panels.size(), "each enlarged promotion has a fine paper edge")
 			t.eq(titles.size(), panels.size(), "each poster has one printed title")
 			var span := BackdropLayer.entrance_span(side_id, store_size.x, store_size.y, [entrance])
 			for panel in panels:
@@ -84,13 +86,13 @@ func test_near_window_posters_follow_the_glass_and_clear_the_door(t, _tree) -> v
 					t.ok(absf((point.x if side_id == StoreDecor.SIDE_EAST else point.y) - ((float(store_size.x) if side_id == StoreDecor.SIDE_EAST else float(store_size.y)) - 0.5 + 0.018)) < 1e-6, "poster stays on the outer glass plane")
 				var lo: float = along_values.min()
 				var hi: float = along_values.max()
-				t.ok(hi < span.x - 0.29 or lo > span.y + 0.29, "poster avoids the entrance span")
+				t.ok(hi < span.x - 0.34 or lo > span.y + 0.34, "poster avoids the entrance span")
 				var z_values: Array[float] = []
 				for point in panel["points"]:
 					z_values.append(point.z)
 				var z_lo: float = z_values.min()
 				var z_hi: float = z_values.max()
-				t.ok(z_lo >= 0.72 - 1e-5 and z_hi <= 1.73 + 1e-5, "poster stays within the storefront glazing")
+				t.ok(z_lo >= 0.48 - 1e-5 and z_hi <= 1.90 + 1e-5, "enlarged poster stays within the storefront glazing")
 
 
 func test_brand_mark_stays_on_the_fascia_away_from_each_entrance(t, _tree) -> void:
