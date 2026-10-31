@@ -1,0 +1,23 @@
+{
+  "asset_id": "urban_context_dimetric_v6",
+  "file": "urban_context_dimetric_v6.png",
+  "source_candidate": "urban_context_lowpaved_candidate_b/urban_context_lowpaved_candidate_b.png",
+  "generation_tool": "Codex built-in image generation via subagent",
+  "canvas_px": [
+    1774,
+    887
+  ],
+  "prompt_constraints": [
+    "Japanese low-rise residential neighborhood as a wide 2:1 dimetric game backdrop",
+    "parallel 2:1 diagonal ground-plane axes for lanes, sidewalks, roofs and building edges",
+    "narrow neighborhood lanes, low-rise house edges, garden walls, dense layered tree canopies, shrubs and flower borders",
+    "no broad empty tan or gray courtyard, plaza, parking lot, or unbroken paved field",
+    "no store, people, cars, UI, legible signage, text or watermark",
+    "painted game-environment style with soft daytime light"
+  ],
+  "selection": "Chosen over generated candidate A after root review: candidate B leaves less oversized roof intrusion while filling the open paved field with residential lanes, garden walls and layered planting.",
+  "runtime": "Unrotated and uniformly scaled; anchored to projected store center; follows camera pan and zoom.",
+  "verification": "Godot 4.7.2 actual captures at 12x10, 16x12, 20x16; 20x16 left and right pans; 1280x720, 1600x900, 1920x1080; min and max zoom. Focused backdrop and camera-input tests passed.",
+  "status": "runtime_verified_candidate_not_user_approved",
+  "remaining": "Generated neighborhood remains more detailed and painterly than the flat store. At maximum zoom the view intentionally centers on the store and crops out the neighborhood."
+}
