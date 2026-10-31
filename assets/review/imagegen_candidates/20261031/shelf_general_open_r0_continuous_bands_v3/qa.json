@@ -1,0 +1,14 @@
+{
+  "asset_id": "shelf_general_open_r0_guided_FULL_continuous_bands_v1",
+  "candidate_revision": "four-depth facings; 4 guide rows x 4 continuous strips",
+  "source_dimensions": [1672, 941],
+  "source_alpha": "RGBA; four connected merchandise bands at alpha threshold 8",
+  "source_sha256": "31f9e63b401115655385abb7d8a56b3e53945d4c9793bf2ddd037c60b18eb895",
+  "output_dimensions": [640, 640],
+  "output_alpha_bbox_ge_128": [135, 162, 497, 553],
+  "output_margin_percent_left_top_right_bottom": [21.09, 25.31, 22.34, 13.59],
+  "output_sha256": "d21e68d5d6ce76e9af6ce15e7f3eeefca5a5218480bef1574ea59eb203b637d4",
+  "composition": {"guide_sales_rows": 4, "continuous_bands_per_row": 4, "total_bands": 16, "depth_offsets_m_back_to_front": [-0.4, -0.28, -0.14, 0.0], "fixture_source_preserved": true, "individual_product_cards": false, "whole_image_nonuniform_stretch": false},
+  "qa": {"visual": "Four filled shelf rows are visible; source strips integrate with the shelf geometry.", "alpha_margin": "PASS: all margins exceed 12%", "category_order_top_to_bottom": ["snacks", "snacks", "instant_noodle", "bread"], "geometry_projection": "guide-derived homography; Godot projection check pending", "remaining": ["visible shelf-board exposure", "fine package readability at game scale unverified", "fixture shape approval pending"], "result": "review_only"},
+  "runtime_approved": false
+}

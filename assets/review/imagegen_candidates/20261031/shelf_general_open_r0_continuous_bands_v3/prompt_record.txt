@@ -1,0 +1,6 @@
+ImageGen prompt (successful output)
+
+Create a game-art merchandise texture sheet, not a shelf. Use the first image only for hand-painted sprite style and the second only as a four-row placement cue. Draw exactly FOUR long, continuous, densely packed horizontal rows of front-facing package artwork. Products touch or slightly overlap so each row reads as one integrated continuous shelf-facing band, not isolated icons. Rows top to bottom: snack bags/crackers; snack bags/crackers; instant-noodle package fronts; wrapped bread and buns. Transparent space between bands, transparent background. Consistent row height and readable bold color blocks at small game scale. 2D raster art only, with no shelf, fixture, background, scenery, price labels, captions, logos, readable text, UI, drinks, sandwiches, meals, sushi, household goods, visible side/top panels, cube thickness, floating-card gaps, 3D props, cup lids viewed from above, or extra rows.
+
+Input refs: game_reference.png (style only); product_front_regions_v1.png (placement cue only).
+Source output: 1672x941 RGBA PNG. SHA-256: 31f9e63b401115655385abb7d8a56b3e53945d4c9793bf2ddd037c60b18eb895.
