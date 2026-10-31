@@ -1,0 +1,39 @@
+{
+  "asset_id": "eat_in_two_seat_table_i134_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [1536, 1024],
+  "source_sha256": "e2292410d36c44cd9b2699f33107553caaac508322b26ab4f043e3d41f7fff12",
+  "content": {
+    "verdict": "PASS",
+    "notes": "One compact round pedestal table, exactly two separately readable stools, and one wall-side divider; no people or unrelated service fixtures."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 254,
+    "fully_transparent_pixels": 1072005,
+    "alpha_1_to_127_pixels": 33272,
+    "alpha_128_to_254_pixels": 467587,
+    "fully_opaque_pixels": 0,
+    "nonzero_bbox_xyxy": [27, 42, 1370, 974],
+    "threshold_128_bbox_xyxy": [291, 46, 1233, 970],
+    "touches_any_edge": false,
+    "reason": "Strict alpha gate fails: no fully opaque pixels; large portions of the visible furniture have alpha 128-254."
+  },
+  "framing": {
+    "verdict": "PASS",
+    "threshold_128_margins_px": {"left": 291, "top": 46, "right": 303, "bottom": 54},
+    "reason": "Thresholded silhouette is complete and does not touch canvas edges."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Uncalibrated three-quarter illustration; no 2:1 control points or Godot screenshot."
+  },
+  "geometry": {"verdict": "NOT_CHECKED", "footprint_tiles": null, "dimensions_m": null, "ground_anchor": null, "chair_clearance": null},
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}
