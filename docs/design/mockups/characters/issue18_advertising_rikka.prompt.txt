@@ -1,0 +1,7 @@
+Issue #18 / 広告予算・集客倍率・費用対効果
+
+wide 16:9 polished anime game UI mockup screenshot for a Japanese convenience-store management simulation, advertising budget and customer acquisition dashboard, a cheerful silver-haired anime store manager with purple eyes and double bun hair standing on the right side as a helpful guide, navy and pink convenience-store uniform, holding a tablet and pointing at the budget comparison, bright convenience-store office softly visible behind her, left and center show an organized dark navy management dashboard titled 広告予算・費用対効果, tabs 翌日の予算 / 効果比較 / 請求履歴, five budget tier cards 0円 1000円 2000円 5000円 10000円, predicted visitor multiplier with diminishing returns, predicted visitors, lost customers, gross profit, operating profit, one-time daily charge, insufficient funds warning, next-day application badge, comparison bar chart, clear separation between today and tomorrow, clean blue pink green accent colors, premium Japanese game UI, organized spacing, no watermark, no real brand logo, no copyrighted characters, no duplicate character, no malformed hands
+
+Negative prompt:
+low quality, worst quality, malformed hands, extra fingers, missing fingers, fused fingers, extra arms, duplicate limbs, distorted face, cropped character, unreadable gibberish text, watermark, real brand logo, copyrighted character, blurry UI, cluttered layout
+
