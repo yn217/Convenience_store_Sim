@@ -30,3 +30,9 @@
 ## 生成の再現
 
 `tools/assets/comfy_rikka.py`・`comfy_portraits.py`・`comfy_scenes.py`・`comfy_chibi.py`（ComfyUI API）→ `build_character_ui.py`・`build_scene_ui.py`・`build_chibi_sprites.py`（ゲーム用サイズへ）。各生成画像の隣の .json に prompt・seed・モデル・LoRA を記録。素材台帳は `docs/ASSET_CREDITS.md`。
+
+## 最終確認（2026-10-31）
+
+- UI のキャラクター・場面画像 40 枚：小春六花 5（450×654）、タイトル六花 1（640×931）、タイトル背景 1（1920×1080）、顔 10（144×144）、イベント 12（576×324）、ちびキャラ代表フレーム 11（190×329）。すべて規定サイズ。
+- 店内の人物スプライト：`assets/generated/characters` のマニフェスト 21 件のうち、使用中のちびキャラ 11 件（客6・共通店員1・店員4）の全 576 フレームがキャンバス 190×329 で一致。残り 10 件（casual_man ほか）は旧・箱型の見た目で、スクリプトから参照されていない。
+- ゲーム画面：`docs/qa/screens/final_title.png`（タイトル）、`final_store.png`（店内と六花）、`final_customer.png`（客6種・店員・客パネルの顔）、`chibi_sheet.png`・`chibi_strides.png`・`staff_chibi_sheet.png`（見た目一覧）。
