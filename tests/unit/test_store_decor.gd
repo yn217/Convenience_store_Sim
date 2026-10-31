@@ -216,6 +216,30 @@ func test_observe_canopy_adds_transparent_full_height_glazing(t, _tree) -> void:
 		t.ok(float(pane["color"].a) < 0.1, "interior remains legible through the glass")
 
 
+func test_near_storefront_uses_one_metre_mullions_without_crossing_the_door(t, _tree) -> void:
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		var entrance := [Vector2i(size.x / 2, size.y - 1), Vector2i(size.x / 2 + 1, size.y - 1)]
+		var side := BackdropLayer.entrance_side(size.x, size.y, entrance)
+		var n: int = size.x
+		var items := StoreDecor.wall_items(size.x, size.y, entrance, {})
+		var mullions := items.filter(func(it): return it.get("role", &"") == &"glazing_mullion")
+		var expected := 0
+		for b in range(n + 1):
+			var crosses_door := StoreDecor._is_entrance_at(entrance, side, b, size.x, size.y) or StoreDecor._is_entrance_at(entrance, side, b - 1, size.x, size.y)
+			if not crosses_door:
+				expected += 1
+				var target_along := float(b) - 0.5
+				var found := false
+				for mullion in mullions:
+					var points: Array = mullion["points"]
+					var along := (float(points[0].x) + float(points[1].x)) * 0.5 if side == StoreDecor.SIDE_SOUTH else (float(points[0].y) + float(points[1].y)) * 0.5
+					if absf(along - target_along) < 0.001:
+						found = true
+						break
+				t.ok(found, "%.1fm glazing mullion at %.1fm remains outside the doorway" % [float(size.x), target_along])
+		t.eq(mullions.size(), expected, "%.1fm storefront receives a mullion at each closed one-metre boundary" % float(size.x))
+
+
 func test_wall_items_never_land_on_the_floor(t, _tree) -> void:
 	var layouts := [
 		[W, H, ENTR], [W, H, [Vector2i(3, 0)]], [W, H, [Vector2i(W - 1, 4)]], [W, H, [Vector2i(5, H - 1)]], [5, 4, [Vector2i(0, 1)]],

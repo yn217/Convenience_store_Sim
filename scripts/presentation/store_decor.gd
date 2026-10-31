@@ -502,8 +502,8 @@ static func _far_storefront(width: int, height: int, entrances: Array, side: int
 	return out
 
 
-## Near walls (east or south) get transparent, full-height shopfront glazing above a low sill, mullions every
-## other tile, and a thin fascia cap at the top. The alpha keeps customers and fixtures readable behind the glass.
+## Near walls (east or south) get transparent, full-height shopfront glazing above a low sill, one-metre mullions,
+## and a thin fascia cap at the top. The alpha keeps customers and fixtures readable behind the glass.
 ## The entrance is a clear opening with no sill, pane or frame in front of it.
 ## Sill and frames are merged into one polygon per run, which keeps the draw-op count low.
 static func _near_low_front(width: int, height: int, entrances: Array, side: int) -> Array:
@@ -531,11 +531,11 @@ static func _near_low_front(width: int, height: int, entrances: Array, side: int
 			out.append({"kind": &"poly", "points": _band(side, plane, a0, a1, NEAR_CAP_Z0 + 0.065, NEAR_CAP_Z1 - 0.035), "color": FASCIA})
 			out.append(_canopy_top(side, plane, a0, a1, 0.09))
 			run_start = -1
-	for b in range(0, n + 1, 2):
+	for b in range(0, n + 1):
 		if _is_entrance_at(entrances, side, b, width, height) or _is_entrance_at(entrances, side, b - 1, width, height):
 			continue
 		var fb := float(b) - 0.5
-		out.append({"kind": &"poly", "points": _band(side, plane, fb - 0.018, fb + 0.018, 0.0, NEAR_FRAME_TOP), "color": FRAME})
+		out.append({"kind": &"poly", "points": _band(side, plane, fb - 0.018, fb + 0.018, 0.0, NEAR_FRAME_TOP), "color": FRAME, "role": &"glazing_mullion"})
 	# Entrance jambs frame a clear opening. Only the thin white canopy bridges the top of the cutaway.
 	var door_start := -1
 	for a in range(n + 1):

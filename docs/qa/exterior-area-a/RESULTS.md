@@ -683,3 +683,10 @@ Actual Godot 4.7.2 captures: 12x10, 16x12 and 20x16 at 1600x900; 20x16 left/righ
 Replaced the broad residential paved block in v5 with `urban_context_dimetric_v6`, a 1774x887 generated Japanese neighborhood image. Narrow streets, garden walls, low-rise home edges, layered trees and flower borders fill the backdrop; candidate B was selected over candidate A because the roofs intruded less at the store frame edges. Runtime remains unrotated and uniformly scaled, anchored at the projected store center, and follows camera pan/zoom. No stretching was introduced. The backdrop is a continuous environment image and does not affect floor input or simulation.
 
 Actual Godot 4.7.2 screenshots: 12x10, 16x12 and 20x16 at 1600x900; 20x16 left/right pan; 1280x720 and 1920x1080; and minimum/maximum zoom. Contact sheet: `urban-context-lowpaved-v6-2026-10-31/v6-qa-contact.png`. Focused `test_backdrop_layer` passed 25 tests / 396 assertions, including viewport coverage and camera-follow transform checks. Focused `test_shell_camera_input` passed 10 tests / 96 assertions, including pan, zoom, fit, selection after camera movement and UI input isolation. No full suite was run. Remaining difference: the generated neighborhood is more detailed than the flat store; maximum zoom intentionally focuses on the store and crops the environment.
+
+
+## Storefront glazing grid (2026-10-31)
+
+Tightened the near-side storefront mullions from every two tiles to every one-metre boundary. Mullions at the entrance edges remain omitted where they would cross the clear doorway. This adds window rhythm while preserving the existing glass alpha, shop visibility and entrance path.
+
+Actual Godot 4.7.2 captures at 1600x900 cover 12x10, 16x12 and 20x16: `front-mullions-v1-2026-10-31/front-mullions-v1-12x10-1600x900.png`, `front-mullions-v1-2026-10-31/front-mullions-v1-16x12-1600x900.png`, and `front-mullions-v1-2026-10-31/front-mullions-v1-20x16-1600x900.png`; see the `contact.png` sheet in that folder. Focused `test_store_decor` passed 27 tests / 796 assertions, including mullion boundaries at all three store widths and door clearance. No full suite was run.
