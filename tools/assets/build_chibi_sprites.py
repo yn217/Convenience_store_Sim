@@ -56,6 +56,31 @@ def place(fig: Image.Image, stretch: int, k: float) -> Image.Image:
 
 
 ## A soft oval under the feet (the box figures' shadow was a hard dark diamond the size of a tile).
+## The other stride from one: the legs below LEG_CUT of the figure are mirrored about the hip centre, so the lifted
+## foot behind becomes the foot stepping in front (img2img prompts could not pick the leg reliably). The rows just
+## below the cut keep the original pixels where the mirror leaves them empty, so hands and bags are not cut off.
+LEG_CUT = 0.68
+
+
+def other_leg(fig: Image.Image) -> Image.Image:
+    a = np.asarray(fig).copy()
+    h, w = a.shape[:2]
+    y0 = int(h * LEG_CUT)
+    hip = np.where(a[y0:y0 + 6][..., 3].max(axis=0) > 40)[0]
+    cx = int((hip.min() + hip.max()) / 2) if len(hip) else w // 2
+    legs = a[y0:]
+    mirrored = np.zeros_like(legs)
+    for x in range(w):
+        mx = 2 * cx - x
+        if 0 <= mx < w:
+            mirrored[:, mx] = legs[:, x]
+    band = min(14, legs.shape[0])
+    keep = (mirrored[:band, :, 3] < 40) & (legs[:band, :, 3] > 40)
+    mirrored[:band][keep] = legs[:band][keep]
+    a[y0:] = mirrored
+    return Image.fromarray(a, "RGBA")
+
+
 def soft_shadow() -> Image.Image:
     w, h = 96, 34
     y, x = np.mgrid[0:CANVAS[1], 0:CANVAS[0]]
@@ -79,13 +104,15 @@ def build(person: str, seed: int) -> None:
     for view, flip_dirs in (("front", (1, 0)), ("back", (2, 3))):
         a = SRC / ("%s_%s_stepA_%d.png" % (person, view, seed))
         b = SRC / ("%s_%s_stepB_%d.png" % (person, view, seed))
-        if a.exists() and b.exists():
-            ia, ib = cut(a), cut(b)
+        if a.exists():
+            ia = cut(a)
+            ib = other_leg(ia)   # the other leg forward (the stepB render raised the same foot)
             steps[flip_dirs[0]] = (ia, ib)
             steps[flip_dirs[1]] = (ImageOps.mirror(ia), ImageOps.mirror(ib))
     k_front, k_back = scale_of(front), scale_of(back)
     eat_path = SRC / ("%s_eat_%d.png" % (person, seed))   # #134: seated with an onigiri, for every facing
-    eat = cut(eat_path) if eat_path.exists() else None
+    eats = not person.startswith("staff_") and person != "clerk"   # staff never sit down to eat (#134)
+    eat = cut(eat_path) if eats and eat_path.exists() else None
     vid = "chibi_" + person
     out = DST / vid
     out.mkdir(parents=True, exist_ok=True)

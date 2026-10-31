@@ -98,7 +98,9 @@ func test_chibi_looks_walk_and_eat(t, _tree) -> void:
 			continue
 		var walk: Array = sheet["frames"][CustomerSprites.FACING_S]["walk"]
 		t.ok(walk[0].get_image().get_data() != walk[1].get_image().get_data(), "%s: the stride frame is another drawing" % vid)
-		t.ok((sheet["animations"] as Dictionary).has("eat"), "%s has the eating pose" % vid)
+		t.ok(walk[1].get_image().get_data() != walk[4].get_image().get_data(), "%s: the two strides differ (the other leg forward)" % vid)
+		var eats: bool = vid != CustomerSprites.CLERK
+		t.eq((sheet["animations"] as Dictionary).has("eat"), eats, "%s: an eating pose only for customers (staff never eat)" % vid)
 
 
 ## 開店！: the cut-in plays when the store goes from setup to open, never for a first snapshot that is already open
