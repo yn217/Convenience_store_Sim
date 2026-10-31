@@ -1,0 +1,37 @@
+{
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v9",
+  "status": "rejected_review_candidate",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "0c66efc2791114b822fe7f22e44748f7200e54decabd5dbc7df9097629bd50c0",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "single_integrated_shelf_and_merchandise_sprite": "pass",
+    "stocked_row_count": {"expected": 4, "observed": 4, "result": "pass"},
+    "package_fronts_and_readability": "partial_pass at source size; game-scale not checked",
+    "products_rest_on_shelves": "partial_pass visually; exact contact not measured",
+    "no_extra_tier_or_roof": "pass",
+    "blank_board_and_plinth_area": "fail/partial: visibly exposed shelf triangles and plinth top remain",
+    "projection_axes_and_0_47917_ratio": "not_checked against fixture control points",
+    "E_plus_X_access": "not_checked",
+    "anchor_and_ground_contact": "not_checked",
+    "godot_game_scale": "not_checked"
+  },
+  "alpha": {
+    "bbox_nonzero": [0, 37, 1234, 1254],
+    "edge_alpha_max": {"top": 0, "bottom": 1, "left": 1, "right": 0},
+    "bbox_alpha_gt_8": [214, 192, 1036, 1135],
+    "margins_pct_alpha_gt_8_ltrb": [17.07, 15.31, 17.38, 9.49],
+    "required_min_margin_pct": 12,
+    "result": "fail: bottom margin 9.49%; alpha=1 touches bottom and left borders"
+  },
+  "decision": "FAIL; preserve as review-only. Do not crop or stretch to hide the bottom alpha margin or unresolved geometry/projection checks.",
+  "qa_scope": "focused source-image review only"
+}
