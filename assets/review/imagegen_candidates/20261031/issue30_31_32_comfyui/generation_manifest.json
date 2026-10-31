@@ -34,6 +34,20 @@
         "convstore_event_coldfood_1920x1080_00001_.png": 2601113
       }
     },
+    "event_cg_1344x768": {
+      "size": [1344, 768],
+      "purpose": "Issues #31/#32/#129 character-included event CG review candidates",
+      "files": {
+        "issue32_first_sale_1344x768_00001_.png": 2601201,
+        "issue31_after_work_1344x768_00001_.png": 2601202,
+        "issue31_local_fair_1344x768_00001_.png": 2601203,
+        "issue31_roadworks_1344x768_00001_.png": 2601204,
+        "issue31_hot_day_1344x768_00001_.png": 2601205,
+        "issue31_sweets_1344x768_00001_.png": 2601206,
+        "issue32_closing_loss_1344x768_00001_.png": 2601207,
+        "issue129_rival_store_1344x768_00001_.png": 2601208
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",
