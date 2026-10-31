@@ -69,6 +69,15 @@
     "error": "Built-in ImageGen returned HTTP 429 usage_limit_reached when requesting a four-level correction; no output was generated. Retry after the service reset.",
     "action": "Do not manually erase a tier or stretch this five-tier image; preserve it as rejected evidence and regenerate the complete integrated asset once ImageGen is available.",
     "quota_reset_at_utc": "2026-10-31T17:39:59Z",
-    "retry_after_local": "2026-11-01 02:39:59 Asia/Tokyo"
+    "retry_after_local": "2026-11-01 02:39:59 Asia/Tokyo",
+    "strategy": "Use the verified four-deck EMPTY image as the edit base; do not use the failed five-tier v4 as an input reference. Preserve its four decks and add stock only. Use game_reference for style, guide_structure for axes, and the existing four-row continuous-band candidate for density only.",
+    "prompt_file": "retry_prompt_after_quota.txt",
+    "prompt_sha256": "4c088dd6338f097e34c213f8d26897d40e509e7893cbb5d95006acb799c88676",
+    "input_refs": [
+      "assets/review/guided_assets/shelf_general_open_r0_v1/empty_corrected.png",
+      "assets/review/guided_assets/shelf_general_open_r0_v1/game_reference.png",
+      "assets/review/guided_assets/shelf_general_open_r0_v1/guide_structure.png",
+      "assets/review/imagegen_candidates/20261031/shelf_general_open_r0_continuous_bands_v3/full_composite_candidate.png"
+    ]
   }
 }
