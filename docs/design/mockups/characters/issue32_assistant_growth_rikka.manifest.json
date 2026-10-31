@@ -1,0 +1,26 @@
+{
+  "asset_id": "issue32-assistant-growth-rikka",
+  "kind": "ui_mockup",
+  "issue": 32,
+  "character_identity": "Koharu Rikka",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue32_assistant_growth_rikka.png",
+  "screen_role": "店長アシスタント・成長実績・日替わりチャレンジ",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "loras": [
+      {
+        "name": "Koharu-Koharu-epoch100.safetensors",
+        "strength": 0.8
+      },
+      {
+        "name": "anima-style-epoch35-lr5e5.safetensors",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "4f56f846-d16e-4a69-a2b1-117521bc2b86"
+  }
+}
