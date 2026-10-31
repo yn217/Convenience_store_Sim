@@ -116,6 +116,17 @@
         "management_event_revision2_1344x768_closing_success_v2_00001_.png": 2602005
       }
     },
+    "management_events_revision3_1344x768": {
+      "size": [1344, 768],
+      "purpose": "Single-hero base candidates for later background-person Inpaint; all text and UI remain Godot-owned",
+      "files": {
+        "management_event_revision3_1344x768_low_stock_v3_00001_.png": 2602101,
+        "management_event_revision3_1344x768_checkout_queue_base_00001_.png": 2602102,
+        "management_event_revision3_1344x768_word_of_mouth_v3_00001_.png": 2602103,
+        "management_event_revision3_1344x768_autumn_fair_v3_00001_.png": 2602104,
+        "management_event_revision3_1344x768_closing_success_v3_00001_.png": 2602105
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",

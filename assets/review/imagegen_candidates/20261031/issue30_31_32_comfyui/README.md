@@ -12,6 +12,7 @@ These PNGs are review-stage concept candidates generated in ComfyUI. They are no
 - `event_cg_revision5_1344x768/`: accepted v6 candidates with explicit Japanese konbini architecture, rival-store storefront visibility, and compact flow-wrap bread packaging.
 - `management_events_1344x768/`: first-pass management/event scene candidates; generated without readable management text, numbers, or UI overlays so Godot can compose those elements.
 - `management_events_revision2_1344x768/`: reviewed revisions for sold-out shelves, checkout queue, word-of-mouth, autumn fair, and closing success.
+- `management_events_revision3_1344x768/`: single-hero base candidates for sold-out, checkout queue, word-of-mouth, autumn fair, and closing success. Multi-person Inpaint prototypes remain outside the accepted asset folders until mask seams are resolved.
 - `assistant/`: Issue #32 manager-assistant expression references at `512x512`; display target is approximately `256-300px` in the 340px inspector panel.
 - `event_icons/`: Issue #31 daily-event POP/HUD icon references at `512x512`; display target is approximately `64-96px`.
 - `vfx_icons/`: Issue #30 presentation/VFX icon references at `512x512`; display target is approximately `64-128px`.
