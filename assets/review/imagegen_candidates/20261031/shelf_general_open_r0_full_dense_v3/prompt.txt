@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: review-only 2D game sprite candidate, Japanese convenience-store shelf
+Input Image 1: reference for the current single-sided four-level open gondola only; create a new targeted improvement, not an edit.
+Primary request: one complete integrated FULL gondola shelf sprite, shelf and merchandise together.
+Subject: a small, shallow, single-sided freestanding gondola with a dark low plinth, two thin perforated uprights, exactly four shallow usable trays, narrow retaining rails, and dense colorful front-facing snacks, instant noodles, wrapped breads, and small pantry packages. The top merchandise row must be stocked; no canopy.
+Projection/composition: orthographic 2:1 isometric game view, vertical posts exactly vertical, the two horizontal world axes project as straight lines with slopes +0.5 and -0.5. No wide-angle distortion. Show the customer access side and package faces clearly. Keep the complete fixture centered and fully inside the square canvas, with a clearly empty transparent margin at least 8% on all four edges. A single sprite, no presentation board.
+Style: crisp polished hand-painted Japanese shop-management game art, compact readable shapes, subtle controlled shading, consistent lighting.
+Structure constraints: shallow shelves only slightly deeper than packages; narrow pale shelf surfaces, products aligned in continuous retail rows behind each rail; simple slim back structure, no broad blank panel or top deck.
+Transparency: truly transparent background; all pixels outside the object's antialiased silhouette fully transparent; zero stray pixels at canvas borders; no glow, floor, or external drop shadow.
+Avoid: roofs/canopies, giant upper backboard, wide empty shelf areas, deep box-like shelves, double-sided racks, detached cards, thick cuboid packages, loose products, floor, room, signage, readable words, people, extra fixtures, crop, watermark.

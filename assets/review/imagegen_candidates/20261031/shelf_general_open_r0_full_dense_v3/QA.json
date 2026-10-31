@@ -1,0 +1,78 @@
+{
+  "asset_id": "shelf_general_open_r0_full_dense_v3",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [
+    1254,
+    1254
+  ],
+  "source_sha256": "3f3940aec2a92050ff170fb088bba6ddc10ac4d139b00313c7f3a1fc7a75b908",
+  "content": {
+    "verdict": "PASS_WITH_LIMITATIONS",
+    "notes": "One complete single-sided gondola with four stocked levels. Package fronts face the visible access side and stay behind retaining rails. The upper pale back structure and shelf surfaces remain broad."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_pixels": 809664,
+    "alpha_1_to_127_pixels": 11938,
+    "alpha_128_to_253_pixels": 591112,
+    "alpha_254_pixels": 158644,
+    "fully_opaque_pixels": 1158,
+    "nonzero_bbox_xyxy": [
+      0,
+      53,
+      1226,
+      1238
+    ],
+    "threshold_128_bbox_xyxy": [
+      158,
+      103,
+      1192,
+      1235
+    ],
+    "edge_nonzero_pixel_count": 6,
+    "edge_nonzero_alpha_values": [
+      1
+    ],
+    "reason": "Six nonzero border pixels remain at alpha 1; source remains unmodified."
+  },
+  "framing": {
+    "verdict": "FAIL",
+    "threshold_128_bbox_xyxy": [
+      158,
+      103,
+      1192,
+      1235
+    ],
+    "margins_px": {
+      "left": 158,
+      "top": 103,
+      "right": 62,
+      "bottom": 19
+    },
+    "reason": "The threshold silhouette is not clipped, but the lower margin is only about 3.6%, below the requested 8%; faint alpha also reaches the canvas border."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "prompt_requested_slopes": [
+      0.5,
+      -0.5
+    ],
+    "measured_control_points": [],
+    "reason": "Prompted axis slopes are not proof of projection. No calibrated image measurements or Godot overlay have been produced."
+  },
+  "geometry": {
+    "verdict": "NOT_CHECKED",
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "ground_anchor": null,
+    "shelf_depth_m": null
+  },
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "REVIEW_ONLY_FAIL_ALPHA_FRAMING_PROJECTION"
+}
