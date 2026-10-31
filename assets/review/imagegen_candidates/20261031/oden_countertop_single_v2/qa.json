@@ -1,0 +1,16 @@
+{
+ "asset_id":"oden_countertop_single_v2",
+ "candidate_only":true,
+ "runtime_approved":false,
+ "source_dimensions":[1774,887],
+ "source_alpha":"RGBA",
+ "source_sha256":"39df68c7eb86eb4c5ae7e7a5fda7d76bb3380783bb14d7023c98eaafb9ba3448",
+ "alpha_bbox_threshold_8":[445,27,1344,873],
+ "alpha_margins_percent_ltrb":[25.08,3.04,24.24,1.58],
+ "alpha_margin_12_percent":"FAIL: top and bottom margins below 12%",
+ "content":"PASS: one small countertop warmer, four food compartments, glass guard present",
+ "projection":"FAIL: overly top-down; base edge slopes visibly deviate from classic 2:1 isometric guide",
+ "style":"FAIL: not sufficiently consistent with established hand-painted game sprite style",
+ "scale_anchor":"not calibrated to a world footprint or ground pivot",
+ "decision":"reject pending a true guide-conditioned redraw; do not hide mismatch through nonuniform scaling"
+}
