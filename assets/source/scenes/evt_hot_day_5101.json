@@ -1,0 +1,18 @@
+{
+  "scene": "evt_hot_day",
+  "seed": 5101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "scene_evt_hot_day_5101_00001_.png",
+  "positive": "anima_style, anime background art, japanese anime film background, detailed, soft light, beautiful colors, clean composition, no text, midsummer day, bright blue sky with tall cumulonimbus clouds, japanese street with heat haze, cold bottled drinks with water droplets and an ice pop in the foreground",
+  "negative": "low quality, worst quality, blurry, text, letters, words, signage text, logo, brand name, watermark, signature, deformed, distorted, close-up face, malformed hands",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    432
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

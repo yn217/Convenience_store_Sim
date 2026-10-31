@@ -19,6 +19,10 @@ var _cells: Dictionary = {}   # event id -> {panel, state}
 var _effects_key := ""
 var _history_title: Label
 var _history: Label
+var _picture: TextureRect
+const PICTURE_DIR := "res://assets/ui/events/"
+const PICTURE_SIZE := Vector2(384, 216)
+static var _pictures := {}
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -28,6 +32,15 @@ func _ready() -> void:
 	title.text = "今日のイベント"
 	title.add_theme_font_size_override("font_size", 20)
 	_body.add_child(title)
+	_picture = TextureRect.new()   # the day's event as an anime illustration (ComfyUI, 576x324 for this 384x216 slot)
+	_picture.name = "EventPicture"
+	_picture.custom_minimum_size = PICTURE_SIZE
+	_picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_picture.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_picture.visible = false
+	_body.add_child(_picture)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_status)
@@ -59,12 +72,25 @@ func _ready() -> void:
 func apply_snapshot(snap: Dictionary) -> void:
 	var view: Dictionary = snap.get("gameplay_event", {"status": "no_data"})
 	_status.text = "\n".join(EventText.lines(view, int(snap.get("time_sec", 0)), snap.get("stocked_categories", [])))
+	var pic := picture_for(String(view.get("event_id", ""))) if String(view.get("status", "")) in ["scheduled", "active", "ended", "missed"] else null
+	_picture.texture = pic
+	_picture.visible = pic != null
 	_render_effects(EventText.effect_chips(view) if String(view.get("status", "")) in ["scheduled", "active", "ended", "missed"] else [])
 	_render_catalog(snap.get("event_catalog", []))
 	var past: Array = snap.get("event_history", [])
 	_history.text = history_text(past)
 	_history.visible = not past.is_empty()
 	_history_title.visible = not past.is_empty()
+
+
+## The illustration of an event (assets/ui/events/<event_id>.png), null when it has none.
+static func picture_for(event_id: String) -> Texture2D:
+	if event_id == "":
+		return null
+	if not _pictures.has(event_id):
+		var path := PICTURE_DIR + event_id + ".png"
+		_pictures[event_id] = load(path) as Texture2D if ResourceLoader.exists(path) else null
+	return _pictures[event_id]
 
 
 ## イベント履歴 lines, newest first: 'DAY 3　近隣の工事（開催）' / '（見送り）' when the store was not open in its window /

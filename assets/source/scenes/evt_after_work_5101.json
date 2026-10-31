@@ -1,0 +1,18 @@
+{
+  "scene": "evt_after_work",
+  "seed": 5101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "scene_evt_after_work_5101_00001_.png",
+  "positive": "anima_style, anime background art, japanese anime film background, detailed, soft light, beautiful colors, clean composition, no text, japanese city street at night, office workers walking home as small silhouettes, glowing convenience store light, neon reflections on the road",
+  "negative": "low quality, worst quality, blurry, text, letters, words, signage text, logo, brand name, watermark, signature, deformed, distorted, close-up face, malformed hands",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    432
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

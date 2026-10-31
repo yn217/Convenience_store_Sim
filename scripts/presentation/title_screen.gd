@@ -20,7 +20,9 @@ func _ready() -> void:
 	# The artwork contains no baked-in buttons: all controls remain real Godot UI elements.
 	var background := TextureRect.new()
 	background.name = "TitleBackground"
-	background.texture = load("res://assets/ui/title/title_background.svg") as Texture2D
+	# Anime background art (ComfyUI, tools/assets/build_scene_ui.py, 1920x1080); the flat SVG is the fallback.
+	var painted := "res://assets/ui/title/title_background.png"
+	background.texture = load(painted if ResourceLoader.exists(painted) else "res://assets/ui/title/title_background.svg") as Texture2D
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
@@ -77,7 +79,9 @@ func _ready() -> void:
 	var tagline := Label.new()
 	tagline.text = "目指せ、街で愛されるコンビニ。"
 	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	tagline.modulate = Color(1, 1, 1, 0.75)
+	tagline.add_theme_font_size_override("font_size", 20)
+	tagline.add_theme_color_override("font_outline_color", Color("0b1a2b"))   # readable over the lit storefront of the painted background
+	tagline.add_theme_constant_override("outline_size", 6)
 	col.add_child(tagline)
 	col.add_child(HSeparator.new())
 	col.add_child(_button("NewGame", "新規ゲーム", new_game, true))

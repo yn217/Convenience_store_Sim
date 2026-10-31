@@ -73,3 +73,23 @@ func test_effect_chip_texts(t, _tree) -> void:
 	t.eq(chips.map(func(c): return c["text"]), ["来店 +35%", "飲料 +60%", "おでん −20%"])
 	t.eq(chips.map(func(c): return c["good"]), [true, true, false])
 	t.eq(EventText.effect_chips({"traffic": 1.0, "categories": {}}).size(), 0)
+
+
+## The day's event as an illustration at the top of the card (ComfyUI art, one per event, 576x324 for 384x216).
+func test_event_picture(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var app: Node = main.get_node("AppRoot")
+	var panel: EventController = main.get_node("EventController")
+	t.ok(not panel._picture.visible, "no event yet: no picture")
+	for e in app.state.gameplay_events:
+		var pic := EventController.picture_for(String(e["event_id"]))
+		t.ok(pic != null and pic.get_size() == EventController.PICTURE_SIZE * 1.5, "%s has its picture at 1.5x" % e["event_id"])
+	app.state.time_sec = 86400 + 12 * 3600
+	_force(app, "evt_local_fair", false)
+	app._publish_snapshot()
+	t.ok(panel._picture.visible and panel._picture.texture == EventController.picture_for("evt_local_fair"), "today's event is shown")
+	main.queue_free()
+	await tree.process_frame
