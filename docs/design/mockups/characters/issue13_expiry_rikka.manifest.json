@@ -1,0 +1,26 @@
+{
+  "asset_id": "issue13-expiry-rikka",
+  "kind": "ui_mockup",
+  "issue": 13,
+  "character_identity": "Koharu Rikka",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue13_expiry_rikka.png",
+  "screen_role": "期限ロット・FEFO販売・廃棄損失管理",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "loras": [
+      {
+        "name": "Koharu-Koharu-epoch100.safetensors",
+        "strength": 0.8
+      },
+      {
+        "name": "anima-style-epoch35-lr5e5.safetensors",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "9ea1c974-746d-4759-8b88-ede392a0cba0"
+  }
+}
