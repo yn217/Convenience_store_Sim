@@ -1,0 +1,17 @@
+Use case: stylized-concept; one integrated transparent 2D game sprite, shelf_general FULL/r0.
+
+References:
+1. shelf_general_open_r0_integrated_FULL_v6/source_original.png — four-row merchandise content and density only.
+2. shelf_general_empty_structure_candidate_v13/shelf_general_empty_structure_candidate_v13.png — empty fixture geometry and viewpoint.
+3. shelf_general_empty_structure_candidate_v9/projection_guide.png — axis directions only, not dimensions.
+
+Prompt:
+Recreate the integrated shelf_general FULL/r0 game sprite, correcting only the framing and fixture issues described here. Strict reference roles: Image 1 provides the four-row merchandise density, colors and item families only. Image 2 is the authoritative EMPTY shelf design and exact viewpoint. Image 3 provides iso2x_v1 directions only (do not copy its dimensions): long axis screen vector (+2,+1), slope +0.5; depth vector (+2,-1), slope -0.5. Actual dimensions are 1.92m long × 0.92m deep, depth/length 0.47917. Keep the same access edge E/+X. Do not swap vectors, mirror or rotate.
+
+Show exactly four stocked levels on the four existing merchandise shelf boards, no fifth row. Product fronts face the customer and form one continuous dense shelf display. Keep snack bags, noodle cups and bread packages colorful, individually legible shapes, but all are part of one coherent flat 2D sprite. They rest on their boards with natural depth rows, no floating cards or extruded cuboids.
+
+Fixture correction: the bottom is a compact low kick-plate plinth, not a broad empty tabletop. Keep its ground footprint but show only a thin top lip and a short dark vertical front fascia. Shelf decks stay shallow, with merchandise pushed to the front lip and no large blank white triangular areas. Preserve four shelf boards, supports, total fixture proportions, 1.92:0.92 ratio and geometry orientation from Image 2.
+
+Framing correction: use a square transparent canvas. Place the entire asset, including feet and plinth, within the central 70% of canvas height and 72% of canvas width. Leave a visibly generous transparent margin above and below; at least 15% each. No alpha or shadow pixels may touch any canvas edge. Do not crop the object to simulate margins; generate the full object smaller within the square canvas.
+
+Warm soft-painted management-game art with crisp contours, similar to Image 1. Generic Japanese packages, no readable text, no logos, signage, UI, room, floor, gradient, cast shadow, people, or watermark.
