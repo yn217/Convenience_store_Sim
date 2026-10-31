@@ -8,6 +8,9 @@ var _world: Node2D
 var _buttons: Dictionary = {}
 var _stack: Label
 var _customer: Label
+var _customer_row: HBoxContainer   # #141: the selected person's portrait beside the line
+var _customer_face: TextureRect
+const PORTRAIT_SIDE := 96.0   # the portrait's slot in the inspector
 var _hint: Label
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -44,10 +47,19 @@ func _ready() -> void:
 	_stack = Label.new()
 	_stack.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_stack)
+	_customer_row = HBoxContainer.new()
+	_customer_row.name = "CustomerRow"
+	_customer_row.add_theme_constant_override("separation", 10)
+	_customer_face = Portraits.make_rect(PORTRAIT_SIDE)
+	_customer_face.name = "CustomerPortrait"
+	_customer_face.visible = false
+	_customer_row.add_child(_customer_face)
 	_customer = Label.new()
 	_customer.theme_type_variation = &"CardTitle"   # the customer's line sits inside the inspector window, as a detail
 	_customer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_body.add_child(_customer)
+	_customer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_customer_row.add_child(_customer)
+	_body.add_child(_customer_row)
 	if _world != null:
 		_world.overlay_changed.connect(func(m): _buttons[m].button_pressed = true)
 		_world.pick_candidates_changed.connect(show_stack)
@@ -71,12 +83,17 @@ func _process(_delta: float) -> void:
 func refresh_customer() -> void:
 	if _world == null or _world.selected_customer == "":
 		_customer.text = ""
+		_customer_face.visible = false
 		return
 	for c in _world.customers:
 		if c["customer_id"] == _world.selected_customer:
 			_customer.text = "\n".join(OverlayModel.customer_panel_lines(c, _shelf_name(String(c.get("fixture_id", "")))))   # #141
+			var face := Portraits.texture(Portraits.id_for_customer(String(c["customer_id"]), String(c.get("name", ""))))
+			_customer_face.texture = face
+			_customer_face.visible = face != null
 			return
 	_customer.text = ""
+	_customer_face.visible = false
 
 
 ## Display name of a placed fixture (its shelf or register), "" when it is not on the layout.

@@ -6,6 +6,8 @@ extends Control
 
 const MAIN_SCENE := "res://scenes/main/Main.tscn"
 const SETTINGS_PATH := "user://settings.json"
+const TITLE_RIKKA := "res://assets/ui/title/title_rikka.png"
+const TITLE_RIKKA_SIZE := Vector2(560, 815)   # keeps the art's 640:931 aspect
 
 var save_dir := SaveStore.DIR
 var _continue: Button
@@ -30,6 +32,21 @@ func _ready() -> void:
 	tint.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tint)
+	# 小春六花 greets the player at the right (ComfyUI render, tools/assets/build_character_ui.py; 640x931 for ~640 px).
+	var rikka_texture := load(TITLE_RIKKA) as Texture2D
+	if rikka_texture != null:
+		var rikka := TextureRect.new()
+		rikka.name = "TitleRikka"
+		rikka.texture = rikka_texture
+		rikka.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		rikka.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+		rikka.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		rikka.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+		rikka.offset_left = -TITLE_RIKKA_SIZE.x - 40
+		rikka.offset_right = -40
+		rikka.offset_top = -TITLE_RIKKA_SIZE.y
+		rikka.offset_bottom = 0
+		add_child(rikka)
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(center)

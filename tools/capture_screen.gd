@@ -135,6 +135,15 @@ func _run() -> void:
 			s.gameplay_event_state.merge({"last_selected_day": s.day, "selection_event_id": "daily:%d" % s.day, "selected_event_id": ev["event_id"],
 					"event_start_sec": w.x, "event_end_sec": w.y, "started": true, "ended": false}, true)
 			app._publish_snapshot()
+		elif a == "--select-customer-first":   # #141: the first customer in the store selected (its portrait in the panel)
+			for _f in 3:
+				await process_frame
+			var w: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+			var people: Array = w.customers.filter(func(c): return not String(c["customer_id"]).begins_with("staff_"))
+			if not people.is_empty():
+				w.selected_customer = String(people[0]["customer_id"])
+				main.get_node("OverlayController").call("refresh_customer")
+				main.call("_sync_selection")
 		elif a == "--no-assistant":   # hide the corner assistant (window content under her bubble)
 			main.get_node("ProgressionController").call("set_suppressed", true)
 		elif a.begins_with("--reveal="):   # --reveal=Missions: scroll the open window to that node (by name)

@@ -86,6 +86,11 @@ func _rebuild(staff: Array, cands: Array, full: bool) -> void:
 	_staff_labels.clear()
 	for s in staff:
 		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		var face := Portraits.make_rect(ROW_FACE)
+		face.name = "Face_" + String(s["customer_id"])
+		face.texture = Portraits.texture(Portraits.id_for_staff(String(s.get("name", ""))))
+		row.add_child(face)
 		var l := Label.new()
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -147,6 +152,8 @@ func fire_staff(staff_id: String) -> CommandResult:
 
 
 const CARD_COLUMNS := 3
+const CARD_FACE := 56.0   # portrait slots (Portraits): a candidate card, a staff row
+const ROW_FACE := 44.0
 const SKILL_MAX := 5   # archetype skill ranges top out at 5 (data/staff/archetypes_v1.json)
 const SKILLS := [["register", "レジ"], ["restock", "品出し"], ["stamina", "体力"], ["service", "接客"]]
 
@@ -165,14 +172,24 @@ func _candidate_card(c: Dictionary, full: bool) -> PanelContainer:
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 4)
 	card.add_child(col)
+	var head := HBoxContainer.new()   # the face (same person, same face after hiring) beside the name and terms
+	head.add_theme_constant_override("separation", 8)
+	var face := Portraits.make_rect(CARD_FACE)
+	face.name = "Face"
+	face.texture = Portraits.texture(Portraits.id_for_staff(String(c.get("name", ""))))
+	head.add_child(face)
+	var who := VBoxContainer.new()
+	who.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var name_label := Label.new()
 	name_label.text = String(c.get("name", ""))
 	name_label.add_theme_font_size_override("font_size", 18)
-	col.add_child(name_label)
+	who.add_child(name_label)
 	var kind := Label.new()
-	kind.text = "%s　日給 %s" % [c.get("label", c.get("archetype", "")), OverlayModel.yen(int(c.get("daily_wage_yen", 0)))]
+	kind.text = "%s\n日給 %s" % [c.get("label", c.get("archetype", "")), OverlayModel.yen(int(c.get("daily_wage_yen", 0)))]
 	kind.add_theme_color_override("font_color", UiTheme.WARM)
-	col.add_child(kind)
+	who.add_child(kind)
+	head.add_child(who)
+	col.add_child(head)
 	var sk: Dictionary = c.get("skills", {})
 	for s in SKILLS:
 		var row := HBoxContainer.new()

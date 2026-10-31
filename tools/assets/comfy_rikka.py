@@ -25,7 +25,11 @@ EXPRESSIONS = {
     "normal": "gentle friendly smile, closed mouth, looking at viewer, one hand raised slightly in a welcoming gesture, ",
     "happy": "very happy, big open-mouth smile, eyes bright, both hands in small fists at chest level, cheerful celebrating pose, ",
     "worried": "worried troubled smile, eyebrows lowered, one hand on her cheek, small sweat drop, looking at viewer, ",
+    # extra poses (2026-10-31): explaining for the tutorial and story lines, welcoming for the title screen
+    "point": "cheerful smile, explaining, index finger raised beside her face, other hand on her hip, looking at viewer, ",
+    "welcome": "warm welcoming smile, slight bow, both hands together in front of her apron, looking at viewer, ",
 }
+HAIRPIN = "small pink round hair clip on her hair, "   # the clip came out pink or blue; asked for pink to match
 NEGATIVE = ("low quality, worst quality, malformed hands, extra fingers, missing fingers, fused fingers, extra arms, "
             "duplicate limbs, distorted face, cropped head, out of frame, text, watermark, logo, signature, "
             "busy background, scenery, room, shelves, other people")
@@ -34,20 +38,29 @@ WIDTH, HEIGHT = 640, 960
 
 def workflow(expression: str, seed: int) -> dict:
     prefix = "rikka_%s_%d" % (expression, seed)
-    return {
+    return graph(CHARACTER + HAIRPIN + EXPRESSIONS[expression] + FRAMING, NEGATIVE, seed, prefix, WIDTH, HEIGHT, True)
+
+
+## The API graph: Anima base + (Koharu LoRA when `rikka`) + anima-style LoRA, both at 0.8 as in the user's workflow.
+def graph(positive: str, negative: str, seed: int, prefix: str, width: int, height: int, rikka: bool) -> dict:
+    style_from = ["3", 0] if rikka else ["1", 0]
+    g = {
         "1": {"class_type": "UNETLoader", "inputs": {"unet_name": "Anima-Base-v1.0.safetensors", "weight_dtype": "default"}},
         "2": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen_3_06b_base.safetensors", "type": "qwen_image"}},
         "3": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["1", 0], "lora_name": "Koharu-Koharu-epoch100.safetensors", "strength_model": 0.8}},
-        "4": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["3", 0], "lora_name": "anima-style-epoch35-lr5e5.safetensors", "strength_model": 0.8}},
-        "5": {"class_type": "CLIPTextEncode", "inputs": {"clip": ["2", 0], "text": CHARACTER + EXPRESSIONS[expression] + FRAMING}},
-        "6": {"class_type": "CLIPTextEncode", "inputs": {"clip": ["2", 0], "text": NEGATIVE}},
-        "7": {"class_type": "EmptySD3LatentImage", "inputs": {"width": WIDTH, "height": HEIGHT, "batch_size": 1}},
+        "4": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": style_from, "lora_name": "anima-style-epoch35-lr5e5.safetensors", "strength_model": 0.8}},
+        "5": {"class_type": "CLIPTextEncode", "inputs": {"clip": ["2", 0], "text": positive}},
+        "6": {"class_type": "CLIPTextEncode", "inputs": {"clip": ["2", 0], "text": negative}},
+        "7": {"class_type": "EmptySD3LatentImage", "inputs": {"width": width, "height": height, "batch_size": 1}},
         "8": {"class_type": "KSampler", "inputs": {"model": ["4", 0], "positive": ["5", 0], "negative": ["6", 0], "latent_image": ["7", 0],
                                                     "seed": seed, "steps": 24, "cfg": 4.5, "sampler_name": "euler", "scheduler": "simple", "denoise": 1.0}},
         "9": {"class_type": "VAELoader", "inputs": {"vae_name": "qwen_image_vae.safetensors"}},
         "10": {"class_type": "VAEDecode", "inputs": {"samples": ["8", 0], "vae": ["9", 0]}},
         "11": {"class_type": "SaveImage", "inputs": {"images": ["10", 0], "filename_prefix": prefix}},
     }
+    if not rikka:
+        del g["3"]
+    return g
 
 
 def _post(path: str, body: dict) -> dict:
@@ -62,21 +75,25 @@ def _get(path: str) -> bytes:
 
 
 def generate(expression: str, seed: int) -> Path:
-    wf = workflow(expression, seed)
+    return run(workflow(expression, seed), OUT / ("rikka_%s_%d.png" % (expression, seed)),
+               {"expression": expression, "seed": seed, "loras": {"Koharu-Koharu-epoch100": 0.8, "anima-style-epoch35-lr5e5": 0.8}})
+
+
+## Queues one graph, waits, downloads the image to `dst` and writes the prompt record beside it.
+def run(wf: dict, dst: Path, meta: dict) -> Path:
     pid = _post("/prompt", {"prompt": wf})["prompt_id"]
     for _ in range(600):
         h = json.loads(_get("/history/" + pid))
         if pid in h and h[pid].get("outputs"):
             img = h[pid]["outputs"]["11"]["images"][0]
             q = urllib.parse.urlencode({"filename": img["filename"], "subfolder": img.get("subfolder", ""), "type": img["type"]})
-            OUT.mkdir(parents=True, exist_ok=True)
-            dst = OUT / ("rikka_%s_%d.png" % (expression, seed))
+            dst.parent.mkdir(parents=True, exist_ok=True)
             dst.write_bytes(_get("/view?" + q))
-            dst.with_suffix(".json").write_text(json.dumps({"expression": expression, "seed": seed, "comfy_output": img["filename"],
-                                                             "positive": wf["5"]["inputs"]["text"], "negative": NEGATIVE,
-                                                             "base": "Anima-Base-v1.0", "loras": {"Koharu-Koharu-epoch100": 0.8, "anima-style-epoch35-lr5e5": 0.8},
-                                                             "size": [WIDTH, HEIGHT], "steps": 24, "cfg": 4.5, "sampler": "euler/simple"},
-                                                            ensure_ascii=False, indent=2), encoding="utf-8")
+            rec = dict(meta)
+            rec.update({"comfy_output": img["filename"], "positive": wf["5"]["inputs"]["text"], "negative": wf["6"]["inputs"]["text"],
+                        "base": "Anima-Base-v1.0", "size": [wf["7"]["inputs"]["width"], wf["7"]["inputs"]["height"]],
+                        "steps": 24, "cfg": 4.5, "sampler": "euler/simple"})
+            dst.with_suffix(".json").write_text(json.dumps(rec, ensure_ascii=False, indent=2), encoding="utf-8")
             return dst
         time.sleep(1)
     raise TimeoutError(pid)

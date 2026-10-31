@@ -15,12 +15,15 @@ const FIGURES := {
 	"normal": "res://assets/ui/characters/rikka_normal.png",
 	"happy": "res://assets/ui/characters/rikka_happy.png",      # a celebration, a good day
 	"worried": "res://assets/ui/characters/rikka_worried.png",  # a loss, a day without a sale
+	"point": "res://assets/ui/characters/rikka_point.png",      # explaining: the story and tutorial lines
+	"welcome": "res://assets/ui/characters/rikka_welcome.png",  # her first greeting (story_start)
 }
 const FIGURE_SIZE := Vector2(300, 436)   # keeps the art's 640:931 aspect
 const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
+const BLOCKED_LINE := "大変です、店長…！費用が払えなくて、お店が止まってしまいました。セーブからやり直しましょう。"
 const MISSION_ROWS := 4   # today's challenge + the three titles closest to done
 
 var _app: Node
@@ -37,6 +40,7 @@ var _heading: Label            # 目標達成！ while celebrating, hidden other
 var _figure: TextureRect
 var _figure_textures: Dictionary = {}   # mood -> Texture2D
 var _day_mood := "normal"      # her face for the day-end remark
+var _blocked_closed := false   # 閉じる on her payment-stop line (until the store runs again)
 var _celebrations: Array[Dictionary] = []   # queued {badge, line}; the first one is on screen
 var _celebrate_timer: Timer
 var _suppressed_by := {}       # why the corner figure steps aside: "window" (management window open, its left edge
@@ -161,15 +165,31 @@ func _refresh_stage() -> void:
 		return
 	var cue := String(_snap.get("story_cue", ""))
 	var celebrating := not _celebrations.is_empty()
-	_heading.visible = celebrating
-	if celebrating:
+	var blocked := String(_snap.get("business_state", "")) == String(GameState.PAYMENT_BLOCKED)
+	if not blocked:
+		_blocked_closed = false
+	var warn := blocked and not _blocked_closed
+	_heading.visible = celebrating and not warn
+	if warn:   # the store stopped for unpaid costs: she says so first, worried (the panel has the details)
+		_assistant.text = BLOCKED_LINE
+	elif celebrating:
 		_assistant.text = String(_celebrations[0]["line"])
 	elif _day_remark != "":
 		_assistant.text = _day_remark
 	else:
 		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
-	_stage.visible = _suppressed_by.is_empty() and (celebrating or _day_remark != "" or cue != "")
-	set_mood("happy" if celebrating else (_day_mood if _day_remark != "" else "normal"))
+	_stage.visible = _suppressed_by.is_empty() and (warn or celebrating or _day_remark != "" or cue != "")
+	if warn:
+		set_mood("worried")
+	else:
+		set_mood("happy" if celebrating else (_day_mood if _day_remark != "" else story_mood(cue)))
+
+
+## Her face for a story line: a bow for the first greeting, explaining for the rest.
+static func story_mood(cue: String) -> String:
+	if cue == "":
+		return "normal"
+	return "welcome" if cue == "story_start" else "point"
 
 
 ## Her face: "normal", "happy" or "worried" (FIGURES).
@@ -228,7 +248,10 @@ func end_day_end() -> void:
 
 
 func _on_dismiss_pressed() -> void:
-	if is_celebrating():
+	if _assistant.text == BLOCKED_LINE:
+		_blocked_closed = true
+		_refresh_stage()
+	elif is_celebrating():
 		close_celebration()
 	elif _day_remark != "":
 		end_day_end()

@@ -425,7 +425,7 @@ func _organize_panels() -> void:
 		if TAB_OF_SECTION.has(title):
 			card.reparent(_pages[TAB_OF_SECTION[title]])
 	var overlay := get_node_or_null("OverlayController")
-	var customer: Variant = overlay.get("_customer") if overlay != null else null
+	var customer: Variant = overlay.get("_customer_row") if overlay != null else null   # the portrait and the line together
 	var inspector_card := _find_card(body, INSPECTOR_CARD)
 	if customer is Node and inspector_card != null:
 		(customer as Node).reparent(inspector_card.get_child(0))   # the selected customer's line lives in the window

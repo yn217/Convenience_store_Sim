@@ -164,7 +164,7 @@ func test_achievements_are_celebrated_once_without_rewards(t, tree) -> void:
 	pc._celebrate_timer.timeout.emit()
 	t.ok(not pc.is_celebrating() and not pc._heading.visible, "the timer closes a celebration by itself")
 	t.ok(stage.visible and pc._assistant.text.contains("どんなお店"), "her story line is back")
-	t.eq(pc.mood(), "normal", "and her usual face")
+	t.eq(pc.mood(), "welcome", "and her greeting pose for the first story line")
 	app._publish_snapshot()
 	t.ok(not pc.is_celebrating(), "a new snapshot does not celebrate again")
 	t.eq(app.state.cash_yen, cash, "no cash reward: the badge is the whole reward")
