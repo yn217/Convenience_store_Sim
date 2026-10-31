@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-31",
+  "tool": "ComfyUI",
+  "model": "Anima-Base-v1.0.safetensors",
+  "loras": {
+    "koharu_rikka": {
+      "file": "Koharu-Koharu-epoch100.safetensors",
+      "strength": 0.8,
+      "trigger": "koharu_rikka"
+    },
+    "anima_style": {
+      "file": "anima-style-epoch35-lr5e5.safetensors",
+      "strength": 0.8,
+      "trigger": "anima_style"
+    }
+  },
+  "sampler": {
+    "name": "euler",
+    "scheduler": "simple",
+    "steps": 24,
+    "cfg": 4.5
+  },
+  "groups": {
+    "event_cg": {
+      "size": [1920, 1080],
+      "purpose": "Issues #30/#31 daily-event concept references",
+      "files": {
+        "convstore_event_checkout_1920x1080_00001_.png": 2601101,
+        "convstore_event_restock_1920x1080_00001_.png": 2601102,
+        "convstore_event_rainy_1920x1080_00001_.png": 2601103,
+        "convstore_event_festival_1920x1080_00001_.png": 2601111,
+        "convstore_event_hotday_1920x1080_00001_.png": 2601112,
+        "convstore_event_coldfood_1920x1080_00001_.png": 2601113
+      }
+    },
+    "assistant": {
+      "size": [512, 512],
+      "purpose": "Issue #32 manager-assistant expression references",
+      "files": {
+        "issue32_assistant_welcome_512_00001_.png": 2601121,
+        "issue32_assistant_tip_512_00001_.png": 2601122,
+        "issue32_assistant_achievement_512_00001_.png": 2601123,
+        "issue32_assistant_worried_512_00001_.png": 2601124
+      }
+    },
+    "event_icons": {
+      "size": [512, 512],
+      "purpose": "Issue #31 daily-event POP/HUD icon references",
+      "files": {
+        "event_icon_festival_512_00001_.png": 2601131,
+        "event_icon_roadworks_512_00001_.png": 2601132,
+        "event_icon_hotday_512_00001_.png": 2601133,
+        "event_icon_coldfood_512_00001_.png": 2601134,
+        "event_icon_sweets_512_00001_.png": 2601135,
+        "event_icon_afterwork_512_v2_00001_.png": 2601137,
+        "event_icon_snack_512_00001_.png": 2601138,
+        "event_icon_neighbor_512_00001_.png": 2601139,
+        "event_icon_quietstreet_512_00001_.png": 2601140,
+        "event_icon_lunch_512_00001_.png": 2601141,
+        "event_icon_drinkpick_512_00001_.png": 2601142,
+        "event_icon_bread_512_00001_.png": 2601143
+      }
+    },
+    "vfx_icons": {
+      "size": [512, 512],
+      "purpose": "Issue #30 presentation/VFX icon references",
+      "files": {
+        "vfx_checkout_success_512_00001_.png": 2601151,
+        "vfx_low_stock_512_00001_.png": 2601152,
+        "vfx_expired_512_v2_00001_.png": 2601157,
+        "vfx_queue_warning_512_00001_.png": 2601154,
+        "vfx_milestone_512_00001_.png": 2601155,
+        "vfx_door_open_512_00001_.png": 2601156
+      }
+    }
+  }
+}
