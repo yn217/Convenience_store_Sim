@@ -15,6 +15,7 @@ These PNGs are review-stage concept candidates generated in ComfyUI. They are no
 - `management_events_revision3_1344x768/`: single-hero base candidates for sold-out, checkout queue, word-of-mouth, autumn fair, and closing success. Multi-person Inpaint prototypes remain outside the accepted asset folders until mask seams are resolved.
 - `new_event_cg_1344x768/`: ten new event CG candidates for promotion, seasonal campaigns, store operations, and regional events (Issues #30/#32/#137/#140); the lost-customer scene uses one background customer while keeping a single Koharu Rikka.
 - `character_sprites_1024x1536/`: a double-odango character sprite set: one base standing image, twelve pose candidates, four framing revisions, and three hand-quality comparison candidates. These remain solid-background review PNGs; transparent RGBA extraction is a separate production step.
+- `character_sprites_1024x1536/additional_50_poses/`: fifty additional readable standing-pose candidates using the same double-odango, white-background, full-body setup. The pose expansion was generated as review material; hand-specific cleanup remains selective.
 - `assistant/`: Issue #32 manager-assistant expression references at `512x512`; display target is approximately `256-300px` in the 340px inspector panel.
 - `event_icons/`: Issue #31 daily-event POP/HUD icon references at `512x512`; display target is approximately `64-96px`.
 - `vfx_icons/`: Issue #30 presentation/VFX icon references at `512x512`; display target is approximately `64-128px`.
@@ -42,4 +43,6 @@ The revision pass keeps both LoRAs at `0.8` and uses `1344x768`. It standardizes
 
 The new event pass also uses `1344x768`, keeps both LoRAs at `0.8`, and leaves readable campaign copy, prices, and UI to Godot. The discount-sticker image is a visual work-step reference; its sticker lettering is intentionally not production text.
 
-The character-sprite pass uses `1024x1536`, fixes both upper-side hair buns with weighted positive and negative prompts, and records every Seed. The hand comparison subset adds explicit finger, thumb, palm, and wrist constraints for open-palm, clasped-hands, and held-product poses. The A/B test uses the same Seed for the long and shortened hand prompts; the C2 candidate applies standard ComfyUI Inpaint conditioning to the B image while preserving the rest of the body. The images are not yet alpha-cut. The additional 50-pose expansion is intentionally deferred.
+The character-sprite pass uses `1024x1536`, fixes both upper-side hair buns with weighted positive and negative prompts, and records every Seed. The hand comparison subset adds explicit finger, thumb, palm, and wrist constraints for open-palm, clasped-hands, and held-product poses. The A/B test uses the same Seed for the long and shortened hand prompts; the C2 candidate applies standard ComfyUI Inpaint conditioning to the B image while preserving the rest of the body. The images are not yet alpha-cut.
+
+The additional 50-pose batch uses the same `1024x1536` setup with simple readable poses, no dramatic foreshortening, and Seeds `2602601-2602650`.
