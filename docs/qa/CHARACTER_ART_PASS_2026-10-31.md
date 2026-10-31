@@ -93,15 +93,15 @@
 | #126 | [Art Audit][P0] 実ゲーム vs 目標モックアップ：店舗外観・屋外の2D合成シーン／品質QA台帳 | 作らない | 店舗外観・屋外の品質台帳。人物は対象外 | docs/qa/screens/screen_audit/store.png（外観） |
 | #128 | [Sim][P1] 1回の来店で複数点を購入（来店数を減らし、かご買い） | 作らない | かご買い（実装済み）。かごを持つ客は既存のちびキャラで表示、追加の絵は不要 | docs/qa/screens/final_customer.png（かご） |
 | #129 | [Gameplay Expansion][P1] ライバルコンビニ出店・競争イベント・商圏変動の設計と実装 | 作らない | ライバル店・競争（実装済み）。地域ニュースは文字通知で、人物の絵を出す画面がない | 地域ニュースの通知（文字） |
-| #130 | [Gameplay Expansion][P1] 店内調理：焼きたてパン・ピザ窯・製造販売の設備と経済設計 | 作らない | 店内調理の設備（実装済み）。設備の素材で、人物は既存のちびキャラ | docs/qa/screens/建設カタログの設備タブ（build.png は1ページ目のみ写る） |
-| #131 | [Gameplay Expansion][P1] ソフトクリーム・フラッペの製造/販売と専用機器 | 作らない | ソフトクリーム・フラッペ機器。設備の素材で人物は対象外 | docs/qa/screens/建設カタログの設備タブ（build.png は1ページ目のみ写る） |
-| #132 | [Gameplay Expansion][P2] 店内UFOキャッチャーの設備・遊戯客・景品管理 | 作らない | UFOキャッチャー（実装済み）。遊ぶ客は既存のちびキャラで表示 | docs/qa/screens/建設カタログの設備タブ（build.png は1ページ目のみ写る） |
+| #130 | [Gameplay Expansion][P1] 店内調理：焼きたてパン・ピザ窯・製造販売の設備と経済設計 | 作らない | 店内調理の設備（実装済み）。設備の素材で、人物は既存のちびキャラ | docs/qa/screens/docs/qa/screens/screen_audit/build_counter.png / build_service.png（カウンター・設備タブ） |
+| #131 | [Gameplay Expansion][P1] ソフトクリーム・フラッペの製造/販売と専用機器 | 作らない | ソフトクリーム・フラッペ機器。設備の素材で人物は対象外 | docs/qa/screens/docs/qa/screens/screen_audit/build_counter.png / build_service.png（カウンター・設備タブ） |
+| #132 | [Gameplay Expansion][P2] 店内UFOキャッチャーの設備・遊戯客・景品管理 | 作らない | UFOキャッチャー（実装済み）。遊ぶ客は既存のちびキャラで表示 | docs/qa/screens/docs/qa/screens/screen_audit/build_counter.png / build_service.png（カウンター・設備タブ） |
 | #133 | [Gameplay Expansion][P2] 衣料品・医薬品カテゴリと専用商品棚の追加 | 作らない | 衣料品・衛生用品の棚。商品棚の素材で人物は対象外（画面モックアップは PR #193） | PR #193（モックアップ） |
 | #134 | [Gameplay Expansion][P2] イートインスペース・座席・ゴミ箱・食事客の滞在演出 | 作成 | イートインで座っておにぎりを食べる客（客6種）（chibi_customer_*/d*_eat_f*.png） | docs/qa/screens/chibi_sheet.png（食事） |
 | #136 | [Marketing Expansion][P1] 新聞・テレビ・ラジオ・ネット広告と販促キャンペーンの媒体別運用 | 作成 | 媒体広告（実装済み）→ 各媒体に六花が出る広告サムネイルを追加（assets/ui/media/*.png） | docs/qa/screens/media_thumbs_136.png |
 | #137 | [Retail Promotions][P1] 揚げ物・おにぎりセール、セット割、増量、次回クーポンを会計連動で実装 | 作らない | セール・クーポン（実装済み）。値引き系は数値の販促で絵なし。プレゼント・スタンプは #140 の絵を販促カードに表示 | docs/qa/screens/promo_thumbs_140.png（販促カード） |
 | #138 | [Collectibles][P1] 限定フィギュア・雑貨の店頭くじ：賞別在庫、完売特典、景品販売 | 作成(既存) | 限定くじ管理画面（六花入りモックアップ、assets/ui/kuji/*）、店頭くじカードの4セットの景品の絵（assets/ui/kuji/sets/*、192×108） | docs/qa/screens/kuji_sets_138.png / docs/qa/screens/kuji_screen_138.png |
-| #139 | [Capsule Toys][P1] コンビニ設置のカプセルトイ機・ブラインドトイと補充/収益管理 | 作らない | カプセルトイ機（実装済み）。機械の素材で人物は対象外 | docs/qa/screens/建設カタログの設備タブ（build.png は1ページ目のみ写る） |
+| #139 | [Capsule Toys][P1] コンビニ設置のカプセルトイ機・ブラインドトイと補充/収益管理 | 作らない | カプセルトイ機（実装済み）。機械の素材で人物は対象外 | docs/qa/screens/docs/qa/screens/screen_audit/build_counter.png / build_service.png（カウンター・設備タブ） |
 | #140 | [Seasonal Campaigns][P1] アニメ風限定グッズ・スタンプラリー・購入特典・季節フェアの運用 | 作成 | 実装済みの季節フェア4・ご当地マスコットのコラボ・プレゼント2・スタンプラリーの販促カードに、六花が出る絵（assets/ui/promotions/*.png、192×108） | docs/qa/screens/promo_thumbs_140.png |
 | #141 | [Sim/UI][P0] 客の来店目的・寄り道買い・所持金と客パネル（一時停止中にクリックで確認） | 作成 | 客パネルの顔（客6種）（assets/ui/portraits/customer_*.png 他） | docs/qa/screens/final_customer.png |
 | #142 | [Sim][P1] 店外の歩道からの来店・混雑時に入口で引き返す・通行人 | 作らない | 歩道からの来店・通行人（実装済み）。通行人も客と同じちびキャラで表示 | docs/qa/screens/screen_audit/store.png（歩道の通行人） |
@@ -156,3 +156,9 @@
 | 営業停止 | 困り顔の六花と台詞 | 問題なし |
 | 営業結果 | 六花の表情・時間帯グラフ | 問題なし |
 | 限定くじ管理 | モックアップ画像と六花 | 問題なし |
+
+## 建設カタログの絵（2026-11-01）
+
+カウンター・設備タブを実ゲームで撮影（`screen_audit/build_counter.png`・`build_service.png`）したところ、店内の絵がまだない什器16種が灰色の箱で表示されていた。ComfyUI でカタログ用の写真を生成し（`assets/ui/catalog/*.png`、192×128＝表示 100×70 の約2倍）、店内の絵がない種類はこの写真をカードに出すようにした。一覧：`docs/qa/screens/catalog_photos.png`。店内の什器スプライト自体は、投影を合わせる什器パイプライン（#163・#171）で作るため対象外。
+
+残り：おでん什器（warmer_oden）は店内の絵のフォルダがあるが中身が灰色の立方体の仮素材のため、カタログも立方体のまま。正式な絵は什器パイプラインで作る。

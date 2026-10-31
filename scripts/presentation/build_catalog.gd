@@ -20,7 +20,8 @@ const SERVICE_PRODUCTS := ["capsule_toy", "crane_prize"]   # #139: the capsule m
 
 const CARD_SIZE := Vector2(108, 130)
 const THUMB_SIZE := Vector2(100, 70)
-const THUMB_PIXELS := Vector2i(192, 128)   # the cached source is 2x the drawn size, so it stays crisp
+const THUMB_PIXELS := Vector2i(192, 128)
+const CATALOG_PHOTOS := "res://assets/ui/catalog/"   # the cached source is 2x the drawn size, so it stays crisp
 const COLUMNS := 3
 const DIM := Color(1, 1, 1, 0.42)
 const PRICE_UNAFFORDABLE := Color("ff6b6b")
@@ -230,7 +231,10 @@ static func _placeholder_thumbnail() -> Texture2D:
 static func _build_thumbnail(type_id: String) -> Texture2D:
 	var entry := FixtureSprites.new().rotation_entry(type_id, 0)
 	if entry.is_empty():
-		return _placeholder_thumbnail()   # a type without art yet (the staff rooms, #143): a plain box
+		# A type without in-store art yet: its catalog photo (ComfyUI, tools/assets/build_catalog_thumbs.py, 192x128),
+		# else a plain box.
+		var photo := CATALOG_PHOTOS + type_id + ".png"
+		return load(photo) as Texture2D if ResourceLoader.exists(photo) else _placeholder_thumbnail()
 	var body := entry["layers"].get("body") as Texture2D
 	if body == null:
 		return null

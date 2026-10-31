@@ -1,0 +1,18 @@
+{
+  "type_id": "fridge_daily",
+  "seed": 8101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "catalog_fridge_daily_8101_00001_.png",
+  "positive": "anima_style, clean product illustration, single object, three-quarter view from above, isometric angle, japanese convenience store equipment, soft shading, plain pure white background, no text, no logo, an open refrigerated display case with vegetables, tofu packs and milk bottles on shelves",
+  "negative": "low quality, worst quality, blurry, text, letters, logo, brand name, watermark, people, person, hands, background scenery, floor shadow",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    512
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

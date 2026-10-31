@@ -186,3 +186,18 @@ func test_assistant_steps_aside_for_build_and_map(t, tree) -> void:
 	t.ok(stage.visible, "back after the map")
 	main.queue_free()
 	await tree.process_frame
+
+
+## Build catalog: every fixture type has a picture, its in-store art or, for types without it yet, a catalog photo
+## at the thumbnail size (no grey placeholder box left).
+func test_every_catalog_card_has_a_picture(t, _tree) -> void:
+	var d = JSON.parse_string(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
+	var items: Array = d if typeof(d) == TYPE_ARRAY else d.get("fixtures", [])
+	for e in items:
+		var id := String(e["type_id"])
+		var empty := FixtureSprites.new().rotation_entry(id, 0).is_empty()
+		if empty:
+			var photo := BuildCatalog.CATALOG_PHOTOS + id + ".png"
+			t.ok(ResourceLoader.exists(photo), "%s has a catalog photo" % id)
+			if ResourceLoader.exists(photo):
+				t.eq(Vector2i((load(photo) as Texture2D).get_size()), BuildCatalog.THUMB_PIXELS, "%s at the thumbnail size" % id)

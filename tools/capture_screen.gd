@@ -104,7 +104,10 @@ func _run() -> void:
 			cw._set_customer(best["customer_id"])
 			app._publish_snapshot()
 	for a in OS.get_cmdline_user_args():   # --build: build mode (palette at the left); --screen=商品: management window on that tab
-		if a == "--build":
+		if a.begins_with("--build-tab="):   # --build-tab=service: build mode on that catalog tab (all/shelf/cold/counter/service)
+			main.call("toggle_build")
+			main.get_node("BuildController")._catalog_view.set_category(StringName(a.trim_prefix("--build-tab=")))
+		elif a == "--build":
 			main.call("toggle_build")
 		elif a.begins_with("--screen="):
 			main.call("open_screen_tab", a.trim_prefix("--screen="))
