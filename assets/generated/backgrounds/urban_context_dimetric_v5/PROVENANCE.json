@@ -1,0 +1,18 @@
+{
+  "asset_id": "urban_context_dimetric_v5",
+  "file": "urban_context_dimetric_v5.png",
+  "source_candidate": "urban_context_dimetric_v5_candidate_b/urban_context_dimetric_v5_candidate_b.png",
+  "generation_tool": "Codex built-in image generation",
+  "prompt_constraints": [
+    "continuous Japanese spring neighborhood with roads, sidewalks, residential homes, grouped trees, flower beds and a small canal or park path",
+    "no broad bare dirt, vacant lot, empty plaza or empty parking field",
+    "orthographic projection with 2:1 dimetric ground axes at plus and minus 26.565 degrees",
+    "parallel road, curb, paving, wall and roof edges without vanishing points or perspective convergence",
+    "soft painted game illustration with clear daylight",
+    "no store, people, cars, text, logos, UI or watermark"
+  ],
+  "selected_after": "Root review and Godot 4.7.2 actual runtime captures at 12x10, 16x12, 20x16, and both 20x16 pan directions.",
+  "runtime": "Unrotated, uniform scale, centered on projected store, camera-following.",
+  "status": "runtime_verified_candidate_not_user_approved",
+  "remaining": "Neighborhood remains more detailed than store; large central paved residential block is visible around store at some sizes."
+}
