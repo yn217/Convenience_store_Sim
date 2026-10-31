@@ -20,24 +20,24 @@
       "path": "assets/review/guided_assets/shelf_general_open_r0_v1/products_only_original.png",
       "byte_size": 1346020,
       "sha256": "4af4bc66ae81ebd2e86e1d5f0a2494c3a86dfaa3d4eec9df7bf487ee24ecbb81",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "1fe14ba15ab32116bfa3ecebd483897533f57a66",
+      "github_uploaded": true
     },
     {
       "role": "sprite_fullres",
       "path": "assets/review/guided_assets/shelf_general_open_r0_v1/half_composite_candidate.png",
       "byte_size": 187278,
       "sha256": "ee9475ca482555231baf24452916619cbaa335d27570eeedd60875bb0911cab0",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "4e59e324bba2f36a11638268899de3fd77ee5f37",
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
       "path": "assets/review/guided_assets/shelf_general_open_r0_v1/three_states_comparison.png",
       "byte_size": 235588,
       "sha256": "69b1402a2160dbc9a084b7c6e846721bdd3dd7dc7c3bd6c88e6b433a8092b831",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "8b24d7a96f727349fa2ac68992d8e1b1539c695a",
+      "github_uploaded": true
     }
   ],
   "projection": {
@@ -81,7 +81,7 @@
     "human_visual": "not_checked",
     "notes": [
       "Local only; PR and branch fields identify intended handoff destination, not upload.",
-      "EMPTY shape approved to proceed; FULL density approval pending.",
+      "EMPTY shape and FULL density approved to proceed; runtime approval remains false.",
       "Godot screenshots cover r0 at zoom 0.5/1/2, not inventory sync, other rotations or final runtime approval.",
       "Guide vertex numeric checks do not certify generated artwork control points."
     ]
