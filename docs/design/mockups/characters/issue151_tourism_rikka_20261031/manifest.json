@@ -1,0 +1,10 @@
+{
+  "asset_id": "issue151_tourism_demand_rikka_20261031",
+  "kind": "ui_mockup",
+  "issue": 151,
+  "character_identity": "Koharu Rikka (user-specified reference; rights review required before production redistribution)",
+  "source": "generated with user-provided character reference",
+  "runtime_connected": false,
+  "file": "issue151_tourism_demand_rikka.png",
+  "screen_role": "tourism and travel demand forecast, POI distance context, travel-purpose mix, souvenir shelf planning, and capacity guardrails"
+}
