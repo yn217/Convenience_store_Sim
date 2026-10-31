@@ -6,6 +6,7 @@ These PNGs are review-stage concept candidates generated in ComfyUI. They are no
 
 - `event_cg/`: character-included daily-event concept images at `1920x1080`, matching the project's reference viewport.
 - `event_cg_1344x768/`: additional character-included event CG candidates at `1344x768`, suitable for the requested game-event review layout and later scaling/cropping tests.
+- `event_cg_revision_1344x768/`: second-pass candidates with fixed staff uniform, stronger event-specific poses/backgrounds, six revisions, and two new events.
 - `assistant/`: Issue #32 manager-assistant expression references at `512x512`; display target is approximately `256-300px` in the 340px inspector panel.
 - `event_icons/`: Issue #31 daily-event POP/HUD icon references at `512x512`; display target is approximately `64-96px`.
 - `vfx_icons/`: Issue #30 presentation/VFX icon references at `512x512`; display target is approximately `64-128px`.
@@ -28,3 +29,5 @@ The attached Node 70 error (`mat1 and mat2 shapes cannot be multiplied (181x5120
 ## Acceptance note
 
 The images have white backgrounds and are not alpha-cut. Production use still requires rights/provenance review, transparent extraction where needed, Godot integration, and the project's `iso2x_v1` scale/anchor checks. The full-screen images are presentation references, not replacements for 4-direction Blender/Godot character sprites.
+
+The revision pass keeps both LoRAs at `0.8` and uses `1344x768`. It standardizes the white blouse, burgundy ribbon, and dark navy apron uniform, reserves text and numeric UI for Godot, and avoids recognizable real-world store branding.

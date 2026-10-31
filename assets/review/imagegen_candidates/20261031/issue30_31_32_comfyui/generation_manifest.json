@@ -48,6 +48,20 @@
         "issue129_rival_store_1344x768_00001_.png": 2601208
       }
     },
+    "event_cg_revision_1344x768": {
+      "size": [1344, 768],
+      "purpose": "Second-pass Issues #31/#32/#129 event CG candidates with standardized staff uniform and stronger event storytelling",
+      "files": {
+        "event_revision_1344x768_after_work_v2_00001_.png": 2601301,
+        "event_revision_1344x768_roadworks_v2_00001_.png": 2601302,
+        "event_revision_1344x768_hot_day_v2_00001_.png": 2601303,
+        "event_revision_1344x768_sweets_v2_00001_.png": 2601304,
+        "event_revision_1344x768_closing_loss_v2_00001_.png": 2601305,
+        "event_revision_1344x768_rival_store_v2_00001_.png": 2601306,
+        "event_revision_1344x768_cold_day_00001_.png": 2601307,
+        "event_revision_1344x768_bread_feature_00001_.png": 2601308
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",
