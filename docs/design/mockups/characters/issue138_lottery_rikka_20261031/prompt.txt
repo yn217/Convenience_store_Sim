@@ -1,0 +1,5 @@
+Use case: ui-mockup
+Asset type: one 16:9 game screen mockup for a Japanese convenience-store management simulation
+Primary request: Create one polished limited collectible lottery management screen for Issue #138. Use the user-provided Koharu Rikka reference as the guide character for an entirely fictional in-game campaign.
+Composition: header 「限定くじ管理」, fictional campaign 「星空マスコットくじ」, 「販売中」, period 「4/15〜4/30」, price 「1枚 700円」, display case with fictional prizes 「A賞 ぬいぐるみ」「B賞 アクリルスタンド」「C賞 缶バッジ」「D賞 ミニタオル」, panel 「賞品の残数」, and bottom 「くじセット」 with 「仕入れ価格」「販売可能枚数」「残り枚数」「売切れ予測」 plus 「セットを仕入れる」「展示台を確認」.
+Constraints: fictional merchandise only, no real IP or brands, finite stock, no real-money gambling, one screen, one guide character, static mockup only.
