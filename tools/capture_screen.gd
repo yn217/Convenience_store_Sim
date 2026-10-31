@@ -116,6 +116,15 @@ func _run() -> void:
 			var cheer: ProgressionController = main.get_node("ProgressionController")
 			while cheer.is_celebrating():
 				cheer.close_celebration()
+		elif a == "--kuji" or a == "--kuji-selling":   # #138 限定くじ管理; --kuji-selling buys the set and sells 37 tickets first
+			if a == "--kuji-selling":
+				app.run_command({"command_id": "cap_kuji", "kind": &"START_LOTTERY", "set_id": KujiScreen.SET_ID})
+				var lot: Dictionary = s.lotteries.back()
+				for _k in 37:
+					Lottery.sell_ticket(s, lot, "cap")
+				s.day += 2
+				app._publish_snapshot()
+			main.get_node("LotteryController").call("open_kuji_screen")
 		elif a.begins_with("--reveal="):   # --reveal=Missions: scroll the open window to that node (by name)
 			for _f in 3:
 				await process_frame

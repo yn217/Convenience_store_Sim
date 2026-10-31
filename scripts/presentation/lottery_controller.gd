@@ -14,6 +14,7 @@ var _box: VBoxContainer
 var _status: Label
 var _rows_key := []
 var _labels: Dictionary = {}   # set id -> Label
+var _screen: KujiScreen        # 限定くじ管理 (the mockup screen), on Main above the windows
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -26,9 +27,35 @@ func setup(app: Node) -> void:
 	_body.add_child(title)
 	var hint := _label()
 	hint.text = "セットを丸ごと仕入れ、レジで1枚ずつ売ります。どの券にも景品が付き、最後の1枚にはおまけが付きます。売れ残りは終了日に損になります。"
+	var open_screen := Button.new()
+	open_screen.name = "OpenKujiScreen"
+	open_screen.text = "限定くじ管理を開く"
+	open_screen.pressed.connect(open_kuji_screen)
+	_body.add_child(open_screen)
 	_box = VBoxContainer.new()
 	_body.add_child(_box)
 	_status = _label()
+	_screen = KujiScreen.new()
+	_screen.buy_requested.connect(_buy_from_screen)
+	_screen.visibility_changed.connect(_on_screen_visibility)
+	get_parent().add_child.call_deferred(_screen)
+
+
+## 限定くじ管理: the mockup screen for the 星空マスコットくじ set (#138).
+func open_kuji_screen() -> void:
+	_screen.open()
+
+
+func _buy_from_screen(set_id: String) -> void:
+	var r := start_lottery(set_id)
+	_screen.show_result(r.ok, "仕入れました！\nレジで1枚ずつ\n売れていきますよ。" if r.ok else "仕入れられません…\n%s" % ERRORS.get(String(r.message_key), String(r.message_key)))
+
+
+## While the screen is open she is on it, so the bottom-left assistant steps aside.
+func _on_screen_visibility() -> void:
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null and guide.has_method("set_suppressed"):
+		guide.set_suppressed(_screen.visible)
 
 
 func _label() -> Label:
@@ -51,6 +78,9 @@ func apply_snapshot(snap: Dictionary) -> void:
 		var l: Label = _labels.get(v["set_id"])
 		if l != null:
 			l.text = set_line(v)
+		if v["set_id"] == KujiScreen.SET_ID and _screen != null:
+			var own_selling: bool = v.get("run", {}).get("status", "") == "selling"
+			_screen.apply(v, int(snap.get("day", 0)), selling and not own_selling)
 
 
 func _rebuild(sets: Array, selling: bool) -> void:

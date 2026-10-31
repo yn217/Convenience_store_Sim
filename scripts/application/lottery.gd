@@ -181,6 +181,7 @@ static func views(state: GameState) -> Array:
 		for lot in state.lotteries:
 			if lot["set_id"] == d["set_id"]:
 				v["run"] = {"lottery_id": lot["lottery_id"], "status": lot["status"], "sold": lot["sold"], "revenue_yen": lot["revenue_yen"],
-					"days_left": int(lot["end_day"]) - state.day + 1, "remaining": remaining(lot)}
+					"days_left": int(lot["end_day"]) - state.day + 1, "remaining": remaining(lot),
+					"start_day": int(lot["start_day"]), "end_day": int(lot["end_day"])}
 		out.append(v)
 	return out

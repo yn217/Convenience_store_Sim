@@ -32,6 +32,7 @@ var _heading: Label            # 目標達成！ while celebrating, hidden other
 var _figure: TextureRect
 var _celebrations: Array[Dictionary] = []   # queued {badge, line}; the first one is on screen
 var _celebrate_timer: Timer
+var _suppressed := false       # a full screen with her on it is open (限定くじ管理): the corner figure steps aside
 var _day_remark := ""          # her remark on the closed day while the day-end card is open ("" otherwise)
 var _achievements: Label
 var _missions: VBoxContainer   # 本日のミッション: today's challenge and the nearest titles, each with a bar
@@ -158,7 +159,7 @@ func _refresh_stage() -> void:
 		_assistant.text = _day_remark
 	else:
 		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
-	_stage.visible = celebrating or _day_remark != "" or cue != ""
+	_stage.visible = not _suppressed and (celebrating or _day_remark != "" or cue != "")
 
 
 func is_celebrating() -> bool:
@@ -177,6 +178,11 @@ func close_celebration() -> void:
 ## The day-end card opened (ReportController): she comments on the day until it closes.
 func say_day_end(remark: String) -> void:
 	_day_remark = remark
+	_refresh_stage()
+
+
+func set_suppressed(on: bool) -> void:
+	_suppressed = on
 	_refresh_stage()
 
 

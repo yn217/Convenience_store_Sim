@@ -112,6 +112,36 @@
         }
       ],
       "last_one": "特大ケーキ型クッション"
+    },
+    {
+      "set_id": "kuji_starry",
+      "display_name": "星空マスコットくじ",
+      "ticket_price_yen": 700,
+      "set_cost_yen": 35000,
+      "days": 14,
+      "prizes": [
+        {
+          "tier": "A",
+          "name": "ぬいぐるみ",
+          "count": 5
+        },
+        {
+          "tier": "B",
+          "name": "アクリルスタンド",
+          "count": 15
+        },
+        {
+          "tier": "C",
+          "name": "缶バッジ",
+          "count": 30
+        },
+        {
+          "tier": "D",
+          "name": "ミニタオル",
+          "count": 50
+        }
+      ],
+      "last_one": "星空ドレスのぬいぐるみ"
     }
   ]
 }
