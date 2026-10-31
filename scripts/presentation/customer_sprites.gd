@@ -29,9 +29,11 @@ func variant(variant_id: String) -> Dictionary:
 
 
 ## Stable variant for a customer id: the numeric tail picks one of the three looks.
-static func variant_for(customer_id: String) -> String:
+## Staff (#143) wear the chibi look of their face (Portraits.id_for_staff of the name, 2026-10-31); without a name, the
+## shared clerk look.
+static func variant_for(customer_id: String, staff_name: String = "") -> String:
 	if customer_id.begins_with("staff_"):
-		return CLERK   # store staff (#143)
+		return CHIBI + Portraits.id_for_staff(staff_name) if staff_name != "" else CLERK
 	var digits := ""
 	for i in range(customer_id.length() - 1, -1, -1):
 		var ch := customer_id[i]

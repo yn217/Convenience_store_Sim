@@ -18,7 +18,8 @@ from scipy import ndimage
 SRC = Path("assets/source/characters/chibi")
 DST = Path("assets/generated/characters")
 PICKS = {"customer_a": 6101, "customer_b": 6101, "customer_c": 6101, "clerk": 6101,
-         "office_worker": 6101, "student": 6101, "parent": 6101}
+         "office_worker": 6101, "student": 6101, "parent": 6101,
+         "staff_1": 6101, "staff_2": 6101, "staff_3": 6101, "staff_4": 6101}   # staff wear the look of their face
 CANVAS = (190, 329)
 FEET = (95, 282)
 HEIGHT = 262          # the figure's height on the canvas (the box figures were about as tall)
@@ -66,6 +67,9 @@ def soft_shadow() -> Image.Image:
 
 
 def build(person: str, seed: int) -> None:
+    if not (SRC / ("%s_front_%d.png" % (person, seed))).exists():
+        print("skip", person, "(no render yet)")
+        return
     front = cut(SRC / ("%s_front_%d.png" % (person, seed)))
     back = cut(SRC / ("%s_back_%d.png" % (person, seed)))
     views = {0: ImageOps.mirror(front), 1: front, 2: back, 3: ImageOps.mirror(back)}

@@ -24,6 +24,10 @@ const BUBBLE_WIDTH := 420
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
 const BLOCKED_LINE := "大変です、店長…！費用が払えなくて、お店が止まってしまいました。セーブからやり直しましょう。"
+const CUTIN_WORD := "開店！"
+const CUTIN_LINE := "今日もよろしくお願いします、店長！"
+const CUTIN_BAND := 200.0
+const CUTIN_SECONDS := 1.6
 const MISSION_ROWS := 4   # today's challenge + the three titles closest to done
 
 var _app: Node
@@ -40,7 +44,9 @@ var _heading: Label            # 目標達成！ while celebrating, hidden other
 var _figure: TextureRect
 var _figure_textures: Dictionary = {}   # mood -> Texture2D
 var _day_mood := "normal"      # her face for the day-end remark
-var _blocked_closed := false   # 閉じる on her payment-stop line (until the store runs again)
+var _blocked_closed := false
+var _last_business := ""       # business_state of the last snapshot ("" before the first)
+var _cutin: Control            # 開店！: a band across the screen with her happy figure, played when the store opens   # 閉じる on her payment-stop line (until the store runs again)
 var _celebrations: Array[Dictionary] = []   # queued {badge, line}; the first one is on screen
 var _celebrate_timer: Timer
 var _suppressed_by := {}       # why the corner figure steps aside: "window" (management window open, its left edge
@@ -91,10 +97,17 @@ func setup(app: Node, milestones: Array) -> void:
 	# Added after Main has built its management window, so she stands in front of it.
 	get_parent().add_child.call_deferred(_stage)
 	_watch_window.call_deferred()
+	_build_cutin()
+	get_parent().add_child.call_deferred(_cutin)
 	apply_snapshot({"progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [], "active_daily_challenge_id": null}})
 
 
 func apply_snapshot(snap: Dictionary) -> void:
+	var state := String(snap.get("business_state", ""))
+	if _last_business == String(GameState.SETUP) and state == String(GameState.OPEN):
+		show_opening()   # the player just opened the store (never on a load: the first snapshot only sets _last_business)
+	if state != "":
+		_last_business = state
 	_snap = snap
 	var p: Dictionary = snap["progression"]
 	var skipped: bool = p["tutorial_skipped"]
@@ -223,6 +236,81 @@ func say_day_end(remark: String, day_mood: String = "normal") -> void:
 	_day_remark = remark
 	_day_mood = day_mood
 	_refresh_stage()
+
+
+## 開店！ cut-in: a warm band across the middle of the screen with the word and her happy figure, sliding in and out over
+## about two seconds. Presentation only; it takes no clicks.
+func _build_cutin() -> void:
+	_cutin = Control.new()
+	_cutin.name = "OpeningCutin"
+	_cutin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_cutin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cutin.visible = false
+	var band := ColorRect.new()
+	band.name = "Band"
+	band.color = Color(0.09, 0.16, 0.27, 0.86)
+	band.set_anchors_preset(Control.PRESET_CENTER_LEFT)
+	band.anchor_right = 1.0
+	band.offset_top = -CUTIN_BAND / 2.0
+	band.offset_bottom = CUTIN_BAND / 2.0
+	band.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cutin.add_child(band)
+	var edge := ColorRect.new()   # thin warm lines above and below the band
+	edge.color = UiTheme.WARM
+	edge.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	edge.offset_bottom = 4
+	edge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	band.add_child(edge)
+	var edge2 := edge.duplicate() as ColorRect
+	edge2.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	edge2.offset_top = -4
+	edge2.offset_bottom = 0
+	band.add_child(edge2)
+	var word := Label.new()
+	word.name = "Word"
+	word.text = CUTIN_WORD
+	word.add_theme_font_size_override("font_size", 84)
+	word.add_theme_color_override("font_color", UiTheme.WARM)
+	word.add_theme_color_override("font_outline_color", Color("0b1a2b"))
+	word.add_theme_constant_override("outline_size", 12)
+	word.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	word.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	word.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	band.add_child(word)
+	var sub := Label.new()
+	sub.text = CUTIN_LINE
+	sub.add_theme_font_size_override("font_size", 22)
+	sub.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	sub.offset_top = -44
+	sub.offset_bottom = -12
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	band.add_child(sub)
+	var face := TextureRect.new()
+	face.name = "Rikka"
+	face.texture = load(FIGURES["happy"]) as Texture2D
+	face.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	face.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	face.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	face.offset_left = -FIGURE_SIZE.x - 160
+	face.offset_right = -160
+	face.offset_top = -FIGURE_SIZE.y / 2.0 - 30
+	face.offset_bottom = FIGURE_SIZE.y / 2.0 - 30
+	_cutin.add_child(face)
+
+
+func show_opening() -> void:
+	if _cutin == null:
+		return
+	_cutin.visible = true
+	_cutin.modulate = Color(1, 1, 1, 0)
+	if not _cutin.is_inside_tree():
+		return   # tests without a tree: visible is enough
+	var tw := _cutin.create_tween()
+	tw.tween_property(_cutin, "modulate:a", 1.0, 0.25)
+	tw.tween_interval(CUTIN_SECONDS)
+	tw.tween_property(_cutin, "modulate:a", 0.0, 0.35)
+	tw.tween_callback(func(): _cutin.visible = false)
 
 
 ## She steps aside while the management window is open (user's choice, 2026-10-31).

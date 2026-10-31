@@ -99,3 +99,25 @@ func test_chibi_looks_walk_and_eat(t, _tree) -> void:
 		var walk: Array = sheet["frames"][CustomerSprites.FACING_S]["walk"]
 		t.ok(walk[0].get_image().get_data() != walk[1].get_image().get_data(), "%s: the stride frame is another drawing" % vid)
 		t.ok((sheet["animations"] as Dictionary).has("eat"), "%s has the eating pose" % vid)
+
+
+## 開店！: the cut-in plays when the store goes from setup to open, never for a first snapshot that is already open
+## (a load); staff on the floor wear the look of their face.
+func test_opening_cutin_and_staff_looks(t, tree) -> void:
+	var main: Node = await _boot(tree)
+	var app: Node = main.get_node("AppRoot")
+	var pc: ProgressionController = main.get_node("ProgressionController")
+	t.ok(not pc._cutin.visible, "nothing at boot (setup)")
+	app.state.business_state = GameState.OPEN
+	app._publish_snapshot()
+	t.ok(pc._cutin.visible, "opening the store plays 開店！")
+	pc._cutin.visible = false
+	app._publish_snapshot()
+	t.ok(not pc._cutin.visible, "only on the change")
+	pc._last_business = ""   # as after a load: the first snapshot is already open
+	app._publish_snapshot()
+	t.ok(not pc._cutin.visible, "a loaded open store does not replay it")
+	t.eq(CustomerSprites.variant_for("staff_1", "佐藤"), CustomerSprites.CHIBI + Portraits.id_for_staff("佐藤"), "staff wear their face's look")
+	t.eq(CustomerSprites.variant_for("staff_1"), CustomerSprites.CLERK, "no name: the shared clerk look")
+	main.queue_free()
+	await tree.process_frame

@@ -1,0 +1,22 @@
+{
+  "person": "staff_4",
+  "view": "back",
+  "step": "stepB",
+  "seed": 6101,
+  "img2img_from": "staff_4_back_6101.png",
+  "denoise": 0.72,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "chibi_staff_4_back_stepB_6101_00001_.png",
+  "positive": "anima_style, solo, chibi, super deformed, cute anime game character, full body, standing, simple clean lineart, flat soft cel shading, plain pure white background, no shadow, 1boy, university student, glasses, messy dark hair, teal convenience store uniform shirt with a small name tag, dark navy trousers, black shoes, view from behind, three-quarter back view, walking away to the upper left, back of the head visible, face not visible, walking, passing pose, one knee raised, one foot lifted off the ground, arms swinging the other way, ",
+  "negative": "low quality, worst quality, blurry, multiple views, reference sheet, text, watermark, logo, cropped feet, out of frame, background scenery, floor, shadow, extra limbs, malformed hands",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    512,
+    768
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

@@ -144,6 +144,16 @@ func _run() -> void:
 				w.selected_customer = String(people[0]["customer_id"])
 				main.get_node("OverlayController").call("refresh_customer")
 				main.call("_sync_selection")
+		elif a == "--opening":   # 開店！ cut-in, as when the player starts business
+			s.business_state = GameState.SETUP
+			app._publish_snapshot()
+			s.business_state = GameState.OPEN
+			app._publish_snapshot()
+			for _f in 20:
+				await process_frame
+			get_root().get_texture().get_image().save_png(out_png)
+			quit(0)
+			return
 		elif a == "--no-assistant":   # hide the corner assistant (window content under her bubble)
 			main.get_node("ProgressionController").call("set_suppressed", true)
 		elif a.begins_with("--reveal="):   # --reveal=Missions: scroll the open window to that node (by name)
@@ -233,6 +243,9 @@ func _run() -> void:
 		var guide: ProgressionController = main.get_node("ProgressionController")
 		while guide.is_celebrating():   # earlier titles' cheers are over by the end of the day: her day remark shows
 			guide.close_celebration()
+	var cut: Control = main.get_node("ProgressionController")._cutin   # the setup above opened the store: no 開店！ in review shots
+	if cut != null:
+		cut.visible = false
 	for i in 30:
 		await process_frame
 	get_root().get_texture().get_image().save_png(out_png)

@@ -437,9 +437,11 @@ func _fixture_center(fixture_id: String) -> Vector2:
 
 
 ## Sprite sheet, variant id and animation time offset of a customer, looked up once per id (not per frame).
-func _look_for(id: String) -> Array:
+func _look_for(id: String, staff_name: String = "") -> Array:
 	if not _look.has(id):
-		var variant_id := CustomerSprites.variant_for(id)
+		var variant_id := CustomerSprites.variant_for(id, staff_name)
+		if variant_id != CustomerSprites.CLERK and _people.variant(variant_id).is_empty():
+			variant_id = CustomerSprites.CLERK if id.begins_with("staff_") else variant_id   # a staff look not built yet
 		_look[id] = [_people.variant(variant_id), variant_id, float(id.hash() % 7) * 0.37]
 	return _look[id]
 
@@ -466,7 +468,7 @@ func shown_route(c: Dictionary) -> PackedVector2Array:
 func customer_view(c: Dictionary) -> Dictionary:
 	var id: String = c["customer_id"]
 	var anim := CustomerSprites.anim_for_state(c["phase"], _is_moving(id), _pick_faces.has(id) or int(c.get("browse_left", -1)) > 0)   # browsing at a shelf (#117 v2) poses too
-	var look := _look_for(id)
+	var look := _look_for(id, String(c.get("name", "")))   # staff wear the look of their face (Portraits)
 	var sheet: Dictionary = look[0]
 	var frame := 0
 	if not sheet.is_empty() and not (sheet["animations"] as Dictionary).has(anim):
