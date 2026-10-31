@@ -1,0 +1,13 @@
+Use case: stylized concept; integrated complete transparent 2D sprite, shelf_general FULL/r0.
+
+ImageGen reference roles recorded for this candidate:
+1. The v9 integrated FULL source: merchandise density/style reference only.
+2. The empty shelf structure candidate v13: fixture silhouette/viewpoint reference.
+3. An earlier snack-shelf concept: package-color/detail reference only.
+
+Generation brief/prompt record (reconstructed from the generation brief for this run; the tool-side exact prompt text was not separately persisted):
+Create one new complete shelf_general FULL/r0 sprite with the shelf and merchandise together as a single transparent 2D image. Show exactly four stocked tiers, no canopy or sign. Preserve the intended open-gondola appearance and thin posts/boards. Fill the display with tightly faced generic Japanese convenience-store snack packages, cups, and bread, with visible colorful fronts resting on the shelves. Avoid floating individual cards and avoid thick cuboid extrusion.
+
+Target projection/layout constraints supplied: iso2x_v1; shelf long-axis screen direction slope +0.5 and depth-axis slope -0.5; nominal 1.92m × 0.92m, target ratio 0.47917; access edge E/+X. Use the empty-shelf reference for structure and the stocked reference only for merchandise style. Keep the base kickplate compact and avoid a large blank top surface. Transparent square canvas with visible safety margins; do not crop or stretch the fixture.
+
+Important provenance note: this is a faithful brief summary, not a verbatim tool prompt transcript.
