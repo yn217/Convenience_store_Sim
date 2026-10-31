@@ -1,0 +1,7 @@
+Issue #139 / カプセルトイ機・ブラインドトイ・補充・収益管理
+
+wide 16:9 polished anime game UI mockup screenshot for a Japanese convenience-store management simulation, capsule toy machine management screen, a cheerful silver-haired anime store manager with purple eyes and double bun hair standing on the right side as a helpful guide, navy and pink convenience-store uniform, friendly pointing gesture, colorful convenience-store entrance and capsule toy corner softly visible behind her, left and center show an organized dark navy management dashboard titled カプセルトイ管理, tabs 設備一覧 / 景品シリーズ / 売上と補充, cards for 1連 3連 5連 capsule machines, finite capsule count, fictional animal mascot series, robot miniature series, remaining prizes, refill button, limited series badge, daily sales, revenue split, empty-machine warning, clean blue pink yellow accent colors, premium Japanese game UI, organized spacing, no real brands, no copyrighted characters, no watermark, no duplicate character, no malformed hands
+
+Negative prompt:
+low quality, worst quality, malformed hands, extra fingers, missing fingers, fused fingers, extra arms, duplicate limbs, distorted face, cropped character, unreadable gibberish text, watermark, real brand logo, copyrighted character, blurry UI, cluttered layout
+

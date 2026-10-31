@@ -1,0 +1,26 @@
+{
+  "asset_id": "issue139-capsule-rikka",
+  "kind": "ui_mockup",
+  "issue": 139,
+  "character_identity": "Koharu Rikka",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue139_capsule_rikka.png",
+  "screen_role": "カプセルトイ設備・景品シリーズ・補充／収益管理",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "loras": [
+      {
+        "name": "Koharu-Koharu-epoch100.safetensors",
+        "strength": 0.8
+      },
+      {
+        "name": "anima-style-epoch35-lr5e5.safetensors",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "d0876534-25b9-4805-afd7-736c583f57f7"
+  }
+}
