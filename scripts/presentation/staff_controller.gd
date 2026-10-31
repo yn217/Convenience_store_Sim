@@ -81,6 +81,7 @@ func _rebuild(staff: Array, cands: Array, full: bool) -> void:
 	for n in _staff_box.get_children():
 		n.queue_free()
 	for n in _cand_box.get_children():
+		_cand_box.remove_child(n)   # out of the tree now, so the new CandidateCards keeps its name
 		n.queue_free()
 	_staff_labels.clear()
 	for s in staff:
@@ -107,21 +108,14 @@ func _rebuild(staff: Array, cands: Array, full: bool) -> void:
 		fire.pressed.connect(fire_staff.bind(String(s["customer_id"])))
 		row.add_child(fire)
 		_staff_box.add_child(row)
+	var cards := GridContainer.new()   # #144 mockup: the candidates side by side, one card each, to compare at a glance
+	cards.name = "CandidateCards"
+	cards.columns = maxi(mini(cands.size(), CARD_COLUMNS), 1)
+	cards.add_theme_constant_override("h_separation", 8)
+	cards.add_theme_constant_override("v_separation", 8)
 	for c in cands:
-		var row := HBoxContainer.new()
-		var l := Label.new()
-		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		l.text = candidate_line(c)
-		row.add_child(l)
-		var hire := Button.new()
-		hire.name = "Hire_" + String(c["candidate_id"])
-		hire.text = "採用"
-		hire.disabled = full
-		hire.tooltip_text = "上限に達しています" if full else ""
-		hire.pressed.connect(hire_candidate.bind(String(c["candidate_id"])))
-		row.add_child(hire)
-		_cand_box.add_child(row)
+		cards.add_child(_candidate_card(c, full))
+	_cand_box.add_child(cards)
 	if cands.is_empty():
 		var none := Label.new()
 		none.text = "今日の候補はもういません。"
@@ -150,6 +144,66 @@ func fire_staff(staff_id: String) -> CommandResult:
 	var r: CommandResult = _app.run_command({"command_id": "ui_fire_%d_%d" % [Time.get_ticks_usec(), _seq], "kind": &"FIRE_STAFF", "staff_id": staff_id})
 	_status.text = "解雇しました。" if r.ok else "解雇できません（%s）" % ERRORS.get(String(r.message_key), String(r.message_key))
 	return r
+
+
+const CARD_COLUMNS := 3
+const SKILL_MAX := 5   # archetype skill ranges top out at 5 (data/staff/archetypes_v1.json)
+const SKILLS := [["register", "レジ"], ["restock", "品出し"], ["stamina", "体力"], ["service", "接客"]]
+
+
+## One candidate's card: name and type, 日給, a bar per skill with its number (the number is the cue, not only the bar),
+## and 採用. The whole line (candidate_line) is its tooltip.
+func _candidate_card(c: Dictionary, full: bool) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.name = "Candidate_" + String(c["candidate_id"])
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.tooltip_text = candidate_line(c)
+	var box := UiTheme.chip_box(UiTheme.BORDER)
+	box.set_corner_radius_all(10)
+	box.set_content_margin_all(10)
+	card.add_theme_stylebox_override("panel", box)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 4)
+	card.add_child(col)
+	var name_label := Label.new()
+	name_label.text = String(c.get("name", ""))
+	name_label.add_theme_font_size_override("font_size", 18)
+	col.add_child(name_label)
+	var kind := Label.new()
+	kind.text = "%s　日給 %s" % [c.get("label", c.get("archetype", "")), OverlayModel.yen(int(c.get("daily_wage_yen", 0)))]
+	kind.add_theme_color_override("font_color", UiTheme.WARM)
+	col.add_child(kind)
+	var sk: Dictionary = c.get("skills", {})
+	for s in SKILLS:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+		var cap := Label.new()
+		cap.text = s[1]
+		cap.custom_minimum_size.x = 48
+		var bar := ProgressBar.new()
+		bar.name = "Skill_" + String(s[0])
+		bar.show_percentage = false
+		bar.max_value = SKILL_MAX
+		bar.step = 1.0
+		bar.value = int(sk.get(s[0], 0))
+		bar.custom_minimum_size.y = UiTheme.BAR_HEIGHT
+		bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		var n := Label.new()
+		n.text = "%d" % int(sk.get(s[0], 0))
+		row.add_child(cap)
+		row.add_child(bar)
+		row.add_child(n)
+		col.add_child(row)
+	var hire := Button.new()
+	hire.name = "Hire_" + String(c["candidate_id"])
+	hire.text = "採用"
+	hire.theme_type_variation = &"PrimaryButton"
+	hire.disabled = full
+	hire.tooltip_text = "上限に達しています" if full else ""
+	hire.pressed.connect(hire_candidate.bind(String(c["candidate_id"])))
+	col.add_child(hire)
+	return card
 
 
 const ERRORS := {"staff_cap_reached": "店員の上限です。大きい控え室を置くと増やせます", "unknown_candidate": "候補がいません", "unknown_staff": "店員がいません"}
