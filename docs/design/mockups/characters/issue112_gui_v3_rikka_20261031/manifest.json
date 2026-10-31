@@ -1,0 +1,10 @@
+{
+  "asset_id": "issue112_gui_v3_preview_rikka_20261031",
+  "kind": "ui_mockup",
+  "issue": 112,
+  "character_identity": "Koharu Rikka (user-specified reference; rights review required before production redistribution)",
+  "source": "generated with user-provided character reference",
+  "runtime_connected": false,
+  "file": "issue112_gui_v3_preview_rikka.png",
+  "screen_role": "GUI v3 top bar, left navigation, bottom HUD, catalog/inspector, information priority, and safe-area preview"
+}
