@@ -70,6 +70,7 @@ var bakes_pending := 0                 # #130: lots in the ovens (recounted from
 var eat_in_total := 0                  # #134: customers who sat down to eat
 var lotteries: Array = []              # #138: prize draw sets bought and their tickets (Lottery)
 var event_history: Array = []          # #31: past days' event draws, oldest first: {day, event_id ("" = none), held} (EventService)
+var _sales_index: SalesIndex = null   # per-day SALE sums for the views, rebuilt from the ledger (not saved)
 var capsule_stats: Dictionary = {}     # #139: sku_id -> {turns, rare} of the capsule machines (CapsuleToys)
 var crane_stats: Dictionary = {}       # #132: fixture_id -> {plays, wins, since, repairs, broken} of the crane games (CraneGame)
 var market_conditions: Array = []      # #129 phase 2: local conditions (Market), the company's
@@ -191,49 +192,35 @@ func set_store_id(id: String) -> void:
 	ledger.scope = "" if id == "" else id + "/"
 
 
-## Revenue and gross profit of the current day for the HUD. Walks the ledger from the end and
-## stops at the first earlier day, so it stays cheap while the ledger grows.
+## Revenue and gross profit of the current day for the HUD (from the sales index: only new ledger rows are read).
 func today_summary() -> Dictionary:
-	var revenue := 0
-	var cogs := 0
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day:
-			break
-		if tx["event_type"] == "SALE" and ledger.is_mine(tx):
-			revenue += int(tx["revenue_delta_yen"])
-			cogs += int(tx["cogs_delta_yen"])
-	return {"revenue_yen": revenue, "gross_profit_yen": revenue - cogs}
+	var b := _sales_day(day)
+	return {"revenue_yen": int(b["revenue"]), "gross_profit_yen": int(b["revenue"]) - int(b["cogs"])}
 
 
-## Items sold today (sum of SALE qty; a basket of 3 items is 3). Same backwards walk as today_summary().
+## Items sold today (sum of SALE qty; a basket of 3 items is 3).
 func units_sold_today() -> int:
-	var units := 0
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day:
-			break
-		if tx["event_type"] == "SALE" and ledger.is_mine(tx):
-			units += int(tx["details"].get("qty", 1))
-	return units
+	return int(_sales_day(day)["units"])
 
 
-## #19 売上の推移: revenue of the day's SALE rows per hour of the day (24 ints). Walks back from the newest row, so
-## today and yesterday cost only their own rows.
+## The sales index's sums for one day (SalesIndex: kept up to date incrementally, older days dropped).
+func _sales_day(day_index: int) -> Dictionary:
+	if _sales_index == null:
+		_sales_index = SalesIndex.new()
+	_sales_index.forget_before(day - 1)
+	if day_index < _sales_index.kept_from:   # an older day than the index keeps: a one-off index of the whole ledger
+		return SalesIndex.new().day(ledger, day_index)
+	return _sales_index.day(ledger, day_index)
+
+
+## The day's profit and loss (LedgerSummary.summarize of that day) from the sales index: for views that refresh often.
+func day_summary(day_index: int) -> Dictionary:
+	return LedgerSummary.finish(_sales_day(day_index)["pl"])
+
+
+## #19 売上の推移: revenue of the day's SALE rows per hour of the day (24 ints).
 func sales_by_hour(day_index: int) -> Array:
-	var out: Array = []
-	out.resize(24)
-	out.fill(0)
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		var d := int(tx["day_index"])
-		if d < day_index:
-			break
-		if d > day_index or tx["event_type"] != "SALE" or not ledger.is_mine(tx):
-			continue
-		var h := (int(tx["time_sec"]) % 86400) / 3600
-		out[h] = int(out[h]) + int(tx["revenue_delta_yen"])
-	return out
+	return (_sales_day(day_index)["hours"] as Array).duplicate()
 
 
 ## #24 売れ筋: today's confirmed product sales per SKU, most units first (ties: revenue, then sku id). Only shelf
@@ -245,22 +232,12 @@ func best_sellers_today() -> Array[Dictionary]:
 
 ## The same for any day still in the ledger (the ranking's 前日 view).
 func best_sellers(day_index: int) -> Array[Dictionary]:
-	var by_sku := {}
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day_index:
-			break
-		var d: Dictionary = tx["details"]
-		if int(tx["day_index"]) > day_index or tx["event_type"] != "SALE" or not ledger.is_mine(tx) or String(d.get("sku_id", "")) == "" or not d.has("reservation_id"):
-			continue
-		var sku := String(d["sku_id"])
-		if not by_sku.has(sku):
-			var p := products.get_sku(sku)
-			by_sku[sku] = {"sku_id": sku, "name": String(p.get("display_name", sku)), "category": String(p.get("category", "")), "qty": 0, "revenue_yen": 0}
-		by_sku[sku]["qty"] += int(d.get("qty", 1))
-		by_sku[sku]["revenue_yen"] += int(tx["revenue_delta_yen"])
+	var skus: Dictionary = _sales_day(day_index)["skus"]
 	var out: Array[Dictionary] = []
-	out.assign(by_sku.values())
+	for sku in skus:
+		var p := products.get_sku(sku)
+		out.append({"sku_id": sku, "name": String(p.get("display_name", sku)), "category": String(p.get("category", "")),
+			"qty": int(skus[sku]["qty"]), "revenue_yen": int(skus[sku]["revenue_yen"])})
 	out.sort_custom(func(a, b):
 		if a["qty"] != b["qty"]:
 			return a["qty"] > b["qty"]
@@ -273,24 +250,13 @@ func best_sellers(day_index: int) -> Array[Dictionary]:
 ## #24 棚別売上: the day's product sales per fixture, highest revenue first (ties: units, then fixture id). Only
 ## fixtures still in the store are named; each entry: {fixture_id, name, x, y, qty, revenue_yen}.
 func shelf_ranking(day_index: int) -> Array[Dictionary]:
-	var by_fixture := {}
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day_index:
-			break
-		var d: Dictionary = tx["details"]
-		var fid := String(d.get("fixture_id", ""))
-		if int(tx["day_index"]) > day_index or tx["event_type"] != "SALE" or not ledger.is_mine(tx) or fid == "" or not d.has("reservation_id"):
-			continue
-		if not by_fixture.has(fid):
-			var inst: Dictionary = grid.instances.get(fid, {})
-			var def := fixtures.get_type(String(inst.get("type_id", ""))) if not inst.is_empty() else {}
-			by_fixture[fid] = {"fixture_id": fid, "name": String(def.get("display_name", "撤去した棚")), "x": int(inst.get("x", -1)), "y": int(inst.get("y", -1)),
-				"qty": 0, "revenue_yen": 0}
-		by_fixture[fid]["qty"] += int(d.get("qty", 1))
-		by_fixture[fid]["revenue_yen"] += int(tx["revenue_delta_yen"])
+	var shelves: Dictionary = _sales_day(day_index)["shelves"]
 	var out: Array[Dictionary] = []
-	out.assign(by_fixture.values())
+	for fid in shelves:
+		var inst: Dictionary = grid.instances.get(fid, {})
+		var def := fixtures.get_type(String(inst.get("type_id", ""))) if not inst.is_empty() else {}
+		out.append({"fixture_id": fid, "name": String(def.get("display_name", "撤去した棚")), "x": int(inst.get("x", -1)), "y": int(inst.get("y", -1)),
+			"qty": int(shelves[fid]["qty"]), "revenue_yen": int(shelves[fid]["revenue_yen"])})
 	out.sort_custom(func(a, b):
 		if a["revenue_yen"] != b["revenue_yen"]:
 			return a["revenue_yen"] > b["revenue_yen"]
@@ -302,30 +268,12 @@ func shelf_ranking(day_index: int) -> Array[Dictionary]:
 
 ## Units sold today per fixture id (SALE rows carry the fixture they were taken from).
 func fixture_sales_today() -> Dictionary:
-	var out := {}
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day:
-			break
-		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "" and ledger.is_mine(tx):
-			out[tx["details"]["fixture_id"]] = int(out.get(tx["details"]["fixture_id"], 0)) + int(tx["details"].get("qty", 1))
-	return out
+	return (_sales_day(day)["fixture_units"] as Dictionary).duplicate()
 
 
-## Revenue and gross profit per fixture id today (the selected-fixture card). Same walk as above.
+## Revenue and gross profit per fixture id today (the selected-fixture card).
 func fixture_money_today() -> Dictionary:
-	var out := {}
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day:
-			break
-		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "" and ledger.is_mine(tx):
-			var fid: String = tx["details"]["fixture_id"]
-			var m: Dictionary = out.get(fid, {"revenue_yen": 0, "gross_profit_yen": 0})
-			m["revenue_yen"] = int(m["revenue_yen"]) + int(tx["revenue_delta_yen"])
-			m["gross_profit_yen"] = int(m["gross_profit_yen"]) + int(tx["revenue_delta_yen"]) - int(tx["cogs_delta_yen"])
-			out[fid] = m
-	return out
+	return (_sales_day(day)["fixture_money"] as Dictionary).duplicate(true)
 
 
 ## Achievements since the last call; the UI announces each one exactly once.

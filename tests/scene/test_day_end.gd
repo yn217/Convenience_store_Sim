@@ -92,3 +92,22 @@ func test_the_best_seller_ranking(t, tree) -> void:
 	t.ok(card != null, "the ranking card sits in a management tab")
 	main.queue_free()
 	await tree.process_frame
+
+
+## #19: at a real midnight (the day moves on first) the card shows the closed day's sales by hour.
+func test_the_day_end_card_has_the_hourly_chart(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var app: AppRoot = main.get_node("AppRoot")
+	var rc: ReportController = main.get_node("ReportController")
+	app.state.ledger.cash_yen = 100000
+	app.state.ledger.record("SALE", "h1", 400, 0, 15 * 3600, {"reservation_id": "r", "sku_id": "snack_001", "qty": 1}, {"revenue": 400})
+	SimulationRunner.roll_day(app.state, 0, 1)
+	app.call("_publish_snapshot")
+	t.ok(rc._day_end.visible)
+	t.ok(rc._day_end_hourly.visible, "the closed day's hours are on the card")
+	t.eq(rc._day_end_hourly.values()[15], 400)
+	main.queue_free()
+	await tree.process_frame

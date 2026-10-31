@@ -219,7 +219,7 @@ func _run() -> void:
 		app._publish_snapshot()
 	if OS.get_cmdline_user_args().has("--day-end"):   # #19 SCR-13: close today now, the day-end card with its history
 		s.speed_setting = 0
-		s.close_day_once(s.day)
+		SimulationRunner.roll_day(s, s.day, s.day + 1)   # as at midnight: the report, then the new day
 		app._publish_snapshot()
 		var guide: ProgressionController = main.get_node("ProgressionController")
 		while guide.is_celebrating():   # earlier titles' cheers are over by the end of the day: her day remark shows

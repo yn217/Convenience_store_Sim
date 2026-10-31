@@ -183,7 +183,8 @@ static func views(active: GameState) -> Array:
 	var scope := active.ledger.scope
 	for s in stores(active):
 		s.ledger.scope = "" if s.store_id == "" else s.store_id + "/"
-		var today := LedgerSummary.summarize(s.ledger, active.day)
+		# today only: the store on screen reads its sales index; the others walk back over today's rows
+		var today: Dictionary = s.day_summary(active.day) if s == active else LedgerSummary.summarize(s.ledger, active.day, true)
 		out.append({"store_id": s.store_id, "name": s.store_name if s.store_name != "" else "1号店", "map_id": s.map_id, "plot_id": s.plot_id,
 			"location": StoreLocation.display_name(s.location_id), "size_id": String(StoreSize.of_grid(s.balance, s.grid).get("size_id", "")),
 			"business_state": String(s.business_state), "staff": s.staff.map(func(x): return {"staff_id": x["staff_id"], "name": x["name"]}),

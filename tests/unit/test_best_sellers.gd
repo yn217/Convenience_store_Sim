@@ -93,3 +93,21 @@ func test_shelf_ranking_and_past_days(t, _tree) -> void:
 	t.eq(snap["shelf_ranking"]["yesterday"].size(), 1)
 	t.ok(ReportController.shelf_lines(today).begins_with("1  撤去した棚　¥900・3個"), ReportController.shelf_lines(today))
 	t.eq(ReportController.shelf_lines([]), "まだ売れた棚がありません")
+
+
+## The sales index gives the same day sums as a full LedgerSummary walk, row by row as they come, and old days still
+## answer after the index has dropped them.
+func test_sales_index_matches_the_ledger_summary(t, _tree) -> void:
+	var s := _state()
+	s.ledger.cash_yen = 1000000
+	for d in [1, 2, 3]:
+		s.day = d
+		_sale(s, "s%d" % d, "snack_001", d, 150 * d)
+		s.ledger.record("WASTAGE", "w%d" % d, 0, d, d * 86400, {}, {"expense": 30})
+		s.ledger.record("ORDER", "o%d" % d, -500, d, d * 86400, {"qty": 5})
+		s.ledger.record("ELECTRICITY", "e%d" % d, -200, d, d * 86400, {}, {"expense": 200})
+		t.eq(s.day_summary(d), LedgerSummary.summarize(s.ledger, d), "day %d as the rows come" % d)
+		t.eq(s.today_summary()["revenue_yen"], 150 * d)
+	t.eq(s.day_summary(1), LedgerSummary.summarize(s.ledger, 1), "a day the index no longer keeps")
+	t.eq(LedgerSummary.summarize(s.ledger, 3, true), LedgerSummary.summarize(s.ledger, 3), "the backwards walk agrees")
+	t.eq(s.sales_by_hour(1), s.sales_by_hour(1), "stable")
