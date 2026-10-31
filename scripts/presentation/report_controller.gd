@@ -340,7 +340,7 @@ func apply_snapshot(snap: Dictionary) -> void:
 			_day_end_hourly.visible = not closed_hours.is_empty()
 			var guide := get_node_or_null("../ProgressionController")   # 小春六花 comments on the day beside the card
 			if guide != null and guide.has_method("say_day_end"):
-				guide.say_day_end(ProgressionText.day_end_remark(reports))
+				guide.say_day_end(ProgressionText.day_end_remark(reports), ProgressionText.day_end_mood(closed))
 		_seen_reports = reports.size()
 	_label.text = summary_text(reports)
 	_last_snap = snap

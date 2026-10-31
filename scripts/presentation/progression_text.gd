@@ -85,6 +85,13 @@ static func day_end_remark(reports: Array) -> String:
 	return "\n".join(lines)
 
 
+## Her face over the day-end card: worried on a loss or a day without a sale, happy otherwise.
+static func day_end_mood(r: Dictionary) -> String:
+	if int(r.get("purchasing_customers", 0)) == 0 or int(r.get("operating_profit_yen", 0)) < 0:
+		return "worried"
+	return "happy"
+
+
 ## The one tip of the day-end remark: the most pressing thing in the day's numbers, else a cheer.
 static func _day_end_tip(r: Dictionary) -> String:
 	if int(r.get("balked_customers", 0)) > 0:

@@ -34,6 +34,7 @@ func test_a_day_with_no_sale(t, tree) -> void:
 	t.ok(rc._day_end_text.text.contains("DAY 0　営業結果") and rc._day_end_text.text.contains("売上高 ¥0"), rc._day_end_text.text)
 	t.ok(rc._day_end_text.text.contains("今日の来店 0人 ／ 購買 0人"), "no visitor, no buyer: both 0")
 	t.ok(pc._assistant.text.contains("お買い上げがありませんでした"), "her remark says how to start: %s" % pc._assistant.text)
+	t.eq(pc.mood(), "worried", "a day without a sale: her worried face")
 	t.ok(rc._day_end_hourly.visible and rc._day_end_hourly.values().all(func(v): return int(v) == 0), "an empty chart, not an error")
 	r[0].queue_free()
 	await tree.process_frame
@@ -105,3 +106,12 @@ func test_a_load_after_the_day_end(t, tree) -> void:
 	main.queue_free()
 	await tree.process_frame
 	_clean()
+
+
+## Her face follows the day: happy on a profit, worried on a loss (ComfyUI figures, 2026-10-31).
+func test_her_face_follows_the_day(t, _tree) -> void:
+	t.eq(ProgressionText.day_end_mood({"purchasing_customers": 5, "operating_profit_yen": 100}), "happy")
+	t.eq(ProgressionText.day_end_mood({"purchasing_customers": 5, "operating_profit_yen": -1}), "worried")
+	t.eq(ProgressionText.day_end_mood({"purchasing_customers": 0, "operating_profit_yen": 0}), "worried")
+	for k in ProgressionController.FIGURES:
+		t.ok(load(ProgressionController.FIGURES[k]) is Texture2D, "%s figure loads" % k)

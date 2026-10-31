@@ -10,8 +10,13 @@ extends Node
 
 const NOTICE_LINES := 5
 const ASSISTANT_NAME := "小春六花"   # the manager assistant character (user's choice, 2026-10-30)
-const ASSISTANT_FIGURE := "res://assets/ui/characters/rikka_stand.png"   # cut-out of the source art (tools/assets/cutout_rikka_stand.py)
-const FIGURE_SIZE := Vector2(300, 432)   # keeps the art's 512:737 aspect
+# Her standing figure per mood: ComfyUI renders (tools/assets/comfy_rikka.py) cut out by tools/assets/cutout_rikka_stand.py.
+const FIGURES := {
+	"normal": "res://assets/ui/characters/rikka_normal.png",
+	"happy": "res://assets/ui/characters/rikka_happy.png",      # a celebration, a good day
+	"worried": "res://assets/ui/characters/rikka_worried.png",  # a loss, a day without a sale
+}
+const FIGURE_SIZE := Vector2(300, 436)   # keeps the art's 640:931 aspect
 const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
@@ -30,6 +35,8 @@ var _bubble: PanelContainer
 var _dismiss: Button
 var _heading: Label            # 目標達成！ while celebrating, hidden otherwise
 var _figure: TextureRect
+var _figure_textures: Dictionary = {}   # mood -> Texture2D
+var _day_mood := "normal"      # her face for the day-end remark
 var _celebrations: Array[Dictionary] = []   # queued {badge, line}; the first one is on screen
 var _celebrate_timer: Timer
 var _suppressed_by := {}       # why the corner figure steps aside: "window" (management window open, its left edge
@@ -162,6 +169,20 @@ func _refresh_stage() -> void:
 	else:
 		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
 	_stage.visible = _suppressed_by.is_empty() and (celebrating or _day_remark != "" or cue != "")
+	set_mood("happy" if celebrating else (_day_mood if _day_remark != "" else "normal"))
+
+
+## Her face: "normal", "happy" or "worried" (FIGURES).
+func set_mood(mood: String) -> void:
+	if _figure != null and _figure_textures.has(mood):
+		_figure.texture = _figure_textures[mood]
+
+
+func mood() -> String:
+	for k in _figure_textures:
+		if _figure != null and _figure.texture == _figure_textures[k]:
+			return k
+	return ""
 
 
 func is_celebrating() -> bool:
@@ -178,8 +199,9 @@ func close_celebration() -> void:
 
 
 ## The day-end card opened (ReportController): she comments on the day until it closes.
-func say_day_end(remark: String) -> void:
+func say_day_end(remark: String, day_mood: String = "normal") -> void:
 	_day_remark = remark
+	_day_mood = day_mood
 	_refresh_stage()
 
 
@@ -236,7 +258,9 @@ func _build_stage() -> void:
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var figure := TextureRect.new()
 	figure.name = "AssistantFigure"
-	figure.texture = load(ASSISTANT_FIGURE) as Texture2D
+	for k in FIGURES:
+		_figure_textures[k] = load(FIGURES[k]) as Texture2D
+	figure.texture = _figure_textures["normal"]
 	figure.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	figure.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
 	figure.mouse_filter = Control.MOUSE_FILTER_IGNORE   # the rail and the store under her stay clickable

@@ -154,6 +154,7 @@ func test_achievements_are_celebrated_once_without_rewards(t, tree) -> void:
 		{"kind": "CHALLENGE", "challenge_id": "challenge_sales_3"},
 	])
 	t.ok(stage.visible and pc._heading.visible, "目標達成！ shows")
+	t.eq(pc.mood(), "happy", "she cheers with her happy face")
 	t.eq(pc._heading.text, "★ 目標達成！ ★")
 	t.ok(pc._assistant.text.contains("称号「%s」" % first["name_ja"]), "the title comes first: %s" % pc._assistant.text)
 	t.eq(pc._celebrations.size(), 2, "a tutorial step is not celebrated")
@@ -163,6 +164,7 @@ func test_achievements_are_celebrated_once_without_rewards(t, tree) -> void:
 	pc._celebrate_timer.timeout.emit()
 	t.ok(not pc.is_celebrating() and not pc._heading.visible, "the timer closes a celebration by itself")
 	t.ok(stage.visible and pc._assistant.text.contains("どんなお店"), "her story line is back")
+	t.eq(pc.mood(), "normal", "and her usual face")
 	app._publish_snapshot()
 	t.ok(not pc.is_celebrating(), "a new snapshot does not celebrate again")
 	t.eq(app.state.cash_yen, cash, "no cash reward: the badge is the whole reward")
