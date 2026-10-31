@@ -89,6 +89,33 @@
         "event_revision5_1344x768_bread_feature_v6_00001_.png": 2601702
       }
     },
+    "management_events_1344x768": {
+      "size": [1344, 768],
+      "purpose": "First-pass management and new event scene candidates with character/background only; Godot owns text, numbers, and UI",
+      "files": {
+        "management_event_1344x768_low_stock_00001_.png": 2601901,
+        "management_event_1344x768_checkout_queue_00001_.png": 2601902,
+        "management_event_1344x768_successful_sale_00001_.png": 2601903,
+        "management_event_1344x768_waste_loss_00001_.png": 2601904,
+        "management_event_1344x768_local_fair_00001_.png": 2601905,
+        "management_event_1344x768_neighbor_mentions_00001_.png": 2601906,
+        "management_event_1344x768_autumn_fair_00001_.png": 2601907,
+        "management_event_1344x768_staff_hiring_00001_.png": 2601908,
+        "management_event_1344x768_closing_success_00001_.png": 2601909,
+        "management_event_1344x768_quiet_street_00001_.png": 2601910
+      }
+    },
+    "management_events_revision2_1344x768": {
+      "size": [1344, 768],
+      "purpose": "Reviewed revisions with visually explicit event outcomes and simplified actions",
+      "files": {
+        "management_event_revision2_1344x768_low_stock_v2_00001_.png": 2602001,
+        "management_event_revision2_1344x768_checkout_queue_v3_00001_.png": 2602006,
+        "management_event_revision2_1344x768_word_of_mouth_v2_00001_.png": 2602003,
+        "management_event_revision2_1344x768_autumn_fair_v2_00001_.png": 2602004,
+        "management_event_revision2_1344x768_closing_success_v2_00001_.png": 2602005
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",
