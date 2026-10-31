@@ -6,6 +6,8 @@ extends Node
 ## CANCEL_CAMPAIGN go through AppRoot; everything shown comes from the snapshot. Lifts are estimates.
 
 const TITLE := "媒体広告"
+const THUMB_DIR := "res://assets/ui/media/"
+const THUMB_SIZE := Vector2(128, 72)
 const PHASES := {"booked": "予約済み", "airing": "放映・掲載中", "fading": "終了（余韻あり）", "ended": "終了", "cancelled": "取消"}
 const ERRORS := {"not_enough_cash": "現金が足りません", "too_many_campaigns": "同時に4件までです", "days_invalid": "日数が範囲外です",
 	"budget_invalid": "予算が範囲外です", "campaign_started": "始まった広告は取り消せません", "unknown_campaign": "広告がありません",
@@ -37,6 +39,18 @@ func setup(app: Node) -> void:
 	_body.add_child(_box)
 	for m in Marketing.data()["media"]:
 		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		var pic_path := THUMB_DIR + String(m["medium"]) + ".png"   # 小春六花 in that medium (ComfyUI, 192x108 for 128x72)
+		if ResourceLoader.exists(pic_path):
+			var pic := TextureRect.new()
+			pic.name = "Thumb_" + String(m["medium"])
+			pic.texture = load(pic_path) as Texture2D
+			pic.custom_minimum_size = THUMB_SIZE
+			pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			pic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.add_child(pic)
 		var l := Label.new()
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

@@ -5,6 +5,8 @@ extends Node
 ## STOP_PROMOTION go through AppRoot; everything shown comes from the snapshot.
 
 const TITLE := "販促"
+const THUMB_DIR := "res://assets/ui/promotions/"
+const THUMB_SIZE := Vector2(128, 72)
 
 var _app: Node
 var _seq := 0
@@ -56,6 +58,18 @@ func _rebuild(promos: Array) -> void:
 	_labels.clear()
 	for p in promos:
 		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		var pic_path := THUMB_DIR + String(p["def_id"]) + ".png"   # fairs, the collab, gifts, stamps: a picture (ComfyUI)
+		if ResourceLoader.exists(pic_path):
+			var pic := TextureRect.new()
+			pic.name = "Thumb_" + String(p["def_id"])
+			pic.texture = load(pic_path) as Texture2D
+			pic.custom_minimum_size = THUMB_SIZE
+			pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			pic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.add_child(pic)
 		var l := Label.new()
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

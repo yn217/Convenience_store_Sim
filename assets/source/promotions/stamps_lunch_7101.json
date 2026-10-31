@@ -1,0 +1,19 @@
+{
+  "promotion": "stamps_lunch",
+  "seed": 7101,
+  "loras": {
+    "Koharu-Koharu-epoch100": 0.8,
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "promo_stamps_lunch_7101_00001_.png",
+  "positive": "koharu_rikka, anima_style, 1girl, solo, grey hair, purple eyes, double bun, short hair, small pink round hair clip, white short-sleeved collared shirt, navy blue apron with thin white vertical stripes, anime illustration, she holds a stamp card with round stamps and a small mascot mini towel, onigiri on the counter, stamp rally",
+  "negative": "low quality, worst quality, blurry, text, letters, words, logo, brand name, watermark, signature, malformed hands, extra fingers, distorted face, other people",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    432
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

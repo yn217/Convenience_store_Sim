@@ -123,3 +123,27 @@ func test_opening_cutin_and_staff_looks(t, tree) -> void:
 	t.eq(CustomerSprites.variant_for("staff_1"), CustomerSprites.CLERK, "no name: the shared clerk look")
 	main.queue_free()
 	await tree.process_frame
+
+
+## #136 媒体広告: each medium has a thumbnail of 小春六花 in that ad (192x108 for its 128x72 slot).
+func test_media_thumbnails(t, tree) -> void:
+	var main: Node = await _boot(tree)
+	for m in ["newspaper", "radio", "web_ads", "television"]:
+		var pic := main.find_child("Thumb_" + m, true, false) as TextureRect
+		t.ok(pic != null and pic.texture != null, "%s has its thumbnail" % m)
+		if pic != null and pic.texture != null:
+			t.eq(pic.texture.get_size(), MediaController.THUMB_SIZE * 1.5, "%s at 1.5x" % m)
+	main.queue_free()
+	await tree.process_frame
+
+
+## #140 / #137: the fairs, the mascot collab, the gifts and the stamp rally have a picture (192x108 for 128x72).
+func test_promotion_thumbnails(t, tree) -> void:
+	var main: Node = await _boot(tree)
+	main.get_node("AppRoot")._publish_snapshot()
+	await tree.process_frame
+	for d in ["fair_autumn", "fair_winter", "fair_summer", "fair_regional", "collab_mascot", "gift_clearfile", "gift_sticker", "stamps_lunch"]:
+		var pic := main.find_child("Thumb_" + d, true, false) as TextureRect
+		t.ok(pic != null and pic.texture != null and pic.texture.get_size() == PromotionController.THUMB_SIZE * 1.5, "%s has its picture at 1.5x" % d)
+	main.queue_free()
+	await tree.process_frame

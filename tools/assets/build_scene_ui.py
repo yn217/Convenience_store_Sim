@@ -38,5 +38,33 @@ def main() -> None:
         print("event", e)
 
 
+MEDIA = ["newspaper", "radio", "web_ads", "television"]
+MEDIA_PICK = 7101
+MEDIA_SIZE = (192, 108)   # the 媒体広告 thumbnail slot is 128x72
+
+
+def media() -> None:
+    Path("assets/ui/media").mkdir(parents=True, exist_ok=True)
+    for m in MEDIA:
+        cover(Image.open(Path("assets/source/media") / ("%s_%d.png" % (m, MEDIA_PICK))).convert("RGB"), MEDIA_SIZE).save("assets/ui/media/%s.png" % m)
+        print("media", m)
+
+
+PROMOS = ["fair_autumn", "fair_winter", "fair_summer", "fair_regional", "collab_mascot", "gift_clearfile", "gift_sticker", "stamps_lunch"]
+
+
+def promos() -> None:
+    Path("assets/ui/promotions").mkdir(parents=True, exist_ok=True)
+    for p in PROMOS:
+        cover(Image.open(Path("assets/source/promotions") / ("%s_%d.png" % (p, MEDIA_PICK))).convert("RGB"), MEDIA_SIZE).save("assets/ui/promotions/%s.png" % p)
+        print("promo", p)
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+    if "--promos" in sys.argv:
+        promos()
+    elif "--media" in sys.argv:
+        media()
+    else:
+        main()
