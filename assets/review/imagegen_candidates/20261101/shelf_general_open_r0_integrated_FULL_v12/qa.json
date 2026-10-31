@@ -1,0 +1,58 @@
+{
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v12",
+  "status": "review_candidate_rejected",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "bc13067514634114ab091dd876c6c7f95f42dfa900ac4c230ee7774498a8ef70",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "integrated_shelf_plus_goods": "pass",
+    "stocked_row_count": {
+      "expected": 4,
+      "observed": 4,
+      "result": "pass"
+    },
+    "package_fronts_visible": "partial_pass at source size; game-scale unreadability not checked",
+    "goods_rest_on_shelves": "partial_pass visually; exact contact not measured",
+    "no_canopy": "pass",
+    "shelf_board_exposure": "fail: broad exposed board surfaces remain, especially behind products and on lower right",
+    "base_top": "improved vs v11 but lower board still protrudes beyond the dark kickplate",
+    "iso2x_axes_and_0_47917_ratio": "not_verified",
+    "E_plus_X_access": "not_verified",
+    "anchor_and_ground_contact": "not_verified",
+    "Godot_game_scale": "not_verified"
+  },
+  "alpha": {
+    "bbox_alpha_gt_8": [
+      223,
+      181,
+      1032,
+      1153
+    ],
+    "margins_pct_ltrb": [
+      17.78,
+      14.43,
+      17.7,
+      8.05
+    ],
+    "edge_alpha_max": {
+      "top": 0,
+      "bottom": 1,
+      "left": 1,
+      "right": 0
+    },
+    "required_min_margin_pct": 12,
+    "result": "fail: top margin 14.43% and bottom 8.05% miss the 18% prompt target; bottom also misses the 12% hard gate. Faint alpha<=1 reaches left and bottom borders",
+    "requested_prompt_margin_pct_top_bottom": 18
+  },
+  "decision": "FAIL; retain as review-only. Bottom alpha margin fails the 12% hard gate, and top/bottom both miss the stricter 18% prompt target. Exposed white shelf boards and lower shelf overhang remain. Do not crop or stretch to mask it. Projection, dimensions, access, anchor and Godot scale remain unverified.",
+  "qa_scope": "focused source-image review only",
+  "comparison_note": "v11 and v12 shown on identical 1254x1254 canvases, same display scale; no crop or differential resize."
+}
