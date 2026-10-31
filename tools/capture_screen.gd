@@ -125,6 +125,13 @@ func _run() -> void:
 				s.day += 2
 				app._publish_snapshot()
 			main.get_node("LotteryController").call("open_kuji_screen")
+		elif a.begins_with("--event="):   # --event=evt_roadworks: today's event, running now (after --day=)
+			var ev := GameplayEventDirector.event_by_id(s.gameplay_events, a.trim_prefix("--event="))
+			var w := GameplayEventDirector.window(s.day, ev)
+			s.time_sec = w.x + 3600
+			s.gameplay_event_state.merge({"last_selected_day": s.day, "selection_event_id": "daily:%d" % s.day, "selected_event_id": ev["event_id"],
+					"event_start_sec": w.x, "event_end_sec": w.y, "started": true, "ended": false}, true)
+			app._publish_snapshot()
 		elif a == "--no-assistant":   # hide the corner assistant (window content under her bubble)
 			main.get_node("ProgressionController").call("set_suppressed", true)
 		elif a.begins_with("--reveal="):   # --reveal=Missions: scroll the open window to that node (by name)

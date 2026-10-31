@@ -29,6 +29,33 @@ static func effect_text(view: Dictionary) -> String:
 	return "・".join(parts)
 
 
+## #31 効果の内訳: one chip per effect against a day without the event, e.g. {text: "来店 −25%", good: false}.
+## `view` is a gameplay_event view or a catalog entry (both carry traffic and categories).
+static func effect_chips(view: Dictionary) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var t := float(view.get("traffic", 1.0))
+	if absf(t - 1.0) > 0.0001:
+		out.append(_chip("来店", t))
+	var cats: Dictionary = view.get("categories", {})
+	for cat in cats:
+		out.append(_chip(CATEGORY_JA.get(cat, cat), float(cats[cat])))
+	return out
+
+
+static func _chip(what: String, multiplier: float) -> Dictionary:
+	var pct := int(round((multiplier - 1.0) * 100.0))
+	return {"text": "%s %s%d%%" % [what, "+" if pct >= 0 else "−", absi(pct)], "good": pct >= 0}
+
+
+## Hover text of an event in the 本日のイベント一覧: description, hours, effects and why it cannot be drawn yet.
+static func catalog_tooltip(e: Dictionary) -> String:
+	var fx := "・".join(effect_chips(e).map(func(c): return c["text"]))
+	var lines: Array[String] = [String(e["description_ja"]), "時間 %02d:00〜%02d:00" % [int(e["start_hour"]), int(e["end_hour"])], "効果 " + (fx if fx != "" else "なし")]
+	if String(e.get("lock", "")) != "":
+		lines.append("条件：" + String(e["lock"]))
+	return "\n".join(lines)
+
+
 ## Timeline rows for the 本日のイベント card: [{time, text}], at most three. A day without an event gives one row with no
 ## time. `stocked` as in lines().
 static func timeline(view: Dictionary, time_sec: int, stocked: Array) -> Array[Dictionary]:

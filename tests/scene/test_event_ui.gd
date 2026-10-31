@@ -40,3 +40,36 @@ func test_panel_shows_each_state(t, tree) -> void:
 	t.ok(panel._status.text.contains("イベントはありません"), panel._status.text)
 	main.queue_free()
 	await tree.process_frame
+
+
+## #31 mockup: 効果の内訳 as chips, and 本日のイベント一覧 with every event marked 選択中 / 候補 / locked.
+func test_effect_chips_and_the_event_list(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var app: Node = main.get_node("AppRoot")
+	var panel: EventController = main.get_node("EventController")
+	t.ok(not panel._effects.visible, "no event: no effect chips")
+	t.eq(panel._list.get_child_count(), 12, "all 12 events are listed")
+	t.ok(panel._cells.values().all(func(c): return c["state"] == "locked"), "day 0: none can be drawn yet")
+	app.state.time_sec = 86400 + 12 * 3600
+	app.state.reputation = 0
+	_force(app, "evt_roadworks", true)
+	app._publish_snapshot()
+	await tree.process_frame
+	var texts: Array = panel._effects.get_children().filter(func(c): return not c.is_queued_for_deletion()).map(func(c): return c.text)
+	t.ok(texts.has("来店 −25%"), "the drop in visitors as a chip: %s" % [texts])
+	t.eq(panel._cells["evt_roadworks"]["state"], "selected")
+	t.eq(panel._cells["evt_roadworks"]["tag"].text, "選択中")
+	t.ok(panel._cells.values().any(func(c): return c["state"] == "candidate"), "day 1: some are candidates")
+	t.ok(panel._cells["evt_roadworks"]["panel"].tooltip_text.contains("来店 −25%"), "hover shows the effect")
+	main.queue_free()
+	await tree.process_frame
+
+
+func test_effect_chip_texts(t, _tree) -> void:
+	var chips := EventText.effect_chips({"traffic": 1.35, "categories": {"drink": 1.6, "oden": 0.8}})
+	t.eq(chips.map(func(c): return c["text"]), ["来店 +35%", "飲料 +60%", "おでん −20%"])
+	t.eq(chips.map(func(c): return c["good"]), [true, true, false])
+	t.eq(EventText.effect_chips({"traffic": 1.0, "categories": {}}).size(), 0)

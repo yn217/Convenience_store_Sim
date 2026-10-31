@@ -371,6 +371,7 @@ func snapshot() -> Dictionary:
 		"fixture_sales": fixture_sales_today(),
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
+		"event_catalog": EventService.catalog(self),
 		"stocked_categories": stocked,
 	}
 

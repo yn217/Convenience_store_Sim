@@ -59,6 +59,29 @@ static func _announce(state: GameState, day_index: int, phase: String, event_typ
 	state.emit_event(event_type, {"event_id": ev["event_id"], "name_ja": ev["name_ja"], "window": "%02d:00-%02d:00" % [ev["window_start_hour"], ev["window_end_hour"]]}, id)
 
 
+## #31 本日のイベント一覧: every event of the master data in data order, with what it means for today:
+## state "selected" (today's draw), "candidate" (could be drawn today) or "locked" (lock: "DAY n から" / "評判 n 以上").
+## Read only. Each entry: {event_id, name_ja, description_ja, start_hour, end_hour, traffic, categories, state, lock}.
+static func catalog(state: GameState) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var day := state.time_sec / GameplayEventDirector.SECONDS_PER_DAY
+	var v := view(state)
+	var selected := String(v.get("event_id", "")) if String(v.get("status", "")) in ["scheduled", "active", "ended", "missed"] else ""
+	for e in state.gameplay_events:
+		var lock := ""
+		if day < int(e["min_day_index"]):
+			lock = "DAY %d から" % int(e["min_day_index"])
+		elif state.reputation < int(e["min_reputation"]):
+			lock = "評判 %d 以上" % int(e["min_reputation"])
+		out.append({
+			"event_id": e["event_id"], "name_ja": e["name_ja"], "description_ja": e["description_ja"],
+			"start_hour": int(e["window_start_hour"]), "end_hour": int(e["window_end_hour"]),
+			"traffic": float(e["effects"]["traffic_multiplier"]), "categories": e["effects"]["category_weight_multipliers"].duplicate(),
+			"state": "selected" if e["event_id"] == selected else ("locked" if lock != "" else "candidate"), "lock": lock,
+		})
+	return out
+
+
 ## Multipliers in force right now.
 static func effects(state: GameState) -> Dictionary:
 	return GameplayEventDirector.effects_at(state.gameplay_events, state.gameplay_event_state, state.time_sec)
