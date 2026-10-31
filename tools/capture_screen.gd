@@ -125,6 +125,8 @@ func _run() -> void:
 				s.day += 2
 				app._publish_snapshot()
 			main.get_node("LotteryController").call("open_kuji_screen")
+		elif a == "--no-assistant":   # hide the corner assistant (window content under her bubble)
+			main.get_node("ProgressionController").call("set_suppressed", true)
 		elif a.begins_with("--reveal="):   # --reveal=Missions: scroll the open window to that node (by name)
 			for _f in 3:
 				await process_frame

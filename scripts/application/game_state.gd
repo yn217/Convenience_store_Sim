@@ -217,6 +217,35 @@ func units_sold_today() -> int:
 	return units
 
 
+## #24 売れ筋: today's confirmed product sales per SKU, most units first (ties: revenue, then sku id). Only shelf
+## sales count (rows with a reservation and a sku): crane plays and lottery tickets are not products.
+## Each entry: {sku_id, name, category, qty, revenue_yen}.
+func best_sellers_today() -> Array[Dictionary]:
+	var by_sku := {}
+	for i in range(ledger.transactions.size() - 1, -1, -1):
+		var tx: Dictionary = ledger.transactions[i]
+		if int(tx["day_index"]) < day:
+			break
+		var d: Dictionary = tx["details"]
+		if tx["event_type"] != "SALE" or not ledger.is_mine(tx) or String(d.get("sku_id", "")) == "" or not d.has("reservation_id"):
+			continue
+		var sku := String(d["sku_id"])
+		if not by_sku.has(sku):
+			var p := products.get_sku(sku)
+			by_sku[sku] = {"sku_id": sku, "name": String(p.get("display_name", sku)), "category": String(p.get("category", "")), "qty": 0, "revenue_yen": 0}
+		by_sku[sku]["qty"] += int(d.get("qty", 1))
+		by_sku[sku]["revenue_yen"] += int(tx["revenue_delta_yen"])
+	var out: Array[Dictionary] = []
+	out.assign(by_sku.values())
+	out.sort_custom(func(a, b):
+		if a["qty"] != b["qty"]:
+			return a["qty"] > b["qty"]
+		if a["revenue_yen"] != b["revenue_yen"]:
+			return a["revenue_yen"] > b["revenue_yen"]
+		return String(a["sku_id"]) < String(b["sku_id"]))
+	return out
+
+
 ## Units sold today per fixture id (SALE rows carry the fixture they were taken from).
 func fixture_sales_today() -> Dictionary:
 	var out := {}
@@ -313,6 +342,7 @@ func snapshot() -> Dictionary:
 		"daily_reports": daily_reports.duplicate(true),
 		"today": today_summary(),
 		"units_sold_today": units_sold_today(),
+		"best_sellers_today": best_sellers_today(),
 		"progression": progression_state.duplicate(true),
 		"story_cue": AssistantService.current(self),
 		"milestone_progress": ProgressionService.milestone_progress(self, stocked.size()),

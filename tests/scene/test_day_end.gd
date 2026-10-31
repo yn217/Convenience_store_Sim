@@ -57,3 +57,32 @@ func test_the_day_end_remark(t, _tree) -> void:
 	var quiet := day.duplicate()
 	quiet["purchasing_customers"] = 0
 	t.ok(ProgressionText.day_end_remark([quiet]).contains("お買い上げがありませんでした"), "no sale: how to start")
+
+
+## #24 売れ筋ランキング in the データ tab: today's best sellers with a bar against the leader.
+func test_the_best_seller_ranking(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var app: AppRoot = main.get_node("AppRoot")
+	var rc: ReportController = main.get_node("ReportController")
+	t.eq(rc._ranking_note.text, "今日はまだ商品が売れていません")
+	t.ok(not rc._rank_rows[0]["box"].visible)
+	app.state.ledger.cash_yen = 100000
+	for i in 3:
+		app.state.ledger.record("SALE", "rk%d" % i, 150, app.state.day, 0, {"reservation_id": "r%d" % i, "sku_id": "snack_001", "qty": 1}, {"revenue": 150})
+	app.state.ledger.record("SALE", "rk9", 300, app.state.day, 0, {"reservation_id": "r9", "sku_id": "drink_001", "qty": 1}, {"revenue": 300})
+	app.call("_publish_snapshot")
+	t.eq(rc._ranking_note.text, "本日・確定した会計から")
+	t.ok(rc._rank_rows[0]["amount"].text.begins_with("3個"), rc._rank_rows[0]["amount"].text)
+	t.eq(rc._rank_rows[0]["bar"].value, 1.0)
+	t.ok(is_equal_approx(rc._rank_rows[1]["bar"].value, 1.0 / 3.0), "the second bar is a third of the leader")
+	t.ok(not rc._rank_rows[2]["box"].visible)
+	t.ok(rc._ranking_categories.text.begins_with("カテゴリ別：おかし 3"), rc._ranking_categories.text)
+	var card := rc._ranking_note.get_parent()
+	while card != null and not (card is TabContainer):
+		card = card.get_parent()
+	t.ok(card != null, "the ranking card sits in a management tab")
+	main.queue_free()
+	await tree.process_frame

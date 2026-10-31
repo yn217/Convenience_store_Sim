@@ -4,6 +4,8 @@ extends Node
 ## plus a grouped bar chart of revenue and gross profit for the last 7 days. Reads snapshot["daily_reports"] only.
 
 const CHART_DAYS := 7
+const RANKING_TITLE := "売れ筋ランキング"
+const RANK_ROWS := 5
 
 var _label: Label
 var _chart: ReportChart
@@ -18,6 +20,9 @@ var _day_end_text: Label
 var _seen_reports := -1
 var _day_log := {}             # day -> {event, titles}: what each day had, gathered from the snapshots (#19)
 var _done_titles = null        # completed milestone ids at the last snapshot (null before the first)
+var _ranking_note: Label       # #24 売れ筋ランキング
+var _rank_rows: Array = []     # per row: {box, product, amount, bar}
+var _ranking_categories: Label
 
 
 func setup(_app: Node) -> void:
@@ -49,7 +54,85 @@ func setup(_app: Node) -> void:
 	_chart.custom_minimum_size = Vector2(0, 90)
 	_body.add_child(_chart)
 	_body.add_child(_legend())
+	_build_ranking()
 	apply_snapshot({})
+
+
+## #24 売れ筋ランキング: today's best sellers from confirmed sales (no estimates), top RANK_ROWS with a bar each
+## against the leader, then units per category.
+func _build_ranking() -> void:
+	var title := Label.new()
+	title.text = RANKING_TITLE
+	title.add_theme_font_size_override("font_size", 20)
+	_body.add_child(title)
+	_ranking_note = Label.new()
+	_ranking_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_ranking_note)
+	for i in RANK_ROWS:
+		var box := VBoxContainer.new()
+		box.add_theme_constant_override("separation", 2)
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		var rank := Label.new()
+		rank.text = "%d" % (i + 1)
+		rank.custom_minimum_size.x = 22
+		rank.add_theme_color_override("font_color", UiTheme.WARM if i == 0 else UiTheme.TEXT_SECONDARY)
+		var product := Label.new()
+		product.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		product.clip_text = true
+		var amount := Label.new()
+		row.add_child(rank)
+		row.add_child(product)
+		row.add_child(amount)
+		box.add_child(row)
+		var bar := ProgressBar.new()
+		bar.show_percentage = false
+		bar.max_value = 1.0
+		bar.step = 0.0   # exact shares of the leader
+		bar.custom_minimum_size.y = UiTheme.BAR_HEIGHT
+		box.add_child(bar)
+		_body.add_child(box)
+		_rank_rows.append({"box": box, "product": product, "amount": amount, "bar": bar})
+	_ranking_categories = Label.new()
+	_ranking_categories.name = "RankingCategories"
+	_ranking_categories.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_ranking_categories)
+
+
+func _render_ranking(sellers: Array) -> void:
+	if _ranking_note == null:
+		return
+	_ranking_note.text = "本日・確定した会計から" if not sellers.is_empty() else "今日はまだ商品が売れていません"
+	var top := int(sellers[0]["qty"]) if not sellers.is_empty() else 1
+	for i in _rank_rows.size():
+		var view: Dictionary = _rank_rows[i]
+		view["box"].visible = i < sellers.size()
+		if i >= sellers.size():
+			continue
+		var s: Dictionary = sellers[i]
+		view["product"].text = String(s["name"])
+		view["amount"].text = "%d個　%s" % [int(s["qty"]), GameHud.format_yen(int(s["revenue_yen"]))]
+		view["bar"].value = float(s["qty"]) / float(maxi(top, 1))
+	_ranking_categories.text = category_line(sellers)
+	_ranking_categories.visible = not sellers.is_empty()
+
+
+## 'カテゴリ別：おかし 12・飲料 8' — units per category today, most first (ties keep the ranking order).
+static func category_line(sellers: Array) -> String:
+	var units := {}
+	var order: Array[String] = []
+	for s in sellers:
+		var c := String(s.get("category", ""))
+		if not units.has(c):
+			units[c] = 0
+			order.append(c)
+		units[c] += int(s["qty"])
+	var idx := range(order.size())
+	idx.sort_custom(func(a, b): return units[order[a]] > units[order[b]] if units[order[a]] != units[order[b]] else a < b)
+	var parts: Array[String] = []
+	for i in idx:
+		parts.append("%s %d" % [FixtureCard.CATEGORY_NAMES.get(order[i], order[i]), int(units[order[i]])])
+	return "カテゴリ別：" + "・".join(parts) if not parts.is_empty() else ""
 
 
 ## Colour key for the chart bars: the same colours ReportChart draws with.
@@ -177,6 +260,7 @@ func apply_snapshot(snap: Dictionary) -> void:
 				guide.say_day_end(ProgressionText.day_end_remark(reports))
 		_seen_reports = reports.size()
 	_label.text = summary_text(reports)
+	_render_ranking(snap.get("best_sellers_today", []))
 	var totals: Dictionary = snap.get("company_totals", {})
 	_company.visible = not totals.is_empty()
 	_company.text = company_text(totals)
