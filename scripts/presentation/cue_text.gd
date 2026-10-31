@@ -16,7 +16,7 @@ static func is_achievement(toast: String) -> bool:
 ## critical cue is an error, the rest are info.
 const LEVEL_OF := {
 	"milestone_celebrate": "achievement",
-	"expiry_notice": "warning", "low_stock_notice": "warning", "long_queue": "warning",
+	"expiry_notice": "warning", "low_stock_notice": "warning", "long_queue": "warning", "access_blocked": "warning",
 	"daily_event_start": "info", "daily_event_end": "info", "daily_recap": "info",
 	"rival_opened": "warning", "rival_sale": "info", "condition_started": "info", "rival_renovation": "info", "rival_closed": "achievement",   # #129
 	"capsule_rare": "info", "capsule_empty": "warning",   # #139
@@ -47,6 +47,10 @@ static func toast_text(cue_id: String, payload: Dictionary, fixture_name: String
 			return "期限切れの商品を廃棄しました（%d個）" % qty
 		"long_queue":
 			return "レジの待ち時間が増えています"
+		"access_blocked":   # #24: a customer could not get there; the layout blocks a shelf or the register
+			if String(payload.get("target", "")) == "register":
+				return "通路がふさがり、お客様がレジまで行けません。配置を見直しましょう"
+			return "通路がふさがり、お客様が%sまで行けません。配置を見直しましょう" % (fixture_name if fixture_name != "" else "棚")
 		"daily_recap":
 			return "営業日が終わりました。日次レポートを確認しましょう"
 		"milestone_celebrate":

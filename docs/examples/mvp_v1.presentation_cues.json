@@ -89,6 +89,17 @@
   },
   {
     "schema_version": 1,
+    "cue_id": "access_blocked",
+    "source_event_type": "ACCESS_BLOCKED",
+    "animation_id": "queue_warning",
+    "duration_seconds": 4,
+    "priority": "important",
+    "sfx_key": "warning_soft",
+    "dedupe_payload_field": "target",
+    "cooldown_game_seconds": 600
+  },
+  {
+    "schema_version": 1,
     "cue_id": "long_queue",
     "source_event_type": "QUEUE_TOO_LONG",
     "animation_id": "queue_warning",

@@ -41,6 +41,7 @@ var _all_queue_cells: Dictionary = {}  # every register's queue cells (nobody wa
 var _open_cache: Dictionary = {}       # register id -> true when a cashier stands at it or walks to it (per step)
 var _open_fresh := false
 var _cache_fresh := false
+var _blocked_fixture := ""   # #24: a stocked fixture no customer can reach, seen by the last candidates() ("" = none)
 var _path_cache: Dictionary = {}   # Vector4i(start, goal) -> Array[Vector2i] (empty when unreachable)
 var _layout_grid: StoreGrid = null
 var _layout_rev := -1
@@ -401,6 +402,12 @@ func _leave(state: GameState, c: Dictionary, outcome: String) -> void:
 	_taken_dirty = true
 	c["outcome"] = outcome
 	state.emit_event("CUSTOMER_EXITED_NO_PURCHASE", {"customer_id": c["customer_id"], "outcome": outcome})
+	# #24: only when it really happened: the register could not be reached, or the customer left while a stocked
+	# fixture was walled in. Presentation only (an event; nothing in the simulation changes).
+	if outcome == "unreachable_register":
+		state.emit_event("ACCESS_BLOCKED", {"customer_id": c["customer_id"], "target": "register"})
+	elif (outcome == "unreachable" or outcome == "no_candidate") and _blocked_fixture != "":
+		state.emit_event("ACCESS_BLOCKED", {"customer_id": c["customer_id"], "target": "shelf", "fixture_id": _blocked_fixture})
 	if outcome == "queue_timeout":
 		state.rate_stats["abandoned"] += 1
 		StaffMarket.note(state, "abandoned")
@@ -761,6 +768,7 @@ func candidates(state: GameState) -> Array[Dictionary]:
 	_sync_layout(state)
 	var reach := _paths.current_distances(state.grid)
 	var seen := {}
+	_blocked_fixture = ""
 	for seg in state.inventory_segments:
 		var loc: Dictionary = seg["location"]
 		if loc["kind"] != "FIXTURE" or InventoryService.is_expired(seg, state.time_sec):
@@ -775,6 +783,8 @@ func candidates(state: GameState) -> Array[Dictionary]:
 			_access_cache[loc["fixture_id"]] = AccessService.reachable_access(state.grid, def, inst["x"], inst["y"], inst["rotation"], reach)
 		var access: Array = _access_cache[loc["fixture_id"]]
 		if access.is_empty():
+			if _blocked_fixture == "":
+				_blocked_fixture = String(loc["fixture_id"])
 			continue
 		seen["%s|%s" % [seg["sku_id"], loc["fixture_id"]]] = {"sku_id": seg["sku_id"], "fixture_id": loc["fixture_id"]}
 	var fx := EventService.effects(state)   # the active event's category weights, applied once here

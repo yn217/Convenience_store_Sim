@@ -155,8 +155,13 @@ func test_unreachable_shelf_is_not_a_candidate(t, _tree) -> void:
 	var ai := CustomerAI.new()
 	t.eq(ai.candidates(s).size(), 0, "no reachable access -> no candidate")
 	_arrive(s)
+	s.take_events()
 	_steps(s, ai, 1)
 	t.eq(s.customers[0]["outcome"], "no_candidate")
+	var blocked := s.take_events().filter(func(e): return e["type"] == "ACCESS_BLOCKED")
+	t.eq(blocked.size(), 1, "#24: the walled-in shelf is reported once the customer leaves")
+	t.eq(blocked[0]["payload"]["target"], "shelf")
+	t.ok(String(blocked[0]["payload"]["fixture_id"]) != "", "it names the fixture")
 
 
 func test_two_customers_one_unit_only_one_reserves(t, _tree) -> void:
