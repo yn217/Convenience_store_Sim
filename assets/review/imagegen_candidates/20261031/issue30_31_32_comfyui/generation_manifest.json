@@ -258,6 +258,33 @@
         "additional_50_poses/character_sprite_additional_1024x1536_50_00001_.png": 2602650
       }
     },
+    "character_sprites_200set_pilot_1024x1536": {
+      "size": [1024, 1536],
+      "purpose": "Quality pilot for the four proposed 50-pose categories: service, emotion, product, and Live2D/front-facing",
+      "files": {
+        "200set_pilot/character_sprite_200set_1024x1536_service_01_00001_.png": 2602701,
+        "200set_pilot/character_sprite_200set_1024x1536_service_03_00001_.png": 2602702,
+        "200set_pilot/character_sprite_200set_1024x1536_service_08_00001_.png": 2602703,
+        "200set_pilot/character_sprite_200set_1024x1536_service_19_00001_.png": 2602704,
+        "200set_pilot/character_sprite_200set_1024x1536_service_27_00001_.png": 2602705,
+        "200set_pilot/character_sprite_200set_1024x1536_service_32_00001_.png": 2602706,
+        "200set_pilot/character_sprite_200set_1024x1536_service_48_00001_.png": 2602707,
+        "200set_pilot/character_sprite_200set_1024x1536_emotion_03_00001_.png": 2602708,
+        "200set_pilot/character_sprite_200set_1024x1536_emotion_04_00001_.png": 2602709,
+        "200set_pilot/character_sprite_200set_1024x1536_emotion_17_00001_.png": 2602710,
+        "200set_pilot/character_sprite_200set_1024x1536_emotion_21_00001_.png": 2602711,
+        "200set_pilot/character_sprite_200set_1024x1536_emotion_25_00001_.png": 2602712,
+        "200set_pilot/character_sprite_200set_1024x1536_emotion_29_00001_.png": 2602713,
+        "200set_pilot/character_sprite_200set_1024x1536_emotion_34_00001_.png": 2602714,
+        "200set_pilot/character_sprite_200set_1024x1536_emotion_50_00001_.png": 2602715,
+        "200set_pilot/character_sprite_200set_1024x1536_product_01_00001_.png": 2602716,
+        "200set_pilot/character_sprite_200set_1024x1536_product_04_00001_.png": 2602717,
+        "200set_pilot/character_sprite_200set_1024x1536_product_07_00001_.png": 2602718,
+        "200set_pilot/character_sprite_200set_1024x1536_product_11_00001_.png": 2602719,
+        "200set_pilot/character_sprite_200set_1024x1536_product_21_00001_.png": 2602720,
+        "200set_pilot/character_sprite_200set_1024x1536_live2d_50_00001_.png": 2602721
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",
