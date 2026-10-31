@@ -19,7 +19,11 @@
     "max_xy_error_source_px": null,
     "max_z_error_source_px": null,
     "checked_in_godot": false,
-    "customer_access_edge": "FRONT"
+    "customer_access_edge": "FRONT",
+    "measured_edge_slopes": {
+      "long_shelf_edge": -0.4471299093655589,
+      "base_depth_edge": 0.5296803652968036
+    }
   },
   "geometry": {
     "image_anchor_px": null,
@@ -41,7 +45,8 @@
       "Upper pale backboard and shelf faces remain broad.",
       "Six alpha-1 pixels reach the canvas border; source unchanged.",
       "Measured silhouette has less than 8% lower margin.",
-      "iso2x_v1, actual tile dimensions, anchor and Godot zoom remain unverified."
+      "iso2x_v1, actual tile dimensions, anchor and Godot zoom remain unverified.",
+      "Focused edge measurement found approximately 35px long-axis endpoint residual vs the ±1px iso2x_v1 tolerance; see projection_measurement.json and projection_overlay.png."
     ]
   },
   "runtime_approved": false,
@@ -60,14 +65,16 @@
       "role": "source_original",
       "sha256": "3f3940aec2a92050ff170fb088bba6ddc10ac4d139b00313c7f3a1fc7a75b908",
       "byte_size": 1644673,
-      "github_uploaded": true,
+      "github_uploaded": false,
       "git_blob_sha": "56c27e9ea5230a5a83a1aa8990c517ce4e57381e"
     },
     {
       "path": "qa_preview_white.jpg",
       "role": "alpha_diagnostic",
-      "github_uploaded": true,
-      "git_blob_sha": "9ff46134d0ec74e0a5e5079fe989b15315da27f0"
+      "github_uploaded": false,
+      "git_blob_sha": "9ff46134d0ec74e0a5e5079fe989b15315da27f0",
+      "sha256": "d346e68aa24ba7eea0c671bce2e63ebe639486a2dd2b3cd275f267f936a76f46",
+      "byte_size": 359967
     },
     {
       "path": "source_original.png",
@@ -75,7 +82,7 @@
       "sha256": "3f3940aec2a92050ff170fb088bba6ddc10ac4d139b00313c7f3a1fc7a75b908",
       "byte_size": 1644673,
       "git_blob_sha": "56c27e9ea5230a5a83a1aa8990c517ce4e57381e",
-      "github_uploaded": true
+      "github_uploaded": false
     },
     {
       "path": "qa_preview_white.jpg",
@@ -83,7 +90,7 @@
       "sha256": "d346e68aa24ba7eea0c671bce2e63ebe639486a2dd2b3cd275f267f936a76f46",
       "byte_size": 359967,
       "git_blob_sha": "9ff46134d0ec74e0a5e5079fe989b15315da27f0",
-      "github_uploaded": true
+      "github_uploaded": false
     },
     {
       "path": "iteration_comparison.json",
@@ -91,7 +98,7 @@
       "sha256": "2017c5774ad0ca9cfde1a69d5f6c146ea5bbc8d9e54cd08907a944c1fc0a67cf",
       "byte_size": 368,
       "git_blob_sha": "1168d63d7f8416274c633d0b52c14de468eb6baa",
-      "github_uploaded": true
+      "github_uploaded": false
     },
     {
       "path": "../shelf_general_open_r0_full_dense_v2-v3_comparison.png",
@@ -100,6 +107,22 @@
       "byte_size": 2793431,
       "git_blob_sha": "763188562e158add5ba4425663ad89ef956172f2",
       "github_uploaded": true
+    },
+    {
+      "path": "projection_measurement.json",
+      "role": "projection_measurements",
+      "sha256": "a6039983803397a594af2dfc9f072ca4a8b0bc50d69897f10eecbc17387e8339",
+      "byte_size": 1396,
+      "git_blob_sha": "6cfdf0a6f42eaf9f4046c4692c96dedb1424c050",
+      "github_uploaded": false
+    },
+    {
+      "path": "projection_overlay.png",
+      "role": "projection_diagnostic_overlay",
+      "sha256": "a46a52f48c7f53f36a813ddc9c0f02d69802f06b2efef8b7cd6ddcca834dadef",
+      "byte_size": 1381658,
+      "git_blob_sha": "14cf22198a280696d712705a3e100cc6980a2fa1",
+      "github_uploaded": false
     }
   ],
   "github": {
