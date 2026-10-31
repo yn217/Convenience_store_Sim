@@ -1,0 +1,31 @@
+{
+  "asset_id": "issue20_save_load_rikka",
+  "kind": "ui_mockup",
+  "issue": 20,
+  "title": "セーブ／ロード画面 小春六花案",
+  "character_identity": "小春六花",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue20_save_load_rikka.png",
+  "screen_role": "save/load slot selection and schema version guidance",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "text_encoder": "qwen_3_06b_base.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "loras": [
+      {
+        "file": "Koharu-Koharu-epoch100.safetensors",
+        "trigger": "koharu_rikka",
+        "strength": 0.8
+      },
+      {
+        "file": "anima-style-epoch35-lr5e5.safetensors",
+        "trigger": "anima_style",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "3d788e5c-0698-4ea3-b996-c702ce001357"
+  }
+}
