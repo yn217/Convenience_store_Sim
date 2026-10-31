@@ -98,6 +98,30 @@ static func _day_end_tip(r: Dictionary) -> String:
 	return "この調子で、もっと素敵なお店にしていきましょうね！"
 
 
+## The rows of the 本日のミッション list (#32 mockup, without its cash/EXP rewards: the badge is the only reward):
+## today's challenge, then the unfinished titles closest to done (by share, ties in data order), `titles` of them.
+## Each row is {kind: "challenge"|"title", caption, goal, value, goal_value, done}.
+static func mission_rows(challenge: Dictionary, progress: Array, titles: int = 3) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if not challenge.is_empty():
+		var what := String(CHALLENGE.get(challenge["challenge_id"], "")).trim_prefix("今日のチャレンジ: ")
+		if challenge["challenge_id"] == "challenge_no_waste":
+			what += "（閉店時に判定）"
+		out.append({"kind": "challenge", "caption": "今日のチャレンジ", "goal": what,
+				"value": int(challenge["value"]), "goal_value": int(challenge["goal"]), "done": bool(challenge["done"])})
+	var open: Array = progress.filter(func(e): return not e["done"])
+	var order := range(open.size())
+	order.sort_custom(func(a, b):
+		var ra := float(open[a]["value"]) / maxf(float(open[a]["threshold"]), 1.0)
+		var rb := float(open[b]["value"]) / maxf(float(open[b]["threshold"]), 1.0)
+		return ra > rb if not is_equal_approx(ra, rb) else a < b)
+	for i in order.slice(0, titles):
+		var e: Dictionary = open[i]
+		out.append({"kind": "title", "caption": "称号「%s」" % e["name_ja"], "goal": goal_text(e["metric"], int(e["threshold"])),
+				"value": int(e["value"]), "goal_value": int(e["threshold"]), "done": false})
+	return out
+
+
 ## The goal sentence for the 本日の目標 card: what the next milestone asks for, e.g. "累計 10 件の会計を達成しよう".
 static func goal_text(metric: String, threshold: int) -> String:
 	match metric:

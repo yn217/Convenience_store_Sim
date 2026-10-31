@@ -316,6 +316,7 @@ func snapshot() -> Dictionary:
 		"progression": progression_state.duplicate(true),
 		"story_cue": AssistantService.current(self),
 		"milestone_progress": ProgressionService.milestone_progress(self, stocked.size()),
+		"challenge_progress": ProgressionService.challenge_progress(self),
 		"opening": BusinessService.opening_report(self) if business_state == SETUP else {},
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),

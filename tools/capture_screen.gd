@@ -108,6 +108,20 @@ func _run() -> void:
 			main.call("toggle_build")
 		elif a.begins_with("--screen="):
 			main.call("open_screen_tab", a.trim_prefix("--screen="))
+		elif a.begins_with("--day="):   # --day=1: move the clock to that day (its daily challenge is drawn); cheers closed
+			s.day = int(a.trim_prefix("--day="))
+			ProgressionService.evaluate(s)
+			s.take_progression_events()
+			app._publish_snapshot()
+			var cheer: ProgressionController = main.get_node("ProgressionController")
+			while cheer.is_celebrating():
+				cheer.close_celebration()
+		elif a.begins_with("--reveal="):   # --reveal=Missions: scroll the open window to that node (by name)
+			for _f in 3:
+				await process_frame
+			var target := main.find_child(a.trim_prefix("--reveal="), true, false) as Control
+			if target != null:
+				main.call("_reveal", target)
 	for a in OS.get_cmdline_user_args():   # --second-store=P05: a second store opened there (#146), the map left open on it
 		if a.begins_with("--second-store="):
 			s.ledger.cash_yen = 50000000

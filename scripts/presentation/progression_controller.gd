@@ -16,6 +16,7 @@ const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
+const MISSION_ROWS := 4   # today's challenge + the three titles closest to done
 
 var _app: Node
 var _card: Label
@@ -33,6 +34,8 @@ var _celebrations: Array[Dictionary] = []   # queued {badge, line}; the first on
 var _celebrate_timer: Timer
 var _day_remark := ""          # her remark on the closed day while the day-end card is open ("" otherwise)
 var _achievements: Label
+var _missions: VBoxContainer   # 本日のミッション: today's challenge and the nearest titles, each with a bar
+var _mission_rows: Array = []  # per row: {box, caption, goal, bar, count, chip}
 var _history: Array[String] = []
 var _snap: Dictionary = {}
 var _seq: int = 0
@@ -60,7 +63,16 @@ func setup(app: Node, milestones: Array) -> void:
 	_notices.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_achievements = Label.new()
 	_achievements.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	for c in [_card, _toggle, _challenge, _milestones, _notices, _achievements]:
+	_missions = VBoxContainer.new()
+	_missions.name = "Missions"
+	_missions.add_theme_constant_override("separation", 8)
+	var heading := Label.new()
+	heading.text = "本日のミッション"
+	heading.theme_type_variation = &"CardTitle"
+	_missions.add_child(heading)
+	for i in MISSION_ROWS:
+		_mission_rows.append(_build_mission_row())
+	for c in [_card, _toggle, _challenge, _missions, _milestones, _notices, _achievements]:
 		_body.add_child(c)
 	_build_stage()
 	# Added after Main has built its management window, so she stands in front of it.
@@ -78,12 +90,59 @@ func apply_snapshot(snap: Dictionary) -> void:
 	var done: int = p["completed_milestone_ids"].size()
 	_milestones.text = "称号 %d/%d（店のレベル %d）" % [done, maxi(_milestone_defs.size(), done), done]
 	_notices.text = "\n".join(_history.slice(maxi(_history.size() - NOTICE_LINES, 0)))
-	var cue := String(snap.get("story_cue", ""))
+	var challenge: Dictionary = snap.get("challenge_progress", {})
+	_challenge.visible = challenge.is_empty()   # a day with a challenge shows it as the first mission row instead
+	_render_missions(ProgressionText.mission_rows(challenge, snap.get("milestone_progress", [])))
 	_refresh_stage()
 	var lines: Array[String] = []
 	for entry in snap.get("milestone_progress", []):
 		lines.append(ProgressionText.progress_line(entry))
 	_achievements.text = "実績一覧\n" + "\n".join(lines) if not lines.is_empty() else ""
+
+
+func _build_mission_row() -> Dictionary:
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 2)
+	var head := HBoxContainer.new()
+	var caption := Label.new()
+	caption.add_theme_color_override("font_color", UiTheme.WARM)
+	caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var chip := Label.new()
+	head.add_child(caption)
+	head.add_child(chip)
+	box.add_child(head)
+	var goal := Label.new()
+	goal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(goal)
+	var line := HBoxContainer.new()
+	line.add_theme_constant_override("separation", 8)
+	var bar := ProgressBar.new()
+	bar.show_percentage = false
+	bar.max_value = 1.0
+	bar.custom_minimum_size.y = UiTheme.BAR_HEIGHT
+	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var count := Label.new()
+	line.add_child(bar)
+	line.add_child(count)
+	box.add_child(line)
+	_missions.add_child(box)
+	return {"box": box, "caption": caption, "goal": goal, "bar": bar, "count": count, "chip": chip}
+
+
+func _render_missions(rows: Array[Dictionary]) -> void:
+	for i in _mission_rows.size():
+		var view: Dictionary = _mission_rows[i]
+		(view["box"] as Control).visible = i < rows.size()
+		if i >= rows.size():
+			continue
+		var r: Dictionary = rows[i]
+		view["caption"].text = r["caption"]
+		view["goal"].text = r["goal"]
+		view["bar"].value = float(r["value"]) / maxf(float(r["goal_value"]), 1.0)
+		view["count"].text = "%d / %d" % [int(r["value"]), int(r["goal_value"])]
+		view["chip"].text = "達成" if r["done"] else "進行中"
+		view["chip"].add_theme_color_override("font_color", UiTheme.SUCCESS_GREEN if r["done"] else UiTheme.TEXT_SECONDARY)
 
 
 ## Celebration first, then her day-end remark, then the story line; nothing to say hides her.

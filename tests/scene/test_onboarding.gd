@@ -24,6 +24,11 @@ func test_card_texts_and_skip_toggle(t, tree) -> void:
 	t.ok(pc._card.text.begins_with("手順 2/8"), "tut_01 is passed at once, the card asks for the register: %s" % pc._card.text)
 	t.ok(pc._challenge.text.contains("2日目から"))
 	t.eq(pc._milestones.text, "称号 0/12（店のレベル 0）")
+	var missions: Control = pc._missions
+	t.ok(missions.is_visible_in_tree() or missions.get_parent() != null, "本日のミッション is in the card")
+	t.ok(not pc._mission_rows[0]["caption"].text.is_empty() and pc._mission_rows[0]["caption"].text.begins_with("称号「"), "day 0: no challenge, titles only: %s" % pc._mission_rows[0]["caption"].text)
+	t.ok(pc._mission_rows[0]["count"].text.contains(" / ") and pc._mission_rows[0]["chip"].text == "進行中")
+	t.ok(not pc._mission_rows[3]["box"].visible, "three titles on day 0, the fourth row is hidden")
 	t.ok(pc._toggle.text.contains("スキップ"))
 	pc.toggle_tutorial()
 	t.eq(app.state.progression_state["tutorial_skipped"], true)

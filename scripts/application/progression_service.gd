@@ -232,6 +232,32 @@ static func challenge_event_id(day: int, challenge_id: String) -> String:
 	return "daily:%d:challenge:%s" % [day, challenge_id]
 
 
+## Today's challenge with how far it has come, for the 本日のミッション list (#32 mockup). Read only; {} on a day
+## without a challenge. value is capped at goal; challenge_no_waste is judged when the day closes, so its bar
+## only shows that the day has a sale.
+static func challenge_progress(state: GameState) -> Dictionary:
+	var p: Dictionary = state.progression_state
+	var id = p["active_daily_challenge_id"]
+	if id == null or int(p["active_daily_challenge_day"]) != state.day:
+		return {}
+	var done: bool = p["completed_daily_challenge_ids"].has(challenge_event_id(state.day, id))
+	var sales := int(state.progression_totals["sales_by_day"].get(state.day, 0))
+	var value := 0
+	var goal := 1
+	match id:
+		"challenge_sales_3":
+			value = sales
+			goal = SALES_GOAL
+		"challenge_stock_2":
+			value = CATEGORY_GOAL if p.get("challenge_stock_qualified", false) else DemandGenerator.stocked_category_count(state)
+			goal = CATEGORY_GOAL
+		"challenge_no_waste":
+			value = mini(sales, 1)
+	if done:
+		value = goal
+	return {"challenge_id": String(id), "value": mini(value, goal), "goal": goal, "done": done}
+
+
 static func _challenge(state: GameState, events: Array[Dictionary]) -> void:
 	var p: Dictionary = state.progression_state
 	var done: Array = p["completed_daily_challenge_ids"]
