@@ -1,0 +1,74 @@
+{
+  "by_speed": {
+    "x1": {
+      "customers": 30,
+      "draw_calls": 1070,
+      "fps_median": 59.9700149925037,
+      "fps_p95": 47.8080030597122,
+      "max_ms": 33.377,
+      "median_ms": 16.675,
+      "objects": 3110,
+      "p95_ms": 20.917,
+      "presenter_draw_ms": 2.06523833333333,
+      "prof_ms": {
+        "compose": 0.845373333333333,
+        "customers": 0.432191666666667,
+        "fixtures": 0.595978333333333
+      }
+    },
+    "x2": {
+      "customers": 30,
+      "draw_calls": 1018,
+      "fps_median": 59.9736116108912,
+      "fps_p95": 59.4742476507672,
+      "max_ms": 20.329,
+      "median_ms": 16.674,
+      "objects": 3072,
+      "p95_ms": 16.814,
+      "presenter_draw_ms": 1.72978166666667,
+      "prof_ms": {
+        "compose": 0.692275,
+        "customers": 0.374686666666667,
+        "fixtures": 0.504488333333333
+      }
+    },
+    "x4": {
+      "customers": 30,
+      "draw_calls": 1050,
+      "fps_median": 59.9772086607089,
+      "fps_p95": 59.4742476507672,
+      "max_ms": 26.633,
+      "median_ms": 16.673,
+      "objects": 3138,
+      "p95_ms": 16.814,
+      "presenter_draw_ms": 1.70759833333333,
+      "prof_ms": {
+        "compose": 0.680615,
+        "customers": 0.366855,
+        "fixtures": 0.50472
+      }
+    }
+  },
+  "compose_ms": 0.2154,
+  "conditions": {
+    "customers_in_store": 30,
+    "fixtures_placed": 20,
+    "frames": 600,
+    "speed": 4,
+    "store": "16x12",
+    "window": "(1920, 1080)"
+  },
+  "environment": {
+    "cpu": "Intel(R) Core(TM) i9-10900F CPU @ 2.80GHz",
+    "godot": "4.7.2-stable (official)",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "os": "Windows 10.0.19045",
+    "renderer": "gl_compatibility",
+    "threads": 20
+  },
+  "probe_frame_ms": {},
+  "publish_ms": 4.8536,
+  "sim_step_ms": 0.478715,
+  "snapshot_ms": 1.6179,
+  "video_mem_mb": 260.658754348755
+}

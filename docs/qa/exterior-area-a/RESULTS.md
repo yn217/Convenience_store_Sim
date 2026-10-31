@@ -6,6 +6,12 @@ Corrected the generated neighborhood backdrop's screen-depth projection to the s
 
 Actual Godot 4.7.2 captures are in `urban-context-depth-rectification-v1-2026-10-31/`: 12x10, 16x12 and 20x16 at 1600x900; 20x16 at 1280x720 and 1920x1080; 20x16 left/right pan; and zoom 0.5x, 1.5x and 2x. The background still covers the viewport at 0.5x; at 2x the view intentionally focuses on the store. On the large-store comparison, the upper-right background's dominant measured axis moved from about -28°/-29° to -25°/-26°; the store remains at -26.5°. Some generated roof and street edges still converge in the source art, so this projection correction improves the principal axes but does not remove every perspective cue. Focused `test_backdrop_layer` passed 25 tests / 396 assertions, including viewport coverage, exact depth ratio, store-center anchoring and camera-pan translation. Focused `test_shell_camera_input` passed 10 tests / 96 assertions for pan, zoom, store selection and UI input isolation. No full suite was run.
 
+## Current fixed-condition performance recheck (2026-10-31)
+
+Two real-renderer 600-frame runs at 1920x1080 used the existing benchmark setup (16x12 store, 20 fixtures, 30 customers) on Godot 4.7.2 / i9-10900F / RTX 3090. The x4 medians were 16.673ms and 16.675ms (59.98 and 59.97 FPS); p95 was 16.814ms and 18.411ms. x1 and x2 were also near 60 FPS. Presenter drawing averaged 1.71–2.07ms, with 943–1070 draw calls. Raw results: `perf-current-1920x1080-2026-10-31.json` and `perf-current-repeat-1920x1080-2026-10-31.json`.
+
+Earlier same-declared-condition samples recorded 42.66/43.97 FPS at x4 on 2026-10-30 and 10.45 FPS on 2026-10-29. The discrepancy remains unexplained; the current median is at the apparent 60Hz cap, so it does not show performance headroom or slower-device behavior. Keep the performance gate open and avoid attributing the change to a specific art commit.
+
 ## Near-side storefront promotions
 
 Added two small code-drawn promotion posters to closed near-side window panes. Placement uses wall-plane coordinates, checks the entrance span, and keeps the posters within glazing height; text is rendered by the game font. The posters avoid the interactive doorway and do not depend on generated lettering. Actual 1600x900 captures use the same 16:00 frozen setup:
