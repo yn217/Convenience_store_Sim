@@ -32,7 +32,8 @@ var _heading: Label            # 目標達成！ while celebrating, hidden other
 var _figure: TextureRect
 var _celebrations: Array[Dictionary] = []   # queued {badge, line}; the first one is on screen
 var _celebrate_timer: Timer
-var _suppressed := false       # a full screen with her on it is open (限定くじ管理): the corner figure steps aside
+var _suppressed_by := {}       # why the corner figure steps aside: "window" (management window open, its left edge
+                               # would sit under her bubble), "kuji" (限定くじ管理, she is on that screen)
 var _day_remark := ""          # her remark on the closed day while the day-end card is open ("" otherwise)
 var _achievements: Label
 var _missions: VBoxContainer   # 本日のミッション: today's challenge and the nearest titles, each with a bar
@@ -78,6 +79,7 @@ func setup(app: Node, milestones: Array) -> void:
 	_build_stage()
 	# Added after Main has built its management window, so she stands in front of it.
 	get_parent().add_child.call_deferred(_stage)
+	_watch_window.call_deferred()
 	apply_snapshot({"progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [], "active_daily_challenge_id": null}})
 
 
@@ -159,7 +161,7 @@ func _refresh_stage() -> void:
 		_assistant.text = _day_remark
 	else:
 		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
-	_stage.visible = not _suppressed and (celebrating or _day_remark != "" or cue != "")
+	_stage.visible = _suppressed_by.is_empty() and (celebrating or _day_remark != "" or cue != "")
 
 
 func is_celebrating() -> bool:
@@ -181,8 +183,20 @@ func say_day_end(remark: String) -> void:
 	_refresh_stage()
 
 
-func set_suppressed(on: bool) -> void:
-	_suppressed = on
+## She steps aside while the management window is open (user's choice, 2026-10-31).
+func _watch_window() -> void:
+	var window := get_parent().get_node_or_null("ManagementWindow") as Control
+	if window == null:
+		return
+	window.visibility_changed.connect(func(): set_suppressed(window.visible, "window"))
+	set_suppressed(window.visible, "window")
+
+
+func set_suppressed(on: bool, reason: String = "screen") -> void:
+	if on:
+		_suppressed_by[reason] = true
+	else:
+		_suppressed_by.erase(reason)
 	_refresh_stage()
 
 

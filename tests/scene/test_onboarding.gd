@@ -101,6 +101,10 @@ func test_assistant_cues_show_in_order_and_stay_dismissed(t, tree) -> void:
 	t.eq(pc._snap["story_cue"], "story_start")
 	var stage: Control = r[0].get_node("AssistantStage")
 	t.ok(stage.get_index() > r[0].get_node("ManagementWindow").get_index(), "she stands in front of the management window")
+	r[0].call("open_screen_tab", "経営")
+	t.ok(not stage.visible, "the management window is open: she steps aside so its left edge is not under her bubble")
+	r[0].call("close_screen")
+	t.ok(stage.visible, "and comes back when it closes")
 	t.ok(stage.visible and pc._assistant.text.contains("どんなお店"), "her line shows in the bubble")
 	t.eq((stage.find_child("AssistantName", true, false) as Label).text, "小春六花（店長アシスタント）", "the bubble is named")
 	var figure := stage.get_node("AssistantFigure") as TextureRect

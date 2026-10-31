@@ -55,7 +55,7 @@ func _buy_from_screen(set_id: String) -> void:
 func _on_screen_visibility() -> void:
 	var guide := get_node_or_null("../ProgressionController")
 	if guide != null and guide.has_method("set_suppressed"):
-		guide.set_suppressed(_screen.visible)
+		guide.set_suppressed(_screen.visible, "kuji")
 
 
 func _label() -> Label:
