@@ -1,0 +1,7 @@
+Issue #131 / ソフトクリーム・フラッペ製造・販売
+
+wide 16:9 polished anime game UI mockup screenshot for a Japanese convenience-store management simulation, soft-serve ice cream and frappe production management screen, a cheerful silver-haired anime store manager with purple eyes and double bun hair standing on the right side as a helpful guide, navy and pink convenience-store uniform, pointing toward the equipment panel, bright convenience-store dessert counter softly visible behind her, left and center show an organized dark navy management dashboard titled ソフトクリーム・フラッペ管理, tabs 設備一覧 / 材料在庫 / 販売状況, two equipment cards for a soft serve machine and frappe blender, ingredient stock bars, preparation timers, capacity, cleaning status, shortage warning, placement button, small sales forecast, pastel pink blue green accent colors, premium Japanese game UI, clean spacing, no watermark, no duplicate character, no malformed hands
+
+Negative prompt:
+low quality, worst quality, malformed hands, extra fingers, missing fingers, fused fingers, extra arms, duplicate limbs, distorted face, cropped character, unreadable gibberish text, watermark, logo, blurry UI, cluttered layout
+

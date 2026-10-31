@@ -1,0 +1,26 @@
+{
+  "asset_id": "issue131-softserve-rikka",
+  "kind": "ui_mockup",
+  "issue": 131,
+  "character_identity": "Koharu Rikka",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue131_softserve_rikka.png",
+  "screen_role": "ソフトクリーム・フラッペ製造／販売管理",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "loras": [
+      {
+        "name": "Koharu-Koharu-epoch100.safetensors",
+        "strength": 0.8
+      },
+      {
+        "name": "anima-style-epoch35-lr5e5.safetensors",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "5e2de812-39ce-4d68-a8ce-8cf6f5a3e4b9"
+  }
+}
