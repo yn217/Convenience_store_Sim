@@ -7,6 +7,7 @@ These PNGs are review-stage concept candidates generated in ComfyUI. They are no
 - `event_cg/`: character-included daily-event concept images at `1920x1080`, matching the project's reference viewport.
 - `event_cg_1344x768/`: additional character-included event CG candidates at `1344x768`, suitable for the requested game-event review layout and later scaling/cropping tests.
 - `event_cg_revision_1344x768/`: second-pass candidates with fixed staff uniform, stronger event-specific poses/backgrounds, six revisions, and two new events.
+- `event_cg_revision2_1344x768/`: third-pass composition candidates focused on task-oriented gaze, POS/retail equipment, stronger event actions, and smaller environmental framing.
 - `assistant/`: Issue #32 manager-assistant expression references at `512x512`; display target is approximately `256-300px` in the 340px inspector panel.
 - `event_icons/`: Issue #31 daily-event POP/HUD icon references at `512x512`; display target is approximately `64-96px`.
 - `vfx_icons/`: Issue #30 presentation/VFX icon references at `512x512`; display target is approximately `64-128px`.

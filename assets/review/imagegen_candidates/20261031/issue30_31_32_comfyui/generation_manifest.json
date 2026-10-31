@@ -62,6 +62,17 @@
         "event_revision_1344x768_bread_feature_00001_.png": 2601308
       }
     },
+    "event_cg_revision2_1344x768": {
+      "size": [1344, 768],
+      "purpose": "Third-pass Issues #31/#129 event CG candidates focused on task-oriented composition and explicit convenience-store equipment",
+      "files": {
+        "event_revision2_1344x768_after_work_v3_00001_.png": 2601401,
+        "event_revision2_1344x768_hot_day_v3_00001_.png": 2601402,
+        "event_revision2_1344x768_rival_store_v3_00001_.png": 2601403,
+        "event_revision2_1344x768_cold_day_v3_00001_.png": 2601404,
+        "event_revision2_1344x768_bread_feature_v3_00001_.png": 2601405
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",
