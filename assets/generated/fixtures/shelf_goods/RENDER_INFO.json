@@ -1,0 +1,21 @@
+{
+ "robust_extent_before_scale": [
+  0.9706,
+  0.301,
+  0.9516
+ ],
+ "scale_x": 1.9781,
+ "scale_y": 2.5715,
+ "scale_vertical": 1.917,
+ "cut_splats": 35140,
+ "shear": null,
+ "cutaway": null,
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\shelf_goods_9101_v1/reference.ply",
+ "type": "shelf_goods",
+ "front_yaw": 90.0,
+ "access_edge": "E"
+}

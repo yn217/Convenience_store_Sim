@@ -1,0 +1,135 @@
+{
+ "_doc": "Idol splat -> in-store fixture sprites (tools/assets/idol/build_fixtures.py). ply: relative to the Idol source folder; front_yaw: the model's front in the Idol frame (degrees); args: extra render_fixture_splat.py flags.",
+ "coffee_machine": {
+  "ply": "coffee_machine_c02_v1/reference.ply",
+  "front_yaw": 90
+ },
+ "warmer_oden": {
+  "ply": "oden_warmer_c05_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--slots",
+   "3",
+   "2",
+   "0.22",
+   "0.34",
+   "0.27",
+   "--glass_above",
+   "0.34",
+   "--glass_alpha",
+   "0.45",
+   "--drop_above",
+   "0.68"
+  ]
+ },
+ "crane_game": {
+  "ply": "crane_game_9101_v1/reference.ply",
+  "front_yaw": 90
+ },
+ "capsule_toy_1": {
+  "ply": "capsule_toy_1_9101_v1/reference.ply",
+  "front_yaw": 90
+ },
+ "capsule_toy_5": {
+  "ply": "capsule_toy_5_9101_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--stretch",
+   "1.6",
+   "--align"
+  ]
+ },
+ "bakery_oven": {
+  "ply": "bakery_oven_9101_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--align"
+  ]
+ },
+ "frappe_blender": {
+  "ply": "frappe_blender_9101_v1/reference.ply",
+  "front_yaw": 90
+ },
+ "fridge_daily": {
+  "ply": "fridge_daily_9101_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--align"
+  ]
+ },
+ "shelf_goods": {
+  "ply": "shelf_goods_9101_v1/reference.ply",
+  "front_yaw": 90
+ },
+ "soft_serve_machine": {
+  "ply": "soft_serve_machine_9101_v1/reference.ply",
+  "front_yaw": 90
+ },
+ "pizza_oven": {
+  "ply": "pizza_oven_9101_v1/reference.ply",
+  "front_yaw": 90
+ },
+ "staff_room_s": {
+  "ply": "staff_room_s_9101_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--cutaway",
+   "0.3",
+   "0.25",
+   "--stretch",
+   "2.0",
+   "--align",
+   "--deskew"
+  ]
+ },
+ "staff_room_m": {
+  "ply": "staff_room_m_9101_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--cutaway",
+   "0.3",
+   "0.25",
+   "--stretch",
+   "2.0",
+   "--align",
+   "--deskew"
+  ]
+ },
+ "staff_room_l": {
+  "ply": "staff_room_l_9101_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--cutaway",
+   "0.3",
+   "0.25",
+   "--stretch",
+   "2.0",
+   "--align",
+   "--deskew"
+  ]
+ },
+ "eat_in_counter": {
+  "ply": "eat_in_counter_9102_v1/reference.ply",
+  "front_yaw": 45,
+  "args": [
+   "--stretch",
+   "1.6",
+   "--align"
+  ]
+ },
+ "eat_in_table": {
+  "ply": "eat_in_table_9102_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--stretch",
+   "1.6"
+  ]
+ },
+ "capsule_toy_3": {
+  "ply": "capsule_toy_3_9103_v1/reference.ply",
+  "front_yaw": 45,
+  "args": [
+   "--align"
+  ]
+ }
+}

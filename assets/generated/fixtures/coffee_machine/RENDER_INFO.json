@@ -1,0 +1,21 @@
+{
+ "robust_extent_before_scale": [
+  0.6209,
+  0.772,
+  1.0241
+ ],
+ "scale_x": 1.4817,
+ "scale_y": 1.1917,
+ "scale_vertical": 1.4647,
+ "cut_splats": 89240,
+ "shear": null,
+ "cutaway": null,
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\coffee_machine_c02_v1/reference.ply",
+ "type": "coffee_machine",
+ "front_yaw": 90.0,
+ "access_edge": "S"
+}

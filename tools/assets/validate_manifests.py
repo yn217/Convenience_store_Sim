@@ -41,6 +41,10 @@ GROUND_TOL_PX = 2.0     # source px; 1 screen px at zoom 1.0
 ## Model-derived fixtures: feet, casters and plinths sit inside the envelope's front corner (about 0.1-0.2 m), so the
 ## lowest silhouette pixel may stay this far above it. The model itself is placed on z = 0 by render_fixture.py.
 MODEL_GROUND_TOL_PX = 32.0
+# Idol models whose envelope's near corner is open floor: chairs and stools on legs, a room rebuilt with a narrower
+# near end. Their lowest opaque pixel sits further above the ground point.
+MODEL_GROUND_TOL_OPEN_PX = {"eat_in_table": 64.0, "eat_in_counter": 48.0, "capsule_toy_3": 48.0, "shelf_goods": 48.0,
+                            "staff_room_l": 96.0}
 PADDING_PX = 8
 
 
@@ -181,8 +185,9 @@ def silhouette_errors(d, r, rot, base):
         for name, g, w, sign in zip(("left", "top", "right", "bottom"), got, want, (1, 1, -1, -1)):
             if sign * (g - w) < -GROUND_TOL_PX:
                 errs.append("%s r%d: %s edge %.1f px outside the body envelope" % (d["type_id"], r, name, g - w))
-        if want[3] - got[3] > MODEL_GROUND_TOL_PX:
-            errs.append("%s r%d: bottom edge %.1f px above the ground point (> %.1f)" % (d["type_id"], r, want[3] - got[3], MODEL_GROUND_TOL_PX))
+        tol = MODEL_GROUND_TOL_OPEN_PX.get(d["type_id"], MODEL_GROUND_TOL_PX)
+        if want[3] - got[3] > tol:
+            errs.append("%s r%d: bottom edge %.1f px above the ground point (> %.1f)" % (d["type_id"], r, want[3] - got[3], tol))
         return errs
     for name, g, w in zip(("left", "top", "right", "bottom"), got, want):
         if abs(g - w) > GROUND_TOL_PX:

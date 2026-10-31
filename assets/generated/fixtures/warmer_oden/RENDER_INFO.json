@@ -1,0 +1,27 @@
+{
+ "robust_extent_before_scale": [
+  0.9973,
+  0.8707,
+  0.7481
+ ],
+ "scale_x": 0.9225,
+ "scale_y": 1.0567,
+ "scale_vertical": 1.1354,
+ "cut_splats": 64760,
+ "shear": null,
+ "cutaway": null,
+ "slots": [
+  3.0,
+  2.0,
+  0.22,
+  0.34,
+  0.27
+ ],
+ "glass_above": 0.34,
+ "glass_alpha": 0.45,
+ "drop_above": 0.68,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\oden_warmer_c05_v1/reference.ply",
+ "type": "warmer_oden",
+ "front_yaw": 90.0,
+ "access_edge": "N"
+}

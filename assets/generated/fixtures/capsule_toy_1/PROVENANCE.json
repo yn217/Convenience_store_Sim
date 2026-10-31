@@ -1,0 +1,11 @@
+{
+ "asset_id": "capsule_toy_1_a",
+ "source_type": "AI (image) -> image-to-3D (Gaussian splats) -> splat render",
+ "input_image": "local ComfyUI, Anima-Base-v1.0, no LoRA (tools/assets/comfy_fixture_refs.py, seed 9101; prompt in cs_cv2 assets/source/idol_refs/capsule_toy_1_9101.json)",
+ "image_to_3d": "speridlabs/idol (Apache-2.0), synthetic, seed 42, 50 steps, 262144 Gaussians, no_optimize, SDPA; conditioning facebook/dinov3-vith16plus-pretrain-lvd1689m (DINOv3 License) + black-forest-labs/FLUX.2-dev VAE (FLUX Non-Commercial License v2.1); background removal: Idol's BiRefNet",
+ "splat_ply": "assets/source/idol/capsule_toy_1_9101_v1/reference.ply (sha256 44A273F55FE2B2577FA102211C5DB967982B203559DB5CF23EE630DBBB7CED60)",
+ "render": "tools/assets/idol/render_fixture_splat.py (orthographic iso2x_v1 splat rasterizer, 2x supersampled), settings in tools/assets/idol/fixtures.json and RENDER_INFO.json",
+ "license_or_usage_terms": "outputs of the user's own pipeline; no real brand or logo. FLUX.2-dev VAE is under a non-commercial model licence: check before a commercial release",
+ "generation_date": "2026-11-01",
+ "runtime_approved": false
+}

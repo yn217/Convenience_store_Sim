@@ -1,0 +1,21 @@
+{
+ "robust_extent_before_scale": [
+  0.4938,
+  0.6963,
+  0.9952
+ ],
+ "scale_x": 1.6804,
+ "scale_y": 1.2926,
+ "scale_vertical": 1.6949,
+ "cut_splats": 2400,
+ "shear": null,
+ "cutaway": null,
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\crane_game_9101_v1/reference.ply",
+ "type": "crane_game",
+ "front_yaw": 90.0,
+ "access_edge": "S"
+}

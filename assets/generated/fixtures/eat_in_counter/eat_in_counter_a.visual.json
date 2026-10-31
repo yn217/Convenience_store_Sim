@@ -1,0 +1,170 @@
+{
+ "manifest_version": 1,
+ "visual_id": "eat_in_counter_a",
+ "fixture_type_id": "eat_in_counter",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 3,
+  "h": 1
+ },
+ "dimensions_m": {
+  "width": 2.76,
+  "depth": 0.92,
+  "height": 1.0
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    584,
+    433
+   ],
+   "anchor_px": [
+    164,
+    211
+   ],
+   "layers": {
+    "body": "eat_in_counter_0_body.png",
+    "shadow": "eat_in_counter_0_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     147.0
+    ],
+    [
+     548.0,
+     339.0
+    ],
+    [
+     420.0,
+     403.0
+    ],
+    [
+     36.0,
+     211.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    164,
+    211
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    584,
+    421
+   ],
+   "anchor_px": [
+    420,
+    199
+   ],
+   "layers": {
+    "body": "eat_in_counter_1_body.png",
+    "shadow": "eat_in_counter_1_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     420.0,
+     135.0
+    ],
+    [
+     548.0,
+     199.0
+    ],
+    [
+     164.0,
+     391.0
+    ],
+    [
+     36.0,
+     327.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    420,
+    199
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    584,
+    423
+   ],
+   "anchor_px": [
+    164,
+    201
+   ],
+   "layers": {
+    "body": "eat_in_counter_2_body.png",
+    "shadow": "eat_in_counter_2_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     137.0
+    ],
+    [
+     548.0,
+     329.0
+    ],
+    [
+     420.0,
+     393.0
+    ],
+    [
+     36.0,
+     201.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    164,
+    201
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    584,
+    439
+   ],
+   "anchor_px": [
+    420,
+    217
+   ],
+   "layers": {
+    "body": "eat_in_counter_3_body.png",
+    "shadow": "eat_in_counter_3_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     420.0,
+     153.0
+    ],
+    [
+     548.0,
+     217.0
+    ],
+    [
+     164.0,
+     409.0
+    ],
+    [
+     36.0,
+     345.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    420,
+    217
+   ]
+  }
+ }
+}

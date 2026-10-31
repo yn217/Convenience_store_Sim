@@ -287,8 +287,11 @@ def supported_types():
 
 # Model-derived fixtures (#125: Pixal3D image-to-3D, rendered by F:/WSL/pixal3d-pilot/scripts/render_fixture.py, not by
 # render_fixtures.py). Their blueprint is only the body envelope (the body box, full height): the scaled model is cut
-# to it, so its silhouette lies inside the projected envelope instead of matching box edges.
-MODEL_TYPES = ("atm", "copier")
+# to it, so its silhouette lies inside the projected envelope instead of matching box edges. The Idol Gaussian Splat
+# fixtures (tools/assets/idol/fixtures.json, render_fixture_splat.py) are cut to the same envelope.
+MODEL_TYPES = ("atm", "copier", "coffee_machine", "warmer_oden", "crane_game", "capsule_toy_1", "capsule_toy_3", "capsule_toy_5",
+               "bakery_oven", "frappe_blender", "fridge_daily", "shelf_goods", "soft_serve_machine", "pizza_oven",
+               "staff_room_s", "staff_room_m", "staff_room_l", "eat_in_counter", "eat_in_table")
 
 
 def is_model_type(type_id):

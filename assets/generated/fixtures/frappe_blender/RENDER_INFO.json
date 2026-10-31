@@ -1,0 +1,21 @@
+{
+ "robust_extent_before_scale": [
+  0.9431,
+  0.3608,
+  0.9942
+ ],
+ "scale_x": 0.9755,
+ "scale_y": 1.2681,
+ "scale_vertical": 1.279,
+ "cut_splats": 4948,
+ "shear": null,
+ "cutaway": null,
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\frappe_blender_9101_v1/reference.ply",
+ "type": "frappe_blender",
+ "front_yaw": 90.0,
+ "access_edge": "S"
+}

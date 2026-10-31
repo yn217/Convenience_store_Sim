@@ -1,0 +1,21 @@
+{
+ "robust_extent_before_scale": [
+  0.6236,
+  0.5825,
+  0.9956
+ ],
+ "scale_x": 1.4753,
+ "scale_y": 1.5794,
+ "scale_vertical": 1.5067,
+ "cut_splats": 18553,
+ "shear": null,
+ "cutaway": null,
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\soft_serve_machine_9101_v1/reference.ply",
+ "type": "soft_serve_machine",
+ "front_yaw": 90.0,
+ "access_edge": "S"
+}

@@ -1,0 +1,170 @@
+{
+ "manifest_version": 1,
+ "visual_id": "pizza_oven_a",
+ "fixture_type_id": "pizza_oven",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 1,
+  "h": 1
+ },
+ "dimensions_m": {
+  "width": 0.92,
+  "depth": 0.92,
+  "height": 1.4
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    328,
+    357
+   ],
+   "anchor_px": [
+    164,
+    263
+   ],
+   "layers": {
+    "body": "pizza_oven_0_body.png",
+    "shadow": "pizza_oven_0_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     199.0
+    ],
+    [
+     292.0,
+     263.0
+    ],
+    [
+     164.0,
+     327.0
+    ],
+    [
+     36.0,
+     263.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    164,
+    263
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    328,
+    335
+   ],
+   "anchor_px": [
+    164,
+    241
+   ],
+   "layers": {
+    "body": "pizza_oven_1_body.png",
+    "shadow": "pizza_oven_1_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     177.0
+    ],
+    [
+     292.0,
+     241.0
+    ],
+    [
+     164.0,
+     305.0
+    ],
+    [
+     36.0,
+     241.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    164,
+    241
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    328,
+    344
+   ],
+   "anchor_px": [
+    164,
+    250
+   ],
+   "layers": {
+    "body": "pizza_oven_2_body.png",
+    "shadow": "pizza_oven_2_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     186.0
+    ],
+    [
+     292.0,
+     250.0
+    ],
+    [
+     164.0,
+     314.0
+    ],
+    [
+     36.0,
+     250.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    164,
+    250
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    328,
+    336
+   ],
+   "anchor_px": [
+    164,
+    242
+   ],
+   "layers": {
+    "body": "pizza_oven_3_body.png",
+    "shadow": "pizza_oven_3_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     178.0
+    ],
+    [
+     292.0,
+     242.0
+    ],
+    [
+     164.0,
+     306.0
+    ],
+    [
+     36.0,
+     242.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    164,
+    242
+   ]
+  }
+ }
+}

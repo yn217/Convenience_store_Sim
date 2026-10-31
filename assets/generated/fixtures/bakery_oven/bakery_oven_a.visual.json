@@ -1,0 +1,170 @@
+{
+ "manifest_version": 1,
+ "visual_id": "bakery_oven_a",
+ "fixture_type_id": "bakery_oven",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 1,
+  "h": 2
+ },
+ "dimensions_m": {
+  "width": 0.92,
+  "depth": 1.92,
+  "height": 1.6
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    456,
+    428
+   ],
+   "anchor_px": [
+    292,
+    270
+   ],
+   "layers": {
+    "body": "bakery_oven_0_body.png",
+    "shadow": "bakery_oven_0_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     292.0,
+     206.0
+    ],
+    [
+     420.0,
+     270.0
+    ],
+    [
+     164.0,
+     398.0
+    ],
+    [
+     36.0,
+     334.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    292,
+    270
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    456,
+    429
+   ],
+   "anchor_px": [
+    164,
+    271
+   ],
+   "layers": {
+    "body": "bakery_oven_1_body.png",
+    "shadow": "bakery_oven_1_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     207.0
+    ],
+    [
+     420.0,
+     335.0
+    ],
+    [
+     292.0,
+     399.0
+    ],
+    [
+     36.0,
+     271.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    164,
+    271
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    456,
+    418
+   ],
+   "anchor_px": [
+    292,
+    260
+   ],
+   "layers": {
+    "body": "bakery_oven_2_body.png",
+    "shadow": "bakery_oven_2_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     292.0,
+     196.0
+    ],
+    [
+     420.0,
+     260.0
+    ],
+    [
+     164.0,
+     388.0
+    ],
+    [
+     36.0,
+     324.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    292,
+    260
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    456,
+    417
+   ],
+   "anchor_px": [
+    164,
+    259
+   ],
+   "layers": {
+    "body": "bakery_oven_3_body.png",
+    "shadow": "bakery_oven_3_shadow.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     164.0,
+     195.0
+    ],
+    [
+     420.0,
+     323.0
+    ],
+    [
+     292.0,
+     387.0
+    ],
+    [
+     36.0,
+     259.0
+    ]
+   ],
+   "sorting_anchor_px": [
+    164,
+    259
+   ]
+  }
+ }
+}

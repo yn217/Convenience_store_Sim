@@ -1,0 +1,21 @@
+{
+ "robust_extent_before_scale": [
+  1.3154,
+  0.3133,
+  0.766
+ ],
+ "scale_x": 1.3988,
+ "scale_y": 1.8184,
+ "scale_vertical": 1.8341,
+ "cut_splats": 7588,
+ "shear": null,
+ "cutaway": null,
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\capsule_toy_3_9103_v1/reference.ply",
+ "type": "capsule_toy_3",
+ "front_yaw": 52.0,
+ "access_edge": "S"
+}
