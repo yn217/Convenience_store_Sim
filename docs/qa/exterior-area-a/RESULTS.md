@@ -1,5 +1,21 @@
 # Area A / storefront follow-up QA (2026-10-29)
 
+## Grouped 2D planting cluster candidate (2026-11-01)
+
+Generated a single 2D planting group with three trees, continuous shrubs, flowers and a low planted base. Candidate A was rejected because its checkerboard background is baked into RGB; candidate B has real alpha (0–255) at 1983×793. The runtime test uses B as the grouped backdrop panel, with measured source ground points `(195, 604)` and `(1788, 756)` mapped by the existing uniform, upright strip transform to the full 18m/20m world runs. The root line remains at the exterior ground anchor 2.43m beyond the wall; the wall covers the lower planting.
+
+Actual Godot 4.7.2 captures at 1600×900 cover 12×10, 16×12, 20×16, and left/right pans at 20×16 in `planting-cluster-preview-2026-11-01/`. The canopies remain visible above the wall, the base follows the projected wall axis, and no run endpoint opens during the panned views. Focused `test_backdrop_layer` passes 25 tests / 396 assertions. No full suite was run.
+
+Review remains open: the same three-tree composition repeats on multiple sides, the raised stone base is visible at some ends, and the generated foliage still differs from the store's flatter art. The candidate is not runtime-approved pending user review. The screenshot capture loaded different customer counts between footprints, so these captures verify exterior geometry and camera attachment rather than matching store activity.
+
+## Idol model fit for exterior art (2026-11-01)
+
+Checked the installed Idol SDK and its existing `street_tree_planter_ext_v1` output. Idol takes a single object image, removes its background, center-crops it to a square, and writes a 3D Gaussian Splat `.ply` plus the preprocessed input and camera metadata. The existing outdoor sample is one tree in a planter; the recorded 50-step, 262,144-Gaussian run took about 87 seconds. It does not produce a game-ready 2D backdrop or sprite.
+
+The current production direction in Issue #111 requires outdoor art to be generated/edited/composited in 2D and explicitly rules out 3D generation and baking. Rendering an Idol PLY into a sprite would therefore conflict with the accepted direction. Idol is not selected for runtime exterior assets; the grouped static planting and neighborhood remain 2D candidates. Before any commercial use of this SDK path, separately review the gated DINOv3 and FLUX.2-dev VAE terms; the Idol repository license alone does not describe every dependency.
+
+References: [Idol model card](https://huggingface.co/speridlabs/idol), [FLUX.2-dev model card and license gate](https://huggingface.co/black-forest-labs/FLUX.2-dev).
+
 ## Neighborhood depth-axis correction (2026-10-31)
 
 Corrected the generated neighborhood backdrop's screen-depth projection to the store camera. Hough measurements on the v6 source image found its dominant road and curb axes near ±30°; the store's ground axes are ±26.565° (2:1). `BackdropLayer.urban_context_transform()` now applies the calibrated `tan(26.565°) / tan(30°) = 0.8660254` depth ratio while keeping the store-center anchor and camera pan/zoom behavior. This aligns the main background road and wall axes more closely without rotating the whole scene.

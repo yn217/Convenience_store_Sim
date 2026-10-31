@@ -1,0 +1,13 @@
+{
+  "asset_id": "area_a_planting_cluster_imagegen_b_20261101",
+  "path": "area_a_planting_cluster_imagegen_b_20261101.png",
+  "source_type": "AI-generated 2D image",
+  "source": "OpenAI ImageGen built-in",
+  "model": "ImageGen built-in (individual model ID not exposed)",
+  "generated_at": "2026-11-01",
+  "prompt": "Use case: 2D game environment sprite asset. Asset type: one grouped exterior planting cluster for a Japanese convenience-store neighborhood. Subject: a single continuous planted island with three varied mid-height street trees connected by dense, naturally continuous green shrubs and small pink and white flowers; the tree trunks rise clearly above the low bed, with visible grounded root bases and a low restrained soil/stone planter edge. Composition: a long low cluster about 2.5:1 wide-to-deep, viewed from a fixed dimetric three-quarter overhead angle close to a 2:1 game isometric grid; all tree trunks remain vertical in the image; full silhouette visible with generous transparent padding; no cut-off crowns or base. Style: richly detailed polished hand-painted Japanese town-simulation game art, natural leafy texture, realistic but clean illustration, colors coherent with bright spring daylight and the supplied convenience-store mockup. Lighting: soft daylight from upper left, subtle contact shadows directly below the planter, no hard cast shadow extending far. Constraints: one unified cluster, not separate loose trees; no store, no wall, no road, no signs, no people, no lettering, no tiled floor, no checkerboard; clean antialiased edges without green/yellow fringe; genuinely transparent background.",
+  "license_note": "Generated output; verify applicable OpenAI terms before commercial release.",
+  "review_status": "in_game_reviewed_candidate_not_approved",
+  "review_notes": "Godot 4.7.2 captures cover 12x10, 16x12, 20x16, and panned 20x16. Canopies appear above the wall and the planted base remains behind it; repeated three-tree composition and raised stone base are still visible. Runtime approval pending user review.",
+  "runtime_approved": false
+}

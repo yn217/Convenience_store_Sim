@@ -252,11 +252,20 @@ func test_urban_grove_panel_keeps_fixed_ground_endpoints(t, _tree) -> void:
 		var source_start: Vector2 = profile["source_start"]
 		var source_end: Vector2 = profile["source_end"]
 		t.ok(source_texture != null, "generated grove profile for %.0fm imports as a runtime texture" % edge_length)
-		t.eq(Vector2(source_texture.get_size()), Vector2(2172.0, 724.0), "grove profile for %.0fm keeps its authored canvas" % edge_length)
+		t.eq(Vector2(source_texture.get_size()), Vector2(1983.0, 793.0), "grove profile for %.0fm keeps its authored canvas" % edge_length)
 		t.ok(source_start.x >= 0.0 and source_start.y >= 0.0 and source_end.x < source_texture.get_width() and source_end.y < source_texture.get_height(), "ground anchors remain inside %.0fm profile" % edge_length)
 		var source_image := source_texture.get_image()
 		for ground_anchor in [source_start, (source_start + source_end) * 0.5, source_end]:
-			t.ok(source_image.get_pixelv(Vector2i(roundi(ground_anchor.x), roundi(ground_anchor.y))).a > 0.2, "%.0fm profile ground anchor touches visible roots" % edge_length)
+			var anchor_pixel := Vector2i(roundi(ground_anchor.x), roundi(ground_anchor.y))
+			var touches_ground := false
+			for dy in range(-16, 17):
+				for dx in range(-16, 17):
+					if source_image.get_pixelv(anchor_pixel + Vector2i(dx, dy)).a > 0.2:
+						touches_ground = true
+						break
+				if touches_ground:
+					break
+			t.ok(touches_ground, "%.0fm profile ground anchor touches the uneven planted base" % edge_length)
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
 		for side in [BackdropLayer.SIDE_WEST, BackdropLayer.SIDE_NORTH, BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_SOUTH]:
 			var edge_length := float(size.y if side == BackdropLayer.SIDE_WEST or side == BackdropLayer.SIDE_EAST else size.x)
