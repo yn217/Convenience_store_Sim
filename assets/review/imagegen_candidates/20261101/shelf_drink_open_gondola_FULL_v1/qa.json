@@ -1,0 +1,57 @@
+{
+  "asset_id": "shelf_drink_open_gondola_FULL_v1",
+  "status": "review_candidate_rejected",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "175fa27d035f8312b19123fc9aa4e8a36096416ee6c42be8bc3781cdf3c4ba84",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "single_integrated_shelf_plus_drinks": "pass",
+    "stocked_tier_count": {
+      "expected": 4,
+      "observed": 4,
+      "result": "pass"
+    },
+    "drink_fronts_and_label_color_visible": "pass at source size; game-scale not checked",
+    "products_appear_shelf_supported": "partial_pass visually; exact contact not measured",
+    "bottle_can_carton_categories": "pass (generic beverage containers)",
+    "shelf_board_exposure": "fail: broad white board tops remain visible around and behind stock",
+    "base_plinth_exposure": "fail/partial: dark front kickplate has a broad visible top face",
+    "projection_axes_and_0_47917_ratio": "not_verified against fixture control points",
+    "E_plus_X_access": "not_verified",
+    "anchor_ground_contact": "not_verified",
+    "Godot_display_scale": "not_verified"
+  },
+  "alpha": {
+    "bbox_alpha_gt_8": [
+      167,
+      109,
+      1085,
+      1197
+    ],
+    "margins_pct_ltrb": [
+      13.32,
+      8.69,
+      13.48,
+      4.55
+    ],
+    "edge_alpha_max": {
+      "top": 0,
+      "bottom": 1,
+      "left": 1,
+      "right": 0
+    },
+    "required_min_margin_pct": 12,
+    "result": "fail: top 8.69% and bottom 4.55% are below 12%; faint alpha<=1 touches left and bottom borders"
+  },
+  "decision": "FAIL; preserve as review-only. Four-tier beverage gondola is legible at source size, but transparency margins fail and shelf/base top surfaces remain broad. Do not crop/stretch; projection, dimensions, access, anchor and runtime scale remain unverified.",
+  "qa_scope": "focused source-image review only",
+  "comparison_note": "empty v13 and FULL candidate shown on equal 1254x1254 canvases at identical display size; no alignment transform/crop applied."
+}
