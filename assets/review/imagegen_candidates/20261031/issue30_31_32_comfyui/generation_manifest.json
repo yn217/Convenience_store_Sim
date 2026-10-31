@@ -73,6 +73,14 @@
         "event_revision2_1344x768_bread_feature_v3_00001_.png": 2601405
       }
     },
+    "event_cg_revision4_1344x768": {
+      "size": [1344, 768],
+      "purpose": "Accepted focused revisions for Issue #129 rival-store exterior and Issue #31 individually packaged bread restocking",
+      "files": {
+        "event_revision4_1344x768_rival_store_v6_00001_.png": 2601603,
+        "event_revision4_1344x768_bread_feature_v5_00001_.png": 2601602
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",
