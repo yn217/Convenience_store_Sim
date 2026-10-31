@@ -1,0 +1,7 @@
+ImageGen input intent:
+1. game_reference.png — style and game display reference only
+2. guide_structure.png — fixture geometry reference
+3. guide_edges.png — projected shelf edge reference
+4. product_front_regions_v1.png — conditioning mask: red fixed structure, green package-front zones, black forbidden background
+
+Prompt summary is in qa.json; the exact prompt transcript was not retained in this workspace and is not represented as verbatim.

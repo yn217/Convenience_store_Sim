@@ -1,0 +1,70 @@
+{
+  "asset_id": "shelf_general_open_r0_guided_FULL_v1",
+  "production_method": "Codex built-in ImageGen",
+  "source_original": "source_original.png",
+  "source_sha256": "251744d2c9e0a0689d8d423c3021d7faa050011943ef00347b04416d10cfe51e",
+  "dimensions_px": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha": {
+    "nonzero_pixels": 410455,
+    "alpha_1_pixels": 7299,
+    "alpha_ge_128_pixels": 394930,
+    "bbox_alpha_ge_128": [
+      254,
+      283,
+      1000,
+      1139
+    ],
+    "edge_nonzero_pixels": 40,
+    "margin_percent": {
+      "left": 20.26,
+      "top": 22.57,
+      "right": 20.26,
+      "bottom": 9.17
+    }
+  },
+  "runtime_approved": false,
+  "projection_qa": {
+    "target": "iso2x_v1 source slopes: long axis -0.5, depth axis +0.5; evaluate against guide source-pixel tolerance",
+    "measured_long_shelf_edge_slope": -0.5093,
+    "long_edge_residual_at_1254px": 4.5,
+    "measured_depth_edge_slope": 0.529,
+    "depth_edge_residual_at_1254px": 7.0,
+    "verdict": "FAIL; residuals exceed guide tolerance after normalization"
+  },
+  "content_qa": {
+    "shelf_levels_visible": 4,
+    "goods_integrated_with_shelf": true,
+    "product_fronts_visible": true,
+    "canopy_detected": false,
+    "concerns": [
+      "40 nonzero alpha pixels touch outer image edge (alpha values are 1)",
+      "bottom transparent margin below 12% requirement",
+      "small pale/white flecks around upper backboard",
+      "guide edge geometry is close but outside source-pixel tolerance"
+    ],
+    "verdict": "REVIEW_ONLY"
+  },
+  "prompt_record": "Guided ImageGen prompt summary: Image 1 is game screenshot for style only; Image 2 locks the EMPTY fixture structure; Image 3 supplies exact shelf edges; Image 4 uses red=fixed structure, green=product-front regions, black=forbidden background. Generate one integrated FULL open gondola sprite matching the game isometric and the guide: exactly four sales boards and base, E/+X customer face, dense front-facing package assortment, no canopy, transparent background with at least 12% margin, no floating package cards or thick cuboid goods. This is a summary, not a verbatim transcript.",
+  "reference_inputs": [
+    {
+      "path": "assets\\review\\guided_assets\\shelf_general_open_r0_v1\\game_reference.png",
+      "sha256": "50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3"
+    },
+    {
+      "path": "assets\\review\\guided_assets\\shelf_general_open_r0_v1\\guide_structure.png",
+      "sha256": "d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae"
+    },
+    {
+      "path": "assets\\review\\guided_assets\\shelf_general_open_r0_v1\\guide_edges.png",
+      "sha256": "5220bc3f277e323b0ee78e459ebf49bc90d1e714b2b21eff325473e9f3b0f18e"
+    },
+    {
+      "path": "assets\\review\\guided_assets\\shelf_general_open_r0_v1\\product_front_regions_v1.png",
+      "sha256": "a8d56a1cb31d724ba4db12cf8a74f8189dee324cd7e34eb33e911e6604550633"
+    }
+  ]
+}
