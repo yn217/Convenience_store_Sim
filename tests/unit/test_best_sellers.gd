@@ -68,3 +68,28 @@ func test_sales_by_hour(t, _tree) -> void:
 	var hourly: Dictionary = s.snapshot()["hourly_sales"]
 	t.eq(hourly["today"][1], 150)
 	t.eq(hourly["yesterday"][9], 350)
+
+
+## #24 棚別売上 and any day's ranking.
+func test_shelf_ranking_and_past_days(t, _tree) -> void:
+	var s := _state()
+	s.ledger.cash_yen = 1000000
+	var cmds := GameCommands.new(s)
+	var fid: String = cmds.execute({"command_id": "p1", "kind": &"PLACE_FIXTURE", "type_id": "shelf_general", "x": 4, "y": 5, "rotation": 0}).data["instance_id"]
+	s.day = 1
+	s.ledger.record("SALE", "y1", 300, 1, 0, {"reservation_id": "r", "sku_id": "snack_001", "qty": 2, "fixture_id": fid}, {"revenue": 300})
+	s.day = 2
+	s.ledger.record("SALE", "t1", 150, 2, 0, {"reservation_id": "r", "sku_id": "snack_001", "qty": 1, "fixture_id": fid}, {"revenue": 150})
+	s.ledger.record("SALE", "t2", 900, 2, 0, {"reservation_id": "r", "sku_id": "drink_001", "qty": 3, "fixture_id": "fx_gone"}, {"revenue": 900})
+	var today := s.shelf_ranking(2)
+	t.eq(today.map(func(e): return e["fixture_id"]), ["fx_gone", fid], "highest revenue first")
+	t.eq(today[0]["name"], "撤去した棚", "a fixture no longer in the store")
+	t.eq([today[1]["x"], today[1]["y"]], [4, 5])
+	t.eq(s.shelf_ranking(1)[0]["revenue_yen"], 300, "yesterday on its own")
+	t.eq(s.best_sellers(1)[0]["qty"], 2)
+	t.eq(s.best_sellers(2)[0]["sku_id"], "drink_001")
+	var snap := s.snapshot()
+	t.eq(snap["best_sellers_yesterday"][0]["qty"], 2)
+	t.eq(snap["shelf_ranking"]["yesterday"].size(), 1)
+	t.ok(ReportController.shelf_lines(today).begins_with("1  撤去した棚　¥900・3個"), ReportController.shelf_lines(today))
+	t.eq(ReportController.shelf_lines([]), "まだ売れた棚がありません")

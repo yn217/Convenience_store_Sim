@@ -240,13 +240,18 @@ func sales_by_hour(day_index: int) -> Array:
 ## sales count (rows with a reservation and a sku): crane plays and lottery tickets are not products.
 ## Each entry: {sku_id, name, category, qty, revenue_yen}.
 func best_sellers_today() -> Array[Dictionary]:
+	return best_sellers(day)
+
+
+## The same for any day still in the ledger (the ranking's 前日 view).
+func best_sellers(day_index: int) -> Array[Dictionary]:
 	var by_sku := {}
 	for i in range(ledger.transactions.size() - 1, -1, -1):
 		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day:
+		if int(tx["day_index"]) < day_index:
 			break
 		var d: Dictionary = tx["details"]
-		if tx["event_type"] != "SALE" or not ledger.is_mine(tx) or String(d.get("sku_id", "")) == "" or not d.has("reservation_id"):
+		if int(tx["day_index"]) > day_index or tx["event_type"] != "SALE" or not ledger.is_mine(tx) or String(d.get("sku_id", "")) == "" or not d.has("reservation_id"):
 			continue
 		var sku := String(d["sku_id"])
 		if not by_sku.has(sku):
@@ -262,6 +267,36 @@ func best_sellers_today() -> Array[Dictionary]:
 		if a["revenue_yen"] != b["revenue_yen"]:
 			return a["revenue_yen"] > b["revenue_yen"]
 		return String(a["sku_id"]) < String(b["sku_id"]))
+	return out
+
+
+## #24 棚別売上: the day's product sales per fixture, highest revenue first (ties: units, then fixture id). Only
+## fixtures still in the store are named; each entry: {fixture_id, name, x, y, qty, revenue_yen}.
+func shelf_ranking(day_index: int) -> Array[Dictionary]:
+	var by_fixture := {}
+	for i in range(ledger.transactions.size() - 1, -1, -1):
+		var tx: Dictionary = ledger.transactions[i]
+		if int(tx["day_index"]) < day_index:
+			break
+		var d: Dictionary = tx["details"]
+		var fid := String(d.get("fixture_id", ""))
+		if int(tx["day_index"]) > day_index or tx["event_type"] != "SALE" or not ledger.is_mine(tx) or fid == "" or not d.has("reservation_id"):
+			continue
+		if not by_fixture.has(fid):
+			var inst: Dictionary = grid.instances.get(fid, {})
+			var def := fixtures.get_type(String(inst.get("type_id", ""))) if not inst.is_empty() else {}
+			by_fixture[fid] = {"fixture_id": fid, "name": String(def.get("display_name", "撤去した棚")), "x": int(inst.get("x", -1)), "y": int(inst.get("y", -1)),
+				"qty": 0, "revenue_yen": 0}
+		by_fixture[fid]["qty"] += int(d.get("qty", 1))
+		by_fixture[fid]["revenue_yen"] += int(tx["revenue_delta_yen"])
+	var out: Array[Dictionary] = []
+	out.assign(by_fixture.values())
+	out.sort_custom(func(a, b):
+		if a["revenue_yen"] != b["revenue_yen"]:
+			return a["revenue_yen"] > b["revenue_yen"]
+		if a["qty"] != b["qty"]:
+			return a["qty"] > b["qty"]
+		return String(a["fixture_id"]) < String(b["fixture_id"]))
 	return out
 
 
@@ -362,6 +397,8 @@ func snapshot() -> Dictionary:
 		"today": today_summary(),
 		"units_sold_today": units_sold_today(),
 		"best_sellers_today": best_sellers_today(),
+		"best_sellers_yesterday": best_sellers(day - 1) if day > 0 else [],
+		"shelf_ranking": {"today": shelf_ranking(day), "yesterday": shelf_ranking(day - 1) if day > 0 else []},
 		"hourly_sales": {"today": sales_by_hour(day), "yesterday": sales_by_hour(day - 1) if day > 0 else []},
 		"progression": progression_state.duplicate(true),
 		"story_cue": AssistantService.current(self),

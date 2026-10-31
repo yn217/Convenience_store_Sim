@@ -81,6 +81,11 @@ func test_the_best_seller_ranking(t, tree) -> void:
 	t.ok(not rc._rank_rows[2]["box"].visible)
 	t.ok(rc._ranking_categories.text.begins_with("カテゴリ別：おかし 3"), rc._ranking_categories.text)
 	t.eq(rc._hourly.values().reduce(func(acc, v): return acc + v, 0), 750, "the hourly chart holds today's sales")
+	(main.find_child("RankingDay_yesterday", true, false) as Button).pressed.emit()
+	t.eq(rc._ranking_note.text, "前日は商品が売れていません", "前日: day 0 has no day before")
+	t.ok(not rc._rank_rows[0]["box"].visible)
+	(main.find_child("RankingDay_today", true, false) as Button).pressed.emit()
+	t.ok(rc._rank_rows[0]["box"].visible, "本日 again")
 	var card := rc._ranking_note.get_parent()
 	while card != null and not (card is TabContainer):
 		card = card.get_parent()

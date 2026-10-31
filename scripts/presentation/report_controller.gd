@@ -6,6 +6,7 @@ extends Node
 const CHART_DAYS := 7
 const RANKING_TITLE := "売れ筋ランキング"
 const RANK_ROWS := 5
+const SHELF_ROWS := 3
 const HOURLY_CAPTION := "時間帯別の売上（本日・灰色は前日）"
 
 var _label: Label
@@ -24,6 +25,10 @@ var _done_titles = null        # completed milestone ids at the last snapshot (n
 var _ranking_note: Label       # #24 売れ筋ランキング
 var _rank_rows: Array = []     # per row: {box, product, amount, bar}
 var _ranking_categories: Label
+var _ranking_day := "today"    # which day the 売れ筋 and 棚別 rankings show: "today" / "yesterday"
+var _shelf_lines: Label
+var _day_buttons: Dictionary = {}   # "today" / "yesterday" -> Button
+var _last_snap: Dictionary = {}
 var _hourly: HourlyChart       # #19 売上の推移: today by hour, yesterday behind
 var _day_end_hourly: HourlyChart   # the closed day by hour, on the day-end card
 
@@ -76,6 +81,21 @@ func _build_ranking() -> void:
 	title.text = RANKING_TITLE
 	title.add_theme_font_size_override("font_size", 20)
 	_body.add_child(title)
+	var days := HBoxContainer.new()   # 本日 / 前日: which day the ranking shows
+	days.name = "RankingDays"
+	var group := ButtonGroup.new()
+	for d in [["today", "本日"], ["yesterday", "前日"]]:
+		var b := Button.new()
+		b.name = "RankingDay_" + d[0]
+		b.text = d[1]
+		b.toggle_mode = true
+		b.button_group = group
+		b.button_pressed = d[0] == _ranking_day
+		b.pressed.connect(_set_ranking_day.bind(d[0]))
+		days.add_child(b)
+		_day_buttons[d[0]] = b
+	_body.add_child(days)
+	_mark_ranking_day()
 	_ranking_note = Label.new()
 	_ranking_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_ranking_note)
@@ -108,12 +128,57 @@ func _build_ranking() -> void:
 	_ranking_categories.name = "RankingCategories"
 	_ranking_categories.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_ranking_categories)
+	var shelves_title := Label.new()
+	shelves_title.text = "棚別売上"
+	shelves_title.theme_type_variation = &"CardTitle"
+	_body.add_child(shelves_title)
+	_shelf_lines = Label.new()
+	_shelf_lines.name = "ShelfRanking"
+	_shelf_lines.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_shelf_lines)
+
+
+func _set_ranking_day(which: String) -> void:
+	_ranking_day = which
+	_mark_ranking_day()
+	if not _last_snap.is_empty():
+		_render_rankings(_last_snap)
+
+
+## The day shown is the one in orange (the toggle's pressed look alone was hard to read).
+func _mark_ranking_day() -> void:
+	for k in _day_buttons:
+		var b: Button = _day_buttons[k]
+		if k == _ranking_day:
+			b.add_theme_color_override("font_color", UiTheme.WARM)
+			b.add_theme_color_override("font_pressed_color", UiTheme.WARM)
+			b.add_theme_color_override("font_hover_pressed_color", UiTheme.WARM)
+		else:
+			for c in ["font_color", "font_pressed_color", "font_hover_pressed_color"]:
+				b.remove_theme_color_override(c)
+
+
+func _render_rankings(snap: Dictionary) -> void:
+	var y := _ranking_day == "yesterday"
+	_render_ranking(snap.get("best_sellers_yesterday" if y else "best_sellers_today", []))
+	_shelf_lines.text = shelf_lines(snap.get("shelf_ranking", {}).get(_ranking_day, []))
+
+
+## 棚別売上 rows, highest first: '1  汎用棚（3,2）　¥1,200・8個'. "" (no rows) when nothing sold.
+static func shelf_lines(shelves: Array) -> String:
+	var lines: Array[String] = []
+	for i in mini(shelves.size(), SHELF_ROWS):
+		var s: Dictionary = shelves[i]
+		var at := "（%d,%d）" % [int(s["x"]), int(s["y"])] if int(s["x"]) >= 0 else ""
+		lines.append("%d  %s%s　%s・%d個" % [i + 1, s["name"], at, GameHud.format_yen(int(s["revenue_yen"])), int(s["qty"])])
+	return "\n".join(lines) if not lines.is_empty() else "まだ売れた棚がありません"
 
 
 func _render_ranking(sellers: Array) -> void:
 	if _ranking_note == null:
 		return
-	_ranking_note.text = "本日・確定した会計から" if not sellers.is_empty() else "今日はまだ商品が売れていません"
+	var y := _ranking_day == "yesterday"
+	_ranking_note.text = ("前日" if y else "本日") + "・確定した会計から" if not sellers.is_empty() else ("前日は商品が売れていません" if y else "今日はまだ商品が売れていません")
 	var top := int(sellers[0]["qty"]) if not sellers.is_empty() else 1
 	for i in _rank_rows.size():
 		var view: Dictionary = _rank_rows[i]
@@ -278,7 +343,8 @@ func apply_snapshot(snap: Dictionary) -> void:
 				guide.say_day_end(ProgressionText.day_end_remark(reports))
 		_seen_reports = reports.size()
 	_label.text = summary_text(reports)
-	_render_ranking(snap.get("best_sellers_today", []))
+	_last_snap = snap
+	_render_rankings(snap)
 	var hourly: Dictionary = snap.get("hourly_sales", {})
 	_hourly.set_hours(hourly.get("today", []), hourly.get("yesterday", []))
 	var totals: Dictionary = snap.get("company_totals", {})
