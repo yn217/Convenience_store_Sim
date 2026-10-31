@@ -1,0 +1,38 @@
+{
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v8",
+  "status": "rejected_review_candidate",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "a8b1ca374664c5aeb1dc5cf5c4e8cc401e25a8e64fbd405e2154ded3b7924fe3",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "single_integrated_shelf_and_merchandise_sprite": "pass",
+    "stocked_row_count": {"expected": 4, "observed": 4, "result": "pass"},
+    "front_facing_package_readability": "partial_pass: distinct package faces and category colors visible; game scale unverified",
+    "products_rest_on_existing_shelf_levels": "partial_pass: visually seated; contact not numerically checked",
+    "no_extra_tier_or_roof": "pass",
+    "shelf_exposure_and_plinth": "fail/partial: broad blank shelf regions and visible plinth top remain",
+    "projection_sampling": "unverified: 465 positive segments median +0.538 and 12 negative segments median -0.528; axis-to-fixture mapping and control points not proven",
+    "fixture_depth_length_ratio_0_47917": "not_checked",
+    "E_plus_X_access": "not_checked",
+    "anchor_and_ground_contact": "not_checked",
+    "godot_game_scale": "not_checked"
+  },
+  "alpha": {
+    "bbox_nonzero": [0, 0, 1240, 1254],
+    "edge_alpha_max": {"top": 0, "bottom": 1, "left": 1, "right": 0},
+    "bbox_alpha_gt_8": [208, 183, 1042, 1149],
+    "margins_pct_alpha_gt_8_ltrb": [16.59, 14.59, 16.91, 8.37],
+    "required_min_margin_pct": 12,
+    "result": "fail: bottom margin 8.37%; alpha=1 touches bottom and left edges"
+  },
+  "decision": "FAIL. Keep review-only. Four-row integration is present, but alpha, shelf exposure, geometry and runtime gates remain open. Do not crop/stretch the source.",
+  "qa_scope": "focused source-image review only; no full test suite or runtime changes"
+}
