@@ -143,6 +143,65 @@
         "new_event2_1344x768__christmas_reservation_00001_.png": 2602410
       }
     },
+    "character_sprite_base_1024x1536": {
+      "size": [1024, 1536],
+      "purpose": "Reference standing sprite with explicit symmetrical double odango hairstyle",
+      "files": {
+        "base/character_sprite_base_1024x1536_odango_00001_.png": 2602501
+      }
+    },
+    "character_sprites_1024x1536": {
+      "size": [1024, 1536],
+      "purpose": "Twelve neutral-background Koharu Rikka pose candidates with fixed double odango hairstyle",
+      "files": {
+        "poses/character_sprite_1024x1536_01_welcome_00001_.png": 2602511,
+        "poses/character_sprite_1024x1536_02_sales_celebration_00001_.png": 2602512,
+        "poses/character_sprite_1024x1536_03_business_planning_00001_.png": 2602513,
+        "poses/character_sprite_1024x1536_04_proposal_00001_.png": 2602514,
+        "poses/character_sprite_1024x1536_05_surprise_00001_.png": 2602515,
+        "poses/character_sprite_1024x1536_06_trouble_00001_.png": 2602516,
+        "poses/character_sprite_1024x1536_07_apology_bow_00001_.png": 2602517,
+        "poses/character_sprite_1024x1536_08_recommendation_00001_.png": 2602518,
+        "poses/character_sprite_1024x1536_09_restocking_00001_.png": 2602519,
+        "poses/character_sprite_1024x1536_10_determined_00001_.png": 2602520,
+        "poses/character_sprite_1024x1536_11_relief_00001_.png": 2602521,
+        "poses/character_sprite_1024x1536_12_thanks_00001_.png": 2602522
+      }
+    },
+    "character_sprites_framing_revision_1024x1536": {
+      "size": [1024, 1536],
+      "purpose": "Four revised full-body framing candidates for poses that were initially cropped",
+      "files": {
+        "framing_revision/character_sprite_revision_1024x1536_02_sales_celebration_00001_.png": 2602531,
+        "framing_revision/character_sprite_revision_1024x1536_03_business_planning_00001_.png": 2602532,
+        "framing_revision/character_sprite_revision_1024x1536_05_surprise_00001_.png": 2602533,
+        "framing_revision/character_sprite_revision_1024x1536_11_relief_00001_.png": 2602534
+      }
+    },
+    "character_sprites_handfix_comparison_1024x1536": {
+      "size": [1024, 1536],
+      "purpose": "Hand-quality comparison for open palm, clasped hands, and held product using explicit anatomy prompts",
+      "files": {
+        "hand_comparison/character_sprite_handfix_1024x1536_01_welcome_handfix_00001_.png": 2602541,
+        "hand_comparison/character_sprite_handfix_1024x1536_07_apology_bow_handfix_00001_.png": 2602542,
+        "hand_comparison/character_sprite_handfix_1024x1536_08_recommendation_handfix_00001_.png": 2602543
+      }
+    },
+    "character_sprite_hand_compare_ab_1024x1536": {
+      "size": [1024, 1536],
+      "purpose": "Same-seed A/B comparison of the previous long hand prompt and the shortened explicit-hand prompt",
+      "files": {
+        "hand_ab_comparison/character_sprite_hand_compare_A_long_1024x1536_00001_.png": 2602551,
+        "hand_ab_comparison/character_sprite_hand_compare_B_short_1024x1536_00001_.png": 2602551
+      }
+    },
+    "character_sprite_hand_compare_c2_inpaint_1024x1536": {
+      "size": [1024, 1536],
+      "purpose": "B-image hand and wrist Inpaint comparison using standard InpaintModelConditioning at denoise 0.5",
+      "files": {
+        "hand_inpaint_comparison/character_sprite_hand_compare_C2_inpaint_1024x1536_00001_.png": 2602554
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",
