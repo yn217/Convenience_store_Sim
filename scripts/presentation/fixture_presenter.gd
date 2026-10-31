@@ -470,7 +470,7 @@ func customer_view(c: Dictionary) -> Dictionary:
 	var sheet: Dictionary = look[0]
 	var frame := 0
 	if not sheet.is_empty() and not (sheet["animations"] as Dictionary).has(anim):
-		anim = "checkout" if c.get("phase", "") == "REGISTER" and (sheet["animations"] as Dictionary).has("checkout") else "idle"   # the clerk sheet has idle + checkout only
+		anim = "checkout" if c.get("phase", "") == "REGISTER" and (sheet["animations"] as Dictionary).has("checkout") else "idle"   # the clerk sheet has idle + checkout only; no eat pose -> idle
 	if not sheet.is_empty():
 		frame = CustomerSprites.frame_index(sheet["animations"][anim], anim_time + float(look[2]))
 	var pos: Vector2 = _pos[id] if _pos.has(id) else target_pos(c)

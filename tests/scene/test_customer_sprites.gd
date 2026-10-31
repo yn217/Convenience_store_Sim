@@ -24,7 +24,7 @@ func test_variant_choice_is_stable_and_mixed(t, _tree) -> void:
 	var seen := {}
 	for i in 12:
 		seen[CustomerSprites.variant_for("cust_%06d" % i)] = true
-	t.eq(seen.size(), 3, "several customers in a row look different")
+	t.eq(seen.size(), CustomerSprites.VARIANTS.size(), "several customers in a row use every look")
 
 
 func test_facing_follows_movement(t, _tree) -> void:

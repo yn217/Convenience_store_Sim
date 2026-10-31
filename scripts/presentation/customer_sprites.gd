@@ -8,7 +8,8 @@ const DIR := "res://assets/generated/characters"
 # Anime chibi looks (ComfyUI, tools/assets/build_chibi_sprites.py, 2026-10-31) in place of the box figures; the colours
 # of customer_a / b / c are kept, so a look's portrait (Portraits) is its id without CHIBI.
 const CHIBI := "chibi_"
-const VARIANTS: Array[String] = ["chibi_customer_a", "chibi_customer_b", "chibi_customer_c"]
+const VARIANTS: Array[String] = ["chibi_customer_a", "chibi_customer_b", "chibi_customer_c",
+		"chibi_office_worker", "chibi_student", "chibi_parent"]   # #104: more clothes (2026-10-31)
 const CLERK := "chibi_clerk"
 ## Facing index = clockwise quarter turns from +x (E, S, W, N), as in the manifests.
 const FACING_E := 0
@@ -65,6 +66,8 @@ static func anim_for(phase: String) -> String:
 static func anim_for_state(phase: String, moving: bool, posing: bool) -> String:
 	if moving:
 		return "walk"
+	if phase == "EAT":
+		return "eat"   # #134: seated at the eat-in counter (a sheet without it falls back to idle)
 	if posing or phase == "SELECT":
 		return "inspect"
 	return "idle"

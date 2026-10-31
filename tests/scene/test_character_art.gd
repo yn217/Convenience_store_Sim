@@ -16,7 +16,7 @@ func test_art_is_at_the_game_size(t, _tree) -> void:
 		var tex := load(ProgressionController.FIGURES[k]) as Texture2D
 		t.ok(tex != null, "%s figure loads" % k)
 		t.eq(Vector2(tex.get_size()), ProgressionController.FIGURE_SIZE * 1.5, "%s: 1.5x its 300x436 slot" % k)
-	for id in ["customer_a", "customer_b", "customer_c"] + Array(Portraits.STAFF):
+	for id in Array(CustomerSprites.VARIANTS).map(func(v): return String(v).trim_prefix(CustomerSprites.CHIBI)) + Array(Portraits.STAFF):
 		var p := Portraits.texture(id)
 		t.ok(p != null and p.get_size() == Vector2(144, 144), "%s portrait: 144 px for a 96 px slot" % id)
 	t.ok(load(TitleScreen.TITLE_RIKKA) is Texture2D)
@@ -83,3 +83,19 @@ func test_title_has_her(t, tree) -> void:
 	t.ok(r.get_global_rect().end.x > tree.root.get_visible_rect().size.x * 0.6, "at the right, clear of the menu")
 	title.queue_free()
 	await tree.process_frame
+
+
+## #104 / #134: six chibi looks, a walk cycle with stride poses (the feet move), and a seated eating pose at the eat-in.
+func test_chibi_looks_walk_and_eat(t, _tree) -> void:
+	t.eq(CustomerSprites.VARIANTS.size(), 6, "six looks for the customers")
+	t.eq(CustomerSprites.anim_for_state("EAT", false, false), "eat", "seated while eating")
+	t.eq(CustomerSprites.anim_for_state("EAT", true, false), "walk", "still walks while moving")
+	var sprites := CustomerSprites.new()
+	for vid in Array(CustomerSprites.VARIANTS) + [CustomerSprites.CLERK]:
+		var sheet := sprites.variant(vid)
+		t.ok(not sheet.is_empty(), "%s loads" % vid)
+		if sheet.is_empty():
+			continue
+		var walk: Array = sheet["frames"][CustomerSprites.FACING_S]["walk"]
+		t.ok(walk[0].get_image().get_data() != walk[1].get_image().get_data(), "%s: the stride frame is another drawing" % vid)
+		t.ok((sheet["animations"] as Dictionary).has("eat"), "%s has the eating pose" % vid)

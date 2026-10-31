@@ -25,6 +25,10 @@ PEOPLE = {
     "staff_2": "1girl, young woman, brown hair in a low ponytail, teal convenience store uniform shirt, small name tag, ",
     "staff_3": "1girl, woman in her forties, short dark bob hair, gentle smile, teal convenience store uniform shirt, small name tag, ",
     "staff_4": "1boy, university student, glasses, messy dark hair, teal convenience store uniform shirt, small name tag, ",
+    # the more looks of #104 (the chibi_* figures of the same ids)
+    "office_worker": "1boy, office worker in his thirties, short neat black hair, navy business suit, white shirt, blue tie, ",
+    "student": "1girl, japanese high school student, long black hair in a ponytail, navy sailor school uniform with a red ribbon, ",
+    "parent": "1girl, mother in her thirties, shoulder-length brown hair, beige knit sweater, ",
 }
 NEGATIVE = ("low quality, worst quality, malformed face, distorted face, extra eyes, cropped head, out of frame, hands, "
             "text, watermark, logo, signature, busy background, scenery, other people, koharu_rikka, grey hair double bun")
