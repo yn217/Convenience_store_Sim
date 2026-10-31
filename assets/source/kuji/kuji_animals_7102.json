@@ -1,0 +1,18 @@
+{
+  "set": "kuji_animals",
+  "seed": 7102,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "kuji_animals_7102_00001_.png",
+  "positive": "anima_style, still life, cute fluffy animal plush toys lined up on a shelf: a big white rabbit plush, a brown bear plush, a pink pig plush, a yellow chick plush, small animal figures and round badges in front, pastel colors, soft light, no people",
+  "negative": "low quality, worst quality, blurry, text, letters, words, logo, brand name, watermark, signature, malformed hands, extra fingers, distorted face, other people, 1girl, person, boxes, packages",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    432
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

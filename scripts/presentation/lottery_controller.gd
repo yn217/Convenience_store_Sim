@@ -6,6 +6,8 @@ extends Node
 
 const TITLE := "店頭くじ"
 const ERRORS := {"not_enough_cash": "現金が足りません", "lottery_running": "販売中のくじがあります", "unknown_set": "くじがありません"}
+const THUMB_DIR := "res://assets/ui/kuji/sets/"
+const THUMB_SIZE := Vector2(128, 72)
 const STATUS := {"selling": "販売中", "sold_out": "完売", "ended": "終了"}
 
 var _app: Node
@@ -89,6 +91,18 @@ func _rebuild(sets: Array, selling: bool) -> void:
 	_labels.clear()
 	for v in sets:
 		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		var pic_path := THUMB_DIR + String(v["set_id"]) + ".png"   # the set's prizes on display (ComfyUI, 192x108 for 128x72)
+		if ResourceLoader.exists(pic_path):
+			var pic := TextureRect.new()
+			pic.name = "Thumb_" + String(v["set_id"])
+			pic.texture = load(pic_path) as Texture2D
+			pic.custom_minimum_size = THUMB_SIZE
+			pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			pic.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+			pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.add_child(pic)
 		var l := Label.new()
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

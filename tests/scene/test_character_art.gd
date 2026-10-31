@@ -147,3 +147,21 @@ func test_promotion_thumbnails(t, tree) -> void:
 		t.ok(pic != null and pic.texture != null and pic.texture.get_size() == PromotionController.THUMB_SIZE * 1.5, "%s has its picture at 1.5x" % d)
 	main.queue_free()
 	await tree.process_frame
+
+
+## Text-only cards found by the card audit: the 店頭くじ sets get a prize picture, the 売れ筋 rows a product icon.
+func test_kuji_sets_and_ranking_icons(t, tree) -> void:
+	var main: Node = await _boot(tree)
+	var app: Node = main.get_node("AppRoot")
+	app._publish_snapshot()
+	await tree.process_frame
+	for k in Lottery.data()["sets"].map(func(d): return String(d["set_id"])):   # every set in the data
+		var pic := main.find_child("Thumb_" + k, true, false) as TextureRect
+		t.ok(pic != null and pic.texture != null and pic.texture.get_size() == LotteryController.THUMB_SIZE * 1.5, "%s has its prize picture at 1.5x" % k)
+	app.state.ledger.cash_yen = 100000
+	app.state.ledger.record("SALE", "ri1", 150, app.state.day, 0, {"reservation_id": "r", "sku_id": "snack_001", "qty": 1}, {"revenue": 150})
+	app._publish_snapshot()
+	var rc: ReportController = main.get_node("ReportController")
+	t.ok(rc._rank_rows[0]["icon"].texture != null, "the best seller shows its product icon")
+	main.queue_free()
+	await tree.process_frame

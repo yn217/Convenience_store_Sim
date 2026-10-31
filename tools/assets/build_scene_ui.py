@@ -60,9 +60,21 @@ def promos() -> None:
         print("promo", p)
 
 
+KUJI = ["kuji_animals", "kuji_robots", "kuji_sweets", "kuji_starry"]
+
+
+def kuji() -> None:
+    Path("assets/ui/kuji/sets").mkdir(parents=True, exist_ok=True)
+    for k in KUJI:
+        cover(Image.open(Path("assets/source/kuji") / ("%s_%d.png" % (k, MEDIA_PICK))).convert("RGB"), MEDIA_SIZE).save("assets/ui/kuji/sets/%s.png" % k)
+        print("kuji", k)
+
+
 if __name__ == "__main__":
     import sys
-    if "--promos" in sys.argv:
+    if "--kuji" in sys.argv:
+        kuji()
+    elif "--promos" in sys.argv:
         promos()
     elif "--media" in sys.argv:
         media()

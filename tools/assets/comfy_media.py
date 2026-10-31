@@ -31,6 +31,13 @@ PROMOS = {
     "gift_sticker": RIKKA + "she holds up a sheet of cute round stickers, cold drink bottles beside her, gift campaign, sparkles",
     "stamps_lunch": RIKKA + "she holds a stamp card with round stamps and a small mascot mini towel, onigiri on the counter, stamp rally",
 }
+# #138 店頭くじ: each prize set as a display of its fictional prizes (no Rikka: the prizes are the subject).
+KUJI = {
+    "kuji_animals": "anima_style, still life, a prize display shelf of a convenience store lottery, big fluffy animal plush toys, small animal figures, acrylic stands, round can badges, sticker cards, pastel colors, soft light, no people",
+    "kuji_robots": "anima_style, still life, a prize display shelf of a convenience store lottery, a big shiny combining robot figure, mini robot figures, robot mugs, rubber keychains, trading cards, metallic blue and red, dramatic light, no people",
+    "kuji_sweets": "anima_style, still life, sweets-themed goods lined up on a shelf: a big strawberry shortcake shaped cushion, macaron pouches, a parfait glass, donut keychains, candy pattern notepads, pastel pink and cream colors, soft light, no people",
+    "kuji_starry": "anima_style, still life, a prize display shelf of a convenience store lottery, a cute navy cat mascot plush with a star, moon acrylic stands, starry can badges, small towels, night sky colors, sparkles, no people",
+}
 NEGATIVE = ("low quality, worst quality, blurry, text, letters, words, logo, brand name, watermark, signature, malformed hands, "
             "extra fingers, distorted face, other people")
 
@@ -50,7 +57,11 @@ def generate(medium: str, seed: int) -> Path:
 if __name__ == "__main__":
     args = sys.argv[1:]
     seed = int(args[args.index("--seed") + 1]) if "--seed" in args else 7101
-    if "--promos" in args:
+    if "--kuji" in args:
+        for k in KUJI:
+            wf = comfy.graph(KUJI[k], NEGATIVE + ", 1girl, person", seed, "kuji_%s_%d" % (k, seed), 768, 432, False)
+            print(comfy.run(wf, Path("assets/source/kuji") / ("%s_%d.png" % (k, seed)), {"set": k, "seed": seed, "loras": {"anima-style-epoch35-lr5e5": 0.8}}))
+    elif "--promos" in args:
         for d in PROMOS:
             print(generate_promo(d, seed))
     else:

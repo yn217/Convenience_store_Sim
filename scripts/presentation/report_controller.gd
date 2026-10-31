@@ -7,6 +7,7 @@ const CHART_DAYS := 7
 const RANKING_TITLE := "売れ筋ランキング"
 const RANK_ROWS := 5
 const SHELF_ROWS := 3
+const RANK_ICON := 28.0
 const HOURLY_CAPTION := "時間帯別の売上（本日・灰色は前日）"
 
 var _label: Label
@@ -112,7 +113,14 @@ func _build_ranking() -> void:
 		product.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		product.clip_text = true
 		var amount := Label.new()
+		var icon := TextureRect.new()   # the product's icon, as on the 販売価格 card
+		icon.name = "RankIcon"
+		icon.custom_minimum_size = Vector2(RANK_ICON, RANK_ICON)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(rank)
+		row.add_child(icon)
 		row.add_child(product)
 		row.add_child(amount)
 		box.add_child(row)
@@ -123,7 +131,7 @@ func _build_ranking() -> void:
 		bar.custom_minimum_size.y = UiTheme.BAR_HEIGHT
 		box.add_child(bar)
 		_body.add_child(box)
-		_rank_rows.append({"box": box, "product": product, "amount": amount, "bar": bar})
+		_rank_rows.append({"box": box, "product": product, "amount": amount, "bar": bar, "icon": icon})
 	_ranking_categories = Label.new()
 	_ranking_categories.name = "RankingCategories"
 	_ranking_categories.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -187,6 +195,7 @@ func _render_ranking(sellers: Array) -> void:
 			continue
 		var s: Dictionary = sellers[i]
 		view["product"].text = String(s["name"])
+		view["icon"].texture = ProductIcons.texture({"sku_id": s["sku_id"], "category": s["category"], "display_name": s["name"]}, int(RANK_ICON))
 		view["amount"].text = "%d個　%s" % [int(s["qty"]), GameHud.format_yen(int(s["revenue_yen"]))]
 		view["bar"].value = float(s["qty"]) / float(maxi(top, 1))
 	_ranking_categories.text = category_line(sellers)
