@@ -1,0 +1,55 @@
+{
+  "asset_id": "shelf_bread_slanted_FULL_v1",
+  "status": "review_candidate_rejected",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "0e09e0e042ad21d2d5227e2ae98d3275d77bd44f4c4e04de90bddc07d7910523",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "single_integrated_bread_shelf_and_products": "pass",
+    "stocked_tier_count": {
+      "expected": 4,
+      "observed": 4,
+      "result": "pass"
+    },
+    "bread_package_fronts": "pass at source size; game-scale not verified",
+    "products_seated_in_shallow_trays": "partial_pass visually; exact contact not measured",
+    "backboard_and_shelf_blank_area": "partial_fail: some blank backboard visible above top tier; shelf fronts densely stocked",
+    "product_thick_cuboids": "no obvious cuboid blocks; glossy bag/plastic side depth visible, needs small-scale check",
+    "iso2x_v1_axis_calibration": "not_verified",
+    "fixture_ratio_and_world_dimensions": "not_verified",
+    "anchor_ground_contact": "not_verified",
+    "Godot_game_scale": "not_verified"
+  },
+  "alpha": {
+    "bbox_alpha_gt_8": [
+      148,
+      152,
+      1106,
+      1250
+    ],
+    "margins_pct_ltrb": [
+      11.8,
+      12.12,
+      11.8,
+      0.32
+    ],
+    "edge_alpha_max": {
+      "top": 0,
+      "bottom": 4,
+      "left": 1,
+      "right": 0
+    },
+    "required_min_margin_pct": 12,
+    "result": "fail: bottom margin 0.32% at alpha>8; faint alpha up to 4 touches bottom and up to 1 touches left"
+  },
+  "decision": "FAIL; preserve as review-only. Four-tier bread merchandising is integrated and legible at source scale, but bottom alpha margin fails severely; projection, dimensions, access/anchor, and Godot scale are not validated. No crop/stretch.",
+  "qa_scope": "focused source-image review only"
+}
