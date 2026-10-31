@@ -1,0 +1,18 @@
+{
+  "scope": "focused mathematical projection check; not a Godot runtime test",
+  "source_guide": "assets/review/guided_assets/shelf_general_open_r0_v1/guide.json",
+  "region_map": "assets/review/guided_assets/shelf_general_open_r0_v1/product_front_regions_v1.json",
+  "guide_sha256": "645e390939e2333b7c0e1af25a69db7cebb95f84c05402e64a9e7a5f5d5dfd32",
+  "region_sha256": "6b093bd3b512e91253d7dde8e04fc29958ecada202f3bd1485c287533468f018",
+  "guide_rows": 4,
+  "bands_rendered": 16,
+  "max_control_point_residual_px": 0.000029,
+  "expected_long_axis_abs_slope": 0.5,
+  "max_abs_long_axis_slope_residual": 0.00000014,
+  "anchor_px": [380, 430],
+  "footprint_tiles": [1, 2],
+  "access_face": "E/+X",
+  "depth_offsets_m_back_to_front": [-0.4, -0.28, -0.14, 0.0],
+  "result": "PASS for guide-coordinate placement only; Godot projection, in-game readability, and art approval remain pending",
+  "runtime_approved": false
+}
