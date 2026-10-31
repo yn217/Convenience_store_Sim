@@ -1,0 +1,36 @@
+{
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v5",
+  "status": "rejected_review_candidate",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "1fd726f5362085a43343d64a03285a2165e0f4c678a906c8f7b0ee9ac26bdb26",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "single_integrated_shelf_and_merchandise_sprite": "pass",
+    "stocked_row_count": {"expected": 4, "observed": 4, "result": "pass"},
+    "front_facing_package_readability": "partial_pass: color and package silhouettes read at source size; small labels are not legible at game scale",
+    "products_rest_on_existing_shelf_levels": "partial_pass: visually seated; exact per-row contact not numerically checked",
+    "no_extra_tier_or_roof": "pass",
+    "fixture_geometry_preserved": "partial: four decks and supports are present, but the broad dark plinth dominates as a blank plane and exact guide silhouette/board dimensions were not computed",
+    "projection_iso2x_v1": "unverified/fail for acceptance: Hough edge scan finds dominant board-edge slopes around +0.44 to +0.55, but long/depth axis assignment and E/+X access-side correspondence are not proven against guide control points",
+    "exact_anchor_footprint": "not_checked",
+    "godot_game_scale": "not_checked"
+  },
+  "alpha": {
+    "bbox_nonzero": [0, 0, 1216, 1254],
+    "max_edge_alpha": {"top": 1, "bottom": 1, "left": 1, "right": 0},
+    "bbox_alpha_gt_8": [168, 93, 1028, 1207],
+    "margins_pct_alpha_gt_8_ltrb": [13.40, 7.42, 18.02, 3.75],
+    "required_min_margin_pct": 12,
+    "result": "fail: top and bottom margins below 12%; low-alpha pixels touch top, bottom and left canvas edges"
+  },
+  "decision": "FAIL. Keep as a rejected review candidate only. Do not crop/stretch to hide the structural or projection mismatch. A revised complete asset is needed.",
+  "qa_scope": "focused source-image review only; no full test suite or runtime changes"
+}
