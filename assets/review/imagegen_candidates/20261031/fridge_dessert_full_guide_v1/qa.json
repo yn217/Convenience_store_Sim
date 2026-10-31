@@ -1,0 +1,17 @@
+{
+ "asset_id":"fridge_dessert_full_guide_v1",
+ "candidate_only":true,
+ "runtime_approved":false,
+ "source_dimensions":[1305,1206],
+ "source_format":"RGBA PNG",
+ "source_sha256":"2e78235e03a60b9e4a4d7a7c552b8bfcb9259cde49e2d24c967687195621e774",
+ "alpha_bbox_threshold_8":[189,46,1129,1156],
+ "alpha_margins_percent_ltrb":[14.48,3.81,13.49,4.15],
+ "alpha_margin_12_percent":"FAIL: top/bottom below 12%",
+ "content":"PASS: dessert category only; puddings, jellies, cream puffs, cake slices, and roll cakes are visible; case and products are integrated",
+ "fixture_shape":"REVIEW: large top panel dominates; compare against exact 3-shelf reference before acceptance",
+ "projection":"UNVERIFIED: no coordinate registration to iso2x_v1 guide; orthographic edge residual not measured",
+ "contract_reference":{"footprint_tiles":[1,2],"dimensions_m":[0.92,1.92,1.6],"expected_anchor_from_fixture_manifest":[285,318]},
+ "game_size":"UNVERIFIED",
+ "decision":"review only; source preserved, no geometry scaling or mirroring; alpha/guide/Godot visual QA required"
+}
