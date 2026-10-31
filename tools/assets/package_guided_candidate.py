@@ -13,10 +13,10 @@ sha=lambda f:hashlib.sha256(f.read_bytes()).hexdigest()
 receipt_path=P/'github_readback.json'
 receipt=json.loads(receipt_path.read_text(encoding='utf-8')) if receipt_path.exists() else {}
 verified={f['path']:f for f in receipt.get('files',[])}
-for state,original,sprite in [('EMPTY','source_original.png','empty_corrected.png'),('MEDIUM','products_only_original.png','half_composite_candidate.png'),('FULL','full_source_original.png','full_composite_candidate.png')]:
+for state,original,sprite in [('EMPTY','source_original.png','empty_corrected.png'),('LOW','products_only_original.png','low_composite_candidate.png'),('MEDIUM','products_only_original.png','half_composite_candidate.png'),('FULL','full_source_original.png','full_composite_candidate.png')]:
     f=P/original
     outputs=[]
-    for name,role in [(original,'source_original'),(sprite,'sprite_fullres'),('three_states_comparison.png','qa_overlay')]:
+    for name,role in [(original,'source_original'),(sprite,'sprite_fullres'),('four_states_comparison.png','qa_overlay')]:
         target=P/name
         outputs.append({'role':role,'path':target.relative_to(ROOT).as_posix(),'byte_size':target.stat().st_size,
                         'sha256':sha(target),'git_blob_sha':None,'github_uploaded':False})
@@ -42,7 +42,7 @@ for state,original,sprite in [('EMPTY','source_original.png','empty_corrected.pn
         'Guide vertex numeric checks do not certify generated artwork control points.']
     jsonschema.Draft202012Validator(schema).validate(data)
     (P/(state.lower()+'.candidate.json')).write_text(json.dumps(data,indent=2),encoding='utf-8')
-audit={'runtime_approved':False,'shape_approval':'shape_approval.json','stock_states':['EMPTY','MEDIUM','FULL'],
+audit={'runtime_approved':False,'shape_approval':'shape_approval.json','stock_states':['EMPTY','LOW','MEDIUM','FULL'],
        'github_readback_commit':receipt.get('commit'),'status':'review_only','files':{f.relative_to(P).as_posix():sha(f) for f in P.rglob('*') if f.is_file() and f.name!='handoff_audit.json'}}
 (P/'handoff_audit.json').write_text(json.dumps(audit,indent=2),encoding='utf-8')
 bundle=ROOT/'generated/asset_packs/shelf_general_open_r0_review_v1.zip'
@@ -50,4 +50,4 @@ with zipfile.ZipFile(bundle,'w',zipfile.ZIP_DEFLATED) as z:
     for f in P.rglob('*'):
         if f.is_file(): z.write(f,f.relative_to(P.parent))
 with zipfile.ZipFile(bundle) as z: assert z.testzip() is None
-print('3 candidate manifests validated; review ZIP refreshed; GitHub upload false')
+print('4 candidate manifests validated; review ZIP refreshed; per-file GitHub status recorded')

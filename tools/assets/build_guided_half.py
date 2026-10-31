@@ -1,17 +1,22 @@
 """Limited MEDIUM/HALF review state from identical EMPTY plus reduced product layers."""
 import json
+import sys
 from pathlib import Path
 import numpy as np
 import cv2
 from PIL import Image,ImageDraw
 P=Path(__file__).resolve().parents[2]/'assets/review/guided_assets/shelf_general_open_r0_v1'
+low='--low' in sys.argv
+name='low' if low else 'half'
 empty=np.array(Image.open(P/'empty_corrected.png').convert('RGBA'))
 protect=np.array(Image.open(P/'protected_structure_mask.png'))>0
 half=Image.fromarray(empty); cuts=[]; allowed=np.zeros((640,640),bool)
 for row in range(4):
     a=np.array(Image.open(P/f'products_row{row}.png').convert('RGBA'))
     counts=(a[:,:,3]>128).sum(axis=0)
-    xs=np.where(counts>0)[0]; middle=int((xs[0]+xs[-1])/2)
+    xs=np.where(counts>0)[0]
+    fraction=(.75 if row%2 else .25) if low else .5
+    middle=int(xs[0]+fraction*(xs[-1]-xs[0]))
     # Follow a package edge rather than slicing every package on a straight column.
     left,right=middle-23,middle+24
     rgb=a[:,:,:3].astype(float)
@@ -36,13 +41,19 @@ for row in range(4):
     half=Image.alpha_composite(half,Image.fromarray(a))
     cuts.append({'row':row,'seam_x_min':int(seam.min()),'seam_x_max':int(seam.max()),'method':'gradient-following package separator; visual QA required'})
 out=np.array(half); out[protect]=empty[protect]
-Image.fromarray(out).save(P/'half_composite_candidate.png')
-report={'runtime_approved':False,'stock_state':'MEDIUM','display_name':'HALF limited trial','protected_changed_pixels':int(np.any(out[protect]!=empty[protect],axis=1).sum()),
+Image.fromarray(out).save(P/(name+'_composite_candidate.png'))
+report={'runtime_approved':False,'stock_state':'LOW' if low else 'MEDIUM','display_name':name.upper()+' limited trial','protected_changed_pixels':int(np.any(out[protect]!=empty[protect],axis=1).sum()),
         'outside_product_support_changed_pixels':int(np.any(out[~allowed]!=empty[~allowed],axis=1).sum()),'cuts':cuts,'status':'review_only'}
-(P/'half_report.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
+(P/(name+'_report.json')).write_text(json.dumps(report,indent=2),encoding='utf-8')
 sheet=Image.new('RGBA',(1920,680),(220,225,225,255))
 for i,(name,label) in enumerate([('empty_corrected.png','EMPTY'),('half_composite_candidate.png','HALF / MEDIUM trial'),('full_composite_candidate.png','FULL')]):
     sheet.alpha_composite(Image.open(P/name).convert('RGBA'),(i*640,30))
     ImageDraw.Draw(sheet).text((i*640+20,10),label,fill='black')
 sheet.convert('RGB').save(P/'three_states_comparison.png')
+if low:
+    four=Image.new('RGBA',(2560,680),(220,225,225,255))
+    for i,(file,label) in enumerate([('empty_corrected.png','EMPTY'),('low_composite_candidate.png','LOW'),('half_composite_candidate.png','MEDIUM'),('full_composite_candidate.png','FULL')]):
+        four.alpha_composite(Image.open(P/file).convert('RGBA'),(i*640,30))
+        ImageDraw.Draw(four).text((i*640+20,10),label,fill='black')
+    four.convert('RGB').save(P/'four_states_comparison.png')
 print(json.dumps(report))

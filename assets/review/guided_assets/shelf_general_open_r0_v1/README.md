@@ -1,4 +1,4 @@
-# Issue #171 屋根なし棚 r0・3状態の制作候補
+# Issue #171 屋根なし棚 r0・4状態の制作候補
 
 状態: review_only / runtime_approved:false。EMPTY形状は進行了承済み。FULLとHALF(MEDIUM)は採用前候補。
 
@@ -14,10 +14,12 @@
 - *.candidate.json: 候補用Schemaで実検証。GitHub転送欄false、runtime承認false。
 
 確認範囲: 3状態の素材が存在。保護された可視レール/支柱/台座は画素差0、HALFの商品領域外も画素差0。これは隠れた構造も含めた全画素一致・実在庫同期の合格証明ではない。
-未完了: 全制御点、実物/目標参考の独立Visual QA、商品境界の確認、LOW、r1〜r3、人物遮蔽・昼夜・実在庫同期、GitHubバイナリ登録/読戻し。本編定義・保存・経済処理は変更なし。Issueは未完了。
+未完了: 全制御点、実物/目標参考の独立Visual QA、商品境界の確認、r1〜r3、人物遮蔽・昼夜・実在庫同期、GitHubバイナリ登録/読戻し。本編定義・保存・経済処理は変更なし。Issueは未完了。
 
 ソース: tools/assets/generate_open_shelf_guide.py、correct_guided_empty.py、compose_guided_stock.py、build_guided_half.py、preview_guided_shelf.gd、package_guided_candidate.py。
 過剰なフルテストは実施していない。制作方法: 組み込みImageGen編集＋2Dプログラム合成。プロンプト要旨と各失敗/修正はattemptログに記録。
 
 ## 撮影版と納品先の違い
 撮影・生成ガイドの元コードは integration/m6-ui の23b840c3d2ca8cadf6046af38ff12e009934bbc1。納品先artブランチの仕様ファイルと同一ではない。入力原本はinput_snapshotに保存。guide.jsonのSHAはその原本を指す。登録先ブランチで再撮影したことにはしない。再生成する場合は入力差分を確認すること。
+
+LOW候補を追加。game_low_*は撮影元23b840c上でzoom0.5/1/2を確認。LOWも棚保護部分/商品領域外の画素差0。ただし商品境界の独立画質審査と実在庫連動は未完了。

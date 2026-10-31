@@ -33,11 +33,11 @@
     },
     {
       "role": "qa_overlay",
-      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/three_states_comparison.png",
-      "byte_size": 235588,
-      "sha256": "69b1402a2160dbc9a084b7c6e846721bdd3dd7dc7c3bd6c88e6b433a8092b831",
-      "git_blob_sha": "8b24d7a96f727349fa2ac68992d8e1b1539c695a",
-      "github_uploaded": true
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/four_states_comparison.png",
+      "byte_size": 242115,
+      "sha256": "b29b412eb6dbece88f3a17edf099b0ab8736065054c875f987304b92f607e485",
+      "git_blob_sha": null,
+      "github_uploaded": false
     }
   ],
   "projection": {

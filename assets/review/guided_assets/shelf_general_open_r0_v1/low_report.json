@@ -1,0 +1,34 @@
+{
+  "runtime_approved": false,
+  "stock_state": "LOW",
+  "display_name": "LOW limited trial",
+  "protected_changed_pixels": 0,
+  "outside_product_support_changed_pixels": 0,
+  "cuts": [
+    {
+      "row": 0,
+      "seam_x_min": 307,
+      "seam_x_max": 318,
+      "method": "gradient-following package separator; visual QA required"
+    },
+    {
+      "row": 1,
+      "seam_x_min": 414,
+      "seam_x_max": 435,
+      "method": "gradient-following package separator; visual QA required"
+    },
+    {
+      "row": 2,
+      "seam_x_min": 313,
+      "seam_x_max": 325,
+      "method": "gradient-following package separator; visual QA required"
+    },
+    {
+      "row": 3,
+      "seam_x_min": 435,
+      "seam_x_max": 452,
+      "method": "gradient-following package separator; visual QA required"
+    }
+  ],
+  "status": "review_only"
+}

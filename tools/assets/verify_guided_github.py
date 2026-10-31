@@ -16,7 +16,8 @@ P=ROOT/'assets/review/guided_assets/shelf_general_open_r0_v1'
 commit=sys.argv[1]
 names=['source_original.png','full_source_original.png','products_only_original.png','empty_corrected.png',
        'full_composite_candidate.png','half_composite_candidate.png','three_states_comparison.png',
-       'game_full_candidate_zoom1.0.png','game_half_candidate_zoom1.0.png']
+       'game_full_candidate_zoom1.0.png','game_half_candidate_zoom1.0.png','low_composite_candidate.png',
+       'four_states_comparison.png','game_low_candidate_zoom1.0.png']
 paths=[(P/n).relative_to(ROOT).as_posix() for n in names]+['generated/asset_packs/shelf_general_open_r0_review_v1.zip']
 def api(endpoint):
     return json.loads(subprocess.check_output(['gh','api',endpoint],cwd=ROOT))
