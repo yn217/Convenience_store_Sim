@@ -1,0 +1,21 @@
+{
+  "asset_id": "drink_001_v1",
+  "format": "3D Gaussian Splat PLY, not polygon mesh",
+  "gaussians": 262144,
+  "finite_attributes": true,
+  "sha256": "47601cd34c8a968aa2ef5e02f6fb3f4a434e48b1883472813dd81c6c47f1bad6",
+  "input_image_sha256": "3f888f82b4166b8dba5eb8cc4956f25e4eb75c844290f5598cbd485548611a86",
+  "model": "speridlabs/idol",
+  "sdk_commit": "4702a7f00850e34b6e83a2170cc123c3e9570744",
+  "generation": {
+    "steps": 50,
+    "seed": 42,
+    "mode": "synthetic",
+    "num_gaussians": 262144,
+    "optimize": false
+  },
+  "status": "raw_3d_candidate_for_other_chat_adjustment",
+  "runtime_approved": false,
+  "visual_geometry_qa": "not approved; previous custom renderer showed distortions, cause not isolated",
+  "license": "Idol Apache-2.0; dependency DINOv3/FLUX.2-dev terms require separate review"
+}

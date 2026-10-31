@@ -1,0 +1,21 @@
+{
+  "asset_id": "register_basic_v1",
+  "format": "3D Gaussian Splat PLY, not polygon mesh",
+  "gaussians": 262144,
+  "finite_attributes": true,
+  "sha256": "d0912cb4f0d8e9895b7566909c5d09b3834d1b85f9396112a3fa7ae06340172c",
+  "input_image_sha256": "cb07940087bca7403601ab3f9f61cfdba13a3f824c001169d4ff701bd0b0c01d",
+  "model": "speridlabs/idol",
+  "sdk_commit": "4702a7f00850e34b6e83a2170cc123c3e9570744",
+  "generation": {
+    "steps": 50,
+    "seed": 42,
+    "mode": "synthetic",
+    "num_gaussians": 262144,
+    "optimize": false
+  },
+  "status": "raw_3d_candidate_for_other_chat_adjustment",
+  "runtime_approved": false,
+  "visual_geometry_qa": "not approved; previous custom renderer showed distortions, cause not isolated",
+  "license": "Idol Apache-2.0; dependency DINOv3/FLUX.2-dev terms require separate review"
+}
