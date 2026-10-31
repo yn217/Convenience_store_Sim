@@ -1,5 +1,11 @@
 # Area A / storefront follow-up QA (2026-10-29)
 
+## Neighborhood depth-axis correction (2026-10-31)
+
+Corrected the generated neighborhood backdrop's screen-depth projection to the store camera. Hough measurements on the v6 source image found its dominant road and curb axes near ±30°; the store's ground axes are ±26.565° (2:1). `BackdropLayer.urban_context_transform()` now applies the calibrated `tan(26.565°) / tan(30°) = 0.8660254` depth ratio while keeping the store-center anchor and camera pan/zoom behavior. This aligns the main background road and wall axes more closely without rotating the whole scene.
+
+Actual Godot 4.7.2 captures at 1600x900 cover 12x10, 16x12 and 20x16, plus 20x16 left/right pan and 1.5x zoom: see `urban-context-depth-rectification-v1-2026-10-31/`. On the large-store comparison, the upper-right background's dominant measured axis moved from about -28°/-29° to -25°/-26°; the store remains at -26.5°. Some generated roof and street edges still converge in the source art, so this projection correction improves the principal axes but does not remove every perspective cue. Focused `test_backdrop_layer` passed 25 tests / 396 assertions, including viewport coverage, exact depth ratio, store-center anchoring and camera-pan translation. No full suite was run.
+
 ## Near-side storefront promotions
 
 Added two small code-drawn promotion posters to closed near-side window panes. Placement uses wall-plane coordinates, checks the entrance span, and keeps the posters within glazing height; text is rendered by the game font. The posters avoid the interactive doorway and do not depend on generated lettering. Actual 1600x900 captures use the same 16:00 frozen setup:

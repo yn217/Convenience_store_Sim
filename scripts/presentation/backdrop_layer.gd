@@ -43,6 +43,9 @@ const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_
 const SURROUNDING_GROUND_OPACITY := 0.90
 const URBAN_CONTEXT_WORLD_SCALE := 2.5
 const URBAN_CONTEXT_MIN_SCALE := 2.1
+## The generated neighborhood's dominant road/curb axes measure 30 degrees; the store projects ground axes at 26.565 degrees.
+## Compressing the backdrop's screen-depth basis by tan(26.565) / tan(30) rectifies its camera pitch without rotating the scene.
+const URBAN_CONTEXT_DEPTH_PROJECTION := 0.8660254038
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
@@ -448,7 +451,7 @@ static func urban_context_transform(proj: IsoProjection, width: int, height: int
 	var scale := maxf(URBAN_CONTEXT_MIN_SCALE, URBAN_CONTEXT_WORLD_SCALE * proj.zoom)
 	var store_center := proj.world_to_screen((float(width) - 1.0) * 0.5, (float(height) - 1.0) * 0.5)
 	var basis_x := Vector2.RIGHT * scale
-	var basis_y := Vector2.DOWN * scale
+	var basis_y := Vector2.DOWN * (scale * URBAN_CONTEXT_DEPTH_PROJECTION)
 	var half_size := (basis_x * texture_size.x + basis_y * texture_size.y) * 0.5
 	return Transform2D(basis_x, basis_y, store_center - half_size)
 
