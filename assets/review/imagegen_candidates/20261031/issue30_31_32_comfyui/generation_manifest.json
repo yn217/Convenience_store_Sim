@@ -81,6 +81,14 @@
         "event_revision4_1344x768_bread_feature_v5_00001_.png": 2601602
       }
     },
+    "event_cg_revision5_1344x768": {
+      "size": [1344, 768],
+      "purpose": "Accepted v6 candidates for Japanese konbini architecture, rival-store readability, and compact packaged-bread restocking",
+      "files": {
+        "event_revision5_1344x768_rival_store_v6_00001_.png": 2601701,
+        "event_revision5_1344x768_bread_feature_v6_00001_.png": 2601702
+      }
+    },
     "assistant": {
       "size": [512, 512],
       "purpose": "Issue #32 manager-assistant expression references",
