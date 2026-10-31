@@ -6,6 +6,7 @@ extends Node
 const CHART_DAYS := 7
 const RANKING_TITLE := "売れ筋ランキング"
 const RANK_ROWS := 5
+const HOURLY_CAPTION := "時間帯別の売上（本日・灰色は前日）"
 
 var _label: Label
 var _chart: ReportChart
@@ -23,6 +24,8 @@ var _done_titles = null        # completed milestone ids at the last snapshot (n
 var _ranking_note: Label       # #24 売れ筋ランキング
 var _rank_rows: Array = []     # per row: {box, product, amount, bar}
 var _ranking_categories: Label
+var _hourly: HourlyChart       # #19 売上の推移: today by hour, yesterday behind
+var _day_end_hourly: HourlyChart   # the closed day by hour, on the day-end card
 
 
 func setup(_app: Node) -> void:
@@ -54,6 +57,14 @@ func setup(_app: Node) -> void:
 	_chart.custom_minimum_size = Vector2(0, 90)
 	_body.add_child(_chart)
 	_body.add_child(_legend())
+	var hourly_title := Label.new()
+	hourly_title.text = HOURLY_CAPTION
+	hourly_title.theme_type_variation = &"CardTitle"
+	_body.add_child(hourly_title)
+	_hourly = HourlyChart.new()
+	_hourly.name = "HourlyChart"
+	_hourly.custom_minimum_size = Vector2(0, 90)
+	_body.add_child(_hourly)
 	_build_ranking()
 	apply_snapshot({})
 
@@ -175,6 +186,10 @@ func _build_day_end() -> void:
 	_day_end_text = Label.new()
 	_day_end_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(_day_end_text)
+	_day_end_hourly = HourlyChart.new()
+	_day_end_hourly.name = "DayEndHourly"
+	_day_end_hourly.custom_minimum_size = Vector2(0, 80)
+	col.add_child(_day_end_hourly)
 	var row := HBoxContainer.new()
 	var more := Button.new()
 	more.name = "DayEndHistory"
@@ -255,12 +270,17 @@ func apply_snapshot(snap: Dictionary) -> void:
 			var day := int(closed["day_index"])
 			_day_end_text.text = day_end_text(closed) + "\n" + "\n".join(day_history_lines(day, _day_log.get(day, {}), snap.get("progression", {})))
 			_day_end.visible = true
+			var closed_hours: Array = snap.get("hourly_sales", {}).get("yesterday", []) if day == int(snap.get("day", 0)) - 1 else []
+			_day_end_hourly.set_hours(closed_hours)
+			_day_end_hourly.visible = not closed_hours.is_empty()
 			var guide := get_node_or_null("../ProgressionController")   # 小春六花 comments on the day beside the card
 			if guide != null and guide.has_method("say_day_end"):
 				guide.say_day_end(ProgressionText.day_end_remark(reports))
 		_seen_reports = reports.size()
 	_label.text = summary_text(reports)
 	_render_ranking(snap.get("best_sellers_today", []))
+	var hourly: Dictionary = snap.get("hourly_sales", {})
+	_hourly.set_hours(hourly.get("today", []), hourly.get("yesterday", []))
 	var totals: Dictionary = snap.get("company_totals", {})
 	_company.visible = not totals.is_empty()
 	_company.text = company_text(totals)

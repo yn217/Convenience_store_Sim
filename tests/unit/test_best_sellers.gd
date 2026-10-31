@@ -43,3 +43,28 @@ func test_category_line(t, _tree) -> void:
 	]
 	t.eq(ReportController.category_line(sellers), "カテゴリ別：飲料 4・おかし 2・おにぎり 2")
 	t.eq(ReportController.category_line([]), "")
+
+
+## #19 売上の推移: the day's SALE revenue per hour of the day (crane plays and tickets are sales too).
+func test_sales_by_hour(t, _tree) -> void:
+	var s := _state()
+	s.ledger.cash_yen = 100000
+	s.day = 1
+	s.time_sec = 86400 + 9 * 3600 + 120
+	_sale(s, "a", "snack_001", 1, 150)
+	s.time_sec = 86400 + 9 * 3600 + 3500
+	_sale(s, "b", "drink_001", 1, 200)
+	s.time_sec = 86400 + 18 * 3600
+	s.ledger.record("SALE", "crane:x:1", 100, s.day, s.time_sec, {"crane_play": 1, "qty": 1}, {"revenue": 100})
+	s.day = 2
+	s.time_sec = 2 * 86400 + 3600
+	_sale(s, "c", "snack_001", 1, 150)
+	var day1 := s.sales_by_hour(1)
+	t.eq(day1.size(), 24)
+	t.eq(day1[9], 350, "two sales in the 9 o'clock hour")
+	t.eq(day1[18], 100)
+	t.eq(day1.reduce(func(a, v): return a + v, 0), 450, "nothing from other days")
+	t.eq(s.sales_by_hour(2)[1], 150)
+	var hourly: Dictionary = s.snapshot()["hourly_sales"]
+	t.eq(hourly["today"][1], 150)
+	t.eq(hourly["yesterday"][9], 350)

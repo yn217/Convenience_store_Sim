@@ -217,6 +217,24 @@ func units_sold_today() -> int:
 	return units
 
 
+## #19 売上の推移: revenue of the day's SALE rows per hour of the day (24 ints). Walks back from the newest row, so
+## today and yesterday cost only their own rows.
+func sales_by_hour(day_index: int) -> Array:
+	var out: Array = []
+	out.resize(24)
+	out.fill(0)
+	for i in range(ledger.transactions.size() - 1, -1, -1):
+		var tx: Dictionary = ledger.transactions[i]
+		var d := int(tx["day_index"])
+		if d < day_index:
+			break
+		if d > day_index or tx["event_type"] != "SALE" or not ledger.is_mine(tx):
+			continue
+		var h := (int(tx["time_sec"]) % 86400) / 3600
+		out[h] = int(out[h]) + int(tx["revenue_delta_yen"])
+	return out
+
+
 ## #24 売れ筋: today's confirmed product sales per SKU, most units first (ties: revenue, then sku id). Only shelf
 ## sales count (rows with a reservation and a sku): crane plays and lottery tickets are not products.
 ## Each entry: {sku_id, name, category, qty, revenue_yen}.
@@ -343,6 +361,7 @@ func snapshot() -> Dictionary:
 		"today": today_summary(),
 		"units_sold_today": units_sold_today(),
 		"best_sellers_today": best_sellers_today(),
+		"hourly_sales": {"today": sales_by_hour(day), "yesterday": sales_by_hour(day - 1) if day > 0 else []},
 		"progression": progression_state.duplicate(true),
 		"story_cue": AssistantService.current(self),
 		"milestone_progress": ProgressionService.milestone_progress(self, stocked.size()),

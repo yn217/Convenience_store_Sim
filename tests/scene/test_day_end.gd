@@ -80,6 +80,7 @@ func test_the_best_seller_ranking(t, tree) -> void:
 	t.ok(is_equal_approx(rc._rank_rows[1]["bar"].value, 1.0 / 3.0), "the second bar is a third of the leader")
 	t.ok(not rc._rank_rows[2]["box"].visible)
 	t.ok(rc._ranking_categories.text.begins_with("カテゴリ別：おかし 3"), rc._ranking_categories.text)
+	t.eq(rc._hourly.values().reduce(func(acc, v): return acc + v, 0), 750, "the hourly chart holds today's sales")
 	var card := rc._ranking_note.get_parent()
 	while card != null and not (card is TabContainer):
 		card = card.get_parent()
