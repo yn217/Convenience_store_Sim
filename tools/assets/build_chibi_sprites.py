@@ -66,18 +66,21 @@ def other_leg(fig: Image.Image) -> Image.Image:
     a = np.asarray(fig).copy()
     h, w = a.shape[:2]
     y0 = int(h * LEG_CUT)
-    hip = np.where(a[y0:y0 + 6][..., 3].max(axis=0) > 40)[0]
-    cx = int((hip.min() + hip.max()) / 2) if len(hip) else w // 2
-    legs = a[y0:]
-    mirrored = np.zeros_like(legs)
-    for x in range(w):
-        mx = 2 * cx - x
-        if 0 <= mx < w:
-            mirrored[:, mx] = legs[:, x]
-    band = min(14, legs.shape[0])
-    keep = (mirrored[:band, :, 3] < 40) & (legs[:band, :, 3] > 40)
-    mirrored[:band][keep] = legs[:band][keep]
-    a[y0:] = mirrored
+    # The legs' columns: what the lowest 30% of the figure covers (feet and shins), a little wider. Only those columns
+    # are mirrored, about their own centre, so a bag or a hand beside the legs keeps its pixels.
+    low = np.where(a[int(h * 0.70):][..., 3].max(axis=0) > 40)[0]
+    if len(low) == 0:
+        return fig.copy()
+    x0, x1 = max(int(low.min()) - 4, 0), min(int(low.max()) + 4, w - 1)
+    cx2 = x0 + x1   # twice the centre: the mirror of x is cx2 - x, which stays inside [x0, x1]
+    legs = a[y0:].copy()
+    out = legs.copy()
+    for x in range(x0, x1 + 1):
+        out[:, x] = legs[:, cx2 - x]
+    band = min(14, legs.shape[0])   # just under the cut, keep the original where the mirror leaves a gap
+    keep = (out[:band, x0:x1 + 1, 3] < 40) & (legs[:band, x0:x1 + 1, 3] > 40)
+    out[:band, x0:x1 + 1][keep] = legs[:band, x0:x1 + 1][keep]
+    a[y0:] = out
     return Image.fromarray(a, "RGBA")
 
 
