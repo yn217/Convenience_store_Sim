@@ -78,6 +78,40 @@ def generate_step(person: str, view: str, step: str, seed: int) -> Path:
                       "loras": {"anima-style-epoch35-lr5e5": 0.8}})
 
 
+CLEAN_DENOISE = 0.5    # keep the mirrored legs, redraw the seam and drop a bag doubled by the mirror
+
+
+def clean_stride(person: str, view: str, seed: int, src: Path) -> Path:
+    """img2img over the leg-mirrored stride (build_chibi_sprites.other_leg, saved on white as `src`) to redraw the seam."""
+    name = _upload(src)
+    positive = STYLE + PEOPLE[person] + VIEWS[view] + "walking, mid-stride, clean lineart, "
+    negative = NEGATIVE + ", two bags, duplicate bag, two briefcases, duplicate briefcase, extra bag, cut off clothes"
+    wf = comfy.graph(positive, negative, seed, "chibi_%s_%s_stepB2_%d" % (person, view, seed), 512, 768, False)
+    wf["12"] = {"class_type": "LoadImage", "inputs": {"image": name}}
+    wf["13"] = {"class_type": "VAEEncode", "inputs": {"pixels": ["12", 0], "vae": ["9", 0]}}
+    wf["8"]["inputs"]["latent_image"] = ["13", 0]
+    wf["8"]["inputs"]["denoise"] = CLEAN_DENOISE
+    return comfy.run(wf, OUT / ("%s_%s_stepB2_%d.png" % (person, view, seed)),
+                     {"person": person, "view": view, "step": "stepB2", "seed": seed, "img2img_from": src.name, "denoise": CLEAN_DENOISE,
+                      "loras": {"anima-style-epoch35-lr5e5": 0.8}})
+
+
+if __name__ == "__main__" and "--clean" in sys.argv:
+    import build_chibi_sprites as b  # noqa: E402
+    from PIL import Image  # noqa: E402
+    only = [a for a in sys.argv[1:] if a in PEOPLE]
+    for p in (only or list(PEOPLE)):
+        for v in ("front", "back"):
+            a = OUT / ("%s_%s_stepA_6101.png" % (p, v))
+            if not a.exists():
+                continue
+            raw = Image.open(a).convert("RGBA")
+            mirrored = b.other_leg_raw(raw)
+            src = OUT / ("%s_%s_stepB_mirror_6101.png" % (p, v))
+            Image.alpha_composite(Image.new("RGBA", raw.size, "white"), mirrored).convert("RGB").save(src)
+            print(clean_stride(p, v, 6101, src))
+    sys.exit(0)
+
 if __name__ == "__main__" and "--steps" in sys.argv:
     only = [a for a in sys.argv[1:] if a in PEOPLE]
     for p in (only or list(PEOPLE)):

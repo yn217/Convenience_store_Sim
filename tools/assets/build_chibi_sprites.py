@@ -84,6 +84,27 @@ def other_leg(fig: Image.Image) -> Image.Image:
     return Image.fromarray(a, "RGBA")
 
 
+def _alpha_of(rgb: Image.Image) -> Image.Image:
+    im = np.asarray(rgb.convert("RGB")).astype(np.int32)
+    mn, mx = im.min(axis=2), im.max(axis=2)
+    bg = (mn >= 235) & ((mx - mn) <= 14)
+    lab, _ = ndimage.label(bg)
+    border = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
+    mask = np.isin(lab, list(border))
+    return Image.fromarray(np.where(mask, 0, 255).astype(np.uint8))
+
+
+## other_leg on a whole render (white background, full canvas): for the img2img seam clean-up (comfy_chibi.py --clean).
+def other_leg_raw(raw: Image.Image) -> Image.Image:
+    rgba = raw.convert("RGB").convert("RGBA")
+    rgba.putalpha(_alpha_of(raw))
+    box = rgba.getbbox()
+    fig = rgba.crop(box)
+    out = Image.new("RGBA", rgba.size, (255, 255, 255, 0))
+    out.alpha_composite(other_leg(fig), (box[0], box[1]))
+    return out
+
+
 def soft_shadow() -> Image.Image:
     w, h = 96, 34
     y, x = np.mgrid[0:CANVAS[1], 0:CANVAS[0]]
@@ -109,7 +130,8 @@ def build(person: str, seed: int) -> None:
         b = SRC / ("%s_%s_stepB_%d.png" % (person, view, seed))
         if a.exists():
             ia = cut(a)
-            ib = other_leg(ia)   # the other leg forward (the stepB render raised the same foot)
+            cleaned = SRC / ("%s_%s_stepB2_%d.png" % (person, view, seed))   # the mirror with its seam redrawn (img2img)
+            ib = cut(cleaned) if cleaned.exists() else other_leg(ia)   # the other leg forward (stepB raised the same foot)
             steps[flip_dirs[0]] = (ia, ib)
             steps[flip_dirs[1]] = (ImageOps.mirror(ia), ImageOps.mirror(ib))
     k_front, k_back = scale_of(front), scale_of(back)
