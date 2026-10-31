@@ -30,6 +30,7 @@ static func step(state: GameState) -> void:
 
 static func _draw_today(state: GameState, day_index: int) -> void:
 	var ges := state.gameplay_event_state
+	_remember(state)
 	var r := GameplayEventDirector.draw(state.gameplay_events, day_index, state.reputation, int(state.rng_states["events"]))
 	state.rng_states["events"] = r["next_state"]
 	ges["last_selected_day"] = day_index
@@ -46,6 +47,32 @@ static func _draw_today(state: GameState, day_index: int) -> void:
 	ges["selected_event_id"] = r["event_id"]
 	ges["event_start_sec"] = w.x
 	ges["event_end_sec"] = w.y
+
+
+## #31 イベント履歴: before a new day's draw replaces it, the last drawn day goes into state.event_history (held =
+## its window started while open). At most HISTORY_DAYS entries are kept; a day is recorded once.
+const HISTORY_DAYS := 30
+
+
+static func _remember(state: GameState) -> void:
+	var ges := state.gameplay_event_state
+	var last := int(ges["last_selected_day"])
+	if last < 1 or state.event_history.any(func(h): return int(h["day"]) == last):
+		return
+	state.event_history.append({"day": last, "event_id": String(ges["selected_event_id"]) if ges["selected_event_id"] != null else "",
+		"held": bool(ges["started"])})
+	while state.event_history.size() > HISTORY_DAYS:
+		state.event_history.pop_front()
+
+
+## イベント履歴 for the screen, newest first: {day, name_ja, held} (name_ja "" = no event that day).
+static func history(state: GameState) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for i in range(state.event_history.size() - 1, -1, -1):
+		var h: Dictionary = state.event_history[i]
+		var ev := GameplayEventDirector.event_by_id(state.gameplay_events, String(h["event_id"])) if String(h["event_id"]) != "" else {}
+		out.append({"day": int(h["day"]), "name_ja": String(ev.get("name_ja", "")), "held": bool(h["held"])})
+	return out
 
 
 ## The notice id is `daily:<day>:<event>:<started|ended>`; a notice already in shown_notice_ids is not repeated.

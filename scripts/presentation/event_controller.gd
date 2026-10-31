@@ -3,10 +3,11 @@ extends Node
 ## "今日のイベント" section of the inspector (SCR-11): the day's event, its window, effect and what is
 ## still missing to profit from it. Shows what EventService decided; it never draws or applies anything.
 ## Under the text (#31 mockup 本日の地域イベント): 効果の内訳 as chips, and 本日のイベント一覧 with every event of the master
-## data marked 選択中 / 候補 / its lock (hover for the details).
+## data marked 選択中 / 候補 / its lock (hover for the details), and イベント履歴: the last HISTORY_LINES days, newest first.
 
 const LIST_COLUMNS := 3
 const STATE_JA := {"selected": "選択中", "candidate": "候補"}
+const HISTORY_LINES := 7
 const DOWN_TEXT := Color("ff8a8e")   # a lowered effect: DANGER_RED is too dark for text on the card
 
 var _status: Label
@@ -15,6 +16,9 @@ var _list_title: Label
 var _list: GridContainer
 var _list_key := ""
 var _cells: Dictionary = {}   # event id -> {panel, state}
+var _effects_key := ""
+var _history_title: Label
+var _history: Label
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -42,6 +46,14 @@ func _ready() -> void:
 	_list.add_theme_constant_override("h_separation", 6)
 	_list.add_theme_constant_override("v_separation", 6)
 	_body.add_child(_list)
+	_history_title = Label.new()
+	_history_title.text = "イベント履歴"
+	_history_title.theme_type_variation = &"CardTitle"
+	_body.add_child(_history_title)
+	_history = Label.new()
+	_history.name = "EventHistory"
+	_history.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body.add_child(_history)
 
 
 func apply_snapshot(snap: Dictionary) -> void:
@@ -49,9 +61,28 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_status.text = "\n".join(EventText.lines(view, int(snap.get("time_sec", 0)), snap.get("stocked_categories", [])))
 	_render_effects(EventText.effect_chips(view) if String(view.get("status", "")) in ["scheduled", "active", "ended", "missed"] else [])
 	_render_catalog(snap.get("event_catalog", []))
+	var past: Array = snap.get("event_history", [])
+	_history.text = history_text(past)
+	_history.visible = not past.is_empty()
+	_history_title.visible = not past.is_empty()
+
+
+## イベント履歴 lines, newest first: 'DAY 3　近隣の工事（開催）' / '（見送り）' when the store was not open in its window /
+## 'DAY 2　イベントなし'.
+static func history_text(past: Array) -> String:
+	var lines: Array[String] = []
+	for h in past.slice(0, HISTORY_LINES):
+		var name := String(h["name_ja"])
+		lines.append("DAY %d　%s" % [int(h["day"]), "イベントなし" if name == "" else "%s（%s）" % [name, "開催" if h["held"] else "見送り"]])
+	return "\n".join(lines)
 
 
 func _render_effects(chips: Array) -> void:
+	_effects.visible = not chips.is_empty()
+	var key := ",".join(chips.map(func(c): return c["text"]))
+	if key == _effects_key and _effects.get_child_count() == chips.size():
+		return
+	_effects_key = key
 	for c in _effects.get_children():
 		c.queue_free()
 	for chip in chips:

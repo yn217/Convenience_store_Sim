@@ -101,6 +101,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"eat_in_total": state.eat_in_total,   # #134
 			"construction_days": state.construction_days,   # #145
 			"lotteries": state.lotteries.duplicate(true),   # #138
+			"event_history": state.event_history.duplicate(true),   # #31
 			"capsule_stats": state.capsule_stats.duplicate(true),   # #139
 			"crane_stats": state.crane_stats.duplicate(true),   # #132
 			"market_conditions": state.market_conditions.duplicate(true),
@@ -533,6 +534,12 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 					break
 				s.lotteries.append({"lottery_id": String(l.get("lottery_id", "")), "set_id": String(l["set_id"]), "start_day": int(l["start_day"]), "end_day": int(l["end_day"]),
 					"order": (l["order"] as Array).map(func(x): return String(x)), "sold": int(l["sold"]), "status": String(l["status"]), "revenue_yen": int(l.get("revenue_yen", 0))})
+		if typeof(rt.get("event_history")) == TYPE_ARRAY:   # #31 (absent in older saves)
+			for h in rt["event_history"]:
+				if typeof(h) != TYPE_DICTIONARY or not JsonCheck.is_int(h.get("day")) or typeof(h.get("event_id")) != TYPE_STRING or typeof(h.get("held")) != TYPE_BOOL:
+					errs.append("runtime_state.event_history: invalid")
+					break
+				s.event_history.append({"day": int(h["day"]), "event_id": String(h["event_id"]), "held": bool(h["held"])})
 		if rt.has("construction_days"):   # #145 (absent in older saves)
 			if not JsonCheck.is_int(rt["construction_days"]) or int(rt["construction_days"]) < 0:
 				errs.append("runtime_state.construction_days: invalid")

@@ -973,6 +973,7 @@
         "next_coupon_seq": {"type": "integer", "minimum": 0},
         "store_id": {"description": "This store's id in the company (issue #146): \"\" for the first store, \"s2\" ...; the prefix of its ledger rows.", "type": "string"},
         "store_name": {"type": "string"},
+        "event_history": {"description": "Past days' daily event draws, oldest first (issue #31): event_id \"\" = no event that day; held = its window started while open. At most 30.", "type": "array", "maxItems": 30, "items": {"type": "object", "additionalProperties": false, "required": ["day", "event_id", "held"], "properties": {"day": {"type": "integer", "minimum": 1}, "event_id": {"type": "string"}, "held": {"type": "boolean"}}}},
         "branches": {"description": "The company's other stores (issue #146), each a whole save of its own (this schema) without ledger rows: the ledger is this file's economy block, shared.", "type": "array", "items": {"type": "object"}},
         "branch_carry": {"type": "number"},
         "branch_items_carry": {"type": "number"},

@@ -335,3 +335,32 @@ func test_the_event_stream_does_not_disturb_other_randomness(t, _tree) -> void:
 	t.eq(a.rng_states["arrivals"], b.rng_states["arrivals"])
 	t.eq(a.rng_states["purchases"], b.rng_states["purchases"])
 	t.eq(a.cash_yen, b.cash_yen)
+
+
+## #31 イベント履歴: each drawn day is remembered once when the next day's draw replaces it, survives a save, and old
+## saves without it still load.
+func test_event_history_is_kept_and_saved(t, _tree) -> void:
+	var s := _state()
+	_open_store(s)
+	for d in [1, 2, 3]:
+		s.time_sec = d * DAY + 23 * 3600   # late in the day: the window is over, a drawn event counts as missed
+		EventService.step(s)
+	EventService.step(s)   # same day again: nothing new
+	t.eq(s.event_history.map(func(h): return h["day"]), [1, 2], "days 1 and 2 are remembered when day 2 and 3 are drawn")
+	t.ok(s.event_history.all(func(h): return h["held"] == false), "the store opened after every window")
+	var hist := EventService.history(s)
+	t.eq(hist[0]["day"], 2, "newest first")
+	var saved := SaveGame.to_dict(s, "slot", "2026-01-01T00:00:00Z")
+	var loaded := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(loaded["ok"], str(loaded.get("errors", [])))
+	t.eq((loaded["state"] as GameState).event_history, s.event_history, "the history survives a save")
+	saved["runtime_state"].erase("event_history")
+	var old := SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)
+	t.ok(old["ok"] and (old["state"] as GameState).event_history.is_empty(), "an older save loads with no history")
+	saved["runtime_state"]["event_history"] = [{"day": "x"}]
+	t.ok(not SaveGame.from_dict(JSON.parse_string(JSON.stringify(saved)), s.balance.duplicate(true), s.fixtures, s.products)["ok"], "a broken history is refused")
+
+
+func test_event_history_text(t, _tree) -> void:
+	var text := EventController.history_text([{"day": 3, "name_ja": "近隣の工事", "held": true}, {"day": 2, "name_ja": "暑い日", "held": false}, {"day": 1, "name_ja": "", "held": false}])
+	t.eq(text.split("\n"), PackedStringArray(["DAY 3　近隣の工事（開催）", "DAY 2　暑い日（見送り）", "DAY 1　イベントなし"]))

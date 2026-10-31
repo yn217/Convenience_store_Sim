@@ -125,6 +125,9 @@ func _run() -> void:
 				s.day += 2
 				app._publish_snapshot()
 			main.get_node("LotteryController").call("open_kuji_screen")
+		elif a == "--sample-history":   # #31: a few past days in イベント履歴 (review shots only)
+			s.event_history = [{"day": 1, "event_id": "evt_hot_day", "held": true}, {"day": 2, "event_id": "", "held": false}]
+			app._publish_snapshot()
 		elif a.begins_with("--event="):   # --event=evt_roadworks: today's event, running now (after --day=)
 			var ev := GameplayEventDirector.event_by_id(s.gameplay_events, a.trim_prefix("--event="))
 			var w := GameplayEventDirector.window(s.day, ev)

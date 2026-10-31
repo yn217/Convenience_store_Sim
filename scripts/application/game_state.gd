@@ -69,6 +69,7 @@ var rivals_enabled := true
 var bakes_pending := 0                 # #130: lots in the ovens (recounted from the segments on load)
 var eat_in_total := 0                  # #134: customers who sat down to eat
 var lotteries: Array = []              # #138: prize draw sets bought and their tickets (Lottery)
+var event_history: Array = []          # #31: past days' event draws, oldest first: {day, event_id ("" = none), held} (EventService)
 var capsule_stats: Dictionary = {}     # #139: sku_id -> {turns, rare} of the capsule machines (CapsuleToys)
 var crane_stats: Dictionary = {}       # #132: fixture_id -> {plays, wins, since, repairs, broken} of the crane games (CraneGame)
 var market_conditions: Array = []      # #129 phase 2: local conditions (Market), the company's
@@ -391,6 +392,7 @@ func snapshot() -> Dictionary:
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
 		"event_catalog": EventService.catalog(self),
+		"event_history": EventService.history(self),
 		"stocked_categories": stocked,
 	}
 
