@@ -448,6 +448,10 @@ func open_map() -> void:
 		_map_window.title = "地域マップ"
 		_map_window.size = Vector2i(1240, 720)   # a 16:9 picture map needs the width
 		_map_window.close_requested.connect(func(): _map_window.hide())
+		_map_window.visibility_changed.connect(func():   # the corner assistant steps aside while the map is open
+			var guide := get_node_or_null("../ProgressionController")
+			if guide != null and guide.has_method("set_map_open"):
+				guide.set_map_open(_map_window.visible))
 		var row := HBoxContainer.new()
 		row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		_map_view = MapView.new()

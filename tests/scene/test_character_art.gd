@@ -165,3 +165,24 @@ func test_kuji_sets_and_ranking_icons(t, tree) -> void:
 	t.ok(rc._rank_rows[0]["icon"].texture != null, "the best seller shows its product icon")
 	main.queue_free()
 	await tree.process_frame
+
+
+## Screen audit 2026-11-01: she steps aside in build mode (the catalog is at the left edge) and while the map is open.
+func test_assistant_steps_aside_for_build_and_map(t, tree) -> void:
+	var main: Node = await _boot(tree)
+	var stage: Control = main.get_node("AssistantStage")
+	t.ok(stage.visible, "the story line is up")
+	main.call("toggle_build")
+	await tree.process_frame
+	t.ok(not stage.visible, "build mode: hidden")
+	main.call("close_build")
+	await tree.process_frame
+	t.ok(stage.visible, "back after building")
+	main.get_node("BusinessController").call("open_map")
+	await tree.process_frame
+	t.ok(not stage.visible, "map open: hidden")
+	main.get_node("BusinessController")._map_window.hide()
+	await tree.process_frame
+	t.ok(stage.visible, "back after the map")
+	main.queue_free()
+	await tree.process_frame

@@ -320,6 +320,16 @@ func _watch_window() -> void:
 		return
 	window.visibility_changed.connect(func(): set_suppressed(window.visible, "window"))
 	set_suppressed(window.visible, "window")
+	# The build catalog stands at the left edge, where her bubble is (screen audit 2026-11-01): she steps aside there too.
+	var palette := get_parent().get_node_or_null("Layout/MainArea/BuildPalette") as Control
+	if palette != null:
+		palette.visibility_changed.connect(func(): set_suppressed(palette.is_visible_in_tree(), "build"))
+		set_suppressed(palette.is_visible_in_tree(), "build")
+
+
+## The area map (#150) is a window of its own: BusinessController reports when it opens and closes.
+func set_map_open(on: bool) -> void:
+	set_suppressed(on, "map")
 
 
 func set_suppressed(on: bool, reason: String = "screen") -> void:
