@@ -1,0 +1,19 @@
+{
+  "person": "customer_a",
+  "view": "back",
+  "seed": 6101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "chibi_customer_a_back_6101_00001_.png",
+  "positive": "anima_style, solo, chibi, super deformed, cute anime game character, full body, standing, simple clean lineart, flat soft cel shading, plain pure white background, no shadow, 1boy, young man, short dark brown hair, light blue sweater, grey trousers, dark shoes, view from behind, three-quarter back view, walking away to the upper left, back of the head visible, face not visible, ",
+  "negative": "low quality, worst quality, blurry, multiple views, reference sheet, text, watermark, logo, cropped feet, out of frame, background scenery, floor, shadow, extra limbs, malformed hands",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    512,
+    768
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

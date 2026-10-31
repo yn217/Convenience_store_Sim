@@ -15,7 +15,7 @@ static var _cache := {}
 static func id_for_customer(customer_id: String, staff_name: String = "") -> String:
 	if customer_id.begins_with("staff_"):
 		return id_for_staff(staff_name if staff_name != "" else customer_id)
-	return CustomerSprites.variant_for(customer_id)
+	return CustomerSprites.variant_for(customer_id).trim_prefix(CustomerSprites.CHIBI)
 
 
 ## Portrait id of a staff member or candidate, stable for the same name.

@@ -23,7 +23,7 @@ func test_art_is_at_the_game_size(t, _tree) -> void:
 
 
 func test_portrait_choice_is_stable(t, _tree) -> void:
-	t.eq(Portraits.id_for_customer("cust_000004"), CustomerSprites.variant_for("cust_000004"), "a customer's face is its in-store look")
+	t.eq(Portraits.id_for_customer("cust_000004"), CustomerSprites.variant_for("cust_000004").trim_prefix(CustomerSprites.CHIBI), "a customer's face is its in-store look")
 	t.eq(Portraits.id_for_staff("佐藤"), Portraits.id_for_staff("佐藤"), "the same name, the same face")
 	t.ok(Portraits.STAFF.has(Portraits.id_for_staff("木村")))
 	t.eq(Portraits.id_for_customer("staff_1", "佐藤"), Portraits.id_for_staff("佐藤"), "staff on the floor keep their face")
@@ -66,7 +66,7 @@ func test_staff_tab_and_customer_panel_faces(t, tree) -> void:
 	world.selected_customer = "cust_000002"
 	oc.refresh_customer()
 	t.ok(oc._customer_face.visible, "the selected customer's face shows beside the panel")
-	t.eq(oc._customer_face.texture, Portraits.texture(CustomerSprites.variant_for("cust_000002")))
+	t.eq(oc._customer_face.texture, Portraits.texture(Portraits.id_for_customer("cust_000002")))
 	world.selected_customer = ""
 	oc.refresh_customer()
 	t.ok(not oc._customer_face.visible)

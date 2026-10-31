@@ -5,7 +5,11 @@ extends RefCounted
 ## move the ground contact. Missing art returns {} and the caller draws a plain placeholder.
 
 const DIR := "res://assets/generated/characters"
-const VARIANTS: Array[String] = ["customer_a", "customer_b", "customer_c"]
+# Anime chibi looks (ComfyUI, tools/assets/build_chibi_sprites.py, 2026-10-31) in place of the box figures; the colours
+# of customer_a / b / c are kept, so a look's portrait (Portraits) is its id without CHIBI.
+const CHIBI := "chibi_"
+const VARIANTS: Array[String] = ["chibi_customer_a", "chibi_customer_b", "chibi_customer_c"]
+const CLERK := "chibi_clerk"
 ## Facing index = clockwise quarter turns from +x (E, S, W, N), as in the manifests.
 const FACING_E := 0
 const FACING_S := 1
@@ -26,7 +30,7 @@ func variant(variant_id: String) -> Dictionary:
 ## Stable variant for a customer id: the numeric tail picks one of the three looks.
 static func variant_for(customer_id: String) -> String:
 	if customer_id.begins_with("staff_"):
-		return "clerk"   # store staff (#143)
+		return CLERK   # store staff (#143)
 	var digits := ""
 	for i in range(customer_id.length() - 1, -1, -1):
 		var ch := customer_id[i]
