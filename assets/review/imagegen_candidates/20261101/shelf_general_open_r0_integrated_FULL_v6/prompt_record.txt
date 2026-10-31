@@ -1,0 +1,13 @@
+Use case: stylized-concept; one integrated transparent 2D game sprite, shelf_general FULL/r0.
+
+References:
+1. shelf_general_open_r0_integrated_FULL_v5/source_original.png — merchandise/content reference only.
+2. shelf_general_empty_structure_candidate_v13/shelf_general_empty_structure_candidate_v13.png — authoritative empty fixture geometry/view reference.
+3. shelf_general_empty_structure_candidate_v9/projection_guide.png — orientation only, not dimensions.
+
+Exact prompt:
+Create a revised single integrated 2D sprite for shelf_general FULL/r0 using the references with strict roles. Reference 1 is the merchandise/content reference only: retain its colorful generic Japanese snack pouches, noodle cups, bread and dense front-facing stock. Reference 2 is the authoritative EMPTY fixture geometry and viewpoint: rebuild the exact same four open shelf decks, supports and short separate dark plinth; do not use the oversized blank front/top plane from Reference 1. Reference 3 supplies projection directions only, not its dimensions: screen long-axis vector is (+2,+1), slope +0.5; depth vector is (+2,-1), slope -0.5. Use the actual fixture contract: 1.92m long by 0.92m deep, depth/length ratio 0.47917. Do not swap these axes, rotate, mirror, converge perspective or distort the fixture.
+
+Show exactly four merchandise rows, one on each of the four existing shelf boards. Keep the separate base unstocked and visually compact, with only a thin top surface and low vertical kick plate. Product fronts face the E/+X customer access side; rows fill most usable deck width and depth, rest on the decks, and show natural repeated facings. Make merchandise and shelf one coherent finished sprite, not detached cards and not thick package cuboids. Preserve the same four-deck count and complete fixture silhouette.
+
+Stylized warm, softly shaded management-game illustration, clean crisp edges and readable package color blocks; no readable text, real logos or signage. Transparent RGBA background. Compose the complete asset with its feet fully visible and deliberately leave at least 15% clear transparent space on every canvas edge; the asset silhouette must occupy no more than 70% of canvas height and 72% of width. No soft shadow or glow outside the silhouette, and absolutely no alpha pixels at the canvas edges. No room, ground, floor, gradient, captions, UI, people, watermark.

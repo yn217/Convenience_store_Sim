@@ -1,0 +1,37 @@
+{
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v6",
+  "status": "rejected_review_candidate",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1402,
+    "height": 1122,
+    "format": "RGBA",
+    "sha256": "9166f5a4fd0409ecf91a59835017b1fc8ecd7d5d904299a29acf6584c89eff92",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "single_integrated_shelf_and_merchandise_sprite": "pass",
+    "stocked_row_count": {"expected": 4, "observed": 4, "result": "pass"},
+    "front_facing_package_readability": "partial_pass: package faces and category colors are clear at source size; game-scale readability unverified",
+    "products_rest_on_existing_shelf_levels": "partial_pass: visually seated; exact row contact not measured",
+    "no_extra_tier_or_roof": "pass",
+    "fixture_geometry_preserved": "partial/fail for acceptance: four boards and supports are visible, but broad blank plinth remains dominant; guide silhouette and 1.92m×0.92m geometry were not numerically checked",
+    "projection_iso2x_v1": "unverified: Hough long-edge samples include slopes +0.49 to +0.58, consistent with the guide long-axis +0.5 direction; depth-axis mapping and E/+X access edge were not verified",
+    "exact_anchor_footprint_and_contact": "not_checked",
+    "godot_game_scale": "not_checked"
+  },
+  "alpha": {
+    "bbox_nonzero": [49, 73, 1348, 1122],
+    "max_edge_alpha": {"top": 1, "bottom": 1, "left": 1, "right": 0},
+    "bbox_alpha_gt_8": [285, 138, 1068, 1067],
+    "margins_pct_alpha_gt_8_ltrb": [20.33, 12.30, 23.82, 4.90],
+    "required_min_margin_pct": 12,
+    "result": "fail: bottom margin is 4.90%; alpha=1 reaches the canvas top, bottom and left edges"
+  },
+  "decision": "FAIL. Keep only as a review candidate. The four-row shelf-plus-stock composition is promising, but alpha and fixture/axis validation gates remain open. Do not crop or stretch to hide the mismatch.",
+  "qa_scope": "focused source-image QA only; no full test suite or runtime changes"
+}
+
