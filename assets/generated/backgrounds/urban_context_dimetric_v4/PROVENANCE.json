@@ -1,0 +1,15 @@
+{
+  "asset": "urban_context_dimetric_v4.png",
+  "purpose": "Selected camera-matched neighborhood backdrop for Area A.",
+  "generation_tool": "Codex built-in image generation",
+  "prompt_constraints": [
+    "ground axes at +26.565 and -26.565 degrees",
+    "parallel road, roof, sidewalk, wall, canal and curb geometry",
+    "no perspective convergence or mixed camera angles",
+    "Japanese spring neighborhood with residential buildings, greenery, roads and canal",
+    "uncluttered central area for store compositing",
+    "no text, logos, UI, store, people or cars"
+  ],
+  "source": "Generated during image-generation-only subagent task; not reviewed or integrated by the generating agent.",
+  "selected_from": "urban_context_camera_match_candidate_c_subagent"
+}

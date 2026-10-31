@@ -1,0 +1,54 @@
+{
+  "current_full": "../03_after/updated_full.png",
+  "current_game_capture": true,
+  "current_store_size": "20x16",
+  "current_time": "16:00",
+  "current_crop_windows_px": {
+    "storefront": [
+      300,
+      260,
+      1050,
+      680
+    ],
+    "parking_road": [
+      0,
+      380,
+      750,
+      800
+    ],
+    "sidewalk_planting": [
+      0,
+      390,
+      750,
+      810
+    ],
+    "outdoor_props": [
+      180,
+      260,
+      930,
+      680
+    ],
+    "sidewall_hvac": [
+      830,
+      140,
+      1580,
+      560
+    ],
+    "neighborhood": [
+      50,
+      55,
+      800,
+      475
+    ]
+  },
+  "baseline_and_target": "retained from the original six-region comparison; crops are subject-selected and not pixel-registered",
+  "updated_regions": [
+    "storefront",
+    "parking_road",
+    "sidewalk_planting",
+    "outdoor_props",
+    "sidewall_hvac",
+    "neighborhood"
+  ],
+  "current_asset": "urban_context_dimetric_v4"
+}

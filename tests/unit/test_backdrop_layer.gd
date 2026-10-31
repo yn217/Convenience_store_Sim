@@ -150,13 +150,14 @@ func test_urban_context_backdrop_is_world_anchored_and_covers_viewport(t, _tree)
 	var viewport := Vector2(1600.0, 900.0)
 	var backdrop_texture: Texture2D = BackdropLayer.UrbanContextBackdrop
 	var texture_size := Vector2(backdrop_texture.get_size())
-	t.eq(texture_size, Vector2(1672.0, 941.0), "the selected neighborhood source retains its generated canvas")
+	t.eq(texture_size, Vector2(1774.0, 887.0), "the camera-matched neighborhood source retains its generated canvas")
+	t.ok(is_equal_approx(texture_size.x / texture_size.y, 2.0), "the neighborhood artwork uses a 2:1 dimetric ground plane")
 	var proj := _proj(0.5)
 	var initial := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
 	var extent := Vector2(absf(initial.x.x) * texture_size.x + absf(initial.y.x) * texture_size.y, absf(initial.x.y) * texture_size.x + absf(initial.y.y) * texture_size.y)
 	t.ok(extent.x > viewport.x and extent.y > viewport.y, "the dimetric urban backdrop covers the viewport at minimum zoom")
 	t.ok(absf(initial.x.length() - initial.y.length()) < 0.0001, "the panorama uses uniform scale")
-	t.ok(initial.x.is_equal_approx(Vector2(BackdropLayer.URBAN_CONTEXT_MIN_SCALE, 0.0)) and initial.y.is_equal_approx(Vector2(0.0, BackdropLayer.URBAN_CONTEXT_MIN_SCALE)), "the authored dimetric ground axes are not rotated as a flat panorama")
+	t.ok(initial.x.is_equal_approx(Vector2(BackdropLayer.URBAN_CONTEXT_MIN_SCALE, 0.0)) and initial.y.is_equal_approx(Vector2(0.0, BackdropLayer.URBAN_CONTEXT_MIN_SCALE)), "the camera-matched dimetric artwork stays unrotated in screen space")
 	var center_offset := initial.x * texture_size.x * 0.5 + initial.y * texture_size.y * 0.5
 	var old_center := initial.origin + center_offset
 	var expected_center := proj.world_to_screen((16.0 - 1.0) * 0.5, (12.0 - 1.0) * 0.5)
