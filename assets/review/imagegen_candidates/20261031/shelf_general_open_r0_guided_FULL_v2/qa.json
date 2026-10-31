@@ -1,0 +1,217 @@
+{
+  "asset_id": "shelf_general_open_r0_guided_FULL_v2",
+  "method": "Codex built-in ImageGen with explicit local reference paths",
+  "source_original": "source_original.png",
+  "sha256": "a0d781d3fa8d591da6355cf5a80a809c532c9ee54a9ddf7c5d1108580fedcfe5",
+  "dimensions_px": [
+    1374,
+    1145
+  ],
+  "mode": "RGBA",
+  "alpha": {
+    "bbox_ge_128": [
+      301,
+      190,
+      1074,
+      1043
+    ],
+    "margins_percent": {
+      "left": 21.91,
+      "top": 16.59,
+      "right": 21.83,
+      "bottom": 8.91
+    },
+    "edge_nonzero_pixels": 54,
+    "alpha_eq_1": 5489,
+    "alpha_ge_128": 404103
+  },
+  "reference_inputs": [
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/game_reference.png",
+      "sha256": "50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3"
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/guide_structure.png",
+      "sha256": "d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae"
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/guide_edges.png",
+      "sha256": "5220bc3f277e323b0ee78e459ebf49bc90d1e714b2b21eff325473e9f3b0f18e"
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/product_front_regions_v1.png",
+      "sha256": "a8d56a1cb31d724ba4db12cf8a74f8189dee324cd7e34eb33e911e6604550633"
+    }
+  ],
+  "prompt": "Generate a single 2D game sprite of a fully stocked open convenience-store gondola. Reference images are supplied in this exact order: (1) in-game screenshot for painterly visual style only, (2) exact shelf structure and orientation guide, (3) exact projected shelf edge directions, (4) placement mask where RED is fixture structure to keep visible, GREEN are allowed package-front zones, BLACK is forbidden/transparent background. Subject is ONLY one open retail shelf, never a street, house, storefront, landscape, or room. Preserve the silhouette, proportions, anchor and isometric direction of reference 2. Exactly four sales shelves plus base, slim upright/backboard; no roof/canopy. Fill the four green bands with compact coherent rows of Japanese convenience-store ambient products, fronts facing the E/+X customer side. Goods sit on shelves and integrate with the fixture, never floating cards, never thick cuboid boxes. Match reference 1's hand-painted game sprite quality. Transparent background and >=12% margin on each edge. No text, captions, extra objects, scenery, or white flecks. Do not change camera or shelf geometry.",
+  "visual_qa": {
+    "subject_is_single_open_gondola": true,
+    "four_shelf_levels_visible": true,
+    "integrated_goods": true,
+    "front_facing_packages": true,
+    "no_canopy": true,
+    "issues": [
+      "assortment crosses ambient categories (sandwiches, drinks, packaged meals) despite target shelf_general; needs category correction",
+      "fixture remains visibly broad/deep compared with shallow guide, exact edge alignment not yet verified",
+      "labels are decorative/unreadable at game size",
+      "category rule mismatch: mixed sandwiches, beverages, meals, snacks; not a coherent shelf_general SKU family"
+    ],
+    "verdict": "candidate only; visual category review required"
+  },
+  "projection_diagnostic_hough_slopes": [
+    {
+      "dx": 521,
+      "dy": -266,
+      "slope": -0.51056,
+      "length": 585.0
+    },
+    {
+      "dx": 423,
+      "dy": -216,
+      "slope": -0.51064,
+      "length": 475.0
+    },
+    {
+      "dx": 400,
+      "dy": -204,
+      "slope": -0.51,
+      "length": 449.0
+    },
+    {
+      "dx": 399,
+      "dy": -203,
+      "slope": -0.50877,
+      "length": 447.7
+    },
+    {
+      "dx": 393,
+      "dy": -201,
+      "slope": -0.51145,
+      "length": 441.4
+    },
+    {
+      "dx": 382,
+      "dy": -195,
+      "slope": -0.51047,
+      "length": 428.9
+    },
+    {
+      "dx": 377,
+      "dy": -192,
+      "slope": -0.50928,
+      "length": 423.1
+    },
+    {
+      "dx": 369,
+      "dy": -188,
+      "slope": -0.50949,
+      "length": 414.1
+    },
+    {
+      "dx": 365,
+      "dy": -186,
+      "slope": -0.50959,
+      "length": 409.7
+    },
+    {
+      "dx": 339,
+      "dy": -173,
+      "slope": -0.51032,
+      "length": 380.6
+    },
+    {
+      "dx": 323,
+      "dy": -165,
+      "slope": -0.51084,
+      "length": 362.7
+    },
+    {
+      "dx": 317,
+      "dy": -162,
+      "slope": -0.51104,
+      "length": 356.0
+    },
+    {
+      "dx": 295,
+      "dy": -150,
+      "slope": -0.50847,
+      "length": 330.9
+    },
+    {
+      "dx": 288,
+      "dy": -146,
+      "slope": -0.50694,
+      "length": 322.9
+    },
+    {
+      "dx": 279,
+      "dy": -148,
+      "slope": -0.53047,
+      "length": 315.8
+    },
+    {
+      "dx": 264,
+      "dy": -134,
+      "slope": -0.50758,
+      "length": 296.1
+    },
+    {
+      "dx": 254,
+      "dy": -129,
+      "slope": -0.50787,
+      "length": 284.9
+    },
+    {
+      "dx": 246,
+      "dy": 125,
+      "slope": 0.50813,
+      "length": 275.9
+    },
+    {
+      "dx": 242,
+      "dy": -123,
+      "slope": -0.50826,
+      "length": 271.5
+    },
+    {
+      "dx": 242,
+      "dy": -123,
+      "slope": -0.50826,
+      "length": 271.5
+    },
+    {
+      "dx": 241,
+      "dy": -123,
+      "slope": -0.51037,
+      "length": 270.6
+    },
+    {
+      "dx": 240,
+      "dy": -122,
+      "slope": -0.50833,
+      "length": 269.2
+    },
+    {
+      "dx": 239,
+      "dy": -122,
+      "slope": -0.51046,
+      "length": 268.3
+    },
+    {
+      "dx": 236,
+      "dy": -125,
+      "slope": -0.52966,
+      "length": 267.1
+    }
+  ],
+  "projection_verdict": "NOT VERIFIED; line detection is diagnostic and does not establish guide control-point tolerances",
+  "runtime_approved": false,
+  "long_edge_max_residual_px_at_output": {
+    "method": "abs(slope+0.5)*dx",
+    "value": 8.5
+  },
+  "depth_edge_max_residual_px_at_output": {
+    "method": "abs(slope-0.5)*dx",
+    "value": 2.0
+  }
+}
