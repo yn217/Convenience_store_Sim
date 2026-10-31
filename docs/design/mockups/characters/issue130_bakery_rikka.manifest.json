@@ -1,0 +1,26 @@
+{
+  "asset_id": "issue130-bakery-rikka",
+  "kind": "ui_mockup",
+  "issue": 130,
+  "character_identity": "Koharu Rikka",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue130_bakery_rikka.png",
+  "screen_role": "ベーカリー・ピザ製造／焼成状態管理",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "loras": [
+      {
+        "name": "Koharu-Koharu-epoch100.safetensors",
+        "strength": 0.8
+      },
+      {
+        "name": "anima-style-epoch35-lr5e5.safetensors",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "e3d8c916-ecf6-41a2-80b6-0386c1d5e5a0"
+  }
+}
