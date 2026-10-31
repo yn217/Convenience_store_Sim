@@ -1,0 +1,31 @@
+{
+  "asset_id": "issue06_layout_editor_rikka",
+  "kind": "ui_mockup",
+  "issue": 6,
+  "title": "什器配置編集画面 小春六花案",
+  "character_identity": "小春六花",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue06_layout_editor_rikka.png",
+  "screen_role": "fixture placement, rotation, occupancy and undo guidance",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "text_encoder": "qwen_3_06b_base.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "loras": [
+      {
+        "file": "Koharu-Koharu-epoch100.safetensors",
+        "trigger": "koharu_rikka",
+        "strength": 0.8
+      },
+      {
+        "file": "anima-style-epoch35-lr5e5.safetensors",
+        "trigger": "anima_style",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "0269629f-f831-495a-b0d0-d6407a5b0d8e"
+  }
+}
