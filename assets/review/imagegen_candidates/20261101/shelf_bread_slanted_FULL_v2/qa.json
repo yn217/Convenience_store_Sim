@@ -1,0 +1,57 @@
+{
+  "asset_id": "shelf_bread_slanted_FULL_v2",
+  "status": "review_candidate_pending_projection_and_scale",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "cf3b496407fc06f480919749c382c9af8a9b809cdb6f115abe61e171805a7aa4",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "integrated_shelf_and_bread": "pass",
+    "stocked_tier_count": {
+      "expected": 4,
+      "observed": 4,
+      "result": "pass"
+    },
+    "package_front_readability": "pass at source size; actual game-scale unreadable not assessed",
+    "goods_seated": "partial_pass visually; exact contact not measured",
+    "shelf_blank_area": "partial_pass; slim back panel remains visible, shelf planes mostly occupied",
+    "no_cuboid_products": "pass/partial; wrapped baked goods have soft side highlights, no obvious block extrusion",
+    "iso2x_v1_projection_axis_calibration": "not_verified",
+    "fixture_world_dimensions_and_ratio": "not_verified; smaller canvas framing must not substitute for physical fixture dimensions",
+    "anchor_ground_contact": "not_verified",
+    "Godot_game_display": "not_verified"
+  },
+  "alpha": {
+    "bbox_alpha_gt_8": [
+      261,
+      256,
+      984,
+      1089
+    ],
+    "margins_pct_ltrb": [
+      20.81,
+      20.41,
+      21.53,
+      13.16
+    ],
+    "edge_alpha_max": {
+      "top": 0,
+      "bottom": 1,
+      "left": 1,
+      "right": 0
+    },
+    "required_min_margin_pct": 12,
+    "prompt_target_margin_pct": 18,
+    "result": "hard gate pass: minimum 13.16%; stricter 18% framing prompt target fails at bottom. Faint alpha<=1 touches left and bottom edges"
+  },
+  "decision": "HOLD, not approved. Hard substantive alpha margin passes 12% gate, but the 18% prompt goal is missed at bottom. Must calibrate pixel-to-world size, iso axes, access and ground anchor in actual game before approval; preserve original and do not crop/stretch.",
+  "qa_scope": "focused source-image review only",
+  "comparison_note": "v1 and v2 shown on equal canvas and equal display scale; no crop or differential resize."
+}
