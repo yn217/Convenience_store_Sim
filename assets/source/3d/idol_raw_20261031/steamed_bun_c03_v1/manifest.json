@@ -1,0 +1,52 @@
+{
+  "asset_id": "steamed_bun_c03_v1",
+  "format": "3D Gaussian Splat PLY, not polygon mesh",
+  "gaussians": 262144,
+  "finite_attributes": true,
+  "sha256": "61aecde19afa1f81298dd513ab20f0aa08bb6b4649aafec26b1a42aa153ce4ac",
+  "input_image_sha256": "aa226db876168cb39fc6ed228b35fefd50591e5a1bc603ff89d748a950976d6b",
+  "model": "speridlabs/idol",
+  "sdk_commit": "4702a7f00850e34b6e83a2170cc123c3e9570744",
+  "generation": {
+    "steps": 50,
+    "seed": 42,
+    "mode": "synthetic",
+    "num_gaussians": 262144,
+    "optimize": false
+  },
+  "status": "raw_3d_candidate_for_other_chat_adjustment",
+  "runtime_approved": false,
+  "visual_geometry_qa": "raw generation; adjustment and shape review delegated to another chat",
+  "license": "Idol Apache-2.0; dependency DINOv3/FLUX.2-dev terms require separate review",
+  "issue_asset_id": "C03",
+  "source_image": "assets/review/imagegen_candidates/20261029/agent_bun_v4/steamed_bun_warmer_candidate_v4.png",
+  "source_image_origin": "OpenAI built-in ImageGen; existing review candidate",
+  "input_handling": "Unmodified RGBA reference; Idol official preprocessing (erode alpha, synthetic crop margin 1.2).",
+  "user_direction": "Generate raw 3D and register first; adjustment delegated to another chat.",
+  "design_approved": false,
+  "source_review_metadata": "assets\\review\\imagegen_candidates\\20261029\\agent_bun_v4\\QA.json",
+  "source_review": {
+    "asset_id": "steamed_bun_warmer_candidate_v4",
+    "image": "steamed_bun_warmer_candidate_v4.png",
+    "dimensions_px": [
+      1300,
+      1209
+    ],
+    "alpha_bbox_gt0_xyxy": [
+      0,
+      8,
+      1294,
+      1153
+    ],
+    "alpha_bbox_ge_8_xyxy": [
+      233,
+      196,
+      1087,
+      1093
+    ],
+    "sha256": "aa226db876168cb39fc6ed228b35fefd50591e5a1bc603ff89d748a950976d6b",
+    "visual_status": "review_only_projection_style_and_alpha_fail",
+    "notes": "One compact two-tray glass bun warmer with five white buns and a lower control knob. Content is recognizable; finish remains photorealistic and glossy. Low-alpha colored fringe reaches the left canvas edge and the object touches the bottom edge; projection is not iso2x_v1 calibrated. No crop or cleanup applied.",
+    "runtime_approved": false
+  }
+}

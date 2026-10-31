@@ -1,0 +1,28 @@
+{
+  "asset_id": "hot_snack_c01_v1",
+  "format": "3D Gaussian Splat PLY, not polygon mesh",
+  "gaussians": 262144,
+  "finite_attributes": true,
+  "sha256": "466057c52e1820ca0b69b1821a34b58de2b4f6614daead4e5b3522c370e98f08",
+  "input_image_sha256": "f664085091f10ab29c538a24fefda99443fece296ecbb2d5ce4dff0de482dd01",
+  "model": "speridlabs/idol",
+  "sdk_commit": "4702a7f00850e34b6e83a2170cc123c3e9570744",
+  "generation": {
+    "steps": 50,
+    "seed": 42,
+    "mode": "synthetic",
+    "num_gaussians": 262144,
+    "optimize": false
+  },
+  "status": "raw_3d_candidate_for_other_chat_adjustment",
+  "runtime_approved": false,
+  "visual_geometry_qa": "raw generation; adjustment and shape review delegated to another chat",
+  "license": "Idol Apache-2.0; dependency DINOv3/FLUX.2-dev terms require separate review",
+  "issue_asset_id": "C01",
+  "source_image": "F:\\AI_Tools\\idol-sdk\\inputs\\fixtures_p0_20261031\\hot_snack_c01_v1.png",
+  "source_image_origin": "OpenAI built-in ImageGen; new C01 single-object reference",
+  "input_handling": "Unmodified RGBA reference; Idol official preprocessing (erode alpha, synthetic crop margin 1.2).",
+  "user_direction": "Generate raw 3D and register first; adjustment delegated to another chat.",
+  "design_approved": false,
+  "input_prompt": "Use case: stylized-concept. Asset type: single-object reference for image-to-3D of Japanese convenience store fixture C01. Create ONE standalone countertop glass hot-snack warming display cabinet, stainless steel base and rigid rectangular frame, clear glass front and right side, three horizontal stainless trays attached to vertical uprights. Stock only fried chicken pieces on top tray, oval croquettes on middle tray, corn dogs on bottom tray. No buns, no steamer, no fryer baskets, no counter furniture. Three-quarter view from slightly above showing entire front and right side, coherent rectangular solid with visible top and four short feet. Soft painted management-game rendering, restrained warm interior lighting, physically legible structure. Transparent background, no environment, no floor or cast shadow, no glow outside the silhouette, no text, no logos, no labels, no watermark, no diagrams, no multiple views. Cabinet occupies 80 percent of frame with margin on every side."
+}

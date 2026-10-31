@@ -24,6 +24,34 @@
       "gaussians": 262144,
       "bytes": 17826208,
       "sha256": "b09ca0a6b53637a1674f1945565c7e7a012cc0c1b24cb71a733e6dda6aa551f0"
+    },
+    {
+      "asset_id": "freezer_upright_f01_v1",
+      "issue_asset_id": "F01",
+      "gaussians": 262144,
+      "bytes": 17826208,
+      "sha256": "8d09da678047fb22ec345f2489dce05a1c14b2abfc7cbf64a5961b9df903fe25"
+    },
+    {
+      "asset_id": "multicopier_s02_v1",
+      "issue_asset_id": "S02",
+      "gaussians": 262144,
+      "bytes": 17826208,
+      "sha256": "6b89ac0df431ce82db05e424efcf554386d21fdcd13321b1f87914538eafa05f"
+    },
+    {
+      "asset_id": "steamed_bun_c03_v1",
+      "issue_asset_id": "C03",
+      "gaussians": 262144,
+      "bytes": 17826208,
+      "sha256": "61aecde19afa1f81298dd513ab20f0aa08bb6b4649aafec26b1a42aa153ce4ac"
+    },
+    {
+      "asset_id": "hot_snack_c01_v1",
+      "issue_asset_id": "C01",
+      "gaussians": 262144,
+      "bytes": 17826208,
+      "sha256": "466057c52e1820ca0b69b1821a34b58de2b4f6614daead4e5b3522c370e98f08"
     }
   ]
 }

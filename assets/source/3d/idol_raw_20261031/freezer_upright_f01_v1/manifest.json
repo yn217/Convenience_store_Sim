@@ -1,0 +1,93 @@
+{
+  "asset_id": "freezer_upright_f01_v1",
+  "format": "3D Gaussian Splat PLY, not polygon mesh",
+  "gaussians": 262144,
+  "finite_attributes": true,
+  "sha256": "8d09da678047fb22ec345f2489dce05a1c14b2abfc7cbf64a5961b9df903fe25",
+  "input_image_sha256": "695d033c8f46e0c937a295d1b19e3a031a26b56ab363c347a5186bcb79267af6",
+  "model": "speridlabs/idol",
+  "sdk_commit": "4702a7f00850e34b6e83a2170cc123c3e9570744",
+  "generation": {
+    "steps": 50,
+    "seed": 42,
+    "mode": "synthetic",
+    "num_gaussians": 262144,
+    "optimize": false
+  },
+  "status": "raw_3d_candidate_for_other_chat_adjustment",
+  "runtime_approved": false,
+  "visual_geometry_qa": "raw generation; adjustment and shape review delegated to another chat",
+  "license": "Idol Apache-2.0; dependency DINOv3/FLUX.2-dev terms require separate review",
+  "issue_asset_id": "F01",
+  "source_image": "assets/review/imagegen_candidates/20261029/agent_freezer_upright_v1/upright_glass_door_freezer_candidate_v1.png",
+  "source_image_origin": "OpenAI built-in ImageGen; existing review candidate",
+  "input_handling": "Unmodified RGBA reference; Idol official preprocessing (erode alpha, synthetic crop margin 1.2).",
+  "user_direction": "Generate raw 3D and register first; adjustment delegated to another chat.",
+  "design_approved": false,
+  "source_review_metadata": "assets\\review\\imagegen_candidates\\20261029\\agent_freezer_upright_v1\\QA.json",
+  "source_review": {
+    "asset_id": "upright_glass_door_freezer_candidate_v1",
+    "status": "review_only",
+    "runtime_approved": false,
+    "source": "Codex built-in ImageGen; transparent-background request",
+    "file": "upright_glass_door_freezer_candidate_v1.png",
+    "image": {
+      "width_px": 1024,
+      "height_px": 1536,
+      "mode_original": "RGBA",
+      "mode_analyzed": "RGBA"
+    },
+    "alpha": {
+      "bbox_thresholds_1_16_64_128_250": {
+        "1": [
+          0,
+          25,
+          916,
+          1509
+        ],
+        "16": [
+          244,
+          29,
+          781,
+          1507
+        ],
+        "64": [
+          244,
+          30,
+          781,
+          1507
+        ],
+        "128": [
+          245,
+          30,
+          780,
+          1506
+        ],
+        "250": [
+          247,
+          31,
+          780,
+          1505
+        ]
+      },
+      "edge_alpha_min": 0,
+      "edge_alpha_max": 1,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "transparent_pixel_count": 803654,
+      "nonzero_alpha_pixel_count": 769210
+    },
+    "sha256": "695d033c8f46e0c937a295d1b19e3a031a26b56ab363c347a5186bcb79267af6",
+    "assessment": {
+      "content": "One upright white cabinet with a full glass door, blue snowflake header band, handle and base vent; seven visibly stocked rows of varied frozen-food packs. Whole unit is in frame.",
+      "projection": "Mostly frontal with right side visible and upright verticals; visible top/right-side perspective remains. iso2x_v1 is only a target and is not calibrated or verified.",
+      "style": "Warm hand-painted management-game illustration. Strong glass/metal highlights; transparent-margin alpha will be inspected against game background.",
+      "decision": "Candidate only; needs game-scale and alpha-edge review before adoption."
+    },
+    "model": "OpenAI built-in ImageGen"
+  }
+}

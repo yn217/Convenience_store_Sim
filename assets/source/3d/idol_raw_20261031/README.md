@@ -9,3 +9,7 @@ No 2D sprites, projection corrections, runtime integration, trained weights, or 
 Data checks: PLY parsing, attribute finiteness, Gaussian count and SHA-256. Shape quality is unapproved: earlier custom 2D renders showed distortions, and model-versus-renderer cause was not isolated. Keep raw data for adjustment/review; do not silently treat it as runtime-approved geometry.
 
 Related issues: #125 (3D asset roadmap), #9/#22 (base fixtures), #29 (provenance). Idol is Apache-2.0; DINOv3 and FLUX.2-dev have separate usage terms. No commercial/release approval is claimed.
+
+## P0 continuation batch
+
+Added F01 upright frozen-food case, S02 multicopier, C01 fried hot-snack cabinet, C03 steamed-bun warmer. All are raw single-image Idol candidates; design/shape/runtime approval remains false. The original reference paths and hashes are in each manifest. Source images remain at their existing review paths or the local Idol inputs directory; this commit adds no 2D sprites. Existing ATM issue #156 remains with the adjustment lane and was not overwritten.
