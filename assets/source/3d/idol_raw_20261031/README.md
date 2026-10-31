@@ -2,7 +2,7 @@
 
 User direction: generate and register 3D first; adjustment is delegated to another chat.
 
-Included: POS register, empty general shelf, green-tea bottle. Each model.ply is a standard 3D Gaussian Splat with 262,144 Gaussians. This is not a triangle mesh/GLB. input_camera.json is the predicted source camera, not a game placement transform.
+Included: POS register, empty general shelf, green-tea bottle, C02 coffee machine. Each model.ply is a standard 3D Gaussian Splat with 262,144 Gaussians. This is not a triangle mesh/GLB. input_camera.json is the predicted source camera, not a game placement transform.
 
 No 2D sprites, projection corrections, runtime integration, trained weights, or virtual environments are included in this delivery. The unchanged input-image SHA and generation settings are in each manifest.
 
