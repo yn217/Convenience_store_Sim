@@ -165,6 +165,8 @@ The same layout was rechecked through the repository's CLI capture path after a 
 
 Follow-up CLI captures also passed at 1920x1080 (`build/character_pilot_cli_1920.png`) and on the active roadworks management event at 1280x720 (`build/character_pilot_event_cli_1280.png`). The former keeps the assistant stage clear of the left menu at the target desktop resolution; the latter reports `event_roadworks.png` in `EventPilotFullbodyPicture` while the management window remains usable. The event pilot is shown only for the active event and does not replace the event's domain text or illustration.
 
+The latest management-page capture is `build/character_pilot_event_roadworks_management_1280.png`. It opens the real `経営` page, reveals the event visual row, and shows the roadworks illustration beside the selected full-body event pilot while the store assistant remains in its separate cropped stage. The capture log reports `pilot_event ... visible=true ... event_roadworks.png`; this is display QA only and does not approve the candidate.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 49 derived-alpha candidates.
