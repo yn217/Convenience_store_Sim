@@ -75,7 +75,7 @@ This review covers the 47-image pilot. The remaining 287 candidates stay review-
 
 The staff-management screen requests `staff_schedule_open`, and successful save, hiring, and promotion commands request their corresponding functional cues. These four cues temporarily keep the selected pilot figure visible above the management window; ordinary story lines continue to step aside while a management screen is open.
 
-The pilot toggle defaults on only in a Godot debug build for local review. Release builds start with it off, so entries with `runtime_approved:false` cannot appear in the normal runtime by default.
+The pilot review UI exists only in a Godot debug build and defaults on there for local review. Release builds do not create the review controls, so entries with `runtime_approved:false` cannot appear in the normal runtime.
 
 ## Next gate
 

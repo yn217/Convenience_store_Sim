@@ -15,6 +15,8 @@ var _snapshot: Dictionary = {}
 
 
 func _ready() -> void:
+	if not OS.is_debug_build():
+		return
 	_entries = _load_entries()
 	var body := get_node_or_null("../Layout/MainArea/FixtureInspector/Scroll/Body")
 	if body == null:
