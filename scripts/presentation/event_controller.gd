@@ -93,7 +93,8 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_picture.visible = pic != null
 	var event_id := String(view.get("event_id", ""))
 	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
-	var pilot_entry: Dictionary = pilot.event_entry(event_id) if pilot != null and pilot.has_method("event_entry") and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled() else {}
+	var pilot_active: bool = String(view.get("status", "")) == "active"
+	var pilot_entry: Dictionary = pilot.event_entry(event_id) if pilot_active and pilot != null and pilot.has_method("event_entry") and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled() else {}
 	var pilot_texture: Texture2D = load(String(pilot_entry.get("runtime_path", ""))) as Texture2D if not pilot_entry.is_empty() else null
 	_pilot_picture.texture = pilot_texture
 	_pilot_caption.visible = pilot_texture != null
