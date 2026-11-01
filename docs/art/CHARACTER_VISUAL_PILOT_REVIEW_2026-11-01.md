@@ -126,6 +126,12 @@ The follow-up parse check covered 263 GDScript files with 0 errors, and the focu
 
 The story reaction capture `build/character_pilot_story_queue_clean_latest.png` exercises `story_queue_giveup`. The queue-departure explanation remains in the existing assistant bubble, the bust-up reaction is shown in its dedicated layer, the independent `?` symbol is visible, and the full-body pilot is hidden. The capture helper reapplies the requested story cue after the final animation settle so the saved image matches the requested route.
 
+## Derived-alpha contact-sheet review (2026-11-02)
+
+The 47 PNGs under `assets/runtime/character_pilot/derived_alpha` were reviewed together on a dark matte in `build/character_pilot_alpha_contact.png`. At contact-sheet scale, the full-body set keeps the white blouse, apron silhouette, trousers, and shoes, with no gross white-background island or large surrounding residue visible. This is a coarse alpha/silhouette gate, not per-image hand or edge approval.
+
+The three bust-up reactions remain held because generated bubbles/symbols are still present in the source-derived pixels. Godot's independent symbol layer remains authoritative, so these candidates are not promoted or added to the runtime registry until a clean derivation and detailed hand/edge review are available.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.
