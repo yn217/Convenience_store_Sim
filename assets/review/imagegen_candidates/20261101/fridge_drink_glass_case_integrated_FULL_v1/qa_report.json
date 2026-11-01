@@ -1,0 +1,53 @@
+{
+  "asset_id": "fridge_drink_glass_case_integrated_FULL_v1",
+  "verdict": "REVIEW_ONLY_WITH_CONCERNS",
+  "visual_checks": {
+    "fixture_subject": "pass",
+    "drink_category": "pass",
+    "labels_visible": "pass_with_concern",
+    "top_cap_scale": "concern",
+    "fit_to_contract_dimensions": "blocked",
+    "iso2x_projection": "blocked",
+    "alpha_source_edge": "fail_bottom_touch",
+    "padded_preview_alpha": "pass",
+    "ground_anchor": "blocked",
+    "godot_runtime": "not_checked",
+    "runtime_approved": false
+  },
+  "measurements": {
+    "source_px": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "alpha_threshold": 8,
+    "source_alpha_bbox_xyxy": [
+      289,
+      12,
+      1250,
+      1024
+    ],
+    "padding_px_each_side": 128,
+    "padded_px": [
+      1792,
+      1280
+    ],
+    "padded_alpha_bbox_xyxy": [
+      417,
+      140,
+      1378,
+      1152
+    ]
+  },
+  "review_notes": [
+    "Source original is RGBA 1536x1024; alpha extrema (0, 254), alpha>8 bbox [289, 12, 1250, 1024]. The silhouette touches the source bottom edge (bbox bottom=1024), so raw-source edge margin is FAIL for direct atlas use.",
+    "Review-only padded sprite adds 128 transparent pixels on each side without resampling; resulting canvas 1792x1280, alpha>8 bbox [417, 140, 1378, 1152]. Anchor must include (+128,+128).",
+    "Visual content: three glass doors, five stocked rows, PET bottles/cans, silver frame and vented lower base; drink category reads clearly and product fronts remain visible.",
+    "Large top cap/top plane is visually broad, and the three-door frontage may not fit the 0.92m width by 1.92m depth contract without changing apparent proportions. Do not normalize by nonuniform scaling; fixture geometry is blocked pending measurement.",
+    "Iso2x_v1 slopes, r0 access orientation, world footprint, ground anchor and occlusion are not calibrated; no Godot screenshot or state-matched EMPTY/HALF exists.",
+    "Review-only concept; no runtime integration. runtime_approved:false."
+  ]
+}
