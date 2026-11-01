@@ -79,7 +79,7 @@ func _build_ui() -> void:
 	_preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_preview.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	_preview_column.add_child(_preview)
+	preview_column.add_child(_preview)
 	_preview_meta = Label.new()
 	_preview_meta.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	preview_column.add_child(_preview_meta)
