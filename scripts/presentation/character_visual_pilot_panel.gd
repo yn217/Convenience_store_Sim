@@ -147,7 +147,13 @@ func _select_entry(snapshot: Dictionary) -> Dictionary:
 		return _find("functional_stock_challenge")
 	if str(progression.get("active_daily_challenge_id", "")) == "challenge_no_waste":
 		return _find("functional_no_waste")
-	for milestone in [["ms_six_categories", "functional_six_categories"], ["ms_fifty_visitors", "functional_fifty_visitors"], ["ms_ten_sales", "functional_ten_sales"]]:
+	for milestone in [
+		["ms_three_fixtures", "functional_expansion"],
+		["ms_first_week", "functional_day_end_review"],
+		["ms_six_categories", "functional_six_categories"],
+		["ms_fifty_visitors", "functional_fifty_visitors"],
+		["ms_ten_sales", "functional_ten_sales"]
+	]:
 		if completed.has(milestone[0]):
 			return _find(milestone[1])
 	if completed.has("ms_first_sale") or completed.has("ms_first_profit"):

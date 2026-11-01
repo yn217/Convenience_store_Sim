@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 33, "the pilot registry exposes all 33 selected visuals")
+	t.eq(panel._entries.size(), 36, "the pilot registry exposes all 36 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -41,6 +41,9 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.stage_entry({"story_cue": "story_staff_short", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_staff_short", "staff shortage story uses the staff-specific pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_six_categories"]}}).get("id", ""), "functional_six_categories", "six-category achievement uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_ten_sales"]}}).get("id", ""), "functional_ten_sales", "ten-sales achievement uses its presentation pose")
+	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_three_fixtures"]}}).get("id", ""), "functional_expansion", "fixture expansion achievement uses its presentation pose")
+	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_first_week"]}}).get("id", ""), "functional_day_end_review", "first-week achievement uses its review pose")
+	t.eq(panel.cue_entry("staff_schedule_open").get("id", ""), "functional_staff_schedule", "staff scheduling has a functional pilot pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"active_daily_challenge_id": "challenge_sales_3", "completed_milestone_ids": []}}).get("id", ""), "functional_three_sales", "sales challenge uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"active_daily_challenge_id": "challenge_stock_2", "completed_milestone_ids": []}}).get("id", ""), "functional_stock_challenge", "stock challenge uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"active_daily_challenge_id": "challenge_no_waste", "completed_milestone_ids": []}}).get("id", ""), "functional_no_waste", "no-waste challenge uses its presentation pose")

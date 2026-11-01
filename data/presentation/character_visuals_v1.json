@@ -273,6 +273,42 @@
       "fallback": "text_only"
     },
     {
+      "id": "functional_day_end_review",
+      "kind": "functional_pose",
+      "screen_id": "SCR-18",
+      "trigger": "ms_first_week",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_day_end_review.png",
+      "derived_from": "res://assets/runtime/character_pilot/functional_day_end_review.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_041_functional_pilot_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "functional_staff_schedule",
+      "kind": "functional_pose",
+      "screen_id": "SCR-06",
+      "trigger": "staff_schedule_open",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_staff_schedule.png",
+      "derived_from": "res://assets/runtime/character_pilot/functional_staff_schedule.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_043_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "functional_expansion",
+      "kind": "functional_pose",
+      "screen_id": "SCR-06",
+      "trigger": "ms_three_fixtures",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_expansion.png",
+      "derived_from": "res://assets/runtime/character_pilot/functional_expansion.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_045_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
       "id": "event_neighbor_mentions",
       "kind": "event_image",
       "screen_id": "SCR-11",
