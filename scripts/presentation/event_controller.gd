@@ -18,14 +18,16 @@ var _cells: Dictionary = {}   # event id -> {panel, state}
 var _effects_key := ""
 var _history_title: Label
 var _history: Label
+var _visual_row: HBoxContainer
+var _pilot_column: VBoxContainer
 var _picture: TextureRect
 var _pilot_caption: Label
 var _pilot_picture: TextureRect
 var _pilot_reaction_picture: TextureRect
 const PICTURE_DIR := "res://assets/ui/events/"
 const PICTURE_SIZE := Vector2(384, 216)
-const PILOT_FULLBODY_SIZE := Vector2(220, 330)
-const PILOT_REACTION_SIZE := Vector2(300, 300)
+const PILOT_FULLBODY_SIZE := Vector2(160, 240)
+const PILOT_REACTION_SIZE := Vector2(220, 220)
 static var _pictures := {}
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -36,6 +38,11 @@ func _ready() -> void:
 	title.text = "今日のイベント"
 	title.add_theme_font_size_override("font_size", 20)
 	_body.add_child(title)
+	_visual_row = HBoxContainer.new()
+	_visual_row.name = "EventVisualRow"
+	_visual_row.add_theme_constant_override("separation", 12)
+	_visual_row.alignment = BoxContainer.ALIGNMENT_BEGIN
+	_body.add_child(_visual_row)
 	_picture = TextureRect.new()   # the day's event as an anime illustration (ComfyUI, 576x324 for this 384x216 slot)
 	_picture.name = "EventPicture"
 	_picture.custom_minimum_size = PICTURE_SIZE
@@ -44,12 +51,16 @@ func _ready() -> void:
 	_picture.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_picture.visible = false
-	_body.add_child(_picture)
+	_visual_row.add_child(_picture)
+	_pilot_column = VBoxContainer.new()
+	_pilot_column.name = "EventPilotColumn"
+	_pilot_column.add_theme_constant_override("separation", 4)
+	_visual_row.add_child(_pilot_column)
 	_pilot_caption = Label.new()
 	_pilot_caption.text = "イベント用立ち絵（パイロット・確認中）"
 	_pilot_caption.theme_type_variation = &"CardTitle"
 	_pilot_caption.visible = false
-	_body.add_child(_pilot_caption)
+	_pilot_column.add_child(_pilot_caption)
 	_pilot_picture = TextureRect.new()
 	_pilot_picture.name = "EventPilotFullbodyPicture"
 	_pilot_picture.custom_minimum_size = PILOT_FULLBODY_SIZE
@@ -58,7 +69,7 @@ func _ready() -> void:
 	_pilot_picture.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_pilot_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_pilot_picture.visible = false
-	_body.add_child(_pilot_picture)
+	_pilot_column.add_child(_pilot_picture)
 	_pilot_reaction_picture = TextureRect.new()
 	_pilot_reaction_picture.name = "EventPilotReactionPicture"
 	_pilot_reaction_picture.custom_minimum_size = PILOT_REACTION_SIZE
@@ -67,7 +78,7 @@ func _ready() -> void:
 	_pilot_reaction_picture.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_pilot_reaction_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_pilot_reaction_picture.visible = false
-	_body.add_child(_pilot_reaction_picture)
+	_pilot_column.add_child(_pilot_reaction_picture)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_status)

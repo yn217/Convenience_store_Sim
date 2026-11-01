@@ -178,6 +178,8 @@ func test_runtime_event_panel_shows_selected_event_pilot(t, tree) -> void:
 	var picture: TextureRect = events._pilot_picture
 	var reaction_picture: TextureRect = events._pilot_reaction_picture
 	t.ok(panel.is_pilot_enabled(), "event pilot is enabled for the QA runtime")
+	t.ok(events._visual_row != null, "event visuals use a dedicated horizontal layout row")
+	t.ok(events._pilot_column != null and events._pilot_column.get_parent() == events._visual_row, "pilot slots share the event visual row")
 	t.ok(picture.visible, "active events show the selected event pilot")
 	t.ok(not reaction_picture.visible, "full-body event pilots do not use the reaction slot")
 	t.eq((picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/event_roadworks.png", "roadworks selects the event pilot texture")

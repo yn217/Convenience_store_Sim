@@ -25,8 +25,7 @@ func _run() -> void:
 		root.add_child(title)
 		for i in 30:
 			await process_frame
-		get_root().get_texture().get_image().save_png(out_png)
-		quit(0)
+		quit(0 if _save_png(out_png) else 1)
 		return
 	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
 	root.add_child(main)
@@ -175,8 +174,7 @@ func _run() -> void:
 			app._publish_snapshot()
 			for _f in 20:
 				await process_frame
-			get_root().get_texture().get_image().save_png(out_png)
-			quit(0)
+			quit(0 if _save_png(out_png) else 1)
 			return
 		elif a == "--no-assistant":   # hide the corner assistant (window content under her bubble)
 			main.get_node("ProgressionController").call("set_suppressed", true)
@@ -282,8 +280,7 @@ func _run() -> void:
 		cut.visible = false
 	for i in 30:
 		await process_frame
-	get_root().get_texture().get_image().save_png(out_png)
-	quit(0)
+	quit(0 if _save_png(out_png) else 1)
 
 
 ## Origin tile of the first register (by instance id), or (-1, -1) when the store has none.
@@ -325,10 +322,27 @@ func _capture_intent(main: Node, s: GameState, out_png: String) -> void:
 		elif pop_fresh and not saved.has("checkout"):
 			shot = "checkout"
 		if shot != "":
-			get_root().get_texture().get_image().save_png("%s_%s.png" % [prefix, shot])
+			if not _save_png("%s_%s.png" % [prefix, shot]):
+				return
 			saved[shot] = true
 			print("saved %s_%s.png at game time %d" % [prefix, shot, s.time_sec])
 			for f in player.floats:   # the pop-ups on screen: merged count, total and age (real seconds)
 				print("  pop %s count=%d yen=%d age=%.2f text=%s" % [f["register_id"], int(f["count"]), int(f["yen"]), float(f["age"]), f["text"]])
 		if saved.size() == 3:
 			return
+
+
+func _save_png(path: String) -> bool:
+	var texture := get_root().get_texture()
+	if texture == null:
+		push_error("capture requires a drawable viewport; the headless dummy renderer has no viewport texture")
+		return false
+	var image := texture.get_image()
+	if image == null:
+		push_error("capture viewport returned no image")
+		return false
+	var err := image.save_png(path)
+	if err != OK:
+		push_error("failed to save capture %s (error %s)" % [path, err])
+		return false
+	return true
