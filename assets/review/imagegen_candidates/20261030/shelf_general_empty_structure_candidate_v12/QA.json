@@ -1,0 +1,70 @@
+{
+  "asset_id": "shelf_general_empty_structure_candidate_v12",
+  "reviewer": "parent visual review, separate from generator",
+  "overall": "FAIL",
+  "source_sha256": "3d9c42217070ca4ec7956b0cc7afbc46e61b04fa84b72052711754b5badfe5a3",
+  "image": {
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "alpha_bbox_any_nonzero_xyxy": [
+      65,
+      37,
+      1144,
+      1254
+    ],
+    "alpha_bbox_gt_1_xyxy": [
+      272,
+      142,
+      955,
+      1159
+    ],
+    "alpha_bbox_gt_8_xyxy": [
+      274,
+      144,
+      953,
+      1157
+    ],
+    "alpha_bbox_gt_127_xyxy": [
+      275,
+      145,
+      952,
+      1156
+    ],
+    "edge_alpha_minmax": {
+      "top": [
+        0,
+        0
+      ],
+      "bottom": [
+        0,
+        1
+      ],
+      "left": [
+        0,
+        0
+      ],
+      "right": [
+        0,
+        0
+      ]
+    }
+  },
+  "checks": {
+    "subject_is_empty_single_sided_open_gondola": "pass",
+    "four_usable_shelf_boards": "pass",
+    "separate_base": "pass: dark kick plate is distinguishable, though lowest board sits immediately above it",
+    "long_axis_direction": "pass: slopes downward toward image-right; direction sign matches guide",
+    "long_axis_slope_plus_0_5": "fail: manual edge estimates approximately +0.36 to +0.40",
+    "depth_axis_slope_minus_0_5": "pass_approximate: about -0.51 on top-board corner landmarks",
+    "depth_to_long_ratio_0_47917": "fail: visual landmark estimate about 0.29; not a calibrated control-point result",
+    "orthographic_no_foreshortening": "fail: edges show perspective/foreshortening and unequal slopes",
+    "alpha_safe_margin_12_percent": "fail: threshold >127 leaves 11.6% top and 7.8% bottom margin",
+    "alpha_edge_contact": "fail_low_level_only: alpha=1 reaches bottom edge; all edge alpha maxima are 1 or 0",
+    "roof_absent": "pass",
+    "style": "partial: warm matte color and restrained shading; fine game-scale readability unknown",
+    "godot_anchor_and_display_scale": "not_checked",
+    "godot_runtime": "not_checked"
+  },
+  "decision": "Keep as a rejected review candidate. This version improves shelf count and long-axis direction, but projection magnitude and depth ratio remain outside the game contract. Do not crop, non-uniformly stretch, or runtime-approve."
+}

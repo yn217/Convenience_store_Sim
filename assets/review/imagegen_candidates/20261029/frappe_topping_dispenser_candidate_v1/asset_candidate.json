@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "asset_id": "frappe_topping_dispenser_candidate_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "Standalone countertop frappe toppings dispenser",
+  "actual_subject": "Single three-compartment tabletop toppings dispenser, with cups",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261029/frappe_topping_dispenser_candidate_v1/frappe_topping_dispenser_candidate_v1.png",
+    "unchanged_original": true,
+    "file_size_bytes": 955629,
+    "sha256": "0837f11776505d2a9270537df18b2d7ee0fe46e876974abe384c2a99c80d5d87",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261029/frappe_topping_dispenser_candidate_v1/frappe_topping_dispenser_candidate_v1.png",
+      "byte_size": 955629,
+      "sha256": "0837f11776505d2a9270537df18b2d7ee0fe46e876974abe384c2a99c80d5d87",
+      "git_blob_sha": "0a6a4ba1a01a087e6b708b7ebc94df957d4185d5",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "not_checked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "The alpha>=1 bounds [57,38,1706,864] are far wider than alpha>=8 bounds [514,41,1246,858], indicating a large faint fringe.",
+      "Camera direction, counter height, physical dimensions, anchor and access are unverified. NONE is a placeholder, not a verified interaction edge.",
+      "Review-only; one generated direction does not prove four rotations."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

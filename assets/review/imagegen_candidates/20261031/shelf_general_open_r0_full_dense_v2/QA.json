@@ -1,0 +1,65 @@
+{
+  "asset_id": "shelf_general_open_r0_full_dense_v2",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [
+    1254,
+    1254
+  ],
+  "source_sha256": "f23d0fea70e81ae0c6d6b7b4769225ddee625a10f028180673ebb5f249836fd3",
+  "content": {
+    "verdict": "PASS_WITH_LIMITATIONS",
+    "notes": "One complete single-sided gondola, low base, slim uprights, four stocked shelf levels; goods are integrated behind rails and package fronts face the visible access side. Broad pale upper backboard and exposed shelf surfaces remain visually prominent; merchandising density needs independent review."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_pixels": 775530,
+    "alpha_1_to_127_pixels": 14986,
+    "alpha_128_to_254_pixels": 780418,
+    "fully_opaque_pixels": 1582,
+    "nonzero_bbox_xyxy": [
+      0,
+      73,
+      1210,
+      1235
+    ],
+    "threshold_128_bbox_xyxy": [
+      162,
+      76,
+      1207,
+      1229
+    ],
+    "touches_any_edge": true,
+    "reason": "Strict alpha pass requires fully opaque interior pixels and no partial-alpha fringe.",
+    "edge_nonzero_pixel_count": 52,
+    "edge_artifact_note": "52 border pixels have alpha 1; source is kept unchanged, so this is an alpha-edge FAIL."
+  },
+  "framing": {
+    "verdict": "FAIL",
+    "threshold_128_bbox_xyxy": [
+      162,
+      76,
+      1207,
+      1229
+    ],
+    "reason": "Thresholded silhouette is inside the canvas, but faint nonzero alpha touches the left canvas edge (52 pixels at alpha 1); source was not trimmed or altered."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Three-quarter ImageGen illustration is uncalibrated; no matched 2:1 control points, tile overlay or Godot capture."
+  },
+  "geometry": {
+    "verdict": "NOT_CHECKED",
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "ground_anchor": null,
+    "shelf_depth_m": null
+  },
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "REVIEW_ONLY_FAIL_ALPHA_AND_PROJECTION"
+}

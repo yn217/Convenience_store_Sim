@@ -1,0 +1,13 @@
+Use case: stylized-concept
+Asset type: one finished transparent 2D game sprite for shelf_general FULL/r0.
+Input images:
+- Image 1: edit this exact EMPTY open gondola. Preserve its four existing shelf decks, support posts, low base, overall silhouette, and isometric camera. Add merchandise only to these four existing decks. Do not add a deck, top display, canopy, or roof.
+- Image 2: target game-art style only.
+- Image 3: iso2x_v1 orientation guide only; long-axis screen slope -0.5, depth-axis slope +0.5.
+- Image 4: four-row merchandise density example only; ignore any difference in its fixture styling.
+Primary request: render the entire shelf and all merchandise together as one coherent finished asset. There must be EXACTLY FOUR stocked rows, one row resting on each of the four shelf decks already visible in Image 1. Count from top to bottom: 1, 2, 3, 4. No fifth row.
+Merchandise: tightly packed generic Japanese convenience-store ambient products (snack pouches, small cartons, instant noodle cups, packaged bread). Show front labels as clear color/shape blocks facing the customer. Merchandise rests on the existing shelves and fills most of their usable depth without a floating-card appearance. Preserve package proportions and the shelf's existing direction.
+Geometry: keep the same overall fixture orientation, 1x2 footprint impression, base contact, and transparent framing as Image 1. Maintain shallow shelf decks; do not widen the decks or create a large empty horizontal surface. No camera convergence, no whole-object stretch, no mirror.
+Style: clean soft-painted illustrated management-game art matching Image 2; generic package art, no brands or readable text.
+Background: transparent PNG. Entire object including feet/base in frame. At least 12% transparent margin on all four edges; no nontransparent pixels on canvas edges.
+Avoid: any added/removed shelf deck, fifth stocked row, canopy, roof, top cap, detached product cards, thick cuboids, products floating or overhanging shelf lips, large blank shelf planes, logos, price labels, captions, UI, room, floor, gradient, cast shadow touching canvas edges, people, watermark.

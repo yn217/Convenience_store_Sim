@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "asset_id": "sample_shelf_snack_review_only",
+  "asset_class": "interior_fixture",
+  "requested_subject": "日本のコンビニ用の開放型菓子棚",
+  "actual_subject": "開放型菓子棚の例示。元画像未生成",
+  "production_method": "svg_2d",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_snack",
+  "source": {
+    "path": "source_original.svg",
+    "unchanged_original": true,
+    "file_size_bytes": null,
+    "sha256": null,
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.svg",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "game_512",
+      "path": "game_512.png",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "game_256",
+      "path": "game_256.png",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.6
+    ],
+    "world_ground_origin_m": [
+      0,
+      0,
+      0
+    ],
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "not_checked",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "not_checked",
+    "alpha": "not_checked",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "例示専用。source_original.svgとgame_512.pngはこのdocs/examples配下に実在しない。実制作物のmanifestは実ファイルを参照してSHA-256を埋めること。",
+      "このFULLは商品焼込のレビュー例であり、EMPTYを意味しない。"
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

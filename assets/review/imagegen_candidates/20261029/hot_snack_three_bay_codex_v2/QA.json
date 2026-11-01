@@ -1,0 +1,44 @@
+{
+  "asset_id": "hot_snack_warmer_three_bay_codex_candidate_v2",
+  "image": "hot_snack_three_bay_candidate_v2.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0_xyxy": [
+    28,
+    0,
+    1504,
+    998
+  ],
+  "alpha_bbox_ge_8_xyxy": [
+    31,
+    51,
+    1500,
+    976
+  ],
+  "alpha_bbox_ge_128_xyxy": [
+    32,
+    52,
+    1498,
+    975
+  ],
+  "alpha_histogram_summary": {
+    "transparent_0": 334532,
+    "partial_1_254": 1238332,
+    "opaque_255": 0
+  },
+  "sha256": "0111dacfa438eda7cfff8c5067acf272c7ca8dc8189de86552e9014250630dd0",
+  "visual_review": {
+    "subject": "same three-bay warmer layout as v1; fried foods, buns, skewers",
+    "content": "pass: three differentiated bays remain readable",
+    "style": "partial improvement in simplified linework, but still glossy/photoreal rather than requested soft hand-painted game art",
+    "projection": "same near-frontal perspective; iso2x_v1, footprint and ground anchor remain uncalibrated",
+    "alpha": "transparent RGBA only if threshold metrics confirm; broad semitransparent haze remains if partial alpha dominates",
+    "comparison_to_v1": "food layout preserved; style did not materially reach target and background haze remains",
+    "status": "review_only",
+    "runtime_approved": false
+  },
+  "runtime_approved": false
+}

@@ -1,0 +1,44 @@
+{
+  "asset_id": "hot_snack_warmer_three_bay_codex_candidate_v1",
+  "image": "hot_snack_three_bay_candidate_v1.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    21,
+    1504,
+    1024
+  ],
+  "alpha_bbox_ge_8_xyxy": [
+    32,
+    54,
+    1497,
+    974
+  ],
+  "alpha_bbox_ge_128_xyxy": [
+    33,
+    56,
+    1495,
+    973
+  ],
+  "alpha_histogram_summary": {
+    "transparent_0": 336312,
+    "partial_1_254": 1236552,
+    "opaque_255": 0
+  },
+  "sha256": "ab388da5c4a3373c1c025a949feebec5fc52d239881471ca9e193200f89648d4",
+  "visual_review": {
+    "subject": "three-bay hot snack warmer with fried chicken, croquettes, steamed buns and skewers",
+    "content": "pass: three zones and products are clearly differentiated",
+    "style": "fail: photoreal stainless/gloss rather than soft painted game asset",
+    "projection": "front-dominant but near-frontal; iso2x_v1, world dimensions, and ground anchor not calibrated",
+    "alpha": "transparent RGBA with broad semitransparent studio haze; no cleanup",
+    "origin": "Codex built-in ImageGen; distinct candidate, not replacement for missing ChatGPT originals",
+    "runtime_approved": false
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

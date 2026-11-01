@@ -1,0 +1,44 @@
+{
+  "source_file": "source_original.png",
+  "runtime_approved": false,
+  "overall": "FAIL",
+  "alpha": {
+    "maximum": 255,
+    "touches_left_edge": true,
+    "fully_opaque_pixels": 209,
+    "reason": "Subject pixels are broadly semitransparent and nonzero alpha reaches left image edge; only 209 fully opaque pixels.",
+    "fully_transparent_pixels": 664037,
+    "verdict": "FAIL",
+    "threshold_128_bbox_xyxy": [
+      125,
+      39,
+      1189,
+      1185
+    ],
+    "minimum": 0,
+    "alpha_128_to_254_pixels": 894380,
+    "alpha_1_to_127_pixels": 14462,
+    "nonzero_bbox_xyxy": [
+      0,
+      19,
+      1298,
+      1188
+    ]
+  },
+  "source_dimensions_px": [
+    1312,
+    1199
+  ],
+  "source_mode": "RGBA",
+  "source_sha256": "d8736807c1a3810c82ef4598b477d1da0b87273a6abd91459ae0703ad646d518",
+  "asset_id": "seasonal_promotion_wagon_a05_v1",
+  "content": {
+    "notes": "Compact wheeled promotion wagon with autumn motif; packaged goods integrated into three selling tiers and held by rails/bins.",
+    "verdict": "PASS"
+  },
+  "projection": {
+    "verdict": "FAIL",
+    "id": "iso2x_v1",
+    "reason": "Uncalibrated perspective-like three-quarter view; no world control points, scale, ground anchor, or Godot validation."
+  }
+}

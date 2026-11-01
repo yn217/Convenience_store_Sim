@@ -1,0 +1,13 @@
+Use case: stylized-concept
+Asset type: one isolated 2D game asset sprite for a Japanese convenience-store management game
+Primary request: Generate exactly one compact, low-profile, freestanding magazine, manga, and newspaper rack with its printed publications integrated naturally into the rack.
+Scene/backdrop: fully transparent background, no room or floor.
+Subject: a single compact fixture with a sturdy low base and two shallow angled display tiers. Each tier has slim metal side supports and subtle front retaining lips/holders. Colorful fictional manga/comic, lifestyle, food, and travel magazine covers face toward the customer; a few folded newspapers are neatly held on the lower tier. Covers sit securely in the angled holders, overlap naturally, and are part of the overall rack display rather than loose floating cards.
+Style/medium: polished stylized Japanese convenience-store management game asset, crisp clean hand-painted illustration, clear silhouette and restrained soft shading.
+Composition/framing: show the complete rack from an approximate 2:1 isometric three-quarter game view, front plus one short side visible, compact low profile, centered with at least 12% clear transparent margin on every side; no cropping.
+Lighting/mood: bright even store lighting, subtle highlights, high readability at small game scale.
+Color palette: warm light gray metal rack with a balanced array of vivid but coordinated fictional cover colors.
+Materials/textures: slim painted metal supports and shallow holders; publications are flat printed covers with minimal paper thickness, no bulky geometry.
+Text (verbatim): none; no readable words.
+Constraints: exactly one rack; all rack and publication pixels opaque; only the surrounding background transparent with genuine alpha; full silhouette preserved; fictional cover artwork only, no real brands or logos.
+Avoid: multiple racks, room, floor, environment, people, brands, readable text, detached props, loose floating cards, thick cuboid packages, heavy black halo, excessive perspective, dramatic shadows, cropping, watermark.

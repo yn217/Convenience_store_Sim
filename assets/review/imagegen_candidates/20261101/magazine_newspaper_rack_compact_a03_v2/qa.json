@@ -1,0 +1,50 @@
+{
+  "asset_id": "magazine_newspaper_rack_compact_a03_v2",
+  "status": "review_candidate_rejected",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "5adff67b4c846c554589d4a0a5aaf8da696794aaba24fd0d065d37f553a96f01",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "integrated_two_tier_rack_and_publications": "pass",
+    "magazine_newspaper_fronts": "pass at source size; game-scale readability not checked",
+    "publications_held_by_rails": "pass visually; exact contact not measured",
+    "no_detached_cards_or_thick_blocks": "pass/partial: visible thin paper edges, no obvious thick cuboids",
+    "transparent_background_no_vignette": "pass; border alpha max 0",
+    "iso2x_v1_parallel_axis_calibration": "not_verified; perspective/axis slopes and ratio not measured against controls",
+    "fixture_dimensions_and_world_anchor": "not_verified",
+    "Godot_display_scale": "not_verified"
+  },
+  "alpha": {
+    "bbox_alpha_gt_8": [
+      48,
+      158,
+      1196,
+      1203
+    ],
+    "margins_pct_ltrb": [
+      3.83,
+      12.6,
+      4.63,
+      4.07
+    ],
+    "edge_alpha_max": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "required_min_margin_pct": 12,
+    "result": "fail: minimum alpha>8 margin 3.83% (left), 4.07% (bottom); image is transparent at borders but content is too close to sides and bottom"
+  },
+  "decision": "FAIL for acceptance; review-only. Transparent edge cleanup improved over v1, but safe margins fail and game projection/world placement are unverified. Do not crop or stretch.",
+  "qa_scope": "focused source-image review only",
+  "comparison_note": "v1 and v2 shown on equal 1254x1254 canvas cells with same display scale, no crop/differential resize."
+}

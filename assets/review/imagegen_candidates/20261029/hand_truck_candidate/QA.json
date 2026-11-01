@@ -1,0 +1,20 @@
+{
+  "asset_id": "hand_truck_candidate_20261029",
+  "file": "hand_truck_candidate.png",
+  "dimensions_px": { "width": 1291, "height": 1218 },
+  "alpha_bbox_px": [49, 29, 1251, 1218],
+  "sha256": "86eb74a2bd7bf2184be434da9928b6c8bc1cf44fe80c84325baed32737b0661c",
+  "prompt": "Use case: game-asset. Asset type: one transparent 2D sprite for a Japanese convenience-store management tycoon game, matching the warm painted isometric gameplay-art style of image-1792819026698.webp. Primary request: one compact folding hand truck / delivery dolly for stocking a convenience store. Scene/backdrop: transparent background, no floor plane, no external cast shadow. Subject: a dark charcoal metal two-wheel folding hand truck with a clearly visible upright frame, curved handle, two small black wheels and a small toe plate. Securely load only 2 or 3 modest blue plastic beverage crates, stacked neatly and strapped or visibly stable; crates must not hide the dolly frame, toe plate, or wheels. No bottles protruding. Keep silhouette recognizable as a hand truck carrying crates, compact practical scale. Style/medium: warm painted, softly shaded, crisp illustrated tycoon-game sprite with friendly game readability, subtle hand-painted highlights and restrained outlines; not photoreal and not a glossy 3D product render. Composition/framing: one complete object centered with generous transparent margin on every side; slight elevated isometric view showing front and narrow right side. Strict iso2x 2:1 projection: ground-plane axes at exact 2:1 slopes, all upright frame members parallel vertical lines, no perspective convergence. Full silhouette visible including handle, wheels, toe plate, crates; no crop. Constraints: exactly one loaded hand truck only. True transparency. No room, store environment, floor, people, extra objects, text, labels, logos, watermark, collage, separate crate pile, perspective camera, stretched proportions, or cropped parts.",
+  "visual_observations": {
+    "subject": "Three blue beverage crates are stacked on a dark two-wheel dolly; curved handle/frame and toe plate are clear. One wheel is prominently visible; the second is largely occluded by the load. Bottles can be seen inside the top crate.",
+    "projection_issues": [
+      "FAIL: visibly perspective-like 3/4 view; crate top/side and toe-plate axes do not conform to strict iso2x 2:1 axes.",
+      "FAIL: alpha bbox reaches the bottom canvas edge (y=1218 of 1218), so the requested bottom margin is absent.",
+      "PARTIAL: frame is recognizable, but the loaded crates obscure most of the second wheel and some of the dolly structure."
+    ],
+    "style": "Polished and readable, but glossy, dimensional product-render shading rather than the requested warm painted tycoon-game finish.",
+    "transparency": "Transparent alpha present; no environment or external floor shadow observed."
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

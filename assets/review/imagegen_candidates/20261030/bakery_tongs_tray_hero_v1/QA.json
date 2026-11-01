@@ -1,0 +1,62 @@
+{
+  "asset_id": "bakery_tongs_tray_hero_v1",
+  "reviewer": "parent visual and alpha review; generated directly with built-in Codex image_gen",
+  "overall": "FAIL",
+  "source_sha256": "eced978664b46fd96a207fef551111f939f5d9b0b6b17cc89161ef7e7b1c11a4",
+  "image": {
+    "width": 1774,
+    "height": 887,
+    "format": "PNG RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_zero": 1184114,
+    "alpha_1_to_127": 7306,
+    "alpha_128_to_254": 381404,
+    "alpha_255": 714,
+    "alpha_gt_0_bbox_xyxy_inclusive": [
+      94,
+      39,
+      1703,
+      850
+    ],
+    "alpha_gt_0_margins_pct": {
+      "left": 5.3,
+      "right": 3.95,
+      "top": 4.4,
+      "bottom": 4.06
+    },
+    "alpha_ge_128_bbox_xyxy_inclusive": [
+      298,
+      217,
+      1500,
+      727
+    ],
+    "alpha_ge_128_margins_pct": {
+      "left": 16.8,
+      "right": 15.45,
+      "top": 24.47,
+      "bottom": 18.04
+    },
+    "alpha_nonzero_touches_canvas_edges": false
+  },
+  "checks": {
+    "subject_identity": "pass: one shallow metal tray with serving tongs resting inside",
+    "single_grouped_prop": "pass",
+    "transparent_background": "fail: only 714 pixels alpha 255; most object pixels are alpha 128–254, so the sprite is substantially translucent on a dark game background",
+    "safe_margin": "fail: alpha-positive margins are below requested 12% on every edge (right 3.95%, bottom 4.06%)",
+    "iso2x_v1_projection": "fail: tray axes are strongly perspective-like and not calibrated against 2:1 control points",
+    "geometry_and_scale": "not_checked",
+    "ground_anchor": "not_checked",
+    "godot_game_scale": "not_checked",
+    "runtime_approved": false
+  },
+  "notes": [
+    "Tray and tongs are visually grouped and easy to identify on the white-matte preview.",
+    "Alpha histogram: alpha 0=1,184,114; alpha 1–127=7,306; alpha 128–254=381,404; alpha 255=714. The low maximum opaque coverage indicates incorrect object opacity; preserve source unchanged.",
+    "Nonzero alpha does not touch canvas edges, but margins are L/R/T/B 5.30/3.95/4.40/4.06%, below requested 12%.",
+    "Perspective illustration is not calibrated to iso2x_v1; no control points, size, anchor, or Godot screenshot.",
+    "Review-only FAIL; no crop/resize/alpha repair; runtime_approved:false."
+  ]
+}

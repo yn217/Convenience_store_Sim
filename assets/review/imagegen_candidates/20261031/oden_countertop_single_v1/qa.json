@@ -1,0 +1,16 @@
+{
+  "asset_id": "oden_countertop_single_v1",
+  "candidate_only": true,
+  "runtime_approved": false,
+  "source_dimensions": [1774, 887],
+  "source_format": "RGBA PNG",
+  "source_sha256": "f9931a419c23455315df10342b98e38a6694c7d8d98b0231d940c0b3884b870a",
+  "alpha_bbox_threshold_8": [438, 71, 1337, 857],
+  "alpha_margins_percent_ltrb": [24.69, 8.00, 24.63, 3.38],
+  "alpha_margin_12_percent": "FAIL: top and bottom margins are below 12%",
+  "projection_review": "FAIL: geometry is strongly top-visible and does not read as the requested near-level classic 2:1 isometric game sprite; front/right slopes were not measured as compliant",
+  "content_review": "FAIL: no glass sneeze guard; single compact countertop warmer and four compartments are present",
+  "style_review": "FAIL: photorealistic rendering does not match the established hand-painted game-art style",
+  "scale_review": "single appliance centered; no game-world dimensions or anchor were supplied, so scale/ground pivot remain unverified",
+  "decision": "reject; regenerate with guard, lower orthographic view, correct 2:1 slopes and >=12% alpha margin"
+}

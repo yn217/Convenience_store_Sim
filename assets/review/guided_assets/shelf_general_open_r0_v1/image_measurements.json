@@ -1,0 +1,86 @@
+{
+  "runtime_approved": false,
+  "alpha": {
+    "1": {
+      "bbox": [
+        134,
+        161,
+        497,
+        554
+      ],
+      "margins_px": [
+        134,
+        161,
+        143,
+        86
+      ],
+      "all_margins_at_least_12_percent": true
+    },
+    "8": {
+      "bbox": [
+        135,
+        161,
+        497,
+        553
+      ],
+      "margins_px": [
+        135,
+        161,
+        143,
+        87
+      ],
+      "all_margins_at_least_12_percent": true
+    },
+    "128": {
+      "bbox": [
+        135,
+        162,
+        497,
+        553
+      ],
+      "margins_px": [
+        135,
+        162,
+        143,
+        87
+      ],
+      "all_margins_at_least_12_percent": true
+    }
+  },
+  "rail_diagnostics": [
+    {
+      "part": "price_rail_0",
+      "samples": 80,
+      "expected_slope": -0.5,
+      "observed_slope": -0.5000627876271302,
+      "median_vertical_offset_px": -1.5887882047067023,
+      "max_abs_vertical_offset_px": 2.0168768123015752
+    },
+    {
+      "part": "price_rail_1",
+      "samples": 80,
+      "expected_slope": -0.5,
+      "observed_slope": -0.5009276456646377,
+      "median_vertical_offset_px": -1.2504661200079568,
+      "max_abs_vertical_offset_px": 1.6487516333693861
+    },
+    {
+      "part": "price_rail_2",
+      "samples": 80,
+      "expected_slope": -0.5,
+      "observed_slope": -0.502417373475955,
+      "median_vertical_offset_px": -0.6775814474048332,
+      "max_abs_vertical_offset_px": 0.8859794783471671
+    },
+    {
+      "part": "price_rail_3",
+      "samples": 80,
+      "expected_slope": -0.5,
+      "observed_slope": -0.5019944207379627,
+      "median_vertical_offset_px": 0.08164640381991717,
+      "max_abs_vertical_offset_px": 0.6860514671110423
+    }
+  ],
+  "scope": "Color-based rail-line diagnostic only. Corners, upright positions, ground anchor and human shape approval remain separate.",
+  "status": "review_only"
+}

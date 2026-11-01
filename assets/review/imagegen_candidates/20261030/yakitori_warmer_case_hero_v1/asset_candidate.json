@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "asset_id": "yakitori_warmer_case_hero_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "P1 C04 yakitori/skewer warmer showcase for Issue #125",
+  "actual_subject": "One low stainless heated showcase with glass enclosure and integrated grilled yakitori skewers",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/yakitori_warmer_case_hero_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2345364,
+    "sha256": "f225514e54a65f20b2df617252d669e6556a653f22d5070dbdacc98fa853c04d",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/yakitori_warmer_case_hero_v1/source_original.png",
+      "byte_size": 2345364,
+      "sha256": "f225514e54a65f20b2df617252d669e6556a653f22d5070dbdacc98fa853c04d",
+      "git_blob_sha": "78a42b32b46fa33de99881ef1cb38ee5e844c49a",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "C04 yakitori warming case and integrated skewers are identifiable.",
+      "Checkerboard is baked into RGB pixels; no alpha channel exists.",
+      "The requested 12% margin is not clear on every side.",
+      "iso2x_v1, footprint, dimensions, anchor, other rotations and Godot display are unverified.",
+      "Review only; runtime_approved false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

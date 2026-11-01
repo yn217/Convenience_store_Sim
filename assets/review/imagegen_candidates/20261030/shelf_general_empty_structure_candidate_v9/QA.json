@@ -1,0 +1,87 @@
+{
+  "candidate_id": "shelf_general_empty_structure_candidate_v9",
+  "status": "review_only_fail_superseded_guide_ratio",
+  "runtime_approved": false,
+  "generator": "GPT-6 Luna subagent using Codex built-in ImageGen",
+  "image": {
+    "path": "shelf_general_empty_structure_candidate_v9.png",
+    "width": 1254,
+    "height": 1254,
+    "byte_size": 867568,
+    "sha256": "426f5651b0a886e5a323240cf1e91143988744f3bfca13368e57d11a1bf8584f"
+  },
+  "game_contract": {
+    "projection": "iso2x_v1: X=(64,32) px/m; Y=(-64,32) px/m at zoom 1",
+    "fixture_dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "access_edge": "E",
+    "target_depth_to_long_ratio": 0.4791666666666667
+  },
+  "guide": {
+    "path": "projection_guide.png",
+    "long_vector": [
+      540,
+      270
+    ],
+    "depth_vector": [
+      210,
+      -105
+    ],
+    "guide_ratio": 0.3888889,
+    "game_target_ratio": 0.4791667,
+    "result": "FAIL: guide did not use game dimensions"
+  },
+  "alpha": {
+    "bbox_xyxy": [
+      0,
+      0,
+      1232,
+      1254
+    ],
+    "strong_bbox_gt127_xyxy": [
+      225,
+      133,
+      943,
+      1185
+    ],
+    "alpha_min_max": [
+      0,
+      255
+    ],
+    "unique_levels": 256,
+    "touches_edges": [
+      "left",
+      "top",
+      "bottom"
+    ],
+    "result": "FAIL"
+  },
+  "independent_review": {
+    "reviewer": "Codex parent model, independent visual inspection after Luna generation",
+    "shelf_planes_excluding_base": 3,
+    "shelf_count_result": "FAIL",
+    "visual_depth_vs_guide": "PASS only relative to invalid guide; not a game-contract PASS",
+    "roofless_single_sided": "PASS",
+    "game_style": "FAIL gloss and hard edges",
+    "overall": "FAIL"
+  },
+  "overall_gate": "FAIL; wrong target ratio, only three usable shelves, alpha touches canvas edges, irregular top shelf/base; no Godot anchor/runtime verification",
+  "comparison": {
+    "path": "comparison_guide_v9.png",
+    "sha256": "308c2592ba5db64ea07b2ddde17464f1f4e16362d78263d040232c88a99e22b3"
+  },
+  "next_action": "Use correct 0.92/1.92 projected depth ratio and regenerate. Do not crop/scale this candidate to conceal the mismatch.",
+  "generation_prompt": "Create exactly one finished 2D game sprite of the EMPTY single-sided Japanese convenience-store gondola shown in reference image 1. Reference 1 is the authoritative geometry and projection guide; trace its silhouette and component positions faithfully without changing viewpoint, proportions, spacing, shelf shapes, or angles. It is 1500x1500 with transparent margins. Include exactly FOUR distinct, independent merchandise shelf boards. The low separate kick plate/base below them is not a shelf and must not be counted as one. Keep both slim uprights, the back panel, all four shelf boards, and the separate narrow kick plate in the exact positions and sizes shown. No roof, canopy, top cap, products, signs, labels, or extra objects. Projection is fixed: long shelf edges screen-right-down vector (540,270); depth edges screen-right-up vector (210,-105); depth/long ratio 0.389. Preserve the guide's shelf shape and size; do not reinterpret the back panel or shelf count. Use reference 2 only for a soft, polished miniature management-game painted style: warm restrained light, subtle painted shading, gentle edges, matte pale warm-gray painted steel, understated charcoal kick plate. Reduce strong metallic shine and thick black outlines. True transparent RGBA background, keep at least 12% clear margin on every side, with no nontransparent pixels touching any canvas edge. This is geometry-faithful asset rendering, not a new design.",
+  "target_ratio_check": {
+    "actual_game_contract_ratio": 0.4791667,
+    "supplied_guide_ratio": 0.3888889,
+    "result": "FAIL"
+  }
+}

@@ -1,0 +1,16 @@
+{
+ "asset_id":"oden_countertop_single_v3",
+ "candidate_only":true,
+ "runtime_approved":false,
+ "source_dimensions":[1281,1228],
+ "source_format":"RGBA PNG",
+ "source_sha256":"8e0b12050df56691df8c1c046646a1705ed9f3c398229f017b776e8a5d2eab8b",
+ "alpha_bbox_threshold_8":[190,109,1093,1146],
+ "alpha_margins_percent_ltrb":[14.83,8.88,14.68,6.68],
+ "alpha_margin_12_percent":"FAIL: top and bottom margins below 12%",
+ "content":"PASS: countertop oden warmer, glass guard, 4 food regions",
+ "projection":"FAIL: too top-visible and does not match source camera/shape guide",
+ "size_contract":"FAIL: visually too cubic/large relative to warmer_oden 0.92x0.92x1.10m 1x1 spec",
+ "style":"partial: game illustration outlines but too glossy/realistic",
+ "decision":"reject; image model did not preserve reference silhouette/composition; do not warp or runtime-approve"
+}

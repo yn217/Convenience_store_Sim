@@ -1,0 +1,44 @@
+{
+  "asset_id": "oden_large_3bay_codex_candidate_v1",
+  "image": "oden_large_3bay_candidate_v1.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    9,
+    1526,
+    1024
+  ],
+  "alpha_bbox_ge_8_xyxy": [
+    29,
+    78,
+    1507,
+    923
+  ],
+  "alpha_bbox_ge_128_xyxy": [
+    30,
+    79,
+    1507,
+    922
+  ],
+  "alpha_histogram_summary": {
+    "transparent_0": 388706,
+    "partial_1_254": 1184158,
+    "opaque_255": 0
+  },
+  "sha256": "469c430ba41688c0354a6c7f945062e74da454dcf7425aa02aaf91e678bf898e",
+  "visual_review": {
+    "subject": "wide three-bay oden warmer with daikon, eggs, chikuwa and other ingredients",
+    "content": "pass: three glass serving bays and oden food are readable",
+    "style": "fail: photorealistic metallic highlights rather than soft casual painted game art",
+    "projection": "near-front and not iso2x_v1 calibrated; world footprint and pivot unknown",
+    "alpha": "fail: transparent RGBA but 1,184,158 pixels have partial alpha and no fully opaque pixels; broad semitransparent studio halo",
+    "origin": "Codex built-in ImageGen; distinct new candidate, not the missing ChatGPT source bundle",
+    "runtime_approved": false
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

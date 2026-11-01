@@ -1,0 +1,28 @@
+{
+  "source": "assets\\review\\imagegen_candidates\\20261029\\register_basic_counter_candidate_v1\\register_basic_counter_candidate_v1.png",
+  "source_sha256": "7d822559ae4d4873073106cdb44d407017f39651edd7ded6cb22992416dd51f0",
+  "method": "Manual approximate points on visible bottom edges. Endpoints carry subjective uncertainty; no world calibration or occlusion validation. Preview draw units are before any viewport scaling; these are not measured screenshot pixels.",
+  "points_source_px": {
+    "near_corner": [
+      635,
+      811
+    ],
+    "long_end": [
+      1430,
+      508
+    ],
+    "short_end": [
+      445,
+      692
+    ]
+  },
+  "long_edge_slope": -0.38113207547169814,
+  "long_target_slope": -0.5,
+  "short_edge_slope": 0.6263157894736842,
+  "short_target_slope": 0.5,
+  "status": "FAIL provisional; manual point selection needs independent review",
+  "runtime_approved": false,
+  "preview_scale_draw_units_per_source_px": 0.1555,
+  "long_end_vertical_displacement_preview_draw_units": 14.694749999999999,
+  "short_end_vertical_displacement_preview_draw_units": 3.732
+}

@@ -1,0 +1,43 @@
+{
+  "asset_id": "shelf_general_empty_structure_candidate_v1",
+  "source": "shelf_general_empty_structure_candidate_v1.png",
+  "sha256": "2145400ad77559dd1186bbed0df41ff3f0fd5b4fa126129a630f4227e6d1a6a1",
+  "dimensions_px": [
+    1399,
+    1124
+  ],
+  "alpha_bbox_by_threshold": {
+    "1": [
+      0,
+      12,
+      1379,
+      1124
+    ],
+    "8": [
+      158,
+      15,
+      1269,
+      1121
+    ],
+    "128": [
+      159,
+      16,
+      1268,
+      1121
+    ]
+  },
+  "prompt": "Create one standalone EMPTY Japanese convenience-store ambient open gondola fixture for art review, as a 2D isometric game sprite. Reference 1 is the desired shelf design, reference 2 is game art style. Empty means absolutely no products, no promotional signs or lettering. Show an accessible single-sided open gondola with a vertical perforated back panel, thin side uprights, four shallow usable shelves with narrow front price rails, and a dark slim base. No large top panel, roof, canopy or exposed deep white platform; top level is open and accessible, not a solid roof. The fixture should have clear real shelf depth and a single customer-facing long side, not a solid cuboid. Footprint intended 0.92m x 1.92m, height 1.5m. Use the game’s orthographic 2:1 isometric ground axes with long edge sloping upward right; vertical lines vertical. Warm game illustration style matching reference 2, clear shelf geometry readable at game scale. Transparent background with ample margin, no floor, no cast shadows or halo, no people and no other fixtures. One single object; no atlas or text. This is only an EMPTY structure reference for QA; do not add merchandise.",
+  "reference_sha256": [
+    "89aef2bbea4de999dc13320c01bfd63f3befa913c51f19222cfa957b8b02bbd5",
+    "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac"
+  ],
+  "content": "One empty open four-level shelf, no products, top is open, front rails and dividers visible",
+  "findings": [
+    "Long shelf axis visibly slopes down to the right, opposite requested r0; mirror flipping would affect later labels and is not applied.",
+    "Shelf plates appear deep; footprint, anchor and dimensions not measured.",
+    "Low-alpha fringe around object requires review.",
+    "EMPTY only for Reference Gate; FULL/HALF must wait for independent structural approval."
+  ],
+  "status": "review_only_provisional_fail",
+  "runtime_approved": false
+}

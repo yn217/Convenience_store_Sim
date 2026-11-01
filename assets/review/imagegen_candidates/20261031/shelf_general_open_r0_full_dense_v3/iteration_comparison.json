@@ -1,0 +1,8 @@
+{
+  "candidate": "shelf_general_open_r0_full_dense_v3",
+  "compared_with": "shelf_general_open_r0_full_dense_v2",
+  "edge_nonzero_pixels_v2": 52,
+  "edge_nonzero_pixels_v3": 6,
+  "change": "52 -> 6 alpha-1 border pixels; reduced but did not eliminate. Remaining framing/projection/backboard issues are not corrected by scaling.",
+  "runtime_approved": false
+}

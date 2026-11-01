@@ -1,0 +1,48 @@
+{
+  "asset_id": "handtruck_candidate_v2",
+  "file": "handtruck_candidate_v2.png",
+  "dimensions_px": {
+    "width": 1145,
+    "height": 1374
+  },
+  "mode": "RGBA",
+  "alpha_bbox_threshold_1": [
+    29,
+    21,
+    1105,
+    1374
+  ],
+  "alpha_bbox_threshold_8": [
+    219,
+    33,
+    964,
+    1336
+  ],
+  "alpha_bbox_threshold_128": [
+    220,
+    34,
+    963,
+    1333
+  ],
+  "edge_alpha_max_0_to_255": {
+    "top_max_alpha": 0,
+    "bottom_max_alpha": 1,
+    "left_max_alpha": 0,
+    "right_max_alpha": 0
+  },
+  "sha256": "bab4d8db88a303e787cb94ac99a270e522a3b21b96eccb927968481c48ff1ba6",
+  "status": "review_only",
+  "runtime_approved": false,
+  "visual_observations": {
+    "style": "Friendly game-art silhouette is readable, but the rendering is more metallic/glossy and realistic than the requested soft hand-painted style.",
+    "projection": "Near-front with a slight visible side/top surface; frame uprights appear essentially vertical. Not calibrated against iso2x_v1.",
+    "silhouette": "One empty platform hand truck; vertical metal frame, top handle, low toe plate, and two distinct wheels are visible. No cargo present.",
+    "alpha": "Transparent background. Tiny nonzero alpha residue touches the bottom edge; inspect/clean before runtime use."
+  },
+  "limitations": [
+    "Not runtime-ready",
+    "Projection/scale/anchor not game-calibrated",
+    "Strong metallic highlights",
+    "Bottom edge has alpha=1 fringe"
+  ]
+}

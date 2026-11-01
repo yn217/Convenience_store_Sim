@@ -1,0 +1,32 @@
+{
+  "asset_id": "exterior_rear_planting_jp_v1",
+  "image": "rear_planting_candidate_v1.png",
+  "dimensions_px": [
+    2172,
+    724
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    0,
+    2172,
+    724
+  ],
+  "alpha_bbox_ge_8_xyxy": [
+    4,
+    13,
+    2171,
+    686
+  ],
+  "sha256": "3d1dfd4bec95829ce76923b08049a8d4b3929807f064fe63f69da9380ccebfe6",
+  "visual_review": {
+    "subject": "continuous shallow V-shaped Japanese spring planting strip with sakura, evergreens, shrubs and flowers",
+    "content": "pass",
+    "style": "soft painted game scenery, with realistic foliage details",
+    "projection": "not calibrated to game world landmarks or iso2x_v1; long arms are shallow diagonal and need projected guide comparison",
+    "alpha": "low-alpha color fringe visibly touches/crops at some outer edges; no cleanup performed",
+    "runtime_approved": false
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

@@ -1,0 +1,32 @@
+{
+  "asset_id": "storefront_fixed_facade_jp_candidate_v1",
+  "image": "storefront_facade_candidate_v1.png",
+  "dimensions_px": [
+    1774,
+    887
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    21,
+    1760,
+    887
+  ],
+  "alpha_bbox_ge_8_xyxy": [
+    17,
+    136,
+    1757,
+    705
+  ],
+  "sha256": "668c6ed8914a97ccfd9f2ef159f7713006ae8801079bb3b6530fe8e803f8b3f3",
+  "visual_review": {
+    "subject": "long white Japanese convenience-store facade with blue stripe, glass windows and centered sliding entrance",
+    "content": "pass",
+    "style": "semi-realistic illustration with warm interior; no readable logo/text",
+    "projection": "the facade is shallow diagonal, but not measured against game world dimensions or iso2x_v1 guide",
+    "alpha": "edge residue visible around silhouette; no cleanup",
+    "status": "review_only",
+    "runtime_approved": false
+  },
+  "runtime_approved": false
+}

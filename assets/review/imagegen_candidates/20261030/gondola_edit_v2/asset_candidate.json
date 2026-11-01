@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_full_integrated_edit_v2",
+  "asset_class": "interior_fixture",
+  "requested_subject": "shelf_general open gondola FULL, goods integrated into shelf image",
+  "actual_subject": "four-row open gondola with fictional Japanese snack and bakery package fronts; dark base remains empty",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/gondola_edit_v2/gondola_edit_v2.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1001209,
+    "sha256": "98a9f93b0fbf6938de7020b7e26508b2bd615e1917c0df6c9e98d4e4855dc5ca",
+    "reference_hashes": [
+      "4556ce7fb92b0d81d5760b37efad6b8ef03e2e5864ab7010d2106111d3537086",
+      "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_edit_v2/gondola_edit_v2.png",
+      "byte_size": 1001209,
+      "sha256": "98a9f93b0fbf6938de7020b7e26508b2bd615e1917c0df6c9e98d4e4855dc5ca",
+      "git_blob_sha": "c5a1989734a9bf72b576a680539f8accd4a8af8b",
+      "github_uploaded": true
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_edit_v2/alpha_preview.png",
+      "byte_size": 809856,
+      "sha256": "9fe05e3d74b754071fb30d892ad5317b7bcdf7974c6b1f48ae7f5b800c3fdb78",
+      "git_blob_sha": "240a44865aa688ab16cce114f0d605480aacecf4",
+      "github_uploaded": true
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/gondola_edit_v2/comparison_same_canvas.png",
+      "byte_size": 1302485,
+      "sha256": "5196b200be36de1f84c889706770ec74e835fc1d92e2494024fc585618383c40",
+      "git_blob_sha": "f53c5cd05a3f8d7b3e50a8ebd5119c24dafe7930",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "not_checked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Gross image silhouette matches empty guide closely, but integrated goods prevent fixture-only control point validation.",
+      "The base is empty; packages retain visible 3D side/top volume.",
+      "Top alpha margin is 11.64%, slightly below the 12% minimum.",
+      "Review-only; no runtime approval."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

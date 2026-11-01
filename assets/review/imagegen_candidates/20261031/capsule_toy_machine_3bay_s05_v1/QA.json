@@ -1,0 +1,39 @@
+{
+  "asset_id": "capsule_toy_machine_3bay_s05_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [1305, 1205],
+  "source_sha256": "6591fb6acfb6d2fe9bc15c239677c9a58872ce46eefcac1f39e77d13ab5a46c",
+  "content": {
+    "verdict": "PASS",
+    "notes": "Three adjacent connected machine bays; each has a visible capsule globe, colorful generic capsules, one knob and one retrieval hatch."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_pixels": 405074,
+    "alpha_1_to_127_pixels": 21434,
+    "alpha_128_to_254_pixels": 1145740,
+    "fully_opaque_pixels": 277,
+    "nonzero_bbox_xyxy": [0, 0, 1275, 1205],
+    "threshold_128_bbox_xyxy": [73, 7, 1242, 1205],
+    "touches_any_edge": true,
+    "nonzero_pixels_on_edges": {"top": 50, "bottom": 67, "left": 11, "right": 0},
+    "reason": "Broad semitransparency across the subject/background matte; only 277 fully opaque pixels."
+  },
+  "framing": {
+    "verdict": "FAIL",
+    "reason": "Thresholded subject reaches the bottom image boundary; no safe lower margin."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Perspective-like three-quarter view without calibrated axes, control points, or Godot comparison."
+  },
+  "geometry": {"verdict": "NOT_CHECKED", "footprint_tiles": null, "dimensions_m": null, "ground_anchor": null},
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}

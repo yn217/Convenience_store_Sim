@@ -1,0 +1,52 @@
+{
+  "asset_id": "limited_prize_display_s06_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [
+    1286,
+    1223
+  ],
+  "source_sha256": "f87e2ee42a0ae3b89b8cf925d9551a1662b966c7259dffac575d75d78a732bf8",
+  "content": {
+    "verdict": "PASS",
+    "notes": "Single integrated acrylic prize case with generic plush/figures/badges, a blank prize-status board, and closed stock drawer; distinct from capsule and claw machines."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_pixels": 887331,
+    "alpha_1_to_127_pixels": 10896,
+    "alpha_128_to_254_pixels": 673433,
+    "fully_opaque_pixels": 1118,
+    "nonzero_bbox_xyxy": [
+      25,
+      20,
+      1248,
+      1206
+    ],
+    "threshold_128_bbox_xyxy": [
+      289,
+      24,
+      1092,
+      1203
+    ],
+    "touches_any_edge": false,
+    "reason": "Broad semitransparency remains through the image; only 1,118 pixels are fully opaque."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Uncalibrated perspective-like three-quarter view; no control points or Godot validation."
+  },
+  "geometry": {
+    "verdict": "NOT_CHECKED",
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "ground_anchor": null
+  },
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}

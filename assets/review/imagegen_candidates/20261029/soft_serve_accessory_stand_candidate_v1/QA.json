@@ -1,0 +1,59 @@
+{
+  "asset_id": "soft_serve_accessory_stand_candidate_v1",
+  "image": "soft_serve_accessory_stand_candidate_v1.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "file_size_bytes": 1944270,
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_pixel_counts_ge_threshold": {
+    "1": 735184,
+    "8": 724318,
+    "128": 721089,
+    "250": 712874
+  },
+  "alpha_bbox_ge_threshold": {
+    "1": [
+      87,
+      81,
+      1520,
+      1024
+    ],
+    "8": [
+      208,
+      89,
+      1375,
+      1008
+    ],
+    "128": [
+      209,
+      91,
+      1374,
+      1007
+    ],
+    "250": [
+      209,
+      92,
+      1373,
+      1006
+    ]
+  },
+  "opaque_255_pixels": 0,
+  "sha256": "bd57ccdd9cf418feab64c182b6ca89a8ec9ae0a8f5df9a4b5e1655e6b4f219e9",
+  "visual_review": {
+    "subject": "partial: accessory caddy with cups, cones and spoons is recognizable; grouped countertop prop, not a machine",
+    "style": "FAIL for final game match: glossy rendered finish and dark halo",
+    "projection": "not verified against iso2x_v1",
+    "alpha": "FAIL: dark low-alpha halo visible around object; source has alpha but is not cleanly isolated",
+    "geometry": "not verified; no footprint/dimensions contract for this accessory",
+    "notes": "The generated item is a grouped accessory caddy rather than the requested equipment machine; it is plausible as a standalone counter prop, but has a dark low-alpha background halo and the perspective is not calibrated. Review-only; do not treat this as the soft-serve machine or frappe blender.",
+    "runtime_approved": false
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

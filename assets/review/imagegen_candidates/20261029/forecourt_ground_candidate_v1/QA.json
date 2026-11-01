@@ -1,0 +1,32 @@
+{
+  "asset_id": "forecourt_parking_road_jp_candidate_v1",
+  "image": "forecourt_ground_candidate_v1.png",
+  "dimensions_px": [
+    1774,
+    887
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    0,
+    1774,
+    887
+  ],
+  "alpha_bbox_ge_8_xyxy": [
+    0,
+    0,
+    1766,
+    878
+  ],
+  "sha256": "35b3bdd6d54b05dd06d782bf148312bf8144ee91d43cf8706f728a930490a7ec",
+  "visual_review": {
+    "subject": "Japanese convenience-store sidewalk, curb, parking spaces and road markings",
+    "content": "pass: sidewalk and parking markings are legible",
+    "style": "semi-realistic with heavy extruded slab depth, not flat game scenery",
+    "projection": "not calibrated to iso2x_v1 world axes or known footprint",
+    "alpha": "low-alpha edge residue reaches canvas edges; no cleanup",
+    "status": "review_only",
+    "runtime_approved": false
+  },
+  "runtime_approved": false
+}

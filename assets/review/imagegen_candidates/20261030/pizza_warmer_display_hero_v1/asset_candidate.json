@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "asset_id": "pizza_warmer_display_hero_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "One-piece pizza warmer display fixture with integrated food for Issue #130",
+  "actual_subject": "Compact heated glass-front pizza display with two trays of whole and sliced pizzas, metal frame and red lower plinth",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/pizza_warmer_display_hero_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2362181,
+    "sha256": "f89d91841df859dca22b65e5054c7b0bcef158cc5be3ab1898016945cd2f8929",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/pizza_warmer_display_hero_v1/source_original.png",
+      "byte_size": 2362181,
+      "sha256": "f89d91841df859dca22b65e5054c7b0bcef158cc5be3ab1898016945cd2f8929",
+      "git_blob_sha": "8981c844e735149d755d865b3c657035780f0cf3",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/pizza_warmer_display_hero_v1/qa_preview_white.png",
+      "byte_size": 2505027,
+      "sha256": "c879114ba89aee7476dfa1ee92f928d2fbc164a30089a0faee475201e51355ab",
+      "git_blob_sha": "a34076c0582f3f75f4cf760266e603f6c76e107d",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "The heated pizza case and its contents are readable as an integrated single sprite.",
+      "Low-alpha pixels reach the left and bottom image edges; alpha>=128 vertical margins are around 1.2%.",
+      "Projection is perspective-like and not measured against iso2x_v1; exact scale/anchor/Godot view remain unchecked.",
+      "One hero candidate only; orthographic views and runtime state variants are not included.",
+      "FAIL for runtime acceptance; keep runtime_approved false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

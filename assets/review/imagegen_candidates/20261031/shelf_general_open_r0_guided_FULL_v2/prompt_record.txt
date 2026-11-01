@@ -1,0 +1,5 @@
+Generation prompt is recorded verbatim in qa.json. Image inputs, in order:
+1. assets/review/guided_assets/shelf_general_open_r0_v1/game_reference.png
+2. assets/review/guided_assets/shelf_general_open_r0_v1/guide_structure.png
+3. assets/review/guided_assets/shelf_general_open_r0_v1/guide_edges.png
+4. assets/review/guided_assets/shelf_general_open_r0_v1/product_front_regions_v1.png

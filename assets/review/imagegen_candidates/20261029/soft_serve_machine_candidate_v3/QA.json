@@ -1,0 +1,37 @@
+{
+  "asset_id": "soft_serve_machine_candidate_v3",
+  "source": "soft_serve_machine_candidate_v3.png",
+  "sha256": "af86fafeec6a9cb5f57f30bc4c3ba6b30b54efa204f89ecca60eca66f63d1ec4",
+  "dimensions_px": [
+    1402,
+    1122
+  ],
+  "alpha_bbox_by_threshold": {
+    "1": [
+      235,
+      26,
+      1082,
+      1104
+    ],
+    "8": [
+      347,
+      28,
+      1077,
+      1099
+    ],
+    "128": [
+      348,
+      29,
+      1075,
+      1098
+    ]
+  },
+  "subject": "Single soft-serve dispenser, edited from v2",
+  "limitations": [
+    "alpha fringe/stray pixels require review",
+    "iso2x projection, dimensions and anchor unverified",
+    "Godot display and human approval pending"
+  ],
+  "runtime_approved": false,
+  "status": "review_only"
+}

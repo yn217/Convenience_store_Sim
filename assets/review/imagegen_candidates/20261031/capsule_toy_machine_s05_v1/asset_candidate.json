@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "asset_id": "capsule_toy_machine_s05_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "S05: one-column capsule toy vending machine with original generic toy capsules",
+  "actual_subject": "Single red-and-cream capsule toy machine with clear globe, coin slot, knob and pickup door",
+  "production_method": "codex_builtin_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "alpha": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "state_sync": "not_applicable",
+    "notes": [
+      "Single capsule machine with visible functional features and generic capsule contents.",
+      "Alpha has extensive semitransparency; three nonzero pixels touch the left boundary.",
+      "Near-front view is not calibrated to iso2x_v1.",
+      "No variants, inventory states or runtime behavior are implied."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "f93792e79fb3a0ae0ba0f5fa6aa49f62b8954558b68a005fa199a88318fb2133",
+    "file_size_bytes": 1077561,
+    "unchanged_original": true,
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "f93792e79fb3a0ae0ba0f5fa6aa49f62b8954558b68a005fa199a88318fb2133",
+      "byte_size": 1077561,
+      "git_blob_sha": "b9e395ed75814d3f44fb13da3d3cd592339e24ac",
+      "github_uploaded": true
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "sha256": "863235c8d7eeedddd62c12a9bcdfb5fffe9c58c199fa62304e2ca05d9156a7a6",
+      "byte_size": 185667,
+      "git_blob_sha": "015cfdd129992ab27a3c755a4cfa0b97d7144505",
+      "github_uploaded": true
+    }
+  ],
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164
+  },
+  "prompt_file": "prompt.txt"
+}

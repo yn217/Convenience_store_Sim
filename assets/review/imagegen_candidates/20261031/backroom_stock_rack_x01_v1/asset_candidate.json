@@ -1,0 +1,75 @@
+{
+  "actual_subject": "Freestanding four-tier metal stock rack with cardboard cartons and blue reusable plastic crates",
+  "schema_version": 1,
+  "runtime_approved": false,
+  "geometry": {
+    "dimensions_m": null,
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
+  "production_method": "codex_imagegen",
+  "asset_class": "interior_fixture",
+  "fixture_type_id": null,
+  "requested_subject": "X01: convenience-store backroom inventory rack with stock cartons and reusable crates",
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "github_uploaded": true,
+      "role": "source_original",
+      "git_blob_sha": "cdac6781b82b12d4d1a27fe2610d5b1ebf37ae81",
+      "sha256": "860997d9ad6fe2ac4fe3a4366c99ed149054dac65a8ada6a1851dcd75f5e2234",
+      "byte_size": 1274906
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "github_uploaded": true,
+      "role": "qa_overlay",
+      "git_blob_sha": "5297d11efafd18e4e560e49a460a2e1d4d74b23d",
+      "sha256": "176101e4e353e4498877ee18becff4dcde2aafbb00a7a6fa59c24b115b833216",
+      "byte_size": 222109
+    }
+  ],
+  "github": {
+    "draft_pr": 164,
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "stock_state": "FULL",
+  "quality": {
+    "human_visual": "not_checked",
+    "japanese_fixture_reference": "not_checked",
+    "notes": [
+      "X01 subject is represented as a single freestanding backroom storage rack, distinct from retail gondolas and shopping carts.",
+      "Four usable tiers contain cartons and blue reusable crates; storage items are integrated and supported, with no loose floating cards.",
+      "Alpha QA FAIL: 1312x1199 RGBA; alpha0=941723, alpha1..127=19772, alpha128..254=610957, alpha255=636. Threshold>=128 bbox [288,114,1029,1154]; nonzero-alpha bbox [43,25,1292,1158]. Broad partly transparent subject pixels remain.",
+      "Projection QA FAIL: apparent orthographic isometric view is not measured against iso2x_v1 world control points; no footprint, dimensions, anchor, or Godot image supplied.",
+      "No independent review or runtime approval. Review candidate only."
+    ],
+    "subject": "pass",
+    "state_sync": "not_checked",
+    "alpha": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "projection": "fail"
+  },
+  "asset_id": "backroom_stock_rack_x01_v1",
+  "stock_rendering": "static_review_baked",
+  "source": {
+    "unchanged_original": true,
+    "file_size_bytes": 1274906,
+    "reference_hashes": [],
+    "sha256": "860997d9ad6fe2ac4fe3a4366c99ed149054dac65a8ada6a1851dcd75f5e2234",
+    "path": "source_original.png"
+  },
+  "projection": {
+    "control_points": [],
+    "rotation": 0,
+    "checked_in_godot": false,
+    "max_xy_error_source_px": null,
+    "customer_access_edge": "NONE",
+    "id": "iso2x_v1",
+    "max_z_error_source_px": null
+  }
+}

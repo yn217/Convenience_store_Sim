@@ -1,0 +1,46 @@
+{
+  "asset_id": "shelf_general_open_r0_full_dense_v3",
+  "method": "OpenCV Canny + HoughLinesP on white-matted source; hand-selected long structural edge candidates",
+  "target_source_slopes": {
+    "axis_a": -0.5,
+    "axis_b": 0.5
+  },
+  "measured_segments": [
+    {
+      "axis": "long shelf edge",
+      "start_xy": [
+        296,
+        835
+      ],
+      "end_xy": [
+        958,
+        539
+      ],
+      "dx_px": 662,
+      "dy_px": -296,
+      "slope": -0.4471299093655589,
+      "target_dy_px": -331.0,
+      "endpoint_residual_px": 35.0
+    },
+    {
+      "axis": "base depth edge",
+      "start_xy": [
+        236,
+        1064
+      ],
+      "end_xy": [
+        455,
+        1180
+      ],
+      "dx_px": 219,
+      "dy_px": 116,
+      "slope": 0.5296803652968036,
+      "target_dy_px": 109.5,
+      "endpoint_residual_px": 6.5
+    }
+  ],
+  "interpretation": "Both sampled edge slopes differ from the iso2x_v1 ±0.5 target; the long shelf edge deviates by about 35 source px at its far endpoint. The second edge is short and therefore approximate. This is a focused rejection signal, not a complete calibrated world-control-point solution.",
+  "pass_tolerance": "Project spec requires ±1 source px per XY axis endpoint; candidate fails by a wide margin on the long axis.",
+  "projection_verdict": "FAIL",
+  "runtime_approved": false
+}

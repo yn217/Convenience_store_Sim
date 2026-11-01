@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_empty_structure_candidate_v10",
+  "asset_class": "interior_fixture",
+  "requested_subject": "shelf_general EMPTY single-sided gondola, faithful to v10 guide",
+  "actual_subject": "EMPTY single-sided gondola candidate; three visible shelf boards plus separate base",
+  "production_method": "codex_imagegen",
+  "stock_state": "EMPTY",
+  "stock_rendering": "none",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v10/shelf_general_empty_structure_candidate_v10.png",
+    "unchanged_original": true,
+    "file_size_bytes": 787997,
+    "sha256": "c1e22b01f9359e8f2ab0bcfea836a40f4d227b748e6bc277adda36d29389b1d0",
+    "reference_hashes": [
+      "e96ee830985afdb53d816e2bf5f3188ebc9dead3ff8eb63bf825a85f10eb1d95",
+      "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v10/shelf_general_empty_structure_candidate_v10.png",
+      "byte_size": 787997,
+      "sha256": "c1e22b01f9359e8f2ab0bcfea836a40f4d227b748e6bc277adda36d29389b1d0",
+      "git_blob_sha": "0535dc543ed88cbcafb6a0815765793223638ac8",
+      "github_uploaded": true
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v10/comparison_guide_v10.png",
+      "byte_size": 227657,
+      "sha256": "17348d96c3b3c7fd448d69443b6879d48d6fe5eb41529fcdac00248ef4ef74a4",
+      "git_blob_sha": "f68f4db89e73f9acdefb17d9e582873027896a27",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v10/projection_guide.png",
+      "byte_size": 25997,
+      "sha256": "e96ee830985afdb53d816e2bf5f3188ebc9dead3ff8eb63bf825a85f10eb1d95",
+      "git_blob_sha": "ab34469ed3696fb1bf3112aed138cae1682bcc36",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v10/guide_QA.json",
+      "byte_size": 1023,
+      "sha256": "c7dfed89fcfca8d46981952e0639c99c858dc61a1682270003f65d0fd6ece163",
+      "git_blob_sha": "136e98449b8a0215c3a75ff00c4ad390cd243e08",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v10/QA.json",
+      "byte_size": 1369,
+      "sha256": "b8409357cd87d27e4fc32e9cbf5359ad75180071b097790ff66df131112cd809",
+      "git_blob_sha": "b7fdeaa588168ddf969a73b5ab63de0686ba8089",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v10/README.md",
+      "byte_size": 3338,
+      "sha256": "20ee63719cdd335e650d6e9ca865c7e719c7ac55ed1116b82f8148bb68bc9e4b",
+      "git_blob_sha": "8cda400fc8c292407a42b3fabca00ed1d4e85eec",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Only three distinct shelf boards are visible above the separate base; required count is four.",
+      "Apparent depth/long ratio is materially below the 0.47917 guide target; precise candidate control-point measurement was not established.",
+      "Alpha bounds reach the left and bottom image edges, so safe transparent margins fail.",
+      "Surface highlights are too glossy versus the matte warm reference.",
+      "Roofless, single-sided EMPTY fixture identity is recognizable.",
+      "Review-only candidate; runtime_approved remains false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

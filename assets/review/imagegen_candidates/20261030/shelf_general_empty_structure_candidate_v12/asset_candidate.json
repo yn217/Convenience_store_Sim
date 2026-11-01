@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_empty_structure_candidate_v12",
+  "asset_class": "interior_fixture",
+  "requested_subject": "EMPTY single-sided shelf_general open gondola, geometry guide v10 and game style reference",
+  "actual_subject": "EMPTY open single-sided gondola with four boards; long-axis and depth projection fail numeric target",
+  "production_method": "codex_imagegen",
+  "stock_state": "EMPTY",
+  "stock_rendering": "none",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v12/shelf_general_empty_structure_candidate_v12.png",
+    "unchanged_original": true,
+    "file_size_bytes": 765616,
+    "sha256": "3d9c42217070ca4ec7956b0cc7afbc46e61b04fa84b72052711754b5badfe5a3",
+    "reference_hashes": [
+      "e96ee830985afdb53d816e2bf5f3188ebc9dead3ff8eb63bf825a85f10eb1d95",
+      "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v12/shelf_general_empty_structure_candidate_v12.png",
+      "byte_size": 765616,
+      "sha256": "3d9c42217070ca4ec7956b0cc7afbc46e61b04fa84b72052711754b5badfe5a3",
+      "git_blob_sha": "48d3be242b3ecfe13d8cf400bb6ecebe136ffbb1",
+      "github_uploaded": true
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v12/comparison_v12.png",
+      "byte_size": 286429,
+      "sha256": "a1edd3d64eed97018397d65a6100105d536edf6679a95bceb66a62bc6aaa525d",
+      "git_blob_sha": "053b0026f21cb8ebd4564748e76262975b530021",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v12/QA.json",
+      "byte_size": 2349,
+      "sha256": "c4f57ea5b1ca45c3899c372a1946446cac81599b3ab9c9bfa40cd070ae3a2bfe",
+      "git_blob_sha": "6a1ed70933004faeb96d3f4beed4bbd125562ca9",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v12/README.md",
+      "byte_size": 3206,
+      "sha256": "1e0a55df37e1018b41b6cb903b25d7aac4ee7061d656a12247bae6fa0e405485",
+      "git_blob_sha": "55034c31610ba23e343c54c50214e5c2ab1a99c9",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Four usable shelves and a distinct base are visible.",
+      "Long axis has correct sign but estimated slope +0.36 to +0.40 vs target +0.5; depth/long estimate approx.0.29 vs target 0.47917; visual estimates only.",
+      "Perspective/foreshortening remains; no calibrated control-point verification.",
+      "Alpha >127 has 11.6% top / 7.8% bottom margin; alpha=1 reaches bottom border.",
+      "Godot anchor, runtime, and game-scale visual QA not performed."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

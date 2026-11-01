@@ -1,0 +1,32 @@
+{
+  "asset_id": "exterior_side_planting_jp_v1",
+  "image": "side_planting_candidate_v1.png",
+  "dimensions_px": [
+    1774,
+    887
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    0,
+    1774,
+    887
+  ],
+  "alpha_bbox_ge_8_xyxy": [
+    5,
+    4,
+    1770,
+    878
+  ],
+  "sha256": "20528cca486b2094343a87e4f7e00ba03e4e92542ec4ef0aed96e0b66a23deef",
+  "visual_review": {
+    "subject": "continuous right-side Japanese planting strip of sakura, evergreens, layered shrubs and flowers",
+    "content": "pass",
+    "style": "soft painted game scenery",
+    "projection": "long axis has a visible diagonal, but not measured against world-space iso2x_v1 guide",
+    "alpha": "colored low-alpha fringe visible near some outer edges; no cleanup performed",
+    "runtime_approved": false
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

@@ -1,0 +1,38 @@
+{
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v7",
+  "status": "rejected_review_candidate",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "sha256": "ce78456a313994b7c0ce162054c8bec32f887b954812f269e11eaedf4a900a26",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "comparison": "comparison.png",
+  "visual_checks": {
+    "single_integrated_shelf_and_merchandise_sprite": "pass",
+    "stocked_row_count": {"expected": 4, "observed": 4, "result": "pass"},
+    "front_facing_package_readability": "partial_pass: package category/color is visible; game-scale legibility unverified",
+    "products_rest_on_existing_shelf_levels": "partial_pass: visually seated, contact not numerically measured",
+    "no_extra_tier_or_roof": "pass",
+    "plinth_and_shelf_exposure": "partial/fail: more compact than v5/v6, but broad exposed dark plinth top remains visible and blank shelf regions remain",
+    "projection_iso2x_v1": "unverified: Hough sampling yields 537 positive-slope segments (median +0.552) and 19 negative-slope segments (median -0.495); axis identity/control points not validated",
+    "target_dimensions_ratio": "not_checked: 0.92/1.92=0.47917 contract ratio not measured from fixture silhouette",
+    "E_plus_X_access_mapping": "not_checked",
+    "ground_anchor_and_contact": "not_checked",
+    "godot_game_scale": "not_checked"
+  },
+  "alpha": {
+    "bbox_nonzero": [0, 0, 1184, 1254],
+    "max_edge_alpha": {"top": 1, "bottom": 1, "left": 1, "right": 0},
+    "bbox_alpha_gt_8": [221, 183, 1015, 1111],
+    "margins_pct_alpha_gt_8_ltrb": [17.62, 14.59, 19.06, 11.40],
+    "required_min_margin_pct": 12,
+    "result": "fail: bottom clear margin is 11.40%; alpha=1 reaches top, bottom and left canvas borders"
+  },
+  "decision": "FAIL. Keep as review-only candidate. Four-row integrated display is promising, but alpha margin fails and structural/projection/scale verification is incomplete. Do not crop or stretch the source.",
+  "qa_scope": "focused source-image review only; no full test suite or runtime changes"
+}

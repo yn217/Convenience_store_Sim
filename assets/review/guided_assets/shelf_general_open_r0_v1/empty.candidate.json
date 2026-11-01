@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_open_r0_empty_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Roofless four-board Japanese convenience-store gondola EMPTY",
+  "actual_subject": "Four-board open shelf EMPTY review candidate",
+  "production_method": "layered_2d",
+  "stock_state": "EMPTY",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/guided_assets/shelf_general_open_r0_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 544411,
+    "sha256": "cbaeb985a25d6711d1fdce272c7368e82076cfc920706cf6971d403c354faedb"
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/source_original.png",
+      "byte_size": 544411,
+      "sha256": "cbaeb985a25d6711d1fdce272c7368e82076cfc920706cf6971d403c354faedb",
+      "git_blob_sha": "5769a3a8914f5481d16fd434d68d08edbe0be6de",
+      "github_uploaded": true
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/empty_corrected.png",
+      "byte_size": 158520,
+      "sha256": "ccd65d90353e8a346bfbb638cb981f66bb96655b6be9d45cdbd5dcae1e478aa7",
+      "git_blob_sha": "f6984bd4233e10f28e00f8462b916596353c144b",
+      "github_uploaded": true
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/four_states_comparison.png",
+      "byte_size": 242115,
+      "sha256": "b29b412eb6dbece88f3a17edf099b0ab8736065054c875f987304b92f607e485",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": true,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": [
+      0,
+      0,
+      0
+    ],
+    "image_anchor_px": [
+      380,
+      430
+    ],
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "not_checked",
+    "alpha": "not_checked",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "Local only; PR and branch fields identify intended handoff destination, not upload.",
+      "EMPTY shape and FULL density approved to proceed; runtime approval remains false.",
+      "Godot screenshots cover r0 at zoom 0.5/1/2, not inventory sync, other rotations or final runtime approval.",
+      "Guide vertex numeric checks do not certify generated artwork control points."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

@@ -1,0 +1,57 @@
+{
+  "asset_id": "single_countertop_fryer_candidate_v2",
+  "source": "Codex ImageGen; newly generated, copied without image edits",
+  "file": "fryer_candidate_v2.png",
+  "size_px": {
+    "width": 1536,
+    "height": 1024
+  },
+  "mode": "RGBA",
+  "alpha_bbox_threshold_1": [
+    53,
+    0,
+    1500,
+    997
+  ],
+  "alpha_bbox_threshold_16": [
+    306,
+    2,
+    1231,
+    995
+  ],
+  "alpha_bbox_threshold_128": [
+    307,
+    3,
+    1230,
+    994
+  ],
+  "edge_alpha": {
+    "top": {
+      "min": 0,
+      "max": 8
+    },
+    "bottom": {
+      "min": 0,
+      "max": 0
+    },
+    "left": {
+      "min": 0,
+      "max": 0
+    },
+    "right": {
+      "min": 0,
+      "max": 0
+    }
+  },
+  "sha256": "2d360b0766b308da4aef7b34591b285cca168587202b77858cad9359fae65eea",
+  "visual_review": {
+    "object": "one compact countertop fryer; two baskets and oil wells visible; front temperature control visible; no display case or counter",
+    "alpha": "RGBA has transparent pixels, but edge glow/soft shadow contaminates silhouette; not clean production alpha",
+    "style": "FAIL: metallic highlights/reflections excessive versus warm hand-painted sprite target",
+    "projection": "FAIL: top surfaces strongly exposed; perspective/foreshortening exceeds intended light-right-side iso2x view",
+    "composition": "PASS: standalone appliance, no case or counter",
+    "overall": "review_only; not production-ready"
+  },
+  "review_only": true,
+  "runtime_approved": false
+}

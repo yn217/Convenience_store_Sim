@@ -1,0 +1,58 @@
+{
+  "asset_id": "soft_serve_machine_candidate_v1",
+  "image": "soft_serve_machine_candidate_v1.png",
+  "dimensions_px": [
+    1327,
+    1185
+  ],
+  "file_size_bytes": 983344,
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "alpha_pixel_counts_ge_threshold": {
+    "1": 542641,
+    "8": 532240,
+    "128": 528970,
+    "250": 523891
+  },
+  "alpha_bbox_ge_threshold": {
+    "1": [
+      0,
+      9,
+      1270,
+      1161
+    ],
+    "8": [
+      375,
+      58,
+      987,
+      1133
+    ],
+    "128": [
+      378,
+      59,
+      986,
+      1131
+    ],
+    "250": [
+      379,
+      60,
+      985,
+      1130
+    ]
+  },
+  "opaque_255_pixels": 247,
+  "sha256": "a8f3f0d57f94ffe1808e1b725435f081ace6d4eb8a2112c61648a0620cac70c5",
+  "visual_review": {
+    "subject": "pass: soft-serve dispenser, dual flavor indicators, lever/nozzle and drip tray are recognizable",
+    "style": "FAIL for final game match: attractive but metallic highlights are too glossy/photo-render-like versus target game art",
+    "projection": "not verified: near-isometric three-quarter view; no world-space footprint control points or Godot comparison",
+    "alpha": "FAIL: genuine transparent RGBA, but a very broad low-alpha haze touches left and right edges (alpha>=8 bbox is much tighter)",
+    "geometry": "not verified against 0.92×0.92×1.50m fixture contract; image appears tall and occupies one machine only",
+    "runtime_approved": false
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

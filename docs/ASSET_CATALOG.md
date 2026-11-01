@@ -1,4 +1,7 @@
 # 什器10種・商品24SKU制作カタログ v0.1
+
+> **2026-10-29注記**: 本書の「10什器/24SKU」は初期MVPの制作カタログ。現在の運用データは`data/fixtures/mvp_v1.json`**27設備**、`data/products/mvp_v1.json`**59 SKU/19カテゴリ**。新しい2Dソース/大型設備・棚屋根の扱いは[2D制作仕様](art/2D_ASSET_PRODUCTION_AND_PROJECTION_V1.md)、状態/性能差は[2D runtime仕様](art/2D_ASSET_RUNTIME_AND_EQUIPMENT_V1.md)で追加規定する。
+
 日付: 2026-10-22。**寸法・容量・価格・スロット数はすべて初期バランス用の仮値。** 表示の統一規格は [ASSET_PRODUCTION_SPEC.md](ASSET_PRODUCTION_SPEC.md) を正とする。
 
 ## 1. 什器のテンプレート

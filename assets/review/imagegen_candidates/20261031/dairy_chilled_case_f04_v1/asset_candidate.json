@@ -1,0 +1,75 @@
+{
+  "asset_id": "dairy_chilled_case_f04_v1",
+  "outputs": [
+    {
+      "role": "source_original",
+      "github_uploaded": true,
+      "sha256": "a7ddf462f68333f9faeb96a83414adfdda76769ec361260b4360b799fa365c0c",
+      "path": "source_original.png",
+      "git_blob_sha": "a5158c5598c59e3824c9b4015e8f311975956677",
+      "byte_size": 2069213
+    },
+    {
+      "role": "qa_overlay",
+      "github_uploaded": true,
+      "sha256": "6541ebca36f32988692c74f47aa34aa2152895053ad821edff79ad7dd866430f",
+      "path": "qa_preview_white.jpg",
+      "git_blob_sha": "b4cae2a56f8cf6a82abfaeec2360a907844ffe0f",
+      "byte_size": 284371
+    }
+  ],
+  "github": {
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164,
+    "repository": "yn217/Convenience_store_Sim"
+  },
+  "asset_class": "interior_fixture",
+  "actual_subject": "Open-front refrigerated multi-tier case with milk cartons and bottles, eggs, tofu, and sliced meats",
+  "stock_state": "FULL",
+  "projection": {
+    "control_points": [],
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "max_xy_error_source_px": null,
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "max_z_error_source_px": null
+  },
+  "runtime_approved": false,
+  "requested_subject": "F04: Japanese convenience-store chilled shelf/case for milk, eggs, tofu, and processed meat",
+  "stock_rendering": "static_review_baked",
+  "production_method": "codex_imagegen",
+  "quality": {
+    "japanese_fixture_reference": "not_checked",
+    "projection": "fail",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "subject": "pass",
+    "notes": [
+      "F04 contents match: milk cartons/bottles, eggs, tofu, and chilled processed meats are visible in the same refrigerated case.",
+      "Visual QA note: the blank top hood/canopy is visually broad relative to the merchandise opening; reference conformity and dimensions require review.",
+      "Alpha QA FAIL: 1536x1024 RGBA; alpha 0=789127, 1..127=12657, 128..254=771080, alpha255=0. Alpha>=128 bbox [303,35,1325,999]; nonzero bbox [0,6,1500,1004] touches left edge. Strong semitransparent studio vignette/halo; source kept unchanged.",
+      "Projection QA FAIL: perspective-like three-quarter view, no iso2x_v1 control points, world scale, footprint, anchor, or Godot render.",
+      "No EMPTY/HALF states, independent review, or runtime approval. Candidate only; runtime_approved false."
+    ],
+    "geometry": "not_checked"
+  },
+  "geometry": {
+    "verified": false,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "footprint_tiles": null
+  },
+  "fixture_type_id": null,
+  "schema_version": 1,
+  "source": {
+    "sha256": "a7ddf462f68333f9faeb96a83414adfdda76769ec361260b4360b799fa365c0c",
+    "path": "source_original.png",
+    "file_size_bytes": 2069213,
+    "reference_hashes": [],
+    "unchanged_original": true
+  }
+}

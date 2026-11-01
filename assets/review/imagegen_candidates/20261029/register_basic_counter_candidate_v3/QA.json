@@ -1,0 +1,57 @@
+{
+  "asset_id": "register_basic_counter_candidate_v3",
+  "image": "register_basic_counter_candidate_v3.png",
+  "dimensions_px": [
+    1774,
+    887
+  ],
+  "sha256": "7fdca2d5bd5b8f56b647ace2e4e29f89c4497ec8c9f972202f87a654d7b103ed",
+  "alpha_bbox": {
+    "1": [
+      43,
+      40,
+      1744,
+      887
+    ],
+    "8": [
+      416,
+      62,
+      1465,
+      843
+    ],
+    "128": [
+      417,
+      63,
+      1465,
+      842
+    ]
+  },
+  "manual_estimated_edge_points_px": {
+    "near": [
+      627,
+      836
+    ],
+    "long_end": [
+      1434,
+      523
+    ],
+    "short_end": [
+      429,
+      717
+    ]
+  },
+  "manual_estimated_slopes": {
+    "long": -0.3878562577447336,
+    "short": 0.601010101010101
+  },
+  "target_slopes": {
+    "long": -0.5,
+    "short": 0.5
+  },
+  "limitations": [
+    "Manual endpoint estimates require independent review",
+    "Long/short slopes still differ from target; regeneration did not establish iso2x conformity",
+    "Footprint, anchor and Godot view unverified"
+  ],
+  "runtime_approved": false
+}

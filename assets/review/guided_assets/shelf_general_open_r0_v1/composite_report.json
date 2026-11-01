@@ -1,0 +1,134 @@
+{
+  "runtime_approved": false,
+  "method": "product-row extraction and local affine mapping onto unchanged EMPTY",
+  "products_only_source": true,
+  "protected_structure_changed_pixels": 0,
+  "transforms": [
+    {
+      "row": 3,
+      "source_front_rail": [
+        472,
+        1055,
+        870
+      ],
+      "affine_products_only": [
+        [
+          0.29825243903595267,
+          0.0,
+          165.80504511860966
+        ],
+        [
+          -0.05286058323047709,
+          0.23025347506132435,
+          214.7357226476886
+        ]
+      ],
+      "target_front": [
+        [
+          252.0,
+          352.2178002688
+        ],
+        [
+          497.76,
+          229.33780026879998
+        ]
+      ]
+    },
+    {
+      "row": 2,
+      "source_front_rail": [
+        490,
+        1074,
+        1025
+      ],
+      "affine_products_only": [
+        [
+          0.2901534944104191,
+          0.0,
+          163.5031842048222
+        ],
+        [
+          -0.032146666617029064,
+          0.28131209465312845,
+          177.54673121798353
+        ]
+      ],
+      "target_front": [
+        [
+          252.0,
+          402.3833502016
+        ],
+        [
+          497.76,
+          279.5033502016
+        ]
+      ]
+    },
+    {
+      "row": 1,
+      "source_front_rail": [
+        495,
+        1093,
+        1185
+      ],
+      "affine_products_only": [
+        [
+          0.2748993397825783,
+          -4.984257970489817e-17,
+          170.3548960845743
+        ],
+        [
+          -0.042583318493112025,
+          0.24796303889006616,
+          210.81699169341258
+        ]
+      ],
+      "target_front": [
+        [
+          252.0,
+          452.5489001344
+        ],
+        [
+          497.76,
+          329.6689001344
+        ]
+      ]
+    },
+    {
+      "row": 0,
+      "source_front_rail": [
+        503,
+        1102,
+        1340
+      ],
+      "affine_products_only": [
+        [
+          0.2761348424332865,
+          -1.4321879661623863e-17,
+          167.77887305784762
+        ],
+        [
+          -0.040770718436335715,
+          0.2499167979410266,
+          211.86388902291395
+        ]
+      ],
+      "target_front": [
+        [
+          252.0,
+          502.7144500672
+        ],
+        [
+          497.76,
+          379.8344500672
+        ]
+      ]
+    }
+  ],
+  "status": "review_only",
+  "limitations": [
+    "segmentation may omit pale packaging",
+    "manual product region coordinates",
+    "occlusion and product completeness require visual QA"
+  ]
+}

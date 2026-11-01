@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0-draft",
+  "asset_id": "bakery_mixed_display_chatgpt_20261029_v1",
+  "subject": "Japanese convenience store four-bay bakery, sandwich, savoury bread, donut and sweets display",
+  "requested_subject": "oden warming pot",
+  "actual_generation": "bakery mixed display; NOT oden",
+  "source": "ChatGPT ImageGen",
+  "stock_state": "FULL",
+  "source_px": [
+    1536,
+    1024
+  ],
+  "source_file": "source_original.png",
+  "file_variants": {
+    "fullres_webp": "source_fullres.webp",
+    "preview_512": "game_512.png",
+    "preview_256": "game_256.png"
+  },
+  "geometry": {
+    "projection_target": "iso2x_v1",
+    "world_to_screen_at_zoom1": "u=u0+64*(x-y); v=v0+32*(x+y)-78.38367177*z",
+    "r0_customer_facing": "+X",
+    "world_footprint_tiles": null,
+    "footprint_qa_required": true,
+    "unit_width_not_1x2": true
+  },
+  "gameplay": {
+    "fixture_grade_candidate": "large_4bay",
+    "capacity_bonus": null,
+    "operating_cost": null,
+    "power_consumption": null,
+    "note": "Equipment gameplay stats require balancing; image resolution does not determine performance."
+  },
+  "quality": {
+    "needs_alpha_background_verification": true,
+    "camera_angle_verified": false,
+    "runtime_approved": false,
+    "human_approved": false,
+    "genre_mismatch_oden": true
+  },
+  "issues": [
+    157,
+    163
+  ],
+  "draft_pr": 164,
+  "created_at": "2026-10-29"
+}

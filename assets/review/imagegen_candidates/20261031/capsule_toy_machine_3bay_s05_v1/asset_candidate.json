@@ -1,0 +1,76 @@
+{
+  "asset_id": "capsule_toy_machine_3bay_s05_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Issue #139: connected three-bay capsule toy machine",
+  "actual_subject": "Three connected colorful capsule toy vending bays with globes, capsules, knobs and retrieval hatches",
+  "production_method": "codex_builtin_imagegen",
+  "generated_date": "2026-10-31",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": null,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "alpha": "fail",
+    "framing": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "Exactly three connected bays are depicted; each has an identifiable globe, capsules, knob and retrieval hatch.",
+      "Generic fictional animal/food motifs; no legible brand names.",
+      "RGBA alpha is broadly semi-transparent: 277 fully opaque pixels; 1,145,740 pixels at alpha 128-254.",
+      "Nonzero alpha reaches top, left and bottom image boundaries; thresholded silhouette reaches y=1204 of 1205.",
+      "Perspective-like three-quarter projection is not calibrated to iso2x_v1."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "6591fb6acfb6d2fe9bc15c239677c9a58872ce46eefcac1f39e77d13ab5a46c",
+    "file_size_bytes": 2265546,
+    "unchanged_original": true,
+    "generation_tool": "Codex built-in ImageGen",
+    "generation_model_version": null,
+    "prompt_file": "prompt.txt"
+  },
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "6591fb6acfb6d2fe9bc15c239677c9a58872ce46eefcac1f39e77d13ab5a46c",
+      "byte_size": 2265546,
+      "github_uploaded": true,
+      "git_blob_sha": "b7e5f2748321b882f98d996abb8ecae77d2f15c7"
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "github_uploaded": true,
+      "sha256": "1c561f52a63b87c60081d71ccf13c656b10c4b1af9a7fae20c37b5888a9356e9",
+      "byte_size": 389009,
+      "git_blob_sha": "d01a3434f0e0e1cdabee9a7e5fde2dd7881a3db3"
+    }
+  ],
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164,
+    "issue": 139
+  }
+}

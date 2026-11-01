@@ -1,0 +1,26 @@
+{
+  "asset_id": "copier_candidate",
+  "file": "copier_candidate.png",
+  "width": 1312,
+  "height": 1199,
+  "alpha_bbox": [
+    41,
+    23,
+    1276,
+    1173
+  ],
+  "sha256": "cb31a8704c553f7140f382d72d9d0d9e33a7d6f21faf168adcc35f6517ab8345",
+  "prompt": "Use case: stylized-concept; single 2D isometric Japanese convenience-store tycoon game sprite of a standalone white/light-gray multifunction copier/printer. Transparent background. Strict 2:1 isometric orthographic view showing front and right side, whole object with margin; scanner lid, ADF, clear blue touchscreen, output trays, front paper drawers, subtle blue accents, generic no text. Warm painted game style guided by C:\\Users\\yuuna\\Downloads\\image-1792819026698.webp. No room, floor, people, collage, UI, watermark, perspective convergence, or 3D model.",
+  "observed_projection_issues": [
+    "No calibrated game-camera overlay was performed; strict 2:1 axis ratio remains visually estimated, not verified.",
+    "Verticals appear near-parallel and both front and right side are visible.",
+    "Object occupies most of canvas but retains transparent margin."
+  ],
+  "visual_review": [
+    "Single copier with scanner lid/ADF, blue touchscreen, output area and multiple front drawers are visible.",
+    "Warm painted tycoon-game rendering broadly matches reference style.",
+    "Small wheels and prominent side service panel are additional visual details; confirm against game convention."
+  ],
+  "status": "review_only",
+  "runtime_approved": false
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "asset_id": "limited_prize_display_s06_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "S06: limited-prize display case, remaining-prize board, and prize stock drawer",
+  "actual_subject": "Integrated acrylic display case with generic prizes, blank status board, and closed drawer",
+  "production_method": "codex_builtin_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "alpha": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "state_sync": "not_applicable",
+    "notes": [
+      "Integrated prize case, generic display objects, blank remaining-prize board, and closed drawer are all visible.",
+      "Subject is distinct from capsule vending and claw arcade machines.",
+      "Alpha remains broadly semitransparent despite safe image-edge margins.",
+      "Projection, footprint, dimensions, anchor and runtime display are unverified.",
+      "No lottery economy or inventory behavior is implied."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "f87e2ee42a0ae3b89b8cf925d9551a1662b966c7259dffac575d75d78a732bf8",
+    "file_size_bytes": 1195634,
+    "unchanged_original": true,
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "f87e2ee42a0ae3b89b8cf925d9551a1662b966c7259dffac575d75d78a732bf8",
+      "byte_size": 1195634,
+      "git_blob_sha": "7c677f3c2d1a85c21e14638bc14b977412c31b57",
+      "github_uploaded": true
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "sha256": "8e59f606bee697b8ca1636c90cfa1f17ed15c463abe4dab4e81f62560a342ae2",
+      "byte_size": 207555,
+      "git_blob_sha": "31b31d8cf0180bdb55c44a1066254fc7b80b586e",
+      "github_uploaded": true
+    }
+  ],
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164
+  },
+  "prompt_file": "prompt.txt"
+}

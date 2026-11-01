@@ -1,0 +1,8 @@
+Use case: game-asset
+Asset type: review-only 2D sprite of one limited-prize showcase fixture for a Japanese convenience store
+Primary request: one compact countertop acrylic prize showcase with a low clear case holding a few original generic animal mascot prizes (small plush, simple figure, badge), attached to a narrow upright blank remaining-prize board with simple colored circles and empty rows but no words or numbers; include a small closed stock drawer below.
+Style: polished cozy Japanese convenience-store management game art, clean detailed illustrated sprite with crisp outlines and warm soft highlights.
+Composition: entire integrated fixture grounded on its short counter base, three-quarter isometric view aligned to 2:1 game iso axes, customer-facing display toward lower-right, centered with transparent margin, parallel edges, no wide-angle convergence.
+Palette: warm cream and muted red trim, clear acrylic, colorful but original generic prize shapes.
+Constraints: one integrated fixture only, no brand, no copyrighted characters, no legible text, no people, no room, no floor plane, transparent background.
+Avoid: claw arcade machine, capsule vending machine, hot food display, large lottery poster, detached prize piles, busy collage, labels, numbers, arrows, measurements, watermark.

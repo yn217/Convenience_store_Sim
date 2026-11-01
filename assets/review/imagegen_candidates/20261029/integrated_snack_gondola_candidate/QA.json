@@ -1,0 +1,45 @@
+{
+  "asset_id": "integrated_snack_gondola_candidate_v1",
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen",
+    "transparent_background": true,
+    "prompt_summary": "One complete open Japanese convenience-store gondola with five shallow shelves and tightly grouped colorful snack packages integrated in one illustration; transparent background; warm game art; strict 2:1 iso axes."
+  },
+  "file": "integrated_snack_gondola_candidate.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt_0": [
+    0,
+    0,
+    1508,
+    1024
+  ],
+  "alpha_bbox_gt_8": [
+    313,
+    5,
+    1262,
+    1024
+  ],
+  "alpha_bbox_gt_128": [
+    314,
+    6,
+    1261,
+    1024
+  ],
+  "edge_alpha": {
+    "top_max": 5,
+    "bottom_max": 253,
+    "left_max": 1,
+    "right_max": 0
+  },
+  "sha256": "8c7bbc1dbcb2d288aaaa8f3b8ac095a0122560e3a06358651ca7e778f69ed3e2",
+  "decision": "review_only_projection_fail",
+  "visual_qa": "Shelf and products are integrated and dense, but the view is nearly front-facing rather than the target 2:1 isometric projection. Strong gray/brown halo is visible. Some package text is distorted. Keep as composition reference only; no crop or scaling applied.",
+  "source_preserved_without_crop_or_rescale": true
+}

@@ -1,0 +1,32 @@
+{
+  "asset_id": "atm_candidate_v3",
+  "file": "atm_candidate_v3.png",
+  "dimensions_px": [
+    887,
+    1774
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt0": [
+    41,
+    25,
+    873,
+    1744
+  ],
+  "alpha_bbox_gt8": [
+    145,
+    106,
+    755,
+    1681
+  ],
+  "alpha_edge_max": {
+    "top": 0,
+    "bottom": 0,
+    "left": 0,
+    "right": 0
+  },
+  "sha256": "96b4d7e6690ab7bf960a1e587b4945bb4ada11aeb3ae2618eea44ae9aeb25b73",
+  "projection_review": "FAIL target strict iso2x_v1: verticals are upright, but visible top planes and right side show perspective convergence rather than calibrated 2:1 isometric projection.",
+  "style_review": "Controls and red-white panels are readable; highlights remain glossy and a faint bright fringe is visible around silhouette. Transparent RGBA background; no visible environment.",
+  "status": "review_only",
+  "runtime_approved": false
+}

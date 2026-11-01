@@ -1,0 +1,19 @@
+{
+  "asset_id": "frappe_blender_candidate_v1",
+  "fixture_type_id": "frappe_blender",
+  "projection_id": "iso2x_v1",
+  "target_footprint_tiles": [
+    1,
+    1
+  ],
+  "target_dimensions_m": [
+    0.92,
+    0.92,
+    1.5
+  ],
+  "customer_access_edge": "E",
+  "ground_anchor_px": null,
+  "control_points": [],
+  "verified": false,
+  "runtime_approved": false
+}

@@ -1,0 +1,82 @@
+extends SceneTree
+## Renders Main.tscn (non-headless) and saves a PNG for manual review.
+## godot --path . --script res://tools/screenshot.gd -- <out.png> [tile_x tile_y | demo]
+
+func _initialize() -> void:
+	_run()
+
+
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	var out := args[0] if args.size() > 0 else "user://screenshot.png"
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	root.add_child(main)
+	for i in 5:
+		await process_frame
+	var world := main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+	if args.has("demo"):
+		_demo(main, world)
+	elif args.size() >= 3:
+		world.select_screen(world.projection.tile_center(Vector2i(int(args[1]), int(args[2]))))
+	var img := Image.load_from_file(ProjectSettings.globalize_path("res://assets/review/imagegen_candidates/20261029/register_basic_counter_candidate_v1/register_basic_counter_candidate_v1.png"))
+	var candidate := Sprite2D.new()
+	candidate.texture = ImageTexture.create_from_image(img)
+	candidate.centered = false
+	# Preliminary visual fit only: guessed image ground point and uniform scale, not a calibrated anchor.
+	candidate.offset = -Vector2(650, 817)
+	candidate.scale = Vector2(0.185, 0.185)
+	candidate.position = world.projection.tile_center(Vector2i(3, 8)) + Vector2(0, 80)
+	world.add_child(candidate)
+	for i in 3:
+		await process_frame
+	root.get_texture().get_image().save_png(out)
+	print("saved ", out, " tiles=", world.tile_count())
+	quit(0)
+
+
+## Demo layout: a register, shelves in different rotations, a selected shelf and a ghost.
+func _demo(main: Node, world: Node2D) -> void:
+	var app := main.get_node("AppRoot")
+	var n := 0
+	for p in [["register_basic", 3, 8, 0], ["shelf_general", 6, 3, 0], ["shelf_bread", 6, 7, 1], ["fridge_drink", 10, 2, 0], ["freezer_ice", 11, 7, 0], ["warmer_oden", 3, 3, 0]]:
+		n += 1
+		app.run_command({"command_id": "demo%d" % n, "kind": &"PLACE_FIXTURE", "type_id": p[0], "x": p[1], "y": p[2], "rotation": p[3]})
+	_fake_stock(world)
+	# Customers around the shelf at (6,3) (1x2 along y): in front, behind, and past each end.
+	world.customers = [
+		{"customer_id": "cust_000001", "tile": Vector2i(7, 3), "phase": "SELECT"}, {"customer_id": "cust_000002", "tile": Vector2i(5, 4), "phase": "WALK_SHELF", "next": Vector2i(6, 4), "progress": 0.5},
+		{"customer_id": "cust_000003", "tile": Vector2i(6, 5), "phase": "QUEUE"}, {"customer_id": "cust_000004", "tile": Vector2i(6, 2), "phase": "WALK_REGISTER", "next": Vector2i(6, 1), "progress": 0.3},
+	]
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("zoom="):
+			world.projection.set_zoom(float(a.substr(5)))
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("overlay="):
+			world.set_overlay_mode(int(a.substr(8)))
+	if OS.get_cmdline_user_args().has("cues"):
+		var cp := main.get_node("CuePlayer")
+		cp.settings_path = "user://screenshot_settings.json"
+		var mk := func(id, pr, payload): return {"cue_id": id, "source_event_id": "e", "tick": 0, "priority": pr, "animation_id": "x", "sfx_key": null, "duration_seconds": 2.0, "payload": payload}
+		cp.play([mk.call("milestone_celebrate", "important", {"name_ja": "はじめての会計"}), mk.call("low_stock_notice", "normal", {"fixture_id": "fx_0002"}), mk.call("long_queue", "normal", {}),
+				mk.call("checkout_success", "normal", {"revenue_yen": 150, "register_id": "fx_0001"}), mk.call("customer_enter", "ambient", {"customer_id": "cust_000001"})])
+		cp.advance(0.25)
+		world.get_node("TimeTint").color = LightingModel.tint(18 * 3600)
+	world.select_screen(world.projection.tile_center(Vector2i(6, 3)))
+	var bc := main.get_node("BuildController")
+	bc.begin_place("shelf_snack")
+	bc.rotate_preview()
+	world.set_hover_screen(world.projection.tile_center(Vector2i(13, 4)))
+
+
+## Visual check only: fills each fixture's rows to different levels (no stock system until #11).
+func _fake_stock(world: Node2D) -> void:
+	var levels := [0.0, 0.2, 0.5, 1.0]
+	var i := 0
+	for inst in world.fixtures:
+		var def: Dictionary = world.fixture_catalog.get_type(inst["type_id"])
+		var rows := {}
+		for slot in def["shelf_slots"]:
+			rows[slot["slot_id"]] = int(slot["capacity_units"] * levels[i % 4])
+			i += 1
+		world.shelf_stock[inst["instance_id"]] = rows
+	world.get_node("ObjectSortRoot/FixturePresenter").queue_redraw()

@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "asset_id": "eat_in_two_seat_table_i134_v1",
+  "asset_class": "interior_fixture_set",
+  "requested_subject": "Issue #134: compact two-seat round eat-in table set",
+  "actual_subject": "Round pedestal table with two separate stools and a short wall-side divider",
+  "production_method": "codex_builtin_imagegen",
+  "generated_date": "2026-10-31",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": null,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false,
+    "chair_clearance_verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "framing": "pass",
+    "alpha": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "Exactly one round pedestal table, two stools and a modest divider are visible.",
+      "Full silhouette remains inside the canvas with 46px top and 54px bottom margin at alpha >=128.",
+      "Strict alpha gate fails: max alpha 254 and zero fully opaque pixels.",
+      "Three-quarter illustration has not been calibrated to iso2x_v1; geometry/footprint and access are unknown."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "e2292410d36c44cd9b2699f33107553caaac508322b26ab4f043e3d41f7fff12",
+    "file_size_bytes": 1495844,
+    "unchanged_original": true,
+    "generation_tool": "Codex built-in ImageGen",
+    "generation_model_version": null,
+    "prompt_file": "prompt.txt"
+  },
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "e2292410d36c44cd9b2699f33107553caaac508322b26ab4f043e3d41f7fff12",
+      "byte_size": 1495844,
+      "github_uploaded": true,
+      "git_blob_sha": "ed4f070ea8daa847f8972e4302ebc7af133da2a7"
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "github_uploaded": true,
+      "byte_size": 143003,
+      "sha256": "cd1daf5718381d272a1f4bcd67b2526210b70bd58539c1a87e7881329eda99d7",
+      "git_blob_sha": "d340898941902f8b59187af93ad99170432e6f7f"
+    }
+  ],
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164,
+    "issue": 134
+  }
+}

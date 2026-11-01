@@ -1,0 +1,17 @@
+Use case: stylized-concept; complete integrated transparent 2D sprite, shelf_general FULL/r0.
+
+References:
+1. shelf_general_open_r0_integrated_FULL_v8/source_original.png — stocked content/style only.
+2. shelf_general_empty_structure_candidate_v13/shelf_general_empty_structure_candidate_v13.png — fixture form/viewpoint.
+3. shelf_general_empty_structure_candidate_v9/projection_guide.png — axis directions only.
+
+Prompt:
+Create one new integrated review sprite for shelf_general FULL/r0. It must show the complete fixture with merchandise together in a single transparent 2D image. References: Image 1 is only the stocked content style; Image 2 is the empty fixture's shape and viewpoint; Image 3 gives only axes. Exactly four merchandise shelves with goods, no fifth level, no canopy/sign. Keep the empty fixture's four boards and posts. Products are tightly faced generic Japanese convenience snacks, noodle cups, and bread with visible colorful fronts, resting on boards; no individual floating cards or thick box extrusions.
+
+Use iso2x_v1 with long-axis vector screen (+2,+1), slope +0.5, and depth vector (+2,-1), slope -0.5; 1.92m long × 0.92m deep, ratio 0.47917; access E/+X. Preserve these axes and proportions, no mirroring, turning, perspective or stretch.
+
+Make the bottom plinth a small dark vertical kickplate with only a very narrow visible top lip; no large empty horizontal top. Keep shelf boards shallow and the merchandise near the front lip, avoiding blank triangular board areas.
+
+Framing is a hard constraint: square transparent canvas. The complete shelf including feet must fit between y=18% and y=78% of canvas and x=14% and x=86%. Keep at least 18% pure transparent margin above and below, at least 14% left and right. No drop shadow, glow, halo or floor. The outermost 16% border must be perfectly transparent. Do not enlarge or crop the shelf. Ensure base bottom is far above the bottom canvas edge; place the sprite slightly above center.
+
+Clean warm, soft-painted management-game illustration with crisp readable package shapes; Japanese generic artwork without text or logos. No room, floor, gradient, labels, signage, captions, UI, extra objects, people or watermark.

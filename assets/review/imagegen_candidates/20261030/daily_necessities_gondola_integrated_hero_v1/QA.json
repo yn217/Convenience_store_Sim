@@ -1,0 +1,63 @@
+{
+  "asset_id": "daily_necessities_gondola_integrated_hero_v1",
+  "reviewer": "parent visual/content and alpha review; independent reviewer not run",
+  "overall": "FAIL",
+  "source_sha256": "c1657f9a1f8835f8bb45f66b1e77e98b4d83f30055be0782acb31e87ff3c4efc",
+  "image": {
+    "width": 1774,
+    "height": 887,
+    "format": "PNG RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_zero": 759898,
+    "alpha_1_to_127": 55658,
+    "alpha_128_to_254": 757893,
+    "alpha_255": 89,
+    "alpha_gt_0_bbox_xyxy_exclusive": [
+      0,
+      23,
+      1760,
+      887
+    ],
+    "alpha_gt_0_margins_pct": {
+      "left": 0.0,
+      "right": 0.79,
+      "top": 2.59,
+      "bottom": 0.0
+    },
+    "alpha_ge_128_bbox_xyxy_exclusive": [
+      334,
+      65,
+      1468,
+      862
+    ],
+    "alpha_ge_128_margins_pct": {
+      "left": 18.83,
+      "right": 17.25,
+      "top": 7.33,
+      "bottom": 2.82
+    },
+    "alpha_gt_0_touches_edges": true
+  },
+  "checks": {
+    "a01_daily_necessities_gondola": "pass: tissue packs, toothbrushes, toiletries, detergent/shampoo-like bottles, masks and household goods are visible",
+    "single_integrated_fixture": "pass",
+    "products_as_loose_cards": "pass: products are integrated on shelves and side hooks",
+    "transparent_background": "pass: RGBA alpha channel present; opaque pixels exist, though alpha fringe remains",
+    "safe_margin": "fail: alpha>=128 top/bottom margins are 7.33%/2.82%; weak alpha reaches left, right and bottom bounds; brief requested 12% on every edge",
+    "iso2x_v1_projection": "fail: view is not calibrated against iso2x_v1 world control points; visible horizontal run appears too shallow and perspective is strong",
+    "dimensions_footprint_ground_anchor": "not_checked",
+    "godot_game_scale": "not_checked",
+    "other_rotations": "not_checked",
+    "runtime_approved": false
+  },
+  "notes": [
+    "A01 product class and one integrated full gondola are clearly identifiable.",
+    "Source RGBA has 89 alpha=255 pixels and a large semitransparent fringe; nonzero alpha reaches three canvas boundaries.",
+    "The visible silhouette nearly fills the vertical canvas: top margin 7.33%, bottom 2.82% at alpha>=128.",
+    "2:1 canvas aspect is not proof of iso2x_v1 projection; world dimensions, footprint, anchor and Godot view are unverified.",
+    "The source image was kept unchanged. White-background QA composite is separate. Review only, runtime_approved false."
+  ]
+}

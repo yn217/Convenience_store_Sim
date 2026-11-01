@@ -1,0 +1,36 @@
+{
+  "guide_id": "shelf_general_empty_structure_candidate_v10",
+  "canvas_px": [
+    1500,
+    1500
+  ],
+  "alpha_bbox_xyxy": [
+    190,
+    175,
+    989,
+    1282
+  ],
+  "alpha_edge_contact": false,
+  "product_shelves": 4,
+  "base_separate": true,
+  "long_vector_px": [
+    540,
+    270
+  ],
+  "depth_vector_px": [
+    258.75,
+    -129.375
+  ],
+  "long_length_px": 603.74,
+  "depth_length_px": 289.29,
+  "depth_to_long_ratio": 0.47917,
+  "game_contract_ratio": 0.47917,
+  "ratio_matches_game_contract": true,
+  "long_axis_slope": 0.5,
+  "depth_axis_slope": -0.5,
+  "backboard_vertical_vector": "positive image y",
+  "backboard_within_canvas": true,
+  "projection_source": "scripts/presentation/iso_projection.gd: screen vectors (+64,+32) and (-64,+32) per world metre at zoom 1",
+  "fixture_source": "data/fixtures/mvp_v1.json: shelf_general dimensions 0.92 x 1.92 x 1.50m, footprint 1x2, access E",
+  "guide_sha256": "e96ee830985afdb53d816e2bf5f3188ebc9dead3ff8eb63bf825a85f10eb1d95"
+}

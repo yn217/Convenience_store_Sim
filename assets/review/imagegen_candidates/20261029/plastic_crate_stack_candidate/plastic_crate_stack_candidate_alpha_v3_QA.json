@@ -1,0 +1,29 @@
+{
+  "asset_id": "plastic_crate_stack_candidate_alpha_v3",
+  "file": "plastic_crate_stack_candidate/plastic_crate_stack_candidate_alpha_v3.png",
+  "generation_tool": "built-in Codex image_gen (transparent_background=true)",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox": [
+    89,
+    23,
+    1482,
+    992
+  ],
+  "alpha_bbox_threshold_8": [
+    366,
+    35,
+    1171,
+    990
+  ],
+  "sha256": "c48869a46f7f24c7146555f9b9da57dcbdf3dfc0a6e75272d36cf91297642ffb",
+  "visual_observations": [
+    "Three open lattice crates with readable rims and interiors; muted matte blue improved relative to v2, but diffuse blue alpha haze still surrounds the silhouette (alpha>=1 bbox is much wider than alpha>=8 bbox). The camera still appears perspective-like rather than calibrated iso2x; review-only."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "attempt": 1,
+    "model": "built-in ImageGen edit",
+    "input": "empty_corrected.png",
+    "input_sha256": "ccd65d90353e8a346bfbb638cb981f66bb96655b6be9d45cdbd5dcae1e478aa7",
+    "user_shape_approval": "shape_approval.json",
+    "requested_subject": "approved shelf with integrated FULL stock, r0",
+    "stock_by_row_top_to_bottom": [
+      "snack pouches",
+      "instant-noodle cups",
+      "wrapped breads",
+      "snacks and chocolate cartons"
+    ],
+    "constraints": [
+      "preserve fixture pixel geometry",
+      "four sales boards",
+      "uppermost board stocked",
+      "no canopy",
+      "no text or logos",
+      "transparent background"
+    ],
+    "runtime_approved": false,
+    "status": "generated_review_only",
+    "output": "full_source_original.png",
+    "output_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "2ee8ee93ac41471a1f998ecde70b237b20c94b3481338666df28c0fc7ccb5a04",
+    "visual_observation": "Four stocked sales boards, no canopy, categories identifiable. Fixture appears redrawn and needs control-point registration; not a matching state set yet.",
+    "geometry_status": "FAIL; products-only correction required"
+  }
+]

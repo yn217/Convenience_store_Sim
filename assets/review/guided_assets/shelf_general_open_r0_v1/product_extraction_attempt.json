@@ -1,0 +1,12 @@
+{
+  "scope": "products-only extraction; no full shelf regeneration",
+  "input": "full_source_original.png",
+  "input_sha256": "2ee8ee93ac41471a1f998ecde70b237b20c94b3481338666df28c0fc7ccb5a04",
+  "method": "built-in ImageGen edit",
+  "requested_edit": "Remove all fixture pixels; keep four complete merchandise rows in place on transparent background",
+  "status": "generated; composite visually reviewed",
+  "runtime_approved": false,
+  "output": "products_only_original.png",
+  "position_preserved": false,
+  "correction": "Components separated and merchandise row envelopes fitted to approved EMPTY"
+}

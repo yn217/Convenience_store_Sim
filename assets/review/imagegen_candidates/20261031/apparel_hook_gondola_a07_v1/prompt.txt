@@ -1,0 +1,8 @@
+Use case: game-asset
+Asset type: review-only integrated 2D fixture sprite for a Japanese convenience-store interior clothing essentials section
+Primary request: one compact freestanding narrow endcap rack with built-in peg hooks and two shallow lower shelves, stocked naturally with small generic socks, folded plain T-shirts, simple gloves and knit caps. Every item is supported by a hook or shelf, not floating cards.
+Style: polished cozy Japanese convenience-store management game art, clean detailed illustrated isometric sprite, crisp outlines, fine readable garment shapes, soft warm highlights.
+Composition: entire grounded rack and its products, three-quarter isometric view aligned to strict 2:1 game iso axes, customer-facing merchandise toward lower-right, centered with generous transparent margin, parallel shelf edges, no wide-angle perspective.
+Palette: cream metal frame, navy and muted red accents, varied but restrained clothing colors.
+Constraints: only fictional generic apparel, no logos or legible text, no people, no room, no floor plane, transparent background, compact store scale.
+Avoid: medicine, pharmacy symbols, large clothing store display, detached packaging, boxes, floating products, broad empty shelf surfaces, collage, labels, arrows, measurements, watermark.

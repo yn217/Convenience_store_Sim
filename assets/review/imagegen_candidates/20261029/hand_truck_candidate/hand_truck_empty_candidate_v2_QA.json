@@ -1,0 +1,17 @@
+{
+  "asset_id": "hand_truck_empty_candidate_v2",
+  "file": "hand_truck_candidate/hand_truck_empty_candidate_v2.png",
+  "generation_tool": "built-in Codex image_gen",
+  "width": 1223,
+  "height": 1286,
+  "mode": "RGB",
+  "alpha_bbox": null,
+  "sha256": "5b57a8a46eb3cc2aa27fb5701e1d0e54fe5567abb894d62789a8ad92b0846d8d",
+  "subject": "empty red-orange hand truck/dolly",
+  "visual_observations": [
+    "FAIL: checkerboard transparency pattern is baked into RGB image (mode RGB); iso2x axes are not respected; reflective finish is too strong. Preserve for prompt diagnosis only."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false
+}

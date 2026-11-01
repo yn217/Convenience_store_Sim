@@ -1,0 +1,54 @@
+{
+  "asset_id": "shelf_general_empty_structure_candidate_v5",
+  "kind": "review_only_candidate",
+  "runtime_approved": false,
+  "source_image": "shelf_general_empty_structure_candidate_v5.png",
+  "source_image_preserved_without_edits": true,
+  "dimensions_px": [1210, 1300],
+  "sha256": "54d7a2cdb433152071ce519d6f4b00bdbcbf46fab36050b149afd7b489d37192",
+  "alpha": {
+    "mode": "RGBA",
+    "alpha_bbox_gt_0": [102, 61, 1200, 1300],
+    "alpha_bbox_gt_127": [171, 64, 990, 1241],
+    "alpha_extrema": [0, 255],
+    "result": "PARTIAL PASS: true alpha exists, unlike v4, but low-alpha reaches the bottom and nearly reaches the right edge; strong-alpha bottom margin is only 59px (4.5%), below the 10% request."
+  },
+  "generation": {
+    "tool": "Codex built-in ImageGen",
+    "date": "2026-10-30",
+    "prompt": "Render the first image as one finished high-quality 2D game sprite, keeping its exact silhouette, edge directions, shelf count, and shallow depth proportions. The first image is a geometry/projection guide: preserve its shelf outline and positions; do not use the second reference's building scene, only its warm polished miniature isometric game-art finish. Make the four shelves extremely shallow ledges exactly as in guide, not deep trays. Keep the back panel, two slim vertical posts, four ledges with narrow front lip/price rail, and very thin dark base. No roof, canopy, cap, or additional shelf. Do not add products. Exact iso2x_v1 axes from guide: all long shelf edges run screen-right-down with vertical/horizontal slope 0.5; depth edges run screen-right-up with slope -0.5; uprights vertical. Do not change camera or perspective. Use matte warm off-white metal with fine restrained perforations, subtle soft painted shading and small clean highlights; keep the same geometry without thickening parts. Transparent RGBA background, no floor or shadow. Do not draw a checkerboard or any background pattern. Keep at least 10% transparent margin around whole object. No text, labels, logos, callouts, border, collage, extra views, people, or props.",
+    "geometry_guide": {
+      "file": "projection_guide.png",
+      "sha256": "f591cf10f9b24629949904b3bd00de2b3200ab672f139960218104b63af7d479",
+      "dimensions_px": [1024, 1100],
+      "basis": {
+        "long_plus_x": [500, 250],
+        "depth_reverse_y": [120, -60],
+        "vertical": [0, -520],
+        "shelf_depth_vector": [80, -40]
+      }
+    },
+    "references": [
+      "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v5/projection_guide.png",
+      "User-provided game-style screenshot image-1792819026698.webp"
+    ],
+    "transparent_background_requested": true
+  },
+  "content_qa": {
+    "structure": "PASS partial: four shelf levels, open single-sided structure, vertical perforated back, no roof or products.",
+    "shelf_depth": "FAIL: projected surfaces still read as broad shelf decks rather than very shallow ledges.",
+    "base": "FAIL: dark base remains tall and visually heavy, not a thin kick plate.",
+    "projection": "Independent reviewer: PASS as a visual approximation (long axis about +0.5, depth about -0.5). No exact vector fit or Godot overlay was performed, so mathematical alignment remains unverified.",
+    "alpha": "FAIL margin: low-alpha reaches bottom and comes within 10px of right edge; strong-alpha margin below 10% at bottom. No background is baked; alpha is genuine RGBA.",
+    "dimensions_and_anchor": "UNVERIFIED: no world-space dimensions, footprint, or ground-anchor calibration.",
+    "game_scale": "UNVERIFIED: not rendered in Godot at runtime zoom.",
+    "independent_review": "FAIL overall. Structure and approximate iso2x_v1 slopes pass visually; shelf depth and base remain too large. Alpha=1 touches the bottom edge, so full transparent margin fails. Dimensions, anchor, and Godot display are UNKNOWN."
+  },
+  "status": "review_only_provisional_fail",
+  "notes": [
+    "v5 used a transparent 2D geometric projection guide to constrain the generated image; guide and original output are both preserved.",
+    "No crop, warp, mirror, alpha cleanup, or runtime integration was applied.",
+    "Do not generate FULL/HALF or other directions until the EMPTY structure gate passes."
+  ]
+}
+

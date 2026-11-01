@@ -1,0 +1,71 @@
+{
+  "asset_id": "shelf_general_empty_structure_candidate_v13",
+  "reviewer": "parent visual and mask review (separate from generator)",
+  "overall": "FAIL",
+  "source_sha256": "4556ce7fb92b0d81d5760b37efad6b8ef03e2e5864ab7010d2106111d3537086",
+  "image": {
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "alpha_bbox_any_nonzero_xyxy": [
+      0,
+      39,
+      1242,
+      1254
+    ],
+    "alpha_bbox_gt_1_xyxy": [
+      158,
+      144,
+      823,
+      1085
+    ],
+    "alpha_bbox_gt_8_xyxy": [
+      160,
+      146,
+      821,
+      1083
+    ],
+    "alpha_bbox_gt_127_xyxy": [
+      161,
+      147,
+      820,
+      1082
+    ],
+    "edge_alpha_minmax": {
+      "top": [
+        0,
+        0
+      ],
+      "bottom": [
+        0,
+        1
+      ],
+      "left": [
+        0,
+        1
+      ],
+      "right": [
+        0,
+        0
+      ]
+    },
+    "guide_silhouette_iou_after_uniform_canvas_fit": {
+      "threshold_gt_1": 0.9761615352078186,
+      "threshold_gt_8": 0.9795679778413281,
+      "threshold_gt_127": 0.980539010171454
+    }
+  },
+  "checks": {
+    "subject_empty_single_sided_gondola": "pass",
+    "four_shelf_boards_plus_separate_base": "pass",
+    "silhouette_vs_exact_projection_guide": "pass: IoU 0.9805 at alpha>127 after uniform image fit; bbox differs by at most about 11px",
+    "internal_projection_control_points": "not_checked: silhouette overlap does not prove all shelf-edge vectors numerically",
+    "no_perspective_or_axis_drift": "not_checked",
+    "visual_style": "partial: warm matte materials and gentle shading; game-size legibility not tested",
+    "alpha_12_percent_margin": "fail: >127 alpha bbox leaves 11.7% top margin; alpha level 1 touches left and bottom borders",
+    "Japanese_fixture_reference_review": "not_checked: geometry guide is contract-based, not an approved real-store reference",
+    "game_anchor_and_scale": "not_checked",
+    "godot_runtime": "not_checked"
+  },
+  "decision": "Promising geometry-preserving styled review candidate. Preserve original unchanged. Overall not accepted until numeric edge/control-point projection, safe alpha margins, Japanese fixture reference review, Godot game-scale/anchor checks and user approval are complete. runtime_approved remains false."
+}

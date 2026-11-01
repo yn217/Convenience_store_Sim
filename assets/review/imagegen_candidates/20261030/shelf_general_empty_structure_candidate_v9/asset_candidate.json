@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_empty_structure_candidate_v9",
+  "asset_class": "interior_fixture",
+  "requested_subject": "日本式コンビニ用の片面アクセス開放型汎用棚 EMPTY",
+  "actual_subject": "商品用棚面3段と大型の底台に見える片面棚。無商品・屋根なし。ゲーム寸法比に合わない古い0.389比率ガイドから生成した失敗候補。",
+  "production_method": "codex_imagegen",
+  "stock_state": "EMPTY",
+  "stock_rendering": "none",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v9/shelf_general_empty_structure_candidate_v9.png",
+    "unchanged_original": true,
+    "file_size_bytes": 867568,
+    "sha256": "426f5651b0a886e5a323240cf1e91143988744f3bfca13368e57d11a1bf8584f",
+    "reference_hashes": [
+      "c9ed5742563e473fdb9fe6059d7df4ceb31b0d82e7d371254b1e0782bc4ec5a9",
+      "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v9/shelf_general_empty_structure_candidate_v9.png",
+      "byte_size": 867568,
+      "sha256": "426f5651b0a886e5a323240cf1e91143988744f3bfca13368e57d11a1bf8584f",
+      "git_blob_sha": "9cb52928cdedbea76c7204dff72af05add1ad080",
+      "github_uploaded": true
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v9/comparison_guide_v9.png",
+      "byte_size": 239060,
+      "sha256": "308c2592ba5db64ea07b2ddde17464f1f4e16362d78263d040232c88a99e22b3",
+      "git_blob_sha": "cdf608a4e342ce68872ff9329be7850f787c2835",
+      "github_uploaded": true
+    },
+    {
+      "role": "other",
+      "path": "assets/review/imagegen_candidates/20261030/shelf_general_empty_structure_candidate_v9/projection_guide.png",
+      "byte_size": 26325,
+      "sha256": "c9ed5742563e473fdb9fe6059d7df4ceb31b0d82e7d371254b1e0782bc4ec5a9",
+      "git_blob_sha": "0a283517907831eeefa35f57333ebc41068b974e",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Guide used projected depth/long ratio 0.3889. This is inconsistent with the current game projection (equal px/m on X and Y) and shelf_general dimensions 0.92m/1.92m = 0.47917; candidate cannot pass projection gate.",
+      "Independent review sees only 3 usable product shelves excluding base, not the required 4.",
+      "True RGBA alpha bbox is (0, 0, 1232, 1254) on 1254x1254; alpha touches left/top/bottom edges. Strong alpha bbox is (225, 133, 943, 1185).",
+      "Image also has an oversized/irregular upper shelf extension and broad base surface; visual fixture quality fails.",
+      "Original image copied unchanged. No game runtime screenshot, world anchor, or actual display-size validation."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

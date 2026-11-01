@@ -1,0 +1,13 @@
+{
+  "asset_id": "soft_serve_accessory_stand_candidate_v1",
+  "production_method": "Codex sub-agent built-in ImageGen",
+  "generated_at": "2026-10-29",
+  "source_original": "assets/review/imagegen_candidates/20261029/soft_serve_accessory_stand_candidate_v1/soft_serve_accessory_stand_candidate_v1.png",
+  "source_unchanged": true,
+  "source_sha256": "bd57ccdd9cf418feab64c182b6ca89a8ec9ae0a8f5df9a4b5e1655e6b4f219e9",
+  "style_reference": "C:/Users/yuuna/Downloads/image-1792819026698.webp",
+  "style_reference_sha256": "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac",
+  "rights": "Codex ImageGen output; no third-party source artwork copied",
+  "review_status": "review_only",
+  "runtime_approved": false
+}

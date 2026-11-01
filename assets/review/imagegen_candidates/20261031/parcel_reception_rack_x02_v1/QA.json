@@ -1,0 +1,44 @@
+{
+  "content": {
+    "notes": "Small parcel reception/sorting counter with sealed parcels in open cubbies, distinct from a mailbox and parcel-locker wall.",
+    "verdict": "PASS"
+  },
+  "asset_id": "parcel_reception_rack_x02_v1",
+  "overall": "FAIL",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_sha256": "086f706099a113289d6bf474496bebeab38871baced9a1e1e71f4ae43a456e07",
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Uncalibrated three-quarter projection; no world-space controls or Godot validation."
+  },
+  "runtime_approved": false,
+  "source_dimensions_px": [
+    1312,
+    1199
+  ],
+  "alpha": {
+    "maximum": 255,
+    "verdict": "FAIL",
+    "fully_opaque_pixels": 489,
+    "alpha_128_to_254_pixels": 660324,
+    "minimum": 0,
+    "nonzero_bbox_xyxy": [
+      113,
+      104,
+      1244,
+      1183
+    ],
+    "alpha_1_to_127_pixels": 14241,
+    "reason": "Safe canvas margins are present, but the subject contains many semitransparent pixels and only 489 fully opaque pixels.",
+    "fully_transparent_pixels": 898034,
+    "touches_any_edge": false,
+    "threshold_128_bbox_xyxy": [
+      217,
+      120,
+      1119,
+      1112
+    ]
+  }
+}

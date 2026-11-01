@@ -1,0 +1,24 @@
+{
+  "delivery_commit": "4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a",
+  "verified_remote_files": 10,
+  "runtime_approved": false,
+  "issue_state": "open; not closed by this delivery",
+  "user_approvals": [
+    "EMPTY shape for production",
+    "FULL product size and density for HALF production"
+  ],
+  "remaining": [
+    "complete artwork control-point QA",
+    "package-boundary independent visual QA",
+    "other rotations after r0 gate",
+    "night and customer occlusion",
+    "actual inventory synchronization"
+  ],
+  "stock_states": [
+    "EMPTY",
+    "LOW",
+    "MEDIUM",
+    "FULL"
+  ],
+  "low_delivery": "local; pending upload verification"
+}

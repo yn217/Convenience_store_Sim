@@ -1,0 +1,14 @@
+{
+  "asset_id": "exterior_side_planting_jp_v2",
+  "projection": "iso2x_v1 target",
+  "expected_long_axis_rise_run": 0.5,
+  "observed_long_axis_rise_run_visual_estimate": 0.19,
+  "world_start": null,
+  "world_end": null,
+  "anchor": "ground baseline; not calibrated",
+  "crop": "none",
+  "length": "unknown until world-space guide supplied",
+  "occlusion": "store wall in front where applicable",
+  "status": "review_only_projection_unverified",
+  "runtime_approved": false
+}

@@ -1,0 +1,43 @@
+{
+  "runtime_approved": false,
+  "overall": "FAIL",
+  "source_file": "source_original.png",
+  "content": {
+    "verdict": "PASS",
+    "notes": "One four-tier backroom rack with cartons and blue reusable crates resting on supported shelves."
+  },
+  "source_dimensions_px": [
+    1312,
+    1199
+  ],
+  "source_sha256": "860997d9ad6fe2ac4fe3a4366c99ed149054dac65a8ada6a1851dcd75f5e2234",
+  "alpha": {
+    "alpha_1_to_127_pixels": 19772,
+    "verdict": "FAIL",
+    "nonzero_bbox_xyxy": [
+      43,
+      25,
+      1292,
+      1158
+    ],
+    "fully_transparent_pixels": 941723,
+    "alpha_128_to_254_pixels": 610957,
+    "reason": "Broad semitransparent pixels through the subject; very few fully opaque pixels.",
+    "threshold_128_bbox_xyxy": [
+      288,
+      114,
+      1029,
+      1154
+    ],
+    "minimum": 0,
+    "maximum": 255,
+    "fully_opaque_pixels": 636
+  },
+  "source_mode": "RGBA",
+  "asset_id": "backroom_stock_rack_x01_v1",
+  "projection": {
+    "id": "iso2x_v1",
+    "reason": "Uncalibrated three-quarter isometric-looking view; no world-space control points, footprint, anchor, or Godot render.",
+    "verdict": "FAIL"
+  }
+}

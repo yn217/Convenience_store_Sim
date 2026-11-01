@@ -1,0 +1,43 @@
+{
+  "asset_id": "ice_cream_case_candidate_v1",
+  "issue": 163,
+  "status": "review_only",
+  "runtime_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen",
+    "transparent_background": true,
+    "prompt_summary": "Single low Japanese convenience-store island ice cream freezer with double sliding glass lids and visible bars/tubs, white base and blue stripe."
+  },
+  "file": "ice_cream_case_candidate_v1.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt_0": [
+    0,
+    17,
+    1398,
+    1008
+  ],
+  "alpha_bbox_gt_8": [
+    146,
+    59,
+    1396,
+    1005
+  ],
+  "alpha_bbox_gt_128": [
+    147,
+    60,
+    1395,
+    1004
+  ],
+  "edge_alpha_max": {
+    "top": 0,
+    "bottom": 0,
+    "left": 1,
+    "right": 0
+  },
+  "sha256": "af2b0bd87b13afbdf30f414211d8a50852b6d7d74810de3ddb4dbbdd88668f5e",
+  "visual_qa": "Low island freezer, paired glass lids, ice cream bars/tubs and blue stripe read clearly. FAIL for target sprite: elevated overhead camera is too strong and long footprint axis is too shallow for iso2x_v1; substantial dark studio halo and glossy glass/metal. True alpha edge and game scale need separate calibration; no crop or scale applied."
+}

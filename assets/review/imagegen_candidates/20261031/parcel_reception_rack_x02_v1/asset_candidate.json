@@ -1,0 +1,75 @@
+{
+  "github": {
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164
+  },
+  "source": {
+    "sha256": "086f706099a113289d6bf474496bebeab38871baced9a1e1e71f4ae43a456e07",
+    "reference_hashes": [],
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1041773
+  },
+  "runtime_approved": false,
+  "stock_state": "FULL",
+  "actual_subject": "Compact counter-height parcel receiving/sorting rack with a worktop and cubbies holding sealed parcels",
+  "quality": {
+    "human_visual": "not_checked",
+    "notes": [
+      "X02 reads as a compact parcel receiving/sorting counter with parcels in open cubbies; it is not a mailbox or parcel-locker wall.",
+      "Parcels are placed inside supported cubbies and on the worktop; no detached floating props.",
+      "Alpha QA FAIL: 1312x1199 RGBA; alpha0=898034, 1..127=14241, 128..254=660324, alpha255=489. Threshold>=128 bbox [217,120,1119,1112]; nonzero bbox [113,104,1244,1183], with safe margins to all image edges. The subject itself remains broadly semitransparent.",
+      "Projection QA FAIL: uncalibrated perspective-like three-quarter view; no iso2x_v1 control points, dimensions, anchor, footprint, or Godot render.",
+      "Service features/economy are out of scope; no EMPTY/HALF states or independent approval. runtime_approved false."
+    ],
+    "alpha": "fail",
+    "godot_runtime": "not_checked",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "subject": "pass",
+    "state_sync": "not_checked",
+    "japanese_fixture_reference": "not_checked"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "verified": false,
+    "world_ground_origin_m": null
+  },
+  "asset_class": "interior_fixture",
+  "stock_rendering": "static_review_baked",
+  "schema_version": 1,
+  "production_method": "codex_imagegen",
+  "fixture_type_id": null,
+  "asset_id": "parcel_reception_rack_x02_v1",
+  "projection": {
+    "control_points": [],
+    "id": "iso2x_v1",
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "NONE",
+    "rotation": 0
+  },
+  "requested_subject": "X02: small parcel delivery reception and parcel holding rack for a Japanese convenience store",
+  "outputs": [
+    {
+      "sha256": "086f706099a113289d6bf474496bebeab38871baced9a1e1e71f4ae43a456e07",
+      "git_blob_sha": "e618bf90fa621e606b57cf7dc1ee39452d88efc5",
+      "path": "source_original.png",
+      "byte_size": 1041773,
+      "role": "source_original",
+      "github_uploaded": true
+    },
+    {
+      "sha256": "6665305112dd538fcc0771c7817fc05dfa90b2b37f997b596c77083f84330ce0",
+      "git_blob_sha": "6990c2234da866f7ac85bc1c41629f4fb83c61d5",
+      "path": "qa_preview_white.jpg",
+      "byte_size": 150724,
+      "role": "qa_overlay",
+      "github_uploaded": true
+    }
+  ]
+}

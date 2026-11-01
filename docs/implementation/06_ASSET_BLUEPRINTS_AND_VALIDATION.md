@@ -1,5 +1,8 @@
 # Blender実装用アセットBlueprint・サイズ統一・自動検証仕様 v1.0
 
+> **2026-10-29 2D適用範囲追補**: 本書のBlender生成工程は過去の3Dソースまたは再現可能な手続き的素材の制作例であり、新規の2D画像生成素材にBlenderを要求しない。新規2Dの[型式/投影/校正](../art/2D_ASSET_PRODUCTION_AND_PROJECTION_V1.md)・[runtime状態/設備グレード](../art/2D_ASSET_RUNTIME_AND_EQUIPMENT_V1.md)・[納品QA](../art/2D_ASSET_EXTERIOR_AND_PIPELINE_V1.md)を採用する。数値寸法は[02](02_GRID_AND_ASSET_CONTRACT.md)が正本であり、**ImageGenのプロンプトだけでは投影校正PASSにならない**。
+
+
 > 目的: アセット担当者が、寸法/画像サイズ/向き/アクセス面を独自解釈せずBlender Pythonで同じ結果を作る。
 > **[02_GRID_AND_ASSET_CONTRACT](02_GRID_AND_ASSET_CONTRACT.md)が物理寸法・座標系の正本。**
 > まだモデルもPNGも生成していない。ここの数値は制作時の初期パラメータとして使用する。

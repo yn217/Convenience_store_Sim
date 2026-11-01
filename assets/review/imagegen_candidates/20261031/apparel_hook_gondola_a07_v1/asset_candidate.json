@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "asset_id": "apparel_hook_gondola_a07_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "A07: compact convenience-store apparel hook gondola for socks, gloves, knit caps and folded clothing",
+  "actual_subject": "Compact cream-colored hook rack with socks, gloves, knit caps and folded shirts",
+  "production_method": "codex_builtin_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "checked_in_godot": false,
+    "customer_access_edge": "FRONT"
+  },
+  "geometry": {
+    "image_anchor_px": null,
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "alpha": "fail",
+    "projection": "fail",
+    "geometry": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "state_sync": "not_applicable",
+    "notes": [
+      "Clothing is displayed on hooks and shelves as one integrated fixture; no floating product cards.",
+      "No medicine/pharmacy content or claims.",
+      "Alpha has broad semitransparency and 24 nonzero pixels at the bottom edge.",
+      "Projection, dimensions, footprint, anchor and Godot display are unverified.",
+      "No SKU, sales, regulatory or runtime behavior is implied."
+    ]
+  },
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "80d2aedcd78165cce30d2a130abe55f207f4756ef4779cab04947a47a76f296f",
+    "file_size_bytes": 1545368,
+    "unchanged_original": true,
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "path": "source_original.png",
+      "role": "source_original",
+      "sha256": "80d2aedcd78165cce30d2a130abe55f207f4756ef4779cab04947a47a76f296f",
+      "byte_size": 1545368,
+      "git_blob_sha": "0518038aaf195719d0402ab991d17cdf647b8da1",
+      "github_uploaded": true
+    },
+    {
+      "path": "qa_preview_white.jpg",
+      "role": "alpha_diagnostic",
+      "sha256": "10931b3660d18cb915fe3f2f5b2c943c19f14e277705c7abf08724d70d07842d",
+      "byte_size": 281551,
+      "git_blob_sha": "254d9d371ba68ea6d39452d3159f95a164f21c86",
+      "github_uploaded": true
+    }
+  ],
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "draft_pr": 164
+  },
+  "prompt_file": "prompt.txt"
+}

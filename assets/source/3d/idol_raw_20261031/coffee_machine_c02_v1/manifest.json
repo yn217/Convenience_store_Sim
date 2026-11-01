@@ -1,0 +1,22 @@
+{
+  "asset_id": "coffee_machine_c02_v1",
+  "format": "3D Gaussian Splat PLY, not polygon mesh",
+  "gaussians": 262144,
+  "finite_attributes": true,
+  "sha256": "b09ca0a6b53637a1674f1945565c7e7a012cc0c1b24cb71a733e6dda6aa551f0",
+  "input_image_sha256": "f2204414a21b0aec0d9730eec5de76efc1adaf4f34a28596edf7592935a4bf4f",
+  "model": "speridlabs/idol",
+  "sdk_commit": "4702a7f00850e34b6e83a2170cc123c3e9570744",
+  "generation": {
+    "steps": 50,
+    "seed": 42,
+    "mode": "synthetic",
+    "num_gaussians": 262144,
+    "optimize": false
+  },
+  "status": "raw_3d_candidate_for_other_chat_adjustment",
+  "runtime_approved": false,
+  "visual_geometry_qa": "raw generation; adjustment and shape review delegated to another chat",
+  "license": "Idol Apache-2.0; dependency DINOv3/FLUX.2-dev terms require separate review",
+  "issue_asset_id": "C02"
+}

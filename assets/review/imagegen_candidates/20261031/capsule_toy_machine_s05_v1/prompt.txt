@@ -1,0 +1,8 @@
+Use case: game-asset
+Asset type: review-only 2D sprite of one capsule toy machine for a Japanese convenience-store interior
+Primary request: a single freestanding one-column capsule vending machine, with one large clear round capsule globe on top containing colorful generic toy capsules, a compact red-and-cream body, one simple coin slot and turning knob on the front, and a clearly visible capsule pickup door at the lower front.
+Style: polished cozy Japanese convenience-store management game art, clean illustrated isometric sprite with crisp outlines and warm soft highlights.
+Composition: entire machine and grounded base, three-quarter game-isometric view aligned to 2:1 iso axes, operating face toward lower-right, centered with wide transparent margin, parallel vertical edges, no wide-angle perspective.
+Use only original generic animal/food mini-toy capsules with no recognizable characters.
+Constraints: transparent background, no brand names, no legible text, no people, no room, no floor plane, one machine only.
+Avoid: claw arcade machine, multiple machines, blind boxes, loose floating capsules, detached props, oversized coin decals, collage, labels, arrows, dimensions, watermark.

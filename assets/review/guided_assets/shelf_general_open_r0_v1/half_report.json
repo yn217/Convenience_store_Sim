@@ -1,0 +1,34 @@
+{
+  "runtime_approved": false,
+  "stock_state": "MEDIUM",
+  "display_name": "HALF limited trial",
+  "protected_changed_pixels": 0,
+  "outside_product_support_changed_pixels": 0,
+  "cuts": [
+    {
+      "row": 0,
+      "seam_x_min": 375,
+      "seam_x_max": 388,
+      "method": "gradient-following package separator; visual QA required"
+    },
+    {
+      "row": 1,
+      "seam_x_min": 372,
+      "seam_x_max": 393,
+      "method": "gradient-following package separator; visual QA required"
+    },
+    {
+      "row": 2,
+      "seam_x_min": 374,
+      "seam_x_max": 383,
+      "method": "gradient-following package separator; visual QA required"
+    },
+    {
+      "row": 3,
+      "seam_x_min": 374,
+      "seam_x_max": 397,
+      "method": "gradient-following package separator; visual QA required"
+    }
+  ],
+  "status": "review_only"
+}

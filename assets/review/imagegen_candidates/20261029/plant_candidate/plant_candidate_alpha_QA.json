@@ -1,0 +1,24 @@
+{
+  "asset_id": "plant_candidate_alpha",
+  "file": "plant_candidate/plant_candidate_alpha.png",
+  "generation_tool": "built-in Codex image_gen (transparent_background=true)",
+  "dimensions_px": [
+    1278,
+    1230
+  ],
+  "mode": "RGBA",
+  "alpha_bbox": [
+    23,
+    26,
+    1242,
+    1167
+  ],
+  "sha256": "a38a850af75c1ed5f0c79a70959c1c9315268ddcd44010a3599fee4957eab2fd",
+  "subject": "indoor potted plant, explicitly generated with transparent background",
+  "visual_observations": [
+    "warm painted plant/pot read well and true RGBA alpha is present. A faint bright-green edge fringe remains; projection/ground anchor and game scale are uncalibrated. Review-only, not runtime-ready."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false
+}

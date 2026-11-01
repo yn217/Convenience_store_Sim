@@ -1,0 +1,36 @@
+{
+  "asset_id": "frappe_topping_dispenser_candidate_v1",
+  "image": "frappe_topping_dispenser_candidate_v1.png",
+  "dimensions_px": [
+    1774,
+    887
+  ],
+  "sha256": "0837f11776505d2a9270537df18b2d7ee0fe46e876974abe384c2a99c80d5d87",
+  "alpha_bbox": {
+    "1": [
+      57,
+      38,
+      1706,
+      864
+    ],
+    "8": [
+      514,
+      41,
+      1246,
+      858
+    ],
+    "128": [
+      515,
+      42,
+      1245,
+      854
+    ]
+  },
+  "actual_subject": "One three-compartment countertop topping dispenser with cups",
+  "limitations": [
+    "alpha fringe and game projection not visually approved",
+    "fixture dimensions and anchor unspecified",
+    "Godot display not checked"
+  ],
+  "runtime_approved": false
+}

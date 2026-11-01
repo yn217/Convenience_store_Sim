@@ -1,0 +1,578 @@
+{
+  "asset_id": "shelf_general_open_r0_guided_FULL_continuous_bands_v1",
+  "production_method": "ImageGen continuous merch strips + per-row guide homography",
+  "source_sheet_sha256": "31f9e63b401115655385abb7d8a56b3e53945d4c9793bf2ddd037c60b18eb895",
+  "guide_sha256": "645e390939e2333b7c0e1af25a69db7cebb95f84c05402e64a9e7a5f5d5dfd32",
+  "regions_sha256": "6b093bd3b512e91253d7dde8e04fc29958ecada202f3bd1485c287533468f018",
+  "fixture_base_sha256": "ccd65d90353e8a346bfbb638cb981f66bb96655b6be9d45cdbd5dcae1e478aa7",
+  "output_sha256": "d21e68d5d6ce76e9af6ce15e7f3eeefca5a5218480bef1574ea59eb203b637d4",
+  "canvas_px": [
+    640,
+    640
+  ],
+  "anchor_px": [
+    380,
+    430
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "access_edges": [
+    "E"
+  ],
+  "continuous_merch_strip_count": 16,
+  "facings_per_shelf_depth": 4,
+  "depth_offsets_m_back_to_front": [
+    -0.4,
+    -0.28,
+    -0.14,
+    0.0
+  ],
+  "guide_sales_row_count": 4,
+  "alpha_bbox_ge_128": [
+    135,
+    162,
+    497,
+    553
+  ],
+  "fixture_source_preserved": true,
+  "individual_item_card_placement": false,
+  "runtime_approved": false,
+  "qa": {
+    "source_row_categories_top_to_bottom": [
+      "snacks",
+      "snacks",
+      "instant_noodle",
+      "bread"
+    ],
+    "guide_assignment_bottom_to_top": [
+      "bread",
+      "instant_noodle",
+      "snacks",
+      "snacks"
+    ],
+    "projection": "Each continuous strip is mapped to one guide-derived row quadrilateral; Godot comparison remains pending.",
+    "visual_review": "pending",
+    "limitations": [
+      "homography may soften fine package detail at 640x640",
+      "source strips contain repeated package artwork and are not SKU/inventory mappings",
+      "fixture base still requires independent reference-shape approval"
+    ],
+    "status": "review_only"
+  },
+  "rows": [
+    {
+      "board": "sales_board_0",
+      "source_strip_top_to_bottom": 3,
+      "depth_index_back_to_front": 0,
+      "world_x_m": -0.01,
+      "source_bbox": [
+        8,
+        763,
+        1668,
+        910
+      ],
+      "continuous_alpha_area_px": 212907,
+      "target_quad_px": [
+        [
+          199.52000427246094,
+          437.44097900390625
+        ],
+        [
+          429.91998291015625,
+          322.2409973144531
+        ],
+        [
+          429.91998291015625,
+          353.594482421875
+        ],
+        [
+          199.52000427246094,
+          468.79449462890625
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_0",
+      "source_strip_top_to_bottom": 3,
+      "depth_index_back_to_front": 1,
+      "world_x_m": 0.11,
+      "source_bbox": [
+        8,
+        763,
+        1668,
+        910
+      ],
+      "continuous_alpha_area_px": 212907,
+      "target_quad_px": [
+        [
+          214.8800048828125,
+          445.1209716796875
+        ],
+        [
+          445.2799987792969,
+          329.9209899902344
+        ],
+        [
+          445.2799987792969,
+          361.27447509765625
+        ],
+        [
+          214.8800048828125,
+          476.4744873046875
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_0",
+      "source_strip_top_to_bottom": 3,
+      "depth_index_back_to_front": 2,
+      "world_x_m": 0.25,
+      "source_bbox": [
+        8,
+        763,
+        1668,
+        910
+      ],
+      "continuous_alpha_area_px": 212907,
+      "target_quad_px": [
+        [
+          232.8000030517578,
+          454.08099365234375
+        ],
+        [
+          463.1999816894531,
+          338.8810119628906
+        ],
+        [
+          463.1999816894531,
+          370.2344970703125
+        ],
+        [
+          232.8000030517578,
+          485.43450927734375
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_0",
+      "source_strip_top_to_bottom": 3,
+      "depth_index_back_to_front": 3,
+      "world_x_m": 0.39,
+      "source_bbox": [
+        8,
+        763,
+        1668,
+        910
+      ],
+      "continuous_alpha_area_px": 212907,
+      "target_quad_px": [
+        [
+          250.72000122070312,
+          463.0409851074219
+        ],
+        [
+          481.1199951171875,
+          347.84100341796875
+        ],
+        [
+          481.1199951171875,
+          379.1944885253906
+        ],
+        [
+          250.72000122070312,
+          494.3945007324219
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_1",
+      "source_strip_top_to_bottom": 2,
+      "depth_index_back_to_front": 0,
+      "world_x_m": -0.01,
+      "source_bbox": [
+        3,
+        556,
+        1668,
+        739
+      ],
+      "continuous_alpha_area_px": 277510,
+      "target_quad_px": [
+        [
+          199.52000427246094,
+          387.275390625
+        ],
+        [
+          429.91998291015625,
+          272.0754089355469
+        ],
+        [
+          429.91998291015625,
+          303.42889404296875
+        ],
+        [
+          199.52000427246094,
+          418.62890625
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_1",
+      "source_strip_top_to_bottom": 2,
+      "depth_index_back_to_front": 1,
+      "world_x_m": 0.11,
+      "source_bbox": [
+        3,
+        556,
+        1668,
+        739
+      ],
+      "continuous_alpha_area_px": 277510,
+      "target_quad_px": [
+        [
+          214.8800048828125,
+          394.95538330078125
+        ],
+        [
+          445.2799987792969,
+          279.7554016113281
+        ],
+        [
+          445.2799987792969,
+          311.10888671875
+        ],
+        [
+          214.8800048828125,
+          426.30889892578125
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_1",
+      "source_strip_top_to_bottom": 2,
+      "depth_index_back_to_front": 2,
+      "world_x_m": 0.25,
+      "source_bbox": [
+        3,
+        556,
+        1668,
+        739
+      ],
+      "continuous_alpha_area_px": 277510,
+      "target_quad_px": [
+        [
+          232.8000030517578,
+          403.9154052734375
+        ],
+        [
+          463.1999816894531,
+          288.7154235839844
+        ],
+        [
+          463.1999816894531,
+          320.06890869140625
+        ],
+        [
+          232.8000030517578,
+          435.2689208984375
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_1",
+      "source_strip_top_to_bottom": 2,
+      "depth_index_back_to_front": 3,
+      "world_x_m": 0.39,
+      "source_bbox": [
+        3,
+        556,
+        1668,
+        739
+      ],
+      "continuous_alpha_area_px": 277510,
+      "target_quad_px": [
+        [
+          250.72000122070312,
+          412.8753967285156
+        ],
+        [
+          481.1199951171875,
+          297.6754150390625
+        ],
+        [
+          481.1199951171875,
+          329.0289001464844
+        ],
+        [
+          250.72000122070312,
+          444.2289123535156
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_2",
+      "source_strip_top_to_bottom": 1,
+      "depth_index_back_to_front": 0,
+      "world_x_m": -0.01,
+      "source_bbox": [
+        7,
+        324,
+        1667,
+        525
+      ],
+      "continuous_alpha_area_px": 307070,
+      "target_quad_px": [
+        [
+          199.52000427246094,
+          337.1098937988281
+        ],
+        [
+          429.91998291015625,
+          221.90989685058594
+        ],
+        [
+          429.91998291015625,
+          253.26339721679688
+        ],
+        [
+          199.52000427246094,
+          368.46337890625
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_2",
+      "source_strip_top_to_bottom": 1,
+      "depth_index_back_to_front": 1,
+      "world_x_m": 0.11,
+      "source_bbox": [
+        7,
+        324,
+        1667,
+        525
+      ],
+      "continuous_alpha_area_px": 307070,
+      "target_quad_px": [
+        [
+          214.8800048828125,
+          344.7898864746094
+        ],
+        [
+          445.2799987792969,
+          229.58990478515625
+        ],
+        [
+          445.2799987792969,
+          260.9433898925781
+        ],
+        [
+          214.8800048828125,
+          376.14337158203125
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_2",
+      "source_strip_top_to_bottom": 1,
+      "depth_index_back_to_front": 2,
+      "world_x_m": 0.25,
+      "source_bbox": [
+        7,
+        324,
+        1667,
+        525
+      ],
+      "continuous_alpha_area_px": 307070,
+      "target_quad_px": [
+        [
+          232.8000030517578,
+          353.7499084472656
+        ],
+        [
+          463.1999816894531,
+          238.54989624023438
+        ],
+        [
+          463.1999816894531,
+          269.9034118652344
+        ],
+        [
+          232.8000030517578,
+          385.1033935546875
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_2",
+      "source_strip_top_to_bottom": 1,
+      "depth_index_back_to_front": 3,
+      "world_x_m": 0.39,
+      "source_bbox": [
+        7,
+        324,
+        1667,
+        525
+      ],
+      "continuous_alpha_area_px": 307070,
+      "target_quad_px": [
+        [
+          250.72000122070312,
+          362.70989990234375
+        ],
+        [
+          481.1199951171875,
+          247.50990295410156
+        ],
+        [
+          481.1199951171875,
+          278.8634033203125
+        ],
+        [
+          250.72000122070312,
+          394.0633850097656
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_3",
+      "source_strip_top_to_bottom": 0,
+      "depth_index_back_to_front": 0,
+      "world_x_m": -0.01,
+      "source_bbox": [
+        5,
+        80,
+        1669,
+        284
+      ],
+      "continuous_alpha_area_px": 313226,
+      "target_quad_px": [
+        [
+          199.52000427246094,
+          287.7281799316406
+        ],
+        [
+          429.91998291015625,
+          172.5281982421875
+        ],
+        [
+          429.91998291015625,
+          203.09779357910156
+        ],
+        [
+          199.52000427246094,
+          318.29779052734375
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_3",
+      "source_strip_top_to_bottom": 0,
+      "depth_index_back_to_front": 1,
+      "world_x_m": 0.11,
+      "source_bbox": [
+        5,
+        80,
+        1669,
+        284
+      ],
+      "continuous_alpha_area_px": 313226,
+      "target_quad_px": [
+        [
+          214.8800048828125,
+          295.4081726074219
+        ],
+        [
+          445.2799987792969,
+          180.2082061767578
+        ],
+        [
+          445.2799987792969,
+          210.77780151367188
+        ],
+        [
+          214.8800048828125,
+          325.977783203125
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_3",
+      "source_strip_top_to_bottom": 0,
+      "depth_index_back_to_front": 2,
+      "world_x_m": 0.25,
+      "source_bbox": [
+        5,
+        80,
+        1669,
+        284
+      ],
+      "continuous_alpha_area_px": 313226,
+      "target_quad_px": [
+        [
+          232.8000030517578,
+          304.3681945800781
+        ],
+        [
+          463.1999816894531,
+          189.16819763183594
+        ],
+        [
+          463.1999816894531,
+          219.73779296875
+        ],
+        [
+          232.8000030517578,
+          334.93780517578125
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    },
+    {
+      "board": "sales_board_3",
+      "source_strip_top_to_bottom": 0,
+      "depth_index_back_to_front": 3,
+      "world_x_m": 0.39,
+      "source_bbox": [
+        5,
+        80,
+        1669,
+        284
+      ],
+      "continuous_alpha_area_px": 313226,
+      "target_quad_px": [
+        [
+          250.72000122070312,
+          313.32818603515625
+        ],
+        [
+          481.1199951171875,
+          198.12820434570312
+        ],
+        [
+          481.1199951171875,
+          228.6977996826172
+        ],
+        [
+          250.72000122070312,
+          343.8977966308594
+        ]
+      ],
+      "method": "one continuous strip homography to a translated guide row"
+    }
+  ]
+}

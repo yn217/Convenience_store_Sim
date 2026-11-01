@@ -1,0 +1,54 @@
+{
+  "asset_id": "shelf_general_full_integrated_edit_v3",
+  "reviewer": "independent parent visual/alpha QA; direct built-in ImageGen edit",
+  "overall": "FAIL",
+  "source_sha256": "697b608c6ff14a673e287e9e2bb6936109bfa8d97655192a8193f0ea40fbcf54",
+  "image": {
+    "width": 1254,
+    "height": 1254,
+    "format": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_zero_pct": 70.51,
+    "alpha_gt127_bbox_xyxy": [
+      160,
+      144,
+      824,
+      1093
+    ],
+    "margins_gt127_pct": {
+      "left": 12.76,
+      "right": 34.29,
+      "top": 11.48,
+      "bottom": 12.84
+    },
+    "whole_alpha_mask_iou_with_empty_guide_no_transform": 0.970807,
+    "whole_alpha_mask_iou_with_v2_no_transform": 0.983042,
+    "whole_mask_iou_caveat": "Includes integrated products and is not a fixture-only geometry score.",
+    "alpha_preview": "alpha_preview.png",
+    "comparison": "comparison_same_canvas_v2_v3.png"
+  },
+  "checks": {
+    "integrated_shelf_plus_goods": "pass: one baked image",
+    "dark_base_plinth_empty": "pass",
+    "four_visible_shelf_rows": "pass",
+    "product_front_readability": "pass: graphic fronts legible at source size",
+    "product_thickness": "partial: flatter than v2; some cup and package edge volume remains",
+    "gross_silhouette": "pass: guide and v3 whole-mask IoU is high with products included, but this is not fixture-only proof",
+    "fixture_only_geometry": "not_checked: no isolated fixture mask or landmark calibration",
+    "projection_iso2x_v1": "not_checked: no control-point calibration or Godot rendering",
+    "alpha_safe_margin": "fail: top margin 11.48%, below 12% minimum",
+    "footprint_anchor": "not_checked",
+    "godot_runtime": "not_checked",
+    "runtime_approved": false
+  },
+  "notes": [
+    "Direct edit based on integrated FULL v2; shelf appearance and package placement are broadly stable.",
+    "The dark plinth remains empty and four shelf levels are stocked.",
+    "Alpha margin top misses target; no cropping/resizing applied.",
+    "Whole-mask IoU includes products; it cannot independently certify the shelf structure.",
+    "Review only."
+  ]
+}

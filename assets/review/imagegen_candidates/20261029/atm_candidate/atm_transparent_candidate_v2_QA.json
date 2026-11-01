@@ -1,0 +1,23 @@
+{
+  "asset_id": "atm_transparent_candidate_v2",
+  "file": "atm_candidate/atm_transparent_candidate_v2.png",
+  "generation_tool": "built-in Codex image_gen (transparent_background=true)",
+  "dimensions_px": [
+    1312,
+    1199
+  ],
+  "mode": "RGBA",
+  "alpha_bbox": [
+    57,
+    33,
+    1292,
+    1167
+  ],
+  "sha256": "c412cce82346279e2718df3ace631a4472dd78fc197246620384dac4397de511",
+  "visual_observations": [
+    "True RGBA transparency and readable ATM controls/red side housing. The machine has a strongly perspective-like view and does not satisfy strict iso2x axis calibration; edge fringe and world scale/anchor remain unverified."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false
+}

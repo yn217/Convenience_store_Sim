@@ -1,0 +1,69 @@
+{
+  "schema_version": "0.1-draft",
+  "asset_id": "shelf_bread_slanted_r0_v1",
+  "family": "BREAD_OPEN_SLOPED_SHELF",
+  "description_ja": "日本のコンビニで使う傾斜陳列型・屋根なしパン棚。パン菓子・惣菜パンなどの袋形状、透明PNG/原画SVG、EMPTY/HALF/FULL。",
+  "source_authoring": "ChatGPT deterministic 2D vector drawing; no Blender/3D",
+  "states": [
+    {
+      "state": "EMPTY",
+      "svg": "shelf_bread_slanted_empty_r0_v1.svg",
+      "png": "shelf_bread_slanted_empty_r0_v1.png"
+    },
+    {
+      "state": "HALF",
+      "svg": "shelf_bread_slanted_half_r0_v1.svg",
+      "png": "shelf_bread_slanted_half_r0_v1.png"
+    },
+    {
+      "state": "FULL",
+      "svg": "shelf_bread_slanted_full_r0_v1.svg",
+      "png": "shelf_bread_slanted_full_r0_v1.png"
+    }
+  ],
+  "canvas_px": [
+    580,
+    540
+  ],
+  "tile_world_m": [
+    1,
+    1
+  ],
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "projection": "iso2x_v1",
+  "source_basis_px_per_m": {
+    "x": [
+      128,
+      64
+    ],
+    "y": [
+      -128,
+      64
+    ],
+    "height": [
+      0,
+      -156.76734354
+    ]
+  },
+  "world_dimensions_m": [
+    0.74,
+    1.91,
+    1.68
+  ],
+  "back_to_front_shelf_drop_m": 0.095,
+  "no_roof": true,
+  "consistent_shelf_structure_across_states": true,
+  "reference_approved": false,
+  "runtime_approved": false,
+  "world_anchor_calibrated": false,
+  "independent_visual_qa_approved": false,
+  "user_art_approved": false,
+  "caveats": [
+    "Concept artwork; packaging detail and shelf proportions not approved.",
+    "Generated ImageGen material in current turn was mislabeled snack assets and was NOT used.",
+    "Transparent indexed PNG and vector SVG are actual repository files; preview imagery must link to these exact assets."
+  ]
+}

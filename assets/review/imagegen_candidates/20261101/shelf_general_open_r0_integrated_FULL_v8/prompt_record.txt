@@ -1,0 +1,15 @@
+Use case: stylized-concept; one integrated transparent 2D game sprite, shelf_general FULL/r0.
+
+References:
+1. shelf_general_open_r0_integrated_FULL_v7/source_original.png — merchandise content, color and four-row density only.
+2. shelf_general_empty_structure_candidate_v13/shelf_general_empty_structure_candidate_v13.png — empty fixture form and viewpoint.
+3. shelf_general_empty_structure_candidate_v9/projection_guide.png — orientation only (long axis +0.5, depth axis -0.5), not dimensions.
+
+Prompt:
+Create the next review candidate for shelf_general FULL/r0. This is a complete shelf-plus-products sprite, not separate product cards. Treat the references strictly: Reference 1 supplies the four-row merchandise content/colors; Reference 2 supplies fixture form and viewpoint; Reference 3 supplies axis directions only. There must be EXACTLY FOUR stocked shelf levels, top through bottom, one on each of the four merchandise boards. No fifth shelf, no roof or sign. Products are generic Japanese convenience-store snacks, noodle cups and bread, tightly faced with colorful front panels toward the E/+X customer side. They sit on the four boards, no floating items and no thick box extrusion.
+
+Preserve the approved projection directions: the shelf long axis is (+2,+1) on screen, slope +0.5; the depth axis is (+2,-1), slope -0.5. Fixture contract 1.92m long × 0.92m deep, depth/length 0.47917. Preserve this ratio and orientation, no mirror, rotation, perspective convergence, or stretch. Keep the same four boards, slim posts, and separate low base from Reference 2.
+
+Correct framing: output a square transparent canvas, with the whole shelf and products including feet centered, and at least 18% completely transparent margin on all four sides measured from the object's visible outline. Keep soft shadows fully inside that safe margin and faint enough not to expand the outline. No alpha pixels at the outermost image border. Leave more transparent space below the base than in Reference 1. Keep the object itself fully in frame; do not crop it. Do not enlarge the blank base: a compact plinth with a narrow top lip and short vertical fascia, not a broad tabletop. Products reach close to the front shelf lips, reducing exposed blank board areas.
+
+Use warm, crisp, soft-painted management-game style. Preserve legible package silhouettes and category colors. No readable text, logos, labels, extra props, room, floor, gradient, captions, UI, people, or watermark.

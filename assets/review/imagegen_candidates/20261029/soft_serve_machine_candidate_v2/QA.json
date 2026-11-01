@@ -1,0 +1,59 @@
+{
+  "asset_id": "soft_serve_machine_candidate_v2",
+  "image": "soft_serve_machine_candidate_v2.png",
+  "dimensions_px": [
+    1774,
+    887
+  ],
+  "file_size_bytes": 646521,
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "alpha_pixel_counts_ge_threshold": {
+    "1": 349371,
+    "8": 342832,
+    "128": 340626,
+    "250": 335671
+  },
+  "alpha_bbox_ge_threshold": {
+    "1": [
+      65,
+      9,
+      1591,
+      855
+    ],
+    "8": [
+      624,
+      37,
+      1161,
+      850
+    ],
+    "128": [
+      625,
+      38,
+      1160,
+      847
+    ],
+    "250": [
+      627,
+      39,
+      1159,
+      846
+    ]
+  },
+  "opaque_255_pixels": 229,
+  "sha256": "8b4b81cbca280a778a4b42b5229acd9edb2190a400fde621699b5596cac7e351",
+  "visual_review": {
+    "subject": "pass: Standalone soft-serve dispenser; regenerated with warm hand-painted game-art direction and 2:1 isometric prompt.",
+    "style": "review only: visual style remains more rendered/glossy than target game art",
+    "projection": "not verified: prompt requested iso2x_v1 but no pixel/world calibration or Godot comparison has been performed",
+    "alpha": "FAIL: broad low-alpha fringe/haze; see thresholded bounds and original image",
+    "geometry": "not verified against 0.92×0.92×1.50m fixture contract",
+    "notes": "Visual is more legible and less photoreal than v1, but alpha=1 haze remains broad and projection is uncalibrated.",
+    "runtime_approved": false
+  },
+  "status": "review_only",
+  "runtime_approved": false
+}

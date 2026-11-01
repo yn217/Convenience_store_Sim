@@ -1,0 +1,97 @@
+{
+  "commit": "4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a",
+  "status": "verified_readback",
+  "files": [
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/source_original.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/source_original.png",
+      "sha256": "cbaeb985a25d6711d1fdce272c7368e82076cfc920706cf6971d403c354faedb",
+      "bytes": 544411,
+      "github_uploaded": true,
+      "git_blob_sha": "5769a3a8914f5481d16fd434d68d08edbe0be6de",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/full_source_original.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/full_source_original.png",
+      "sha256": "2ee8ee93ac41471a1f998ecde70b237b20c94b3481338666df28c0fc7ccb5a04",
+      "bytes": 1252244,
+      "github_uploaded": true,
+      "git_blob_sha": "d81ae00bf4caabd7b98c5f56c0b4269cc74a3aeb",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/products_only_original.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/products_only_original.png",
+      "sha256": "4af4bc66ae81ebd2e86e1d5f0a2494c3a86dfaa3d4eec9df7bf487ee24ecbb81",
+      "bytes": 1346020,
+      "github_uploaded": true,
+      "git_blob_sha": "1fe14ba15ab32116bfa3ecebd483897533f57a66",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/empty_corrected.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/empty_corrected.png",
+      "sha256": "ccd65d90353e8a346bfbb638cb981f66bb96655b6be9d45cdbd5dcae1e478aa7",
+      "bytes": 158520,
+      "github_uploaded": true,
+      "git_blob_sha": "f6984bd4233e10f28e00f8462b916596353c144b",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/full_composite_candidate.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/full_composite_candidate.png",
+      "sha256": "c6b1481ead13692e0df8e37f296f3b3c58082222890ae256d5988afbaac10281",
+      "bytes": 213180,
+      "github_uploaded": true,
+      "git_blob_sha": "58fddc98d8da5ec3948a07fe1fed6e51d72ae54a",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/half_composite_candidate.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/half_composite_candidate.png",
+      "sha256": "ee9475ca482555231baf24452916619cbaa335d27570eeedd60875bb0911cab0",
+      "bytes": 187278,
+      "github_uploaded": true,
+      "git_blob_sha": "4e59e324bba2f36a11638268899de3fd77ee5f37",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/three_states_comparison.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/three_states_comparison.png",
+      "sha256": "69b1402a2160dbc9a084b7c6e846721bdd3dd7dc7c3bd6c88e6b433a8092b831",
+      "bytes": 235588,
+      "github_uploaded": true,
+      "git_blob_sha": "8b24d7a96f727349fa2ac68992d8e1b1539c695a",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/game_full_candidate_zoom1.0.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/game_full_candidate_zoom1.0.png",
+      "sha256": "15a3d3abf707d27ae67b6e5785361853008723bcb5add7e8ec47fcbf95663c0f",
+      "bytes": 366301,
+      "github_uploaded": true,
+      "git_blob_sha": "9ab9057b2d43b26e4c35feba612c02247f104e4d",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/game_half_candidate_zoom1.0.png",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/assets/review/guided_assets/shelf_general_open_r0_v1/game_half_candidate_zoom1.0.png",
+      "sha256": "67a47f9ed32292d1b978de8c54c0e5f7f68470497635970a6bf039aee86d9187",
+      "bytes": 358033,
+      "github_uploaded": true,
+      "git_blob_sha": "2525a80e24c54c9597abf516dafd03854a8159eb",
+      "zip_entries_verified": null
+    },
+    {
+      "path": "generated/asset_packs/shelf_general_open_r0_review_v1.zip",
+      "url": "https://raw.githubusercontent.com/yn217/Convenience_store_Sim/4619fd51d2c14ebc8743bff8bb8119ae49fb9f7a/generated/asset_packs/shelf_general_open_r0_review_v1.zip",
+      "sha256": "38913ba5a143c3997c7038e31f7145cc002b5a87cc553c680eb21c18e830fcd8",
+      "bytes": 10388439,
+      "github_uploaded": true,
+      "git_blob_sha": "f93570e227aa94ac02c8bcd58b33c60e9866910d",
+      "zip_entries_verified": 64
+    }
+  ],
+  "runtime_approved": false
+}

@@ -1,0 +1,22 @@
+{
+  "runtime_approved": false,
+  "shape_approval": "shape_approval.json",
+  "full_user_approval": "full_approval.json",
+  "geometry": "protected rails / visible posts / visible base pixels unchanged; hidden surfaces may be occluded by goods",
+  "game_capture": "zoom_at API used to refresh floor and fixtures; prior direct zoom screenshots superseded",
+  "zoom_levels": [
+    0.5,
+    1,
+    2
+  ],
+  "visual_review": "r0 FULL four stocked rows, no canopy, category silhouettes visible; merchandise relatively small",
+  "not_verified": [
+    "HALF/LOW state invariance",
+    "other rotations",
+    "night lighting",
+    "customer occlusion",
+    "runtime inventory sync",
+    "independent QA",
+    "GitHub upload and readback"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "candidate_id": "shelf_general_empty_structure_candidate_v8",
+  "status": "review_only_fail",
+  "runtime_approved": false,
+  "image": {
+    "path": "shelf_general_empty_structure_candidate_v8.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "byte_size": 908686,
+    "sha256": "ddf3503acda087b22f0f027fdc7533db5e40b79404eb039f11951a5179af89a7"
+  },
+  "alpha": {
+    "unique_levels": 256,
+    "min_max": [
+      0,
+      255
+    ],
+    "nonzero_bbox_xyxy": [
+      136,
+      49,
+      1156,
+      1214
+    ],
+    "margins_l_r_t_b_px": [
+      136,
+      98,
+      49,
+      40
+    ],
+    "edge_contact": false,
+    "clear_margin_12_percent": "FAIL"
+  },
+  "guide": {
+    "file": "projection_guide.png",
+    "backboard_vertical_vector_error": "FAIL: lower vertices were calculated using a negative vertical offset and clipped outside the canvas",
+    "long_vector": [
+      540,
+      270
+    ],
+    "depth_vector": [
+      210,
+      -105
+    ],
+    "nominal_depth_to_long_ratio": 0.3889,
+    "guide_valid_for_geometry_gate": false
+  },
+  "independent_review": {
+    "reviewer": "GPT-6 Luna subagent, separate from generator",
+    "overall": "FAIL",
+    "findings": {
+      "usable_shelf_count": "FAIL: 3 excluding base",
+      "axis_and_depth_ratio": "PASS visually relative to guide; guide itself is malformed",
+      "kick_plate": "PASS but whole base appears large",
+      "roofless_single_sided": "PASS",
+      "visible_alpha_margin": "PASS visually; pixel measurement fails 12% margin requirement",
+      "game_style": "FAIL: metallic gloss and strong outlines"
+    }
+  },
+  "overall_gate": "FAIL: shelf count/style/alpha margin and malformed guide; no world-size/anchor/Godot verification",
+  "comparison_image": {
+    "path": "comparison_guide_v8.png",
+    "sha256": "1884e58e5b5f6bb665cca27f3eb9b3715fe811f3470fabe831fd52a71b4c6d33"
+  },
+  "next_action": "Fix the guide vertical geometry and regenerate an EMPTY candidate; do not scale or crop this image to hide errors."
+}

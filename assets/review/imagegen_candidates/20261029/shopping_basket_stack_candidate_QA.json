@@ -1,0 +1,17 @@
+{
+  "asset_id": "shopping_basket_stack_candidate",
+  "file": "shopping_basket_stack_candidate.png",
+  "generation_tool": "built-in Codex image_gen",
+  "width": 1254,
+  "height": 1254,
+  "mode": "RGB",
+  "alpha_bbox": null,
+  "sha256": "f55cc8d5bc6efeb9e97991e73a24e2889b003921057ac0b922665a15d3851d01",
+  "subject": "stack of three nested blue convenience-store hand baskets on wheeled dolly",
+  "visual_observations": [
+    "FAIL: checkerboard transparency pattern is baked into RGB image; highlight finish is too glossy/cool; strict iso2x projection is unverified. Review-only prompt candidate."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "human_approved": false
+}

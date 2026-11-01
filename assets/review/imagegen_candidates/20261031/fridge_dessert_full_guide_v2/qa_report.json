@@ -1,0 +1,176 @@
+{
+  "candidate_id": "fridge_dessert_full_guide_v2",
+  "source_image": "assets/review/imagegen_candidates/20261031/fridge_dessert_full_guide_v2/merchandise_strips_source_original.png",
+  "source_dimensions_px": [
+    2172,
+    724
+  ],
+  "source_mode": "RGBA",
+  "source_alpha_extrema": [
+    0,
+    255
+  ],
+  "source_alpha_bbox": [
+    0,
+    9,
+    2148,
+    724
+  ],
+  "source_sha256": "d75f0569aa50fea213197c59cbf7fc246470c707b1e5d888d90890a026aeeb5a",
+  "composition": "Existing fridge body + three continuous dessert merchandise bands; derived perspective warp only, no generated geometry.",
+  "projection": "iso2x_v1 guides from fridge_dessert_a.visual.json; 2:1 long-axis slope -0.5; each row placed by explicit endpoints.",
+  "rows": [
+    {
+      "row_index": 0,
+      "source_component_bbox": [
+        70,
+        104,
+        2034,
+        162
+      ],
+      "source_crop_x": [
+        560,
+        1510
+      ],
+      "crop_size_px": [
+        950,
+        162
+      ],
+      "projected_quad_px": [
+        [
+          150.60000610351562,
+          327.739990234375
+        ],
+        [
+          368.20001220703125,
+          218.94000244140625
+        ],
+        [
+          368.20001220703125,
+          251.94000244140625
+        ],
+        [
+          150.60000610351562,
+          360.739990234375
+        ]
+      ],
+      "item_band_height_px": 33.0,
+      "source_component_area_px": 266175
+    },
+    {
+      "row_index": 1,
+      "source_component_bbox": [
+        53,
+        303,
+        2068,
+        166
+      ],
+      "source_crop_x": [
+        65,
+        1015
+      ],
+      "crop_size_px": [
+        950,
+        166
+      ],
+      "projected_quad_px": [
+        [
+          150.60000610351562,
+          257.19000244140625
+        ],
+        [
+          368.20001220703125,
+          148.38999938964844
+        ],
+        [
+          368.20001220703125,
+          181.38999938964844
+        ],
+        [
+          150.60000610351562,
+          290.19000244140625
+        ]
+      ],
+      "item_band_height_px": 33.0,
+      "source_component_area_px": 298992
+    },
+    {
+      "row_index": 2,
+      "source_component_bbox": [
+        44,
+        488,
+        2081,
+        176
+      ],
+      "source_crop_x": [
+        560,
+        1510
+      ],
+      "crop_size_px": [
+        950,
+        176
+      ],
+      "projected_quad_px": [
+        [
+          150.60000610351562,
+          186.64999389648438
+        ],
+        [
+          368.20001220703125,
+          77.8499984741211
+        ],
+        [
+          368.20001220703125,
+          110.8499984741211
+        ],
+        [
+          150.60000610351562,
+          219.64999389648438
+        ]
+      ],
+      "item_band_height_px": 33.0,
+      "source_component_area_px": 330585
+    }
+  ],
+  "fixture_canvas_before_px": [
+    442,
+    465
+  ],
+  "padding_px": {
+    "left": 24,
+    "top": 62,
+    "right": 26,
+    "bottom": 50
+  },
+  "fixture_anchor_before_px": [
+    285.0,
+    318.0
+  ],
+  "fixture_anchor_after_px": [
+    309.0,
+    380.0
+  ],
+  "composite_canvas_px": [
+    492,
+    575
+  ],
+  "composite_alpha_bbox_gt8": [
+    62,
+    70,
+    427,
+    503
+  ],
+  "alpha_margins_ltrb_fraction": [
+    0.12602,
+    0.12174,
+    0.13211,
+    0.12522
+  ],
+  "alpha_margin_gate_12pct": true,
+  "source_visible_colored_fringe": "FAIL — visible red/yellow edge halos around dessert alpha; preserved, not retouched.",
+  "projection_gate": "FAIL / unverified against fixture shelf surfaces and Godot. The quad corners numerically follow authored slot anchors, but this does not prove product-to-shelf seating; the composite shows bands too sparse/small and needs independent visual review.",
+  "visual_gate": "FAIL — mixed photorealistic dessert cutouts over the existing simplified case art, visible colored alpha fringe, and insufficient apparent fill at display size. Review-only; not runtime-ready.",
+  "runtime_approved": false,
+  "notes": "Review-only candidate. Padding preserves original fixture pixel scale and shifts anchor; no object rescaling.",
+  "derived_sha256": "fd631701029488335b47241ea3ec8c364e3e25ca33bb709e4021fac119c1d87e"
+}

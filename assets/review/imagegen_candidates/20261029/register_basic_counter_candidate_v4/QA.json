@@ -1,0 +1,58 @@
+{
+  "asset_id": "register_basic_counter_candidate_v4",
+  "image": "register_basic_counter_candidate_v4.png",
+  "dimensions_px": [
+    1387,
+    1134
+  ],
+  "sha256": "acdaca61988b1dbfe9f1ab32a3edcb2d339143147f4e0fd4e5202f212eab09e8",
+  "alpha_bbox": {
+    "1": [
+      0,
+      23,
+      1315,
+      1100
+    ],
+    "8": [
+      211,
+      169,
+      1247,
+      1025
+    ],
+    "128": [
+      213,
+      170,
+      1247,
+      1024
+    ]
+  },
+  "guide": "docs/qa/interior_asset_reference_20261029/register_iso_guide.png",
+  "manual_rough_points_px": {
+    "near": [
+      452,
+      1021
+    ],
+    "long_end": [
+      1215,
+      679
+    ],
+    "short_end": [
+      224,
+      875
+    ]
+  },
+  "rough_slopes": {
+    "long": -0.44823066841415465,
+    "short": 0.6403508771929824
+  },
+  "target_slopes": {
+    "long": -0.5,
+    "short": 0.5
+  },
+  "limitations": [
+    "Rough selected corners may be off due to rounded base; independent pixel review needed",
+    "Short edge visibly steeper than 2:1; strict projection not achieved",
+    "Alpha>=1 touches left edge; Godot and anchor unverified"
+  ],
+  "runtime_approved": false
+}

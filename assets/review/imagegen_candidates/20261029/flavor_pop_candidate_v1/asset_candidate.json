@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "asset_id": "flavor_pop_candidate_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "Tabletop sign with soft serve, frappe and strawberry illustrations and empty label boxes",
+  "actual_subject": "Tabletop sign with soft serve, frappe and strawberry illustrations and empty label boxes",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261029/flavor_pop_candidate_v1/flavor_pop_candidate_v1.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1556678,
+    "sha256": "bac2420b7e491af0e31f87b7bef30e5554e1950b9cf3fc8188b557c778d208a4",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261029/flavor_pop_candidate_v1/flavor_pop_candidate_v1.png",
+      "byte_size": 1556678,
+      "sha256": "bac2420b7e491af0e31f87b7bef30e5554e1950b9cf3fc8188b557c778d208a4",
+      "git_blob_sha": "daac25b45e2aae12aca33297919c31fdb2c6f3f8",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "not_checked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "Original preserved. Alpha fringe remains; projection, geometry and Godot display unverified."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

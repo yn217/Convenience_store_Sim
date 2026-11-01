@@ -1,0 +1,1769 @@
+{
+  "created": "2026-10-29",
+  "generation_tool": "built-in Codex image_gen",
+  "projection_target": "iso2x_v1 (2:1 axes)",
+  "runtime_approved": false,
+  "human_approved": false,
+  "shipping_assets": false,
+  "items": [
+    {
+      "file": "hot_snack_three_bay_candidate_v1.png",
+      "subject": "three-bay hot snack warmer",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        47,
+        15,
+        1724,
+        887
+      ],
+      "transparent_top_left": true,
+      "sha256": "6d7ace7f00431aeaa31c8ebd9f2ad1029b4537b4b9da1658deac7822b0704df2",
+      "visual_status": "review_only_projection_not_calibrated",
+      "alpha_bbox_ge_8": [
+        51,
+        20,
+        1716,
+        887
+      ],
+      "solid_alpha_margin_px": {
+        "left": 51,
+        "top": 20,
+        "right": 58,
+        "bottom": 0
+      },
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed",
+      "runtime_approved": false
+    },
+    {
+      "file": "hot_snack_three_bay_projection_edit_v2.png",
+      "subject": "projection edit of three-bay warmer",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        35,
+        39,
+        1687,
+        887
+      ],
+      "transparent_top_left": true,
+      "sha256": "3aa95e1cc4b9b750694afd8183d2a3326b407306200f65fcebbb187be84fb49b",
+      "visual_status": "review_only_projection_not_calibrated",
+      "alpha_bbox_ge_8": [
+        121,
+        48,
+        1639,
+        887
+      ],
+      "solid_alpha_margin_px": {
+        "left": 121,
+        "top": 48,
+        "right": 135,
+        "bottom": 0
+      },
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed",
+      "runtime_approved": false
+    },
+    {
+      "file": "open_snack_gondola_candidate_v1.png",
+      "subject": "stocked open snack gondola",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1508,
+        1024
+      ],
+      "transparent_top_left": true,
+      "sha256": "06273c49f86a70cc2582e65217d5f834d5cad71577b43dc05cb7d041999e1263",
+      "visual_status": "review_only_projection_not_calibrated",
+      "alpha_bbox_ge_8": [
+        329,
+        24,
+        1224,
+        1016
+      ],
+      "solid_alpha_margin_px": {
+        "left": 329,
+        "top": 24,
+        "right": 312,
+        "bottom": 8
+      },
+      "edge_alpha_review": "candidate-only; no fringe cleanup performed",
+      "runtime_approved": false
+    },
+    {
+      "file": "open_snack_gondola_style_ref_candidate_v2.png",
+      "subject": "stocked open snack gondola using game screenshot as style reference",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        23,
+        1516,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        323,
+        42,
+        1213,
+        1015
+      ],
+      "solid_alpha_margin_px": {
+        "left": 323,
+        "top": 42,
+        "right": 323,
+        "bottom": 9
+      },
+      "transparent_top_left": true,
+      "sha256": "542c3521a213e99fba373b9f80880ddf7f5b15ff98e3ae8c024ba0aec6b82e2b",
+      "visual_status": "best_projection_candidate_review_only_not_game_calibrated",
+      "projection_observation": "long shelf axis visually closer to 2:1 than v1; no trusted world landmarks or footprint metadata, so projection and anchor remain unverified",
+      "alpha_edge_observation": "low-alpha background haze reaches left canvas edge; foreground at alpha>=8 has a wide margin",
+      "runtime_approved": false
+    },
+    {
+      "file": "oden_countertop_single_candidate_v1.png",
+      "subject": "single tabletop oden warmer, initial camera",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        118,
+        0,
+        1760,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        381,
+        3,
+        1448,
+        887
+      ],
+      "transparent_top_left": true,
+      "sha256": "169222fb832e2706f0400320fc34de4c19d7601b624f10bacc220857aa5b9b2e",
+      "visual_status": "review_only_dimensions_and_runtime_unverified",
+      "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA",
+      "runtime_approved": false
+    },
+    {
+      "file": "oden_countertop_iso_edit_candidate_v2.png",
+      "subject": "single tabletop oden warmer, camera projection edit",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        8,
+        1480,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        222,
+        10,
+        1283,
+        1024
+      ],
+      "transparent_top_left": true,
+      "sha256": "e1e38e6f5d0a52cc99843db59b5750812640a1a88deb3790ca9ad9a524c9d586",
+      "visual_status": "review_only_dimensions_and_runtime_unverified",
+      "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA",
+      "runtime_approved": false
+    },
+    {
+      "file": "oden_countertop_framed_candidate_v3.png",
+      "subject": "single tabletop oden warmer, zoomed-out framing edit",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        45,
+        64,
+        1498,
+        990
+      ],
+      "alpha_bbox_ge_8": [
+        299,
+        66,
+        1249,
+        987
+      ],
+      "transparent_top_left": true,
+      "sha256": "3d43507d5c29945258effa4bea8fd20f9ee816b52b739ee36bce71c12f144939",
+      "visual_status": "review_only_dimensions_and_runtime_unverified",
+      "projection_observation": "v2/v3 show more top surface and read closer to an elevated iso camera than v1; exact iso2x edge slopes and r0 access remain unmeasured in game",
+      "alpha_edge_observation": "low-alpha studio haze remains around the object; keep original and do not runtime-use without edge cleanup and Godot QA",
+      "runtime_approved": false
+    },
+    {
+      "file": "bread_gondola_integrated_candidate_v1.png",
+      "subject": "integrated Japanese bakery gondola with five stocked rows",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1488,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        188,
+        24,
+        1345,
+        1023
+      ],
+      "solid_alpha_bbox_aspect_width_over_height": 1.1582,
+      "transparent_top_left": true,
+      "sha256": "f8735d0479f92766da744ad8d1fd0b8cf8f634450daa90e5d78bc4e899fc5cf3",
+      "visual_status": "review_only_not_runtime_calibrated",
+      "qa_observation": "good product/shelf integration and open top; long-axis slope visually shallower than 2:1 target; one-end side merchandising appears",
+      "runtime_approved": false
+    },
+    {
+      "file": "bread_gondola_ratio_iso_candidate_v2.png",
+      "subject": "integrated bakery gondola regenerated with 1x2 footprint proportions and explicit 2:1 iso",
+      "dimensions_px": [
+        1190,
+        1322
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1172,
+        1322
+      ],
+      "alpha_bbox_ge_8": [
+        83,
+        47,
+        1096,
+        1307
+      ],
+      "solid_alpha_bbox_aspect_width_over_height": 0.804,
+      "transparent_top_left": true,
+      "sha256": "3edc90cb1470772fce8fe926966287c01111b8d8899b311483565f9176e2c67b",
+      "visual_status": "review_only_not_runtime_calibrated",
+      "qa_observation": "long front axis visually closer to 1:2 slope; depth-axis slope still appears steeper than target; bbox ratio closer to target but not a world-space calibration; bottom margin is small; transparent low-alpha haze at canvas edge",
+      "runtime_approved": false
+    },
+    {
+      "sha256": "fa4b1a82a9447947f8c2784a7a32b6dcd5d9228b9c708f30c766f067e294f6f4",
+      "file": "atm_candidate/atm_candidate.png",
+      "subject": "standalone ATM generated by subagent",
+      "transparent_top_left": true,
+      "visual_status": "review_only_projection_fail_runtime_unapproved",
+      "qa_observation": "front controls and right side are visible, but projection is perspective-like, verticals converge, and the base touches the bottom edge.",
+      "dimensions_px": [
+        1189,
+        1323
+      ],
+      "alpha_bbox": [
+        57,
+        20,
+        1169,
+        1323
+      ],
+      "runtime_approved": false
+    },
+    {
+      "sha256": "cb31a8704c553f7140f382d72d9d0d9e33a7d6f21faf168adcc35f6517ab8345",
+      "file": "copier_candidate/copier_candidate.png",
+      "subject": "standalone multifunction copier generated by subagent",
+      "transparent_top_left": true,
+      "visual_status": "review_only_projection_unverified_runtime_unapproved",
+      "qa_observation": "ADF, blue touchscreen, output area and drawers read clearly in a warm painted style; iso2x and game scale remain visually estimated, not calibrated.",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "alpha_bbox": [
+        41,
+        23,
+        1276,
+        1173
+      ],
+      "runtime_approved": false
+    },
+    {
+      "subject": "empty ambient gondola, initial ChatGPT ImageGen candidate",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "qa_observation": "No canopy and four shelf tiers, but shelf planes remain broad/deep and alpha reaches bottom canvas edge; iso2x and footprint unverified.",
+      "alpha_bbox": [
+        71,
+        19,
+        1266,
+        1024
+      ],
+      "sha256": "96cf23b14b2cc81f72a3abf7ead7c2a9250ef2c5e65b73cd75900653243a21a1",
+      "visual_status": "review_only_shape_projection_fail",
+      "file": "ambient_gondola_empty_candidate.png",
+      "transparent_top_left": true,
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "subject": "empty ambient gondola, regenerated shallow-shelf and framing attempt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "qa_observation": "No canopy and four tiers; shelves still read as broad exposed slabs, dark transparent-edge haze remains, and alpha touches bottom canvas edge. Not a strict calibrated 2:1 sprite.",
+      "alpha_bbox": [
+        41,
+        51,
+        1490,
+        1024
+      ],
+      "sha256": "2fac7222bc187616f7e80fe240ba6cab440d9706f2bb24901e4984fe27024915",
+      "visual_status": "review_only_shape_projection_fail",
+      "file": "ambient_gondola_empty_iso_candidate_v2.png",
+      "transparent_top_left": true,
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "oden_countertop_single_candidate_v4.png",
+      "subject": "single compact countertop oden warmer, ImageGen v4",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        41,
+        1498,
+        989
+      ],
+      "transparent_top_left": true,
+      "sha256": "2c2138f2fcb75903b7eb5a04ba9a01b9988da8bb0253d6dc4ceddf47dedaf2d3",
+      "visual_status": "review_only_projection_unverified_runtime_unapproved",
+      "qa_observation": "Correct single tabletop pan with visible oden and dividers; long front edge reads too horizontal for strict iso2x, low-alpha glow reaches the left canvas edge; background corner is transparent.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "coffee_machine_candidate/coffee_machine_candidate.png",
+      "subject": "standalone compact coffee machine candidate",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1286,
+        1193
+      ],
+      "transparent_top_left": true,
+      "sha256": "7aaa6d7fbee0c46a6895d453ef62c03ddb0193f0eed8ed9f8dc7b5ec694575a1",
+      "visual_status": "review_only_projection_and_style_unverified",
+      "qa_observation": "Machine controls and dispensing bay read; glossy product-render appearance, and alpha bounds touch top/left edges. iso2x uncalibrated.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "steamed_bun_case_candidate/steamed_bun_case_candidate.png",
+      "subject": "small countertop steamed-bun warmer candidate",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        0,
+        40,
+        1633,
+        857
+      ],
+      "transparent_top_left": true,
+      "sha256": "d4db2cb341797541491db088bbba454828d8055300a3b222db47c8e334a2f813",
+      "visual_status": "review_only_projection_shape_unverified",
+      "qa_observation": "Three trays of buns are legible; upper housing reads as broad cap, and alpha>=16 leaves margin though three faint alpha pixels reach left edge. iso2x visually estimated only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "microwave_candidate/microwave_candidate.png",
+      "subject": "standalone microwave candidate",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        344,
+        61,
+        1429,
+        855
+      ],
+      "transparent_top_left": true,
+      "sha256": "5a013a7f0dd326bb04dff26395f88b474bc47fa48d45b8f80b6bfdee412a22ab",
+      "visual_status": "review_only_projection_fail_style_partial",
+      "qa_observation": "Full appliance and controls are readable; depth does not match strict iso2x, and reflective finish is stronger than target.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "postbox_candidate/postbox_candidate.png",
+      "subject": "standalone Japanese public postbox candidate",
+      "dimensions_px": [
+        1212,
+        1298
+      ],
+      "alpha_bbox": [
+        57,
+        41,
+        1174,
+        1258
+      ],
+      "transparent_top_left": true,
+      "sha256": "1271253239e1d8edba1d3fd9a750da8249cac625d886f4006ae64c6628811c51",
+      "visual_status": "review_only_projection_unverified",
+      "qa_observation": "Recognizable cylindrical red postbox with slot, access hatch and base; strict game iso2x projection remains unverified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "umbrella_stand_candidate.png",
+      "subject": "standalone umbrella stand candidate",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        46,
+        1452,
+        1002
+      ],
+      "transparent_top_left": true,
+      "sha256": "9fba86828c833ade0641294ab868b2fea170cd2da1702fb2bbc482ac583e6927",
+      "visual_status": "review_only_projection_and_alpha_halo_unverified",
+      "qa_observation": "Umbrella rack, umbrellas and drip tray are clear; low-alpha background glow reaches left alpha bbox edge. Strict iso2x axes and game scale are not calibrated.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "hand_truck_candidate/hand_truck_candidate.png",
+      "subject": "hand truck with blue beverage crates candidate",
+      "dimensions_px": [
+        1291,
+        1218
+      ],
+      "alpha_bbox": [
+        49,
+        29,
+        1251,
+        1218
+      ],
+      "transparent_top_left": true,
+      "sha256": "86eb74a2bd7bf2184be434da9928b6c8bc1cf44fe80c84325baed32737b0661c",
+      "visual_status": "review_only_projection_and_composition_fail",
+      "qa_observation": "Hand truck and loaded crates are identifiable, but crates obscure the frame and wheel; sprite touches bottom canvas edge; glossy style and iso2x are unverified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plastic_crate_stack_candidate/plastic_crate_stack_candidate.png",
+      "subject": "stack of reusable blue delivery crates candidate",
+      "dimensions_px": [
+        1412,
+        1114
+      ],
+      "alpha_bbox": [
+        27,
+        17,
+        1378,
+        1086
+      ],
+      "transparent_top_left": true,
+      "sha256": "5bddb064ccf741d6a93392d1faa9452895640febb71f2937f20d121c24355429",
+      "visual_status": "review_only_projection_and_style_unverified",
+      "qa_observation": "Three open lattice crates read clearly and are not solid cubes; low-alpha blue fringe extends beyond primary silhouette, cool saturated glossy highlights, strict iso2x uncalibrated.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plastic_crate_stack_candidate/plastic_crate_stack_candidate_v2.png",
+      "subject": "three stacked blue reusable crates, regenerated for warmer matte finish and strict iso2x",
+      "dimensions_px": [
+        1412,
+        1114
+      ],
+      "alpha_bbox": [
+        0,
+        15,
+        1382,
+        1114
+      ],
+      "sha256": "fb83e426276fbdaf1b8d5f770ed4eebc465d641d1067de222fb33c54d5743fc6",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: vivid blue glow/outline remains; alpha reaches left and bottom canvas edges; projection is not calibrated. Keep as review-only; no stretching.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "hand_truck_candidate/hand_truck_empty_candidate_v2.png",
+      "subject": "empty red-orange hand truck/dolly",
+      "dimensions_px": [
+        1223,
+        1286
+      ],
+      "alpha_bbox": null,
+      "sha256": "5b57a8a46eb3cc2aa27fb5701e1d0e54fe5567abb894d62789a8ad92b0846d8d",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: checkerboard transparency pattern is baked into RGB image (mode RGB); iso2x axes are not respected; reflective finish is too strong. Preserve for prompt diagnosis only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "shopping_basket_stack_candidate.png",
+      "subject": "stack of three nested blue convenience-store hand baskets on wheeled dolly",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha_bbox": null,
+      "sha256": "f55cc8d5bc6efeb9e97991e73a24e2889b003921057ac0b922665a15d3851d01",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: checkerboard transparency pattern is baked into RGB image; highlight finish is too glossy/cool; strict iso2x projection is unverified. Review-only prompt candidate.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plant_candidate/plant_candidate.png",
+      "subject": "indoor potted plant sprite candidate",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "alpha_bbox": null,
+      "sha256": "353440fe4265513a48cbdf9181e85712f2ca325718fa9f3c7604442719b521c3",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: checkerboard pattern is visibly baked into RGB pixels (no alpha channel); plant/pot are clear but projection is not verified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plant_candidate/plant_checkerboard_edit_v2.png",
+      "subject": "indoor potted plant sprite candidate",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "alpha_bbox": null,
+      "sha256": "bd24085cfee812b16ade038c86a842f6e112b2a324a2fe800cb283efd49b50ed",
+      "visual_status": "review_only_generation_fail",
+      "qa_observation": "FAIL: edit retained and intensified the checkerboard as opaque RGB; do not use as a sprite.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plant_candidate/plant_candidate_alpha.png",
+      "subject": "indoor potted plant, explicitly generated with transparent background",
+      "dimensions_px": [
+        1278,
+        1230
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        23,
+        26,
+        1242,
+        1167
+      ],
+      "sha256": "a38a850af75c1ed5f0c79a70959c1c9315268ddcd44010a3599fee4957eab2fd",
+      "visual_status": "review_only_projection_and_game_scale_unverified",
+      "qa_observation": "warm painted plant/pot read well and true RGBA alpha is present. A faint bright-green edge fringe remains; projection/ground anchor and game scale are uncalibrated. Review-only, not runtime-ready.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "promo_sign_candidate/promo_sign_candidate.png",
+      "subject": "freestanding A-frame hot-snack promo sign with abstract fried-food illustration",
+      "dimensions_px": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        55,
+        53,
+        1382,
+        1090
+      ],
+      "sha256": "72d71650b77e066f6521069b0b7a29a6fdbffa59cf349351659d92892934e254",
+      "visual_status": "review_only_projection_and_game_scale_unverified",
+      "qa_observation": "true RGBA alpha and complete silhouette; warm palette fits. Sign face is strongly perspective-oblique rather than verified iso2x, and no in-game scale/anchor calibration has been done. Review-only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "atm_candidate/atm_transparent_candidate_v2.png",
+      "subject": "Japanese convenience-store ATM candidate v2",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        57,
+        33,
+        1292,
+        1167
+      ],
+      "sha256": "c412cce82346279e2718df3ace631a4472dd78fc197246620384dac4397de511",
+      "visual_status": "review_only_projection_fail",
+      "qa_observation": "True RGBA transparency and readable ATM controls/red side housing. The machine has a strongly perspective-like view and does not satisfy strict iso2x axis calibration; edge fringe and world scale/anchor remain unverified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "agent_sign_candidate/agent_sign_candidate.png",
+      "subject": "A-frame promotional sign, warm painted candidate (subagent generated)",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        0,
+        1506,
+        1009
+      ],
+      "sha256": "969459b14a05a6f081013fb86936b1694be44bd75a08882fde80331eac1a7abf",
+      "visual_status": "review_only_projection_unverified_alpha_fringe",
+      "qa_observation": "A-frame form and abstract sandwich illustration are readable in a warm painted style. True RGBA transparency is present, though low-alpha fringe reaches top edge; perspective face is not calibrated to iso2x_v1.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "shopping_basket_stack_candidate_alpha.png",
+      "subject": "nested blue convenience-store shopping baskets on wheeled cart",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        39,
+        1298,
+        1175
+      ],
+      "sha256": "471c90d03f2e2dcbe15fc6002aef56824be3952e6a644369dd85ffe1189bde69",
+      "visual_status": "review_only_projection_and_style_unverified",
+      "qa_observation": "Three nested perforated shopping baskets on a caster base are unmistakable, with true RGBA transparency. Some blue fringe reaches the left edge; camera is strongly perspective-like and highlights are too glossy for strict iso2x/game style. Review-only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "plastic_crate_stack_candidate/plastic_crate_stack_candidate_alpha_v3.png",
+      "subject": "three stacked reusable delivery crates, transparent retry v3",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        89,
+        23,
+        1482,
+        992
+      ],
+      "alpha_bbox_threshold_8": [
+        366,
+        35,
+        1171,
+        990
+      ],
+      "sha256": "c48869a46f7f24c7146555f9b9da57dcbdf3dfc0a6e75272d36cf91297642ffb",
+      "visual_status": "review_only_alpha_haze_projection_unverified",
+      "qa_observation": "Three open lattice crates with readable rims and interiors; muted matte blue improved relative to v2, but diffuse blue alpha haze still surrounds the silhouette (alpha>=1 bbox is much wider than alpha>=8 bbox). The camera still appears perspective-like rather than calibrated iso2x; review-only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "pos_terminal_candidate/pos_terminal_candidate.png",
+      "subject": "compact checkout POS terminal with touchscreen/keypad/receipt printer",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        81,
+        32,
+        1482,
+        960
+      ],
+      "alpha_bbox_threshold_8": [
+        312,
+        34,
+        1239,
+        956
+      ],
+      "sha256": "1b4a1feccec711c0100c8ff2b3270ec581a3091325cd3300715aadff8c351043",
+      "visual_status": "review_only_projection_style_unverified",
+      "qa_observation": "Touchscreen, keypad and receipt printer are clearly readable as one compact POS station; genuine RGBA transparency with low-alpha haze around silhouette. Camera is strongly perspective-oblique rather than verified iso2x_v1, and glossy highlights exceed target game style. Review-only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "agent_waste_bin_candidate/waste_bin_candidate.png",
+      "subject": "two-compartment convenience-store recycling bin candidate",
+      "dimensions_px": [
+        1374,
+        1145
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        57,
+        20,
+        1289,
+        1135
+      ],
+      "alpha_bbox_threshold_8": [
+        398,
+        202,
+        977,
+        969
+      ],
+      "sha256": "c4449222eaa126ee853634b14e8bb30b082bf8e95ebe13555fb59d32b77f88de",
+      "visual_status": "review_only_projection_unverified",
+      "qa_observation": "Two apertures and recycling pictograms are readable; true alpha with margin. Glossy, perspective-like geometry; exact iso2x projection and in-game scale are unverified.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "agent_umbrella_candidate/umbrella_stand_candidate.png",
+      "subject": "umbrella stand with three closed umbrellas and drip tray",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        81,
+        39,
+        1292,
+        1163
+      ],
+      "alpha_bbox_threshold_8": [
+        458,
+        135,
+        858,
+        1019
+      ],
+      "sha256": "ca8da37037ad9675b47de092fcf44cba1956bf4ddc944a69a76e334a79565007",
+      "visual_status": "review_only_projection_unverified",
+      "qa_observation": "Complete warm hand-painted umbrella stand; true alpha and clear margin. Faint red/green edge fringe; game projection and scale remain uncalibrated.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "atm_candidate/atm_projection_edit_candidate_v3.png",
+      "subject": "ATM projection-only edit v3",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        42,
+        1288,
+        1199
+      ],
+      "alpha_bbox_threshold_8": [
+        417,
+        44,
+        875,
+        1154
+      ],
+      "sha256": "280d92796e575f771215072ece1d660af8c29d6ee850fa345bb5e4930d7f4497",
+      "visual_status": "review_only_projection_and_edge_fail",
+      "qa_observation": "ATM controls, red side panels and silhouette remain readable after a projection-only edit. Camera still looks perspective-like rather than calibrated iso2x_v1; nonzero alpha reaches left and bottom canvas edges, so framing/edge QA fails. Keep original and this revision as separate review-only candidates.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "fryer_candidate/fryer_candidate.png",
+      "subject": "single countertop double-basket fryer appliance",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        30,
+        1442,
+        1000
+      ],
+      "alpha_bbox_threshold_8": [
+        286,
+        66,
+        1274,
+        974
+      ],
+      "sha256": "ef997af3ad6413ba801d613ffb3608ca9e619cd27b27a9c7c033876ca3c8e4e9",
+      "visual_status": "review_only_projection_alpha_halo_unverified",
+      "qa_observation": "Standalone double-basket stainless fryer, both controls and baskets are clear and category is identifiable. RGBA alpha is present but diffuse halo reaches the left canvas edge (alpha>=8 has margin); camera is strongly perspective-like, not calibrated iso2x_v1, and highlights are glossy. Review-only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "oden_countertop_candidate/oden_countertop_single_alpha_candidate_v5.png",
+      "subject": "single tabletop oden warmer, four compartments, alpha retry v5",
+      "dimensions_px": [
+        1374,
+        1145
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        12,
+        1354,
+        1145
+      ],
+      "alpha_bbox_threshold_8": [
+        159,
+        85,
+        1218,
+        1103
+      ],
+      "sha256": "699deecf7b8defe1458ed91fb92841c7a34a9ad7b4ac65ffca083867d58fa85b",
+      "visual_status": "review_only_projection_and_alpha_halo_fail",
+      "qa_observation": "One small countertop oden pan with four ingredient compartments, heater base and control knob; unmistakably a single tabletop pot, not a floor cabinet or three-bay unit. True RGBA alpha is present, but faint glow reaches left and bottom canvas edges, and the deep top-down perspective is not iso2x_v1. Keep review-only.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "oden_countertop_candidate/oden_countertop_single_projection_edit_v6.png",
+      "subject": "single countertop oden pot, projection edit v6",
+      "dimensions_px": [
+        1374,
+        1145
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        19,
+        1331,
+        1145
+      ],
+      "alpha_bbox_threshold_8": [
+        91,
+        49,
+        1283,
+        1134
+      ],
+      "sha256": "19199d05cb951efc631e5310cc4af79d290db8b602d6996d4af6a5ae7e33eee1",
+      "visual_status": "review_only_projection_and_edge_fail",
+      "qa_observation": "A projection edit of v5 preserves the single 4-section pot and makes the front vertical face more visible, but the camera is still steep/perspective rather than verified iso2x_v1. Nonzero alpha again reaches left and bottom edges; keep as a separate review iteration.",
+      "runtime_approved": false,
+      "human_approved": false
+    },
+    {
+      "file": "integrated_snack_gondola_candidate/integrated_snack_gondola_candidate.png",
+      "subject": "integrated_snack_gondola_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1508,
+        1024
+      ],
+      "sha256": "8c7bbc1dbcb2d288aaaa8f3b8ac095a0122560e3a06358651ca7e778f69ed3e2",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "Shelf and products are integrated and dense, but the view is nearly front-facing rather than the target 2:1 isometric projection. Strong gray/brown halo is visible. Some package text is distorted. Keep as composition reference only; no crop or scaling applied."
+    },
+    {
+      "file": "agent_coffee_v2/coffee_machine_candidate.png",
+      "subject": "coffee_machine_candidate_v2",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        20,
+        936,
+        1536
+      ],
+      "sha256": "f06c34c27351d1b65ee977d984d9aee8aa81b2b0ae68783229cc4c8c406a17e2",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Warm hand-painted standalone bean-to-cup machine; projection uncalibrated and faint alpha fringe reaches left/bottom edges."
+    },
+    {
+      "file": "agent_bun_v2/steamed_bun_warmer_candidate.png",
+      "subject": "steamed_bun_warmer_candidate",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        380,
+        47,
+        1252,
+        1008
+      ],
+      "sha256": "0c7b94c274f17985d3acaaa1e8d4baaf5f1e9d35bd1436e820f48b1907d6321e",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Compact two-tray bun warmer; broad soft halo and glossy metal; projection unverified."
+    },
+    {
+      "file": "microwave_candidate_v2/microwave_transparent_candidate_v2.png",
+      "subject": "microwave_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        163,
+        58,
+        1424,
+        962
+      ],
+      "sha256": "9e294d2d53d185367b8fab724f04f0655f43525e8d9b8c31f7fab3fa3b619947",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Recognizable appliance and controls. Projection FAIL: near-horizontal front edge and broad visible top do not match iso2x_v1; strong dark studio halo despite transparent canvas. Review-only; no crop or rescale."
+    },
+    {
+      "file": "agent_oden_v7/oden_countertop_single_candidate_v7.png",
+      "subject": "oden_countertop_single_candidate_v7",
+      "dimensions_px": [
+        1295,
+        1214
+      ],
+      "alpha_bbox": [
+        0,
+        29,
+        1283,
+        1214
+      ],
+      "sha256": "56eadbf7be82f431f3908353ab623c53a36b0235b2a146a2e8a7d36a70e942c4",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "Single countertop unit and divided oden pot read clearly. FAIL for target use: highly photoreal glossy finish, strongly elevated oblique perspective rather than calibrated iso2x_v1; Japanese label is generated illustration text. Keep as shape/style reference only; no crop or rescale."
+    },
+    {
+      "file": "integrated_snack_gondola_candidate_v2/integrated_snack_gondola_candidate_v2.png",
+      "subject": "integrated_snack_gondola_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        8,
+        1512,
+        1024
+      ],
+      "sha256": "39088d4a243a4c2d81d28e872826e538b40ae32ab095d154074d307d0dd25107",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "Products remain grouped and the image retains the complete integrated shelf. Projection is somewhat more oblique but still substantially flatter than the required 26.565-degree long-axis slope, with perspective-like shelf depth. A broad studio halo remains. FAIL as calibrated game sprite; useful only as product-density composition reference. No crop or scaling."
+    },
+    {
+      "file": "integrated_snack_gondola_candidate_v3/integrated_snack_gondola_candidate_v3.png",
+      "subject": "integrated_snack_gondola_candidate_v3",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1483,
+        1024
+      ],
+      "sha256": "6cd4b095e491663e5f435662c92353f9099baad00950784b1facb14788230e41",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "This version reads as a freestanding double-sided stocked gondola with coherent merchandise on both faces and a visible center upright; stronger structural reference than v1/v2. FAIL as calibrated game sprite: long-axis slope remains visibly below 26.565 degrees, shelves do not share one exact 2:1 orthographic projection, and strong studio halo remains. Keep review-only; do not crop, stretch, or runtime-connect."
+    },
+    {
+      "file": "agent_atm_v3/atm_candidate_v3.png",
+      "subject": "atm_candidate_v3",
+      "dimensions_px": [
+        887,
+        1774
+      ],
+      "alpha_bbox": [
+        41,
+        25,
+        873,
+        1744
+      ],
+      "sha256": "96b4d7e6690ab7bf960a1e587b4945bb4ada11aeb3ae2618eea44ae9aeb25b73",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "FAIL target strict iso2x_v1: verticals are upright, but visible top planes and right side show perspective convergence rather than calibrated 2:1 isometric projection. Controls and red-white panels are readable; highlights remain glossy and a faint bright fringe is visible around silhouette. Transparent RGBA background; no visible environment."
+    },
+    {
+      "file": "umbrella_stand_candidate_v2/umbrella_stand_candidate_v2.png",
+      "subject": "umbrella_stand_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        494,
+        98,
+        1476,
+        924
+      ],
+      "sha256": "eae76393c826772a5ff8e390adc968cc7afb1adf3066cdf97af2ae2966829a99",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Umbrella category, three colors and sleeve bin are clear; warm outlined game illustration. Angle reads as elevated three-quarter orthographic, but axis slopes are not calibrated to iso2x_v1. Dark translucent halo remains around the object; no canvas-edge clipping. Review-only; no crop or rescale."
+    },
+    {
+      "file": "agent_copier_v2/copier_candidate_v2.png",
+      "subject": "copier_candidate_v2",
+      "dimensions_px": [
+        1183,
+        1330
+      ],
+      "alpha_bbox": [
+        228,
+        106,
+        1005,
+        1258
+      ],
+      "sha256": "997B440CDBAF3F23B135E5D42A65ADAA657E862B43A9201F53979F47A81168F3",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "ADF, touchscreen, output tray and three paper drawers are clear. Alpha edges max 1/255 and no broad halo. Strict iso2x_v1 and game scale remain uncalibrated."
+    },
+    {
+      "file": "agent_fryer_v2/fryer_candidate_v2.png",
+      "subject": "single_countertop_fryer_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        53,
+        0,
+        1500,
+        997
+      ],
+      "sha256": "2d360b0766b308da4aef7b34591b285cca168587202b77858cad9359fae65eea",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "One countertop fryer with two baskets and controls reads clearly. Strongly exposed top surfaces, metallic gloss and edge glow fail the intended projection/style."
+    },
+    {
+      "file": "freezer_chest_candidate_v1/freezer_chest_candidate_v1.png",
+      "subject": "freezer_chest_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        33,
+        1510,
+        1024
+      ],
+      "sha256": "67007256b78beeea1a6a711201dee613acbc6f870e1cef698db9d36632c4119e",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "The low chest form, paired sliding glass lids, frozen-food contents, navy band, vents and side panel read clearly. FAIL as game-ready sprite: camera is too high and long axis is too shallow for iso2x_v1; strong gray studio halo and metallic reflections remain. True alpha bounds and game footprint are not calibrated; no crop or scale applied."
+    },
+    {
+      "file": "agent_freezer_upright_v1/upright_glass_door_freezer_candidate_v1.png",
+      "subject": "upright_glass_door_freezer_candidate_v1",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        25,
+        916,
+        1509
+      ],
+      "sha256": "695d033c8f46e0c937a295d1b19e3a031a26b56ab363c347a5186bcb79267af6",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Mostly frontal with right side visible and upright verticals; visible top/right-side perspective remains. iso2x_v1 is only a target and is not calibrated or verified. Warm hand-painted management-game illustration. Strong glass/metal highlights; transparent-margin alpha will be inspected against game background."
+    },
+    {
+      "file": "ice_cream_case_candidate_v1/ice_cream_case_candidate_v1.png",
+      "subject": "ice_cream_case_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1398,
+        1008
+      ],
+      "sha256": "af2b0bd87b13afbdf30f414211d8a50852b6d7d74810de3ddb4dbbdd88668f5e",
+      "visual_status": "review_only_projection_fail",
+      "runtime_approved": false,
+      "notes": "Low island freezer, paired glass lids, ice cream bars/tubs and blue stripe read clearly. FAIL for target sprite: elevated overhead camera is too strong and long footprint axis is too shallow for iso2x_v1; substantial dark studio halo and glossy glass/metal. True alpha edge and game scale need separate calibration; no crop or scale applied."
+    },
+    {
+      "file": "agent_handtruck_v2/handtruck_candidate_v2.png",
+      "subject": "handtruck_candidate_v2",
+      "dimensions_px": [
+        1145,
+        1374
+      ],
+      "alpha_bbox": [
+        29,
+        21,
+        1105,
+        1374
+      ],
+      "sha256": "bab4d8db88a303e787cb94ac99a270e522a3b21b96eccb927968481c48ff1ba6",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "One empty platform hand truck; vertical metal frame, top handle, low toe plate, and two distinct wheels are visible. No cargo present. Near-front with a slight visible side/top surface; frame uprights appear essentially vertical. Not calibrated against iso2x_v1. Friendly game-art silhouette is readable, but the rendering is more metallic/glossy and realistic than the requested soft hand-painted style."
+    },
+    {
+      "file": "agent_postbox_v2/postbox_candidate_v2.png",
+      "subject": "postbox_candidate_v2",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        17,
+        39,
+        1004,
+        1518
+      ],
+      "sha256": "28979bab73c7422421def085cc3a18ba9bcfb5358550ac551e6703b869820dc1",
+      "visual_status": "review_only_projection_and_halo_fail",
+      "runtime_approved": false,
+      "notes": "FAIL: slight right side visible but perspective/top surface is stronger than specified; verticals approximately upright but not iso2x_v1 calibrated. FAIL: requested bright hand-painted game sprite is approximated, but the output has excessive glossy highlights and a broad red halo outside the object; re-generation/edit is needed before use."
+    },
+    {
+      "file": "agent_bun_v4/steamed_bun_warmer_candidate_v4.png",
+      "subject": "steamed_bun_warmer_candidate_v4",
+      "dimensions_px": [
+        1300,
+        1209
+      ],
+      "alpha_bbox": [
+        0,
+        8,
+        1294,
+        1153
+      ],
+      "alpha_bbox_ge_8": [
+        233,
+        196,
+        1087,
+        1093
+      ],
+      "sha256": "aa226db876168cb39fc6ed228b35fefd50591e5a1bc603ff89d748a950976d6b",
+      "visual_status": "review_only_projection_style_and_alpha_fail",
+      "runtime_approved": false,
+      "notes": "One compact two-tray glass bun warmer with five white buns and a lower control knob. Content is recognizable; finish remains photorealistic and glossy. Low-alpha colored fringe reaches the left canvas edge and the object touches the bottom edge; projection is not iso2x_v1 calibrated. No crop or cleanup applied."
+    },
+    {
+      "file": "agent_coffee_v3/coffee_machine_candidate_v3.png",
+      "subject": "coffee_machine_candidate_v3",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        97,
+        33,
+        952,
+        1519
+      ],
+      "alpha_bbox_ge_8": [
+        265,
+        39,
+        789,
+        1490
+      ],
+      "sha256": "6f0b13c2f885cb65a2df9dfe602f85952455c5ac38a6c936338c3594b8049e1d",
+      "visual_status": "review_only_projection_style_and_alpha_fail",
+      "runtime_approved": false,
+      "notes": "Single cream/charcoal coffee machine with touchscreen, dispenser, one cup, and drip tray. Recognizable, but photorealistic gloss and broad alpha-1 fringe remain; strict iso2x_v1 is unverified. No crop or cleanup applied."
+    },
+    {
+      "file": "agent_umbrella_v3.png",
+      "subject": "umbrella_stand_candidate_v3",
+      "dimensions_px": [
+        1243,
+        1266
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1203,
+        1266
+      ],
+      "alpha_bbox_ge_8": [
+        360,
+        83,
+        940,
+        1207
+      ],
+      "sha256": "e86092c42bde321c196e6a25e86ee4510b3e99253ae49d35b40c7fe48cc7d773",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Metal umbrella rack with three folded umbrellas in blue, ivory, and sage. Readable soft-painted illustration with transparent RGBA. Alpha-1 fringe reaches canvas edges and projection/game scale are not calibrated. No crop or cleanup applied."
+    },
+    {
+      "file": "rear_planting_candidate_v1/rear_planting_candidate_v1.png",
+      "subject": "exterior_rear_planting_jp_v1",
+      "dimensions_px": [
+        2172,
+        724
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "alpha_bbox_ge_8": [
+        4,
+        13,
+        2171,
+        686
+      ],
+      "sha256": "3d1dfd4bec95829ce76923b08049a8d4b3929807f064fe63f69da9380ccebfe6",
+      "visual_status": "review_only_projection_and_alpha_fail",
+      "runtime_approved": false,
+      "notes": "A continuous shallow V-shaped planting strip with Japanese sakura, evergreens, layered shrubs and flowers. Composition is suitable as a candidate, but game projection/world anchors are uncalibrated and low-alpha color fringe touches the canvas edges. No crop, warp, or cleanup applied."
+    },
+    {
+      "file": "side_planting_candidate_v1/side_planting_candidate_v1.png",
+      "subject": "exterior_side_planting_jp_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1774,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        5,
+        4,
+        1770,
+        878
+      ],
+      "sha256": "20528cca486b2094343a87e4f7e00ba03e4e92542ec4ef0aed96e0b66a23deef",
+      "visual_status": "review_only_projection_and_alpha_unverified",
+      "runtime_approved": false,
+      "notes": "Continuous right-side Japanese planting strip with sakura, evergreens, layered shrubs and flowers. Composition is readable, but world-space endpoints/iso2x_v1 are not calibrated and color fringe remains at the alpha edge. No crop or warp applied."
+    },
+    {
+      "file": "forecourt_ground_candidate_v1/forecourt_ground_candidate_v1.png",
+      "subject": "forecourt_parking_road_jp_candidate_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1774,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        0,
+        0,
+        1766,
+        878
+      ],
+      "sha256": "35b3bdd6d54b05dd06d782bf148312bf8144ee91d43cf8706f728a930490a7ec",
+      "visual_status": "review_only_style_projection_and_alpha_fail",
+      "runtime_approved": false,
+      "notes": "Japanese paved sidewalk, curb, parking spaces, road edge and crosswalk are readable, but the render has exaggerated slab extrusion, is not calibrated to iso2x_v1 or known world footprint, and alpha-edge residue reaches canvas edges. Review only; no crop/warp."
+    },
+    {
+      "file": "storefront_facade_candidate_v1/storefront_facade_candidate_v1.png",
+      "subject": "storefront_fixed_facade_jp_candidate_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1760,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        17,
+        136,
+        1757,
+        705
+      ],
+      "sha256": "668c6ed8914a97ccfd9f2ef159f7713006ae8801079bb3b6530fe8e803f8b3f3",
+      "visual_status": "review_only_projection_alpha_and_scale_unverified",
+      "runtime_approved": false,
+      "notes": "Long white facade with blue stripe, glass storefront windows and centered sliding entry. No readable brand text. World dimensions and iso2x projection are uncalibrated; alpha fringe remains at outer edges. No crop/warp."
+    },
+    {
+      "file": "oden_large_3bay_codex_v1/oden_large_3bay_candidate_v1.png",
+      "subject": "oden_large_3bay_codex_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1526,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        29,
+        78,
+        1507,
+        923
+      ],
+      "sha256": "469c430ba41688c0354a6c7f945062e74da454dcf7425aa02aaf91e678bf898e",
+      "visual_status": "review_only_alpha_style_and_projection_fail",
+      "runtime_approved": false,
+      "notes": "Three-bay oden warmer with visible ingredients. It is a separate Codex ImageGen candidate and does not replace the missing ChatGPT source/ZIP. Though RGBA, the entire image is semitransparent and has broad background haze; photoreal metal finish and near-front view do not match the game sprite. No crop/cleanup/warp."
+    },
+    {
+      "file": "hot_snack_three_bay_codex_v1/hot_snack_three_bay_candidate_v1.png",
+      "subject": "hot_snack_warmer_three_bay_codex_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1504,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        32,
+        54,
+        1497,
+        974
+      ],
+      "sha256": "ab388da5c4a3373c1c025a949feebec5fc52d239881471ca9e193200f89648d4",
+      "visual_status": "review_only_alpha_style_and_projection_fail",
+      "runtime_approved": false,
+      "notes": "Three differentiated hot-food bays read clearly, but metallic photorealism, broad low-alpha background haze, and uncalibrated near-frontal projection fail. This new Codex candidate does not substitute for the missing ChatGPT source/ZIP. No cleanup or warp."
+    },
+    {
+      "file": "hot_snack_three_bay_codex_v2/hot_snack_three_bay_candidate_v2.png",
+      "subject": "hot_snack_warmer_three_bay_codex_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        28,
+        0,
+        1504,
+        998
+      ],
+      "alpha_bbox_ge_8": [
+        31,
+        51,
+        1500,
+        976
+      ],
+      "sha256": "0111dacfa438eda7cfff8c5067acf272c7ca8dc8189de86552e9014250630dd0",
+      "visual_status": "review_only_style_alpha_projection_fail",
+      "runtime_approved": false,
+      "notes": "Edit of the v1 layout retains three clear food bays and slightly simplified linework, but remains glossy/photoreal and shows the same broad partial-alpha background haze; view is not calibrated to iso2x_v1. Does not substitute for missing ChatGPT source/ZIP. No cleanup or warp."
+    },
+    {
+      "file": "side_planting_candidate_v2/side_planting_candidate_v2.png",
+      "subject": "exterior_side_planting_jp_v2",
+      "dimensions_px": [
+        2022,
+        778
+      ],
+      "alpha_bbox": [
+        22,
+        0,
+        2008,
+        778
+      ],
+      "alpha_bbox_ge_8": [
+        26,
+        0,
+        2000,
+        775
+      ],
+      "sha256": "2c92fe0d516f34999dcb83766379e90433b04ac6f1ad8b049635c53523bcc3ea",
+      "visual_status": "review_only_projection_style_and_alpha_edge_unverified",
+      "runtime_approved": false,
+      "notes": "Integrated continuous planter and two rooted trees. True RGBA output. Long-axis slope is visually about 0.19 rise/run vs. 0.5 target; style remains too detailed and foliage has colored fringe. No crop/warp/cleanup; world anchor and Godot size unverified."
+    },
+    {
+      "file": "soft_serve_machine_candidate_v1/soft_serve_machine_candidate_v1.png",
+      "subject": "soft_serve_machine_candidate_v1",
+      "dimensions_px": [
+        1327,
+        1185
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        1270,
+        1161
+      ],
+      "alpha_bbox_ge_8": [
+        375,
+        58,
+        987,
+        1133
+      ],
+      "sha256": "a8f3f0d57f94ffe1808e1b725435f081ace6d4eb8a2112c61648a0620cac70c5",
+      "visual_status": "review_only_alpha_style_projection_and_geometry_unverified",
+      "runtime_approved": false,
+      "notes": "Standalone soft-serve machine with dual flavor indicators, lever/nozzle and drip tray. Real RGBA but low-alpha haze touches left/right canvas edges; glossy finish differs from target. Geometry, exact iso2x projection and Godot scale unverified. No crop/warp/cleanup."
+    },
+    {
+      "file": "soft_serve_machine_candidate_v2/soft_serve_machine_candidate_v2.png",
+      "subject": "soft_serve_machine_candidate_v2",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        65,
+        9,
+        1591,
+        855
+      ],
+      "alpha_bbox_ge_8": [
+        624,
+        37,
+        1161,
+        850
+      ],
+      "sha256": "8b4b81cbca280a778a4b42b5229acd9edb2190a400fde621699b5596cac7e351",
+      "visual_status": "review_only_alpha_style_projection_and_geometry_unverified",
+      "runtime_approved": false,
+      "notes": "Visual is more legible and less photoreal than v1, but alpha=1 haze remains broad and projection is uncalibrated."
+    },
+    {
+      "file": "frappe_blender_candidate_v1/frappe_blender_candidate_v1.png",
+      "subject": "frappe_blender_candidate_v1",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        66,
+        900,
+        1496
+      ],
+      "alpha_bbox_ge_8": [
+        181,
+        68,
+        866,
+        1455
+      ],
+      "sha256": "15c188d8269e2bc68b43c57870c939285c2e885a53915ba171701cb84452a575",
+      "visual_status": "review_only_alpha_style_projection_and_geometry_unverified",
+      "runtime_approved": false,
+      "notes": "Subject is distinct and readable; alpha haze touches left edge, finish is glossy, projection and fixture fit are unverified."
+    },
+    {
+      "file": "soft_serve_accessory_stand_candidate_v1/soft_serve_accessory_stand_candidate_v1.png",
+      "subject": "soft_serve_accessory_stand_candidate_v1",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        87,
+        81,
+        1520,
+        1024
+      ],
+      "alpha_bbox_ge_8": [
+        208,
+        89,
+        1375,
+        1008
+      ],
+      "sha256": "bd57ccdd9cf418feab64c182b6ca89a8ec9ae0a8f5df9a4b5e1655e6b4f219e9",
+      "visual_status": "review_only_alpha_style_projection_unverified",
+      "runtime_approved": false,
+      "notes": "The generated item is a grouped accessory caddy rather than the requested equipment machine; it is plausible as a standalone counter prop, but has a dark low-alpha background halo and the perspective is not calibrated. Review-only; do not treat this as the soft-serve machine or frappe blender."
+    },
+    {
+      "file": "flavor_pop_candidate_v1/flavor_pop_candidate_v1.png",
+      "subject": "flavor_pop_candidate_v1",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1290,
+        1199
+      ],
+      "alpha_bbox_ge_8": [
+        47,
+        113,
+        1271,
+        1164
+      ],
+      "sha256": "bac2420b7e491af0e31f87b7bef30e5554e1950b9cf3fc8188b557c778d208a4",
+      "visual_status": "review_only_alpha_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Menu POP, transparent alpha with stray fringe; projection and game scale unverified."
+    },
+    {
+      "file": "soft_serve_machine_candidate_v3/soft_serve_machine_candidate_v3.png",
+      "subject": "soft_serve_machine_candidate_v3",
+      "dimensions_px": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        235,
+        26,
+        1082,
+        1104
+      ],
+      "alpha_bbox_ge_8": [
+        347,
+        28,
+        1077,
+        1099
+      ],
+      "sha256": "af86fafeec6a9cb5f57f30bc4c3ba6b30b54efa204f89ecca60eca66f63d1ec4",
+      "visual_status": "review_only_alpha_projection_unverified",
+      "runtime_approved": false,
+      "notes": "ImageGen refinement from v2; inspect fringe and calibrate in game."
+    },
+    {
+      "file": "frappe_blender_candidate_v2/frappe_blender_candidate_v2.png",
+      "subject": "frappe_blender_candidate_v2",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        123,
+        25,
+        956,
+        1477
+      ],
+      "alpha_bbox_ge_8": [
+        173,
+        41,
+        877,
+        1475
+      ],
+      "sha256": "41f7419ba8d5ae945cd13aa356bec3afc8612f5ea63b27462e610499e1c58bda",
+      "visual_status": "review_only_alpha_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Warm variant of v1; dark halo remains, projection uncalibrated."
+    },
+    {
+      "file": "frappe_blender_alpha_edit_v3/frappe_blender_alpha_edit_v3.png",
+      "subject": "frappe_blender_alpha_edit_v3",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        28,
+        972,
+        1504
+      ],
+      "alpha_bbox_ge_8": [
+        173,
+        30,
+        878,
+        1476
+      ],
+      "sha256": "d6acfd8f8f205a2ed0c48bb821e99068706bd94bbaf93f401709322763eeacf3",
+      "visual_status": "review_only_alpha_fail",
+      "runtime_approved": false,
+      "notes": "FAIL: dark halo persists and alpha=1 reaches left edge; no evidence of improved isolation."
+    },
+    {
+      "file": "frappe_topping_dispenser_candidate_v1/frappe_topping_dispenser_candidate_v1.png",
+      "subject": "frappe_topping_dispenser_candidate_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        57,
+        38,
+        1706,
+        864
+      ],
+      "alpha_bbox_ge_8": [
+        514,
+        41,
+        1246,
+        858
+      ],
+      "sha256": "0837f11776505d2a9270537df18b2d7ee0fe46e876974abe384c2a99c80d5d87",
+      "visual_status": "review_only_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Three-compartment topping dispenser; fixture dimensions and game projection unverified."
+    },
+    {
+      "file": "register_basic_counter_candidate_v1/register_basic_counter_candidate_v1.png",
+      "subject": "register_basic_counter_candidate_v1",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        73,
+        62,
+        1718,
+        823
+      ],
+      "alpha_bbox_ge_8": [
+        431,
+        65,
+        1466,
+        817
+      ],
+      "sha256": "7d822559ae4d4873073106cdb44d407017f39651edd7ded6cb22992416dd51f0",
+      "visual_status": "review_only_geometry_projection_unverified",
+      "runtime_approved": false,
+      "notes": "Standalone counter and POS; counter appears long; reference screenshot not actually supplied to generator."
+    },
+    {
+      "file": "register_basic_counter_candidate_v2/register_basic_counter_candidate_v2.png",
+      "subject": "register_basic_counter_candidate_v2",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        70,
+        1370,
+        975
+      ],
+      "alpha_bbox_ge_8": [
+        215,
+        72,
+        1351,
+        973
+      ],
+      "sha256": "2f48cbd939e435b344caf6a8762617b071ba5428ff49259dd4f7cdcd04e162f9",
+      "visual_status": "review_only_alpha_fail_geometry_unverified",
+      "runtime_approved": false,
+      "notes": "Style reference supplied; halo remains strong, 1x2 and projection unverified."
+    },
+    {
+      "file": "register_basic_counter_candidate_v3/register_basic_counter_candidate_v3.png",
+      "subject": "register_basic_counter_candidate_v3",
+      "dimensions_px": [
+        1774,
+        887
+      ],
+      "alpha_bbox": [
+        43,
+        40,
+        1744,
+        887
+      ],
+      "alpha_bbox_ge_8": [
+        416,
+        62,
+        1465,
+        843
+      ],
+      "sha256": "7fdca2d5bd5b8f56b647ace2e4e29f89c4497ec8c9f972202f87a654d7b103ed",
+      "visual_status": "review_only_projection_provisional_fail",
+      "runtime_approved": false,
+      "notes": "Approximate manual slopes long -0.388, short 0.601; target -0.5/+0.5. No Godot or independent QA."
+    },
+    {
+      "file": "register_basic_counter_candidate_v4/register_basic_counter_candidate_v4.png",
+      "subject": "register_basic_counter_candidate_v4",
+      "dimensions_px": [
+        1387,
+        1134
+      ],
+      "alpha_bbox": [
+        0,
+        23,
+        1315,
+        1100
+      ],
+      "alpha_bbox_ge_8": [
+        211,
+        169,
+        1247,
+        1025
+      ],
+      "sha256": "acdaca61988b1dbfe9f1ab32a3edcb2d339143147f4e0fd4e5202f212eab09e8",
+      "visual_status": "review_only_projection_alpha_provisional_fail",
+      "runtime_approved": false,
+      "notes": "Guide-based generation; rough edge slopes long -0.448, short 0.640; uncertain rounded endpoints."
+    }
+  ],
+  "comparisons": [
+    {
+      "file": "bread_gondola_comparison.png",
+      "sha256": "a4d8a492f21b4323dff6e634dec68a1e90e2fe0189f1e9929f2e3d7bb421822e",
+      "note": "display-only fit-to-panel; not equal source scale and not a projection calibration"
+    },
+    {
+      "file": "interior_equipment_review_sheet_20261029.png",
+      "sha256": "433436f28156bb266c81d90d5bbf1c56549f697c9283006869b3579058ce31ea",
+      "note": "Display-only side-by-side of soft-serve v1/v2 and frappe blender; fit-to-panel preview, not projection or scale calibration."
+    },
+    {
+      "file": "interior_equipment_review_sheet_20261029_v2.png",
+      "sha256": "c75430186ec54da4f00644dadbadbcb80b6e408017bfcf688d12e485b81e2bf7",
+      "note": "Four-up preview of equipment/accessory candidates; fit-to-panel only, not projection or scale calibration."
+    }
+  ]
+}

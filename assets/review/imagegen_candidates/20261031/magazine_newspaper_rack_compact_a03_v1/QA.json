@@ -1,0 +1,37 @@
+{
+  "source_mode": "RGBA",
+  "runtime_approved": false,
+  "asset_id": "magazine_newspaper_rack_compact_a03_v1",
+  "alpha": {
+    "threshold_128_bbox_xyxy": [
+      240,
+      72,
+      1326,
+      959
+    ],
+    "minimum": 0,
+    "alpha_128_to_254_pixels": 674130,
+    "alpha_1_to_127_pixels": 18735,
+    "reason": "No fully opaque pixels and broad semitransparent vignette/shadow.",
+    "verdict": "FAIL",
+    "maximum": 254,
+    "fully_opaque_pixels": 0,
+    "fully_transparent_pixels": 879999
+  },
+  "source_dimensions_px": [
+    1536,
+    1024
+  ],
+  "source_sha256": "ef47fccfb4065b8ce20439574b3fc72f0bb427ba19242147fb5d8f6359e26ce7",
+  "projection": {
+    "id": "iso2x_v1",
+    "reason": "Perspective three-quarter view; no calibrated world-space control points or Godot validation.",
+    "verdict": "FAIL"
+  },
+  "content": {
+    "verdict": "PASS",
+    "notes": "Single integrated two-tier low rack, fictional printed covers and folded papers retained by rails. No detached floating product cards."
+  },
+  "source_file": "source_original.png",
+  "overall": "FAIL"
+}

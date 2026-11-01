@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0-draft",
+  "asset_id": "hot_snack_warmer_three_bay_2d_20261029_v2",
+  "display_name_ja": "レジ横ホットスナック3区画加温ケース",
+  "subject": "Japanese convenience-store countertop three-bay heated glass display with fried chicken, croquettes, nikuman",
+  "source_method": "2D vector drawing; not the rejected ImageGen dessert sheet",
+  "source_files": {
+    "source_original": "source_original.svg",
+    "game_512": "game_512.png",
+    "game_256": "game_256.png",
+    "bundle": "hot_snack_warmer_three_bay_2d_20261029_v2.zip"
+  },
+  "geometry": {
+    "projection_target": "iso2x_v1",
+    "r0_customer_facing": "+X",
+    "scale_and_anchor_verified_in_Godot": false,
+    "world_footprint_tiles": null,
+    "footprint_requires_measurement": true
+  },
+  "quality": {
+    "background_alpha": true,
+    "runtime_approved": false,
+    "human_approved": false,
+    "photo_reference_qa": false,
+    "transparent_edges_reviewed": false
+  },
+  "replaces_existing_original": false,
+  "related_unresolved_asset": "hot_snack_warmer_three_bay_chatgpt_20261029_v1",
+  "draft_pr": 164,
+  "related_issue": 163,
+  "date": "2026-10-29"
+}

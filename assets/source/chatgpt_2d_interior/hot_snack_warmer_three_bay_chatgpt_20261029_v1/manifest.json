@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0-draft",
+  "asset_id": "hot_snack_warmer_three_bay_chatgpt_20261029_v1",
+  "category": "hot_snack_warmer",
+  "style": "single isolated 2D isometric rendered illustration",
+  "actual_subject": "Japanese convenience store three-bay glass heated hot snack warmer, fried chicken, croquettes, hot buns, skewers",
+  "image_source": "ChatGPT image generation",
+  "original_resolution_px": [
+    1536,
+    1024
+  ],
+  "visual_file_names": [
+    "source_original.png",
+    "sprite_fullres.png",
+    "sprite_fullres.webp",
+    "game_512.png",
+    "game_256.png"
+  ],
+  "source_sha256": "27f3750df93212453962d30bd97e5137df0c717a7e845cf54842047dea9c04ef",
+  "source_png_git_blob_sha": "9018f14d06b037d3015f5b666a17fd56694e12fe",
+  "sprite_fullres_sha256": "cfa0123e0a0f31901325798a32eb510a98f2a181a819f02136887466b4e8d8f0",
+  "game_512_sha256": "11cea59b8dabf87bc73c4bdc674cde89afb37e538d852428f90daa11f9825cd1",
+  "game_256_sha256": "4d37bb013b8e24a3382941be9d7ffce0f0b5e1464d93f78130f02f3d90055ff8",
+  "complete_bundle_name": "hot_snack_warmer_full_small_manifest_20261029.zip",
+  "complete_bundle_sha256": "696e558a5d615ebb6028e59c9e0675e11138992547cd62d237c58b7b5057db81",
+  "image_upload_status": "NOT YET UPLOADED TO THIS FOLDER; staged in ChatGPT ZIP. Do not report image or ZIP as GitHub registered until file existence and SHA verification.",
+  "background_alpha": "source has low-alpha studio background; prepared sprite normalizes low alpha, unverified in game",
+  "target_projection": "iso2x_v1",
+  "r0_access_world": "+X candidate, verify",
+  "footprint_tiles": null,
+  "geometry_approved": false,
+  "runtime_approved": false,
+  "equipment_tier": "needs gameplay design based on capacity/power/cost, not on image resolution",
+  "related_issue": 163,
+  "related_pr": 164
+}

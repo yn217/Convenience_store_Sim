@@ -1,0 +1,40 @@
+{
+  "asset_id": "steamed_bun_case_candidate",
+  "file": "steamed_bun_case_candidate.png",
+  "imagegen_source_path": "C:\\Users\\yuuna\\.codex\\generated_images\\01a185d1-b5e3-7b63-9306-6bb53714c315\\exec-5106b440-81fd-4751-9dd4-1a53e015f5c3.png",
+  "generation_tool": "built-in image_gen",
+  "width": 1774,
+  "height": 887,
+  "alpha_bbox": [
+    0,
+    40,
+    1633,
+    857
+  ],
+  "sha256": "d4db2cb341797541491db088bbba454828d8055300a3b222db47c8e334a2f813",
+  "prompt": "Use case: stylized-concept. Single isolated 2D sprite for a Japanese convenience-store tycoon game: a SMALL countertop Japanese steamed-bun warmer/display case, one compact appliance rather than a floor-standing cabinet or multi-bay unit. Strict orthographic 2:1 isometric game view, front and right side visible, parallel edges/no perspective convergence. Stainless/cream base, compact clear glass chamber, warm interior lighting, 2-3 metal trays with rounded white steamed buns, small generic control/heat indicator. Warm painted game style, transparent background, full silhouette with margin. No text/logos/brand, room, counter, floor, people, collage, UI, watermark, loose food, extra equipment, large signage, refrigerator or 3D model.",
+  "observed_projection_issues": [
+    "Strict 2:1 axis ratio is visually close but not calibrated against the game projection; estimated only.",
+    "Vertical edges look near-parallel and both front and right side are visible.",
+    "The top housing is a broad solid canopy; confirm that this is acceptable for the target countertop bun warmer.",
+    "Transparent padding remains around the sprite; alpha bbox recorded for later placement calibration.",
+    "Three faint alpha pixels (alpha below 16) touch the far-left canvas edge; inspect/clean only in a derivative if adopted. No alpha>=16 pixels touch the edge."
+  ],
+  "visual_review": [
+    "One compact glass-front heated display with three trays and visible steamed buns; control knob and indicator are visible.",
+    "No text or brand marks; warm light and painted highlights fit the tycoon-game direction."
+  ],
+  "status": "review_only",
+  "runtime_approved": false,
+  "alpha_edge_check": {
+    "left_nonzero_pixels": 3,
+    "left_pixels_alpha_16_or_more": 0,
+    "other_canvas_edges_nonzero": 0,
+    "bbox_threshold_alpha_16": [
+      604,
+      44,
+      1171,
+      854
+    ]
+  }
+}

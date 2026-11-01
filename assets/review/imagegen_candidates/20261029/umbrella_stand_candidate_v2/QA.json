@@ -1,0 +1,43 @@
+{
+  "asset_id": "umbrella_stand_candidate_v2",
+  "issue": 163,
+  "status": "review_only",
+  "runtime_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen",
+    "transparent_background": true,
+    "prompt_summary": "Single compact umbrella rack with three folded umbrellas and sleeve bin, warm illustrated style, orthographic iso2x target."
+  },
+  "file": "umbrella_stand_candidate_v2.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt_0": [
+    494,
+    98,
+    1476,
+    924
+  ],
+  "alpha_bbox_gt_8": [
+    496,
+    100,
+    1088,
+    919
+  ],
+  "alpha_bbox_gt_128": [
+    497,
+    101,
+    1087,
+    918
+  ],
+  "edge_alpha_max": {
+    "top": 0,
+    "bottom": 0,
+    "left": 0,
+    "right": 0
+  },
+  "sha256": "eae76393c826772a5ff8e390adc968cc7afb1adf3066cdf97af2ae2966829a99",
+  "visual_qa": "Umbrella category, three colors and sleeve bin are clear; warm outlined game illustration. Angle reads as elevated three-quarter orthographic, but axis slopes are not calibrated to iso2x_v1. Dark translucent halo remains around the object; no canvas-edge clipping. Review-only; no crop or rescale."
+}

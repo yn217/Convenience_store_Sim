@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0-draft",
+  "asset_id": "fridge_drink_open_front_chatgpt_20261029_v2",
+  "category": "fridge_drink",
+  "image_subject": "Japanese convenience store low open-front refrigerated beverage display, not dessert display",
+  "requested_category": "fridge_dessert",
+  "generation_outcome": "wrong category; preserve under actual drinks category",
+  "files": {
+    "source_original_png": "source_original.png",
+    "fullres_webp": "source_fullres.webp",
+    "display_512_png": "game_512.png",
+    "display_256_png": "game_256.png"
+  },
+  "source_resolution_px": [
+    1536,
+    1024
+  ],
+  "alpha_status": "dark studio background is opaque (RGBA alpha 255); background removal REQUIRED before runtime",
+  "projection": {
+    "target": "iso2x_v1",
+    "tile_size_m": [
+      1,
+      1
+    ],
+    "screen_diamond_px_zoom1": [
+      128,
+      64
+    ],
+    "world_to_screen": "u=o_u+zoom*64*(x-y); v=o_v+zoom*(32*(x+y)-78.38367177*h)",
+    "r0_front": "+X",
+    "aligned_to_game": false,
+    "anchor_calibrated": false
+  },
+  "footprint_tiles": "unverified; choose equipment-dependent width/length",
+  "stock_state": "FULL",
+  "runtime_approved": false,
+  "source_image_approved": false,
+  "visual_qa_approved": false,
+  "quality_gates": [
+    "Correct visible category = drinks only",
+    "No dessert misclassification",
+    "Background removal/alpha edge",
+    "Exact in-game camera and orientation",
+    "World pivot and collision footprint",
+    "Godot same-camera screenshots",
+    "User visual approval"
+  ],
+  "grade_policy": "Source resolution/LOD never changes sales performance. If equipment upgrades are wanted, define separate gameplay stats and approved physical fixture variants.",
+  "related_issue": 163,
+  "draft_pr": 164,
+  "created_at": "2026-10-29"
+}

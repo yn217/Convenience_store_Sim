@@ -1,0 +1,35 @@
+{
+  "asset_id": "agent_sign_candidate",
+  "file": "agent_sign_candidate.png",
+  "generation_tool": "built-in Codex image_gen",
+  "source_path": "C:\\Users\\yuuna\\.codex\\generated_images\\01a18631-29e2-7ab1-b547-a785cce22cad\\exec-dd9abcce-d13f-46d1-ae1c-bcea23999534.png",
+  "dimensions_px": [1536, 1024],
+  "mode": "RGBA",
+  "sha256": "969459b14a05a6f081013fb86936b1694be44bd75a08882fde80331eac1a7abf",
+  "alpha": {
+    "channel_present": true,
+    "extrema": [0, 254],
+    "bbox_nonzero": [33, 0, 1506, 1009],
+    "bbox_threshold_16": [390, 6, 1159, 1007],
+    "bbox_threshold_128": [391, 7, 1158, 1007],
+    "edge_pixels_with_alpha": {
+      "top": 38,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "low_alpha_pixels_1_to_15": 7573,
+    "checkerboard_baked_into_image": false,
+    "notes": "Genuine alpha exists and the apparent dark surround is transparent display compositing. Low-alpha fringe touches the top edge, so clean transparent margin is not fully satisfied."
+  },
+  "projection_target": "iso2x_v1",
+  "visual_observations": [
+    "The output is one recognizable folding A-frame promo sign with two hinged panels, a visible hinge, feet and a complete object silhouette.",
+    "The front graphic is colorful food illustration without legible text, letters, numerals or logos.",
+    "Warm hand-painted shading and restrained texture broadly match the requested tycoon-game look.",
+    "The sprite shows a plausible elevated three-quarter view, but the ground-plane axes are not demonstrably calibrated to the exact 2:1 iso2x_v1 projection; projection QA is therefore not passed.",
+    "A faint alpha fringe reaches the top canvas edge; do not crop or stretch this original to hide it."
+  ],
+  "status": "review_only",
+  "runtime_approved": false
+}

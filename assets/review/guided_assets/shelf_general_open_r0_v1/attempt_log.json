@@ -1,0 +1,27 @@
+[
+  {
+    "attempt": 1,
+    "method": "built-in ImageGen edit",
+    "input_images": [
+      "guide_structure.png",
+      "game_reference.png"
+    ],
+    "input_sha256": {
+      "guide_structure.png": "d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae",
+      "game_reference.png": "50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3"
+    },
+    "output_size": [
+      1254,
+      1254
+    ],
+    "output_bbox": [
+      33,
+      77,
+      1125,
+      1254
+    ],
+    "status": "review_only",
+    "runtime_approved": false,
+    "finding": "Canvas changed from requested 640x640; rigid normalization and control point QA required. No roof; four boards visible. Edge fringe review pending."
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "asset_id": "postbox_candidate_v2",
+  "status": "review_only",
+  "runtime_approved": false,
+  "file": "postbox_candidate_v2.png",
+  "dimensions_px": {
+    "width": 1024,
+    "height": 1536
+  },
+  "mode": "RGBA",
+  "alpha_bbox_threshold_gt0": [
+    17,
+    39,
+    1004,
+    1518
+  ],
+  "alpha_bbox_threshold_ge128": [
+    222,
+    141,
+    801,
+    1438
+  ],
+  "edge_alpha_max": {
+    "top": 0,
+    "bottom": 0,
+    "left": 0,
+    "right": 0
+  },
+  "alpha_unique_count": 255,
+  "sha256": "28979bab73c7422421def085cc3a18ba9bcfb5358550ac551e6703b869820dc1",
+  "projection_assessment": "FAIL: slight right side visible but perspective/top surface is stronger than specified; verticals approximately upright but not iso2x_v1 calibrated.",
+  "style_assessment": "FAIL: requested bright hand-painted game sprite is approximated, but the output has excessive glossy highlights and a broad red halo outside the object; re-generation/edit is needed before use.",
+  "visual_observations": [
+    "Japanese postal mark and large upper mail slot are visible.",
+    "Lower collection door, handle, keyhole, two legs, and rectangular plinth are clear.",
+    "Body is rectangular with a narrow right side, but strong perspective and glow remain."
+  ],
+  "input_source": "Codex ImageGen, transparent_background=true",
+  "notes": "Candidate retained as generated. No cleanup, crop, resize, or alpha editing applied."
+}

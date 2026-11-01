@@ -1,0 +1,33 @@
+{
+  "asset_id": "plastic_crate_stack_candidate",
+  "file": "plastic_crate_stack_candidate.png",
+  "generation_tool": "built-in image_gen",
+  "source_path": "C:\\Users\\yuuna\\.codex\\generated_images\\01a185d1-b5e3-7b63-9306-6bb53714c315\\exec-0b45585d-95b4-437b-a364-b12566604ce5.png",
+  "width": 1412,
+  "height": 1114,
+  "alpha_bbox": [
+    27,
+    17,
+    1378,
+    1086
+  ],
+  "alpha_bbox_threshold_16": [
+    265,
+    56,
+    1150,
+    1084
+  ],
+  "canvas_edge_nonzero_alpha_pixels": 0,
+  "sha256": "5bddb064ccf741d6a93392d1faa9452895640febb71f2937f20d121c24355429",
+  "prompt": "Use case: stylized-concept. Asset type: isolated transparent 2D game sprite. Draw exactly one compact stack of three nested blue reusable delivery crates for a Japanese convenience store. Each crate is an open-top plastic tote with clearly open lattice/grid side walls, thick molded rims and visible inside; never solid cubes. Slightly offset each level but the stack must look stable. Strict orthographic iso2x game projection: front and right side visible, axis slopes approximately +26.565 and -26.565 degrees (2:1 horizontal-to-vertical), verticals parallel, zero perspective convergence. Warm hand-painted tycoon-game illustration, restrained clean highlights, readable silhouette, moderate detail, realistic blue plastic. Entire stack with transparent margin. CRITICAL BACKGROUND: fully transparent pixels outside the exact object silhouette; no colored background, no vignette, no aura, no glow, no outline halo, no ambient mist, no ground, no floor, no cast shadow. No text, marks, labels, people, environment, collage, UI, watermark, extra props, or 3D model.",
+  "visual_observations": [
+    "Exactly three blue reusable crate levels are visible; open lattice sides and top rims read as crates rather than solid cubes.",
+    "The stack is one coherent object with the front and right-facing sides visible; offset is subtle and appears stable.",
+    "Background has alpha transparency and no nontransparent pixels touch the canvas edge.",
+    "Some very low-alpha blue fringe/speckling remains near the object; raw alpha bbox is wider than the primary silhouette. Threshold-16 bbox is recorded for inspection.",
+    "Highlights are cool and saturated; warm painted tycoon style is only a partial match.",
+    "Strict iso2x 2:1 axes are visually plausible but not calibrated against the game camera; do not stretch to force a match."
+  ],
+  "status": "review_only",
+  "runtime_approved": false
+}

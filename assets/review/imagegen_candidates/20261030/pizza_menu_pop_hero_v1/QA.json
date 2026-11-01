@@ -1,0 +1,62 @@
+{
+  "asset_id": "pizza_menu_pop_hero_v1",
+  "reviewer": "parent visual and text review; generated directly using Codex built-in image_gen",
+  "overall": "FAIL",
+  "source_sha256": "83df3fcda318c6b943c20ec3a34292d4f30bbce013097850563aeef6ca6f67e3",
+  "image": {
+    "width": 1334,
+    "height": 1179,
+    "format": "PNG RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_zero": 1042795,
+    "alpha_1_to_127": 8476,
+    "alpha_128_to_254": 519999,
+    "alpha_255": 1516,
+    "alpha_gt_0_bbox_xyxy_inclusive": [
+      49,
+      46,
+      1317,
+      1139
+    ],
+    "alpha_gt_0_margins_pct": {
+      "left": 3.67,
+      "right": 1.27,
+      "top": 3.9,
+      "bottom": 3.39
+    },
+    "alpha_ge_128_bbox_xyxy_inclusive": [
+      286,
+      127,
+      1085,
+      1048
+    ],
+    "alpha_ge_128_margins_pct": {
+      "left": 21.44,
+      "right": 18.66,
+      "top": 10.77,
+      "bottom": 11.11
+    },
+    "alpha_nonzero_touches_canvas_edges": false
+  },
+  "checks": {
+    "subject_identity": "pass: single freestanding A-frame pizza POP",
+    "requested_japanese_text": "pass: 焼きたてピザ and ¥398〜 appear legible; no extra copy detected",
+    "illustration_and_stand": "pass",
+    "transparent_background": "fail: only 1,516 pixels are alpha 255; most sign/stand pixels have alpha 128–254",
+    "safe_margin": "fail: alpha-positive right margin is 1.27%, below 12% requested",
+    "iso2x_v1_projection": "fail: sign side/face angles are not calibrated against 2:1 game control points",
+    "dimensions_and_anchor": "not_checked",
+    "godot_game_scale": "not_checked",
+    "runtime_approved": false
+  },
+  "notes": [
+    "The A-frame shape is recognizable, the Japanese headline and fictional price line are readable, and the pizza illustration supports the intended use.",
+    "Alpha-positive bbox leaves only 1.27% at right; alpha>=128 bbox is more inset but does not remove faint nonzero fringe.",
+    "Only 1516 pixels are fully opaque and most graphic pixels are semitransparent; preserve source unchanged.",
+    "A-frame perspective is illustrative and not calibrated to iso2x_v1; no dimensions, control points, anchor, or Godot display.",
+    "Review-only FAIL, runtime_approved:false."
+  ]
+}

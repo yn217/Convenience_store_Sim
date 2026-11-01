@@ -1,0 +1,18 @@
+{
+  "asset_id": "plant_checkerboard_edit_v2",
+  "file": "plant_candidate/plant_checkerboard_edit_v2.png",
+  "generation_tool": "built-in Codex image_gen",
+  "dimensions_px": [
+    1254,
+    1254
+  ],
+  "mode": "RGB",
+  "alpha_bbox": null,
+  "sha256": "bd24085cfee812b16ade038c86a842f6e112b2a324a2fe800cb283efd49b50ed",
+  "visual_observations": [
+    "FAIL: edit retained and intensified the checkerboard as opaque RGB; do not use as a sprite."
+  ],
+  "status": "review_only_generation_fail",
+  "runtime_approved": false,
+  "human_approved": false
+}

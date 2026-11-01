@@ -1,0 +1,53 @@
+{
+  "asset_id": "capsule_toy_machine_s05_v1",
+  "source_file": "source_original.png",
+  "source_mode": "RGBA",
+  "source_dimensions_px": [
+    1269,
+    1239
+  ],
+  "source_sha256": "f93792e79fb3a0ae0ba0f5fa6aa49f62b8954558b68a005fa199a88318fb2133",
+  "content": {
+    "verdict": "PASS",
+    "notes": "One single-column capsule toy machine with visible globe, capsules, coin slot, turning knob, and pickup door; uses generic original capsule toys."
+  },
+  "alpha": {
+    "verdict": "FAIL",
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_pixels": 983042,
+    "alpha_1_to_127_pixels": 12466,
+    "alpha_128_to_254_pixels": 576157,
+    "fully_opaque_pixels": 626,
+    "nonzero_bbox_xyxy": [
+      0,
+      17,
+      1225,
+      1222
+    ],
+    "threshold_128_bbox_xyxy": [
+      330,
+      22,
+      941,
+      1219
+    ],
+    "touches_any_edge": true,
+    "left_edge_nonzero_pixels": 3,
+    "reason": "Broad semitransparent subject/background pixels; only 626 fully opaque pixels, with three nonzero alpha pixels touching the left edge."
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "verdict": "FAIL",
+    "reason": "Near-front-facing/perspective-like view, not calibrated to 2:1 game iso; no control points or Godot validation."
+  },
+  "geometry": {
+    "verdict": "NOT_CHECKED",
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "ground_anchor": null
+  },
+  "godot_runtime": "NOT_CHECKED",
+  "independent_visual_review": "NOT_CHECKED",
+  "runtime_approved": false,
+  "overall": "FAIL"
+}

@@ -1,0 +1,5 @@
+Prompt used:
+Single small Japanese convenience-store countertop oden warmer, polished game sprite 2D illustration. Compact stainless rectangular pot with 4 divided compartments and visible daikon, egg, konnyaku, fishcake, held by a short dark stainless base, small appliance suitable on a register counter, not floor standing. 2:1 isometric orthographic view, front and right faces visible, parallel edges match classic 2:1 iso slopes. Transparent background, centered with >=15% transparent margin, entire object visible. No text/logos, no surrounding counter/background, no other appliances, no collage, no perspective convergence.
+
+ImageGen output path: C:\Users\yuuna\.codex\generated_images\01a167fe-68ec-7a33-b9a0-3e0524a92252\exec-32e7c5b7-c2dc-4065-a6fe-1080790ade67.png
+Output: PNG RGBA, 1774x887; source SHA-256 f9931a419c23455315df10342b98e38a6694c7d8d98b0231d940c0b3884b870a

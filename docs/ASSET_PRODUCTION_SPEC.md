@@ -1,4 +1,7 @@
 # 2.5D アセット制作・描画仕様 v0.1
+
+> **2026-10-29追補（制作方式の変更）**: 本書は2026-10-22時点のBlender中心の旧方式を含む。新規のChatGPT/Codex生成**2Dアセット**について、Blender/3Dモデル制作は必須ではない。制作/型式/投影/候補審査は [2D制作・投影契約](art/2D_ASSET_PRODUCTION_AND_PROJECTION_V1.md)、在庫とグレードは [2D runtime契約](art/2D_ASSET_RUNTIME_AND_EQUIPMENT_V1.md)、店外とGitHub納品は [店外・パイプライン](art/2D_ASSET_EXTERIOR_AND_PIPELINE_V1.md) を優先する。ただし本書と[02_GRID](implementation/02_GRID_AND_ASSET_CONTRACT.md)の**world寸法/正投影/4方向/接地点/本番Domain契約は引き続き有効**。仕様差分は[監査表](art/ASSET_SPEC_GAP_AUDIT_2026_10_29.md)参照。
+
 更新: 2026-10-22｜対象: Blender生成アセット、Godot 4 Sprite2D描画、商品ラベル
 
 ## A. 画風と前提

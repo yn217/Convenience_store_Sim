@@ -1,0 +1,43 @@
+{
+  "asset_id": "freezer_chest_candidate_v1",
+  "issue": 163,
+  "status": "review_only",
+  "runtime_approved": false,
+  "generation": {
+    "tool": "Codex ImageGen",
+    "transparent_background": true,
+    "prompt_summary": "Single Japanese convenience-store chest freezer with two glass sliding lids and visible frozen food packs, white body and navy band."
+  },
+  "file": "freezer_chest_candidate_v1.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox_gt_0": [
+    0,
+    33,
+    1510,
+    1024
+  ],
+  "alpha_bbox_gt_8": [
+    124,
+    91,
+    1411,
+    979
+  ],
+  "alpha_bbox_gt_128": [
+    125,
+    92,
+    1410,
+    978
+  ],
+  "edge_alpha_max": {
+    "top": 0,
+    "bottom": 1,
+    "left": 1,
+    "right": 0
+  },
+  "sha256": "67007256b78beeea1a6a711201dee613acbc6f870e1cef698db9d36632c4119e",
+  "visual_qa": "The low chest form, paired sliding glass lids, frozen-food contents, navy band, vents and side panel read clearly. FAIL as game-ready sprite: camera is too high and long axis is too shallow for iso2x_v1; strong gray studio halo and metallic reflections remain. True alpha bounds and game footprint are not calibrated; no crop or scale applied."
+}

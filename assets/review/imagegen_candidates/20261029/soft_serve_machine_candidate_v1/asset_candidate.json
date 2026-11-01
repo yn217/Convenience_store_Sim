@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "asset_id": "soft_serve_machine_candidate_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "Standalone Japanese convenience-store soft-serve machine; distinct from ice cream freezer and frappe blender",
+  "actual_subject": "One cream/stainless dual-indicator soft-serve dispenser with lever/nozzle and drip tray",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "fixture_type_id": "soft_serve_machine",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261029/soft_serve_machine_candidate_v1/soft_serve_machine_candidate_v1.png",
+    "unchanged_original": true,
+    "file_size_bytes": 983344,
+    "sha256": "a8f3f0d57f94ffe1808e1b725435f081ace6d4eb8a2112c61648a0620cac70c5",
+    "reference_hashes": [
+      "49bb2df55959611a45aa36a03e19b50924c10b26b70b78b4f6698bd153d223ac"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261029/soft_serve_machine_candidate_v1/soft_serve_machine_candidate_v1.png",
+      "byte_size": 983344,
+      "sha256": "a8f3f0d57f94ffe1808e1b725435f081ace6d4eb8a2112c61648a0620cac70c5",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      1
+    ],
+    "dimensions_m": [
+      0.92,
+      0.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "not_checked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "Content clearly reads as a standalone soft-serve dispensing machine.",
+      "Target dimensions/footprint are from fixture data; the generated silhouette has not been measured against them.",
+      "Broad low-alpha haze reaches the image edges; style has glossy highlights compared with the game reference.",
+      "No crop, warp, alpha cleanup or runtime hookup was performed."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

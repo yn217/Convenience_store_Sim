@@ -1,0 +1,38 @@
+{
+  "asset_id": "copier_candidate_v2",
+  "status": "review_only",
+  "runtime_approved": false,
+  "source": "Codex ImageGen",
+  "file": "copier_candidate_v2.png",
+  "image": {
+    "width": 1183,
+    "height": 1330,
+    "mode": "RGBA",
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "transparent_pixel_count": 794935,
+    "non_opaque_pixel_count": 1572227,
+    "bbox_alpha_gt_1_xyxy": [228, 106, 1005, 1258],
+    "bbox_alpha_gt_8_xyxy": [230, 108, 1003, 1255],
+    "bbox_alpha_gt_32_xyxy": [232, 108, 1002, 1255],
+    "bbox_alpha_gt_128_xyxy": [232, 109, 1002, 1255],
+    "bbox_alpha_gt_250_xyxy": [233, 110, 1001, 1253],
+    "edge_max_alpha": 1,
+    "corner_alpha_tl_tr_bl_br": [0, 0, 0, 0],
+    "sha256": "997B440CDBAF3F23B135E5D42A65ADAA657E862B43A9201F53979F47A81168F3"
+  },
+  "visual_review": {
+    "single_copier_only": true,
+    "requested_features": {
+      "adf_top": "present",
+      "touch_screen": "present",
+      "output_tray": "present",
+      "lower_paper_cassettes": "three visible drawers"
+    },
+    "style": "soft painted game illustration, bright warm off-white body, restrained blue UI; some polished shading remains",
+    "background": "transparent RGBA; no floor plane or cast shadow; alpha on outer image edges is at most 1/255",
+    "projection": "three-quarter view with right side visible and mostly vertical edges; strict iso2x_v1 axes/scale are not calibrated and are not claimed",
+    "halo": "no broad white outline halo visible; a faint semitransparent edge exists around parts of the silhouette",
+    "decision": "usable as a visual candidate for review; projection and in-game scale need separate calibration"
+  }
+}

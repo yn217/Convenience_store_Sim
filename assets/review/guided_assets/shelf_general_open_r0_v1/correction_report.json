@@ -1,0 +1,41 @@
+{
+  "runtime_approved": false,
+  "source_sha256": "cbaeb985a25d6711d1fdce272c7368e82076cfc920706cf6971d403c354faedb",
+  "source_bbox_alpha128": [
+    260,
+    311,
+    979,
+    1088
+  ],
+  "guide_bbox_alpha128": [
+    134,
+    162,
+    498,
+    553
+  ],
+  "uniform_scale": 0.5032175032175032,
+  "translation_px": [
+    4.256756756756715,
+    5.499356499356509
+  ],
+  "nonuniform_stretch": false,
+  "mirror": false,
+  "corrected_bbox_alpha128": [
+    135,
+    162,
+    497,
+    553
+  ],
+  "silhouette_iou_reference_only": 0.980722752240532,
+  "canvas_px": [
+    640,
+    640
+  ],
+  "anchor_px": [
+    380,
+    430
+  ],
+  "status": "review_only",
+  "control_point_match": "not yet measured; silhouette IoU is not approval",
+  "cleaning": "largest alpha>=8 component plus 1px feather neighborhood; original preserved"
+}

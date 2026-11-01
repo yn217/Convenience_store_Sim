@@ -1,0 +1,40 @@
+{
+  "asset_id": "register_basic_counter_candidate_v2",
+  "image": "register_basic_counter_candidate_v2.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "sha256": "2f48cbd939e435b344caf6a8762617b071ba5428ff49259dd4f7cdcd04e162f9",
+  "alpha_bbox": {
+    "1": [
+      0,
+      70,
+      1370,
+      975
+    ],
+    "8": [
+      215,
+      72,
+      1351,
+      973
+    ],
+    "128": [
+      216,
+      73,
+      1350,
+      972
+    ]
+  },
+  "actual_subject": "Single staffed checkout counter with POS and payment equipment",
+  "references": [
+    "register_basic_counter_candidate_v1 PNG",
+    "image-1792819026698.webp game screenshot"
+  ],
+  "limitations": [
+    "Strong dark and gold haze persists despite transparency request",
+    "Counter length and 2:1 footprint remain visually unproven",
+    "Game projection, access edge, anchor and display size unverified"
+  ],
+  "runtime_approved": false
+}

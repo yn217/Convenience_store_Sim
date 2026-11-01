@@ -1,0 +1,38 @@
+{
+  "source_file": "source_original.png",
+  "projection": {
+    "verdict": "FAIL",
+    "id": "iso2x_v1",
+    "reason": "Canvas is near 2:1 but camera axes are uncalibrated and perspective-like; no world control points or Godot validation."
+  },
+  "source_dimensions_px": [
+    1774,
+    887
+  ],
+  "asset_id": "canned_retort_seasoning_gondola_a04_v1",
+  "alpha": {
+    "alpha_128_to_254_pixels": 773029,
+    "minimum": 0,
+    "maximum": 255,
+    "alpha_1_to_127_pixels": 13678,
+    "transparent_pixels": 786258,
+    "fully_opaque_pixels": 573,
+    "threshold_128_bbox_xyxy": [
+      234,
+      59,
+      1539,
+      887
+    ],
+    "verdict": "FAIL",
+    "touches_bottom_edge": true,
+    "reason": "Broad semitransparency through the subject, almost no fully opaque pixels, and thresholded artwork touches lower canvas edge."
+  },
+  "content": {
+    "notes": "Three-tier open fixture with cans, retort pouches, and seasonings integrated on shelves behind front rails; no detached cards.",
+    "verdict": "PASS"
+  },
+  "overall": "FAIL",
+  "source_mode": "RGBA",
+  "runtime_approved": false,
+  "source_sha256": "0b527d884260995723ebb86d13dec2923da62b0c8d0245c55d88bf76c326bc96"
+}

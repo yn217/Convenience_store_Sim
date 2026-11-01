@@ -1,0 +1,29 @@
+{
+  "asset_id": "fryer_candidate",
+  "file": "fryer_candidate/fryer_candidate.png",
+  "generation_tool": "built-in Codex image_gen (transparent_background=true)",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_bbox": [
+    0,
+    30,
+    1442,
+    1000
+  ],
+  "alpha_bbox_threshold_8": [
+    286,
+    66,
+    1274,
+    974
+  ],
+  "sha256": "ef997af3ad6413ba801d613ffb3608ca9e619cd27b27a9c7c033876ca3c8e4e9",
+  "visual_observations": [
+    "Standalone double-basket stainless fryer, both controls and baskets are clear and category is identifiable. RGBA alpha is present but diffuse halo reaches the left canvas edge (alpha>=8 has margin); camera is strongly perspective-like, not calibrated iso2x_v1, and highlights are glossy. Review-only."
+  ],
+  "status": "review_only_projection_and_alpha_halo_unverified",
+  "runtime_approved": false,
+  "human_approved": false
+}

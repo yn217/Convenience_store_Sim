@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "asset_id": "stationery_shelf_integrated_hero_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "P1 A02 stationery and phone-accessory gondola for Issue #125",
+  "actual_subject": "Single integrated gondola with pens, notebooks, batteries and phone charging accessories",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261030/stationery_shelf_integrated_hero_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2234421,
+    "sha256": "e575332a71868add9060ed7918772570552e73dc6ec16ff4d654a238784aec28",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261030/stationery_shelf_integrated_hero_v1/source_original.png",
+      "byte_size": 2234421,
+      "sha256": "e575332a71868add9060ed7918772570552e73dc6ec16ff4d654a238784aec28",
+      "git_blob_sha": "a0d1c7eb24f94ee7e7c404633524dd996a3f581e",
+      "github_uploaded": true
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261030/stationery_shelf_integrated_hero_v1/qa_preview_white.jpg",
+      "byte_size": 387078,
+      "sha256": "9f4565cb82534f3fd9e72b67aa9deba731534ef38d1fcc5bb15a8b9db5a0d4be",
+      "git_blob_sha": "494e3ff56785dabc6fc04efda3cd4c3160a42154",
+      "github_uploaded": true
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_checked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "A02 shelf with integrated stationery and phone accessories is identifiable.",
+      "No fully opaque alpha pixels; weak fringe reaches image bottom and requested margins are not achieved.",
+      "Projection/world measurements/Godot runtime are not verified.",
+      "Review-only; runtime_approved false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

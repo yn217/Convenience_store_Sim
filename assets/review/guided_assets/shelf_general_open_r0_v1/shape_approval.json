@@ -1,0 +1,7 @@
+{
+  "user_message": "進めても",
+  "interpretation": "approval to proceed from displayed EMPTY shape to one FULL/r0 candidate",
+  "scope": "EMPTY shape only; not runtime, merge, release, or FULL approval",
+  "approved_on": "2026-10-31",
+  "runtime_approved": false
+}
