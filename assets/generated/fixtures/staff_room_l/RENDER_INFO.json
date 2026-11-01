@@ -1,16 +1,16 @@
 {
  "robust_extent_before_scale": [
-  0.9799,
-  0.8992,
-  0.2763
+  0.9588,
+  0.9951,
+  0.2716
  ],
- "scale_x": 4.0005,
- "scale_y": 3.2474,
- "scale_vertical": 4.145,
- "cut_splats": 8518,
+ "scale_x": 4.0886,
+ "scale_y": 2.9343,
+ "scale_vertical": 3.9832,
+ "cut_splats": 10182,
  "shear": [
-  -0.01,
-  -0.03
+  0.0,
+  0.0
  ],
  "cutaway": [
   0.3,
@@ -20,8 +20,8 @@
  "glass_above": null,
  "glass_alpha": 1.0,
  "drop_above": null,
- "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\staff_room_l_9101_v1/reference.ply",
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\staff_room_l_9102_v1/reference.ply",
  "type": "staff_room_l",
- "front_yaw": 88.5,
+ "front_yaw": 90.5,
  "access_edge": "S"
 }

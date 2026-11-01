@@ -41,10 +41,9 @@ GROUND_TOL_PX = 2.0     # source px; 1 screen px at zoom 1.0
 ## Model-derived fixtures: feet, casters and plinths sit inside the envelope's front corner (about 0.1-0.2 m), so the
 ## lowest silhouette pixel may stay this far above it. The model itself is placed on z = 0 by render_fixture.py.
 MODEL_GROUND_TOL_PX = 32.0
-# Idol models whose envelope's near corner is open floor: chairs and stools on legs, a room rebuilt with a narrower
-# near end. Their lowest opaque pixel sits further above the ground point.
-MODEL_GROUND_TOL_OPEN_PX = {"eat_in_table": 64.0, "eat_in_counter": 48.0, "capsule_toy_3": 48.0, "shelf_goods": 48.0,
-                            "staff_room_l": 96.0}
+# Idol models whose envelope's near corner is open floor: chairs and stools on legs, a shelf
+# standing back from its footprint's corner. Their lowest opaque pixel sits further above the ground point.
+MODEL_GROUND_TOL_OPEN_PX = {"eat_in_table": 64.0, "eat_in_counter": 48.0, "capsule_toy_3": 48.0, "shelf_goods": 48.0}
 PADDING_PX = 8
 
 

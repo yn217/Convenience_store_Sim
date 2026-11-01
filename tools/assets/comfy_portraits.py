@@ -26,6 +26,10 @@ PEOPLE = {
     "staff_3": "1girl, woman in her forties, short dark bob hair, gentle smile, teal convenience store uniform shirt, small name tag, ",
     "staff_4": "1boy, university student, glasses, messy dark hair, teal convenience store uniform shirt, small name tag, ",
     # the more looks of #104 (the chibi_* figures of the same ids)
+    "elderly_woman": "1girl, elderly woman in her seventies, short permed grey hair, lavender cardigan, small handbag, ",
+    "worker": "1boy, construction worker, short black hair, white towel around the neck, khaki work jacket, ",
+    "uni_student": "1boy, university student, messy brown hair, grey hoodie, backpack, ",
+    "young_woman": "1girl, young woman in her twenties, long dark brown hair, beige trench coat, ",
     "office_worker": "1boy, office worker in his thirties, short neat black hair, navy business suit, white shirt, blue tie, ",
     "student": "1girl, japanese high school student, long black hair in a ponytail, navy sailor school uniform with a red ribbon, ",
     "parent": "1girl, mother in her thirties, shoulder-length brown hair, beige knit sweater, ",

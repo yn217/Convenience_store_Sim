@@ -32,8 +32,9 @@ FIXTURES = {
     "crane_game": "a crane game claw machine, glass cabinet with plush toys inside, pink and white cabinet with lights, coin slot and joystick in front, ",
     "staff_room_s": "a small backroom office cubicle with low partition walls only waist high, a desk with a computer, a chair and a locker, open top, ",
     "staff_room_m": "a backroom staff area with low partition walls only waist high, a desk with a computer, lockers, a small table with chairs, open top, ",
-    "staff_room_l": "a large backroom staff area with low partition walls only waist high, two desks with computers, a row of lockers, "
-                    "a break table with chairs, shelves with boxes, open top, ",
+    "staff_room_l": "a large rectangular backroom staff area seen from high above, a perfectly rectangular floor with straight parallel walls, "
+                    "low partition walls only waist high on all four sides, two desks with computers, a row of lockers, "
+                    "a break table with chairs, shelves with boxes, open top, isometric diorama, ",
 }
 NEGATIVE = ("anime, cartoon, lineart, outlines, ink lines, cel shading, illustration, sketch, low quality, worst quality, blurry, text, "
             "letters, logo, brand name, watermark, people, person, hands, background scenery, room, wall, floor, cropped, out of frame, "

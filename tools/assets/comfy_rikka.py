@@ -7,6 +7,7 @@ LoRAs at 0.8, the user's setup) and saves the raw images under assets/source/cha
 Every image gets a .json next to it with the exact prompt, seed and models, so it can be made again.
 """
 import json
+import os
 import sys
 import time
 import urllib.parse
@@ -81,7 +82,10 @@ def generate(expression: str, seed: int) -> Path:
 
 ## Queues one graph, waits, downloads the image to `dst` and writes the prompt record beside it.
 def run(wf: dict, dst: Path, meta: dict) -> Path:
-    pid = _post("/prompt", {"prompt": wf})["prompt_id"]
+    body = {"prompt": wf}
+    if os.environ.get("COMFY_FRONT") == "1":   # a few jobs ahead of a long queue from another batch
+        body["front"] = True
+    pid = _post("/prompt", body)["prompt_id"]
     for _ in range(600):
         h = json.loads(_get("/history/" + pid))
         if pid in h and h[pid].get("outputs"):

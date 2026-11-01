@@ -96,7 +96,7 @@
   ]
  },
  "staff_room_l": {
-  "ply": "staff_room_l_9101_v1/reference.ply",
+  "ply": "staff_room_l_9102_v1/reference.ply",
   "front_yaw": 90,
   "args": [
    "--cutaway",

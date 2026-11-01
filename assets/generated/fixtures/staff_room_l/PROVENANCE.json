@@ -1,9 +1,9 @@
 {
  "asset_id": "staff_room_l_a",
  "source_type": "AI (image) -> image-to-3D (Gaussian splats) -> splat render",
- "input_image": "local ComfyUI, Anima-Base-v1.0, no LoRA (tools/assets/comfy_fixture_refs.py, seed 9101; prompt in cs_cv2 assets/source/idol_refs/staff_room_l_9101.json)",
+ "input_image": "local ComfyUI, Anima-Base-v1.0, no LoRA (tools/assets/comfy_fixture_refs.py, seed 9102; prompt in cs_cv2 assets/source/idol_refs/staff_room_l_9102.json)",
  "image_to_3d": "speridlabs/idol (Apache-2.0), synthetic, seed 42, 50 steps, 262144 Gaussians, no_optimize, SDPA; conditioning facebook/dinov3-vith16plus-pretrain-lvd1689m (DINOv3 License) + black-forest-labs/FLUX.2-dev VAE (FLUX Non-Commercial License v2.1); background removal: Idol's BiRefNet",
- "splat_ply": "assets/source/idol/staff_room_l_9101_v1/reference.ply (sha256 7B8CBD60B2D4B8490A5A8BE62BA5622829684935596C449DE080472D223244A8)",
+ "splat_ply": "assets/source/idol/staff_room_l_9102_v1/reference.ply (sha256 56ED24567DBCCA9D1B3996929FC5CE2A02AD0E19DDCD8ED845AF1A28DE1F51FC)",
  "render": "tools/assets/idol/render_fixture_splat.py (orthographic iso2x_v1 splat rasterizer, 2x supersampled), settings in tools/assets/idol/fixtures.json and RENDER_INFO.json",
  "license_or_usage_terms": "outputs of the user's own pipeline; no real brand or logo. FLUX.2-dev VAE is under a non-commercial model licence: check before a commercial release",
  "generation_date": "2026-11-01",

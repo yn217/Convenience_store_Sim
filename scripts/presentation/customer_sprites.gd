@@ -9,7 +9,8 @@ const DIR := "res://assets/generated/characters"
 # of customer_a / b / c are kept, so a look's portrait (Portraits) is its id without CHIBI.
 const CHIBI := "chibi_"
 const VARIANTS: Array[String] = ["chibi_customer_a", "chibi_customer_b", "chibi_customer_c",
-		"chibi_office_worker", "chibi_student", "chibi_parent"]   # #104: more clothes (2026-10-31)
+		"chibi_office_worker", "chibi_student", "chibi_parent",   # #104: more clothes (2026-10-31)
+		"chibi_elderly_woman"]   # fewer repeated faces (2026-11-01)
 const CLERK := "chibi_clerk"
 ## Facing index = clockwise quarter turns from +x (E, S, W, N), as in the manifests.
 const FACING_E := 0
