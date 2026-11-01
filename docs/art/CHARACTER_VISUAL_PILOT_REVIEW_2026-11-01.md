@@ -142,6 +142,8 @@ The three bust-up reactions remain held because generated bubbles/symbols are st
 
 These spot checks do not change `runtime_approved`; the assets remain available through the pilot route only.
 
+The staff-management capture `build/character_pilot_staff_hired_latest.png` opens the internal `店員` tab and exercises `staff_hired`. The staff list, candidate cards, and hiring controls remain visible while the full-body pilot is shown in the assistant slot; no button/card is covered and no second character is introduced. (`スタッフ` is the chrome label; `店員` is the internal tab ID used by the capture helper.)
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.
