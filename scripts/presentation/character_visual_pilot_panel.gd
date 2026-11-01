@@ -142,6 +142,8 @@ func cue_entry(cue_id: String) -> Dictionary:
 		return _find("functional_capsule_rare")
 	if cue_id == "save_complete":
 		return _find("functional_save_complete")
+	if cue_id == "restock_help":
+		return _find("functional_restock_guidance")
 	if cue_id == "staff_hired":
 		return _find("functional_staff_hiring")
 	if cue_id == "seasonal_campaign_started":

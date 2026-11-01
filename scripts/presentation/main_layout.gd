@@ -305,6 +305,9 @@ func open_goods_order() -> void:
 ## 商品を補充 in the inspector: the 商品 tab, scrolled to the restock section of the selected fixture.
 func open_restock_section() -> void:
 	open_screen_tab("商品")
+	var guide := get_node_or_null("ProgressionController")
+	if guide != null and guide.has_method("request_pilot_cue"):
+		guide.request_pilot_cue("restock_help", {})
 	var stock := get_node_or_null("StockController")
 	if stock != null and stock.has_method("restock_section"):
 		_reveal.call_deferred(stock.restock_section())

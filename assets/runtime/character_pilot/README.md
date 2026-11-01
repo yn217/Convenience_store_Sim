@@ -12,4 +12,4 @@ The files are intentionally kept separate from the 334-image review pool. They a
 
 The forty-four standing-image entries have a derived copy under `derived_alpha/`. These copies are generated with ComfyUI's built-in BiRefNet background-removal model and an inverted foreground mask; the original PNGs remain unchanged for comparison and rollback. The reprocessing workflows are `tools/assets/apply_birefnet_character_pilot.ps1` and `tools/assets/apply_birefnet_event_candidates.ps1`. The Godot pilot panel uses these derived paths and keeps the legacy presentation as fallback.
 
-The staff screen, save completion, staff hiring, and promotion-start cues briefly show their functional pilot figure above the management window. Other assistant story lines retain the existing screen-suppression behavior.
+The order and restock actions, staff screen, save completion, staff hiring, and promotion-start cues briefly show their functional pilot figure above the management window. Other assistant story lines retain the existing screen-suppression behavior.

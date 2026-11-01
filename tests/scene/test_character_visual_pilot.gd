@@ -43,6 +43,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.cue_entry("seasonal_campaign_started").get("id", ""), "functional_campaign", "promotion start uses its campaign pilot pose")
 	t.eq(panel.cue_entry("map_proposal_open").get("id", ""), "functional_map_proposal", "area map uses its proposal pilot pose")
 	t.eq(panel.cue_entry("order_help").get("id", ""), "functional_order_help", "the order screen has a purchasing guidance pose")
+	t.eq(panel.cue_entry("restock_help").get("id", ""), "functional_restock_guidance", "the restock screen has a replenishment guidance pose")
 	t.eq(panel.cue_entry("business_started").get("id", ""), "functional_business_greeting", "opening cut-in has a greeting pilot pose")
 	t.eq(panel.stage_entry({"story_cue": "story_first_profit", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_first_profit", "first-profit story uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "story_register", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_register_guidance", "register tutorial uses the register guidance pose")
@@ -126,6 +127,10 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "order_help", "opening the order screen requests the purchasing guidance pose")
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_order_help.png", "order screen uses the purchasing guidance pose")
+	main.open_restock_section()
+	await tree.process_frame
+	t.eq(pc._pilot_cue_id, "restock_help", "opening the restock section requests the replenishment guidance pose")
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_restock_guidance.png", "restock section uses the replenishment guidance pose")
 	main.call("open_screen_tab", "店員")
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "staff_schedule_open", "opening the staff screen requests the schedule pose")
