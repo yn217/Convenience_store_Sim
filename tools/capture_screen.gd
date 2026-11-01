@@ -111,6 +111,13 @@ func _run() -> void:
 			main.call("toggle_build")
 		elif a.begins_with("--screen="):
 			main.call("open_screen_tab", a.trim_prefix("--screen="))
+		elif a == "--backroom-list":   # some stock in the backroom and its list open (mockup 商品 tab)
+			for sku in ["bake_003", "bento_001", "bento_002", "rice_001", "drink_001"]:
+				app.run_command({"command_id": "cap_bo_" + sku, "kind": &"ORDER_STOCK", "sku_id": sku, "qty": 3})
+			app._publish_snapshot()
+			var sc: Node = main.get_node("StockController")
+			if sc.backroom_panel != null:
+				sc.backroom_panel.toggle()
 		elif a.begins_with("--day="):   # --day=1: move the clock to that day (its daily challenge is drawn); cheers closed
 			s.day = int(a.trim_prefix("--day="))
 			ProgressionService.evaluate(s)

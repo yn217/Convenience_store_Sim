@@ -19,7 +19,8 @@ const NAV := [["store", "店舗", "home"], ["goods", "商品", "box3d"], ["order
 const NAV_TINT := {"store": Color("ffcf63"), "goods": Color("ffffff"), "order": Color("fff3dc"), "management": Color("ffcf63"),
 	"data": Color("ffcf63"), "staff": Color("ffffff"), "equipment": Color("ffffff"), "achievements": Color("ffcf63")}
 const NAV_TIPS := {"store": "店舗（建設モード）", "equipment": "設備（建設モード）", "achievements": "実績・称号（経営の目標）"}
-const TABS := [["goods", "商品", "box", 572, 176], ["management", "経営", "chart-up", 754, 163], ["store", "店舗", "store", 920, 159],
+## In the left menu's order (店舗 商品 経営 スタッフ データ 設定), in the mockup's six tab slots.
+const TABS := [["store", "店舗", "store", 572, 176], ["goods", "商品", "box", 754, 163], ["management", "経営", "chart-up", 920, 159],
 	["staff", "スタッフ", "users", 1083, 164], ["data", "データ", "bar-chart", 1253, 171], ["settings", "設定", "gear", 1427, 164]]
 const SPEEDS := [["pause", 0, 1774, 34], ["x1", 1, 1810, 31], ["x2", 2, 1843, 31], ["x4", 4, 1876, 34]]
 ## The window's content area (below the tabs), where MainLayout puts the management pages.

@@ -13,7 +13,8 @@ const COST_W := 72
 const MARGIN_W := 72
 const RATE_W := 72
 const BUTTON_W := 84
-const ROW_H := 54   # a row of the mockup's price list
+const ROW_H := 54
+const PRICE_STEP := 10   # yen per ▲ / ▼ press   # a row of the mockup's price list
 
 var _app: Node
 var _products: ProductCatalog
@@ -177,6 +178,10 @@ func mockup_list(page: Control, area: Rect2) -> void:
 		var arrows := _mock_label("▲\n▼", Rect2(edit.position.x + 96, edit.position.y + 1, 26, 38), 14, Color("3a2a2a"), HORIZONTAL_ALIGNMENT_CENTER, font)
 		arrows.add_theme_constant_override("line_spacing", -3)
 		row.add_child(arrows)
+		for d in [1, -1]:   # ▲ / ▼: ¥10 up / down in the field (変更 applies it, as typing does)
+			var step := MockStyle.button(row, Rect2(edit.position.x + 96, edit.position.y + (1.0 if d > 0 else 20.0), 28, 19),
+				"¥%d %s" % [PRICE_STEP, "上げる" if d > 0 else "下げる"])
+			step.pressed.connect(step_price.bind(sku_id, d))
 		var sep := ColorRect.new()
 		sep.color = Color("dcc8ba")
 		sep.position = Vector2(edit.position.x + 94, edit.position.y + 6)
@@ -218,6 +223,20 @@ static func _mock_label(text: String, r: Rect2, size: int, color: Color, align: 
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
 	return l
+
+
+## ▲ / ▼ beside a price field: the shown price moves by PRICE_STEP (at least ¥PRICE_STEP), 粗利 / 粗利率 follow; nothing is
+## sent until 変更 (or Enter), so a few clicks do not each become a price change.
+func step_price(sku_id: String, direction: int) -> void:
+	var edit := price_field(sku_id)
+	if edit == null:
+		return
+	var now := parse_price_text(edit.text)
+	if now < 1:
+		now = int(_products.get_sku(sku_id)["default_sell_price_yen"])
+	var next := maxi(PRICE_STEP, now + PRICE_STEP * direction)
+	edit.text = str(next)
+	_show_margin(sku_id, next)
 
 
 ## 粗利 = price - cost and 粗利率 = 粗利 / price of the shown price (display only; the sale uses the game's price).

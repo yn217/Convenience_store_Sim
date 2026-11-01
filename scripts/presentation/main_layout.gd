@@ -26,6 +26,10 @@ const CHROME_TAB := {"商品": "goods", "経営": "management", "店員": "staff
 ## Section title -> ribbon colour in the window (the rest alternate blue / brown).
 const RIBBON_BROWN := ["販売価格", "販促", "店頭くじ", "売れ筋ランキング", "表示モード (O)"]
 const NO_TILE := Vector2i(-1, -1)
+## The mockup chrome's edges (MockupChrome): the top bar's bottom, the bottom bar's height, the menu's right edge.
+const CHROME_TOP := 64
+const CHROME_BOTTOM := 158
+const CHROME_MENU_RIGHT := 236
 
 var ui := UiMode.new()
 var _nav: LeftNav
@@ -127,9 +131,9 @@ func _layout_overlay() -> void:
 	# so it sits centred in the space the floating UI leaves. Panels that open later overlay the store.
 	_world.safe_inset = Vector4(rail_right + GAP, UiTheme.HUD_HEIGHT + GAP, GAP, BOTTOM_HEIGHT)
 	if _chrome != null:   # the mockup's menu, top bar and bottom bar take more room
-		_world.safe_inset = Vector4(250, 80, GAP, 166)
-		_floats.column_top = 80 + GAP
-		_floats.column_bottom = 166 + GAP
+		_world.safe_inset = Vector4(CHROME_MENU_RIGHT + GAP, CHROME_TOP + GAP, GAP, CHROME_BOTTOM + GAP)
+		_floats.column_top = CHROME_TOP + GAP
+		_floats.column_bottom = CHROME_BOTTOM + GAP
 	_world.fit_view()
 
 
@@ -178,13 +182,17 @@ func _fit_palette() -> void:
 	var grid := scroll.get_node("TypeList") as Control
 	var height := size.y if size.y > 0.0 else get_viewport_rect().size.y
 	var top := UiTheme.HUD_HEIGHT + GAP
-	var room := maxf(height - top - BOTTOM_HEIGHT - GAP, 0.0)
+	var bottom := BOTTOM_HEIGHT
+	if _chrome != null:   # the mockup's taller bars
+		top = CHROME_TOP + GAP
+		bottom = CHROME_BOTTOM
+	var room := maxf(height - top - bottom - GAP, 0.0)
 	var frame := _palette.get_theme_stylebox("panel").get_minimum_size().y
 	scroll.custom_minimum_size.y = 0.0
 	var fixed := body.get_combined_minimum_size().y   # everything but the grid (the scroll has no minimum yet)
 	scroll.custom_minimum_size.y = minf(grid.get_combined_minimum_size().y, maxf(room - frame - fixed, 0.0))
 	var wanted := body.get_combined_minimum_size().y + frame
-	var left := _rail_right() + GAP
+	var left: float = (float(CHROME_MENU_RIGHT) if _chrome != null else _rail_right()) + GAP   # right of the menu, never under it
 	_palette.anchor_top = 0.0
 	_palette.anchor_bottom = 0.0
 	_palette.anchor_left = 0.0
@@ -204,8 +212,8 @@ func _fit_inspector() -> void:
 	var scroll := _inspector.get_node("Scroll") as ScrollContainer
 	var body := scroll.get_node("Body") as Control
 	var height := size.y if size.y > 0.0 else get_viewport_rect().size.y
-	var top := UiTheme.HUD_HEIGHT + INSPECTOR_TOP
-	var room := maxf(height - top - BOTTOM_HEIGHT - INSPECTOR_TOP, 0.0)
+	var top := (CHROME_TOP if _chrome != null else UiTheme.HUD_HEIGHT) + INSPECTOR_TOP
+	var room := maxf(height - top - (CHROME_BOTTOM if _chrome != null else BOTTOM_HEIGHT) - INSPECTOR_TOP, 0.0)
 	var frame := _inspector.get_theme_stylebox("panel").get_minimum_size().y
 	scroll.custom_minimum_size.y = minf(body.get_combined_minimum_size().y, maxf(room - frame, 0.0))
 	var wanted := scroll.get_combined_minimum_size().y + frame
@@ -361,6 +369,9 @@ func _apply_mode() -> void:
 	_window.visible = ui.is_screen()
 	if _chrome != null:
 		_chrome.set_window(ui.is_screen(), CHROME_TAB.get(ui.screen_tab, "goods"))
+		var stock := get_node_or_null("StockController")
+		if stock != null and stock.backroom_panel != null and not (ui.is_screen() and ui.screen_tab == "商品"):
+			stock.backroom_panel.visible = false   # the list belongs to the 商品 tab
 		_chrome.set_nav("store" if ui.is_build() or ui.is_selected() else (CHROME_TAB.get(ui.screen_tab, "") if ui.is_screen() else ""))
 	if ui.is_screen():
 		_ribbon_headings()

@@ -29,3 +29,27 @@ func test_editing_a_price_changes_state_and_shows_errors(t, tree) -> void:
 	t.eq(pc._status.text, CommandMessages.text(&"INVALID_OPERATION", &"price_invalid"))
 	main.queue_free()
 	await tree.process_frame
+
+
+## The mockup price rows' ▲ / ▼ move the shown price by ¥10 and its 粗利; nothing is sent until 変更.
+func test_price_arrows_step_the_field(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var pc: Node = main.get_node("PriceController")
+	var edit: LineEdit = pc.price_field("bake_001")
+	var before := int(edit.text)
+	pc.step_price("bake_001", 1)
+	t.eq(int(edit.text), before + 10, "▲ adds ¥10")
+	pc.step_price("bake_001", -1)
+	pc.step_price("bake_001", -1)
+	t.eq(int(edit.text), before - 10, "▼ takes ¥10 off")
+	var cost := int(main.get_node("AppRoot").state.products.get_sku("bake_001")["purchase_cost_yen"])
+	t.eq(pc._margins["bake_001"][0].text, GameHud.format_yen(before - 10 - cost), "粗利 follows")
+	t.ok(int(main.get_node("AppRoot").state.sell_price("bake_001")) == before, "the price itself changes only with 変更")
+	for i in 100:
+		pc.step_price("bake_001", -1)
+	t.eq(int(edit.text), 10, "never below ¥10")
+	main.queue_free()
+	await tree.process_frame

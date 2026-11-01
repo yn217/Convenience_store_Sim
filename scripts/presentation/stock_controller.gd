@@ -20,6 +20,7 @@ var _restock_qty: LineEdit
 var _restock_info: Label
 var _status: Label
 var _order_row: HBoxContainer
+var backroom_panel: BackroomPanel   # the mockup look's stock list (null in the plain look)
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -96,8 +97,22 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 ## drawn in code (the dropdown, the - 1 + stepper, the orange 発注 button). `page` is the page's Control, in content px.
 func mockup_layout(page: Control) -> void:
 	var font := MockStyle.font("ExtraBold")
-	_place(page, _backroom, Rect2(388, 18, 300, 42))   # text centred on the icon (y 424 on screen, as the mockup)
-	MockStyle.style_label(_backroom, 19, MockStyle.INK)
+	# バックヤード: a summary pill (品目 / 合計) and 在庫一覧, which opens the list beside the window (BackroomPanel)
+	MockStyle.shape(page, Rect2(326, 8, 362, 42), {"top": Color("fff6df"), "bottom": Color("ffe9bd"), "border": Color("e2b878"), "border_width": 2.0,
+		"radius": 12.0, "shadow": Color(0.45, 0.25, 0.1, 0.15), "shadow_offset": Vector2(0, 2)})
+	MockStyle.picture(page, MockStyle.art("box"), Rect2(340, 12, 34, 34))
+	_backroom.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_backroom.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_backroom.mouse_filter = Control.MOUSE_FILTER_PASS
+	_place(page, _backroom, Rect2(384, 8, 298, 42))
+	MockStyle.style_label(_backroom, 19, MockStyle.INK, "ExtraBold")
+	var list_btn := MockStyle.face_button(page, Rect2(700, 6, 152, 46), "在庫一覧", Color("4f95e8"), Color("1d58b0"), Color("bcdcff"), Color.WHITE, 20, "list", 10.0)
+	list_btn.name = "BackroomListButton"
+	backroom_panel = BackroomPanel.new()
+	get_parent().add_child(backroom_panel)
+	backroom_panel.setup(_products)
+	list_btn.pressed.connect(func(): backroom_panel.toggle())
+	_refresh()
 	MockStyle.shape(page, Rect2(40, 68, 548, 58), {"top": Color("fffdf9"), "bottom": Color("f9ece2"), "border": Color("c9ab98"), "border_width": 2.0,
 		"radius": 10.0, "shadow": Color(0.4, 0.25, 0.15, 0.18), "shadow_offset": Vector2(0, 2)})
 	MockStyle.label(page, "▼", Rect2(548, 68, 34, 58), 18, Color("4a3a3a"), HORIZONTAL_ALIGNMENT_CENTER)
@@ -227,9 +242,24 @@ func _selected_fixture() -> Dictionary:
 	return {}
 
 
+## "バックヤード 3品目 / 合計12個" (or 在庫なし).
+static func backroom_summary(stock: Dictionary) -> String:
+	var kinds := 0
+	var total := 0
+	for id in stock:
+		if int(stock[id]) > 0:
+			kinds += 1
+			total += int(stock[id])
+	return "バックヤード 在庫なし" if kinds == 0 else "バックヤード %d品目 / 合計%d個" % [kinds, total]
+
+
 func _refresh() -> void:
 	var stock: Dictionary = _snap.get("backroom_stock", {})
-	if stock.is_empty():
+	if backroom_panel != null:
+		backroom_panel.set_stock(stock)
+		_backroom.text = backroom_summary(stock)
+		_backroom.tooltip_text = "在庫一覧で品目ごとの数を確認できます"
+	elif stock.is_empty():
 		_backroom.text = "バックヤード: 在庫なし"
 	else:
 		var parts: Array[String] = []
@@ -238,6 +268,7 @@ func _refresh() -> void:
 		for id in ids:
 			parts.append("%s ×%d" % [_products.get_sku(id)["display_name"], stock[id]])
 		_backroom.text = "バックヤード: " + "、".join(parts)
+		_backroom.tooltip_text = _backroom.text
 	var inst := _selected_fixture()
 	var def := _fixtures.get_type(inst["type_id"]) if not inst.is_empty() else {}
 	_restock_box.visible = not def.is_empty() and not def["shelf_slots"].is_empty()
