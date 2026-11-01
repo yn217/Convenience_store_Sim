@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "asset_id": "pizza_oven_integrated_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "One Japanese convenience-store pizza warming/display oven, 1x1 tile, nominal 0.92 x 0.92 x 1.40m, access S.",
+  "actual_subject": "One stainless upright pizza warmer with glass-front two-rack chamber and four personal pizzas, lower oven/service cabinet.",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "pizza_oven",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/pizza_oven_integrated_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1310938,
+    "sha256": "90c1468ffbdc6356d85c959f779a8dacdc177094fd848c1d1fdcf7d893033549",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/pizza_oven_integrated_FULL_v1/source_original.png",
+      "byte_size": 1310938,
+      "sha256": "90c1468ffbdc6356d85c959f779a8dacdc177094fd848c1d1fdcf7d893033549",
+      "git_blob_sha": "03f602745524b595cb65d6166909d816f17945b1",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/pizza_oven_integrated_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1231750,
+      "sha256": "875772fa1670d1a2eb48a56c6920a05de367a8aa3db7b741031c6f760a55a90a",
+      "git_blob_sha": "aee75713bf66b5bdb4287cd3c166874288e50e72",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/pizza_oven_integrated_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 251457,
+      "sha256": "597d3d369bff860836f5871018ee9416d696cfc2f1a1a7d67d939d8c8c24f6e5",
+      "git_blob_sha": "000b919b8db9823c1c9428db9e9aa552f998e096",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "S",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      1
+    ],
+    "dimensions_m": [
+      0.92,
+      0.92,
+      1.4
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "pass",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "pass",
+    "notes": [
+      "Content: one square-format hot pizza warmer, four pizzas in glass racks, lower insulated cabinet. RGBA source 1347x1167; alpha extrema (0, 255); alpha>8 bbox (317, 29, 1054, 1132); source margins [317, 29, 293, 35], fractions [0.2353, 0.0249, 0.2175, 0.03].",
+      "The source margins are tight; added 256px transparent canvas with no resampling. Padded sprite margins fractions [0.2776, 0.1541, 0.2626, 0.1578], gate pass. Any game anchor must account for padding offset.",
+      "Projection is visually plausible but uncalibrated; no measured iso2x control points/axis errors or camera comparison.",
+      "MVP nominal `pizza_oven`: 1x1, 0.92x0.92x1.40m, access S; physical dimensions and ground anchor unverified.",
+      "Godot runtime, item access, occlusion and stock-state behavior not checked; runtime_approved:false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
