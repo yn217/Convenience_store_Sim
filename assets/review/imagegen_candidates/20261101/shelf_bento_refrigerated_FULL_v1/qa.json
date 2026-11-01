@@ -1,0 +1,57 @@
+{
+  "asset_id": "shelf_bento_refrigerated_FULL_v1",
+  "status": "review_candidate_rejected",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "width": 1774,
+    "height": 887,
+    "format": "RGBA",
+    "sha256": "35872b025542db5c3624ea3ea99100149c3ad17518390704539b28d394399c0b",
+    "unmodified": true
+  },
+  "prompt_record": "prompt_record.txt",
+  "alpha_preview": "alpha_preview.png",
+  "visual_checks": {
+    "single_integrated_refrigerated_case_and_food": "pass",
+    "stocked_tier_count": {
+      "expected": 4,
+      "observed": 4,
+      "result": "pass"
+    },
+    "bento_deli_faces_visible": "pass at source size; actual game scale not checked",
+    "goods_seated_on_shelves": "partial_pass visually; exact contact not measured",
+    "case_front_and_side_structure": "pass as an open-front refrigerated display concept",
+    "large_blank_shelf_area": "partial_pass; moderate shelf surface around trays",
+    "no_floating_cards_or_cuboid_products": "pass/partial; food is in tray packages; exact depth not validated",
+    "iso2x_v1_axis_calibration": "not_verified; isometric-style appearance only",
+    "fixture_world_dimensions_and_ratio": "not_verified",
+    "E_plus_X_access": "not_verified",
+    "anchor_ground_contact": "not_verified",
+    "Godot_game_scale": "not_verified"
+  },
+  "alpha": {
+    "bbox_alpha_gt_8": [
+      346,
+      17,
+      1419,
+      875
+    ],
+    "margins_pct_ltrb": [
+      19.5,
+      1.92,
+      20.01,
+      1.35
+    ],
+    "edge_alpha_max": {
+      "top": 0,
+      "bottom": 1,
+      "left": 1,
+      "right": 0
+    },
+    "required_min_margin_pct": 12,
+    "result": "fail: top margin 1.92%, bottom 1.35%, below 12%; faint alpha<=1 reaches left and bottom borders"
+  },
+  "decision": "FAIL; preserve as review-only. Category and integrated presentation are promising, but top/bottom transparency margins fail. Projection, dimensions, access, ground anchor and game-scale rendering remain unverified. Do not crop or stretch.",
+  "qa_scope": "focused source-image review only"
+}
