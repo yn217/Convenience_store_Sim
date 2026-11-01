@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 25, "the pilot registry exposes all 25 selected visuals")
+	t.eq(panel._entries.size(), 26, "the pilot registry exposes all 26 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -33,6 +33,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.cue_entry("low_stock_notice").get("id", ""), "functional_low_stock", "low stock has a functional pilot pose")
 	t.eq(panel.cue_entry("expiry_notice").get("id", ""), "functional_expiry", "expiry has a functional pilot pose")
 	t.eq(panel.cue_entry("access_blocked").get("id", ""), "functional_access_blocked", "blocked access has a functional pilot pose")
+	t.eq(panel.cue_entry("empty_handed").get("id", ""), "functional_empty_handed", "an empty-handed exit has a functional pilot pose")
 	t.eq(panel.cue_entry("rival_opened").get("id", ""), "functional_rival_store", "rival opening reuses the rival pose")
 	t.eq(panel.stage_entry({"story_cue": "story_start", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "story start stage avoids a bust-up asset")
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("kind", ""), "fullbody", "queue reaction stage uses a full-body asset")
@@ -76,6 +77,9 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	player.pilot_cue_requested.emit("rival_opened", {})
 	await tree.process_frame
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_rival_store.png", "rival opening selects the rival pose")
+	player.pilot_cue_requested.emit("empty_handed", {})
+	await tree.process_frame
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_empty_handed.png", "an empty-handed exit selects the exit pose")
 	pc._pilot_cue_timer.stop()
 	pc._clear_pilot_cue()
 	main.queue_free()
