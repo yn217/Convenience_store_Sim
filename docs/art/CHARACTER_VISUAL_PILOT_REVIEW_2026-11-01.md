@@ -4,12 +4,12 @@ Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
 
 ## Scope
 
-This review covers the 45-image pilot. The remaining 289 candidates stay review-only and are not loaded by the pilot registry.
+This review covers the 46-image pilot. The remaining 288 candidates stay review-only and are not loaded by the pilot registry.
 
 ## Automated checks
 
-- Registry entries: 45
-- Runtime pilot PNGs: 45
+- Registry entries: 46
+- Runtime pilot PNGs: 46
 - Duplicate logical IDs: 0
 - Missing runtime paths: 0
 - Title candidate: 1344x768
@@ -54,6 +54,7 @@ This review covers the 45-image pilot. The remaining 289 candidates stay review-
 | `functional_map_proposal` | functional pose | SCR-13 / `map_proposal_open` | review pending; map proposal pose shown in the area-map side panel |
 | `functional_register_guidance` | functional pose | SCR-06 / `story_register` | review pending; register placement tutorial pose |
 | `functional_restock_guidance` | functional pose | SCR-06 / `story_first_restock` | review pending; restocking tutorial pose |
+| `functional_day_report` | functional pose | SCR-18 / `day_end_normal` | review pending; normal daily-report pose |
 | `functional_three_sales` | functional pose | SCR-18 / `challenge_sales_3` | review pending; daily challenge presentation |
 | `functional_ten_sales` | functional pose | SCR-18 / `ms_ten_sales` | review pending; milestone presentation |
 | `functional_fifty_visitors` | functional pose | SCR-18 / `ms_fifty_visitors` | review pending; milestone presentation |

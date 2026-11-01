@@ -174,7 +174,7 @@ func _select_entry(snapshot: Dictionary) -> Dictionary:
 
 
 func day_end_entry(mood: String) -> Dictionary:
-	return _find("functional_day_end_review") if mood == "worried" else _find("fullbody_emotion_05")
+	return _find("functional_day_end_review") if mood == "worried" else _find("functional_day_report")
 
 
 func _find(asset_id: String) -> Dictionary:
