@@ -22,7 +22,7 @@
       "byte_size": 1063676,
       "sha256": "5b3e6d84e8624f666403ae2d9e2c43f40f76d897efe0a7d9a6b2fc0ab55385ed",
       "git_blob_sha": "28b1b284d6e94b9fc0f1a19780e6ab81ce6c833e",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "sprite_fullres",
@@ -30,7 +30,7 @@
       "byte_size": 953790,
       "sha256": "16507d328ea54e478bf131fe1f97f02dc15c74e2041f82ee5d59d411d2b9114f",
       "git_blob_sha": "d6da027ce4cbcfcbdcafb664474a3dbbb35ad7f0",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
@@ -38,7 +38,7 @@
       "byte_size": 182996,
       "sha256": "38cc6f11693a171d6d4849e85971f14f30fa600f95f45892077a61e3d5fbc5ec",
       "git_blob_sha": "679ebc16f00dc2a14e2a131a9d5ac850312fa520",
-      "github_uploaded": false
+      "github_uploaded": true
     }
   ],
   "projection": {
