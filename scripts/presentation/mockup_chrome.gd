@@ -187,7 +187,9 @@ func _build_menu() -> void:
 			"border_width": 2.0, "gloss": 0.16, "shadow": Color(0, 0, 0, 0.35), "shadow_offset": Vector2(0, 3)})
 		var g := MockStyle.picture(b, MockStyle.glyph(NAV[i][2], 128), Rect2(18, 8, 50, 44))
 		var text: String = NAV[i][1]
-		var l := MockStyle.label(b, text, Rect2(95, 0, 120, 60), 27 if text.length() <= 3 else (24 if text.length() == 4 else 21), Color("fff3e0"), HORIZONTAL_ALIGNMENT_LEFT, "Bold",
+		var long := text.length() >= 5   # 実績・称号: a half-width dot and a little further left, so it ends clear of the point
+		var l := MockStyle.label(b, text.replace("・", "･") if long else text, Rect2(88 if long else 95, 0, 120, 60),
+			27 if text.length() <= 3 else (24 if text.length() == 4 else 21), Color("fff3e0"), HORIZONTAL_ALIGNMENT_LEFT, "Bold",
 			2, Color(0, 0, 0, 0.35))
 		b.pressed.connect(func(): nav_pressed.emit(id))
 		_nav[id] = {"button": b, "plate": plate, "glyph": g, "label": l}
