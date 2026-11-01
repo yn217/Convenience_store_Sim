@@ -19,8 +19,11 @@ var _effects_key := ""
 var _history_title: Label
 var _history: Label
 var _picture: TextureRect
+var _pilot_caption: Label
+var _pilot_picture: TextureRect
 const PICTURE_DIR := "res://assets/ui/events/"
 const PICTURE_SIZE := Vector2(384, 216)
+const PILOT_PICTURE_SIZE := Vector2(0, 300)
 static var _pictures := {}
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -40,6 +43,20 @@ func _ready() -> void:
 	_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_picture.visible = false
 	_body.add_child(_picture)
+	_pilot_caption = Label.new()
+	_pilot_caption.text = "イベント用立ち絵（パイロット・確認中）"
+	_pilot_caption.theme_type_variation = &"CardTitle"
+	_pilot_caption.visible = false
+	_body.add_child(_pilot_caption)
+	_pilot_picture = TextureRect.new()
+	_pilot_picture.name = "EventPilotPicture"
+	_pilot_picture.custom_minimum_size = PILOT_PICTURE_SIZE
+	_pilot_picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_pilot_picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_pilot_picture.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_pilot_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_pilot_picture.visible = false
+	_body.add_child(_pilot_picture)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_status)
@@ -74,6 +91,13 @@ func apply_snapshot(snap: Dictionary) -> void:
 	var pic := picture_for(String(view.get("event_id", ""))) if String(view.get("status", "")) in ["scheduled", "active", "ended", "missed"] else null
 	_picture.texture = pic
 	_picture.visible = pic != null
+	var event_id := String(view.get("event_id", ""))
+	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
+	var pilot_entry: Dictionary = pilot.event_entry(event_id) if pilot != null and pilot.has_method("event_entry") and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled() else {}
+	var pilot_texture: Texture2D = load(String(pilot_entry.get("runtime_path", ""))) as Texture2D if not pilot_entry.is_empty() else null
+	_pilot_picture.texture = pilot_texture
+	_pilot_caption.visible = pilot_texture != null
+	_pilot_picture.visible = pilot_texture != null
 	_render_effects(EventText.effect_chips(view) if String(view.get("status", "")) in ["scheduled", "active", "ended", "missed"] else [])
 	_render_catalog(snap.get("event_catalog", []))
 	var past: Array = snap.get("event_history", [])

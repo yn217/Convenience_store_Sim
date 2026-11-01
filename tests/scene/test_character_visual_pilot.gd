@@ -25,7 +25,9 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(quiet.get("id", ""), "reaction_deadpan", "quiet street uses the deadpan reaction")
 	t.ok(panel.has_method("is_pilot_enabled"), "pilot panel exposes its display toggle")
 	t.ok(panel.has_method("selected_entry"), "pilot panel exposes the selected runtime entry")
+	t.ok(panel.has_method("event_entry"), "pilot panel exposes event-image routing")
 	t.eq(panel.selected_entry({"story_cue": "story_sold_out", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_sold_out", "stage consumers share pilot routing")
+	t.eq(panel.event_entry("evt_neighbor_mentions").get("id", ""), "event_neighbor_mentions", "neighbor mentions uses the selected event pilot")
 
 
 func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:

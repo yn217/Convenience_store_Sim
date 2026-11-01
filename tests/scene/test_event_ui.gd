@@ -91,5 +91,8 @@ func test_event_picture(t, tree) -> void:
 	_force(app, "evt_local_fair", false)
 	app._publish_snapshot()
 	t.ok(panel._picture.visible and panel._picture.texture == EventController.picture_for("evt_local_fair"), "today's event is shown")
+	_force(app, "evt_neighbor_mentions", true)
+	app._publish_snapshot()
+	t.ok(panel._pilot_picture.visible and panel._pilot_picture.texture is Texture2D, "the selected event pilot is shown alongside the event picture")
 	main.queue_free()
 	await tree.process_frame
