@@ -14,12 +14,12 @@
       "kind": "title_background",
       "screen_id": "SCR-05",
       "trigger": "title_open",
-      "runtime_path": "res://assets/runtime/character_pilot/title_background_pilot.png",
-      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/title_screen_1344x768/title_screen_variant_04_1344x768_00001_.png",
+      "runtime_path": "res://assets/runtime/character_pilot/title_background_pilot_sakura.png",
+      "source_path": "assets/review/imagegen_candidates/20261102/title_screen_bright_sakura/title_screen_bright_sakura_1664x936.png",
       "status": "review_only",
       "runtime_approved": false,
       "fallback": "existing_title_background",
-      "review_note": "QA hold: daylight residential-store composition is the current title pilot; visual and rights review still required"
+      "review_note": "QA hold: bright spring sakura composition is the current title pilot; Godot UI remains separate and visual/rights review is still required"
     },
     {
       "id": "fullbody_dynamic_201",

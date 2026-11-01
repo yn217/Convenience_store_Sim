@@ -84,6 +84,11 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.ok(guide._pilot_figure != null, "the assistant stage owns a pilot figure layer")
 	t.ok(guide._pilot_reaction != null, "the assistant stage owns a separate pilot reaction layer")
 	t.ok(guide._pilot_figure.texture is Texture2D, "the assistant stage loads a pilot texture")
+	var crop: Control = guide._pilot_figure.get_parent()
+	t.eq(String(crop.name), "AssistantPilotBustupCrop", "the store assistant uses a display-only bust-up crop frame")
+	t.ok(crop.clip_contents, "the bust-up crop clips only the display frame")
+	t.eq(crop.size.y, 300.0, "the display crop keeps the upper-body window height")
+	t.eq(Vector2((guide._pilot_figure.texture as Texture2D).get_size()), Vector2(1024, 1536), "the source full-body texture remains unmodified")
 	var reaction_preview: TextureRect = panel._reaction_image
 	t.ok(reaction_preview != null, "bust-up review has a dedicated preview slot")
 	panel._show_selected(panel._find("reaction_discovery"))

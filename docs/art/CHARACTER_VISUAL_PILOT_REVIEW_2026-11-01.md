@@ -103,17 +103,19 @@ It reads `docs/art/COMFYUI_334_IMAGE_PLACEMENT_20261101.json`, lists all 334 can
 
 ## Title candidate QA
 
-The `title_background_pilot` candidate is now the daylight residential-store composition `title_screen_variant_04_1344x768_00001_.png`. The explicit `--visual-variant=painted_v1` QA path keeps the title logo, buttons, and embedded character separate from a second `TitleRikka` layer. It remains held for visual and rights review; the default title continues to use `assets/ui/title/title_background.png` with the existing fallback path.
+The `title_background_pilot` candidate is now the bright spring/sakura residential-store composition `title_screen_bright_sakura_1664x936.png`. The project keeps the generated source at its original size and uses a separate 1344x768 runtime display copy. The explicit `--visual-variant=painted_v1` QA path keeps the title logo, buttons, and embedded character separate from a second `TitleRikka` layer. It remains held for visual and rights review; the default title continues to use `assets/ui/title/title_background.png` with the existing fallback path.
 
 The same title candidate was captured at 1280x720, 1600x900, and 1920x1080 as `build/character_pilot_title_{1280,1600,1920}.png`. Across all three sizes, the embedded character's face and both odango buns remain inside the frame, the logo and menu buttons remain readable, and the standalone `TitleRikka` layer is not created. The hand/lower-body crop is part of the candidate's bust-up composition and does not obscure a control. This is a visual comparison result only; the candidate remains a local QA override and is not yet the default title asset.
 
-The 1600x900 capture was re-run through the requested non-headless CLI path with `Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path . --resolution 1600x900 --script res://tools/capture_screen.gd -- --title --visual-variant=painted_v1 build/character_pilot_title_cli_1600.png`. The saved frame keeps the embedded character, title plate, and real Godot buttons readable; no second standalone character is introduced. This is additional visual evidence only and does not change the approval gate.
+The 1600x900 capture was re-run through the requested non-headless CLI path with `Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path . --resolution 1600x900 --script res://tools/capture_screen.gd -- --title --visual-variant=painted_v1 build/title_bright_sakura_pilot_1600.png`. The saved frame keeps the embedded character, title plate, and real Godot buttons readable; no second standalone character is introduced. This is additional visual evidence only and does not change the approval gate.
 
 The focused `test_character_art.gd` run also passed: 14 tests, 329 assertions, 0 failures, including the title pilot no-double-figure check.
 
 ## Runtime screen QA (2026-11-02)
 
 The 1280x720 management-screen capture `build/character_pilot_roadworks_management_latest.png` was checked with `evt_roadworks`, the `経営` screen, and `--inspect-pilot`. The event illustration and the selected `event_roadworks` full-body pilot are both rendered by the event panel. The pilot remains inside the panel, does not cover the management tabs or bottom controls, and no second assistant layer is visible. The event status text and event image remain owned by the existing event UI; the generated character is presentation-only.
+
+For the main store screen, generated full-body pilot PNGs are now displayed through `AssistantPilotBustupCrop`, a 300 px-high clipped Control. The child keeps the original 1024x1536 `Texture2D`; only the display frame clips the lower body. The source PNGs are not cropped or overwritten, and event-panel full-body slots retain their original full-body presentation.
 
 Focused verification after this capture:
 

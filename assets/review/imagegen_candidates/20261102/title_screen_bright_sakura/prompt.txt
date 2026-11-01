@@ -1,0 +1,8 @@
+Use case: game-title-background
+Asset type: Japanese convenience-store management simulation title-screen background, 16:9 landscape.
+Input image: the user-provided title-screen image was used only as a visual reference for the bright, cheerful composition and polished anime game presentation.
+Primary request: a sunny spring daytime Japanese neighborhood with a clean fictional convenience store on the right, blue sky and soft clouds, mountain-and-residential backdrop, a large blooming cherry tree framing the upper-left corner with petals, and Koharu Rikka on the left foreground in her consistent silver-lavender twin odango hairstyle, white blouse, burgundy ribbon, and navy convenience-store apron, smiling and presenting the store.
+Composition/framing: wide 16:9 layout, store on the right, character on the left, central and upper-center negative space for Godot's real title logo, lower-center/right negative space for Godot's real menu buttons.
+Style/medium: polished Japanese anime visual-novel game key art, clean linework, soft cel shading, bright saturated but tasteful colors.
+Constraints: no title text, no Japanese text, no English text, no UI panels, no buttons, no logos, no watermark, no real brand marks, no speech bubbles, no extra characters.
+Output: generated source 1664x936; runtime pilot is a separate 1344x768 display copy. The source and existing pilot candidates are preserved.

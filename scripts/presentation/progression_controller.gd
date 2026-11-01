@@ -19,6 +19,7 @@ const FIGURES := {
 	"welcome": "res://assets/ui/characters/rikka_welcome.png",  # her first greeting (story_start)
 }
 const FIGURE_SIZE := Vector2(300, 436)   # keeps the art's 640:931 aspect
+const PILOT_BUSTUP_FRAME_SIZE := Vector2(FIGURE_SIZE.x, 300.0)
 const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
 const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT + 16.0
@@ -506,18 +507,31 @@ func _build_stage() -> void:
 	figure.offset_bottom = -Layout.BOTTOM_HEIGHT
 	_stage.add_child(figure)
 	_figure = figure
+	# Generated pilot files remain full-body source assets.  The assistant slot on the
+	# store screen is intentionally a bust-up window: clip the child at display time
+	# so the original PNG stays reusable for event panels and future layouts.
+	var pilot_crop := Control.new()
+	pilot_crop.name = "AssistantPilotBustupCrop"
+	pilot_crop.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	pilot_crop.offset_left = ASSISTANT_LEFT
+	pilot_crop.offset_right = ASSISTANT_LEFT + PILOT_BUSTUP_FRAME_SIZE.x
+	pilot_crop.offset_top = -PILOT_BUSTUP_FRAME_SIZE.y - Layout.BOTTOM_HEIGHT
+	pilot_crop.offset_bottom = -Layout.BOTTOM_HEIGHT
+	pilot_crop.clip_contents = true
+	pilot_crop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stage.add_child(pilot_crop)
 	var pilot_figure := TextureRect.new()
 	pilot_figure.name = "AssistantPilotFigure"
 	pilot_figure.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	pilot_figure.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
 	pilot_figure.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pilot_figure.visible = false
-	pilot_figure.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	pilot_figure.offset_left = ASSISTANT_LEFT
-	pilot_figure.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x
-	pilot_figure.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT
-	pilot_figure.offset_bottom = -Layout.BOTTOM_HEIGHT
-	_stage.add_child(pilot_figure)
+	pilot_figure.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	pilot_figure.offset_left = 0.0
+	pilot_figure.offset_right = FIGURE_SIZE.x
+	pilot_figure.offset_top = 0.0
+	pilot_figure.offset_bottom = FIGURE_SIZE.y
+	pilot_crop.add_child(pilot_figure)
 	_pilot_figure = pilot_figure
 	var pilot_reaction := TextureRect.new()
 	pilot_reaction.name = "AssistantPilotReaction"

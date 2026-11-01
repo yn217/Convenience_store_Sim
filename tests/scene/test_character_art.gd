@@ -94,7 +94,7 @@ func test_title_pilot_candidate_does_not_need_a_second_figure(t, _tree) -> void:
 	var entry: Dictionary = (data.get("assets", []) as Array).filter(func(raw): return raw.get("id", "") == "title_background_pilot")[0]
 	t.eq(entry.get("status", ""), "review_only", "title pilot remains held pending visual and rights QA")
 	t.eq(entry.get("fallback", ""), "existing_title_background", "held title pilot keeps the daytime fallback")
-	t.ok(String(entry.get("source_path", "")).contains("title_screen_variant_04_1344x768_00001_.png"), "title pilot uses the daylight residential-store candidate")
+	t.ok(String(entry.get("source_path", "")).contains("title_screen_bright_sakura_1664x936.png"), "title pilot uses the bright sakura residential-store candidate")
 
 
 ## #104 / #134: six chibi looks, a walk cycle with stride poses (the feet move), and a seated eating pose at the eat-in.

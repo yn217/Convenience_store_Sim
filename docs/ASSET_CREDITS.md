@@ -279,3 +279,13 @@ cross-check, not a license approval; the human review and redistribution fields 
 |ui_art_pictures|assets/ui/art|AI|assets/source/ui_art/*_9401/9402.png（prompt は同名 .json、tools/assets/comfy_ui_art.py）を透過切り抜きし 128 px に（tools/assets/build_ui_art.py）|ComfyUI（Anima-Base-v1.0 + anima-style LoRA）+ Pillow/NumPy/SciPy|架空の絵（文字・ロゴなし）|2026-11-01|目視・ゲーム内確認。配布可はユーザーの判断（2026-10-30）|yes|
 |ui_glyphs|assets/ui/glyphs|code|tools/assets/make_glyphs.py で手書きした SVG（24×24、白の塗り）|Python（手書きのパス）|この作品のコード|2026-11-01|ゲーム内確認|yes|
 |font_mplus_rounded_1c|assets/fonts|third-party|M PLUS Rounded 1c（Bold / ExtraBold / Black）https://github.com/google/fonts/tree/main/ofl/mplusrounded1c （2026-11-01 取得、無改変。ライセンス全文 assets/fonts/OFL.txt）|Coji Morishita, M+ Fonts Project|SIL Open Font License 1.1（同梱・再配布可、フォント単体の販売は不可）|2026-11-01|ゲーム内確認|yes|
+## Idol試作（採用前候補）
+
+以下は本編素材へ未採用。上記の「外部素材・生成AI素材を含まない」は登録済みの従来素材に限る。
+
+|asset_id|asset_path|source_type|source_link_or_local_path|model_and_version|license_or_usage_terms|generation_date|human_review|redistribution_allowed|
+|---|---|---|---|---|---|---|---|---|
+|drink_001_idol_v1|assets/generated/products/drink_001_idol_v1|AI|assets/source/idol/drink_001_v1/README.md|OpenAI ImageGen組み込み + speridlabs/idol SDK 4702a7f|Idol Apache-2.0。DINOv3/FLUX.2-devは別条件。販売用制作への適用は要確認|2026-10-31|AIによる4方向画像の目視・RGBA検査済み。輪郭の乱れあり。人による採用判断待ち|no: release pending dependency license review|
+
+|teal_set_v1|assets/generated/fixtures/teal_set_v1|Blender + AI design reference|tools/assets/render_teal_fixture_set.py; assets/source/idol/shelf_general_v1/reference.png|Blender 2.91 EEVEE; OpenAI ImageGen design reference|Project-authored procedural geometry/materials. Generated design reference only; no Idol output or weights included. Follow project source license.|2026-10-31|AI visual review of 8 directions; 2 manifest checks passed. Human review pending|project-source-license applies; not release-approved|
+|title_background_bright_sakura_pilot|assets/runtime/character_pilot/title_background_pilot_sakura.png; assets/review/imagegen_candidates/20261102/title_screen_bright_sakura|AI|assets/review/imagegen_candidates/20261102/title_screen_bright_sakura/prompt.txt; user-provided title-screen reference image|Built-in ImageGen (model identifier not exposed)|Original project candidate generated from a user-provided visual reference; no real brand marks. Character/model and redistribution conditions require human review before release (`runtime_approved:false`).|2026-11-02|CLI title capture at 1600x900; visual and rights review pending|no: pilot only|
