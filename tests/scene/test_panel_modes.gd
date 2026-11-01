@@ -1,4 +1,5 @@
 extends RefCounted
+const OpeningGuideScript := preload("res://scripts/presentation/opening_guide.gd")
 ## UI redesign Phase 1 (overlay design): which panels show in each mode, that the store world is the full-window
 ## bottom layer, that the camera and the world size never change when panels open or close, and that only panels and
 ## the modal dimmer take mouse input.
@@ -245,7 +246,7 @@ func test_opening_guide(t, tree) -> void:
 		"opening": {"ready": false, "register_ok": false, "stock_ok": false, "cash_ok": true}})
 	t.ok(g.visible, "shown while setting up")
 	t.ok(g.get_node("OpenStore").disabled, "開店する waits for the conditions")
-	t.eq(OpeningGuide.why_not({"register_ok": false, "stock_ok": false, "cash_ok": true}), "まずレジを置きましょう")
+	t.eq(OpeningGuideScript.why_not({"register_ok": false, "stock_ok": false, "cash_ok": true}), "まずレジを置きましょう")
 	g.apply_snapshot({"business_state": "SETUP", "progression": {"tutorial_step_index": 5},
 		"opening": {"ready": true, "register_ok": true, "stock_ok": true, "cash_ok": true}})
 	t.ok(not g.get_node("OpenStore").disabled, "開店する once ready")

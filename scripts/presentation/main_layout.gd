@@ -426,8 +426,8 @@ func _build_chrome() -> void:
 	_chrome.speed_pressed.connect(func(speed: int): hud.speed_requested.emit(speed))
 	_chrome.pause_pressed.connect(func(): hud._on_pause_pressed())
 	_chrome.corner_pressed.connect(_on_chrome_corner)
-	_chrome.guide.go_requested.connect(_on_guide_go)
-	_chrome.guide.open_requested.connect(func():
+	_chrome.guide.connect("go_requested", Callable(self, "_on_guide_go"))
+	_chrome.guide.connect("open_requested", func():
 		var business := get_node_or_null("BusinessController")
 		if business != null:
 			business.start_business())

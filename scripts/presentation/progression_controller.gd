@@ -219,10 +219,10 @@ func refresh_visual_pilot() -> void:
 	if _pilot_figure == null:
 		return
 	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
-	var enabled := pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled()
+	var enabled: bool = pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled()
 	var entry: Dictionary = pilot.selected_entry(_snap) if enabled and pilot.has_method("selected_entry") else {}
-	var texture := load(String(entry.get("runtime_path", ""))) as Texture2D if not entry.is_empty() else null
-	var usable := enabled and texture != null
+	var texture: Texture2D = load(String(entry.get("runtime_path", ""))) as Texture2D if not entry.is_empty() else null
+	var usable: bool = enabled and texture != null
 	_pilot_figure.visible = usable
 	_pilot_figure.texture = texture if usable else null
 	if _figure != null:

@@ -6,6 +6,8 @@ extends Control
 ## and the UI pictures (MockStyle). Positions are the mockup's, measured at the 1920x1080 base size.
 ## Presentation only: every button emits a signal and MainLayout runs the same action the old controls ran.
 
+const OpeningGuideScript := preload("res://scripts/presentation/opening_guide.gd")
+
 signal nav_pressed(id: String)
 signal tab_pressed(id: String)
 signal speed_pressed(speed: int)
@@ -49,7 +51,7 @@ var _labels: Dictionary = {}
 var _goal_fill: UiShape
 var _event_icon: TextureRect
 var days_per_month := GameCalendar.DEFAULT_DAYS_PER_MONTH   # set by GameHud (from the balance)
-var guide: OpeningGuide   # 開店までの手順 (top right while setting up; hidden while the window is open)
+var guide: Node   # 開店までの手順 (top right while setting up; hidden while the window is open)
 var _last_snap: Dictionary = {}
 
 
@@ -72,7 +74,7 @@ func _ready() -> void:
 	_build_top()
 	_build_menu()
 	_build_bottom()
-	guide = OpeningGuide.new()
+	guide = OpeningGuideScript.new()
 	_base.add_child(guide)
 	_build_window()
 
