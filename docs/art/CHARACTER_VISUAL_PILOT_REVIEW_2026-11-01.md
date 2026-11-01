@@ -170,3 +170,16 @@ Follow-up CLI captures also passed at 1920x1080 (`build/character_pilot_cli_1920
 3. Create derived alpha PNGs only for approved full-body/bust-up images.
 4. Compare the title candidate at 1920x1080, 1600x900, and 1280x720 before connecting it to the title screen.
 5. Keep `runtime_approved:false` until the above checks, rights review, and Godot screenshot QA are complete.
+
+## Bust-up reaction candidate review (2026-11-02)
+
+The 50 generated bust-up reaction candidates are available as a numbered contact sheet at
+`docs/art/character_reaction_candidates_contact_20261102.png`. The sheet is a review aid only; it does not
+promote any candidate into the runtime registry. The candidates preserve the intended differences in eye shape and
+gesture, but many still contain generated speech bubbles or reaction marks inside the pixels. Those baked marks must
+not be treated as the authoritative game UI, because the runtime owns the independent symbol/text layer.
+
+The current runtime pilot therefore keeps only the three detailed bust-up routes (`reaction_discovery`,
+`reaction_pleading`, and `reaction_deadpan`) and leaves the other 47 candidates in the 334-image placement review.
+Each candidate needs a clean derivation, hand/edge inspection, and a concrete game trigger before it can be added to
+`character_visuals_v1.json`; `runtime_approved:false` remains unchanged.
