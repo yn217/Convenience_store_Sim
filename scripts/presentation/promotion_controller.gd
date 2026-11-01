@@ -93,6 +93,10 @@ func start_promotion(def_id: String, days: int) -> CommandResult:
 	_seq += 1
 	var r: CommandResult = _app.run_command({"command_id": "ui_promo_%d_%d" % [Time.get_ticks_usec(), _seq], "kind": &"START_PROMOTION", "def_id": def_id, "days": days})
 	_status.text = "販促を始めました。" if r.ok else "始められません（%s）" % ERRORS.get(String(r.message_key), String(r.message_key))
+	if r.ok:
+		var guide := get_node_or_null("../ProgressionController")
+		if guide != null and guide.has_method("request_pilot_cue"):
+			guide.request_pilot_cue("seasonal_campaign_started", {"def_id": def_id, "days": days})
 	return r
 
 

@@ -118,6 +118,8 @@ func cue_entry(cue_id: String) -> Dictionary:
 		return _find("functional_save_complete")
 	if cue_id == "staff_hired":
 		return _find("functional_staff_hiring")
+	if cue_id == "seasonal_campaign_started":
+		return _find("functional_campaign")
 	return {}
 
 

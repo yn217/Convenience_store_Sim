@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 41, "the pilot registry exposes all 41 selected visuals")
+	t.eq(panel._entries.size(), 42, "the pilot registry exposes all 42 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -39,6 +39,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.cue_entry("capsule_empty").get("id", ""), "functional_capsule_rare", "capsule empty reuses the capsule pose")
 	t.eq(panel.cue_entry("save_complete").get("id", ""), "functional_save_complete", "save completion uses its functional pilot pose")
 	t.eq(panel.cue_entry("staff_hired").get("id", ""), "functional_staff_hiring", "staff hiring uses its functional pilot pose")
+	t.eq(panel.cue_entry("seasonal_campaign_started").get("id", ""), "functional_campaign", "promotion start uses its campaign pilot pose")
 	t.eq(panel.cue_entry("business_started").get("id", ""), "functional_business_opening", "opening cut-in has a functional pilot pose")
 	t.eq(panel.stage_entry({"story_cue": "story_first_profit", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_first_profit", "first-profit story uses its presentation pose")
 	t.eq(panel.day_end_entry("worried").get("id", ""), "functional_day_end_review", "negative day-end uses the review pose")
