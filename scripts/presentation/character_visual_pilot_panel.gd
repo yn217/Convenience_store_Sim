@@ -4,8 +4,6 @@ extends Node
 signal pilot_visibility_changed(enabled: bool)
 
 const REGISTRY_PATH := "res://data/presentation/character_visuals_v1.json"
-const PILOT_VISIBLE_BY_DEFAULT := true
-
 var _entries: Array = []
 var _image: TextureRect
 var _meta: Label
@@ -61,8 +59,9 @@ func _ready() -> void:
 	_reaction_meta.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_reaction_meta.visible = false
 	body.add_child(_reaction_meta)
-	_toggle.button_pressed = PILOT_VISIBLE_BY_DEFAULT
-	_set_review_visible(PILOT_VISIBLE_BY_DEFAULT)
+	var default_visible := OS.is_debug_build()
+	_toggle.button_pressed = default_visible
+	_set_review_visible(default_visible)
 
 
 func _load_entries() -> Array:
