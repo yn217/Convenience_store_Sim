@@ -124,6 +124,8 @@ The functional cue capture `build/character_pilot_low_stock_clean_latest.png` al
 
 The follow-up parse check covered 263 GDScript files with 0 errors, and the focused pilot route test remained at 4 tests / 273 assertions / 0 failures.
 
+The story reaction capture `build/character_pilot_story_queue_clean_latest.png` exercises `story_queue_giveup`. The queue-departure explanation remains in the existing assistant bubble, the bust-up reaction is shown in its dedicated layer, the independent `?` symbol is visible, and the full-body pilot is hidden. The capture helper reapplies the requested story cue after the final animation settle so the saved image matches the requested route.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.

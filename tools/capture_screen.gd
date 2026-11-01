@@ -221,6 +221,12 @@ func _run() -> void:
 			if guide != null and guide.has_method("apply_snapshot"):
 				if bool(guide.get("_opening_cutin_active")) and guide.has_method("_finish_opening_cutin"):
 					guide._finish_opening_cutin()
+				# Keep the reaction capture independent from the startup achievement toast.
+				guide._celebrations.clear()
+				if guide._celebrate_timer != null:
+					guide._celebrate_timer.stop()
+				if guide.has_method("_refresh_stage"):
+					guide._refresh_stage()
 				var snapshot: Dictionary = guide._snap.duplicate(true)
 				snapshot["story_cue"] = story_cue
 				guide.apply_snapshot(snapshot)
@@ -295,6 +301,16 @@ func _run() -> void:
 					if guide.has_method("_refresh_stage"):
 						guide._refresh_stage()
 					guide.request_pilot_cue(a.trim_prefix("--pilot-cue="), {})
+		for a in OS.get_cmdline_user_args():
+			if a.begins_with("--story-cue="):
+				var story_guide := main.get_node_or_null("ProgressionController")
+				if story_guide != null and story_guide.has_method("apply_snapshot"):
+					story_guide._celebrations.clear()
+					if story_guide._celebrate_timer != null:
+						story_guide._celebrate_timer.stop()
+					var story_snapshot: Dictionary = story_guide._snap.duplicate(true)
+					story_snapshot["story_cue"] = a.trim_prefix("--story-cue=")
+					story_guide.apply_snapshot(story_snapshot)
 	var review_world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 	if OS.get_cmdline_user_args().has("--clear-hover"):
 		review_world.set_hover_screen(Vector2(-1000, -1000))
