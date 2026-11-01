@@ -141,6 +141,11 @@ func _select_entry(snapshot: Dictionary) -> Dictionary:
 		return _find("fullbody_emotion_05")
 	if story_cue != "":
 		return _find("functional_opening_checklist")
+	if str(progression.get("active_daily_challenge_id", "")) == "challenge_sales_3":
+		return _find("functional_three_sales")
+	for milestone in [["ms_six_categories", "functional_six_categories"], ["ms_fifty_visitors", "functional_fifty_visitors"], ["ms_ten_sales", "functional_ten_sales"]]:
+		if completed.has(milestone[0]):
+			return _find(milestone[1])
 	if completed.has("ms_first_sale") or completed.has("ms_first_profit"):
 		return _find("fullbody_emotion_05")
 	return _find("fullbody_dynamic_201")
