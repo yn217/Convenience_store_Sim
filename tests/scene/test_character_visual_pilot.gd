@@ -140,3 +140,33 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	pc._clear_pilot_cue()
 	main.queue_free()
 	await tree.process_frame
+
+
+func test_runtime_event_panel_shows_selected_event_pilot(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var panel: Node = main.get_node("CharacterVisualPilotPanel")
+	var events: Node = main.get_node("EventController")
+	var view := {
+		"status": "active",
+		"event_id": "evt_roadworks",
+		"name_ja": "近隣の工事",
+		"description_ja": "近所の工事で、日中の通行客が減るようです。",
+		"event_start_sec": 0,
+		"event_end_sec": 3600,
+		"start_sec": 0,
+		"end_sec": 3600,
+		"traffic": 0.75,
+		"categories": {},
+		"tone": "challenge",
+	}
+	events.apply_snapshot({"gameplay_event": view, "event_catalog": [], "event_history": [], "time_sec": 1800, "stocked_categories": []})
+	var picture: TextureRect = events._pilot_picture
+	t.ok(panel.is_pilot_enabled(), "event pilot is enabled for the QA runtime")
+	t.ok(picture.visible, "active events show the selected event pilot")
+	t.eq((picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/event_roadworks.png", "roadworks selects the event pilot texture")
+	t.ok(picture.size.y > 0.0, "event pilot has a visible layout height")
+	main.queue_free()
+	await tree.process_frame
