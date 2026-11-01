@@ -1,0 +1,48 @@
+{
+  "source_size_px": [
+    1024,
+    1536
+  ],
+  "source_mode": "RGBA",
+  "source_alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_threshold": 8,
+  "alpha_bbox_xyxy": [
+    158,
+    24,
+    895,
+    1519
+  ],
+  "margins_px_ltrb": [
+    158,
+    24,
+    129,
+    17
+  ],
+  "margin_fraction_ltrb": [
+    0.1543,
+    0.0156,
+    0.126,
+    0.0111
+  ],
+  "alpha_gate": "fail",
+  "review_padding": {
+    "canvas_px": [
+      1792,
+      1792
+    ],
+    "offset_px": [
+      384,
+      128
+    ],
+    "resampled": false,
+    "background_removed": false
+  },
+  "projection": "not calibrated",
+  "geometry": "nominal contract unverified",
+  "godot_checked": false,
+  "runtime_approved": false,
+  "sha256_source": "b851d1bf7c22d6c0e1657d43acb1b50fb9ee04eff6004cb1132c4f80593cfea8"
+}
