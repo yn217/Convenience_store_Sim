@@ -1,0 +1,147 @@
+{
+  "source_size_px": [
+    1366,
+    1152
+  ],
+  "source_mode": "RGBA",
+  "source_alpha_extrema": [
+    0,
+    255
+  ],
+  "alpha_bbox": {
+    "1": {
+      "bbox_xyxy": [
+        161,
+        113,
+        1236,
+        1152
+      ],
+      "margins_px": [
+        161,
+        113,
+        130,
+        0
+      ],
+      "margin_fraction": [
+        0.1179,
+        0.0981,
+        0.0952,
+        0.0
+      ]
+    },
+    "8": {
+      "bbox_xyxy": [
+        164,
+        114,
+        1233,
+        1152
+      ],
+      "margins_px": [
+        164,
+        114,
+        133,
+        0
+      ],
+      "margin_fraction": [
+        0.1201,
+        0.099,
+        0.0974,
+        0.0
+      ]
+    },
+    "128": {
+      "bbox_xyxy": [
+        165,
+        115,
+        1232,
+        1152
+      ],
+      "margins_px": [
+        165,
+        115,
+        134,
+        0
+      ],
+      "margin_fraction": [
+        0.1208,
+        0.0998,
+        0.0981,
+        0.0
+      ]
+    },
+    "250": {
+      "bbox_xyxy": [
+        166,
+        119,
+        1232,
+        1152
+      ],
+      "margins_px": [
+        166,
+        119,
+        134,
+        0
+      ],
+      "margin_fraction": [
+        0.1215,
+        0.1033,
+        0.0981,
+        0.0
+      ]
+    }
+  },
+  "review_padding": {
+    "canvas_px": [
+      1622,
+      1622
+    ],
+    "offset_px": [
+      128,
+      235
+    ],
+    "resampled": false
+  },
+  "content_qa": {
+    "integrated_four_rows": true,
+    "fronts_visible": true,
+    "floating_cards_observed": false,
+    "obvious_product_cuboids": false,
+    "projection_status": "fail",
+    "projection_slope_visual_estimate": 0.28,
+    "projection_target_abs_slope": 0.5,
+    "branding_status": "needs_review",
+    "godot_checked": false
+  },
+  "files": {
+    "source_original.png": {
+      "path": "assets/review/imagegen_candidates/20261101/shelf_general_open_r0_integrated_FULL_v14/source_original.png",
+      "byte_size": 1786514,
+      "sha256": "32801cc99118ffb4593b5dc8d050ccf6f3a77ac70cca9c69982b5431ebaf9609",
+      "size_px": [
+        1366,
+        1152
+      ],
+      "alpha": true
+    },
+    "sprite_padded_review.png": {
+      "path": "assets/review/imagegen_candidates/20261101/shelf_general_open_r0_integrated_FULL_v14/sprite_padded_review.png",
+      "byte_size": 1773559,
+      "sha256": "587e42f18b2a9fa33b4f6724749545309440081013434bebd78931ed85ac9b33",
+      "size_px": [
+        1622,
+        1622
+      ],
+      "alpha": true
+    },
+    "preview_checkerboard.jpg": {
+      "path": "assets/review/imagegen_candidates/20261101/shelf_general_open_r0_integrated_FULL_v14/preview_checkerboard.jpg",
+      "byte_size": 451438,
+      "sha256": "9f2aca6f0dfba0fc2380213fd8732d3bf7a24b1623a874fd190422f7b8921027",
+      "size_px": [
+        1622,
+        1622
+      ],
+      "alpha": false
+    }
+  }
+}

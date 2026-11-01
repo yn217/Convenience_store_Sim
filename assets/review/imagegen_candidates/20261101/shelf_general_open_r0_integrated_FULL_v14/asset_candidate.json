@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v14",
+  "asset_class": "interior_fixture",
+  "requested_subject": "shelf_general FULL: compact open gondola matching exact empty-fixture silhouette and iso2x_v1 projection, densely stocked with readable front-facing goods",
+  "actual_subject": "Four-row open snack gondola FULL illustration with integrated colorful packages; long axis appears too shallow for iso2x_v1 and alpha content touches bottom edge",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/shelf_general_open_r0_integrated_FULL_v14/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1786514,
+    "sha256": "32801cc99118ffb4593b5dc8d050ccf6f3a77ac70cca9c69982b5431ebaf9609",
+    "reference_hashes": [
+      "d63fa56a2bcbf20cb063e69482a9b2fba752d63c8cd8aa84f7f9a501a61363cd",
+      "e78e3e4ab814296ed0b155a9e770a863308073c593ab2cf9822396cfdd2f8dc9"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_general_open_r0_integrated_FULL_v14/source_original.png",
+      "byte_size": 1786514,
+      "sha256": "32801cc99118ffb4593b5dc8d050ccf6f3a77ac70cca9c69982b5431ebaf9609",
+      "git_blob_sha": "01f98bd4a9393a64c2ff5033a9417cfb1f533439",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_general_open_r0_integrated_FULL_v14/sprite_padded_review.png",
+      "byte_size": 1773559,
+      "sha256": "587e42f18b2a9fa33b4f6724749545309440081013434bebd78931ed85ac9b33",
+      "git_blob_sha": "9fd4c3cf39dca2b281dff51909d85778ae03d7cc",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_general_open_r0_integrated_FULL_v14/preview_checkerboard.jpg",
+      "byte_size": 451438,
+      "sha256": "9f2aca6f0dfba0fc2380213fd8732d3bf7a24b1623a874fd190422f7b8921027",
+      "git_blob_sha": "5a95afda4bb60ffc443781f16586d26cdc6cb658",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass_with_concern",
+    "geometry": "blocked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "fail",
+    "notes": [
+      "New built-in ImageGen candidate, 1366x1152 RGBA with alpha. Four dense integrated rows and visible product fronts; no detached floating cards or obvious thick cuboids.",
+      "Projection FAIL: long shelf axis estimated around 0.28 slope vs iso2x_v1 target 0.5, visual estimate only; do not hide with anisotropic scaling.",
+      "Alpha threshold >8 bbox [164,114,1233,1152]; bottom margin 0 px, fails the 12% content-margin gate. Padded preview adds transparent canvas only and leaves source untouched.",
+      "Packaging includes brand-like marks/text; needs replacement or review.",
+      "World dimensions, footprint, anchor, access edge, state synchronization, Godot runtime and game-scale readability are unverified. runtime_approved remains false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
