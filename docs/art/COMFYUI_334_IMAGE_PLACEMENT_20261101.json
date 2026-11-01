@@ -4593,7 +4593,7 @@
       "seed": 2603101,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Standing confidently with her feet slightly apart, both hands resting neatly in front of her apron, upper body leaning forward a little, warm welcoming smile and bright hopeful eyes, as if introducing the player to their very first convenience store.",
       "screen_id": "SCR-06",
       "trigger": "tut_01",
       "ui_slot": "assistant_corner",
@@ -4602,9 +4602,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_002",
@@ -4613,7 +4614,7 @@
       "seed": 2603102,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Standing in a three-quarter pose, right arm extended sideways with an open upward-facing palm indicating an imaginary checkout counter, left hand resting on her waist, attentive eyes and an encouraging professional smile.",
       "screen_id": "SCR-06",
       "trigger": "tut_02",
       "ui_slot": "assistant_corner",
@@ -4622,9 +4623,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_003",
@@ -4633,7 +4635,7 @@
       "seed": 2603103,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Holding a small blank floor-plan card vertically against her chest with her left hand, right index finger indicating an imaginary placement location beside her, thoughtful expression, upright balanced posture, elbows naturally bent.",
       "screen_id": "SCR-06",
       "trigger": "tut_03",
       "ui_slot": "assistant_corner",
@@ -4642,9 +4644,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_004",
@@ -4653,7 +4656,7 @@
       "seed": 2603104,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Holding a compact stock-order clipboard in her left arm, right hand making a small confirming gesture near her waist, focused friendly expression, looking down at the clipboard as if explaining how to purchase inventory.",
       "screen_id": "SCR-07",
       "trigger": "tut_04",
       "ui_slot": "management_panel_assistant",
@@ -4662,9 +4665,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_005",
@@ -4673,7 +4677,7 @@
       "seed": 2603105,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Standing with a small closed cardboard stock box securely supported in both arms at waist height, shoulders relaxed, pleased expression and slight upward head tilt, showing satisfaction that the purchased inventory has arrived.",
       "screen_id": "SCR-07",
       "trigger": "STOCK_PURCHASED",
       "ui_slot": "management_panel_assistant",
@@ -4682,9 +4686,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_006",
@@ -4693,7 +4698,7 @@
       "seed": 2603106,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Standing at a gentle three-quarter angle, right hand holding one sealed generic snack package at waist height, left palm open beside it to indicate shelf restocking, focused but cheerful eyes, natural retail working posture.",
       "screen_id": "SCR-08",
       "trigger": "tut_05",
       "ui_slot": "management_panel_assistant",
@@ -4702,9 +4707,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_007",
@@ -4713,7 +4719,7 @@
       "seed": 2603107,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Holding a small checklist against her torso with the left arm, right hand gently touching her chin, looking slightly upward with a concentrated expression, feet parallel and shoulders square, as if carefully checking whether the store is ready to open.",
       "screen_id": "SCR-09",
       "trigger": "opening_checklist",
       "ui_slot": "management_panel_assistant",
@@ -4722,9 +4728,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_008",
@@ -4733,7 +4740,7 @@
       "seed": 2603108,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Standing upright in an energetic welcoming pose, right arm raised sideways with an open palm, left hand held near her chest, broad excited smile, sparkling eyes, slightly lifted shoulders, ready to welcome the store's first customers.",
       "screen_id": "SCR-01",
       "trigger": "BUSINESS_STARTED",
       "ui_slot": "assistant_corner",
@@ -4742,9 +4749,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_009",
@@ -4753,7 +4761,7 @@
       "seed": 2603109,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Reacting to the first completed sale, both elbows bent with small fists near her shoulders, leaning forward slightly, wide delighted eyes and joyful open-mouth smile, expressing genuine excitement without throwing her hands toward the camera.",
       "screen_id": "SCR-12",
       "trigger": "ms_first_sale",
       "ui_slot": "assistant_corner",
@@ -4762,9 +4770,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_010",
@@ -4773,7 +4782,7 @@
       "seed": 2603110,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Holding a closed business notebook gently against her waist with both hands, calm proud smile, shoulders relaxed and head tilted slightly, as if inviting the player to review the results of the first business day.",
       "screen_id": "SCR-13",
       "trigger": "DAILY_CLOSED:first_day",
       "ui_slot": "assistant_corner",
@@ -4782,9 +4791,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_011",
@@ -4793,7 +4803,7 @@
       "seed": 2603111,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Cheerfully welcoming festival visitors, body angled slightly toward the left, right hand extended to the side with an open palm, left hand resting at her hip, sparkling enthusiastic eyes and a bright festive smile, energetic but balanced full-body pose.",
       "screen_id": "SCR-11",
       "trigger": "evt_local_fair",
       "ui_slot": "event_assistant_portrait",
@@ -4802,9 +4812,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_012",
@@ -4813,7 +4824,7 @@
       "seed": 2603112,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Standing with a small blank notice board held in her left hand near her waist, right fingertips touching her forehead, eyebrows drawn together in concern, looking sideways as if worried about reduced customer traffic, slightly lowered shoulders.",
       "screen_id": "SCR-11",
       "trigger": "evt_roadworks",
       "ui_slot": "event_assistant_portrait",
@@ -4822,9 +4833,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_013",
@@ -4844,7 +4856,8 @@
       "image_visual_review": "required",
       "source_prompt_verified": false,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_014",
@@ -4853,7 +4866,7 @@
       "seed": 2603114,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Holding a single warm sealed beverage can between both hands near her chest, elbows close to her torso, shoulders slightly drawn inward, eyes softly closed in a cozy contented smile, naturally conveying comfort on a cold day.",
       "screen_id": "SCR-11",
       "trigger": "evt_cold_day",
       "ui_slot": "event_assistant_portrait",
@@ -4862,9 +4875,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_015",
@@ -4873,7 +4887,7 @@
       "seed": 2603115,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Presenting one small sealed strawberry dessert cup in her left hand at chest height, right palm open beneath the product, head tilted slightly, delighted affectionate smile and bright sparkling eyes, elegant and inviting recommendation pose.",
       "screen_id": "SCR-11",
       "trigger": "evt_sweets_spotlight",
       "ui_slot": "event_assistant_portrait",
@@ -4882,9 +4896,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_016",
@@ -4893,7 +4908,7 @@
       "seed": 2603116,
       "source_set": "functional",
       "subcategory": "functional",
-      "prompt_pose_en": null,
+      "prompt_pose_en": "Holding a sealed colorful snack bag close to her chest in her right hand, left hand raised near her cheek in a small surprised gesture, widened curious eyes, cheerful open-mouth smile, body turned slightly sideways.",
       "screen_id": "SCR-11",
       "trigger": "evt_snack_buzz",
       "ui_slot": "event_assistant_portrait",
@@ -4902,9 +4917,10 @@
       "proposal": "function_candidate",
       "runtime_approved": false,
       "image_visual_review": "required",
-      "source_prompt_verified": false,
+      "source_prompt_verified": true,
       "display_policy": "Show on actual cue/panel, never random per game tick",
-      "note": "UI presentation only; economics and save-state untouched"
+      "note": "UI presentation only; economics and save-state untouched",
+      "prompt_retrieval_error": null
     },
     {
       "asset_id": "rikka_fun_017",
