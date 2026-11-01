@@ -62,6 +62,7 @@ var _snap: Dictionary = {}
 var _pilot_cue_id := ""
 var _pilot_cue_payload: Dictionary = {}
 var _pilot_cue_timer: Timer
+var _opening_cutin_active := false
 var _seq: int = 0
 var _milestone_defs: Array = []
 
@@ -292,7 +293,7 @@ func refresh_visual_pilot() -> void:
 		_figure.visible = not usable and not reaction_usable
 	var chrome := get_node_or_null("../MockupChrome")
 	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):
-		chrome.set_pilot_assistant_visible(_stage.visible and (usable or reaction_usable))
+		chrome.set_pilot_assistant_visible(_opening_cutin_active or (_stage.visible and (usable or reaction_usable)))
 
 
 func mood() -> String:
@@ -386,6 +387,7 @@ func _build_cutin() -> void:
 func show_opening() -> void:
 	if _cutin == null:
 		return
+	_opening_cutin_active = true
 	var pilot := get_parent().get_node_or_null("CharacterVisualPilotPanel")
 	if pilot != null and pilot.has_method("cue_entry") and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled():
 		var opening: Dictionary = pilot.cue_entry("business_started")
@@ -395,12 +397,20 @@ func show_opening() -> void:
 	_cutin.visible = true
 	_cutin.modulate = Color(1, 1, 1, 0)
 	if not _cutin.is_inside_tree():
+		_stage.visible = false
 		return   # tests without a tree: visible is enough
+	set_suppressed(true, "opening_cutin")
 	var tw := _cutin.create_tween()
 	tw.tween_property(_cutin, "modulate:a", 1.0, 0.25)
 	tw.tween_interval(CUTIN_SECONDS)
 	tw.tween_property(_cutin, "modulate:a", 0.0, 0.35)
-	tw.tween_callback(func(): _cutin.visible = false)
+	tw.tween_callback(_finish_opening_cutin)
+
+
+func _finish_opening_cutin() -> void:
+	_opening_cutin_active = false
+	_cutin.visible = false
+	set_suppressed(false, "opening_cutin")
 
 
 ## She steps aside while the management window is open (user's choice, 2026-10-31).

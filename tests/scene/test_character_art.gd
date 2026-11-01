@@ -126,9 +126,19 @@ func test_opening_cutin_and_staff_looks(t, tree) -> void:
 	app.state.business_state = GameState.OPEN
 	app._publish_snapshot()
 	t.ok(pc._cutin.visible, "opening the store plays 開店！")
+	t.ok(not pc._stage.visible, "opening cut-in suppresses the assistant stage")
+	var chrome := main.get_node_or_null("MockupChrome")
+	if chrome != null:
+		t.ok(not chrome.get_node("WindowLayer/Rikka").visible, "opening cut-in hides the mockup assistant figure")
+		t.ok(not chrome.get_node("WindowLayer/Bubble").visible, "opening cut-in hides the mockup assistant bubble")
 	pc._cutin.visible = false
+	pc._finish_opening_cutin()
 	app._publish_snapshot()
 	t.ok(not pc._cutin.visible, "only on the change")
+	t.ok(pc._stage.visible, "assistant stage returns after opening cut-in")
+	if chrome != null:
+		t.ok(not chrome.get_node("WindowLayer/Rikka").visible, "mockup assistant figure stays hidden while the generated pilot owns the stage")
+		t.ok(not chrome.get_node("WindowLayer/Bubble").visible, "mockup assistant bubble stays hidden while the generated pilot owns the stage")
 	pc._last_business = ""   # as after a load: the first snapshot is already open
 	app._publish_snapshot()
 	t.ok(not pc._cutin.visible, "a loaded open store does not replay it")
