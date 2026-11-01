@@ -266,6 +266,10 @@ func close_build() -> void:
 func open_screen_tab(tab: String) -> void:
 	ui.open_screen(tab)
 	_apply_mode()
+	if tab == "店員":
+		var guide := get_node_or_null("ProgressionController")
+		if guide != null and guide.has_method("request_pilot_cue"):
+			guide.request_pilot_cue("staff_schedule_open", {})
 
 
 func close_screen() -> void:

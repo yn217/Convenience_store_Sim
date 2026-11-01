@@ -65,6 +65,10 @@ This review covers the 42-image pilot. The remaining 292 candidates stay review-
 - The sampled bust-up candidate communicates surprise, but its generated speech bubble and punctuation are not production UI. Godot should own the symbol/text overlay.
 - No candidate is approved for production replacement until the user reviews the gallery at the target resolutions.
 
+## Runtime cue overlay
+
+The staff-management screen requests `staff_schedule_open`, and successful save, hiring, and promotion commands request their corresponding functional cues. These four cues temporarily keep the selected pilot figure visible above the management window; ordinary story lines continue to step aside while a management screen is open.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 39 candidates.

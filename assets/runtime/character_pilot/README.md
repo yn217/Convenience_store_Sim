@@ -11,3 +11,5 @@ This folder contains the 42 candidates selected for Issue #230's pilot review.
 The files are intentionally kept separate from the 334-image review pool. They are not marked `runtime_approved` yet, and the review scene must be used before any production UI replacement. The source-to-trigger mapping is [character_visuals_v1.json](../../../data/presentation/character_visuals_v1.json).
 
 The thirty-eight standing-image entries have a derived copy under `derived_alpha/`. These copies are generated with ComfyUI's built-in BiRefNet background-removal model and an inverted foreground mask; the original PNGs remain unchanged for comparison and rollback. The reprocessing workflows are `tools/assets/apply_birefnet_character_pilot.ps1` and `tools/assets/apply_birefnet_event_candidates.ps1`. The Godot pilot panel uses these derived paths and keeps the legacy presentation as fallback.
+
+The staff screen, save completion, staff hiring, and promotion-start cues briefly show their functional pilot figure above the management window. Other assistant story lines retain the existing screen-suppression behavior.

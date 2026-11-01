@@ -64,6 +64,8 @@ var _pilot_cue_timer: Timer
 var _seq: int = 0
 var _milestone_defs: Array = []
 
+const PILOT_SCREEN_CUES := ["staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"]
+
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
 
@@ -126,7 +128,7 @@ func request_pilot_cue(cue_id: String, payload: Dictionary = {}) -> void:
 
 
 func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
-	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "save_complete", "staff_hired", "seasonal_campaign_started"].has(cue_id):
+	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"].has(cue_id):
 		return
 	_pilot_cue_id = cue_id
 	_pilot_cue_payload = payload.duplicate()
@@ -231,7 +233,8 @@ func _refresh_stage() -> void:
 		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
 	else:
 		_assistant.text = CueText.toast_text(_pilot_cue_id, _pilot_cue_payload)
-	_stage.visible = _suppressed_by.is_empty() and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
+	var pilot_screen_overlay := PILOT_SCREEN_CUES.has(_pilot_cue_id)
+	_stage.visible = (_suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
 	if warn:
 		set_mood("worried")
 	else:

@@ -110,6 +110,11 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	pc.request_pilot_cue("seasonal_campaign_started", {})
 	await tree.process_frame
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_campaign.png", "promotion start selects the campaign pose")
+	main.call("open_screen_tab", "店員")
+	await tree.process_frame
+	t.eq(pc._pilot_cue_id, "staff_schedule_open", "opening the staff screen requests the schedule pose")
+	t.ok(pc._stage.visible, "the schedule pose remains visible over the staff screen")
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_staff_schedule.png", "staff screen uses the schedule pose")
 	pc._pilot_cue_timer.stop()
 	pc._clear_pilot_cue()
 	main.queue_free()
