@@ -845,7 +845,7 @@ func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 				continue
 			var r := Rect2(a - Vector2(half, ITEM_H * s), size)
 			if icons and not sku.is_empty():
-				cmds.append([3, ProductIcons.texture(sku, ICON_PX), r, Color(1, 1, 1, alpha)])
+				cmds.append([3, ProductIcons.placeholder(sku, ICON_PX), r, Color(1, 1, 1, alpha)])   # the shelf look stays as it is (#91)
 				continue
 			cmds.append([1, r, fill, true, -1.0])
 			if outline:

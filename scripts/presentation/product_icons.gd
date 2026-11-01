@@ -1,9 +1,9 @@
 class_name ProductIcons
 extends RefCounted
-## Code-made placeholder package icons (issue #12 stand-in until generated art is approved).
-## Everything is drawn with Image pixels: a per-category silhouette, a colour derived from the
-## sku_id hash and the category, and a fictional two-glyph label plate. No external assets,
-## no real brands or logos. Textures are cached per (sku, category, label, size).
+## Package icons for the UI rows. A SKU with a picture in ART_DIR (ComfyUI, tools/assets/build_product_icons.py,
+## 64 px) gets it scaled to the row size; any other falls back to the code-made placeholder: a per-category
+## silhouette, a colour derived from the sku_id hash and the category, and a fictional two-glyph label plate. No real
+## brands or logos. Textures are cached per (sku, category, label, size).
 
 const PLATE_COLOR := Color(0.97, 0.96, 0.92)
 const INK_COLOR := Color(0.18, 0.16, 0.2)
@@ -11,11 +11,29 @@ const NORI_COLOR := Color(0.1, 0.18, 0.12)
 const BROTH_COLOR := Color(0.45, 0.25, 0.12)
 const CONE_COLOR := Color(0.85, 0.62, 0.36)
 
+const ART_DIR := "res://assets/ui/products/"
+
 static var _cache: Dictionary = {}
 
 
 ## Texture for one SKU row. `sku` is a product dictionary (sku_id, category, name_ja/display_name).
 static func texture(sku: Dictionary, size: int = 48) -> Texture2D:
+	var path := ART_DIR + str(sku.get("sku_id", "")) + ".png"
+	var px := maxi(size, 8)
+	var key := "art|%s|%d" % [path, px]
+	if _cache.has(key):
+		return _cache[key]
+	if ResourceLoader.exists(path):
+		var img := (load(path) as Texture2D).get_image()
+		if img.get_width() != px:
+			img.resize(px, px, Image.INTERPOLATE_LANCZOS)   # an OptionButton draws its icon at the texture's own size
+		_cache[key] = ImageTexture.create_from_image(img)
+		return _cache[key]
+	return placeholder(sku, size)
+
+
+## The code-drawn icon, also used where the picture would not fit (the products drawn on a shelf in the store, #91).
+static func placeholder(sku: Dictionary, size: int = 48) -> Texture2D:
 	var sku_id := str(sku.get("sku_id", ""))
 	var category := str(sku.get("category", ""))
 	var label := label_for(sku)

@@ -202,3 +202,16 @@ func test_every_catalog_card_has_a_picture(t, _tree) -> void:
 			t.ok(ResourceLoader.exists(photo), "%s has a catalog photo" % id)
 			if ResourceLoader.exists(photo):
 				t.eq(Vector2i((load(photo) as Texture2D).get_size()), BuildCatalog.THUMB_PIXELS, "%s at the thumbnail size" % id)
+
+
+## Product icons (ComfyUI, 2026-11-01): every SKU has its picture, scaled to the size the row asks for; the shelf drawing
+## in the store keeps the code-made icon (#91).
+func test_product_icons_have_pictures(t, _tree) -> void:
+	var products := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
+	for id in products.skus:
+		var sku: Dictionary = products.get_sku(id)
+		t.ok(ResourceLoader.exists(ProductIcons.ART_DIR + String(id) + ".png"), "%s has a picture" % id)
+		var tex := ProductIcons.texture(sku, 32)
+		t.eq(tex.get_size(), Vector2(32, 32), "%s: drawn at the row size" % id)
+		t.ok(tex.get_image().get_data() != ProductIcons.placeholder(sku, 32).get_image().get_data(), "%s: not the placeholder" % id)
+
