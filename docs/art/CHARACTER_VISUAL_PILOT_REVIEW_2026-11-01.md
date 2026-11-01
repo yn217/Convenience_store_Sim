@@ -107,6 +107,8 @@ The `title_background_pilot` candidate is now the daylight residential-store com
 
 The same title candidate was captured at 1280x720, 1600x900, and 1920x1080 as `build/character_pilot_title_{1280,1600,1920}.png`. Across all three sizes, the embedded character's face and both odango buns remain inside the frame, the logo and menu buttons remain readable, and the standalone `TitleRikka` layer is not created. The hand/lower-body crop is part of the candidate's bust-up composition and does not obscure a control. This is a visual comparison result only; the candidate remains a local QA override and is not yet the default title asset.
 
+The 1600x900 capture was re-run through the requested non-headless CLI path with `Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path . --resolution 1600x900 --script res://tools/capture_screen.gd -- --title --visual-variant=painted_v1 build/character_pilot_title_cli_1600.png`. The saved frame keeps the embedded character, title plate, and real Godot buttons readable; no second standalone character is introduced. This is additional visual evidence only and does not change the approval gate.
+
 The focused `test_character_art.gd` run also passed: 14 tests, 329 assertions, 0 failures, including the title pilot no-double-figure check.
 
 ## Runtime screen QA (2026-11-02)
