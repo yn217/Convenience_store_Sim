@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "status": "pilot_selected",
+  "runtime_approved": false,
+  "source_commit": "01ebc165b4142db7872b5529a74d7f8e29e9175f",
+  "notes": [
+    "Pilot-only visual registry for Issue #230.",
+    "These images are not a replacement for the existing UI until visual QA and rights review approve them.",
+    "Reaction symbols and text remain Godot-owned overlay layers."
+  ],
+  "assets": [
+    {
+      "id": "title_background_pilot",
+      "kind": "title_background",
+      "screen_id": "SCR-05",
+      "trigger": "title_open",
+      "runtime_path": "res://assets/runtime/character_pilot/title_background_pilot.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/title_screen_1344x768/title_screen_variant_01_1344x768_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_title_background"
+    },
+    {
+      "id": "fullbody_dynamic_201",
+      "kind": "fullbody",
+      "screen_id": "SCR-06",
+      "trigger": "tutorial_customer_greeting",
+      "runtime_path": "res://assets/runtime/character_pilot/fullbody_dynamic_201.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/additional_201_250_poses/character_sprite_201_250_1024x1536_201_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "fullbody_tutorial_layout",
+      "kind": "fullbody",
+      "screen_id": "SCR-06",
+      "trigger": "tutorial_layout_guidance",
+      "runtime_path": "res://assets/runtime/character_pilot/fullbody_tutorial_layout.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/200set_remaining/character_sprite_200set_remaining_service_02_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "fullbody_emotion_05",
+      "kind": "fullbody",
+      "screen_id": "SCR-18",
+      "trigger": "milestone_first_sale",
+      "runtime_path": "res://assets/runtime/character_pilot/fullbody_emotion_05.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/200set_remaining/character_sprite_200set_remaining_emotion_05_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "reaction_discovery",
+      "kind": "bustup_reaction",
+      "screen_id": "SCR-06",
+      "trigger": "tutorial_discovery",
+      "runtime_path": "res://assets/runtime/character_pilot/reaction_discovery.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_01_1024x1024_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only",
+      "overlay_symbol": "!"
+    },
+    {
+      "id": "reaction_deadpan",
+      "kind": "bustup_reaction",
+      "screen_id": "SCR-11",
+      "trigger": "quiet_street_event",
+      "runtime_path": "res://assets/runtime/character_pilot/reaction_deadpan.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_38_1024x1024_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only",
+      "overlay_symbol": "..."
+    },
+    {
+      "id": "reaction_pleading",
+      "kind": "bustup_reaction",
+      "screen_id": "SCR-18",
+      "trigger": "milestone_or_assistant_request",
+      "runtime_path": "res://assets/runtime/character_pilot/reaction_pleading.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_49_1024x1024_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only",
+      "overlay_symbol": "?"
+    },
+    {
+      "id": "functional_opening_checklist",
+      "kind": "functional_pose",
+      "screen_id": "SCR-09",
+      "trigger": "opening_checklist",
+      "runtime_path": "res://assets/runtime/character_pilot/functional_opening_checklist.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_007_functional_pilot_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "functional_sold_out",
+      "kind": "functional_pose",
+      "screen_id": "SCR-11",
+      "trigger": "stock_sold_out",
+      "runtime_path": "res://assets/runtime/character_pilot/functional_sold_out.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_024_functional_pilot_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "functional_rival_store",
+      "kind": "functional_pose",
+      "screen_id": "SCR-11",
+      "trigger": "rival_store_event",
+      "runtime_path": "res://assets/runtime/character_pilot/functional_rival_store.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_046_functional_pilot_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "event_neighbor_mentions",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_neighbor_mentions",
+      "runtime_path": "res://assets/runtime/character_pilot/event_neighbor_mentions.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_017_functional_pilot_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    }
+  ]
+}

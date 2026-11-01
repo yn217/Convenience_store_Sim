@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://scripts/presentation/cue_player.gd" id="98"]
 [ext_resource type="Script" path="res://scripts/presentation/event_controller.gd" id="97"]
 [ext_resource type="Script" path="res://scripts/presentation/fixture_card.gd" id="96"]
+[ext_resource type="Script" path="res://scripts/presentation/character_visual_pilot_panel.gd" id="100"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -236,6 +237,9 @@ script = ExtResource("99")
 
 [node name="ProgressionController" type="Node" parent="."]
 script = ExtResource("11")
+
+[node name="CharacterVisualPilotPanel" type="Node" parent="."]
+script = ExtResource("100")
 
 [node name="SaveController" type="Node" parent="."]
 script = ExtResource("10")

@@ -68,6 +68,9 @@ func _ready() -> void:
 	var guide := get_node_or_null("../ProgressionController")
 	if guide != null:
 		guide.setup(self, state.milestones)
+	var visual_pilot := get_node_or_null("../CharacterVisualPilotPanel")
+	if visual_pilot != null and visual_pilot.has_method("apply_snapshot"):
+		visual_pilot.apply_snapshot(state.snapshot())
 	var reporter := get_node_or_null("../ReportController")
 	if reporter != null:
 		reporter.setup(self)
@@ -252,6 +255,9 @@ func _publish_snapshot() -> void:
 	var eventer := get_node_or_null("../EventController")
 	if eventer != null and eventer.is_node_ready() and eventer.get("_status") != null:
 		eventer.apply_snapshot(snap)
+	var visual_pilot := get_node_or_null("../CharacterVisualPilotPanel")
+	if visual_pilot != null and visual_pilot.is_node_ready() and visual_pilot.has_method("apply_snapshot"):
+		visual_pilot.apply_snapshot(snap)
 	var fixture_card := get_node_or_null("../FixtureCard")
 	if fixture_card != null and fixture_card.is_node_ready():
 		fixture_card.apply_snapshot(snap)
