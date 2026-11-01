@@ -1,0 +1,148 @@
+{
+  "source_size_px": [
+    1536,
+    1024
+  ],
+  "source_mode": "RGBA",
+  "source_alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox": {
+    "1": {
+      "bbox_xyxy": [
+        153,
+        9,
+        1422,
+        1012
+      ],
+      "margins_px": [
+        153,
+        9,
+        114,
+        12
+      ],
+      "margin_fraction": [
+        0.0996,
+        0.0088,
+        0.0742,
+        0.0117
+      ]
+    },
+    "8": {
+      "bbox_xyxy": [
+        154,
+        11,
+        1417,
+        1010
+      ],
+      "margins_px": [
+        154,
+        11,
+        119,
+        14
+      ],
+      "margin_fraction": [
+        0.1003,
+        0.0107,
+        0.0775,
+        0.0137
+      ]
+    },
+    "128": {
+      "bbox_xyxy": [
+        156,
+        12,
+        1416,
+        1009
+      ],
+      "margins_px": [
+        156,
+        12,
+        120,
+        15
+      ],
+      "margin_fraction": [
+        0.1016,
+        0.0117,
+        0.0781,
+        0.0146
+      ]
+    },
+    "250": {
+      "bbox_xyxy": [
+        159,
+        14,
+        1414,
+        1008
+      ],
+      "margins_px": [
+        159,
+        14,
+        122,
+        16
+      ],
+      "margin_fraction": [
+        0.1035,
+        0.0137,
+        0.0794,
+        0.0156
+      ]
+    }
+  },
+  "review_padding": {
+    "canvas_px": [
+      1792,
+      1792
+    ],
+    "offset_px": [
+      128,
+      384
+    ],
+    "resampled": false
+  },
+  "visual_qa": {
+    "actual_subject": "wide open-front refrigerated multi-bay case with sandwiches, salad bowls, chilled foods and cups",
+    "integrated_goods": true,
+    "goods_tiers": 3,
+    "geometry": "fail: wide horizontal wall-case form rather than compact 1x2 module",
+    "long_axis_slope_visual_estimate": 0.19,
+    "target_long_axis_screen_slope": 0.5,
+    "projection": "fail; rough visual assessment, not calibrated",
+    "background": "source RGBA; transparent zero-alpha surroundings appear black in direct preview",
+    "godot_checked": false,
+    "runtime_approved": false
+  },
+  "files": {
+    "source_original.png": {
+      "path": "assets/review/imagegen_candidates/20261101/fridge_daily_open_case_FULL_v1/source_original.png",
+      "byte_size": 2606692,
+      "sha256": "6cba2cb49812f5a228a7a07ff0ef2c6d1898906add77e322762de72eea7e774d",
+      "size_px": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA"
+    },
+    "sprite_padded_review.png": {
+      "path": "assets/review/imagegen_candidates/20261101/fridge_daily_open_case_FULL_v1/sprite_padded_review.png",
+      "byte_size": 2133485,
+      "sha256": "0e4e7f973eac75827f81a81846d473dfadc6163a5dfd70e2ad6e698a4884ca9c",
+      "size_px": [
+        1792,
+        1792
+      ],
+      "mode": "RGBA"
+    },
+    "preview_checkerboard.jpg": {
+      "path": "assets/review/imagegen_candidates/20261101/fridge_daily_open_case_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 465972,
+      "sha256": "aa435d108bb1c9d2ec138e216df653a8a0d224e6ba242a6e7d0888392aae9dee",
+      "size_px": [
+        1792,
+        1792
+      ],
+      "mode": "RGB"
+    }
+  }
+}

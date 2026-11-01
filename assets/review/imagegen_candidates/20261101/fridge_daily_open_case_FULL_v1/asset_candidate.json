@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "asset_id": "fridge_daily_open_case_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "fridge_daily FULL: one compact 1x2 open-front daily-fresh refrigerator fixture with three integrated food rows and iso2x_v1 projection",
+  "actual_subject": "Wide multi-bay open refrigerated case with three shelves of sandwiches, salads and deli foods; scale/layout and projection visibly differ from the compact 1x2 target",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "fridge_daily",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/fridge_daily_open_case_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2606692,
+    "sha256": "6cba2cb49812f5a228a7a07ff0ef2c6d1898906add77e322762de72eea7e774d",
+    "reference_hashes": [
+      "de206b8efcb37f6fd60486f577667a39a9e25bf7dbd4a7568137347a64b382c1"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/fridge_daily_open_case_FULL_v1/source_original.png",
+      "byte_size": 2606692,
+      "sha256": "6cba2cb49812f5a228a7a07ff0ef2c6d1898906add77e322762de72eea7e774d",
+      "git_blob_sha": "3e48fd6cd1bba581fb76ab208f86dbb27c211cb8",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/fridge_daily_open_case_FULL_v1/sprite_padded_review.png",
+      "byte_size": 2133485,
+      "sha256": "0e4e7f973eac75827f81a81846d473dfadc6163a5dfd70e2ad6e698a4884ca9c",
+      "git_blob_sha": "3f57079acd7d502f9c67d4ae56f59672cc8a5908",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/fridge_daily_open_case_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 465972,
+      "sha256": "aa435d108bb1c9d2ec138e216df653a8a0d224e6ba242a6e7d0888392aae9dee",
+      "git_blob_sha": "13cce47033a4e47a9e34fa3ef9f65a316cce7e6a",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.3
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass_with_concern",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "fail",
+    "notes": [
+      "ImageGen returned a compact open refrigerated merchandising case in subject terms, with sandwiches, salads and chilled meals integrated across three rows.",
+      "Geometry FAIL: the output is a wide multi-bay landscape case rather than the fixture contract single 1x2 module; do not resize non-uniformly to disguise the mismatch.",
+      "Projection FAIL: long-axis line slopes down-right in the intended sign but is visually about +0.19 vs iso2x_v1 target +0.5. This is an uncalibrated visual estimate, not a measured projection.",
+      "Raw alpha >8 bbox [154,11,1417,1010] on 1536x1024 leaves margins [10.03%,1.07%,7.75%,1.37%], failing the 12% gate. Canvas-only padded preview does not change raw source or repair geometry.",
+      "Source is RGBA with alpha range 0..254; black-looking surroundings in direct preview are transparent at alpha 0.",
+      "Fixture contract is nominally 1x2 tiles and 0.92x1.92x1.30m from data/fixtures/mvp_v1.json, but the generated image dimensions and ground anchor have not been verified.",
+      "No Godot rendering, inventory-state sync, click/access test, or user visual approval. runtime_approved:false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

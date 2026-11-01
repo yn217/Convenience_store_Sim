@@ -1,0 +1,13 @@
+Use case: polished game-asset concept
+Asset type: one isolated Japanese convenience-store refrigerated daily-fresh fixture sprite, review candidate only
+Input images: Image 1 is a visual-style and food-display reference only; do not copy its wide multi-bay structure, labels, or exact product composition
+Primary request: create a single compact open-front refrigerated case for daily-fresh products (salad bowls, chilled noodles, small deli trays, yogurt cups, wrapped sandwiches), with the shelf and its stocked goods integrated into one coherent illustration
+Subject: one narrow 1-by-2 tile module, physical proportion about 0.92m short axis x 1.92m long axis x 1.30m tall; exactly three shallow retail tiers above a compact refrigerated base, slim upright side rails, a short rear wall, restrained clear front lips, no canopy, no room/background
+Style/medium: refined hand-painted 2D game illustration with clean fine outlines, Japanese convenience-store visual language, crisp colorful package fronts, matching the lighting/material quality of Image 1 but without brands or readable text
+Composition/framing: complete fixture with generous transparent margin on every side; 3/4 orthographic/isometric camera with parallel edges and no perspective convergence. Keep the customer-facing long edge on the game's r0 E/+X axis: that long shelf-front edge slopes down toward screen-right at exactly 26.565 degrees (screen slope +0.5); the short axis uses the complementary iso2x_v1 direction. Do not reverse or mirror the access edge. Keep the base grounded and entirely inside frame.
+Lighting/mood: soft even studio lighting, restrained highlights, no bloom, no cast shadow
+Color palette: cool white/light gray refrigeration case, subtle teal/cool accents, vivid natural food colors
+Materials/textures: thin metal shelves, clear low-profile guards, subtle refrigerated cabinet details; product packages are flat-looking flexible wrappers and shallow trays with broad readable front faces, not thick cuboids
+Text (verbatim): none
+Constraints: show exactly three stocked rows of daily-fresh foods, tightly but naturally merchandised; coherent one-piece case silhouette; transparency around the entire object; no real trademarks, no brand-like logos, no gibberish text; no repeated detached item cards
+Avoid: wide four-bay wall case, long horizontal landscape format, deep empty top planes, oversized roof/cap, tall grocery gondola, extra shelves, perspective convergence, wrong 2:1 slope, reversed access face, floating products, thick boxes, visible product side/top faces dominating, black backdrop, floor, people, labels, watermark, cropped edges.
