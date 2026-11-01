@@ -120,6 +120,10 @@ Focused verification after this capture:
 
 The capture is a layout/visibility check only. It does not approve the candidate for release; `runtime_approved:false` and the rights-review gate remain unchanged.
 
+The functional cue capture `build/character_pilot_low_stock_clean_latest.png` also exercises `low_stock_notice`. The capture helper now reapplies the requested cue after settling `CuePlayer` effects, so the short cue timer cannot expire before the frame is saved. The startup achievement popup is cleared, and the full-body pilot remains in the assistant slot without covering the store controls.
+
+The follow-up parse check covered 263 GDScript files with 0 errors, and the focused pilot route test remained at 4 tests / 273 assertions / 0 failures.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.

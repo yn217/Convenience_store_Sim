@@ -211,6 +211,8 @@ func _run() -> void:
 				guide._celebrations.clear()
 				if guide._celebrate_timer != null:
 					guide._celebrate_timer.stop()
+				if guide.has_method("_refresh_stage"):
+					guide._refresh_stage()
 				guide.request_pilot_cue(cue_id, {})
 	for a in OS.get_cmdline_user_args():   # --story-cue=story_start: replay a story presentation cue for visual QA
 		if a.begins_with("--story-cue="):
@@ -280,6 +282,19 @@ func _run() -> void:
 		s.speed_setting = 0
 		app._publish_snapshot()
 		main.get_node("CuePlayer").advance(10.0)
+		# CuePlayer.advance above intentionally settles transient effects, but it also
+		# consumes the short pilot-cue timer. Re-apply the requested cue last so the
+		# saved frame actually contains the standing-pose candidate being reviewed.
+		for a in OS.get_cmdline_user_args():
+			if a.begins_with("--pilot-cue="):
+				var guide := main.get_node_or_null("ProgressionController")
+				if guide != null and guide.has_method("request_pilot_cue"):
+					guide._celebrations.clear()
+					if guide._celebrate_timer != null:
+						guide._celebrate_timer.stop()
+					if guide.has_method("_refresh_stage"):
+						guide._refresh_stage()
+					guide.request_pilot_cue(a.trim_prefix("--pilot-cue="), {})
 	var review_world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 	if OS.get_cmdline_user_args().has("--clear-hover"):
 		review_world.set_hover_screen(Vector2(-1000, -1000))
