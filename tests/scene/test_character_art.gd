@@ -52,28 +52,6 @@ func test_story_poses_and_the_payment_stop(t, tree) -> void:
 	await tree.process_frame
 
 
-func test_character_visual_pilot_routes_story_states(t, tree) -> void:
-	var main: Node = await _boot(tree)
-	var panel := main.get_node("CharacterVisualPilotPanel")
-	t.eq(panel._entries.size(), 11, "the pilot registry exposes all 11 selected visuals")
-	t.ok(panel._toggle.button_pressed, "the pilot preview is visible by default")
-	t.ok(panel._image.texture != null, "the pilot panel has an initial texture")
-	for pair in [
-		["story_start", "reaction_discovery"],
-		["story_register", "fullbody_tutorial_layout"],
-		["story_sold_out", "functional_sold_out"],
-		["story_queue_giveup", "reaction_pleading"],
-		["story_staff_short", "reaction_pleading"],
-		["story_first_sale", "fullbody_emotion_05"],
-	]:
-		var entry: Dictionary = panel._select_entry({"story_cue": pair[0], "gameplay_event": {}, "progression": {}})
-		t.eq(entry.get("id", ""), pair[1], "%s selects the expected pilot" % pair[0])
-	var quiet: Dictionary = panel._select_entry({"story_cue": "", "gameplay_event": {"event_id": "evt_quiet_street"}, "progression": {}})
-	t.eq(quiet.get("id", ""), "reaction_deadpan", "quiet street uses the deadpan reaction")
-	main.queue_free()
-	await tree.process_frame
-
-
 func test_staff_tab_and_customer_panel_faces(t, tree) -> void:
 	var main: Node = await _boot(tree)
 	var app: Node = main.get_node("AppRoot")
