@@ -134,14 +134,21 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	main.open_goods_order()
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "order_help", "opening the order screen requests the purchasing guidance pose")
+	t.ok(pc._stage.visible, "order guidance remains visible over the management screen")
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_order_help.png", "order screen uses the purchasing guidance pose")
+	var chrome := main.get_node_or_null("MockupChrome")
+	if chrome != null:
+		t.ok(not chrome.get_node("WindowLayer/Rikka").visible, "mockup assistant figure is hidden while the pilot is active")
+		t.ok(not chrome.get_node("WindowLayer/Bubble").visible, "mockup assistant bubble is hidden while the pilot is active")
 	main.open_screen_tab("経営")
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "opening_checklist", "opening the setup management screen requests the opening checklist pose")
+	t.ok(pc._stage.visible, "opening checklist remains visible over the management screen")
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_opening_checklist.png", "setup management uses the opening checklist pose")
 	main.open_restock_section()
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "restock_help", "opening the restock section requests the replenishment guidance pose")
+	t.ok(pc._stage.visible, "restock guidance remains visible over the management screen")
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_restock_guidance.png", "restock section uses the replenishment guidance pose")
 	main.call("open_screen_tab", "店員")
 	await tree.process_frame
@@ -158,6 +165,10 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_expiry.png", "open management screen uses the expiry pilot pose")
 	pc._pilot_cue_timer.stop()
 	pc._clear_pilot_cue()
+	await tree.process_frame
+	if chrome != null:
+		t.ok(chrome.get_node("WindowLayer/Rikka").visible, "mockup assistant figure returns after the pilot cue")
+		t.ok(chrome.get_node("WindowLayer/Bubble").visible, "mockup assistant bubble returns after the pilot cue")
 	main.queue_free()
 	await tree.process_frame
 

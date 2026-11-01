@@ -385,6 +385,19 @@ func is_window_open() -> bool:
 	return _window_layer.visible
 
 
+## The generated pilot assistant owns the character and line while a pilot cue is active.
+## Keep the mockup's baked assistant visible for all other states.
+func set_pilot_assistant_visible(pilot_visible: bool) -> void:
+	if _window_layer == null:
+		return
+	var rikka := _window_layer.get_node_or_null("Rikka") as Control
+	var bubble := _window_layer.get_node_or_null("Bubble") as Control
+	if rikka != null:
+		rikka.visible = not pilot_visible
+	if bubble != null:
+		bubble.visible = not pilot_visible
+
+
 func label(id: String) -> Label:
 	return _labels.get(id)
 

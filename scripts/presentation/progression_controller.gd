@@ -66,7 +66,9 @@ var _milestone_defs: Array = []
 
 const PILOT_SCREEN_CUES := [
 	"opening_checklist", "low_stock_notice", "expiry_notice",
-	"staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"
+	"long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty",
+	"order_help", "restock_help", "staff_schedule_open",
+	"save_complete", "staff_hired", "seasonal_campaign_started"
 ]
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -279,6 +281,9 @@ func refresh_visual_pilot() -> void:
 	_pilot_figure.texture = texture if usable else null
 	if _figure != null:
 		_figure.visible = not usable
+	var chrome := get_node_or_null("../MockupChrome")
+	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):
+		chrome.set_pilot_assistant_visible(_stage.visible and usable)
 
 
 func mood() -> String:
