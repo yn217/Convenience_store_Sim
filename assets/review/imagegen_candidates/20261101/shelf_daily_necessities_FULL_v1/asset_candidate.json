@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_daily_necessities_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Compact Japanese single-sided daily necessities gondola, FULL, fixture and products integrated",
+  "actual_subject": "Perspective-rendered four-row daily-goods gondola, with prominent deep box-like packages",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/shelf_daily_necessities_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1838812,
+    "sha256": "52894106b942c884a8d1a15e6a39f56867bd2972faee823167a443b59309434e"
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_daily_necessities_FULL_v1/source_original.png",
+      "byte_size": 1838812,
+      "sha256": "52894106b942c884a8d1a15e6a39f56867bd2972faee823167a443b59309434e",
+      "git_blob_sha": "2362c75b49744fae5b2fd30023f75e09b8ca5017",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_daily_necessities_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1215071,
+      "sha256": "a6acd3cb8b867128e39a742bd1ed1a95715bc853a2b5b4a6e894d531d72d66a3",
+      "git_blob_sha": "4e0f3962e7dac8b7c61a4fafe81cbd9b8c7ab8e5",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_daily_necessities_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 302992,
+      "sha256": "12976ada9d6654506a2af916bf6fc6e8bd612f43b582345a14bad29242439eff",
+      "git_blob_sha": "0baace41208db29e195ca8709d462479a95257e6",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "blocked",
+    "geometry": "blocked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "fail",
+    "notes": [
+      "Fixture and four daily-goods rows are integrated and recognizable.",
+      "Multiple products read as deep cuboids with prominent top faces; this violates the intended flat package/front treatment.",
+      "Perspective convergence and broad top/depth make iso2x_v1 and the compact target footprint visually inconsistent; no rescaling was applied.",
+      "Original alpha margin fails 12 percent at top/bottom; padded canvas is review-only and leaves original pixels unchanged.",
+      "Godot, exact footprint, world dimensions, access side, anchor and stock-state behavior are unverified."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

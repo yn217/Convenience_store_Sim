@@ -1,0 +1,90 @@
+{
+  "asset_id": "shelf_daily_necessities_FULL_v1",
+  "review_only": true,
+  "runtime_approved": false,
+  "status": "rejected_package_depth_projection_and_alpha",
+  "generated_date": "2026-11-01",
+  "production_method": "Codex built-in ImageGen",
+  "source_file": "source_original.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "52894106b942c884a8d1a15e6a39f56867bd2972faee823167a443b59309434e",
+  "alpha_source": {
+    "threshold_gt_8_bbox_xyxy": [
+      396,
+      56,
+      1126,
+      991
+    ],
+    "threshold_gt_8_margins_percent_ltrb": [
+      25.78,
+      5.47,
+      26.69,
+      3.22
+    ],
+    "threshold_gt_1_bbox_xyxy": [
+      0,
+      37,
+      1482,
+      1024
+    ],
+    "threshold_gt_128_bbox_xyxy": [
+      397,
+      57,
+      1125,
+      990
+    ],
+    "edge_alpha_max_top_bottom_left_right": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "minimum_required_margin_percent": 12,
+    "pass": false
+  },
+  "padded_review_image": {
+    "file": "sprite_padded_review.png",
+    "dimensions_px": [
+      2048,
+      2048
+    ],
+    "operation": "center unchanged source on transparent canvas; no resampling",
+    "file_size_bytes": 1215071,
+    "sha256": "a6acd3cb8b867128e39a742bd1ed1a95715bc853a2b5b4a6e894d531d72d66a3",
+    "threshold_gt_8_margins_percent_ltrb": [
+      29.33,
+      24.67,
+      30.11,
+      23.39
+    ],
+    "margin_pass": true
+  },
+  "preview": {
+    "file": "preview_checkerboard.jpg",
+    "dimensions_px": [
+      2048,
+      2048
+    ],
+    "file_size_bytes": 302992,
+    "sha256": "12976ada9d6654506a2af916bf6fc6e8bd612f43b582345a14bad29242439eff"
+  },
+  "visual_qa": {
+    "integrated_fixture_and_goods": "pass",
+    "four_shelf_rows": "pass",
+    "daily_goods_category": "pass",
+    "products_touch_shelf": "visually_plausible_unverified",
+    "deep_cuboid_packages": "fail_observed",
+    "prominent_top_faces_and_depth": "fail_observed",
+    "strict_iso2x_v1": "fail_visual_perspective_convergence",
+    "raw_alpha_margin": "fail",
+    "padded_margin": "canvas_only_pass",
+    "tile_scale_dimensions_footprint_anchor": "not_verified",
+    "godot": "not_checked",
+    "independent_review": "pending"
+  },
+  "source_file_size_bytes": 1838812
+}
