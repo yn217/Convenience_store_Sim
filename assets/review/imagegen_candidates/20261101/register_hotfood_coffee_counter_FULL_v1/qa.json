@@ -1,0 +1,55 @@
+{
+  "asset_id": "register_hotfood_coffee_counter_FULL_v1",
+  "review_only": true,
+  "runtime_approved": false,
+  "status": "review_candidate_pending_projection_and_scale",
+  "generated_date": "2026-11-01",
+  "production_method": "Codex built-in ImageGen",
+  "source_file": "source_original.png",
+  "dimensions_px": [1254, 1254],
+  "mode": "RGBA",
+  "file_size_bytes": 1260565,
+  "sha256": "7e72cc1531df8ebb57059e54b32bb1c7d65b9e9d82329e557325c5f69b4a3e1d",
+  "alpha_source": {
+    "threshold_gt_8_bbox_xyxy": [79, 253, 1192, 1176],
+    "threshold_gt_8_margins_percent_ltrb": [6.30, 20.18, 4.94, 6.22],
+    "threshold_gt_0_bbox_xyxy": [0, 33, 1194, 1254],
+    "threshold_gt_0_margins_percent_ltrb": [0.0, 2.63, 4.78, 0.0],
+    "edge_alpha_max_top_bottom_left_right": [0, 1, 1, 0],
+    "required_minimum_margin_percent": 12,
+    "raw_source_pass": false
+  },
+  "padded_review_image": {
+    "file": "sprite_padded_review.png",
+    "dimensions_px": [1800, 1800],
+    "file_size_bytes": 1200895,
+    "sha256": "235202601b438a75f509a5ca1627a0efb1cc0617764f5f3bb962d18a96fa6027",
+    "operation": "center original on larger transparent canvas; no resampling or content changes",
+    "threshold_gt_8_margins_percent_ltrb": [19.56, 29.22, 18.61, 19.50],
+    "threshold_gt_0_margins_percent_ltrb": [15.17, 17.00, 18.50, 15.17],
+    "margin_pass": true,
+    "runtime_approved": false
+  },
+  "visual_qa": {
+    "integrated_counter_warmer_pos_coffee": "pass",
+    "items_supported_by_counter_or_trays": "pass",
+    "floating_product_cards": "not_observed",
+    "thick_cuboid_merchandise": "not_observed",
+    "branding_or_legible_text": "not_observed",
+    "iso2x_projection": "not_verified",
+    "world_dimensions_and_footprint": "not_verified",
+    "ground_anchor": "not_verified",
+    "four_directions": "not_verified",
+    "godot_display_scale": "not_verified",
+    "independent_review": "pending"
+  },
+  "preview": {
+    "file": "preview_checkerboard.jpg",
+    "dimensions_px": [1800, 1800],
+    "sha256": "9768e381b857ddfd750bbc9440ac3bacc2c2c658d7d83bf76e1ea76cfbd9455a"
+  },
+  "references": [
+    "assets/source/chatgpt_2d_interior/hot_snack_oden_counter_combo_chatgpt_20261029_v1/source_original.png (category context only)",
+    "assets/review/imagegen_candidates/20261101/shelf_bread_slanted_FULL_v2/source_original.png (style only)"
+  ]
+}

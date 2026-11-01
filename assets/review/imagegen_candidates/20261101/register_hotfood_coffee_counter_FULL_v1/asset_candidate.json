@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "asset_id": "register_hotfood_coffee_counter_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Compact convenience-store service counter with integrated hot-food warmer, checkout terminal and coffee station",
+  "actual_subject": "Long three-quarter-view counter with a three-tray hot-food warmer, POS terminal/printer and coffee brewer/cups",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/register_hotfood_coffee_counter_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1260565,
+    "sha256": "7e72cc1531df8ebb57059e54b32bb1c7d65b9e9d82329e557325c5f69b4a3e1d"
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/register_hotfood_coffee_counter_FULL_v1/source_original.png",
+      "byte_size": 1260565,
+      "sha256": "7e72cc1531df8ebb57059e54b32bb1c7d65b9e9d82329e557325c5f69b4a3e1d",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/register_hotfood_coffee_counter_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1200895,
+      "sha256": "235202601b438a75f509a5ca1627a0efb1cc0617764f5f3bb962d18a96fa6027",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/register_hotfood_coffee_counter_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 310323,
+      "sha256": "9768e381b857ddfd750bbc9440ac3bacc2c2c658d7d83bf76e1ea76cfbd9455a",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "blocked",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "blocked",
+    "notes": [
+      "Visual content is a review candidate only; original alpha margin fails 12% on three sides.",
+      "Canvas-only 1800px padded preview passes the alpha margin, but no target world scale or anchor is established.",
+      "The service-counter projection, access side, world dimensions, footprint, and Godot display fit are unverified.",
+      "Independent human review is pending; runtime approval remains false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
