@@ -26,8 +26,11 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(quiet.get("id", ""), "reaction_deadpan", "quiet street uses the deadpan reaction")
 	t.ok(panel.has_method("is_pilot_enabled"), "pilot panel exposes its display toggle")
 	t.ok(panel.has_method("selected_entry"), "pilot panel exposes the selected runtime entry")
+	t.ok(panel.has_method("stage_entry"), "pilot panel exposes a full-body stage route")
 	t.ok(panel.has_method("event_entry"), "pilot panel exposes event-image routing")
 	t.eq(panel.selected_entry({"story_cue": "story_sold_out", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_sold_out", "stage consumers share pilot routing")
+	t.eq(panel.stage_entry({"story_cue": "story_start", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "story start stage avoids a bust-up asset")
+	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("kind", ""), "fullbody", "queue reaction stage uses a full-body asset")
 	t.eq(panel.event_entry("evt_neighbor_mentions").get("id", ""), "event_neighbor_mentions", "neighbor mentions uses the selected event pilot")
 	for event_id in ["evt_local_fair", "evt_roadworks", "evt_hot_day", "evt_cold_day", "evt_sweets_spotlight", "evt_snack_buzz", "evt_after_work"]:
 		t.eq(panel.event_entry(event_id).get("trigger", ""), event_id, "%s has a selected event pilot" % event_id)
@@ -43,7 +46,7 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.ok(panel.is_pilot_enabled(), "the pilot toggle defaults on for visual review")
 	t.ok(guide._pilot_figure != null, "the assistant stage owns a pilot figure layer")
 	t.ok(guide._pilot_figure.texture is Texture2D, "the assistant stage loads a pilot texture")
-	var expected: Dictionary = panel.selected_entry(guide._snap)
+	var expected: Dictionary = panel.stage_entry(guide._snap)
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, expected.get("runtime_path", ""), "the stage texture follows the shared pilot route")
 	main.queue_free()
 	await tree.process_frame

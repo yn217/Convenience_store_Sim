@@ -80,6 +80,20 @@ func selected_entry(snapshot: Dictionary) -> Dictionary:
 	return _select_entry(snapshot)
 
 
+func stage_entry(snapshot: Dictionary) -> Dictionary:
+	var entry := _select_entry(snapshot)
+	if String(entry.get("kind", "")) != "bustup_reaction":
+		return entry
+	match String(entry.get("id", "")):
+		"reaction_discovery":
+			return _find("functional_opening_checklist")
+		"reaction_pleading":
+			return _find("fullbody_emotion_05")
+		"reaction_deadpan":
+			return _find("fullbody_tutorial_layout")
+	return _find("fullbody_dynamic_201")
+
+
 func event_entry(event_id: String) -> Dictionary:
 	for entry in _entries:
 		if String(entry.get("kind", "")) == "event_image" and String(entry.get("trigger", "")) == event_id:
