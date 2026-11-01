@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_noodle_gondola_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Single-sided open cup-noodle gondola with densely faced FULL merchandise",
+  "actual_subject": "Four-level gondola with cylindrical cups and bowl noodles arranged in front-to-back rows",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/shelf_noodle_gondola_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1866102,
+    "sha256": "5241f601690cf33626d90e4193e0dbbb729ee3153fa60fd3d7c14ec1c77a26b5"
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_noodle_gondola_FULL_v1/source_original.png",
+      "byte_size": 1866102,
+      "sha256": "5241f601690cf33626d90e4193e0dbbb729ee3153fa60fd3d7c14ec1c77a26b5",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_noodle_gondola_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1803706,
+      "sha256": "bb68eabf8e6aae95ed9939fa8948b665f28be0a1d64a814d010670e139653431",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_noodle_gondola_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 540988,
+      "sha256": "d6ce3e727514f3e2761e9ea9ee361680a916af493c03d6a176d7d05c00253bff",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "blocked",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "blocked",
+    "notes": [
+      "Integrated FULL shelf and cup-noodle contents are visually coherent at source size.",
+      "The original PNG misses the 12 percent margin gate; canvas-only padded derivative passes but changes display scale.",
+      "Deep front-to-back rows remain a style concern and shallow fixture fit is unverified.",
+      "Projection, dimensions, footprint, anchor, and Godot runtime are unverified; reviewer approval is pending."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

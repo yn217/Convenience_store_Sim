@@ -1,0 +1,59 @@
+{
+  "asset_id": "shelf_noodle_gondola_FULL_v1",
+  "review_only": true,
+  "runtime_approved": false,
+  "status": "review_candidate_pending_projection_and_scale",
+  "generated_date": "2026-11-01",
+  "production_method": "Codex built-in ImageGen",
+  "source_file": "source_original.png",
+  "dimensions_px": [1254, 1254],
+  "mode": "RGBA",
+  "file_size_bytes": 1866102,
+  "sha256": "5241f601690cf33626d90e4193e0dbbb729ee3153fa60fd3d7c14ec1c77a26b5",
+  "alpha_source": {
+    "threshold_gt_8_bbox_xyxy": [169, 99, 1087, 1186],
+    "threshold_gt_8_margins_percent_ltrb": [13.48, 7.89, 13.32, 5.42],
+    "threshold_gt_0_bbox_xyxy": [0, 21, 1224, 1238],
+    "threshold_gt_0_margins_percent_ltrb": [0.0, 1.67, 2.39, 1.28],
+    "threshold_gt_1_margins_percent_ltrb": [13.32, 7.74, 13.08, 5.26],
+    "edge_alpha_max_top_bottom_left_right": [0, 0, 1, 0],
+    "required_minimum_margin_percent": 12,
+    "pass": false
+  },
+  "padded_review_image": {
+    "file": "sprite_padded_review.png",
+    "dimensions_px": [1800, 1800],
+    "file_size_bytes": 1803706,
+    "sha256": "bb68eabf8e6aae95ed9939fa8948b665f28be0a1d64a814d010670e139653431",
+    "operation": "center unchanged source on larger transparent canvas; no resampling",
+    "threshold_gt_8_margins_percent_ltrb": [24.56, 20.67, 24.44, 18.94],
+    "threshold_gt_0_margins_percent_ltrb": [15.17, 16.33, 16.83, 16.06],
+    "margin_pass": true,
+    "runtime_approved": false
+  },
+  "preview": {
+    "file": "preview_checkerboard.jpg",
+    "dimensions_px": [1800, 1800],
+    "file_size_bytes": 540988,
+    "sha256": "d6ce3e727514f3e2761e9ea9ee361680a916af493c03d6a176d7d05c00253bff"
+  },
+  "visual_qa": {
+    "four_shelf_levels": "pass",
+    "integrated_shelf_and_merchandise": "pass",
+    "cup_noodle_category_recognizable": "pass",
+    "product_fronts_visible": "pass",
+    "thick_cuboid_products": "not_observed",
+    "floating_product_cards": "not_observed",
+    "front_to_back_depth": "review_note_deep_rows_visible",
+    "shallow_shelf_fit": "not_verified",
+    "iso2x_projection": "not_verified",
+    "access_side_and_rotation": "not_verified",
+    "world_dimensions_footprint_anchor": "not_verified",
+    "godot_display_scale": "not_verified",
+    "independent_review": "pending"
+  },
+  "references": [
+    "assets/source/chatgpt_2d_interior/shelf_noodle_open_r0_v1/shelf_noodle_open_full_r0_v1.png (fixture/category context only)",
+    "assets/review/imagegen_candidates/20261101/shelf_bread_slanted_FULL_v2/source_original.png (style only)"
+  ]
+}
