@@ -73,6 +73,19 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.event_entry("evt_quiet_street").get("id", ""), "reaction_deadpan", "quiet street uses the dedicated deadpan reaction slot")
 	for event_id in ["evt_local_fair", "evt_roadworks", "evt_hot_day", "evt_cold_day", "evt_sweets_spotlight", "evt_snack_buzz", "evt_lunch_pick", "evt_drink_pick", "evt_bread_feature", "evt_after_work"]:
 		t.eq(panel.event_entry(event_id).get("trigger", ""), event_id, "%s has a selected event pilot" % event_id)
+	# Every selected functional/event entry must have a concrete presentation route.
+	# This guards against adding a registry row that is reviewable but unreachable in-game.
+	for entry in panel._entries:
+		var kind := String(entry.get("kind", ""))
+		var trigger := String(entry.get("trigger", ""))
+		var id := String(entry.get("id", ""))
+		if kind == "functional_pose":
+			t.eq(panel.cue_entry(trigger).get("id", ""), id, "%s functional trigger is reachable" % id)
+		elif kind == "event_image":
+			t.eq(panel.event_entry(trigger).get("id", ""), id, "%s event trigger is reachable" % id)
+	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {}}).get("id", ""), "fullbody_dynamic_201", "default full-body pilot is reachable")
+	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {"event_id": "evt_quiet_street"}, "progression": {}}).get("id", ""), "fullbody_tutorial_layout", "quiet-street full-body fallback is reachable")
+	t.eq(panel.stage_entry({"story_cue": "story_first_sale", "gameplay_event": {}, "progression": {}}).get("id", ""), "fullbody_emotion_05", "first-sale full-body pilot is reachable")
 
 
 func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
