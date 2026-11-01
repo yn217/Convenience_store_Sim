@@ -96,14 +96,18 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	await tree.process_frame
 	t.ok(guide._pilot_reaction.visible, "story start shows the discovery bust-up reaction")
 	t.eq((guide._pilot_reaction.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_discovery.png", "story start loads the discovery reaction texture")
+	t.eq(guide._pilot_reaction_symbol.text, "!", "story start renders the registry symbol as a Godot overlay")
+	t.ok(guide._pilot_reaction_symbol.visible, "story start shows the independent reaction symbol layer")
 	t.ok(not guide._pilot_figure.visible, "story start does not stack the full-body pilot with the reaction")
 	guide.apply_snapshot({"story_cue": "story_queue_giveup", "progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "active_daily_challenge_id": null, "completed_milestone_ids": []}})
 	await tree.process_frame
 	t.ok(guide._pilot_reaction.visible, "queue give-up shows the pleading bust-up reaction")
 	t.eq((guide._pilot_reaction.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_pleading.png", "queue give-up loads the pleading reaction texture")
+	t.eq(guide._pilot_reaction_symbol.text, "?", "queue give-up renders the question symbol as a Godot overlay")
 	guide.apply_snapshot({"story_cue": "story_staff_short", "progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "active_daily_challenge_id": null, "completed_milestone_ids": []}})
 	await tree.process_frame
 	t.ok(not guide._pilot_reaction.visible, "staff shortage does not stack a bust-up reaction")
+	t.ok(not guide._pilot_reaction_symbol.visible, "staff shortage hides the reaction symbol layer")
 	t.ok(guide._pilot_figure.visible, "staff shortage shows its dedicated full-body pose")
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_staff_short.png", "staff shortage loads the dedicated full-body texture")
 	guide.say_day_end("通常決算の確認", "normal")
@@ -229,5 +233,7 @@ func test_runtime_event_panel_shows_selected_event_pilot(t, tree) -> void:
 	t.ok(reaction_picture.visible, "events without a dedicated illustration show a reaction pilot")
 	t.eq((reaction_picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_deadpan.png", "quiet street uses the deadpan reaction pilot")
 	t.ok(reaction_picture.size.x > 0.0 and reaction_picture.size.y > 0.0, "reaction pilot has a visible layout size")
+	t.eq(events._pilot_reaction_symbol.text, "...", "event reaction uses the registry symbol as a separate Godot overlay")
+	t.ok(events._pilot_reaction_symbol.visible, "event reaction symbol has its own visible layer")
 	main.queue_free()
 	await tree.process_frame

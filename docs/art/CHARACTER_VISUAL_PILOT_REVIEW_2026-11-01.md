@@ -85,6 +85,8 @@ The staff-management screen requests `staff_schedule_open`, the order and restoc
 
 Story reactions use a separate layer from full-body poses. For visual QA, `tools/capture_screen.gd` accepts `--story-cue=story_start` or `--story-cue=story_queue_giveup`; `--inspect-pilot` reports both the full-body and bust-up texture paths. The reaction layer is presentation-only and does not alter story or economy state.
 
+Reaction symbols are rendered by Godot from the registry's `overlay_symbol` field (`!`, `?`, `...`) in their own label layer; punctuation baked into a generated PNG is not treated as authoritative UI. The 1280x720 story capture `build/character_pilot_story_symbol_1280_fixed.png` confirms the discovery portrait and independent `!` overlay remain readable without a second assistant.
+
 The `business_started` opening cut-in is exclusive: while `開店！` is animating, the ordinary assistant stage and the mockup's baked assistant figure/bubble are suppressed. This prevents the cut-in's generated greeting from appearing alongside a second assistant.
 
 The pilot review UI exists only in a Godot debug build and defaults on there for local review. Release builds do not create the review controls, so entries with `runtime_approved:false` cannot appear in the normal runtime.

@@ -44,6 +44,7 @@ var _heading: Label            # 目標達成！ while celebrating, hidden other
 var _figure: TextureRect
 var _pilot_figure: TextureRect
 var _pilot_reaction: TextureRect
+var _pilot_reaction_symbol: Label
 var _figure_textures: Dictionary = {}   # mood -> Texture2D
 var _day_mood := "normal"      # her face for the day-end remark
 var _blocked_closed := false
@@ -289,6 +290,9 @@ func refresh_visual_pilot() -> void:
 	if _pilot_reaction != null:
 		_pilot_reaction.visible = reaction_usable
 		_pilot_reaction.texture = reaction_texture if reaction_usable else null
+	if _pilot_reaction_symbol != null:
+		_pilot_reaction_symbol.text = String(reaction_entry.get("overlay_symbol", "")) if reaction_usable else ""
+		_pilot_reaction_symbol.visible = reaction_usable and not _pilot_reaction_symbol.text.is_empty()
 	if _figure != null:
 		_figure.visible = not usable and not reaction_usable
 	var chrome := get_node_or_null("../MockupChrome")
@@ -518,6 +522,23 @@ func _build_stage() -> void:
 	pilot_reaction.offset_bottom = -Layout.BOTTOM_HEIGHT
 	_stage.add_child(pilot_reaction)
 	_pilot_reaction = pilot_reaction
+	var pilot_reaction_symbol := Label.new()
+	pilot_reaction_symbol.name = "AssistantPilotReactionSymbol"
+	pilot_reaction_symbol.add_theme_font_size_override("font_size", 42)
+	pilot_reaction_symbol.add_theme_color_override("font_color", UiTheme.WARM)
+	pilot_reaction_symbol.add_theme_color_override("font_outline_color", Color("172333"))
+	pilot_reaction_symbol.add_theme_constant_override("outline_size", 8)
+	pilot_reaction_symbol.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pilot_reaction_symbol.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	pilot_reaction_symbol.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pilot_reaction_symbol.visible = false
+	pilot_reaction_symbol.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	pilot_reaction_symbol.offset_left = 218
+	pilot_reaction_symbol.offset_right = 298
+	pilot_reaction_symbol.offset_top = -Layout.BOTTOM_HEIGHT - 258
+	pilot_reaction_symbol.offset_bottom = -Layout.BOTTOM_HEIGHT - 198
+	_stage.add_child(pilot_reaction_symbol)
+	_pilot_reaction_symbol = pilot_reaction_symbol
 	_celebrate_timer = Timer.new()
 	_celebrate_timer.one_shot = true
 	_celebrate_timer.wait_time = CELEBRATE_SECONDS

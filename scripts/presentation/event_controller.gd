@@ -24,6 +24,7 @@ var _picture: TextureRect
 var _pilot_caption: Label
 var _pilot_picture: TextureRect
 var _pilot_reaction_picture: TextureRect
+var _pilot_reaction_symbol: Label
 const PICTURE_DIR := "res://assets/ui/events/"
 const PICTURE_SIZE := Vector2(384, 216)
 const PILOT_FULLBODY_SIZE := Vector2(160, 240)
@@ -79,6 +80,16 @@ func _ready() -> void:
 	_pilot_reaction_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_pilot_reaction_picture.visible = false
 	_pilot_column.add_child(_pilot_reaction_picture)
+	_pilot_reaction_symbol = Label.new()
+	_pilot_reaction_symbol.name = "EventPilotReactionSymbol"
+	_pilot_reaction_symbol.add_theme_font_size_override("font_size", 34)
+	_pilot_reaction_symbol.add_theme_color_override("font_color", UiTheme.WARM)
+	_pilot_reaction_symbol.add_theme_color_override("font_outline_color", Color("172333"))
+	_pilot_reaction_symbol.add_theme_constant_override("outline_size", 6)
+	_pilot_reaction_symbol.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_pilot_reaction_symbol.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_pilot_reaction_symbol.visible = false
+	_pilot_column.add_child(_pilot_reaction_symbol)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.add_child(_status)
@@ -121,9 +132,11 @@ func apply_snapshot(snap: Dictionary) -> void:
 	var is_reaction := String(pilot_entry.get("kind", "")) == "bustup_reaction"
 	_pilot_picture.texture = pilot_texture if pilot_texture != null and not is_reaction else null
 	_pilot_reaction_picture.texture = pilot_texture if pilot_texture != null and is_reaction else null
+	_pilot_reaction_symbol.text = String(pilot_entry.get("overlay_symbol", "")) if pilot_texture != null and is_reaction else ""
 	_pilot_caption.visible = pilot_texture != null
 	_pilot_picture.visible = pilot_texture != null and not is_reaction
 	_pilot_reaction_picture.visible = pilot_texture != null and is_reaction
+	_pilot_reaction_symbol.visible = pilot_texture != null and is_reaction and not _pilot_reaction_symbol.text.is_empty()
 	_render_effects(EventText.effect_chips(view) if String(view.get("status", "")) in ["scheduled", "active", "ended", "missed"] else [])
 	_render_catalog(snap.get("event_catalog", []))
 	var past: Array = snap.get("event_history", [])

@@ -217,6 +217,8 @@ func _run() -> void:
 			var story_cue := a.trim_prefix("--story-cue=")
 			var guide := main.get_node_or_null("ProgressionController")
 			if guide != null and guide.has_method("apply_snapshot"):
+				if bool(guide.get("_opening_cutin_active")) and guide.has_method("_finish_opening_cutin"):
+					guide._finish_opening_cutin()
 				var snapshot: Dictionary = guide._snap.duplicate(true)
 				snapshot["story_cue"] = story_cue
 				guide.apply_snapshot(snapshot)
