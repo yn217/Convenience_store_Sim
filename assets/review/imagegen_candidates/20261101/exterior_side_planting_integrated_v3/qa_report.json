@@ -1,0 +1,59 @@
+{
+  "asset_id": "exterior_side_planting_integrated_v3",
+  "verdict": "REVIEW_ONLY_BLOCKED",
+  "measurements": {
+    "source_px": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_bbox_gt8_xyxy": [
+      27,
+      16,
+      1761,
+      870
+    ],
+    "alpha_bbox_ge128_xyxy": [
+      29,
+      17,
+      1758,
+      870
+    ],
+    "padding_px_each_side": 288,
+    "padded_px": [
+      2350,
+      1463
+    ],
+    "padded_alpha_bbox_gt8_xyxy": [
+      315,
+      304,
+      2049,
+      1158
+    ],
+    "visual_long_axis_slope_rise_run_estimate": 0.27,
+    "target_iso2x_slope": 0.5
+  },
+  "gates": {
+    "content": "PASS",
+    "raised_block_planter": "IMPROVED_NO_TALL_WALL",
+    "projection": "FAIL_ESTIMATED_SLOPE_BELOW_TARGET",
+    "alpha_margin_source": "FAIL",
+    "edge_fringe": "FAIL_VISIBLE",
+    "style": "CONCERN_PHOTODETAILED",
+    "world_dimensions": "UNKNOWN",
+    "wall_occlusion": "NOT_CHECKED",
+    "godot": "NOT_CHECKED",
+    "runtime_approved": false
+  },
+  "notes": [
+    "Original RGBA 1774x887; alpha extrema [0, 255]; alpha>8 bbox [27, 16, 1761, 870] and alpha>=128 bbox [29, 17, 1758, 870]. At threshold 8 margins L/T/R/B are [0.0152, 0.018, 0.0073, 0.0192]; all are below the 12% desired margin.",
+    "Review sprite adds 288px transparent padding on each side without resampling; canvas 2350x1463, alpha>8 bbox [315, 304, 2049, 1158]; placement anchor offset is (+288,+288).",
+    "Content is a continuous planting band and removes the prior v2 high retaining-wall block. Trunk bases and edge appear suitable for wall occlusion, but actual wall occlusion is untested.",
+    "Visual estimate of the long-axis slope is about 0.27 rise/run, still below iso2x_v1 target 0.5; this is an estimate from the artwork, not a calibrated control-point measurement.",
+    "Bright green fringe is visible around foliage and the rendering remains more photo-detailed than the game art. No edge cleanup was applied to the original.",
+    "World endpoints, dimensions, wall height, camera direction and anchor remain unknown; no Godot comparison. runtime_approved:false."
+  ]
+}

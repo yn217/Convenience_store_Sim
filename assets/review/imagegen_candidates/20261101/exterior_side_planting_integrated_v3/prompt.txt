@@ -1,0 +1,10 @@
+Use case: game-asset-concept
+Asset type: isolated continuous 2D side-landscape sprite for the right side of a Japanese convenience-store game scene.
+Primary request: one long, narrow, connected row of Japanese street trees, layered shrubs, low flowers, and greenery for the store's exterior side boundary. This is a landscape strip that sits behind the side wall; it must not be a freestanding tall retaining wall or a row of separate potted trees.
+Subject: several rooted upright trees with mixed green foliage and subtle seasonal blossoms, dense low shrubs and flower clusters, a very slim pale curb/soil edge only at ground level. Visible trunk bases extend down to one clean shared baseline so the game building's side wall can naturally occlude them. Tree canopies rise high above the wall height. Keep the group long and narrow, with continuous foliage and no gaps.
+Style/medium: polished hand-painted isometric game scenery, friendly Japanese convenience-store management game art, clear stylized foliage masses with crisp soft edges; less realistic and less photographic than a botanical cutout.
+Composition/framing: exactly one straight diagonal landscape strip, full length and both endpoints visible, centered with generous transparent margins on all sides. Long axis rises toward screen-right with a 2:1 slope: for every 2 horizontal units, the line rises 1 vertical unit. Vertical trunks remain vertical, no lens perspective, no camera tilt. Show only a slim ground strip, not a broad slab or deep planter.
+Lighting/mood: daylight, gentle consistent shadows within foliage.
+Background: true transparent alpha.
+Constraints: roots and trunk bottoms should meet a single continuous baseline; the game wall will be layered in front to hide them. Preserve a clean silhouette, generous edge padding, and full transparency outside the vegetation.
+Avoid: horizontal or shallow diagonal row, slope other than 0.5 rise/run, raised block planter, stone retaining wall, oversized soil slab, photorealism, green fringe, halo pixels, cropped branches, disconnected objects, buildings, walls, road, signs, people, text, watermark, collage.

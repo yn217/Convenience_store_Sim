@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "asset_id": "exterior_side_planting_integrated_v3",
+  "asset_class": "exterior_group",
+  "requested_subject": "Continuous Japanese side planting strip with roots behind the store wall, long axis aligned to the actual 2:1 iso projection and adequate coverage of the right wall edge.",
+  "actual_subject": "Single continuous low-edged planting band with mixed green trees, flowering shrubs and cherry blossoms, extending diagonally from lower-left toward upper-right.",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/exterior_side_planting_integrated_v3/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1823604,
+    "sha256": "1b1c1bd865809ca46ab41486fcc7083a4e5ae80d147fe81692af90f07ba81b6f",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/exterior_side_planting_integrated_v3/source_original.png",
+      "byte_size": 1823604,
+      "sha256": "1b1c1bd865809ca46ab41486fcc7083a4e5ae80d147fe81692af90f07ba81b6f",
+      "git_blob_sha": "c0de6096ae301e092fb82013a38d0eaa9a51957a",
+      "github_uploaded": false
+    },
+    {
+      "role": "padded_review_sprite",
+      "path": "assets/review/imagegen_candidates/20261101/exterior_side_planting_integrated_v3/sprite_padded_review.png",
+      "byte_size": 1732346,
+      "sha256": "868e5c9f4a3f40d0b8f27e06558bc720dbac2c4f3607176a1cda96a18b71ea51",
+      "git_blob_sha": "abcd78ce14b51f419a377bbef0999d0d6e12f7fc",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/exterior_side_planting_integrated_v3/preview_checkerboard.jpg",
+      "byte_size": 413166,
+      "sha256": "f4e4dd64e19f0f2e5d3758155420c7c63c5b6f9dc77aefaf249fb9fcb74b2cbc",
+      "git_blob_sha": "8ccfae84383006672ad3dd25589b87f407405554",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": null,
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass_with_concern",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "blocked",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "pass_with_concern",
+    "notes": [
+      "Original RGBA 1774x887; alpha extrema [0, 255]; alpha>8 bbox [27, 16, 1761, 870] and alpha>=128 bbox [29, 17, 1758, 870]. At threshold 8 margins L/T/R/B are [0.0152, 0.018, 0.0073, 0.0192]; all are below the 12% desired margin.",
+      "Review sprite adds 288px transparent padding on each side without resampling; canvas 2350x1463, alpha>8 bbox [315, 304, 2049, 1158]; placement anchor offset is (+288,+288).",
+      "Content is a continuous planting band and removes the prior v2 high retaining-wall block. Trunk bases and edge appear suitable for wall occlusion, but actual wall occlusion is untested.",
+      "Visual estimate of the long-axis slope is about 0.27 rise/run, still below iso2x_v1 target 0.5; this is an estimate from the artwork, not a calibrated control-point measurement.",
+      "Bright green fringe is visible around foliage and the rendering remains more photo-detailed than the game art. No edge cleanup was applied to the original.",
+      "World endpoints, dimensions, wall height, camera direction and anchor remain unknown; no Godot comparison. runtime_approved:false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
