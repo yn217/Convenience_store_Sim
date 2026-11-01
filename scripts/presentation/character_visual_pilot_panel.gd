@@ -4,7 +4,10 @@ extends Node
 signal pilot_visibility_changed(enabled: bool)
 
 const REGISTRY_PATH := "res://data/presentation/character_visuals_v1.json"
+const PLACEMENT_PATH := "res://docs/art/COMFYUI_334_IMAGE_PLACEMENT_20261101.json"
+const CANDIDATE_ROOT := "res://assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/"
 var _entries: Array = []
+var _review_candidate: Dictionary = {}
 var _image: TextureRect
 var _meta: Label
 var _reaction_image: TextureRect
@@ -100,6 +103,52 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 
 func is_pilot_enabled() -> bool:
 	return _toggle != null and _toggle.button_pressed
+
+
+## Debug/capture-only override. It never writes to the runtime registry or approval state.
+func set_review_candidate(asset_id: String) -> void:
+	_review_candidate = {}
+	if not OS.is_debug_build() or asset_id.strip_edges() == "":
+		return
+	if not FileAccess.file_exists(PLACEMENT_PATH):
+		return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(PLACEMENT_PATH))
+	if typeof(parsed) != TYPE_DICTIONARY or typeof(parsed.get("assets", null)) != TYPE_ARRAY:
+		return
+	for raw_entry in parsed["assets"]:
+		if typeof(raw_entry) != TYPE_DICTIONARY or String(raw_entry.get("asset_id", "")) != asset_id:
+			continue
+		var relative_path := String(raw_entry.get("candidate_relpath", ""))
+		var group := String(raw_entry.get("group", ""))
+		var kind := "bustup_reaction" if group.contains("reaction") else "fullbody"
+		var source_path := CANDIDATE_ROOT + relative_path
+		if relative_path == "" or not ResourceLoader.exists(source_path):
+			return
+		_review_candidate = {
+			"id": asset_id,
+			"asset_id": asset_id,
+			"kind": kind,
+			"runtime_path": source_path,
+			"trigger": String(raw_entry.get("trigger_id", "")),
+			"review_only": true,
+		}
+		break
+	_refresh_stage_for_review_candidate()
+
+
+func clear_review_candidate() -> void:
+	_review_candidate = {}
+	_refresh_stage_for_review_candidate()
+
+
+func review_candidate_entry() -> Dictionary:
+	return _review_candidate.duplicate(true)
+
+
+func _refresh_stage_for_review_candidate() -> void:
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null and guide.has_method("refresh_visual_pilot"):
+		guide.refresh_visual_pilot()
 
 
 func selected_entry(snapshot: Dictionary) -> Dictionary:

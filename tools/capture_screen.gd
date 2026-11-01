@@ -196,6 +196,11 @@ func _run() -> void:
 			var target := main.find_child(a.trim_prefix("--reveal="), true, false) as Control
 			if target != null:
 				main.call("_reveal", target)
+	for a in OS.get_cmdline_user_args():   # --pilot-candidate=asset_id: debug-only in-game placement review
+		if a.begins_with("--pilot-candidate="):
+			var candidate_panel := main.get_node_or_null("CharacterVisualPilotPanel")
+			if candidate_panel != null and candidate_panel.has_method("set_review_candidate"):
+				candidate_panel.set_review_candidate(a.trim_prefix("--pilot-candidate="))
 	for a in OS.get_cmdline_user_args():   # --second-store=P05: a second store opened there (#146), the map left open on it
 		if a.begins_with("--second-store="):
 			s.ledger.cash_yen = 50000000

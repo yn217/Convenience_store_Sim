@@ -297,7 +297,13 @@ func refresh_visual_pilot() -> void:
 	var entry: Dictionary = {}
 	var reaction_entry: Dictionary = {}
 	if enabled:
-		if _pilot_cue_id != "" and pilot.has_method("cue_entry"):
+		var review_candidate: Dictionary = pilot.review_candidate_entry() if pilot.has_method("review_candidate_entry") else {}
+		if not review_candidate.is_empty():
+			if String(review_candidate.get("kind", "")) == "bustup_reaction":
+				reaction_entry = review_candidate
+			else:
+				entry = review_candidate
+		elif _pilot_cue_id != "" and pilot.has_method("cue_entry"):
 			entry = pilot.cue_entry(_pilot_cue_id)
 		elif _day_remark != "" and pilot.has_method("day_end_entry"):
 			entry = pilot.day_end_entry(_day_mood)
