@@ -105,6 +105,17 @@ It reads `docs/art/COMFYUI_334_IMAGE_PLACEMENT_20261101.json`, lists all 334 can
 
 The `title_background_pilot` candidate is now the daylight residential-store composition `title_screen_variant_04_1344x768_00001_.png`. The explicit `--visual-variant=painted_v1` QA path keeps the title logo, buttons, and embedded character separate from a second `TitleRikka` layer. It remains held for visual and rights review; the default title continues to use `assets/ui/title/title_background.png` with the existing fallback path.
 
+## Runtime screen QA (2026-11-02)
+
+The 1280x720 management-screen capture `build/character_pilot_roadworks_management_latest.png` was checked with `evt_roadworks`, the `経営` screen, and `--inspect-pilot`. The event illustration and the selected `event_roadworks` full-body pilot are both rendered by the event panel. The pilot remains inside the panel, does not cover the management tabs or bottom controls, and no second assistant layer is visible. The event status text and event image remain owned by the existing event UI; the generated character is presentation-only.
+
+Focused verification after this capture:
+
+- `test_character_visual_pilot.gd`: 4 tests, 273 assertions, 0 failures.
+- `test_event_ui.gd`: 4 tests, 47 assertions, 0 failures.
+
+The capture is a layout/visibility check only. It does not approve the candidate for release; `runtime_approved:false` and the rights-review gate remain unchanged.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.
