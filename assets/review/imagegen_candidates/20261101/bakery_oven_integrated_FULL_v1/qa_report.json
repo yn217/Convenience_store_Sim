@@ -1,0 +1,67 @@
+{
+  "source_size_px": [
+    1322,
+    1190
+  ],
+  "source_mode": "RGBA",
+  "source_alpha_extrema": [
+    0,
+    255
+  ],
+  "alpha_threshold": 8,
+  "alpha_bbox_xyxy": [
+    292,
+    11,
+    1082,
+    1178
+  ],
+  "margins_px_ltrb": [
+    292,
+    11,
+    240,
+    12
+  ],
+  "margin_fraction_ltrb": [
+    0.2209,
+    0.0092,
+    0.1815,
+    0.0101
+  ],
+  "alpha_gate": "fail",
+  "review_padding": {
+    "canvas_px": [
+      1578,
+      1578
+    ],
+    "offset_px": [
+      128,
+      194
+    ],
+    "resampled": false
+  },
+  "projection": "visually plausible; calibration blocked",
+  "geometry": "fixture contract nominal only, fit and anchor unverified",
+  "godot_checked": false,
+  "runtime_approved": false,
+  "sha256_source": "e0bb8218c973983e73622fdfea2ec652be7580b491c2efa05bdbeac4b473eada",
+  "source_alpha_gate": "fail",
+  "padded_sprite_alpha_bbox_xyxy": [
+    420,
+    205,
+    1210,
+    1372
+  ],
+  "padded_sprite_margins_px_ltrb": [
+    420,
+    205,
+    368,
+    206
+  ],
+  "padded_sprite_margin_fraction_ltrb": [
+    0.2662,
+    0.1299,
+    0.2332,
+    0.1305
+  ],
+  "alpha_gate_padded_sprite": "pass"
+}

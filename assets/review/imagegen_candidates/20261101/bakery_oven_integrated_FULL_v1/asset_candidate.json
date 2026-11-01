@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "asset_id": "bakery_oven_integrated_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Japanese convenience-store bakery oven/display, 1x2 tiles, nominal 0.92 x 1.92 x 1.60m, access E, full bread shelves.",
+  "actual_subject": "One glass-front heated bakery display with three stocked bread shelves and integrated lower cabinet/oven.",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "bakery_oven",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/bakery_oven_integrated_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1554818,
+    "sha256": "e0bb8218c973983e73622fdfea2ec652be7580b491c2efa05bdbeac4b473eada",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/bakery_oven_integrated_FULL_v1/source_original.png",
+      "byte_size": 1554818,
+      "sha256": "e0bb8218c973983e73622fdfea2ec652be7580b491c2efa05bdbeac4b473eada",
+      "git_blob_sha": "4fb0d4cd4cc76e3d0e22dde39fb79eb4325f7772",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/bakery_oven_integrated_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1472613,
+      "sha256": "8f6a4b394fafd9babdda18839c9dc3d23247cb90305f7d347330d49a089bde6f",
+      "git_blob_sha": "3ba5500ba9e7b0a5ebb15c47025372fff2cfcfc5",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/bakery_oven_integrated_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 307173,
+      "sha256": "5571f49879b626dc76c2be07099de99db6ea0a330f390917b56c198d5443c3c5",
+      "git_blob_sha": "36f4c4f755187d463a273ef17a0de583744795c6",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.6
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "pass",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "pass",
+    "notes": [
+      "Three stocked display shelves with recognizable bread shapes and a lower integrated cabinet. Source RGBA 1322x1190; alpha extrema (0, 255); alpha>8 bbox (292, 11, 1082, 1178); L/T/R/B margins px [292, 11, 240, 12], fractions [0.2209, 0.0092, 0.1815, 0.0101].",
+      "Content/layout: reads as a bakery display oven; baked goods rest on visible shelves inside the cabinet, not detached package cards.",
+      "Projection: visually plausible two-axis iso, but exact iso2x_v1 control points and access-edge mapping have not been calibrated; gate blocked.",
+      "MVP nominal contract `bakery_oven`: 1x2, 0.92x1.92x1.60m, access E; world fit and ground anchor unverified.",
+      "Godot display scale, occlusion and runtime state integration not checked; runtime_approved:false.",
+      "Source canvas margin gate FAIL at alpha>8 (top 0.92%, bottom 1.01%); a 256px larger transparent review canvas was added without resampling. Padded sprite margins are [0.2662, 0.1299, 0.2332, 0.1305]; padded-output margin gate pass. Anchor must account for the canvas offset."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
