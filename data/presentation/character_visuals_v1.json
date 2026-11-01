@@ -139,6 +139,90 @@
       "status": "pilot_selected",
       "runtime_approved": false,
       "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_local_fair",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_local_fair",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_local_fair.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_local_fair.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_009_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_roadworks",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_roadworks",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_roadworks.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_roadworks.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_010_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_hot_day",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_hot_day",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_hot_day.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_hot_day.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_011_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_cold_day",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_cold_day",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_cold_day.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_cold_day.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_012_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_sweets_spotlight",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_sweets_spotlight",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_sweets_spotlight.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_sweets_spotlight.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_013_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_snack_buzz",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_snack_buzz",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_snack_buzz.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_snack_buzz.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_014_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_after_work",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_after_work",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_after_work.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_after_work.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_015_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
     }
   ]
 }

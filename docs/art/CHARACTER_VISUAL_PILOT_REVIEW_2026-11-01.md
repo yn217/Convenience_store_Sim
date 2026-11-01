@@ -4,12 +4,12 @@ Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
 
 ## Scope
 
-This review covers the 11-image pilot only. The remaining 323 candidates stay review-only and are not loaded by the pilot registry.
+This review covers the 18-image pilot. The remaining 316 candidates stay review-only and are not loaded by the pilot registry.
 
 ## Automated checks
 
-- Registry entries: 11
-- Runtime pilot PNGs: 11
+- Registry entries: 18
+- Runtime pilot PNGs: 18
 - Duplicate logical IDs: 0
 - Missing runtime paths: 0
 - Title candidate: 1344x768
@@ -32,6 +32,13 @@ This review covers the 11-image pilot only. The remaining 323 candidates stay re
 | `functional_sold_out` | functional pose | SCR-11 / sold out | review pending; check full-body framing and hands |
 | `functional_rival_store` | functional pose | SCR-11 / rival-store event | review pending; event must be backed by real state |
 | `event_neighbor_mentions` | event image | SCR-11 / `evt_neighbor_mentions` | review pending; use only when the event is actually active |
+| `event_local_fair` | event image | SCR-11 / `evt_local_fair` | review pending; use only when the event is actually active |
+| `event_roadworks` | event image | SCR-11 / `evt_roadworks` | review pending; use only when the event is actually active |
+| `event_hot_day` | event image | SCR-11 / `evt_hot_day` | review pending; use only when the event is actually active |
+| `event_cold_day` | event image | SCR-11 / `evt_cold_day` | review pending; use only when the event is actually active |
+| `event_sweets_spotlight` | event image | SCR-11 / `evt_sweets_spotlight` | review pending; use only when the event is actually active |
+| `event_snack_buzz` | event image | SCR-11 / `evt_snack_buzz` | review pending; use only when the event is actually active |
+| `event_after_work` | event image | SCR-11 / `evt_after_work` | review pending; use only when the event is actually active |
 
 ## Visual observations
 
@@ -42,7 +49,7 @@ This review covers the 11-image pilot only. The remaining 323 candidates stay re
 
 ## Next gate
 
-1. Open the review gallery scene and inspect all 11 candidates.
+1. Open the review gallery scene and inspect all 18 candidates.
 2. Select/reject each candidate in the registry without changing Domain state.
 3. Create derived alpha PNGs only for approved full-body/bust-up images.
 4. Compare the title candidate at 1920x1080, 1600x900, and 1280x720 before connecting it to the title screen.
