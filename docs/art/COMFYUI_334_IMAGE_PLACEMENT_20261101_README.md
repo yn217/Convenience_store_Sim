@@ -37,6 +37,8 @@ Godot_v4.7.2-stable_win64_console.exe --path . --resolution 1280x720 --script re
 
 同日、P1チュートリアル候補`functional_001`も同じ処理で`assets/review/derived_alpha/functional_001.png`へ出力し、Main枠での表示を`build/pilot_candidate_functional_001_alpha_1280.png`で確認した。こちらも通常採用前のレビュー専用である。
 
+続けて`functional_002`〜`functional_008`も透過処理し、7件すべてで`RGBA 1024x1536 / alpha=(0,255)`を確認した。代表`functional_004`のMain配置確認は`build/pilot_candidate_functional_004_alpha_1280.png`である。
+
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
 
