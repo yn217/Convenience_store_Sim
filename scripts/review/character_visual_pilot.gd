@@ -1,5 +1,5 @@
 extends Control
-## Issue #230 review-only gallery for the 43-image character visual pilot.
+## Issue #230 review-only gallery for the 45-image character visual pilot.
 ## It deliberately lives outside the normal Main scene so unapproved candidates cannot replace
 ## the production UI. The registry is the only source of image paths and trigger metadata.
 
@@ -55,7 +55,7 @@ func _build_ui() -> void:
 	column.add_child(title)
 
 	var note := Label.new()
-	note.text = "Issue #230 / 43枚のレビュー用プレビュー。未承認素材は通常ゲーム画面へ自動接続しません。"
+	note.text = "Issue #230 / 45枚のレビュー用プレビュー。未承認素材は通常ゲーム画面へ自動接続しません。"
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(note)
 

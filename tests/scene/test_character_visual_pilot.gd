@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 43, "the pilot registry exposes all 43 selected visuals")
+	t.eq(panel._entries.size(), 45, "the pilot registry exposes all 45 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -14,7 +14,8 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 		t.ok(load(path) is Texture2D, "%s runtime texture loads" % id)
 	for pair in [
 		["story_start", "reaction_discovery"],
-		["story_register", "fullbody_tutorial_layout"],
+		["story_register", "functional_register_guidance"],
+		["story_first_restock", "functional_restock_guidance"],
 		["story_sold_out", "functional_sold_out"],
 		["story_queue_giveup", "reaction_pleading"],
 		["story_staff_short", "reaction_pleading"],
@@ -43,6 +44,8 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.cue_entry("map_proposal_open").get("id", ""), "functional_map_proposal", "area map uses its proposal pilot pose")
 	t.eq(panel.cue_entry("business_started").get("id", ""), "functional_business_opening", "opening cut-in has a functional pilot pose")
 	t.eq(panel.stage_entry({"story_cue": "story_first_profit", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_first_profit", "first-profit story uses its presentation pose")
+	t.eq(panel.stage_entry({"story_cue": "story_register", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_register_guidance", "register tutorial uses the register guidance pose")
+	t.eq(panel.stage_entry({"story_cue": "story_first_restock", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_restock_guidance", "restock tutorial uses the restock guidance pose")
 	t.eq(panel.day_end_entry("worried").get("id", ""), "functional_day_end_review", "negative day-end uses the review pose")
 	t.eq(panel.stage_entry({"story_cue": "story_start", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "story start stage avoids a bust-up asset")
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "queue reaction stage uses a functional full-body asset")

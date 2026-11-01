@@ -143,8 +143,10 @@ func _select_entry(snapshot: Dictionary) -> Dictionary:
 		return _find("event_neighbor_mentions")
 	if story_cue == "story_start":
 		return _find("reaction_discovery")
-	if story_cue in ["story_register", "story_first_restock"]:
-		return _find("fullbody_tutorial_layout")
+	if story_cue == "story_register":
+		return _find("functional_register_guidance")
+	if story_cue == "story_first_restock":
+		return _find("functional_restock_guidance")
 	if story_cue == "story_first_profit":
 		return _find("functional_first_profit")
 	if story_cue == "story_first_sale":
