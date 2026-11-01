@@ -92,6 +92,59 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 		world.selection_changed.connect(func(_t): _refresh.call_deferred())
 
 
+## The 2026-11-01 mockup look (MockupChrome): the order controls laid over the 商品 page's picture (the dropdown and
+## stepper frames and the 発注 button are part of it), at its spots. `page` is the page's Control, in content px.
+func mockup_layout(page: Control) -> void:
+	var font := MockupChrome.font()
+	_place(page, _backroom, Rect2(388, 12, 260, 36))
+	_backroom.add_theme_font_override("font", font)
+	_backroom.add_theme_font_size_override("font_size", 18)
+	_place(page, _order_sku, Rect2(46, 70, 500, 52))
+	for st in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
+		_order_sku.add_theme_stylebox_override(st, StyleBoxEmpty.new())
+	_order_sku.add_theme_icon_override("arrow", ImageTexture.new())   # the picture has the arrow
+	_order_sku.add_theme_font_override("font", font)
+	_order_sku.add_theme_font_size_override("font_size", 22)
+	_order_sku.add_theme_constant_override("h_separation", 18)
+	_order_sku.add_theme_constant_override("icon_max_width", 64)
+	for i in _order_sku.item_count:
+		_order_sku.set_item_icon(i, ProductIcons.texture(_products.get_sku(_order_sku.get_item_metadata(i)), 64))
+	var stepper := _order_qty.get_parent()
+	_place(page, _order_qty, Rect2(666, 74, 60, 42))
+	for st in ["normal", "focus", "read_only"]:
+		_order_qty.add_theme_stylebox_override(st, StyleBoxEmpty.new())
+	_order_qty.add_theme_font_override("font", font)
+	_order_qty.add_theme_font_size_override("font_size", 24)
+	var steps := stepper.get_children()
+	for i in steps.size():
+		var b := steps[i] as Button
+		_place(page, b, Rect2(620, 72, 44, 46) if i == 0 else Rect2(730, 72, 44, 46))
+		b.text = ""
+		_flat(b)
+	var order_btn := _order_row.get_child(_order_row.get_child_count() - 1) as Button
+	_place(page, order_btn, Rect2(802, 64, 196, 62))
+	order_btn.text = ""
+	order_btn.icon = null
+	order_btn.tooltip_text = "発注"
+	_flat(order_btn)
+	_place(page, _status, Rect2(46, 124, 900, 22))
+	_status.add_theme_font_size_override("font_size", 14)
+
+
+static func _place(page: Control, c: Control, r: Rect2) -> void:
+	c.reparent(page, false)
+	c.custom_minimum_size = Vector2.ZERO
+	c.size_flags_horizontal = Control.SIZE_FILL
+	c.position = r.position
+	c.size = r.size
+
+
+static func _flat(b: Button) -> void:
+	for st in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
+		b.add_theme_stylebox_override(st, StyleBoxEmpty.new())
+	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+
 ## A quantity field between - and + buttons (1..9999; a typed value is still checked by parse_qty_text).
 func _stepper(edit: LineEdit) -> HBoxContainer:
 	var box := HBoxContainer.new()

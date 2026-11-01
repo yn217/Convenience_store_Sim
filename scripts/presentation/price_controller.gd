@@ -13,6 +13,7 @@ const COST_W := 72
 const MARGIN_W := 72
 const RATE_W := 72
 const BUTTON_W := 84
+const ROW_H := 54   # a row of the mockup's price list
 
 var _app: Node
 var _products: ProductCatalog
@@ -108,6 +109,96 @@ func apply_snapshot(snap: Dictionary) -> void:
 			_show_margin(sku_id, price)
 
 
+## The 2026-11-01 mockup look (MockupChrome): the price rows as the mockup draws them (product picture, name, the
+## price field and 変更 button pictures, columns under the page's own headings), in a scrolling list over `area`
+## (content px). The fields replace the table's; the commands are the same.
+func mockup_list(page: Control, area: Rect2) -> void:
+	var font := MockupChrome.font()
+	var scroll := ScrollContainer.new()
+	scroll.name = "MockupPriceList"
+	scroll.position = area.position
+	scroll.size = area.size
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	page.add_child(scroll)
+	var list := VBoxContainer.new()
+	list.add_theme_constant_override("separation", 0)
+	list.custom_minimum_size.x = area.size.x - 12
+	scroll.add_child(list)
+	var field_tex: Texture2D = load(MockupChrome.DIR + "price_field.png")
+	var change_tex: Texture2D = load(MockupChrome.DIR + "change_button.png")
+	var ids := _products.skus.keys()
+	ids.sort()
+	for sku_id in ids:
+		var sku := _products.get_sku(sku_id)
+		var row := Control.new()
+		row.custom_minimum_size = Vector2(area.size.x - 12, ROW_H)
+		list.add_child(row)
+		var line := ColorRect.new()   # the thin rule under each row
+		line.color = Color(0.82, 0.72, 0.62, 0.55)
+		line.position = Vector2(4, ROW_H - 1)
+		line.size = Vector2(area.size.x - 20, 1)
+		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(line)
+		var icon := TextureRect.new()
+		icon.texture = ProductIcons.texture(sku, 64)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.position = Vector2(20, 4)
+		icon.size = Vector2(72, ROW_H - 8)
+		row.add_child(icon)
+		row.add_child(_mock_label(sku["display_name"], Rect2(110, 0, 220, ROW_H), 20, MockupChrome.INK, HORIZONTAL_ALIGNMENT_LEFT, font))
+		var edit := LineEdit.new()
+		var box := StyleBoxTexture.new()
+		box.texture = field_tex
+		box.set_texture_margin_all(10)
+		box.content_margin_left = 8
+		box.content_margin_right = 36   # the arrows on the right of the picture
+		edit.add_theme_stylebox_override("normal", box)
+		edit.add_theme_stylebox_override("focus", box)
+		edit.add_theme_font_override("font", font)
+		edit.add_theme_font_size_override("font_size", 22)
+		edit.add_theme_color_override("font_color", MockupChrome.INK)
+		edit.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		edit.position = Vector2(455, (ROW_H - 40) / 2.0)
+		edit.size = Vector2(126, 40)
+		edit.text = str(sku["default_sell_price_yen"])
+		edit.select_all_on_focus = true
+		edit.text_submitted.connect(func(_t): submit(sku_id, edit))
+		row.add_child(edit)
+		row.add_child(_mock_label(GameHud.format_yen(sku["purchase_cost_yen"]), Rect2(610, 0, 92, ROW_H), 19, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font))
+		var margin := _mock_label("", Rect2(700, 0, 96, ROW_H), 21, MockupChrome.GREEN, HORIZONTAL_ALIGNMENT_CENTER, font)
+		var rate := _mock_label("", Rect2(790, 0, 102, ROW_H), 19, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font)
+		row.add_child(margin)
+		row.add_child(rate)
+		var apply := TextureButton.new()
+		apply.texture_normal = change_tex
+		apply.ignore_texture_size = true
+		apply.stretch_mode = TextureButton.STRETCH_SCALE
+		apply.position = Vector2(895, (ROW_H - 42) / 2.0)
+		apply.size = Vector2(109, 42)
+		apply.tooltip_text = "変更"
+		apply.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		apply.pressed.connect(func(): submit(sku_id, edit))
+		row.add_child(apply)
+		_rows[sku_id] = edit
+		_margins[sku_id] = [margin, rate]
+		_show_margin(sku_id, int(edit.text))
+
+
+static func _mock_label(text: String, r: Rect2, size: int, color: Color, align: HorizontalAlignment, font: Font) -> Label:
+	var l := Label.new()
+	l.text = text
+	l.position = r.position
+	l.size = r.size
+	l.horizontal_alignment = align
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	l.clip_text = true
+	l.add_theme_font_override("font", font)
+	l.add_theme_font_size_override("font_size", size)
+	l.add_theme_color_override("font_color", color)
+	return l
+
+
 ## 粗利 = price - cost and 粗利率 = 粗利 / price of the shown price (display only; the sale uses the game's price).
 static func margin_text(price: int, cost: int) -> Array:
 	if price < 1:
@@ -120,6 +211,8 @@ func _show_margin(sku_id: String, price: int) -> void:
 	_margins[sku_id][0].text = t[0]
 	_margins[sku_id][1].text = t[1]
 	_margins[sku_id][0].theme_type_variation = &"GoodLabel" if price >= int(_products.get_sku(sku_id)["purchase_cost_yen"]) else &"AccentLabel"
+	if _margins[sku_id][0].has_theme_color_override("font_color"):   # the mockup rows colour by hand
+		_margins[sku_id][0].add_theme_color_override("font_color", MockupChrome.GREEN if price >= int(_products.get_sku(sku_id)["purchase_cost_yen"]) else Color("c0392b"))
 
 
 static func _table_row() -> HBoxContainer:

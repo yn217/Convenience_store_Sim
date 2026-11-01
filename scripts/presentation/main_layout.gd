@@ -87,6 +87,8 @@ func _ready() -> void:
 	_apply_mode()
 	style_sections.call_deferred()
 	_organize_panels.call_deferred()
+	if _chrome != null:
+		_mockup_goods_page.call_deferred()
 
 
 ## Overlay design: the store world fills the whole window; every panel anchors to an edge and floats over it.
@@ -412,6 +414,33 @@ func _build_chrome() -> void:
 	_chrome.speed_pressed.connect(func(speed: int): hud.speed_requested.emit(speed))
 	_chrome.pause_pressed.connect(func(): hud._on_pause_pressed())
 	_chrome.corner_pressed.connect(_on_chrome_corner)
+
+
+## The 商品 page as the mockup draws it: its picture, the order controls on it and the price rows in a scrolling list.
+## The 在庫 / 販売価格 cards stay in the page, hidden (their controls moved onto the picture).
+func _mockup_goods_page() -> void:
+	var page_box: VBoxContainer = _pages["商品"]
+	var page := Control.new()
+	page.name = "GoodsMockup"
+	page.custom_minimum_size = MockupChrome.CONTENT.size - Vector2(2, 2)
+	page.mouse_filter = Control.MOUSE_FILTER_PASS
+	var bg := TextureRect.new()
+	bg.texture = load(MockupChrome.DIR + "goods_page.png")
+	bg.size = MockupChrome.CONTENT.size
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	page.add_child(bg)
+	var cards := page_box.get_children()
+	page_box.add_child(page)
+	page_box.move_child(page, 0)
+	var stock := get_node_or_null("StockController")
+	var price := get_node_or_null("PriceController")
+	if stock != null:
+		stock.mockup_layout(page)
+	if price != null:
+		price.mockup_list(page, Rect2(10, 215, 1010, 222))
+	for c in cards:
+		(c as Control).visible = false
+	(page_box.get_parent() as ScrollContainer).vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 
 
 func _on_chrome_nav(id: String) -> void:

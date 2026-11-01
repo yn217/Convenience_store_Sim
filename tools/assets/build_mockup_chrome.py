@@ -24,6 +24,7 @@ SRC_GOODS = Path("docs/mockups/ui_target_goods_2026-11-01.png")
 SRC_DATA = Path("docs/mockups/ui_target_data_2026-11-01.png")
 RIKKA = Path("assets/source/ui_mockup/rikka_cut.png")   # cut from the goods mockup at (170, 285) in its 1672 px space
 OUT = Path("assets/ui/mockup")
+CONTENT_BOX = (562, 392, 1592, 866)   # MockupChrome.CONTENT (the window's area below the tabs)
 W, H = 1920, 1080
 K = W / 1672                 # mockup px -> game px
 CSS = (1672 / 1648) * K      # the browser mockup's hit areas (1648 px wide) -> game px
@@ -177,6 +178,48 @@ def shape_bubble():
     return m
 
 
+def plain(rgb, box, src_row=None):
+    """Fills `box` with the colour of the row just above it, column by column (a card's plain face)."""
+    x0, y0, x1, y1 = [int(round(v)) for v in box]
+    row = rgb[(y0 - 2) if src_row is None else src_row, x0:x1].astype(np.float32)
+    rgb[y0:y1, x0:x1] = row[None, :, :].astype(np.uint8)
+
+
+def column_fill(rgb, box, src_x):
+    """Fills `box` with one clean column of the same surface (`src_x`), repeated across: a face that only shades
+    from top to bottom (cards, fields) comes back without the text that was on it."""
+    x0, y0, x1, y1 = [int(round(v)) for v in box]
+    col = np.median(rgb[y0:y1, src_x - 1:src_x + 2].astype(np.float32), axis=1)
+    rgb[y0:y1, x0:x1] = col[:, None, :].astype(np.uint8)
+
+
+def goods_page(goods, layout):
+    """The 商品 tab: the content area as one background (ribbons, card frames, column headings, the 発注 button and the
+    empty dropdown / stepper frames) and the small parts the price rows are made of. Coordinates: 1920 px space."""
+    page = goods.copy()
+    column_fill(page, (944, 402, 1172, 442), 1190)    # バックヤード：在庫なし
+    column_fill(page, (606, 461, 1118, 515), 1085)    # the dropdown's product picture and name
+    column_fill(page, (1236, 468, 1288, 506), 1240)   # the quantity
+    # the four price rows: back to the card's plain face (the game draws a scrolling list there)
+    c0 = page[609, 1452].astype(np.float32)
+    c1 = page[822, 1452].astype(np.float32)
+    t = np.linspace(0, 1, 828 - 607)[:, None]
+    page[607:828, 572:1582] = ((1 - t) * c0 + t * c1)[:, None, :].astype(np.uint8)
+    alpha = np.full((H, W), 255, np.uint8)
+    rgba_crop(page, alpha, CONTENT_BOX, "goods_page", layout)
+    a = np.zeros((H, W), np.uint8)
+    rrect(a, (1027, 616, 1153, 656), 8, 255)
+    field = goods.copy()
+    erase(field, (1032, 620, 1120, 652), thresh=60, grow=2)
+    rgba_crop(field, a, (1027, 616, 1153, 656), "price_field", layout)
+    a = np.zeros((H, W), np.uint8)
+    rrect(a, (1467, 615, 1576, 657), 8, 255)
+    rgba_crop(goods, a, (1467, 615, 1576, 657), "change_button", layout)
+    a = np.zeros((H, W), np.uint8)
+    rrect(a, (910, 619, 988, 647), 6, 255)
+    rgba_crop(goods, a, (910, 619, 988, 647), "popular_badge", layout)
+
+
 def main():
     goods = load(SRC_GOODS)
     data = load(SRC_DATA)
@@ -312,6 +355,8 @@ def main():
     grad = ((1 - t) * c0 + t * c1).astype(np.uint8)
     bub[inside > 0] = grad[ys]
     rgba_crop(bub, a_bub, (8, 690, 382, 900), "bubble", layout)
+
+    goods_page(goods, layout)
 
     (OUT / "layout.json").write_text(json.dumps(layout, indent=1), encoding="utf-8")
     print(len(layout), "parts")
