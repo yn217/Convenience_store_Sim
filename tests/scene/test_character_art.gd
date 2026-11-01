@@ -90,6 +90,10 @@ func test_title_pilot_candidate_does_not_need_a_second_figure(t, _tree) -> void:
 	t.ok(pilot != null, "the title pilot candidate loads for the explicit QA override")
 	if pilot != null:
 		t.ok(not pilot.resource_path.is_empty(), "the title pilot has a concrete runtime texture")
+	var data = JSON.parse_string(FileAccess.get_file_as_string("res://data/presentation/character_visuals_v1.json"))
+	var entry: Dictionary = (data.get("assets", []) as Array).filter(func(raw): return raw.get("id", "") == "title_background_pilot")[0]
+	t.eq(entry.get("status", ""), "review_only", "title pilot remains held after the dusk-lighting QA")
+	t.eq(entry.get("fallback", ""), "existing_title_background", "held title pilot keeps the daytime fallback")
 
 
 ## #104 / #134: six chibi looks, a walk cycle with stride poses (the feet move), and a seated eating pose at the eat-in.

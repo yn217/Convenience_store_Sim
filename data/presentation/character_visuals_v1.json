@@ -16,9 +16,10 @@
       "trigger": "title_open",
       "runtime_path": "res://assets/runtime/character_pilot/title_background_pilot.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/title_screen_1344x768/title_screen_variant_01_1344x768_00001_.png",
-      "status": "pilot_selected",
+      "status": "review_only",
       "runtime_approved": false,
-      "fallback": "existing_title_background"
+      "fallback": "existing_title_background",
+      "review_note": "QA hold: dusk lighting does not match the ordinary daytime title direction"
     },
     {
       "id": "fullbody_dynamic_201",
