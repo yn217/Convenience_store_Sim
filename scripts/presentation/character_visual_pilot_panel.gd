@@ -1,7 +1,8 @@
 extends Node
-## Optional review-only panel for Issue #230. It is opt-in and never changes Domain state.
+## Issue #230 pilot runtime display. It only changes presentation and never changes Domain state.
 
 const REGISTRY_PATH := "res://data/presentation/character_visuals_v1.json"
+const PILOT_VISIBLE_BY_DEFAULT := true
 
 var _entries: Array = []
 var _image: TextureRect
@@ -16,18 +17,19 @@ func _ready() -> void:
 	if body == null:
 		return
 	var title := Label.new()
-	title.text = "キャラクター素材パイロット"
+	title.text = "店長アシスタント立ち絵（パイロット）"
 	title.add_theme_font_size_override("font_size", 18)
 	body.add_child(title)
 	_toggle = CheckButton.new()
-	_toggle.text = "候補画像を表示（未承認）"
-	_toggle.tooltip_text = "Issue #230のレビュー候補。通常のゲーム演出を置き換えません。"
+	_toggle.text = "生成立ち絵を表示（Issue #230）"
+	_toggle.tooltip_text = "選定済みパイロット立ち絵をアシスタント欄に表示します。未承認候補の一括採用は行いません。"
 	_toggle.toggled.connect(_set_review_visible)
 	body.add_child(_toggle)
 	_image = TextureRect.new()
-	_image.custom_minimum_size = Vector2(0, 220)
+	_image.custom_minimum_size = Vector2(0, 300)
 	_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_image.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_image.visible = false
 	body.add_child(_image)
@@ -35,6 +37,8 @@ func _ready() -> void:
 	_meta.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_meta.visible = false
 	body.add_child(_meta)
+	_toggle.button_pressed = PILOT_VISIBLE_BY_DEFAULT
+	_set_review_visible(PILOT_VISIBLE_BY_DEFAULT)
 
 
 func _load_entries() -> Array:
@@ -68,7 +72,15 @@ func _select_entry(snapshot: Dictionary) -> Dictionary:
 	if event_id == "evt_neighbor_mentions":
 		return _find("event_neighbor_mentions")
 	if event_id == "evt_quiet_street":
-		return _find("reaction_deadpan")
+		return _find("fullbody_dynamic_201")
+	if story_cue == "story_sold_out":
+		return _find("functional_sold_out")
+	if story_cue == "story_event":
+		return _find("event_neighbor_mentions")
+	if story_cue in ["story_start", "story_register", "story_first_restock"]:
+		return _find("fullbody_tutorial_layout")
+	if story_cue in ["story_first_sale", "story_first_profit"]:
+		return _find("fullbody_emotion_05")
 	if story_cue != "":
 		return _find("functional_opening_checklist")
 	if completed.has("ms_first_sale") or completed.has("ms_first_profit"):
@@ -89,7 +101,7 @@ func _show_selected(entry: Dictionary) -> void:
 		_meta.text = "候補画像がありません。従来の文字表示へフォールバックします。"
 		return
 	_image.texture = load(String(entry.get("runtime_path", "")))
-	_meta.text = "未承認パイロット: %s\n画面=%s / 条件=%s\n通常ビルドでは従来表示へフォールバック" % [
+	_meta.text = "パイロット立ち絵: %s\n画面=%s / 条件=%s\n未承認候補のため、既存表示へのフォールバックを維持" % [
 		String(entry.get("id", "")),
 		String(entry.get("screen_id", "")),
 		String(entry.get("trigger", "")),
