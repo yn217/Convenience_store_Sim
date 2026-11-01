@@ -75,6 +75,12 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.ok(panel.is_pilot_enabled(), "the pilot toggle defaults on for visual review")
 	t.ok(guide._pilot_figure != null, "the assistant stage owns a pilot figure layer")
 	t.ok(guide._pilot_figure.texture is Texture2D, "the assistant stage loads a pilot texture")
+	var reaction_preview: TextureRect = panel._reaction_image
+	t.ok(reaction_preview != null, "bust-up review has a dedicated preview slot")
+	panel._show_selected(panel._find("reaction_discovery"))
+	t.ok(reaction_preview.visible, "bust-up review uses its dedicated preview slot")
+	t.ok(not panel._image.visible, "bust-up review does not use the full-body preview slot")
+	panel._show_selected(panel.stage_entry(guide._snap))
 	var expected: Dictionary = panel.stage_entry(guide._snap)
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, expected.get("runtime_path", ""), "the stage texture follows the shared pilot route")
 	main.queue_free()

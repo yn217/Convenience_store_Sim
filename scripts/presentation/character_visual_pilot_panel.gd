@@ -9,6 +9,9 @@ const PILOT_VISIBLE_BY_DEFAULT := true
 var _entries: Array = []
 var _image: TextureRect
 var _meta: Label
+var _reaction_image: TextureRect
+var _reaction_meta: Label
+var _reaction_title: Label
 var _toggle: CheckButton
 var _snapshot: Dictionary = {}
 
@@ -39,6 +42,25 @@ func _ready() -> void:
 	_meta.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_meta.visible = false
 	body.add_child(_meta)
+	_reaction_title = Label.new()
+	_reaction_title.text = "バストアップリアクション候補（専用枠）"
+	_reaction_title.add_theme_font_size_override("font_size", 15)
+	_reaction_title.visible = false
+	body.add_child(_reaction_title)
+	_reaction_image = TextureRect.new()
+	_reaction_image.name = "ReactionPilotPreview"
+	_reaction_image.custom_minimum_size = Vector2(0, 220)
+	_reaction_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_reaction_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_reaction_image.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_reaction_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_reaction_image.visible = false
+	body.add_child(_reaction_image)
+	_reaction_meta = Label.new()
+	_reaction_meta.name = "ReactionPilotMeta"
+	_reaction_meta.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_reaction_meta.visible = false
+	body.add_child(_reaction_meta)
 	_toggle.button_pressed = PILOT_VISIBLE_BY_DEFAULT
 	_set_review_visible(PILOT_VISIBLE_BY_DEFAULT)
 
@@ -53,8 +75,11 @@ func _load_entries() -> Array:
 
 
 func _set_review_visible(enabled: bool) -> void:
-	_image.visible = enabled
-	_meta.visible = enabled
+	_image.visible = enabled and _reaction_image.texture == null
+	_meta.visible = enabled and _reaction_image.texture == null
+	_reaction_image.visible = enabled and _reaction_image.texture != null
+	_reaction_meta.visible = enabled and _reaction_image.texture != null
+	_reaction_title.visible = enabled and _reaction_image.texture != null
 	if enabled:
 		_show_selected(_select_entry(_snapshot))
 	pilot_visibility_changed.emit(enabled)
@@ -187,11 +212,28 @@ func _find(asset_id: String) -> Dictionary:
 func _show_selected(entry: Dictionary) -> void:
 	if entry.is_empty():
 		_image.texture = null
+		_reaction_image.texture = null
+		_image.visible = false
+		_meta.visible = false
+		_reaction_image.visible = false
+		_reaction_meta.visible = false
+		_reaction_title.visible = false
 		_meta.text = "候補画像がありません。従来の文字表示へフォールバックします。"
 		return
-	_image.texture = load(String(entry.get("runtime_path", "")))
-	_meta.text = "パイロット立ち絵: %s\n画面=%s / 条件=%s\n未承認候補のため、既存表示へのフォールバックを維持" % [
-		String(entry.get("id", "")),
+	var is_reaction := String(entry.get("kind", "")) == "bustup_reaction"
+	var texture := load(String(entry.get("runtime_path", ""))) as Texture2D
+	_image.texture = null if is_reaction else texture
+	_reaction_image.texture = texture if is_reaction else null
+	_image.visible = is_pilot_enabled() and not is_reaction
+	_meta.visible = is_pilot_enabled() and not is_reaction
+	_reaction_image.visible = is_pilot_enabled() and is_reaction
+	_reaction_meta.visible = is_pilot_enabled() and is_reaction
+	_reaction_title.visible = is_pilot_enabled() and is_reaction
+	var details := "画面=%s / 条件=%s\n未承認候補のため、既存表示へのフォールバックを維持" % [
 		String(entry.get("screen_id", "")),
 		String(entry.get("trigger", "")),
 	]
+	if is_reaction:
+		_reaction_meta.text = "バストアップリアクション: %s\n%s" % [String(entry.get("id", "")), details]
+	else:
+		_meta.text = "パイロット立ち絵: %s\n%s" % [String(entry.get("id", "")), details]
