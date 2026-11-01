@@ -1,0 +1,108 @@
+{
+  "asset_id": "shelf_stationery_gondola_FULL_v1",
+  "review_only": true,
+  "runtime_approved": false,
+  "status": "rejected_projection_scale_and_alpha",
+  "generated_date": "2026-11-01",
+  "production_method": "Codex built-in ImageGen",
+  "source_file": "source_original.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "file_size_bytes": 2361486,
+  "sha256": "5eadbb67e33c45c1587d3244d0bfb02ae0f56c86570f8f179f3bdf07925bdc13",
+  "alpha_source": {
+    "threshold_gt_8_bbox_xyxy": [
+      169,
+      27,
+      1357,
+      1024
+    ],
+    "threshold_gt_8_margins_percent_ltrb": [
+      11.0,
+      2.64,
+      11.65,
+      0.0
+    ],
+    "threshold_gt_0_bbox_xyxy": [
+      0,
+      2,
+      1488,
+      1024
+    ],
+    "threshold_gt_0_margins_percent_ltrb": [
+      0.0,
+      0.2,
+      3.13,
+      0.0
+    ],
+    "threshold_gt_128_bbox_xyxy": [
+      170,
+      28,
+      1356,
+      1024
+    ],
+    "edge_alpha_max_top_bottom_left_right": [
+      0,
+      252,
+      1,
+      0
+    ],
+    "required_minimum_margin_percent": 12,
+    "pass": false
+  },
+  "padded_review_image": {
+    "file": "sprite_padded_review.png",
+    "dimensions_px": [
+      1800,
+      1800
+    ],
+    "operation": "center original RGBA image on transparent canvas without resampling",
+    "runtime_approved": false,
+    "file_size_bytes": 1824825,
+    "sha256": "2efaca72572dba3f252d111b34911a6b95e5ba5337f2ab5da253691a85995ac6",
+    "threshold_gt_8_bbox_xyxy": [
+      301,
+      415,
+      1489,
+      1412
+    ],
+    "threshold_gt_8_margins_percent_ltrb": [
+      16.72,
+      23.06,
+      17.28,
+      21.56
+    ],
+    "margin_pass": true
+  },
+  "preview": {
+    "file": "preview_checkerboard.jpg",
+    "dimensions_px": [
+      1800,
+      1800
+    ],
+    "file_size_bytes": 402257,
+    "sha256": "bb8d59713c256efe8041161582ad12805c3beea99399eab769c9edbe741f95d2"
+  },
+  "visual_qa": {
+    "integrated_fixture_and_products": "pass",
+    "four_shelf_rows": "pass",
+    "stationery_category_recognizable": "pass",
+    "customer_facing_product_fronts": "pass_with_concern",
+    "shelf_contact": "visually_plausible_unverified",
+    "floating_detached_cards": "not_observed",
+    "thick_cuboid_or_visible_side_depth": "concern_observed",
+    "game_tile_scale_and_fixture_proportions": "fail_visual_mismatch",
+    "strict_iso2x_v1_projection": "fail_visual_perspective_convergence",
+    "raw_alpha_margin": "fail",
+    "padded_margin": "pass_canvas_only",
+    "dimensions_footprint_anchor": "not_verified",
+    "godot_display_scale": "not_checked",
+    "independent_review": "pending"
+  },
+  "references": [
+    "assets/review/imagegen_candidates/20261101/shelf_general_open_r0_integrated_FULL_v12/source_original.png (style/context only)"
+  ]
+}

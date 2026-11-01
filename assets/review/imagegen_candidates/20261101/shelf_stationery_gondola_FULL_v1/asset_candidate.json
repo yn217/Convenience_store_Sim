@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_stationery_gondola_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Compact Japanese single-sided stationery gondola, FULL, integrated fixture and goods",
+  "actual_subject": "Wide perspective-rendered stationery gondola with four stocked rows",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/shelf_stationery_gondola_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2361486,
+    "sha256": "5eadbb67e33c45c1587d3244d0bfb02ae0f56c86570f8f179f3bdf07925bdc13"
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_stationery_gondola_FULL_v1/source_original.png",
+      "byte_size": 2361486,
+      "sha256": "5eadbb67e33c45c1587d3244d0bfb02ae0f56c86570f8f179f3bdf07925bdc13",
+      "git_blob_sha": "16269f0f411990dbf9617b24ca74ad5dd2626f68",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_stationery_gondola_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1824825,
+      "sha256": "2efaca72572dba3f252d111b34911a6b95e5ba5337f2ab5da253691a85995ac6",
+      "git_blob_sha": "513cafe0d828269475cae00d31c6057a5d10dca4",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_stationery_gondola_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 402257,
+      "sha256": "bb8d59713c256efe8041161582ad12805c3beea99399eab769c9edbe741f95d2",
+      "git_blob_sha": "2f6c9da16ac7c000c8498886204163876cbcb417",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "blocked",
+    "geometry": "blocked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "fail",
+    "notes": [
+      "Fixture and four stationery-stocked rows are integrated and the category reads clearly.",
+      "Perspective convergence and broad/deep proportions visibly diverge from the target tile-scale iso2x_v1 game asset; no dimensional scaling was used to conceal this mismatch.",
+      "Some product side depth is too prominent for the flat-package direction.",
+      "Raw alpha bbox touches the bottom edge and falls below the 12 percent margin gate; padded review canvas is a separate non-resampled derivative only.",
+      "Godot projection, dimensions, footprint, access edge, anchor, inventory-state behavior and independent review remain unverified."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
