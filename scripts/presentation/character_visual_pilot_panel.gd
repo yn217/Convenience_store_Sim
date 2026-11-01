@@ -72,12 +72,18 @@ func _select_entry(snapshot: Dictionary) -> Dictionary:
 	if event_id == "evt_neighbor_mentions":
 		return _find("event_neighbor_mentions")
 	if event_id == "evt_quiet_street":
-		return _find("fullbody_dynamic_201")
+		return _find("reaction_deadpan")
 	if story_cue == "story_sold_out":
 		return _find("functional_sold_out")
+	if story_cue == "story_queue_giveup":
+		return _find("reaction_pleading")
+	if story_cue == "story_staff_short":
+		return _find("reaction_pleading")
 	if story_cue == "story_event":
 		return _find("event_neighbor_mentions")
-	if story_cue in ["story_start", "story_register", "story_first_restock"]:
+	if story_cue == "story_start":
+		return _find("reaction_discovery")
+	if story_cue in ["story_register", "story_first_restock"]:
 		return _find("fullbody_tutorial_layout")
 	if story_cue in ["story_first_sale", "story_first_profit"]:
 		return _find("fullbody_emotion_05")
