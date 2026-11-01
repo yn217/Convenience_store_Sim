@@ -1,5 +1,7 @@
 # ComfyUI追加334枚の実装割り当て仕様（2026-11-01）
-対象: [COMFYUI_334_IMAGE_PLACEMENT_20261101.csv](COMFYUI_334_IMAGE_PLACEMENT_20261101.csv)。参照元: `assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/generation_manifest.json`。
+対象: [COMFYUI_334_IMAGE_PLACEMENT_20261101.csv](COMFYUI_334_IMAGE_PLACEMENT_20261101.csv) / [COMFYUI_334_IMAGE_PLACEMENT_20261101.json](COMFYUI_334_IMAGE_PLACEMENT_20261101.json)。参照元: `assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/generation_manifest.json`。
+
+CSVが人間編集用の正本で、JSONは `python tools/assets/export_comfyui_334_placement.py` で再生成する。JSONの`runtime_approved`は常に`false`で、配置提案とランタイム採用承認を分離する。
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
 
