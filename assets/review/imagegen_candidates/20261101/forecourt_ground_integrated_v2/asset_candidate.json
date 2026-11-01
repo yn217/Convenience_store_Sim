@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "asset_id": "forecourt_ground_integrated_v2",
+  "asset_class": "exterior_group",
+  "requested_subject": "日本のコンビニ前の歩道・縁石・駐車区画・道路を含む、薄い連続外構地面スプライト",
+  "actual_subject": "歩道と縁石、駐車区画ラインを描いた単一の菱形状地面プレート",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2154884,
+    "sha256": "bf8ff040465999ee26e599c324007bc5777ff01f16cb2d78b445fd300b62c7ff",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "byte_size": 2154884,
+      "sha256": "bf8ff040465999ee26e599c324007bc5777ff01f16cb2d78b445fd300b62c7ff",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "checkerboard_review.jpg",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "manifest",
+      "path": "asset_candidate.json",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "blocked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Visual only: sidewalk, curb, asphalt and parking markings are clear.",
+      "Silhouette estimates roughly 1.7:1; no iso2x_v1 control-point guide or world-size data, so projection is unverified.",
+      "The curb/platform side is visibly thicker than the requested <2% appearance.",
+      "Nonzero alpha touches left and bottom canvas boundaries; source has no safe transparent margin at those edges. No cleanup was applied.",
+      "Do not adopt or runtime-enable. Regenerate with control-point guides, flatter edge profile and transparent safety margin; do not mask issues with rescaling."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

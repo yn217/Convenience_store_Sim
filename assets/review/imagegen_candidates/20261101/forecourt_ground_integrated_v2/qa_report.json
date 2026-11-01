@@ -1,0 +1,31 @@
+{
+  "asset_id": "forecourt_ground_integrated_v2",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    35,
+    1493,
+    1024
+  ],
+  "alpha_touches_canvas_edges": {
+    "left": true,
+    "top": false,
+    "right": false,
+    "bottom": true
+  },
+  "source_sha256": "bf8ff040465999ee26e599c324007bc5777ff01f16cb2d78b445fd300b62c7ff",
+  "projection": "blocked: estimated rhombus edge slopes about 0.57-0.60 (visual only); target iso2x_v1 not calibrated; no world control points or Godot view",
+  "geometry": "fail: curb/platform side visibly exceeds requested <2% of footprint; real-world dimensions and anchor absent",
+  "content": "pass: sidewalk, curb, asphalt, parking-bay markings are legible",
+  "alpha": "fail: object boundary reaches left and bottom canvas edge, leaving no safe transparent margin; no cleanup applied",
+  "decision": "review-only fail; regenerate with iso2x_v1 projection guide, lower edge thickness and larger transparent padding",
+  "runtime_approved": false,
+  "github_uploaded": false
+}
