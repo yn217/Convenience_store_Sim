@@ -24,7 +24,7 @@
       "byte_size": 1186531,
       "sha256": "ad25b1b3bad337977b9ee440a221d966b8b8da93c7f8cf6614fac74d0e8a0f7b",
       "git_blob_sha": "655277ff0bbfd2ee1b8b32a2017bc14e381de4d7",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "sprite_fullres",
@@ -32,7 +32,7 @@
       "byte_size": 1163666,
       "sha256": "7c37605290a82ad3cfbd1555229e7c94d3d482dc8ee3df637d9b8ce7184fdf12",
       "git_blob_sha": "b0f9ac7452efe39797a3579489fd7afe2c84e211",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
@@ -40,7 +40,7 @@
       "byte_size": 313400,
       "sha256": "c5fc10f678367492910a1db448d0f5e062bb1e0b7f844086e7b40d8c25e4639a",
       "git_blob_sha": "a0fc2fa9b4ff1763ecb6688e570dee6736da40cf",
-      "github_uploaded": false
+      "github_uploaded": true
     }
   ],
   "projection": {
@@ -82,4 +82,4 @@
     "branch": "art/chatgpt-interior-open-gondola-20261028"
   },
   "runtime_approved": false
-}
+}\n
