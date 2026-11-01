@@ -132,6 +132,16 @@ The 47 PNGs under `assets/runtime/character_pilot/derived_alpha` were reviewed t
 
 The three bust-up reactions remain held because generated bubbles/symbols are still present in the source-derived pixels. Godot's independent symbol layer remains authoritative, so these candidates are not promoted or added to the runtime registry until a clean derivation and detailed hand/edge review are available.
 
+### Individual functional-pose spot checks
+
+| Candidate | Coarse alpha / costume result | Remaining review item | State |
+|---|---|---|---|
+| `functional_low_stock` | White blouse, apron, both odango buns, trousers, and boots retained | Clipboard-to-forearm contact and hand anatomy | placement candidate; hand review pending |
+| `functional_sold_out` | White sleeves and both arms remain visible; silhouette is clean | Finger count/shape on both open hands | placement candidate; hand review pending |
+| `functional_queue` | White blouse, clipboard, shoes, and outer silhouette retained | Fingers around the clipboard and wrist connection | placement candidate; hand review pending |
+
+These spot checks do not change `runtime_approved`; the assets remain available through the pilot route only.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.
