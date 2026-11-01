@@ -69,6 +69,7 @@ This review covers the 47-image pilot. The remaining 287 candidates stay review-
 - The sampled full-body candidate preserves both odango buns and the uniform, but the white background is still opaque. Alpha extraction must be a separate derived step and must preserve the white blouse, hands, and shoe edges.
 - The sampled bust-up candidate communicates surprise, but its generated speech bubble and punctuation are not production UI. Godot should own the symbol/text overlay.
 - No candidate is approved for production replacement until the user reviews the gallery at the target resolutions.
+- Functional pose QC: No.001 was selected for the opening greeting after checking its full-body framing. No.008 remains review-only because the raised hands use strong foreshortening and unstable finger anatomy; No.009 remains review-only because the camera is too close and the body is dominated by the upper torso. Neither candidate is connected to runtime.
 
 ## Runtime cue overlay
 
