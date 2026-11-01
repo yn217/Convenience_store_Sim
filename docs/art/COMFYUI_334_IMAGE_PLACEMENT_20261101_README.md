@@ -43,6 +43,8 @@ Godot_v4.7.2-stable_win64_console.exe --path . --resolution 1280x720 --script re
 
 続けて`functional_017`〜`functional_024`の8件も透過処理し、全件で同じRGBA・アルファ条件を確認した。代表`functional_024`のMain配置確認は`build/pilot_candidate_functional_024_alpha_1280.png`である。
 
+`functional_025`〜`functional_032`の8件も同様に処理・検査し、代表`functional_032`を`build/pilot_candidate_functional_032_alpha_1280.png`でMain表示確認した。
+
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
 
