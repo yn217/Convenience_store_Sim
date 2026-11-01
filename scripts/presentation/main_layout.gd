@@ -21,6 +21,8 @@ const BOTTOM_HEIGHT := 108                       # the summary cards (MetricBar.
 const WINDOW_SIZE := Vector2(980, 640)
 ## Tab id -> icon (UiIcons) on the window's tab buttons.
 const TAB_ICONS := {"商品": "box", "経営": "wallet", "店員": "users", "データ": "bar-chart", "設定": "gear"}
+## Management tab <-> the mockup chrome's tab / menu ids.
+const CHROME_TAB := {"商品": "goods", "経営": "management", "店員": "staff", "データ": "data", "設定": "settings"}
 ## Section title -> ribbon colour in the window (the rest alternate blue / brown).
 const RIBBON_BROWN := ["販売価格", "販促", "店頭くじ", "売れ筋ランキング", "表示モード (O)"]
 const NO_TILE := Vector2i(-1, -1)
@@ -39,6 +41,8 @@ var _dimmer: ColorRect
 var _window: PanelContainer
 var _tabs: TabContainer
 var _pages: Dictionary = {}   # tab name -> VBoxContainer the cards are moved into
+var _chrome: MockupChrome     # the mockup chrome (2026-11-01); null when its images are missing
+var _window_header: Control
 
 
 func _ready() -> void:
@@ -62,6 +66,7 @@ func _ready() -> void:
 	_floats.setup()
 	_floats.jump_requested.connect(_on_alert_jump)
 	_build_screen_window()
+	_build_chrome()
 	_layout_overlay()
 	# The inspector window follows its content height: refit when its content or the window size changes.
 	_inspector.get_node("Scroll/Body").minimum_size_changed.connect(_fit_inspector)
@@ -118,6 +123,10 @@ func _layout_overlay() -> void:
 	# Camera safe area: the store is fitted between the rail and the right edge, under the HUD and above the summary,
 	# so it sits centred in the space the floating UI leaves. Panels that open later overlay the store.
 	_world.safe_inset = Vector4(rail_right + GAP, UiTheme.HUD_HEIGHT + GAP, GAP, BOTTOM_HEIGHT)
+	if _chrome != null:   # the mockup's menu, top bar and bottom bar take more room
+		_world.safe_inset = Vector4(250, 80, GAP, 166)
+		_floats.column_top = 80 + GAP
+		_floats.column_bottom = 166 + GAP
 	_world.fit_view()
 
 
@@ -347,6 +356,9 @@ func _apply_mode() -> void:
 	_fit_inspector()
 	_dimmer.visible = ui.is_screen()
 	_window.visible = ui.is_screen()
+	if _chrome != null:
+		_chrome.set_window(ui.is_screen(), CHROME_TAB.get(ui.screen_tab, "goods"))
+		_chrome.set_nav("store" if ui.is_build() or ui.is_selected() else (CHROME_TAB.get(ui.screen_tab, "") if ui.is_screen() else ""))
 	if ui.is_screen():
 		_ribbon_headings()
 		var tab_index := SCREEN_TABS.find(ui.screen_tab)
@@ -366,6 +378,77 @@ func _rail_id_of_tab(tab: String) -> String:
 		if RAIL_TAB[id] == tab:
 			return id
 	return ""
+
+
+# --- mockup chrome ----------------------------------------------------------------------------------------
+
+## The 2026-11-01 mockup's chrome over the store (MockupChrome): it replaces the look of the HUD band, the rail and the
+## summary strip (those stay in the tree, hidden, and still hold the state the tests read), and frames the management
+## window, whose pages are laid into the frame's content area.
+func _build_chrome() -> void:
+	if not MockupChrome.available():
+		return
+	_chrome = MockupChrome.new()
+	add_child(_chrome)
+	move_child(_chrome, _dimmer.get_index() + 1)   # above the dimmer (the menu stays usable), under the window pages
+	$Layout/TopHUD.visible = false
+	_nav.visible = false
+	_summary.visible = false
+	_dimmer.color = Color(0, 0, 0, 0)   # the mockup does not dim the store behind the window
+	_window_header.visible = false
+	_tabs.tabs_visible = false
+	_window.theme_type_variation = &""
+	_window.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	_window.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_window.grow_horizontal = Control.GROW_DIRECTION_END
+	_window.grow_vertical = Control.GROW_DIRECTION_END
+	_window.custom_minimum_size = MockupChrome.CONTENT.size
+	_window.position = MockupChrome.CONTENT.position
+	_window.size = MockupChrome.CONTENT.size
+	var hud := $Layout/TopHUD as GameHud
+	_chrome.nav_pressed.connect(_on_chrome_nav)
+	_chrome.tab_pressed.connect(_on_chrome_tab)
+	_chrome.close_pressed.connect(close_screen)
+	_chrome.speed_pressed.connect(func(speed: int): hud.speed_requested.emit(speed))
+	_chrome.pause_pressed.connect(func(): hud._on_pause_pressed())
+	_chrome.corner_pressed.connect(_on_chrome_corner)
+
+
+func _on_chrome_nav(id: String) -> void:
+	match id:
+		"store", "equipment":
+			if ui.is_screen():
+				close_screen()
+			toggle_build()
+		"order":
+			open_goods_order()
+		"achievements":
+			open_screen_tab("経営")   # the goals and today's mission live there
+		_:
+			_open_chrome_tab(id)
+
+
+func _on_chrome_tab(id: String) -> void:
+	if id == "store":
+		close_screen()
+		toggle_build()
+		return
+	_open_chrome_tab(id)
+
+
+func _open_chrome_tab(id: String) -> void:
+	for tab in CHROME_TAB:
+		if CHROME_TAB[tab] == id:
+			open_screen_tab(tab)
+			return
+
+
+func _on_chrome_corner(id: String) -> void:
+	match id:
+		"notices":
+			_floats.visible = not _floats.visible
+		"missions":
+			open_screen_tab("経営")
 
 
 # --- management window -------------------------------------------------------------------------------------
@@ -394,6 +477,7 @@ func _build_screen_window() -> void:
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 10)
 	column.add_child(header)
+	_window_header = header
 	var mark := TextureRect.new()
 	mark.texture = UiTheme.tinted(UiIcons.texture("grid", 34), UiTheme.W_TEXT)
 	mark.custom_minimum_size = Vector2(34, 34)

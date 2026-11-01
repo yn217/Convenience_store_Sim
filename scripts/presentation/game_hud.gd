@@ -237,6 +237,10 @@ func apply_snapshot(s: Dictionary) -> void:
 	var floats := get_node_or_null("../../FloatCards")
 	if floats != null:
 		floats.apply_snapshot(s)
+	var chrome := get_node_or_null("../../MockupChrome") as MockupChrome   # the mockup chrome draws the same figures
+	if chrome != null:
+		chrome.days_per_month = days_per_month
+		chrome.apply_snapshot(s)
 	var cash := int(s["cash_yen"])
 	_cash.text = format_yen(cash)
 	if _last_cash != NO_CASH and cash != _last_cash:

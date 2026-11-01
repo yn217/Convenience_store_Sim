@@ -66,9 +66,13 @@ func test_normal_shows_only_the_store_hud_rail_and_summary(t, tree) -> void:
 	t.eq(main.mode_name(), "NORMAL", "starts in normal")
 	var p := _panels(main)
 	t.ok(not p["palette"] and not p["inspector"] and not p["window"] and not p["dimmer"], "no build palette, inspector, window or dimmer in NORMAL")
-	t.ok(main.get_node("Layout/TopHUD").is_visible_in_tree(), "HUD shown")
-	t.ok(main.get_node("Layout/MainArea/LeftNav").is_visible_in_tree(), "rail shown")
-	t.ok(main.find_child("MetricBar", true, false).is_visible_in_tree(), "summary shown")
+	# 2026-11-01 mockup: the chrome (top bar, eight menu entries, bottom bar) replaces the look of the HUD, rail and summary.
+	var chrome := main.get_node("MockupChrome") as MockupChrome
+	t.ok(chrome.get_node("Base").is_visible_in_tree(), "the mockup chrome is shown")
+	t.ok(not chrome.is_window_open(), "the window frame and 小春 only come with the window")
+	t.eq(chrome.find_children("nav_*", "TextureButton", true, false).size(), 8, "the menu has its eight entries")
+	t.ok(not main.get_node("Layout/TopHUD").is_visible_in_tree() and not main.get_node("Layout/MainArea/LeftNav").is_visible_in_tree()
+		and not main.find_child("MetricBar", true, false).is_visible_in_tree(), "the old HUD band, rail and summary stay hidden")
 	t.eq(main.get_node("Layout/MainArea/LeftNav").entry_count(), 6, "rail has its entries")
 	main.queue_free()
 	await tree.process_frame
@@ -220,25 +224,14 @@ func test_rail_floats_under_the_hud_and_fits_its_entries(t, tree) -> void:
 ## The four summary cards form one centred row 12 px above the bottom edge, and only the cards take mouse input.
 func test_summary_cards_are_a_centred_row_above_the_bottom(t, tree) -> void:
 	var main := await _boot(tree)
-	var bar := main.find_child("MetricBar", true, false) as Control
+	var chrome := main.get_node("MockupChrome") as MockupChrome
 	var window: Vector2 = main.get_viewport_rect().size
-	var goal := bar.find_child("GoalCard", true, false) as Control
-	var event := bar.find_child("EventCard", true, false) as Control
-	var metrics: Array = bar.find_child("Metrics", true, false).get_children()
-	t.eq(metrics.size(), 4, "four metric cards")
-	var first: Rect2 = goal.get_global_rect()
-	var last: Rect2 = event.get_global_rect()
-	t.ok(absf(window.y - 16.0 - first.end.y) <= 1.0, "the cards sit inside the band (4 px in, the band ends 12 px above the edge)")
-	t.ok(absf(window.y - 16.0 - last.end.y) <= 1.0, "the event card ends at the same line")
-	var band_rect: Rect2 = bar.get_global_rect()
-	t.ok(absf(band_rect.position.x - 12.0) <= 1.0 and absf(window.x - 12.0 - band_rect.end.x) <= 1.0, "one band spans the window with 12 px sides")
-	t.ok(first.position.x - band_rect.position.x <= 20.0 and band_rect.end.x - last.end.x <= 20.0, "the goal card and the event card sit at the band's two ends")
-	for c in [goal, event] + metrics:
-		var card := c as Control
-		t.eq(card.mouse_filter, Control.MOUSE_FILTER_STOP, "cards stop the mouse")
-	for c in metrics:
-		t.ok((c as Control).get_global_rect().size.x >= 150.0 and (c as Control).get_global_rect().size.x <= 220.0, "KPI tile is at least 150 px wide")
-	t.eq(bar.mouse_filter, Control.MOUSE_FILTER_STOP, "the band is one strip that takes the mouse")
-	t.ok(_blockers_at(main, Vector2(window.x * 0.5, window.y - 130.0)).is_empty(), "the space just above the cards is not blocked")
+	var band := chrome.get_node("Base/bottom_bar") as Control
+	var rect := band.get_global_rect()
+	t.ok(absf(rect.end.y - window.y) <= 1.0 and rect.size.x >= window.x - 1.0, "the bottom bar spans the window at its bottom edge")
+	for id in ["Goal", "GoalPercent", "MSales", "MProfit", "MCustomers", "MUnit", "EventTitle", "EventLine"]:
+		t.ok(chrome.label(id) != null and rect.encloses(chrome.label(id).get_global_rect()), "%s is drawn on the bottom bar" % id)
+	t.eq(band.mouse_filter, Control.MOUSE_FILTER_STOP, "the band takes the mouse")
+	t.ok(_blockers_at(main, Vector2(window.x * 0.5, rect.position.y - 30.0)).is_empty(), "the space just above the bar is not blocked")
 	main.queue_free()
 	await tree.process_frame
