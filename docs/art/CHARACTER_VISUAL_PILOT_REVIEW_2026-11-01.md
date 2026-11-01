@@ -4,12 +4,12 @@ Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
 
 ## Scope
 
-This review covers the 31-image pilot. The remaining 303 candidates stay review-only and are not loaded by the pilot registry.
+This review covers the 33-image pilot. The remaining 301 candidates stay review-only and are not loaded by the pilot registry.
 
 ## Automated checks
 
-- Registry entries: 31
-- Runtime pilot PNGs: 31
+- Registry entries: 33
+- Runtime pilot PNGs: 33
 - Duplicate logical IDs: 0
 - Missing runtime paths: 0
 - Title candidate: 1344x768
@@ -52,6 +52,8 @@ This review covers the 31-image pilot. The remaining 303 candidates stay review-
 | `functional_ten_sales` | functional pose | SCR-18 / `ms_ten_sales` | review pending; milestone presentation |
 | `functional_fifty_visitors` | functional pose | SCR-18 / `ms_fifty_visitors` | review pending; milestone presentation |
 | `functional_six_categories` | functional pose | SCR-18 / `ms_six_categories` | review pending; milestone presentation |
+| `functional_stock_challenge` | functional pose | SCR-18 / `challenge_stock_2` | review pending; daily challenge presentation |
+| `functional_no_waste` | functional pose | SCR-18 / `challenge_no_waste` | review pending; daily challenge presentation |
 
 ## Visual observations
 
@@ -62,7 +64,7 @@ This review covers the 31-image pilot. The remaining 303 candidates stay review-
 
 ## Next gate
 
-1. Open the review gallery scene and inspect all 31 candidates.
+1. Open the review gallery scene and inspect all 33 candidates.
 2. Select/reject each candidate in the registry without changing Domain state.
 3. Create derived alpha PNGs only for approved full-body/bust-up images.
 4. Compare the title candidate at 1920x1080, 1600x900, and 1280x720 before connecting it to the title screen.
