@@ -152,6 +152,10 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	await tree.process_frame
 	t.ok(pc._stage.visible, "low-stock warning remains visible over an open management screen")
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_low_stock.png", "open management screen uses the low-stock pilot pose")
+	player.pilot_cue_requested.emit("expiry_notice", {})
+	await tree.process_frame
+	t.ok(pc._stage.visible, "expiry warning remains visible over an open management screen")
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_expiry.png", "open management screen uses the expiry pilot pose")
 	pc._pilot_cue_timer.stop()
 	pc._clear_pilot_cue()
 	main.queue_free()
