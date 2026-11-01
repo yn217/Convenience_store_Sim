@@ -31,7 +31,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_pose_202",
@@ -58,7 +59,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_203",
@@ -84,8 +86,9 @@
       "use_case_ja": "実績解除したとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_204",
@@ -111,8 +114,9 @@
       "use_case_ja": "開店時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 3,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_205",
@@ -138,8 +142,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 6,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_206",
@@ -166,7 +171,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 6,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_207",
@@ -193,7 +199,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_208",
@@ -219,8 +226,9 @@
       "use_case_ja": "開店時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 4,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_209",
@@ -246,8 +254,9 @@
       "use_case_ja": "実績解除したとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 3,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_210",
@@ -274,7 +283,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_211",
@@ -301,7 +311,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_212",
@@ -328,7 +339,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_213",
@@ -355,7 +367,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_214",
@@ -382,7 +395,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_215",
@@ -409,7 +423,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_216",
@@ -436,7 +451,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_217",
@@ -463,7 +479,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 7,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_218",
@@ -490,7 +507,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_219",
@@ -517,7 +535,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_220",
@@ -544,7 +563,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_221",
@@ -570,7 +590,9 @@
       "use_case_ja": "将来機能で「store_cleaning_task」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_pose_222",
@@ -597,7 +619,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_223",
@@ -624,7 +647,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 6,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_224",
@@ -651,7 +675,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_225",
@@ -677,8 +702,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 6,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 7,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_226",
@@ -705,7 +731,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_227",
@@ -731,7 +758,9 @@
       "use_case_ja": "将来機能で「store_cleaning_task」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_pose_228",
@@ -757,7 +786,9 @@
       "use_case_ja": "将来機能で「food_hygiene_preparation」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_pose_229",
@@ -784,7 +815,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 7,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_pose_230",
@@ -811,7 +843,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_231",
@@ -838,7 +871,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_232",
@@ -865,7 +899,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_233",
@@ -892,7 +927,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_234",
@@ -918,8 +954,9 @@
       "use_case_ja": "実績解除・初売上で「customers_milestone」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_pose_235",
@@ -945,8 +982,9 @@
       "use_case_ja": "実績解除したとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 4,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_236",
@@ -972,7 +1010,9 @@
       "use_case_ja": "将来機能で「staff_shortage_notice」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_pose_237",
@@ -999,7 +1039,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_238",
@@ -1026,7 +1067,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_239",
@@ -1053,7 +1095,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_240",
@@ -1080,7 +1123,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_241",
@@ -1106,8 +1150,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 7,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 8,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_242",
@@ -1134,7 +1179,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_243",
@@ -1161,7 +1207,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_244",
@@ -1187,8 +1234,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 8,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 9,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_245",
@@ -1215,7 +1263,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_246",
@@ -1242,7 +1291,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 6,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_247",
@@ -1268,7 +1318,9 @@
       "use_case_ja": "将来機能で「store_expansion_panel_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_pose_248",
@@ -1295,7 +1347,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_249",
@@ -1321,8 +1374,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 9,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 10,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_pose_250",
@@ -1349,7 +1403,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 6,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_01",
@@ -1376,7 +1431,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_02",
@@ -1403,7 +1459,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_05",
@@ -1430,7 +1487,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_06",
@@ -1456,7 +1514,9 @@
       "use_case_ja": "予備（生成情報未確認）：MILESTONE_REACHED",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_emotion_07",
@@ -1482,8 +1542,9 @@
       "use_case_ja": "口コミ・評判イベント",
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_08",
@@ -1510,7 +1571,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_09",
@@ -1537,7 +1599,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_10",
@@ -1563,8 +1626,9 @@
       "use_case_ja": "口コミ・評判イベント",
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 3,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_11",
@@ -1591,7 +1655,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_12",
@@ -1618,7 +1683,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_13",
@@ -1645,7 +1711,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_14",
@@ -1672,7 +1739,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_15",
@@ -1699,7 +1767,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_16",
@@ -1726,7 +1795,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_18",
@@ -1753,7 +1823,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_19",
@@ -1780,7 +1851,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_20",
@@ -1807,7 +1879,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_22",
@@ -1834,7 +1907,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_23",
@@ -1861,7 +1935,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_24",
@@ -1888,7 +1963,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_26",
@@ -1915,7 +1991,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_27",
@@ -1942,7 +2019,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_28",
@@ -1969,7 +2047,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_30",
@@ -1996,7 +2075,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_31",
@@ -2023,7 +2103,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_32",
@@ -2050,7 +2131,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_33",
@@ -2077,7 +2159,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_35",
@@ -2104,7 +2187,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_36",
@@ -2131,7 +2215,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_37",
@@ -2158,7 +2243,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_38",
@@ -2184,7 +2270,9 @@
       "use_case_ja": "将来機能で「rival_store_notice」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_emotion_39",
@@ -2210,8 +2298,9 @@
       "use_case_ja": "購入資金不足時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_40",
@@ -2238,7 +2327,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_41",
@@ -2265,7 +2355,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_42",
@@ -2291,7 +2382,9 @@
       "use_case_ja": "予備（生成情報未確認）：assistant_emotion_reserve",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_emotion_43",
@@ -2318,7 +2411,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_44",
@@ -2344,7 +2438,9 @@
       "use_case_ja": "予備（生成情報未確認）：assistant_emotion_reserve",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_emotion_45",
@@ -2370,7 +2466,9 @@
       "use_case_ja": "将来機能で「rival_store_notice」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_emotion_46",
@@ -2397,7 +2495,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_47",
@@ -2424,7 +2523,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_48",
@@ -2451,7 +2551,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_emotion_49",
@@ -2478,7 +2579,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_01",
@@ -2504,8 +2606,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_02",
@@ -2532,7 +2635,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_03",
@@ -2559,7 +2663,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_04",
@@ -2586,7 +2691,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_05",
@@ -2613,7 +2719,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_06",
@@ -2640,7 +2747,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_07",
@@ -2667,7 +2775,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 6,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_08",
@@ -2694,7 +2803,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_09",
@@ -2721,7 +2831,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_10",
@@ -2747,8 +2858,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 3,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_11",
@@ -2775,7 +2887,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_12",
@@ -2802,7 +2915,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 7,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_13",
@@ -2829,7 +2943,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_14",
@@ -2856,7 +2971,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_15",
@@ -2883,7 +2999,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_16",
@@ -2909,7 +3026,9 @@
       "use_case_ja": "予備（生成情報未確認）：assistant_static_reserve",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_live2d_17",
@@ -2935,8 +3054,9 @@
       "use_case_ja": "口コミ・評判イベント",
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 4,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_18",
@@ -2963,7 +3083,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_19",
@@ -2989,8 +3110,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 4,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_20",
@@ -3016,7 +3138,9 @@
       "use_case_ja": "予備（生成情報未確認）：assistant_static_reserve",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_live2d_21",
@@ -3043,7 +3167,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_22",
@@ -3070,7 +3195,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 8,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_23",
@@ -3097,7 +3223,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_24",
@@ -3124,7 +3251,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_25",
@@ -3151,7 +3279,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_26",
@@ -3178,7 +3307,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_27",
@@ -3205,7 +3335,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_28",
@@ -3232,7 +3363,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_29",
@@ -3259,7 +3391,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_30",
@@ -3286,7 +3419,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_31",
@@ -3313,7 +3447,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_32",
@@ -3340,7 +3475,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_33",
@@ -3367,7 +3503,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_34",
@@ -3393,7 +3530,9 @@
       "use_case_ja": "予備（生成情報未確認）：assistant_static_reserve",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_live2d_35",
@@ -3420,7 +3559,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_36",
@@ -3447,7 +3587,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_37",
@@ -3474,7 +3615,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_38",
@@ -3501,7 +3643,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_39",
@@ -3528,7 +3671,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_40",
@@ -3555,7 +3699,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_41",
@@ -3582,7 +3727,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_42",
@@ -3608,8 +3754,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 5,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_43",
@@ -3636,7 +3783,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_44",
@@ -3663,7 +3811,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_45",
@@ -3690,7 +3839,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_46",
@@ -3717,7 +3867,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_47",
@@ -3744,7 +3895,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 9,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_48",
@@ -3771,7 +3923,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_live2d_49",
@@ -3798,7 +3951,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_02",
@@ -3825,7 +3979,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_03",
@@ -3852,7 +4007,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_05",
@@ -3878,7 +4034,9 @@
       "use_case_ja": "将来機能で「bento_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_06",
@@ -3905,7 +4063,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_08",
@@ -3932,7 +4091,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_09",
@@ -3959,7 +4119,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_10",
@@ -3986,7 +4147,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_12",
@@ -4013,7 +4175,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_13",
@@ -4040,7 +4203,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_14",
@@ -4066,7 +4230,9 @@
       "use_case_ja": "予備（生成情報未確認）：product_category_selected:drink",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_15",
@@ -4093,7 +4259,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_16",
@@ -4120,7 +4287,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_17",
@@ -4147,7 +4315,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_18",
@@ -4174,7 +4343,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 6,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_19",
@@ -4201,7 +4371,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 7,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_20",
@@ -4228,7 +4399,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_22",
@@ -4255,7 +4427,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_23",
@@ -4281,7 +4454,9 @@
       "use_case_ja": "将来機能で「soup_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_24",
@@ -4307,7 +4482,9 @@
       "use_case_ja": "将来機能で「retort_curry_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_25",
@@ -4334,7 +4511,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_26",
@@ -4361,7 +4539,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_27",
@@ -4387,7 +4566,9 @@
       "use_case_ja": "予備（生成情報未確認）：product_category_selected:snack",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_28",
@@ -4414,7 +4595,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_29",
@@ -4441,7 +4623,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_30",
@@ -4468,7 +4651,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_31",
@@ -4495,7 +4679,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_32",
@@ -4522,7 +4707,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_33",
@@ -4549,7 +4735,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_34",
@@ -4575,7 +4762,9 @@
       "use_case_ja": "予備（生成情報未確認）：product_category_selected:dessert",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_35",
@@ -4602,7 +4791,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_36",
@@ -4629,7 +4819,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_37",
@@ -4656,7 +4847,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_product_38",
@@ -4682,7 +4874,9 @@
       "use_case_ja": "将来機能で「tissue_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_39",
@@ -4708,7 +4902,9 @@
       "use_case_ja": "将来機能で「wet_wipes_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_40",
@@ -4734,7 +4930,9 @@
       "use_case_ja": "将来機能で「toothpaste_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_41",
@@ -4760,7 +4958,9 @@
       "use_case_ja": "将来機能で「toothbrush_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_42",
@@ -4786,7 +4986,9 @@
       "use_case_ja": "将来機能で「bandage_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_43",
@@ -4812,7 +5014,9 @@
       "use_case_ja": "将来機能で「face_mask_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_44",
@@ -4838,7 +5042,9 @@
       "use_case_ja": "将来機能で「battery_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_45",
@@ -4864,7 +5070,9 @@
       "use_case_ja": "将来機能で「flashlight_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_46",
@@ -4890,7 +5098,9 @@
       "use_case_ja": "将来機能で「umbrella_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_47",
@@ -4916,7 +5126,9 @@
       "use_case_ja": "将来機能で「shopping_bag_catalog_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_48",
@@ -4942,7 +5154,9 @@
       "use_case_ja": "将来機能で「lucky_bag_campaign」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_49",
@@ -4968,7 +5182,9 @@
       "use_case_ja": "将来機能で「capsule_toy_panel_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_product_50",
@@ -4994,7 +5210,9 @@
       "use_case_ja": "予備（生成情報未確認）：unspecified_product_reserve",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_02",
@@ -5021,7 +5239,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_04",
@@ -5048,7 +5267,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_05",
@@ -5074,8 +5294,9 @@
       "use_case_ja": "開店時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_06",
@@ -5102,7 +5323,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_07",
@@ -5129,7 +5351,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_09",
@@ -5156,7 +5379,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_10",
@@ -5183,7 +5407,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_11",
@@ -5210,7 +5435,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_12",
@@ -5236,8 +5462,9 @@
       "use_case_ja": "チュートリアル手順02",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_13",
@@ -5264,7 +5491,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_14",
@@ -5291,7 +5519,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_15",
@@ -5318,7 +5547,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_16",
@@ -5345,7 +5575,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_17",
@@ -5372,7 +5603,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_18",
@@ -5399,7 +5631,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_20",
@@ -5426,7 +5659,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_21",
@@ -5453,7 +5687,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_22",
@@ -5479,8 +5714,9 @@
       "use_case_ja": "口コミ・評判イベント",
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 5,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_23",
@@ -5507,7 +5743,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 10,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_24",
@@ -5534,7 +5771,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_25",
@@ -5561,7 +5799,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_26",
@@ -5587,7 +5826,9 @@
       "use_case_ja": "将来機能で「receipt_handover」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_28",
@@ -5613,7 +5854,9 @@
       "use_case_ja": "将来機能で「shopping_bag_handover」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_29",
@@ -5639,7 +5882,9 @@
       "use_case_ja": "将来機能で「bagging_start」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_30",
@@ -5665,7 +5910,9 @@
       "use_case_ja": "将来機能で「bag_request_prompt」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_31",
@@ -5692,7 +5939,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_33",
@@ -5719,7 +5967,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_34",
@@ -5746,7 +5995,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_35",
@@ -5773,7 +6023,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_36",
@@ -5799,7 +6050,9 @@
       "use_case_ja": "将来機能で「child_customer_greeting」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_37",
@@ -5825,7 +6078,9 @@
       "use_case_ja": "将来機能で「elderly_customer_assistance」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_38",
@@ -5852,7 +6107,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_39",
@@ -5879,7 +6135,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_40",
@@ -5905,7 +6162,9 @@
       "use_case_ja": "将来機能で「new_store_service_presentation」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_41",
@@ -5932,7 +6191,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_42",
@@ -5958,7 +6218,9 @@
       "use_case_ja": "将来機能で「lost_item_noticed」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_43",
@@ -5984,7 +6246,9 @@
       "use_case_ja": "将来機能で「lost_item_returned」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_44",
@@ -6010,7 +6274,9 @@
       "use_case_ja": "将来機能で「supplier_delivery_arrived」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_45",
@@ -6036,7 +6302,9 @@
       "use_case_ja": "将来機能で「supplier_delivery_verified」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_46",
@@ -6062,7 +6330,9 @@
       "use_case_ja": "将来機能で「reservation_pickup」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_service_47",
@@ -6089,7 +6359,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_49",
@@ -6116,7 +6387,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 11,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_service_50",
@@ -6143,7 +6415,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "context_variant_candidate",
       "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_001",
@@ -6170,7 +6443,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_fun_002",
@@ -6196,8 +6470,9 @@
       "use_case_ja": "チュートリアル手順02",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_003",
@@ -6224,7 +6499,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_004",
@@ -6251,7 +6527,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_005",
@@ -6278,7 +6555,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_006",
@@ -6305,7 +6583,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_007",
@@ -6332,7 +6611,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_008",
@@ -6358,8 +6638,9 @@
       "use_case_ja": "開店時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_fun_009",
@@ -6386,7 +6667,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_fun_010",
@@ -6413,7 +6695,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_011",
@@ -6440,7 +6723,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_012",
@@ -6467,7 +6751,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_013",
@@ -6493,7 +6778,9 @@
       "use_case_ja": "暑い日イベント",
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_014",
@@ -6520,7 +6807,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_015",
@@ -6547,7 +6835,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_016",
@@ -6574,7 +6863,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_017",
@@ -6599,8 +6889,9 @@
       "use_case_ja": "口コミ・評判イベント",
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
-      "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_018",
@@ -6626,7 +6917,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_019",
@@ -6652,7 +6944,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_020",
@@ -6678,7 +6971,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_021",
@@ -6704,7 +6998,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_022",
@@ -6730,7 +7025,8 @@
       "display_duration_policy": "event_panel_lifetime",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_023",
@@ -6755,8 +7051,9 @@
       "use_case_ja": "在庫が少ないとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_024",
@@ -6782,7 +7079,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_025",
@@ -6807,7 +7105,9 @@
       "use_case_ja": "期限切れが発生したとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_026",
@@ -6832,8 +7132,9 @@
       "use_case_ja": "レジ行列が長いとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 5,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_027",
@@ -6858,8 +7159,9 @@
       "use_case_ja": "買わずに退店したとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_028",
@@ -6884,8 +7186,9 @@
       "use_case_ja": "購入資金不足時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_029",
@@ -6911,7 +7214,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_030",
@@ -6937,7 +7241,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_031",
@@ -6962,8 +7267,9 @@
       "use_case_ja": "店長アシスタント待機時",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 10,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_032",
@@ -6989,7 +7295,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_033",
@@ -7015,7 +7322,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_034",
@@ -7041,7 +7349,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_035",
@@ -7067,7 +7376,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_036",
@@ -7092,8 +7402,9 @@
       "use_case_ja": "実績解除したとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_037",
@@ -7118,7 +7429,9 @@
       "use_case_ja": "日次収支・経営帳票で「daily_profit_positive」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_038",
@@ -7143,8 +7456,9 @@
       "use_case_ja": "実績解除・初売上で「customers_milestone」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 1,
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_039",
@@ -7170,7 +7484,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_040",
@@ -7195,7 +7510,9 @@
       "use_case_ja": "日末まとめで「daily_profit_positive」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_041",
@@ -7221,7 +7538,8 @@
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "function_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_fun_042",
@@ -7246,7 +7564,9 @@
       "use_case_ja": "将来機能で「staff_recruitment_panel_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_043",
@@ -7271,7 +7591,9 @@
       "use_case_ja": "将来機能で「staff_shift_panel_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_044",
@@ -7296,7 +7618,9 @@
       "use_case_ja": "将来機能で「staff_fatigue_warning」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_045",
@@ -7321,7 +7645,9 @@
       "use_case_ja": "将来機能で「store_expansion_panel_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_046",
@@ -7346,7 +7672,9 @@
       "use_case_ja": "将来機能で「rival_store_notice」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_047",
@@ -7371,7 +7699,9 @@
       "use_case_ja": "将来機能で「promotion_panel_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_048",
@@ -7396,7 +7726,9 @@
       "use_case_ja": "将来機能で「capsule_toy_panel_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_049",
@@ -7421,7 +7753,9 @@
       "use_case_ja": "将来機能で「regional_products_open」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_fun_050",
@@ -7446,7 +7780,9 @@
       "use_case_ja": "将来機能で「map_location_selection」の状態になったとき",
       "display_duration_policy": "until_cue_or_panel_changes",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_react_001",
@@ -7473,7 +7809,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_react_002",
@@ -7500,7 +7837,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_react_003",
@@ -7527,7 +7865,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_004",
@@ -7554,7 +7893,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_005",
@@ -7581,7 +7921,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_006",
@@ -7608,7 +7949,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_007",
@@ -7635,7 +7977,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_008",
@@ -7662,7 +8005,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_009",
@@ -7689,7 +8033,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_010",
@@ -7716,7 +8061,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_011",
@@ -7743,7 +8089,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_012",
@@ -7769,8 +8116,9 @@
       "use_case_ja": "レジ行列が長いとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_013",
@@ -7796,7 +8144,9 @@
       "use_case_ja": "将来機能で「staff_fatigue_warning」の状態になったとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_react_014",
@@ -7823,7 +8173,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_015",
@@ -7850,7 +8201,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_016",
@@ -7876,8 +8228,9 @@
       "use_case_ja": "レジ行列が長いとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 3,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_017",
@@ -7903,8 +8256,9 @@
       "use_case_ja": "買わずに退店したとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_018",
@@ -7930,7 +8284,9 @@
       "use_case_ja": "将来機能で「rival_store_notice」の状態になったとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_react_019",
@@ -7957,7 +8313,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_020",
@@ -7984,7 +8341,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_021",
@@ -8011,7 +8369,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_022",
@@ -8038,7 +8397,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_023",
@@ -8064,8 +8424,9 @@
       "use_case_ja": "在庫が少ないとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "variation_rank": 2,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_024",
@@ -8092,7 +8453,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_025",
@@ -8118,8 +8480,9 @@
       "use_case_ja": "レジ行列が長いとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 4,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_026",
@@ -8146,7 +8509,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_027",
@@ -8173,7 +8537,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_028",
@@ -8200,7 +8565,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_029",
@@ -8227,7 +8593,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": true
     },
     {
       "asset_id": "rikka_react_030",
@@ -8254,7 +8621,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_031",
@@ -8280,7 +8648,9 @@
       "use_case_ja": "通常営業・店舗全景で「assistant_surprised」の状態になったとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_react_032",
@@ -8307,7 +8677,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_033",
@@ -8334,7 +8705,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_034",
@@ -8361,7 +8733,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_035",
@@ -8388,7 +8761,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_036",
@@ -8415,7 +8789,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_037",
@@ -8442,7 +8817,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_038",
@@ -8469,7 +8845,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_039",
@@ -8496,7 +8873,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_040",
@@ -8522,7 +8900,9 @@
       "use_case_ja": "将来機能で「staff_fatigue_warning」の状態になったとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "deferred_feature",
-      "priority_role": "deferred_not_in_runtime"
+      "priority_role": "deferred_not_in_runtime",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_react_041",
@@ -8549,7 +8929,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_042",
@@ -8575,8 +8956,9 @@
       "use_case_ja": "レジ行列が長いとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
-      "variation_rank": 4,
-      "priority_role": "candidate_alternate_for_trigger"
+      "variation_rank": 5,
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_043",
@@ -8603,7 +8985,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_044",
@@ -8630,7 +9013,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_045",
@@ -8657,7 +9041,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_046",
@@ -8683,7 +9068,9 @@
       "use_case_ja": "通常営業・店舗全景で「assistant_emotion_reserve」の状態になったとき",
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "reserve_pending_prompt_review",
-      "priority_role": "reserve_unverified_source"
+      "priority_role": "reserve_unverified_source",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_react_047",
@@ -8710,7 +9097,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_048",
@@ -8737,7 +9125,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 2,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_049",
@@ -8764,7 +9153,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 1,
-      "priority_role": "candidate_primary_for_trigger"
+      "priority_role": "candidate_primary_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_react_050",
@@ -8791,7 +9181,8 @@
       "display_duration_policy": "2.5s_or_until_dismissed",
       "origin_role": "context_variant_candidate",
       "variation_rank": 3,
-      "priority_role": "candidate_alternate_for_trigger"
+      "priority_role": "candidate_alternate_for_trigger",
+      "pilot_candidate": false
     },
     {
       "asset_id": "rikka_title_01",
@@ -8816,7 +9207,9 @@
       "use_case_ja": "昼間のコンビニ＋小春六花のタイトル初期候補",
       "display_duration_policy": "title_screen_lifetime",
       "origin_role": "title_primary_candidate",
-      "priority_role": "provisional_title_primary_unreviewed"
+      "priority_role": "provisional_title_primary_unreviewed",
+      "pilot_candidate": true,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_title_02",
@@ -8841,7 +9234,9 @@
       "use_case_ja": "タイトル背景別案1（外観/構図確認待ち）",
       "display_duration_policy": "title_screen_lifetime",
       "origin_role": "title_alternative",
-      "priority_role": "title_alternative_review_only"
+      "priority_role": "title_alternative_review_only",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_title_03",
@@ -8866,7 +9261,9 @@
       "use_case_ja": "タイトル背景別案2（外観/構図確認待ち）",
       "display_duration_policy": "title_screen_lifetime",
       "origin_role": "title_alternative",
-      "priority_role": "title_alternative_review_only"
+      "priority_role": "title_alternative_review_only",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_title_04",
@@ -8891,7 +9288,9 @@
       "use_case_ja": "タイトル背景別案3（外観/構図確認待ち）",
       "display_duration_policy": "title_screen_lifetime",
       "origin_role": "title_alternative",
-      "priority_role": "title_alternative_review_only"
+      "priority_role": "title_alternative_review_only",
+      "pilot_candidate": false,
+      "variation_rank": null
     },
     {
       "asset_id": "rikka_title_05",
@@ -8916,7 +9315,9 @@
       "use_case_ja": "タイトル背景別案4（外観/構図確認待ち）",
       "display_duration_policy": "title_screen_lifetime",
       "origin_role": "title_alternative",
-      "priority_role": "title_alternative_review_only"
+      "priority_role": "title_alternative_review_only",
+      "pilot_candidate": false,
+      "variation_rank": null
     }
   ],
   "assignment_review": {
@@ -8926,6 +9327,19 @@
     "embedded_prompt_readable": 311,
     "source_image_pixel_review": "not_comprehensively_completed",
     "runtime_changes": "none",
-    "default_priority": "one primary per screen/trigger/slot, others alternatives; suppress on conflicts; no random tick-driven rotation"
+    "default_priority": "one primary per screen/trigger/slot, others alternatives; suppress on conflicts; no random tick-driven rotation",
+    "pilot_from_334": [
+      "rikka_fun_001",
+      "rikka_fun_008",
+      "rikka_fun_009",
+      "rikka_pose_201",
+      "rikka_pose_229",
+      "rikka_pose_234",
+      "rikka_react_001",
+      "rikka_react_002",
+      "rikka_react_029",
+      "rikka_title_01"
+    ],
+    "pilot_outside_334": "one existing event CG from legacy review set, separately"
   }
 }
