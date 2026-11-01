@@ -21,6 +21,8 @@ PICKS = {"customer_a": 6101, "customer_b": 6101, "customer_c": 6101, "clerk": 61
          "office_worker": 6101, "student": 6101, "parent": 6101,
          "elderly_woman": 6101, "worker": 6101, "uni_student": 6101, "young_woman": 6101,
          "staff_1": 6101, "staff_2": 6101, "staff_3": 6101, "staff_4": 6101}   # staff wear the look of their face
+# The crane-game renders that came out facing right (comfy_chibi.py "play"); mirrored to face left like the rest.
+PLAY_FACES_RIGHT = {"customer_b", "customer_c", "elderly_woman", "worker"}
 CANVAS = (190, 329)
 FEET = (95, 282)
 HEIGHT = 262          # the figure's height on the canvas (the box figures were about as tall)
@@ -139,6 +141,10 @@ def build(person: str, seed: int) -> None:
     eat_path = SRC / ("%s_eat_%d.png" % (person, seed))   # #134: seated with an onigiri, for every facing
     eats = not person.startswith("staff_") and person != "clerk"   # staff never sit down to eat (#134)
     eat = cut(eat_path) if eats and eat_path.exists() else None
+    play_path = SRC / ("%s_play_%d.png" % (person, seed))   # #132: at the crane game's controls, for every facing
+    play = cut(play_path) if eats and play_path.exists() else None
+    if play is not None and person in PLAY_FACES_RIGHT:
+        play = ImageOps.mirror(play)   # all play poses face left before the per-facing mirror
     vid = "chibi_" + person
     out = DST / vid
     out.mkdir(parents=True, exist_ok=True)
@@ -167,8 +173,18 @@ def build(person: str, seed: int) -> None:
                 place(pose, dy, k_front).save(out / name)
                 names.append(name)
             base["directions"][str(d)]["eat"] = names
+        if play is not None:
+            pose = play if d in (1, 2) else ImageOps.mirror(play)
+            names = []
+            for i, dy in enumerate([0, 3]):   # a small bob while working the controls
+                name = "d%d_play_f%d.png" % (d, i)
+                place(pose, dy, k_front).save(out / name)
+                names.append(name)
+            base["directions"][str(d)]["play"] = names
     if eat is not None:
         base["animations"]["eat"] = {"frames": 2, "fps": 1.5, "loop": True}
+    if play is not None:
+        base["animations"]["play"] = {"frames": 2, "fps": 3.0, "loop": True}
     soft_shadow().save(out / "shadow.png")
     (out / (vid + ".character.json")).write_text(json.dumps(base, ensure_ascii=False, indent=2), encoding="utf-8")
     print(vid)

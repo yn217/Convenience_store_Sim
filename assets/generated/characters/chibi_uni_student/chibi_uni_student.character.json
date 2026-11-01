@@ -43,6 +43,11 @@
       "frames": 2,
       "fps": 1.5,
       "loop": true
+    },
+    "play": {
+      "frames": 2,
+      "fps": 3.0,
+      "loop": true
     }
   },
   "directions": {
@@ -68,6 +73,10 @@
       "eat": [
         "d0_eat_f0.png",
         "d0_eat_f1.png"
+      ],
+      "play": [
+        "d0_play_f0.png",
+        "d0_play_f1.png"
       ]
     },
     "1": {
@@ -92,6 +101,10 @@
       "eat": [
         "d1_eat_f0.png",
         "d1_eat_f1.png"
+      ],
+      "play": [
+        "d1_play_f0.png",
+        "d1_play_f1.png"
       ]
     },
     "2": {
@@ -116,6 +129,10 @@
       "eat": [
         "d2_eat_f0.png",
         "d2_eat_f1.png"
+      ],
+      "play": [
+        "d2_play_f0.png",
+        "d2_play_f1.png"
       ]
     },
     "3": {
@@ -140,6 +157,10 @@
       "eat": [
         "d3_eat_f0.png",
         "d3_eat_f1.png"
+      ],
+      "play": [
+        "d3_play_f0.png",
+        "d3_play_f1.png"
       ]
     }
   }

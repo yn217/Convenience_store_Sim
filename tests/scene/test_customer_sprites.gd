@@ -89,3 +89,23 @@ func test_presenter_moves_smoothly_and_pauses_at_speed_zero(t, tree) -> void:
 	t.ok(p._pos.is_empty())
 	world.queue_free()
 	await tree.process_frame
+
+
+## #132: a customer standing at a crane game works its controls (the play pose); at a shelf it still looks the goods over.
+func test_crane_game_customer_plays(t, tree) -> void:
+	var world: Node2D = load("res://scenes/store/StoreWorld.tscn").instantiate()
+	tree.root.add_child(world)
+	await tree.process_frame
+	world.fixture_catalog = FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
+	var crane := {"customer_id": "cust_000001", "tile": Vector2i(3, 4), "phase": "SELECT", "next": Vector2i(3, 4), "progress": 0.0, "fixture_id": "f_crane"}
+	var shelf := {"customer_id": "cust_000002", "tile": Vector2i(8, 4), "phase": "SELECT", "next": Vector2i(8, 4), "progress": 0.0, "fixture_id": "f_shelf"}
+	world.apply_snapshot({"store_width": 20, "store_height": 12, "revision": 1, "entrance_tiles": [Vector2i(0, 5)] as Array[Vector2i],
+		"fixtures": [{"instance_id": "f_crane", "type_id": "crane_game", "x": 3, "y": 2, "rotation": 0},
+			{"instance_id": "f_shelf", "type_id": "shelf_goods", "x": 8, "y": 2, "rotation": 0}],
+		"customers": [crane, shelf], "shelf_stock": {}, "speed_setting": 1})
+	var p: Node2D = world.get_node("ObjectSortRoot/FixturePresenter")
+	p._sync_customers(0.0)
+	t.eq(p.customer_view(crane)["anim"], "play", "at the crane game")
+	t.eq(p.customer_view(shelf)["anim"], "inspect", "at a shelf")
+	world.queue_free()
+	await tree.process_frame

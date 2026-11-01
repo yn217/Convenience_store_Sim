@@ -1,0 +1,19 @@
+{
+  "person": "student",
+  "view": "play",
+  "seed": 6101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "chibi_student_play_6101_00001_.png",
+  "positive": "anima_style, solo, chibi, super deformed, cute anime game character, full body, standing, simple clean lineart, flat soft cel shading, plain pure white background, no shadow, 1girl, japanese high school student, long black hair in a ponytail, navy sailor school uniform with a red ribbon, navy pleated skirt, white socks, loafers, school bag, full body, standing alone, both hands held forward at chest height gripping an invisible lever, leaning forward, looking up, profile view facing left, excited open mouth, empty hands, ",
+  "negative": "low quality, worst quality, blurry, multiple views, reference sheet, text, watermark, logo, cropped feet, out of frame, background scenery, floor, shadow, extra limbs, malformed hands, machine, arcade cabinet, control panel, joystick, button, stand, table, box, props, holding object, facing right, briefcase",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    512,
+    768
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

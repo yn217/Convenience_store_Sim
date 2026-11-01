@@ -39,14 +39,22 @@ VIEWS = {
     "back": "view from behind, three-quarter back view, walking away to the upper left, back of the head visible, face not visible, ",
     # the eat-in seat (#134): drawn for every facing (mirrored)
     "eat": "sitting on a tall wooden stool, eating an onigiri rice ball held in both hands, seen from the side, facing left, happy, ",
+    # at the crane game (#132): standing at the machine's controls, drawn for every facing (mirrored)
+    # (the machine is the fixture sprite: only the figure, its hands up at the controls' height)
+    "play": "full body, standing alone, both hands held forward at chest height gripping an invisible lever, leaning forward, "
+            "looking up, profile view facing left, excited open mouth, empty hands, ",
 }
 NEGATIVE = ("low quality, worst quality, blurry, multiple views, reference sheet, text, watermark, logo, cropped feet, "
             "out of frame, background scenery, floor, shadow, extra limbs, malformed hands")
 
 
+VIEW_NEGATIVE = {"play": ", machine, arcade cabinet, control panel, joystick, button, stand, table, box, props, holding object, "
+                         "facing right, briefcase"}
+
+
 def generate(person: str, view: str, seed: int) -> Path:
     positive = STYLE + PEOPLE[person] + VIEWS[view]
-    wf = comfy.graph(positive, NEGATIVE, seed, "chibi_%s_%s_%d" % (person, view, seed), 512, 768, False)
+    wf = comfy.graph(positive, NEGATIVE + VIEW_NEGATIVE.get(view, ""), seed, "chibi_%s_%s_%d" % (person, view, seed), 512, 768, False)
     return comfy.run(wf, OUT / ("%s_%s_%d.png" % (person, view, seed)), {"person": person, "view": view, "seed": seed, "loras": {"anima-style-epoch35-lr5e5": 0.8}})
 
 

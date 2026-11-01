@@ -421,6 +421,15 @@ func _age_pick_faces(delta: float) -> void:
 
 
 ## Centre of a placed fixture's footprint in tile units, or Vector2.INF when it is not on the layout.
+func _fixture_type(fixture_id: String) -> String:
+	if _world == null or fixture_id == "":
+		return ""
+	for inst in _world.fixtures:
+		if inst["instance_id"] == fixture_id:
+			return String(inst["type_id"])
+	return ""
+
+
 func _fixture_center(fixture_id: String) -> Vector2:
 	if _world == null or _world.fixture_catalog == null:
 		return Vector2.INF
@@ -471,6 +480,8 @@ func customer_view(c: Dictionary) -> Dictionary:
 	var look := _look_for(id, String(c.get("name", "")))   # staff wear the look of their face (Portraits)
 	var sheet: Dictionary = look[0]
 	var frame := 0
+	if anim == "inspect" and _fixture_type(String(c.get("fixture_id", ""))) == "crane_game" 			and not sheet.is_empty() and (sheet["animations"] as Dictionary).has("play"):
+		anim = "play"   # #132: at the crane game's controls rather than looking over a shelf
 	if not sheet.is_empty() and not (sheet["animations"] as Dictionary).has(anim):
 		anim = "checkout" if c.get("phase", "") == "REGISTER" and (sheet["animations"] as Dictionary).has("checkout") else "idle"   # the clerk sheet has idle + checkout only; no eat pose -> idle
 	if not sheet.is_empty():
