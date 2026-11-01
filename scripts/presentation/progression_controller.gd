@@ -64,7 +64,7 @@ var _pilot_cue_timer: Timer
 var _seq: int = 0
 var _milestone_defs: Array = []
 
-const PILOT_SCREEN_CUES := ["staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"]
+const PILOT_SCREEN_CUES := ["opening_checklist", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"]
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -128,7 +128,7 @@ func request_pilot_cue(cue_id: String, payload: Dictionary = {}) -> void:
 
 
 func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
-	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "order_help", "restock_help", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"].has(cue_id):
+	if not ["opening_checklist", "low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "order_help", "restock_help", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"].has(cue_id):
 		return
 	_pilot_cue_id = cue_id
 	_pilot_cue_payload = payload.duplicate()

@@ -266,10 +266,14 @@ func close_build() -> void:
 func open_screen_tab(tab: String) -> void:
 	ui.open_screen(tab)
 	_apply_mode()
-	if tab == "店員":
-		var guide := get_node_or_null("ProgressionController")
-		if guide != null and guide.has_method("request_pilot_cue"):
+	var guide := get_node_or_null("ProgressionController")
+	if guide != null and guide.has_method("request_pilot_cue"):
+		if tab == "店員":
 			guide.request_pilot_cue("staff_schedule_open", {})
+		elif tab == "経営":
+			var app := get_node_or_null("AppRoot") as AppRoot
+			if app != null and app.state.business_state == GameState.SETUP:
+				guide.request_pilot_cue("opening_checklist", {})
 
 
 func close_screen() -> void:
