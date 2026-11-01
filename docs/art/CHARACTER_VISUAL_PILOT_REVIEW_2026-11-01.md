@@ -148,6 +148,8 @@ These spot checks do not change `runtime_approved`; the assets remain available 
 
 The staff-management capture `build/character_pilot_staff_hired_latest.png` opens the internal `店員` tab and exercises `staff_hired`. The staff list, candidate cards, and hiring controls remain visible while the full-body pilot is shown in the assistant slot; no button/card is covered and no second character is introduced. (`スタッフ` is the chrome label; `店員` is the internal tab ID used by the capture helper.)
 
+The follow-up functional-cue capture `build/character_pilot_campaign_1280_latest.png` exercises `seasonal_campaign_started` at 1280x720. The selected `functional_campaign` texture is reported by `--inspect-pilot`, and the display frame clips the lower portion of the source full-body image without modifying the original 1024x1536 PNG. The character remains to the right of the left menu, the speech bubble stays readable, and the bottom objective/stat controls remain unobstructed. This is layout QA only; the candidate remains `runtime_approved:false`.
+
 ## Assistant placement QA (2026-11-02)
 
 The assistant stage now reserves the area to the right of the mockup's left menu (`MainLayout.CHROME_MENU_RIGHT` plus a margin), clips its stage to the viewport, and applies the same safe-area placement to full-body pilots, bust-up reactions, and reaction symbols. The speech bubble is anchored beside the figure and lowered by `BUBBLE_TOP_DROP`, so it no longer sits on top of the left menu. Screen-scoped pilot cues are cleared when their management screen closes.
