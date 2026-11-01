@@ -55,6 +55,19 @@ func _ready() -> void:
 		rikka.offset_top = -TITLE_RIKKA_SIZE.y
 		rikka.offset_bottom = 0
 		add_child(rikka)
+	# The reference title screen uses a warm framed menu and a small notification affordance.
+	# These remain real Godot controls layered over the art; the generated background stays text-free.
+	var menu_frame := PanelContainer.new()
+	menu_frame.name = "TitleMenuFrame"
+	menu_frame.set_anchors_preset(Control.PRESET_CENTER)
+	menu_frame.offset_left = -310
+	menu_frame.offset_top = -270
+	menu_frame.offset_right = 310
+	menu_frame.offset_bottom = 285
+	menu_frame.add_theme_stylebox_override("panel", _title_menu_style())
+	menu_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(menu_frame)
+	add_child(_title_notice())
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
@@ -74,11 +87,11 @@ func _ready() -> void:
 		col.add_child(logo)
 		# The plate is drawn at half size (1100x260 -> 550x130, 10 px down); the words sit on it as labels, since
 		# Godot's SVG import draws no <text>.
-		logo.add_child(_logo_label("TitleName", "コンビニ経営ゲーム", 46, Color("ffb03a"), Rect2(14, 14, 522, 74), 10))
+		logo.add_child(_logo_label("TitleName", "コンビニ経営\nシミュレーション", 34, Color("ffb03a"), Rect2(14, 10, 522, 84), 8))
 		logo.add_child(_logo_label("TitleSub", "CONVENIENCE STORE SIM", 15, Color("23537c"), Rect2(154, 95, 242, 32), 0))
 	else:
 		var name_label := Label.new()
-		name_label.text = "コンビニ経営ゲーム"
+		name_label.text = "コンビニ経営\nシミュレーション"
 		name_label.add_theme_font_size_override("font_size", 34)
 		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		col.add_child(name_label)
@@ -104,6 +117,85 @@ func _ready() -> void:
 	col.add_child(_settings)
 	col.add_child(_button("Quit", "ゲームを終了", func(): get_tree().quit(), false))
 	refresh()
+
+
+func _title_menu_style() -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = Color(0.16, 0.08, 0.055, 0.82)
+	box.border_color = Color("f7d18b")
+	box.set_border_width_all(4)
+	box.set_corner_radius_all(26)
+	box.shadow_color = Color(0.02, 0.01, 0.01, 0.48)
+	box.shadow_size = 12
+	box.content_margin_left = 28
+	box.content_margin_right = 28
+	box.content_margin_top = 18
+	box.content_margin_bottom = 18
+	return box
+
+
+func _title_notice() -> Control:
+	var notice := PanelContainer.new()
+	notice.name = "TitleNotice"
+	notice.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	notice.offset_left = -254
+	notice.offset_top = 24
+	notice.offset_right = -28
+	notice.offset_bottom = 92
+	notice.add_theme_stylebox_override("panel", _title_notice_style())
+	notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	notice.add_child(row)
+	var bell_path := "res://assets/ui/art/bell.png"
+	if ResourceLoader.exists(bell_path):
+		var bell := TextureRect.new()
+		bell.name = "Bell"
+		bell.texture = load(bell_path) as Texture2D
+		bell.custom_minimum_size = Vector2(34, 34)
+		bell.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bell.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		bell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(bell)
+	var label := Label.new()
+	label.name = "NoticeLabel"
+	label.text = "お知らせ"
+	label.add_theme_font_size_override("font_size", 22)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(label)
+	var badge := Label.new()
+	badge.name = "NoticeBadge"
+	badge.text = "!"
+	badge.custom_minimum_size = Vector2(28, 28)
+	badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	badge.add_theme_font_size_override("font_size", 20)
+	badge.add_theme_color_override("font_color", Color.WHITE)
+	badge.add_theme_stylebox_override("normal", _title_badge_style())
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(badge)
+	return notice
+
+
+func _title_notice_style() -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = Color(0.16, 0.08, 0.055, 0.92)
+	box.border_color = Color("f7d18b")
+	box.set_border_width_all(3)
+	box.set_corner_radius_all(24)
+	box.content_margin_left = 16
+	box.content_margin_right = 12
+	box.content_margin_top = 8
+	box.content_margin_bottom = 8
+	return box
+
+
+func _title_badge_style() -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = Color("e94b55")
+	box.set_corner_radius_all(14)
+	return box
 
 
 ## QA-only title candidate. The registry keeps this disabled for normal builds until visual/rights review.

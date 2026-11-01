@@ -32,7 +32,9 @@ func test_title_art_and_continue_controls(t, tree) -> void:
 	t.ok(title.find_child("TitleBackground", true, false) != null, "background art is a separate element")
 	t.ok(title.find_child("TitleLogo", true, false) != null, "title logo is a separate element")
 	var name_label := title.find_child("TitleName", true, false) as Label
-	t.ok(name_label != null and name_label.text == "コンビニ経営ゲーム", "the logo's words are a label (SVG text is not drawn by Godot)")
+	t.ok(name_label != null and name_label.text == "コンビニ経営\nシミュレーション", "the logo's words are a label (SVG text is not drawn by Godot)")
+	t.ok(title.find_child("TitleMenuFrame", true, false) != null, "title actions sit on a warm framed menu plate")
+	t.ok(title.find_child("TitleNotice", true, false) != null, "title screen exposes the notification affordance")
 	t.ok(title.find_child("NewGame", true, false) != null, "new-game button remains interactive")
 	t.ok(title.find_child("Continue", true, false) != null, "continue button remains interactive")
 	t.ok(title.find_child("Quit", true, false) != null, "quit button remains interactive")
