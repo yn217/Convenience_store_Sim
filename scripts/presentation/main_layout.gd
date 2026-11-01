@@ -426,6 +426,11 @@ func _build_chrome() -> void:
 	_chrome.speed_pressed.connect(func(speed: int): hud.speed_requested.emit(speed))
 	_chrome.pause_pressed.connect(func(): hud._on_pause_pressed())
 	_chrome.corner_pressed.connect(_on_chrome_corner)
+	_chrome.guide.go_requested.connect(_on_guide_go)
+	_chrome.guide.open_requested.connect(func():
+		var business := get_node_or_null("BusinessController")
+		if business != null:
+			business.start_business())
 
 
 ## The 商品 page as the mockup draws it (in code): the 在庫・発注 card with the order controls on it and the 販売価格
@@ -506,6 +511,22 @@ func _open_chrome_tab(id: String) -> void:
 		if CHROME_TAB[tab] == id:
 			open_screen_tab(tab)
 			return
+
+
+## 開店までの手順's buttons: 店舗 (build mode), 発注 (the 商品 tab), 棚を選ぶ (selects the first shelf, whose card has 補充).
+func _on_guide_go(where: String) -> void:
+	match where:
+		"build":
+			if not ui.is_build():
+				toggle_build()
+		"goods":
+			open_goods_order()
+		"shelf":
+			for inst in _world.fixtures:
+				var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
+				if not def.get("shelf_slots", []).is_empty():
+					_on_alert_jump(Vector2i(int(inst["x"]), int(inst["y"])))
+					return
 
 
 func _on_chrome_corner(id: String) -> void:
