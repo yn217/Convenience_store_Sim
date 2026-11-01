@@ -1,0 +1,66 @@
+{
+  "source_size_px": [
+    1024,
+    1536
+  ],
+  "source_mode": "RGBA",
+  "source_alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_threshold": 8,
+  "source_alpha_bbox_xyxy": [
+    73,
+    57,
+    952,
+    1472
+  ],
+  "source_margins_px_ltrb": [
+    73,
+    57,
+    72,
+    64
+  ],
+  "source_margin_fraction_ltrb": [
+    0.0713,
+    0.0371,
+    0.0703,
+    0.0417
+  ],
+  "padded_alpha_bbox_xyxy": [
+    457,
+    185,
+    1336,
+    1600
+  ],
+  "padded_margins_px_ltrb": [
+    457,
+    185,
+    456,
+    192
+  ],
+  "padded_margin_fraction_ltrb": [
+    0.255,
+    0.1032,
+    0.2545,
+    0.1071
+  ],
+  "padded_alpha_gate": "pass",
+  "review_padding": {
+    "canvas_px": [
+      1792,
+      1792
+    ],
+    "offset_px": [
+      384,
+      128
+    ],
+    "resampled": false,
+    "background_removed": false
+  },
+  "projection": "not calibrated",
+  "geometry": "fixture contract unverified; square footprint fit concern",
+  "godot_checked": false,
+  "runtime_approved": false,
+  "sha256_source": "f5c46f04c891c550b1a27c0ccedbfbd8c8e9fcd212f4d217b7251bb90652a593"
+}

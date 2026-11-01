@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "asset_id": "frappe_blender_integrated_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "One Japanese convenience-store frappe blender, 1x1 tile, nominal 0.92 x 0.92 x 1.50m, customer access S.",
+  "actual_subject": "One upright self-service blended-drink station with two blender jars, flavor panel, ingredient window and lower cabinet.",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "fixture_type_id": "frappe_blender",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/frappe_blender_integrated_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2027700,
+    "sha256": "f5c46f04c891c550b1a27c0ccedbfbd8c8e9fcd212f4d217b7251bb90652a593",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/frappe_blender_integrated_FULL_v1/source_original.png",
+      "byte_size": 2027700,
+      "sha256": "f5c46f04c891c550b1a27c0ccedbfbd8c8e9fcd212f4d217b7251bb90652a593",
+      "git_blob_sha": "f42d6d0e2c83e17842df6332406d91fe9aa61a84",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/frappe_blender_integrated_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1723718,
+      "sha256": "7acedb82aefa142c505b14dd4691cab3e6c6eddb528c6cc743ed5f26ca476895",
+      "git_blob_sha": "5992aedc5a3d2c149d4af19015e63420ee233893",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/frappe_blender_integrated_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 318348,
+      "sha256": "6585517a70eb1443ac10105f645cda00d035d0b74583930165866586349ae107",
+      "git_blob_sha": "3a0cc02dde34baba02fa166e7b31b6a0f15eb0c5",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "S",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      1
+    ],
+    "dimensions_m": [
+      0.92,
+      0.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass_with_concern",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "pass",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "pass_with_concern",
+    "notes": [
+      "Content: self-service frappe blender with two lidded blender jars, flavor panel, ingredient/syrup window, drip slots and lower cabinet. RGBA 1024x1536, alpha extrema (0, 254), alpha>8 bbox (73, 57, 952, 1472), source margins [0.0713, 0.0371, 0.0703, 0.0417].",
+      "Padded review sprite margin fractions [0.255, 0.1032, 0.2545, 0.1071]; alpha gate pass; no resampling/removal. Anchor must include padding offset.",
+      "Projection visually resembles iso but exact iso2x_v1 axes/slopes and access side have not been calibrated. No measured control points.",
+      "MVP nominal frappe_blender contract: 1x1, 0.92x0.92x1.50m, access S; world dimensions and ground anchor unverified.",
+      "Image reads as a wider counter-like blending station rather than a narrow tower; compare against square footprint before any use.",
+      "No Godot display/runtime or interaction check; runtime_approved:false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
