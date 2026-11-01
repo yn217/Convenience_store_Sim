@@ -15,6 +15,7 @@ This review covers the 47-image pilot. The remaining 287 candidates stay review-
 - Title candidate: 1344x768
 - Full-body/event candidates: 1024x1536
 - Bust-up candidates: 1024x1024
+- Derived alpha integrity: 43 files keep a 1024x1536 canvas, non-empty alpha, and transparent corners (`tests/tools/test_character_pilot_assets.py`)
 - `runtime_approved`: `false`
 
 ## Candidate mapping
