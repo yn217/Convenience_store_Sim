@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "asset_id": "soft_serve_machine_integrated_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "One Japanese convenience-store self-service soft-serve machine, 1x1 tile, nominal 0.92 x 0.92 x 1.50m, customer access S.",
+  "actual_subject": "One cream and graphite upright soft-serve dispenser with flavor panel, cone holder, nozzle, and drip grate.",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "fixture_type_id": "soft_serve_machine",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/soft_serve_machine_integrated_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1678649,
+    "sha256": "645387ffd19e00493748671d9a2c78ffb4842a0f42d2a64bbb47e3dcdb2cc83d",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/soft_serve_machine_integrated_FULL_v1/source_original.png",
+      "byte_size": 1678649,
+      "sha256": "645387ffd19e00493748671d9a2c78ffb4842a0f42d2a64bbb47e3dcdb2cc83d",
+      "git_blob_sha": "7f5a76941a33941fb9fceb95d0115c0a5120ee9b",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/soft_serve_machine_integrated_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1193311,
+      "sha256": "71d1d9f89e5a0ca59133042268d1a7217e3f5de5e551a0bca80dc87ebde37bf1",
+      "git_blob_sha": "dd2b628fe407150f6b4b394a6b85885f0ec4a0a3",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/soft_serve_machine_integrated_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 232349,
+      "sha256": "41f59cda2bb70fa6057ad70b683a05f4b293c9c93f79feea85c8317bef5806a0",
+      "git_blob_sha": "ee0d93cfae3bc95f2271556139f43e37d25d2deb",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "S",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      1
+    ],
+    "dimensions_m": [
+      0.92,
+      0.92,
+      1.5
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "pass",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "pass",
+    "notes": [
+      "Content: one self-service soft-serve dispenser, flavor panel, two controls, nozzle, cone holder and drip grate. Source RGBA 1024x1536, alpha extrema (0, 254), alpha>8 bbox (193, 88, 868, 1465); source margin fractions [0.1885, 0.0573, 0.1523, 0.0462].",
+      "Padded review sprite margins fraction {pf}; alpha margin gate {alpha}. Padding uses transparent canvas only and preserves pixels. Anchor must include offset.",
+      "Projection looks isometric but exact axes/slope and access side are not calibrated to iso2x_v1; geometry control points absent.",
+      "MVP nominal: soft_serve_machine, 1x1 tile, 0.92x0.92x1.50m, access S. Physical fit and ground anchor unverified.",
+      "No Godot runtime, interaction/access, occlusion or zoom-size test; runtime_approved:false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
