@@ -1,0 +1,56 @@
+{
+  "asset_id": "exterior_rear_planting_integrated_v2",
+  "verdict": "REVIEW_ONLY_BLOCKED",
+  "measurements": {
+    "source_px": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_bbox_gt8_xyxy": [
+      21,
+      48,
+      1755,
+      835
+    ],
+    "alpha_bbox_ge128_xyxy": [
+      23,
+      49,
+      1754,
+      834
+    ],
+    "padding_px_each_side": 256,
+    "padded_px": [
+      2286,
+      1399
+    ],
+    "padded_alpha_bbox_gt8_xyxy": [
+      277,
+      304,
+      2011,
+      1091
+    ]
+  },
+  "gates": {
+    "content": "PASS",
+    "2_to_1_slope": "VISUAL_ESTIMATE_ONLY",
+    "orientation": "BLOCKED_APEX_DIRECTION_UNCERTAIN",
+    "alpha_margin": "FAIL_SOURCE_LR",
+    "edge_fringe": "FAIL_VISIBLE",
+    "style": "CONCERN_TOO_PHOTODETAILED",
+    "world_dimensions": "UNKNOWN",
+    "godot": "NOT_CHECKED",
+    "runtime_approved": false
+  },
+  "notes": [
+    "Original RGBA 1774x887; alpha extrema [0, 255]; alpha>8 bbox [21, 48, 1755, 835], alpha>=128 bbox [23, 49, 1754, 834]. At threshold 8, source margins L/T/R/B are [0.0118, 0.0541, 0.0107, 0.0586]; left/right are below the desired 12%.",
+    "Review-only sprite adds 256px transparent padding without resampling; canvas 2286x1399, alpha>8 bbox [277, 304, 2011, 1091]; placement anchor must include (+256,+256).",
+    "Content reads as a connected Japanese spring V planting group. Visual arms roughly follow the requested 2:1 slope, but exact screen-space axis control points are not measured.",
+    "Potential orientation error: the V apex appears at lower-center/foreground in the isolated sprite; the intended rear corner may require the apex at the far/back point. Do not rotate/mirror without world-guide comparison.",
+    "Foliage edges show green/bright fringe against transparency, and the overall finish is more photo-detailed than the game illustration. Alpha cleanup and wall-occlusion check are not done.",
+    "No dimensions/footprint/anchor contract or Godot screenshot verified. Review-only; runtime_approved:false."
+  ]
+}
