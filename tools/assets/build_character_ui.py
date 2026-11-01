@@ -21,7 +21,7 @@ PORTRAITS = Path("assets/source/characters/portraits")
 RIKKA_PICKS = {"normal": 3103, "happy": 3201, "worried": 3101, "point": 3201, "welcome": 3201}
 PORTRAIT_PICKS = {"customer_a": 4101, "customer_b": 4101, "customer_c": 4101, "staff_1": 4101, "staff_2": 4101, "staff_3": 4101, "staff_4": 4101,
                   "office_worker": 4101, "student": 4101, "parent": 4101,
-                  "elderly_woman": 4101}
+                  "elderly_woman": 4101, "worker": 4101, "uni_student": 4101, "young_woman": 4101}
 FIGURE = (450, 654)
 PORTRAIT = 144
 

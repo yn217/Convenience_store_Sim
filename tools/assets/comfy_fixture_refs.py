@@ -21,8 +21,8 @@ FIXTURES = {
     "capsule_toy_1": "a single capsule toy vending machine, gachapon, clear dome full of colourful capsules on a pink stand with a coin dial, ",
     "capsule_toy_3": "exactly three small capsule toy vending machines in one straight row side by side, gachapon, pink and white cabinets, clear windows full of colourful capsules, ",
     "capsule_toy_5": "a long row of five capsule toy vending machines side by side, gachapon, pink white and yellow cabinets, clear windows full of colourful capsules, ",
-    "shelf_goods": "a tall store shelf of daily goods, towels, socks, toiletries and stationery in neat rows, white metal gondola shelf, "
-                   "front facing the viewer, ",
+    "shelf_goods": "a wide store gondola shelf of daily goods, wider than it is tall, two bays side by side, open front with no doors, "
+                   "towels, socks, toiletries and stationery in neat rows, white metal shelf, nothing in front of it, ",
     "soft_serve_machine": "a soft serve ice cream machine on a small white counter cabinet, stainless steel, two levers, a vanilla cone on the drip tray, ",
     "frappe_blender": "a frappe drink station, a blender with a pink smoothie and a cup dispenser on a small white counter cabinet, ",
     "bakery_oven": "an in-store bakery corner, a stainless bake oven on top of a long glass bread display case with croissants and melon pan, ",

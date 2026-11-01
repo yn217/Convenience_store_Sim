@@ -10,7 +10,7 @@ const DIR := "res://assets/generated/characters"
 const CHIBI := "chibi_"
 const VARIANTS: Array[String] = ["chibi_customer_a", "chibi_customer_b", "chibi_customer_c",
 		"chibi_office_worker", "chibi_student", "chibi_parent",   # #104: more clothes (2026-10-31)
-		"chibi_elderly_woman"]   # fewer repeated faces (2026-11-01)
+		"chibi_elderly_woman", "chibi_worker", "chibi_uni_student", "chibi_young_woman"]   # fewer repeated faces (2026-11-01)
 const CLERK := "chibi_clerk"
 ## Facing index = clockwise quarter turns from +x (E, S, W, N), as in the manifests.
 const FACING_E := 0

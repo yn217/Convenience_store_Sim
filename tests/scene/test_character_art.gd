@@ -87,7 +87,7 @@ func test_title_has_her(t, tree) -> void:
 
 ## #104 / #134: six chibi looks, a walk cycle with stride poses (the feet move), and a seated eating pose at the eat-in.
 func test_chibi_looks_walk_and_eat(t, _tree) -> void:
-	t.eq(CustomerSprites.VARIANTS.size(), 7, "seven looks for the customers")
+	t.eq(CustomerSprites.VARIANTS.size(), 10, "ten looks for the customers")
 	t.eq(CustomerSprites.anim_for_state("EAT", false, false), "eat", "seated while eating")
 	t.eq(CustomerSprites.anim_for_state("EAT", true, false), "walk", "still walks while moving")
 	var sprites := CustomerSprites.new()

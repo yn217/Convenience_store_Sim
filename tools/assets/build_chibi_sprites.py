@@ -19,7 +19,7 @@ SRC = Path("assets/source/characters/chibi")
 DST = Path("assets/generated/characters")
 PICKS = {"customer_a": 6101, "customer_b": 6101, "customer_c": 6101, "clerk": 6101,
          "office_worker": 6101, "student": 6101, "parent": 6101,
-         "elderly_woman": 6101,   # worker / uni_student / young_woman: renders on hold until their portraits exist
+         "elderly_woman": 6101, "worker": 6101, "uni_student": 6101, "young_woman": 6101,
          "staff_1": 6101, "staff_2": 6101, "staff_3": 6101, "staff_4": 6101}   # staff wear the look of their face
 CANVAS = (190, 329)
 FEET = (95, 282)

@@ -25,7 +25,7 @@ PEOPLE = {
     "parent": "1girl, mother in her thirties, shoulder-length brown hair, beige knit sweater, light denim jeans, white sneakers, eco tote bag, ",
     # four more everyday looks so a busy store repeats faces less (not tied to the customer segment, 2026-11-01)
     "elderly_woman": "1girl, elderly woman in her seventies, short permed grey hair, lavender cardigan, long brown skirt, comfortable shoes, small handbag, ",
-    "worker": "1boy, construction worker, short black hair, white towel around the neck, khaki work jacket, baggy navy work trousers, safety boots, ",
+    "worker": "1boy, construction worker, short black hair, white towel around the neck, mustard yellow work jacket, baggy navy work trousers, yellow safety boots, ",
     "uni_student": "1boy, university student, messy brown hair, grey hoodie, black jeans, white sneakers, backpack, ",
     "young_woman": "1girl, young woman in her twenties, long dark brown hair, beige trench coat, black skirt, ankle boots, ",
     # the four staff faces (Portraits.STAFF) on the floor: teal uniform, dark trousers

@@ -58,8 +58,11 @@
   ]
  },
  "shelf_goods": {
-  "ply": "shelf_goods_9101_v1/reference.ply",
-  "front_yaw": 90
+  "ply": "shelf_goods_9105_v1/reference.ply",
+  "front_yaw": 90,
+  "args": [
+   "--align"
+  ]
  },
  "soft_serve_machine": {
   "ply": "soft_serve_machine_9101_v1/reference.ply",

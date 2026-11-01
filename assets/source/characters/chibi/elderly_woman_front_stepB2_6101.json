@@ -1,0 +1,22 @@
+{
+  "person": "elderly_woman",
+  "view": "front",
+  "step": "stepB2",
+  "seed": 6101,
+  "img2img_from": "elderly_woman_front_stepB_mirror_6101.png",
+  "denoise": 0.5,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "chibi_elderly_woman_front_stepB2_6101_00001_.png",
+  "positive": "anima_style, solo, chibi, super deformed, cute anime game character, full body, standing, simple clean lineart, flat soft cel shading, plain pure white background, no shadow, 1girl, elderly woman in her seventies, short permed grey hair, lavender cardigan, long brown skirt, comfortable shoes, small handbag, three-quarter view from the front, body turned to the left, looking to the left, walking, mid-stride, clean lineart, ",
+  "negative": "low quality, worst quality, blurry, multiple views, reference sheet, text, watermark, logo, cropped feet, out of frame, background scenery, floor, shadow, extra limbs, malformed hands, two bags, duplicate bag, two briefcases, duplicate briefcase, extra bag, cut off clothes",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    512,
+    768
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}
