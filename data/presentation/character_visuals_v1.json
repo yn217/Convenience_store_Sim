@@ -223,6 +223,42 @@
       "status": "pilot_selected",
       "runtime_approved": false,
       "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_lunch_pick",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_lunch_pick",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_lunch_pick.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_lunch_pick.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_019_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_drink_pick",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_drink_pick",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_drink_pick.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_drink_pick.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_020_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
+    },
+    {
+      "id": "event_bread_feature",
+      "kind": "event_image",
+      "screen_id": "SCR-11",
+      "trigger": "evt_bread_feature",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_bread_feature.png",
+      "derived_from": "res://assets/runtime/character_pilot/event_bread_feature.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_021_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "existing_event_image"
     }
   ]
 }

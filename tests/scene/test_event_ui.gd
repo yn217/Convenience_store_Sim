@@ -95,7 +95,7 @@ func test_event_picture(t, tree) -> void:
 	_force(app, "evt_neighbor_mentions", true)
 	app._publish_snapshot()
 	t.ok(panel._pilot_picture.visible and panel._pilot_picture.texture is Texture2D, "the selected event pilot is shown alongside the event picture")
-	for event_id in ["evt_local_fair", "evt_roadworks", "evt_hot_day", "evt_cold_day", "evt_sweets_spotlight", "evt_snack_buzz", "evt_after_work"]:
+	for event_id in ["evt_local_fair", "evt_roadworks", "evt_hot_day", "evt_cold_day", "evt_sweets_spotlight", "evt_snack_buzz", "evt_lunch_pick", "evt_drink_pick", "evt_bread_feature", "evt_after_work"]:
 		_force(app, event_id, true)
 		app._publish_snapshot()
 		t.eq((panel._pilot_picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/%s.png" % event_id.replace("evt_", "event_"), "%s selects its event pilot" % event_id)

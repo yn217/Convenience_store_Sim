@@ -22,6 +22,9 @@ $candidates = @(
     @{ id = "event_cold_day"; trigger = "evt_cold_day"; source = "rikka_pose_012_functional_00001_.png" },
     @{ id = "event_sweets_spotlight"; trigger = "evt_sweets_spotlight"; source = "rikka_pose_013_functional_00001_.png" },
     @{ id = "event_snack_buzz"; trigger = "evt_snack_buzz"; source = "rikka_pose_014_functional_00001_.png" },
+    @{ id = "event_lunch_pick"; trigger = "evt_lunch_pick"; source = "rikka_pose_019_functional_00001_.png" },
+    @{ id = "event_drink_pick"; trigger = "evt_drink_pick"; source = "rikka_pose_020_functional_00001_.png" },
+    @{ id = "event_bread_feature"; trigger = "evt_bread_feature"; source = "rikka_pose_021_functional_00001_.png" },
     @{ id = "event_after_work"; trigger = "evt_after_work"; source = "rikka_pose_015_functional_00001_.png" }
 )
 
