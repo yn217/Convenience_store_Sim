@@ -1,7 +1,8 @@
 param(
     [string]$ComfyUrl = "http://127.0.0.1:8188",
     [string]$ComfyRoot = "F:\Stable Diffusion\ComfyUI-Windows\ComfyUI_windows_portable\ComfyUI",
-    [switch]$SkipExisting
+    [switch]$SkipExisting,
+    [string[]]$Only = @()
 )
 
 $ErrorActionPreference = "Stop"
@@ -57,6 +58,10 @@ $files = @(
     "functional_day_report.png",
     "functional_business_greeting.png"
 )
+
+if ($Only.Count -gt 0) {
+    $files = @($files | Where-Object { $Only -contains $_ })
+}
 
 foreach ($file in $files) {
     $source = Join-Path $sourceDir $file
