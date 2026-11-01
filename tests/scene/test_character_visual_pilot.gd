@@ -26,3 +26,19 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.ok(panel.has_method("is_pilot_enabled"), "pilot panel exposes its display toggle")
 	t.ok(panel.has_method("selected_entry"), "pilot panel exposes the selected runtime entry")
 	t.eq(panel.selected_entry({"story_cue": "story_sold_out", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_sold_out", "stage consumers share pilot routing")
+
+
+func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var guide := main.get_node("ProgressionController")
+	var panel := main.get_node("CharacterVisualPilotPanel")
+	t.ok(panel.is_pilot_enabled(), "the pilot toggle defaults on for visual review")
+	t.ok(guide._pilot_figure != null, "the assistant stage owns a pilot figure layer")
+	t.ok(guide._pilot_figure.texture is Texture2D, "the assistant stage loads a pilot texture")
+	var expected: Dictionary = panel.selected_entry(guide._snap)
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, expected.get("runtime_path", ""), "the stage texture follows the shared pilot route")
+	main.queue_free()
+	await tree.process_frame
