@@ -1,0 +1,58 @@
+{
+  "asset_id": "fridge_sandwich_case_FULL_v1",
+  "review_only": true,
+  "runtime_approved": false,
+  "status": "review_candidate_pending_projection_and_scale",
+  "generated_date": "2026-11-01",
+  "production_method": "Codex built-in ImageGen",
+  "source_file": "source_original.png",
+  "dimensions_px": [1254, 1254],
+  "mode": "RGBA",
+  "file_size_bytes": 1961151,
+  "sha256": "595a9c2412696eac8d140d69794c624810bc4b39e7c34ace7679aa20db1c94ac",
+  "alpha_source": {
+    "threshold_gt_8_bbox_xyxy": [146, 113, 1130, 1240],
+    "threshold_gt_8_margins_percent_ltrb": [11.64, 9.01, 9.89, 1.12],
+    "threshold_gt_0_bbox_xyxy": [0, 4, 1212, 1254],
+    "threshold_gt_0_margins_percent_ltrb": [0.0, 0.32, 3.35, 0.0],
+    "threshold_gt_1_margins_percent_ltrb": [11.4, 8.77, 9.65, 0.96],
+    "edge_alpha_max_top_bottom_left_right": [0, 1, 1, 0],
+    "required_minimum_margin_percent": 12,
+    "pass": false
+  },
+  "padded_review_image": {
+    "file": "sprite_padded_review.png",
+    "dimensions_px": [1800, 1800],
+    "file_size_bytes": 1908062,
+    "sha256": "8e6d7ee0f9c77641bbb259b13adc65782bebf3305df7dbc243f44befcab40e7c",
+    "operation": "center unchanged source on larger transparent canvas; no resampling",
+    "threshold_gt_8_margins_percent_ltrb": [23.28, 21.44, 22.06, 15.94],
+    "threshold_gt_0_margins_percent_ltrb": [15.17, 15.39, 17.50, 15.17],
+    "margin_pass": true,
+    "runtime_approved": false
+  },
+  "preview": {
+    "file": "preview_checkerboard.jpg",
+    "dimensions_px": [1800, 1800],
+    "file_size_bytes": 496588,
+    "sha256": "217356fcbbe794e93fb7cd8d2bf58511cdb6b9ed99ae5c6c0b8d65c51710a46e"
+  },
+  "visual_qa": {
+    "integrated_case_and_products": "pass",
+    "four_shelves": "pass",
+    "sandwich_category_recognizable": "pass",
+    "product_fronts_visible_through_glass": "pass",
+    "support_on_shelves": "pass",
+    "floating_cards_or_thick_product_cuboids": "not_observed",
+    "top_cap_proportion": "review_concern_broad",
+    "case_depth_fit": "not_verified",
+    "iso2x_projection": "not_verified",
+    "world_dimensions_footprint_anchor": "not_verified",
+    "godot_display_scale": "not_verified",
+    "independent_review": "pending"
+  },
+  "references": [
+    "assets/source/chatgpt_2d_interior/fridge_sandwich_chatgpt_20261029_v1/source_original.png (category/context only)",
+    "assets/review/imagegen_candidates/20261101/shelf_bread_slanted_FULL_v2/source_original.png (style only)"
+  ]
+}
