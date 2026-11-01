@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_snack_gondola_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Compact Japanese snack gondola FULL, integrated fixture and goods, matching existing source sprite orientation",
+  "actual_subject": "Snack gondola with four rows of colorful pouches and cans; upper backboard remains broadly exposed",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": null,
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/shelf_snack_gondola_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1186531,
+    "sha256": "ad25b1b3bad337977b9ee440a221d966b8b8da93c7f8cf6614fac74d0e8a0f7b",
+    "reference_hashes": [
+      "7562fca9b4d4ae3ea65b4641bcd5a2f4940eda12225c1cc2047b7df0973dd614"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_snack_gondola_FULL_v1/source_original.png",
+      "byte_size": 1186531,
+      "sha256": "ad25b1b3bad337977b9ee440a221d966b8b8da93c7f8cf6614fac74d0e8a0f7b",
+      "git_blob_sha": "655277ff0bbfd2ee1b8b32a2017bc14e381de4d7",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_snack_gondola_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1163666,
+      "sha256": "7c37605290a82ad3cfbd1555229e7c94d3d482dc8ee3df637d9b8ce7184fdf12",
+      "git_blob_sha": "b0f9ac7452efe39797a3579489fd7afe2c84e211",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/shelf_snack_gondola_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 313400,
+      "sha256": "c5fc10f678367492910a1db448d0f5e062bb1e0b7f844086e7b40d8c25e4639a",
+      "git_blob_sha": "a0fc2fa9b4ff1763ecb6688e570dee6736da40cf",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass_with_concern",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "fail",
+    "notes": [
+      "Four stocked snack shelf rows are integrated and product fronts are recognizable.",
+      "Large exposed backboard above the top product row leaves the selling area visibly underfilled; product row spacing/sizes differ from the reference fixture.",
+      "Camera orientation appears broadly similar to source but no numeric 2:1 calibration was performed.",
+      "Raw alpha top margin is below the required 12 percent; padded image only adds canvas and leaves source pixels unchanged.",
+      "Exact dimensions, footprint, customer access edge, anchor, Godot display and stock synchronization remain unverified."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

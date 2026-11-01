@@ -1,0 +1,93 @@
+{
+  "asset_id": "shelf_snack_gondola_FULL_v1",
+  "review_only": true,
+  "runtime_approved": false,
+  "status": "review_candidate_rejected_upper_backboard_fill_and_raw_margin",
+  "generated_date": "2026-11-01",
+  "production_method": "Codex built-in ImageGen with source sprite reference",
+  "source_file": "source_original.png",
+  "dimensions_px": [
+    1277,
+    1232
+  ],
+  "mode": "RGBA",
+  "sha256": "ad25b1b3bad337977b9ee440a221d966b8b8da93c7f8cf6614fac74d0e8a0f7b",
+  "alpha_source": {
+    "threshold_gt_8_bbox_xyxy": [
+      324,
+      29,
+      1031,
+      1037
+    ],
+    "threshold_gt_8_margins_percent_ltrb": [
+      25.37,
+      2.35,
+      19.26,
+      15.83
+    ],
+    "threshold_gt_1_bbox_xyxy": [
+      0,
+      27,
+      1172,
+      1216
+    ],
+    "threshold_gt_128_bbox_xyxy": [
+      326,
+      30,
+      1028,
+      1036
+    ],
+    "edge_alpha_max_top_bottom_left_right": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "minimum_required_margin_percent": 12,
+    "pass": false
+  },
+  "padded_review_image": {
+    "file": "sprite_padded_review.png",
+    "dimensions_px": [
+      1800,
+      1800
+    ],
+    "operation": "center unchanged source on transparent canvas without resampling",
+    "file_size_bytes": 1163666,
+    "sha256": "7c37605290a82ad3cfbd1555229e7c94d3d482dc8ee3df637d9b8ce7184fdf12",
+    "threshold_gt_8_margins_percent_ltrb": [
+      32.5,
+      17.39,
+      28.22,
+      26.61
+    ],
+    "margin_pass": true
+  },
+  "preview": {
+    "file": "preview_checkerboard.jpg",
+    "dimensions_px": [
+      1800,
+      1800
+    ],
+    "file_size_bytes": 313400,
+    "sha256": "c5fc10f678367492910a1db448d0f5e062bb1e0b7f844086e7b40d8c25e4639a"
+  },
+  "visual_qa": {
+    "shelf_and_products_integrated": "pass",
+    "four_shelf_rows": "pass",
+    "snack_category_recognizable": "pass",
+    "product_fronts_visible": "pass",
+    "flexible_wrapper_shape": "pass_with_minor_depth",
+    "large_blank_upper_backboard": "fail_observed",
+    "selling_area_fill": "fail_upper_row_gap",
+    "camera_orientation_matches_reference": "visually_close_unverified",
+    "strict_iso2x_v1_numeric_calibration": "not_checked",
+    "raw_alpha_margin": "fail",
+    "padded_margin": "canvas_only_pass",
+    "fixture_dimensions_footprint_anchor": "not_verified",
+    "godot_display": "not_checked",
+    "independent_review": "pending"
+  },
+  "reference": "assets/source/chatgpt_2d_interior/shelf_snack_open_r0_v1/shelf_snack_open_full_r0_v1.png",
+  "file_size_bytes": 1186531
+}
