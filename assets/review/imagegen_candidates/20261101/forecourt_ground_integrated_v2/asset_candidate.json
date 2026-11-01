@@ -20,24 +20,24 @@
       "path": "source_original.png",
       "byte_size": 2154884,
       "sha256": "bf8ff040465999ee26e599c324007bc5777ff01f16cb2d78b445fd300b62c7ff",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "a6cfa534cc75e9c8924ae8cc1adb18cb3396449f",
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
       "path": "checkerboard_review.jpg",
-      "byte_size": null,
-      "sha256": null,
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "byte_size": 263749,
+      "sha256": "fd7e2966b3d8d2d9039d3ce80cb78371a54882ae295ba75da72c0e57570d0487",
+      "git_blob_sha": "4ea123cff6fb53a108e36f78597bb9f9e3372f48",
+      "github_uploaded": true
     },
     {
       "role": "manifest",
       "path": "asset_candidate.json",
-      "byte_size": null,
-      "sha256": null,
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "byte_size": 2871,
+      "sha256": "3fa543e0d0d3aade24972289cd0760f785ec43b2559c1e1bd33427cc6d6bb1f7",
+      "git_blob_sha": "f138cbcb61db0d816367145f311d12383020d616",
+      "github_uploaded": true
     }
   ],
   "projection": {

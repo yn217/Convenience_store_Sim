@@ -27,5 +27,5 @@
   "alpha": "fail: object boundary reaches left and bottom canvas edge, leaving no safe transparent margin; no cleanup applied",
   "decision": "review-only fail; regenerate with iso2x_v1 projection guide, lower edge thickness and larger transparent padding",
   "runtime_approved": false,
-  "github_uploaded": false
+  "github_uploaded": true
 }
