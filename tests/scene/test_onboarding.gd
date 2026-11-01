@@ -102,7 +102,7 @@ func test_assistant_cues_show_in_order_and_stay_dismissed(t, tree) -> void:
 	var stage: Control = r[0].get_node("AssistantStage")
 	t.ok(stage.get_index() > r[0].get_node("ManagementWindow").get_index(), "she stands in front of the management window")
 	r[0].call("open_screen_tab", "経営")
-	t.ok(not stage.visible, "the management window is open: she steps aside so its left edge is not under her bubble")
+	t.ok(stage.visible, "the management window keeps the screen-scoped pilot guidance visible")
 	r[0].call("close_screen")
 	t.ok(stage.visible, "and comes back when it closes")
 	t.ok(stage.visible and pc._assistant.text.contains("どんなお店"), "her line shows in the bubble")
@@ -110,7 +110,9 @@ func test_assistant_cues_show_in_order_and_stay_dismissed(t, tree) -> void:
 	var figure := stage.get_node("AssistantFigure") as TextureRect
 	t.ok(figure.texture != null and figure.mouse_filter == Control.MOUSE_FILTER_IGNORE, "the standing figure shows and lets clicks through")
 	var bottom: float = tree.root.get_visible_rect().size.y - 108.0   # MainLayout.BOTTOM_HEIGHT: the summary cards stay uncovered
-	t.ok(figure.get_global_rect().position.x < 40.0 and absf(figure.get_global_rect().end.y - bottom) < 1.0, "at the bottom left, standing on the summary strip: %s" % figure.get_global_rect())
+	var bubble := stage.get_node("AssistantBubble") as Control
+	t.ok(figure.offset_left >= ProgressionController.ASSISTANT_LEFT and absf(figure.get_global_rect().end.y - bottom) < 1.0, "right of the left menu, standing on the summary strip: %s" % figure.get_global_rect())
+	t.ok(bubble.offset_top > -ProgressionController.FIGURE_SIZE.y - 108.0 + 40.0, "the assistant speech bubble is lowered below the figure head")
 	(stage.find_child("AssistantDismiss", true, false) as Button).pressed.emit()
 	t.eq(pc._snap["story_cue"], "", "閉じる in the bubble dismisses it; nothing else is eligible yet")
 	t.ok(not stage.visible, "the figure and the bubble hide together")

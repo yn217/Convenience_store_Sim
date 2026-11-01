@@ -371,6 +371,9 @@ func _build_window() -> void:
 ## Opens or closes the window layer; `tab` is the lit tab.
 func set_window(open: bool, tab: String) -> void:
 	_window_layer.visible = open
+	var progression := get_parent().get_node_or_null("ProgressionController")
+	if progression != null and progression.has_method("set_suppressed"):
+		progression.set_suppressed(open, "window")
 	if guide != null and not _last_snap.is_empty():
 		guide.apply_snapshot(_last_snap)
 		guide.visible = guide.visible and not open

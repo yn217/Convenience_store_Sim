@@ -21,6 +21,8 @@ const FIGURES := {
 const FIGURE_SIZE := Vector2(300, 436)   # keeps the art's 640:931 aspect
 const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
+const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT + 16.0
+const BUBBLE_TOP_DROP := 64.0
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
 const BLOCKED_LINE := "大変です、店長…！費用が払えなくて、お店が止まってしまいました。セーブからやり直しましょう。"
@@ -148,6 +150,13 @@ func _clear_pilot_cue() -> void:
 	_pilot_cue_id = ""
 	_pilot_cue_payload = {}
 	_refresh_stage()
+
+
+func clear_pilot_cue() -> void:
+	"""End a screen-scoped pilot cue when its owning management screen closes."""
+	if _pilot_cue_timer != null:
+		_pilot_cue_timer.stop()
+	_clear_pilot_cue()
 
 
 func apply_snapshot(snap: Dictionary) -> void:
@@ -480,6 +489,7 @@ func _build_stage() -> void:
 	_stage = Control.new()
 	_stage.name = "AssistantStage"
 	_stage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_stage.clip_contents = true
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var figure := TextureRect.new()
 	figure.name = "AssistantFigure"
@@ -490,8 +500,8 @@ func _build_stage() -> void:
 	figure.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
 	figure.mouse_filter = Control.MOUSE_FILTER_IGNORE   # the rail and the store under her stay clickable
 	figure.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	figure.offset_left = 0
-	figure.offset_right = FIGURE_SIZE.x
+	figure.offset_left = ASSISTANT_LEFT
+	figure.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x
 	figure.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT   # she stands on the summary strip, not over its cards
 	figure.offset_bottom = -Layout.BOTTOM_HEIGHT
 	_stage.add_child(figure)
@@ -503,8 +513,8 @@ func _build_stage() -> void:
 	pilot_figure.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pilot_figure.visible = false
 	pilot_figure.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	pilot_figure.offset_left = 0
-	pilot_figure.offset_right = FIGURE_SIZE.x
+	pilot_figure.offset_left = ASSISTANT_LEFT
+	pilot_figure.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x
 	pilot_figure.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT
 	pilot_figure.offset_bottom = -Layout.BOTTOM_HEIGHT
 	_stage.add_child(pilot_figure)
@@ -516,8 +526,8 @@ func _build_stage() -> void:
 	pilot_reaction.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pilot_reaction.visible = false
 	pilot_reaction.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	pilot_reaction.offset_left = 18
-	pilot_reaction.offset_right = 18 + 260
+	pilot_reaction.offset_left = ASSISTANT_LEFT + 18
+	pilot_reaction.offset_right = ASSISTANT_LEFT + 18 + 260
 	pilot_reaction.offset_top = -Layout.BOTTOM_HEIGHT - 260
 	pilot_reaction.offset_bottom = -Layout.BOTTOM_HEIGHT
 	_stage.add_child(pilot_reaction)
@@ -533,8 +543,8 @@ func _build_stage() -> void:
 	pilot_reaction_symbol.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pilot_reaction_symbol.visible = false
 	pilot_reaction_symbol.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	pilot_reaction_symbol.offset_left = 218
-	pilot_reaction_symbol.offset_right = 298
+	pilot_reaction_symbol.offset_left = ASSISTANT_LEFT + 218
+	pilot_reaction_symbol.offset_right = ASSISTANT_LEFT + 298
 	pilot_reaction_symbol.offset_top = -Layout.BOTTOM_HEIGHT - 258
 	pilot_reaction_symbol.offset_bottom = -Layout.BOTTOM_HEIGHT - 198
 	_stage.add_child(pilot_reaction_symbol)
@@ -549,9 +559,9 @@ func _build_stage() -> void:
 	_bubble.theme_type_variation = &"Card"
 	_bubble.mouse_filter = Control.MOUSE_FILTER_STOP
 	_bubble.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	_bubble.offset_left = FIGURE_SIZE.x - 40          # beside her head, slightly over her shoulder
-	_bubble.offset_right = FIGURE_SIZE.x - 40 + BUBBLE_WIDTH
-	_bubble.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT + 40
+	_bubble.offset_left = ASSISTANT_LEFT + FIGURE_SIZE.x - 40          # beside her head, right of the left menu
+	_bubble.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x - 40 + BUBBLE_WIDTH
+	_bubble.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT + 40 + BUBBLE_TOP_DROP
 	_bubble.offset_bottom = _bubble.offset_top
 	_bubble.grow_vertical = Control.GROW_DIRECTION_END
 	_stage.add_child(_bubble)

@@ -144,6 +144,17 @@ These spot checks do not change `runtime_approved`; the assets remain available 
 
 The staff-management capture `build/character_pilot_staff_hired_latest.png` opens the internal `店員` tab and exercises `staff_hired`. The staff list, candidate cards, and hiring controls remain visible while the full-body pilot is shown in the assistant slot; no button/card is covered and no second character is introduced. (`スタッフ` is the chrome label; `店員` is the internal tab ID used by the capture helper.)
 
+## Assistant placement QA (2026-11-02)
+
+The assistant stage now reserves the area to the right of the mockup's left menu (`MainLayout.CHROME_MENU_RIGHT` plus a margin), clips its stage to the viewport, and applies the same safe-area placement to full-body pilots, bust-up reactions, and reaction symbols. The speech bubble is anchored beside the figure and lowered by `BUBBLE_TOP_DROP`, so it no longer sits on top of the left menu. Screen-scoped pilot cues are cleared when their management screen closes.
+
+Visual captures:
+
+- `build/character_pilot_layout_fixed_1280.png`
+- `build/character_pilot_layout_fixed_1920.png`
+
+Both resolutions show the `low_stock_notice` pilot without left-menu overlap; the bubble is lower and the summary strip remains the figure's baseline. Focused verification: `parse_all` covered 263 scripts with 0 errors, `character_visual_pilot` passed 4 tests / 273 assertions / 0 failures, and `onboarding` passed 6 tests / 69 assertions / 0 failures.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.

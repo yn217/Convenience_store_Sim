@@ -278,6 +278,9 @@ func open_screen_tab(tab: String) -> void:
 
 func close_screen() -> void:
 	ui.close_screen()
+	var guide := get_node_or_null("ProgressionController")
+	if guide != null and guide.has_method("clear_pilot_cue"):
+		guide.clear_pilot_cue()
 	_sync_selection()
 
 
