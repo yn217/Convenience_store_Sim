@@ -128,7 +128,7 @@ func request_pilot_cue(cue_id: String, payload: Dictionary = {}) -> void:
 
 
 func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
-	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"].has(cue_id):
+	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "order_help", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"].has(cue_id):
 		return
 	_pilot_cue_id = cue_id
 	_pilot_cue_payload = payload.duplicate()

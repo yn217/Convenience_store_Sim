@@ -50,6 +50,7 @@ $files = @(
     "functional_map_proposal.png",
     "functional_register_guidance.png",
     "functional_restock_guidance.png",
+    "functional_order_help.png",
     "functional_day_report.png",
     "functional_business_greeting.png"
 )

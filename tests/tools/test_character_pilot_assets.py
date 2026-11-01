@@ -18,7 +18,7 @@ class CharacterPilotAssetTests(unittest.TestCase):
             entry for entry in registry["assets"]
             if "/derived_alpha/" in entry.get("runtime_path", "")
         ]
-        self.assertEqual(len(derived), 43)
+        self.assertEqual(len(derived), 44)
 
         for entry in derived:
             runtime_path = ROOT / entry["runtime_path"].removeprefix("res://")

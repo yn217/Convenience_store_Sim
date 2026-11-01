@@ -294,6 +294,9 @@ func _on_rail_pressed(id: String) -> void:
 ## 発注 (rail) and similar shortcuts: the 商品 tab, scrolled to the order section (StockController).
 func open_goods_order() -> void:
 	open_screen_tab("商品")
+	var guide := get_node_or_null("ProgressionController")
+	if guide != null and guide.has_method("request_pilot_cue"):
+		guide.request_pilot_cue("order_help", {})
 	var stock := get_node_or_null("StockController")
 	if stock != null and stock.has_method("order_section"):
 		_reveal.call_deferred(stock.order_section())

@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 47, "the pilot registry exposes all 47 selected visuals")
+	t.eq(panel._entries.size(), 48, "the pilot registry exposes all 48 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -42,6 +42,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.cue_entry("staff_hired").get("id", ""), "functional_staff_hiring", "staff hiring uses its functional pilot pose")
 	t.eq(panel.cue_entry("seasonal_campaign_started").get("id", ""), "functional_campaign", "promotion start uses its campaign pilot pose")
 	t.eq(panel.cue_entry("map_proposal_open").get("id", ""), "functional_map_proposal", "area map uses its proposal pilot pose")
+	t.eq(panel.cue_entry("order_help").get("id", ""), "functional_order_help", "the order screen has a purchasing guidance pose")
 	t.eq(panel.cue_entry("business_started").get("id", ""), "functional_business_greeting", "opening cut-in has a greeting pilot pose")
 	t.eq(panel.stage_entry({"story_cue": "story_first_profit", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_first_profit", "first-profit story uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "story_register", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_register_guidance", "register tutorial uses the register guidance pose")
@@ -121,6 +122,10 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	pc.request_pilot_cue("seasonal_campaign_started", {})
 	await tree.process_frame
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_campaign.png", "promotion start selects the campaign pose")
+	main.open_goods_order()
+	await tree.process_frame
+	t.eq(pc._pilot_cue_id, "order_help", "opening the order screen requests the purchasing guidance pose")
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_order_help.png", "order screen uses the purchasing guidance pose")
 	main.call("open_screen_tab", "店員")
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "staff_schedule_open", "opening the staff screen requests the schedule pose")

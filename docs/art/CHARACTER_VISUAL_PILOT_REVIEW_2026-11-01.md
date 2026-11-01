@@ -4,12 +4,12 @@ Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
 
 ## Scope
 
-This review covers the 47-image pilot. The remaining 287 candidates stay review-only and are not loaded by the pilot registry.
+This review covers the 48-image pilot. The remaining 286 candidates stay review-only and are not loaded by the pilot registry.
 
 ## Automated checks
 
-- Registry entries: 47
-- Runtime pilot PNGs: 47
+- Registry entries: 48
+- Runtime pilot PNGs: 48
 - Duplicate logical IDs: 0
 - Missing runtime paths: 0
 - Title candidate: 1344x768
