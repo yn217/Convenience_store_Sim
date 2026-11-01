@@ -165,14 +165,18 @@ func test_runtime_event_panel_shows_selected_event_pilot(t, tree) -> void:
 	}
 	events.apply_snapshot({"gameplay_event": view, "event_catalog": [], "event_history": [], "time_sec": 1800, "stocked_categories": []})
 	var picture: TextureRect = events._pilot_picture
+	var reaction_picture: TextureRect = events._pilot_reaction_picture
 	t.ok(panel.is_pilot_enabled(), "event pilot is enabled for the QA runtime")
 	t.ok(picture.visible, "active events show the selected event pilot")
+	t.ok(not reaction_picture.visible, "full-body event pilots do not use the reaction slot")
 	t.eq((picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/event_roadworks.png", "roadworks selects the event pilot texture")
 	t.ok(picture.size.x > 0.0, "event pilot has a visible layout width")
 	t.ok(picture.size.y > 0.0, "event pilot has a visible layout height")
 	view["event_id"] = "evt_quiet_street"
 	events.apply_snapshot({"gameplay_event": view, "event_catalog": [], "event_history": [], "time_sec": 1800, "stocked_categories": []})
-	t.ok(picture.visible, "events without a dedicated illustration still show a reaction pilot")
-	t.eq((picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_deadpan.png", "quiet street uses the deadpan reaction pilot")
+	t.ok(not picture.visible, "reaction events do not use the full-body slot")
+	t.ok(reaction_picture.visible, "events without a dedicated illustration show a reaction pilot")
+	t.eq((reaction_picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_deadpan.png", "quiet street uses the deadpan reaction pilot")
+	t.ok(reaction_picture.size.x > 0.0 and reaction_picture.size.y > 0.0, "reaction pilot has a visible layout size")
 	main.queue_free()
 	await tree.process_frame
