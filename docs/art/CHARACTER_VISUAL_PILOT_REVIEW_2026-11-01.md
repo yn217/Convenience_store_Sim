@@ -15,7 +15,7 @@ This review covers the 50-image pilot. The remaining 284 candidates stay review-
 - Title candidate: 1344x768
 - Full-body/event candidates: 1024x1536
 - Bust-up candidates: 1024x1024
-- Derived alpha integrity: 47 files keep their expected canvas (44 full-body at 1024x1536 and 3 bust-up reactions at 1024x1024), non-empty alpha, and transparent corners (`tests/tools/test_character_pilot_assets.py`)
+- Derived alpha integrity: 49 files keep their expected canvas (44 full-body at 1024x1536 and 5 bust-up reactions at 1024x1024), non-empty alpha, and transparent corners (`tests/tools/test_character_pilot_assets.py`)
 - Runtime event-panel spot check: `evt_quiet_street` at 1280x720 displays the transparent `reaction_deadpan` pilot in the dedicated event slot without the source white rectangle.
 - Event panel layout: the event illustration and a dedicated pilot column are arranged horizontally. Full-body pilots use `EventPilotFullbodyPicture` (160x240) and bust-up reactions use `EventPilotReactionPicture` (220x220); only the matching slot is visible, preventing the pilot from being clipped below the event card at 1280x720.
 - Runtime event-panel spot checks: `build/character_pilot_event_roadworks_management_1280.png` shows the full-body `event_roadworks` pilot beside the event CG, and `build/character_pilot_event_quiet_management_1280.png` shows the `reaction_deadpan` bust-up in the same dedicated column.
@@ -132,7 +132,7 @@ The story reaction capture `build/character_pilot_story_queue_clean_latest.png` 
 
 ## Derived-alpha contact-sheet review (2026-11-02)
 
-The 47 PNGs under `assets/runtime/character_pilot/derived_alpha` were reviewed together on a dark matte in `build/character_pilot_alpha_contact.png`. At contact-sheet scale, the full-body set keeps the white blouse, apron silhouette, trousers, and shoes, with no gross white-background island or large surrounding residue visible. This is a coarse alpha/silhouette gate, not per-image hand or edge approval.
+The 49 PNGs under `assets/runtime/character_pilot/derived_alpha` were reviewed together on a dark matte in `build/character_pilot_alpha_contact.png`. At contact-sheet scale, the full-body set keeps the white blouse, apron silhouette, trousers, and shoes, with no gross white-background island or large surrounding residue visible. This is a coarse alpha/silhouette gate, not per-image hand or edge approval.
 
 The three original bust-up reactions remain held because generated bubbles/symbols are still present in their source-derived pixels. `reaction_milestone_calm` is a fourth pilot route derived from candidate 043, and `reaction_first_sale_joy` is a fifth route derived from candidate 031 after its proposed trigger was corrected from an opening failure to the actual first-sale celebration shown in the image. BiRefNet removed their disconnected generated effects, and the routes are limited to `story_first_profit` and `story_first_sale`. Godot's independent symbol layer remains authoritative, so both candidates are still `runtime_approved:false` pending detailed hand/edge and rights review.
 
@@ -167,7 +167,7 @@ Follow-up CLI captures also passed at 1920x1080 (`build/character_pilot_cli_1920
 
 ## Next gate
 
-1. Open the review gallery scene and inspect all 47 derived-alpha candidates.
+1. Open the review gallery scene and inspect all 49 derived-alpha candidates.
 2. Select/reject each candidate in the registry without changing Domain state.
 3. Create derived alpha PNGs only for approved full-body/bust-up images.
 4. Compare the title candidate at 1920x1080, 1600x900, and 1280x720 before connecting it to the title screen.
@@ -181,7 +181,7 @@ promote any candidate into the runtime registry. The candidates preserve the int
 gesture, but many still contain generated speech bubbles or reaction marks inside the pixels. Those baked marks must
 not be treated as the authoritative game UI, because the runtime owns the independent symbol/text layer.
 
-The current runtime pilot therefore keeps only the three detailed bust-up routes (`reaction_discovery`,
-`reaction_pleading`, and `reaction_deadpan`) and leaves the other 47 candidates in the 334-image placement review.
+The current runtime pilot therefore keeps five detailed bust-up routes (`reaction_discovery`,
+`reaction_pleading`, `reaction_deadpan`, `reaction_milestone_calm`, and `reaction_first_sale_joy`) and leaves the other 45 candidates in the 334-image placement review.
 Each candidate needs a clean derivation, hand/edge inspection, and a concrete game trigger before it can be added to
 `character_visuals_v1.json`; `runtime_approved:false` remains unchanged.
