@@ -107,6 +107,9 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	pc.request_pilot_cue("staff_hired", {})
 	await tree.process_frame
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_staff_hiring.png", "staff hiring selects the hiring pose")
+	pc.request_pilot_cue("seasonal_campaign_started", {})
+	await tree.process_frame
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_campaign.png", "promotion start selects the campaign pose")
 	pc._pilot_cue_timer.stop()
 	pc._clear_pilot_cue()
 	main.queue_free()
