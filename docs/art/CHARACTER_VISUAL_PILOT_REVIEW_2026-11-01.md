@@ -155,6 +155,8 @@ Visual captures:
 
 Both resolutions show the `low_stock_notice` pilot without left-menu overlap; the bubble is lower and the summary strip remains the figure's baseline. Focused verification: `parse_all` covered 263 scripts with 0 errors, `character_visual_pilot` passed 4 tests / 273 assertions / 0 failures, and `onboarding` passed 6 tests / 69 assertions / 0 failures.
 
+The same layout was rechecked through the repository's CLI capture path after a headless import (`--headless --import --quit`): `build/character_pilot_cli_1280.png` was produced with `Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path . --resolution 1280x720 --script res://tools/capture_screen.gd -- --calm --pilot-cue=low_stock_notice --freeze --inspect-pilot`. The capture log reports `stage_visible=true`, `pilot_visible=true`, and the expected `derived_alpha/functional_low_stock.png` texture; the saved PNG shows the figure clear of the left menu and the speech bubble below the figure head.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.
