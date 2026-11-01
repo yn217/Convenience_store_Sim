@@ -78,6 +78,10 @@ The staff-management screen requests `staff_schedule_open`, and successful save,
 
 The pilot review UI exists only in a Godot debug build and defaults on there for local review. Release builds do not create the review controls, so entries with `runtime_approved:false` cannot appear in the normal runtime.
 
+## Title candidate QA
+
+The `title_background_pilot` candidate was rendered with `--visual-variant=painted_v1` at 1920x1080, 1600x900, and 1280x720. The title logo, buttons, and the embedded character remain visible without a second `TitleRikka` layer or viewport cropping. The candidate is still held for review because its dusk lighting does not match the required ordinary daytime title direction; the default title continues to use `assets/ui/title/title_background.png` with the existing fallback path.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 43 candidates.
