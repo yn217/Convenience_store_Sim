@@ -42,6 +42,7 @@ var _bubble: PanelContainer
 var _dismiss: Button
 var _heading: Label            # 目標達成！ while celebrating, hidden otherwise
 var _figure: TextureRect
+var _pilot_figure: TextureRect
 var _figure_textures: Dictionary = {}   # mood -> Texture2D
 var _day_mood := "normal"      # her face for the day-end remark
 var _blocked_closed := false
@@ -196,6 +197,7 @@ func _refresh_stage() -> void:
 		set_mood("worried")
 	else:
 		set_mood("happy" if celebrating else (_day_mood if _day_remark != "" else story_mood(cue)))
+	refresh_visual_pilot()
 
 
 ## Her face for a story line: a bow for the first greeting, explaining for the rest.
@@ -209,6 +211,22 @@ static func story_mood(cue: String) -> String:
 func set_mood(mood: String) -> void:
 	if _figure != null and _figure_textures.has(mood):
 		_figure.texture = _figure_textures[mood]
+
+
+## Shows a selected Issue #230 pilot sprite in the real assistant stage when enabled in the inspector.
+## The legacy mood figure remains the fallback whenever the pilot registry, texture, or toggle is unavailable.
+func refresh_visual_pilot() -> void:
+	if _pilot_figure == null:
+		return
+	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
+	var enabled := pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled()
+	var entry: Dictionary = pilot.selected_entry(_snap) if enabled and pilot.has_method("selected_entry") else {}
+	var texture := load(String(entry.get("runtime_path", ""))) as Texture2D if not entry.is_empty() else null
+	var usable := enabled and texture != null
+	_pilot_figure.visible = usable
+	_pilot_figure.texture = texture if usable else null
+	if _figure != null:
+		_figure.visible = not usable
 
 
 func mood() -> String:
@@ -392,6 +410,19 @@ func _build_stage() -> void:
 	figure.offset_bottom = -Layout.BOTTOM_HEIGHT
 	_stage.add_child(figure)
 	_figure = figure
+	var pilot_figure := TextureRect.new()
+	pilot_figure.name = "AssistantPilotFigure"
+	pilot_figure.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	pilot_figure.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	pilot_figure.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pilot_figure.visible = false
+	pilot_figure.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	pilot_figure.offset_left = 0
+	pilot_figure.offset_right = FIGURE_SIZE.x
+	pilot_figure.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT
+	pilot_figure.offset_bottom = -Layout.BOTTOM_HEIGHT
+	_stage.add_child(pilot_figure)
+	_pilot_figure = pilot_figure
 	_celebrate_timer = Timer.new()
 	_celebrate_timer.one_shot = true
 	_celebrate_timer.wait_time = CELEBRATE_SECONDS

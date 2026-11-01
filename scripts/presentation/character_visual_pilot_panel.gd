@@ -1,6 +1,8 @@
 extends Node
 ## Issue #230 pilot runtime display. It only changes presentation and never changes Domain state.
 
+signal pilot_visibility_changed(enabled: bool)
+
 const REGISTRY_PATH := "res://data/presentation/character_visuals_v1.json"
 const PILOT_VISIBLE_BY_DEFAULT := true
 
@@ -55,12 +57,27 @@ func _set_review_visible(enabled: bool) -> void:
 	_meta.visible = enabled
 	if enabled:
 		_show_selected(_select_entry(_snapshot))
+	pilot_visibility_changed.emit(enabled)
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null and guide.has_method("refresh_visual_pilot"):
+		guide.refresh_visual_pilot()
 
 
 func apply_snapshot(snapshot: Dictionary) -> void:
 	_snapshot = snapshot
 	if _toggle != null and _toggle.button_pressed:
 		_show_selected(_select_entry(snapshot))
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null and guide.has_method("refresh_visual_pilot"):
+		guide.refresh_visual_pilot()
+
+
+func is_pilot_enabled() -> bool:
+	return _toggle != null and _toggle.button_pressed
+
+
+func selected_entry(snapshot: Dictionary) -> Dictionary:
+	return _select_entry(snapshot)
 
 
 func _select_entry(snapshot: Dictionary) -> Dictionary:

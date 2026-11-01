@@ -23,3 +23,6 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 		t.eq(entry.get("id", ""), pair[1], "%s selects the expected pilot" % pair[0])
 	var quiet: Dictionary = panel._select_entry({"story_cue": "", "gameplay_event": {"event_id": "evt_quiet_street"}, "progression": {}})
 	t.eq(quiet.get("id", ""), "reaction_deadpan", "quiet street uses the deadpan reaction")
+	t.ok(panel.has_method("is_pilot_enabled"), "pilot panel exposes its display toggle")
+	t.ok(panel.has_method("selected_entry"), "pilot panel exposes the selected runtime entry")
+	t.eq(panel.selected_entry({"story_cue": "story_sold_out", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_sold_out", "stage consumers share pilot routing")
