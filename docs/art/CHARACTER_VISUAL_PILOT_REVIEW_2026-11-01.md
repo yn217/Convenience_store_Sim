@@ -105,6 +105,8 @@ It reads `docs/art/COMFYUI_334_IMAGE_PLACEMENT_20261101.json`, lists all 334 can
 
 The `title_background_pilot` candidate is now the daylight residential-store composition `title_screen_variant_04_1344x768_00001_.png`. The explicit `--visual-variant=painted_v1` QA path keeps the title logo, buttons, and embedded character separate from a second `TitleRikka` layer. It remains held for visual and rights review; the default title continues to use `assets/ui/title/title_background.png` with the existing fallback path.
 
+The same title candidate was captured at 1280x720, 1600x900, and 1920x1080 as `build/character_pilot_title_{1280,1600,1920}.png`. Across all three sizes, the embedded character's face and both odango buns remain inside the frame, the logo and menu buttons remain readable, and the standalone `TitleRikka` layer is not created. The hand/lower-body crop is part of the candidate's bust-up composition and does not obscure a control. This is a visual comparison result only; the candidate remains a local QA override and is not yet the default title asset.
+
 ## Runtime screen QA (2026-11-02)
 
 The 1280x720 management-screen capture `build/character_pilot_roadworks_management_latest.png` was checked with `evt_roadworks`, the `経営` screen, and `--inspect-pilot`. The event illustration and the selected `event_roadworks` full-body pilot are both rendered by the event panel. The pilot remains inside the panel, does not cover the management tabs or bottom controls, and no second assistant layer is visible. The event status text and event image remain owned by the existing event UI; the generated character is presentation-only.
