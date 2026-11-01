@@ -85,6 +85,13 @@ func test_title_has_her(t, tree) -> void:
 	await tree.process_frame
 
 
+func test_title_pilot_candidate_does_not_need_a_second_figure(t, _tree) -> void:
+	var pilot := TitleScreen.pilot_title_texture("painted_v1")
+	t.ok(pilot != null, "the title pilot candidate loads for the explicit QA override")
+	if pilot != null:
+		t.ok(not pilot.resource_path.is_empty(), "the title pilot has a concrete runtime texture")
+
+
 ## #104 / #134: six chibi looks, a walk cycle with stride poses (the feet move), and a seated eating pose at the eat-in.
 func test_chibi_looks_walk_and_eat(t, _tree) -> void:
 	t.eq(CustomerSprites.VARIANTS.size(), 10, "ten looks for the customers")

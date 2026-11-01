@@ -7,6 +7,8 @@ extends Control
 const MAIN_SCENE := "res://scenes/main/Main.tscn"
 const SETTINGS_PATH := "user://settings.json"
 const TITLE_RIKKA := "res://assets/ui/title/title_rikka.png"
+const PILOT_REGISTRY_PATH := "res://data/presentation/character_visuals_v1.json"
+const PILOT_TITLE_ID := "title_background_pilot"
 const TITLE_RIKKA_SIZE := Vector2(560, 815)   # keeps the art's 640:931 aspect
 
 var save_dir := SaveStore.DIR
@@ -22,7 +24,8 @@ func _ready() -> void:
 	background.name = "TitleBackground"
 	# Anime background art (ComfyUI, tools/assets/build_scene_ui.py, 1920x1080); the flat SVG is the fallback.
 	var painted := "res://assets/ui/title/title_background.png"
-	background.texture = load(painted if ResourceLoader.exists(painted) else "res://assets/ui/title/title_background.svg") as Texture2D
+	var pilot_texture := pilot_title_texture(VisualVariants.override())
+	background.texture = pilot_texture if pilot_texture != null else load(painted if ResourceLoader.exists(painted) else "res://assets/ui/title/title_background.svg") as Texture2D
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
@@ -35,7 +38,10 @@ func _ready() -> void:
 	tint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tint)
 	# 小春六花 greets the player at the right (ComfyUI render, tools/assets/build_character_ui.py; 640x931 for ~640 px).
-	var rikka_texture := load(TITLE_RIKKA) as Texture2D
+	# The pilot title image already contains 小春六花. Do not layer the standalone figure on top of it.
+	var rikka_texture: Texture2D = null
+	if pilot_texture == null:
+		rikka_texture = load(TITLE_RIKKA) as Texture2D
 	if rikka_texture != null:
 		var rikka := TextureRect.new()
 		rikka.name = "TitleRikka"
@@ -98,6 +104,27 @@ func _ready() -> void:
 	col.add_child(_settings)
 	col.add_child(_button("Quit", "ゲームを終了", func(): get_tree().quit(), false))
 	refresh()
+
+
+## QA-only title candidate. The registry keeps this disabled for normal builds until visual/rights review.
+## A non-empty VisualVariants override explicitly waives that gate for local inspection.
+static func pilot_title_texture(override_name: String = "") -> Texture2D:
+	if override_name == "":
+		return null
+	if not FileAccess.file_exists(PILOT_REGISTRY_PATH):
+		return null
+	var data = JSON.parse_string(FileAccess.get_file_as_string(PILOT_REGISTRY_PATH))
+	if typeof(data) != TYPE_DICTIONARY:
+		return null
+	for raw_entry in data.get("assets", []):
+		if typeof(raw_entry) != TYPE_DICTIONARY or String(raw_entry.get("id", "")) != PILOT_TITLE_ID:
+			continue
+		var path := String(raw_entry.get("runtime_path", ""))
+		if path == "" or not ResourceLoader.exists(path):
+			return null
+		var texture := load(path) as Texture2D
+		return texture
+	return null
 
 
 func _logo_label(node_name: String, text: String, size: int, color: Color, rect: Rect2, outline: int) -> Label:
