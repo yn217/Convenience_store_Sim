@@ -132,7 +132,7 @@ The story reaction capture `build/character_pilot_story_queue_clean_latest.png` 
 
 ## Derived-alpha contact-sheet review (2026-11-02)
 
-The 49 PNGs under `assets/runtime/character_pilot/derived_alpha` were reviewed together on a dark matte in `build/character_pilot_alpha_contact.png`. At contact-sheet scale, the full-body set keeps the white blouse, apron silhouette, trousers, and shoes, with no gross white-background island or large surrounding residue visible. This is a coarse alpha/silhouette gate, not per-image hand or edge approval.
+The 49 PNGs under `assets/runtime/character_pilot/derived_alpha` were reviewed together on a dark matte in `build/character_pilot_alpha_contact_20261103.png`. At contact-sheet scale, the full-body set keeps the white blouse, apron silhouette, trousers, and shoes, with no gross white-background island or large surrounding residue visible. This is a coarse alpha/silhouette gate, not per-image hand or edge approval. The two additional clean bust-up routes are included; the older reaction routes with baked symbols remain held.
 
 The three original bust-up reactions remain held because generated bubbles/symbols are still present in their source-derived pixels. `reaction_milestone_calm` is a fourth pilot route derived from candidate 043, and `reaction_first_sale_joy` is a fifth route derived from candidate 031 after its proposed trigger was corrected from an opening failure to the actual first-sale celebration shown in the image. BiRefNet removed their disconnected generated effects, and the routes are limited to `story_first_profit` and `story_first_sale`. Godot's independent symbol layer remains authoritative, so both candidates are still `runtime_approved:false` pending detailed hand/edge and rights review.
 
