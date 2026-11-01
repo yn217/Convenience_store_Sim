@@ -12,9 +12,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 import comfy_rikka as comfy  # noqa: E402
 
 OUT = Path("assets/source/ui_art")
-STYLE = ("anima_style, glossy mobile game ui icon, a single object, centered, whole object in frame, bold clean outline, "
+STYLE = ("anima_style, cute sticker illustration, a single object, centered, whole object in frame, bold clean outline, "
          "bright saturated colours, soft gradient shading with a white highlight, plain pure white background, "
-         "no text, no letters, no numbers, ")
+         "no text, no letters, no numbers, no square tile, no frame behind the object, ")
 ICONS = {
     # left menu
     "nav_store": "a small cute convenience store building with a striped awning and a door, cream walls and brown roof",

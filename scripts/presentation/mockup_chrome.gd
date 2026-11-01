@@ -1,9 +1,9 @@
 class_name MockupChrome
 extends Control
-## The screen chrome of the 2026-11-01 mockup (docs/mockups/ui_target_*_2026-11-01.png), drawn over the live store the
-## way the browser mockup does it: the parts cut out of the mockup (tools/assets/build_mockup_chrome.py, at the
-## game's 1920x1080 base size) with the values drawn live on top. Two layers: the base (top bar, left menu, bottom bar)
-## always, and the window layer (the 経営管理 frame and its tabs, 小春六花 and her bubble) while the window is open.
+## The screen chrome of the 2026-11-01 mockup (docs/mockups/ui_target_*_2026-11-01.png), built in code over the live
+## store: the top bar, the left menu, the bottom bar, and while the 経営管理 window is open its frame and tabs with
+## 小春六花 and her speech bubble beside it. Shapes are UiShape, text is the rounded font, icons are the filled glyphs
+## and the UI pictures (MockStyle). Positions are the mockup's, measured at the 1920x1080 base size.
 ## Presentation only: every button emits a signal and MainLayout runs the same action the old controls ran.
 
 signal nav_pressed(id: String)
@@ -13,22 +13,18 @@ signal pause_pressed
 signal close_pressed
 signal corner_pressed(id: String)   # the bottom right buttons: notices / missions / encyclopedia / shop
 
-const DIR := "res://assets/ui/mockup/"
-const NAV := ["store", "goods", "order", "management", "data", "staff", "equipment", "achievements"]
-const NAV_TIPS := {"store": "店舗（建設モード）", "goods": "商品", "order": "発注", "management": "経営", "data": "データ",
-	"staff": "スタッフ", "equipment": "設備（建設モード）", "achievements": "実績・称号"}
-const TABS := ["goods", "management", "store", "staff", "data", "settings"]
-const SPEEDS := {"x1": 1, "x2": 2, "x4": 4}
+const NAV := [["store", "店舗", "home"], ["goods", "商品", "box"], ["order", "発注", "truck"], ["management", "経営", "chart-up"],
+	["data", "データ", "bar-chart"], ["staff", "スタッフ", "users"], ["equipment", "設備", "wrench"], ["achievements", "実績・称号", "trophy"]]
+const NAV_TIPS := {"store": "店舗（建設モード）", "equipment": "設備（建設モード）", "achievements": "実績・称号（経営の目標）"}
+const TABS := [["goods", "商品", "box", 572, 176], ["management", "経営", "chart-up", 754, 163], ["store", "店舗", "store", 920, 159],
+	["staff", "スタッフ", "users", 1083, 164], ["data", "データ", "bar-chart", 1253, 171], ["settings", "設定", "gear", 1427, 164]]
+const SPEEDS := [["pause", 0, 1774, 34], ["x1", 1, 1810, 31], ["x2", 2, 1843, 31], ["x4", 4, 1876, 34]]
 ## The window's content area (below the tabs), where MainLayout puts the management pages.
 const CONTENT := Rect2(562, 392, 1030, 474)
-## The bottom right buttons' hit areas.
-const CORNERS := {"notices": Rect2(1497, 935, 96, 112), "missions": Rect2(1600, 935, 98, 112),
-	"encyclopedia": Rect2(1706, 935, 92, 112), "shop": Rect2(1808, 935, 98, 112)}
-const CLOSE := Rect2(1524, 233, 76, 76)
-const INK := Color("3b2a22")          # dark text on the cream faces
-const GOLD := Color("ffd23c")         # the yellow figures on the dark faces
-const CREAM := Color("fff3e0")
-const GREEN := Color("1c8a3a")
+const RIKKA := "res://assets/ui/mockup/rikka.png"
+const RIKKA_RECT := Rect2(195, 327, 448, 605)
+const INK := MockStyle.INK
+const GREEN := MockStyle.GREEN
 ## What 小春 says beside the window, per tab (the mockup's lines for 商品 and データ).
 const BUBBLE := {
 	"goods": "商品の在庫や価格を\n調整できます！\n売れ筋を確認して\nさらに売上を伸ばしましょう！",
@@ -38,39 +34,25 @@ const BUBBLE := {
 	"settings": "音や表示の設定、\nセーブ・ロードは\nこちらです！",
 }
 
-static var _layout: Dictionary = {}
-
 var _base: Control
 var _window_layer: Control
-var _nav_buttons: Dictionary = {}
-var _tab_buttons: Dictionary = {}
-var _speed_buttons: Dictionary = {}
+var _nav: Dictionary = {}      # id -> {button, plate, glyph, label}
+var _tabs: Dictionary = {}     # id -> {button, plate}
+var _speeds: Dictionary = {}   # id -> {button, plate, label}
 var _bubble_text: Label
 var _labels: Dictionary = {}
-var _goal_fill: Panel
+var _goal_fill: UiShape
 var _event_icon: TextureRect
-var _nav_on := ""
 var days_per_month := GameCalendar.DEFAULT_DAYS_PER_MONTH   # set by GameHud (from the balance)
-var _tab_on := "goods"
-
-
-static func layout() -> Dictionary:
-	if _layout.is_empty():
-		_layout = JSON.parse_string(FileAccess.get_file_as_string(DIR + "layout.json"))
-	return _layout
 
 
 static func available() -> bool:
-	return FileAccess.file_exists(DIR + "layout.json")
+	return true
 
 
-## A heavy rounded-looking system font for the live figures (the mockup's lettering is a bold gothic).
-static func font(weight: int = 800) -> Font:
-	var f := SystemFont.new()
-	f.font_names = PackedStringArray(["Yu Gothic UI", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", "sans-serif"])
-	f.font_weight = weight
-	f.antialiasing = TextServer.FONT_ANTIALIASING_GRAY
-	return f
+## The rounded font (kept for the pages that call MockupChrome.font()).
+static func font(_weight: int = 800) -> Font:
+	return MockStyle.font("ExtraBold")
 
 
 func _ready() -> void:
@@ -80,7 +62,9 @@ func _ready() -> void:
 	_base = _layer("Base")
 	_window_layer = _layer("WindowLayer")
 	_window_layer.visible = false
-	_build_base()
+	_build_top()
+	_build_menu()
+	_build_bottom()
 	_build_window()
 
 
@@ -93,169 +77,291 @@ func _layer(n: String) -> Control:
 	return c
 
 
-func _picture(parent: Control, part: String, blocks: bool = true) -> TextureRect:
-	var r := TextureRect.new()
-	r.name = part
-	r.texture = load(DIR + part + ".png")
-	var p: Array = layout()[part]
-	r.position = Vector2(p[0], p[1])
-	r.size = Vector2(p[2], p[3])
-	r.mouse_filter = Control.MOUSE_FILTER_STOP if blocks else Control.MOUSE_FILTER_IGNORE
-	parent.add_child(r)
-	return r
-
-
-func _texture_button(parent: Control, off_part: String, tip: String) -> TextureButton:
-	var b := TextureButton.new()
-	b.name = off_part
-	b.texture_normal = load(DIR + off_part + ".png")
-	var p: Array = layout()[off_part]
-	b.position = Vector2(p[0], p[1])
-	b.size = Vector2(p[2], p[3])
-	b.ignore_texture_size = true
-	b.stretch_mode = TextureButton.STRETCH_SCALE
-	b.tooltip_text = tip
-	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	b.texture_click_mask = _mask_of(b.texture_normal)
-	parent.add_child(b)
-	return b
-
-
-static func _mask_of(tex: Texture2D) -> BitMap:
-	var m := BitMap.new()
-	m.create_from_image_alpha(tex.get_image(), 0.4)
-	return m
-
-
-func _hit(parent: Control, rect: Rect2, tip: String) -> Button:
-	var b := Button.new()
-	b.flat = true
-	b.focus_mode = Control.FOCUS_NONE
-	b.position = rect.position
-	b.size = rect.size
-	b.tooltip_text = tip
-	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	for st in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
-		b.add_theme_stylebox_override(st, StyleBoxEmpty.new())
-	parent.add_child(b)
-	return b
-
-
-func _label(parent: Control, id: String, rect: Rect2, size: int, color: Color, align := HORIZONTAL_ALIGNMENT_CENTER,
-		outline := 0, outline_color := Color(0, 0, 0, 0.6)) -> Label:
-	var l := Label.new()
+func _named(id: String, l: Label) -> Label:
 	l.name = id
-	l.position = rect.position
-	l.size = rect.size
-	l.horizontal_alignment = align
-	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	l.clip_text = true
-	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	l.add_theme_font_override("font", font())
-	l.add_theme_font_size_override("font_size", size)
-	l.add_theme_color_override("font_color", color)
-	if outline > 0:
-		l.add_theme_constant_override("outline_size", outline)
-		l.add_theme_color_override("font_outline_color", outline_color)
-	parent.add_child(l)
 	_labels[id] = l
 	return l
 
 
-func _build_base() -> void:
-	_picture(_base, "top_bar")
-	_picture(_base, "bottom_bar")
-	for id in NAV:
-		var b := _texture_button(_base, "nav_%s_off" % id, NAV_TIPS[id])
-		b.pressed.connect(func(): nav_pressed.emit(id))
-		_nav_buttons[id] = b
-	for id in ["pause", "x1", "x2", "x4"]:
-		var b := _texture_button(_base, "speed_%s_off" % id, "一時停止 / 再開" if id == "pause" else "速度 ×%d" % SPEEDS[id])
-		if id == "pause":
+func _blocker(parent: Control, n: String, r: Rect2) -> Control:
+	var c := Control.new()
+	c.name = n
+	c.position = r.position
+	c.size = r.size
+	c.mouse_filter = Control.MOUSE_FILTER_STOP
+	parent.add_child(c)
+	return c
+
+
+# --- top bar -----------------------------------------------------------------------------------------------------
+
+func _pill(parent: Control, r: Rect2, pink := false) -> UiShape:
+	if pink:
+		return MockStyle.shape(parent, r, {"top": Color("ff7aa3"), "bottom": Color("d8386c"), "border": Color("ffd3e0"), "border_width": 2.0,
+			"radius": r.size.y * 0.5, "gloss": 0.3})
+	return MockStyle.shape(parent, r, {"top": Color("44343e"), "bottom": Color("2a2029"), "border": Color("6f5865"), "border_width": 1.5,
+		"radius": r.size.y * 0.5, "gloss": 0.08})
+
+
+func _build_top() -> void:
+	var bar := _blocker(_base, "top_bar", Rect2(0, 0, 1920, 64))
+	MockStyle.shape(bar, Rect2(0, -4, 1920, 66), {"top": Color(0.2, 0.15, 0.18, 0.93), "bottom": Color(0.14, 0.1, 0.12, 0.93), "radius": 0.0})
+	var rim := ColorRect.new()
+	rim.color = Color("c99a55")
+	rim.position = Vector2(0, 61)
+	rim.size = Vector2(1920, 2)
+	rim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_child(rim)
+	MockStyle.shape(bar, Rect2(-30, -10, 498, 82), {"kind": UiShape.Kind.PLATE, "tip": 34.0, "radius": 8.0, "top": Color("2f222a"),
+		"bottom": Color("1d1419"), "border": Color("d6a45c"), "border_width": 2.0, "shadow": Color(0, 0, 0, 0.35)})
+	MockStyle.picture(bar, MockStyle.art("logo_store"), Rect2(14, 4, 62, 56))
+	MockStyle.label(bar, "コンビニ経営シミュレーション", Rect2(86, 2, 372, 36), 24, Color("fff4e2"), HORIZONTAL_ALIGNMENT_LEFT, "Black")
+	MockStyle.label(bar, "Convenience Store Management Sim.", Rect2(90, 35, 340, 20), 14, Color("e9dcc8"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_pill(bar, Rect2(458, 12, 144, 46), true)
+	MockStyle.picture(bar, MockStyle.art("calendar"), Rect2(466, 16, 36, 36))
+	_named("Day", MockStyle.label(bar, "DAY 0", Rect2(504, 13, 96, 42), 26, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black", 3, Color("a3214d")))
+	_named("Date", MockStyle.label(bar, "", Rect2(612, 14, 132, 42), 19, Color("fff3e0")))
+	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(742, 12, 42, 42))
+	_pill(bar, Rect2(798, 12, 138, 46))
+	MockStyle.picture(bar, MockStyle.glyph("moon", 64), Rect2(810, 19, 32, 32), Color("ffe27a"))
+	_named("Clock", MockStyle.label(bar, "", Rect2(846, 11, 88, 46), 29, Color.WHITE))
+	_pill(bar, Rect2(944, 12, 226, 46))
+	MockStyle.picture(bar, MockStyle.art("coins"), Rect2(954, 15, 36, 40))
+	MockStyle.label(bar, "所持金", Rect2(996, 14, 54, 42), 15, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Cash", MockStyle.label(bar, "", Rect2(1050, 13, 118, 44), 22, MockStyle.GOLD))
+	_pill(bar, Rect2(1176, 12, 226, 46))
+	MockStyle.picture(bar, MockStyle.glyph("bar-chart", 64), Rect2(1186, 19, 30, 30), Color("4fc6ff"))
+	MockStyle.label(bar, "本日の売上", Rect2(1222, 14, 76, 42), 14, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Sales", MockStyle.label(bar, "", Rect2(1296, 13, 104, 44), 22, MockStyle.GOLD))
+	_pill(bar, Rect2(1408, 12, 196, 46))
+	MockStyle.picture(bar, MockStyle.art("arrow_up"), Rect2(1414, 15, 34, 40))
+	MockStyle.label(bar, "本日の粗利", Rect2(1450, 14, 72, 42), 14, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Profit", MockStyle.label(bar, "", Rect2(1519, 13, 84, 44), 22, MockStyle.GOLD))
+	_pill(bar, Rect2(1610, 12, 158, 46))
+	MockStyle.picture(bar, MockStyle.glyph("person", 64), Rect2(1618, 17, 34, 34), Color("a9dcff"))
+	MockStyle.label(bar, "来店客数", Rect2(1656, 14, 58, 42), 14, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Visitors", MockStyle.label(bar, "", Rect2(1712, 13, 56, 44), 20, Color("fff1dc")))
+	MockStyle.shape(bar, Rect2(1770, 7, 146, 52), {"top": Color("2a2029"), "bottom": Color("1d161c"), "border": Color("5a4651"),
+		"border_width": 1.5, "radius": 10.0})
+	for sp in SPEEDS:
+		var r := Rect2(sp[2], 11, sp[3], 44)
+		var b := MockStyle.button(bar, r, "一時停止 / 再開" if sp[0] == "pause" else "速度 ×%d" % sp[1])
+		b.name = "speed_" + sp[0]
+		var plate := MockStyle.shape(b, Rect2(Vector2.ZERO, r.size), {"radius": 5.0, "border_width": 1.5, "gloss": 0.35})
+		var l: Label = null
+		if sp[0] == "pause":
+			MockStyle.picture(b, MockStyle.glyph("pause", 64), Rect2(9, 13, 16, 18), INK).name = "Glyph"
 			b.pressed.connect(func(): pause_pressed.emit())
 		else:
-			b.pressed.connect(func(): speed_pressed.emit(SPEEDS[id]))
-		_speed_buttons[id] = b
-	# Top bar figures.
-	_label(_base, "Day", Rect2(500, 20, 96, 34), 25, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, 3, Color("a3214d"))
-	_label(_base, "Date", Rect2(612, 20, 128, 34), 19, CREAM, HORIZONTAL_ALIGNMENT_LEFT)
-	_label(_base, "Clock", Rect2(842, 18, 84, 36), 27, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT)
-	_label(_base, "Cash", Rect2(1050, 20, 116, 34), 22, GOLD, HORIZONTAL_ALIGNMENT_LEFT)
-	_label(_base, "Sales", Rect2(1296, 20, 104, 34), 22, GOLD, HORIZONTAL_ALIGNMENT_LEFT)
-	_label(_base, "Profit", Rect2(1519, 20, 84, 34), 22, GOLD, HORIZONTAL_ALIGNMENT_LEFT)
-	_label(_base, "Visitors", Rect2(1712, 20, 56, 34), 20, CREAM, HORIZONTAL_ALIGNMENT_LEFT)
-	# Bottom bar: goal, the four figures, today's event.
-	_label(_base, "Goal", Rect2(52, 972, 282, 36), 19, INK, HORIZONTAL_ALIGNMENT_LEFT)
-	_goal_fill = Panel.new()
-	var green := StyleBoxFlat.new()
-	green.bg_color = Color("74c41e")
-	green.set_corner_radius_all(7)
-	green.border_color = Color("4d8f0e")
-	green.border_width_bottom = 2
-	_goal_fill.add_theme_stylebox_override("panel", green)
-	_goal_fill.position = Vector2(47, 1016)
-	_goal_fill.size = Vector2(12, 14)
-	_goal_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_base.add_child(_goal_fill)
-	_label(_base, "GoalPercent", Rect2(292, 1009, 64, 32), 22, INK, HORIZONTAL_ALIGNMENT_RIGHT)
-	_label(_base, "MSales", Rect2(444, 988, 118, 38), 26, GOLD)
-	_label(_base, "MProfit", Rect2(622, 988, 102, 38), 26, GOLD)
-	_label(_base, "MCustomers", Rect2(792, 988, 78, 38), 26, GOLD)
-	_label(_base, "MUnit", Rect2(948, 988, 80, 38), 26, GOLD)
-	_label(_base, "EventTitle", Rect2(1100, 966, 250, 40), 27, INK)
-	_label(_base, "EventLine", Rect2(1085, 1008, 270, 34), 18, INK)
-	_event_icon = TextureRect.new()
-	_event_icon.position = Vector2(1352, 952)
-	_event_icon.size = Vector2(104, 92)
-	_event_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_event_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_event_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_base.add_child(_event_icon)
-	for id in CORNERS:
-		var tip: String = {"notices": "お知らせ", "missions": "ミッション", "encyclopedia": "図鑑（準備中）", "shop": "ショップ（準備中）"}[id]
-		_hit(_base, CORNERS[id], tip).pressed.connect(func(): corner_pressed.emit(id))
+			l = MockStyle.label(b, "×%d" % sp[1], Rect2(0, 0, r.size.x, r.size.y), 16, INK, HORIZONTAL_ALIGNMENT_CENTER, "Black")
+			var s: int = sp[1]
+			b.pressed.connect(func(): speed_pressed.emit(s))
+		_speeds[sp[0]] = {"button": b, "plate": plate, "label": l}
+	_set_speed(4)
 
+
+func _set_speed(speed: int) -> void:
+	for sp in SPEEDS:
+		var on: bool = sp[1] == speed
+		var v: Dictionary = _speeds[sp[0]]
+		(v["plate"] as UiShape).setup({"top": Color("5ab4ff") if on else Color("fbf8f8"), "bottom": Color("1c6fd8") if on else Color("d9d1d3"),
+			"border": Color("cfe8ff") if on else Color("8a7f86")})
+		if v["label"] != null:
+			(v["label"] as Label).add_theme_color_override("font_color", Color.WHITE if on else INK)
+		else:
+			((v["button"] as Button).get_node("Glyph") as CanvasItem).modulate = Color.WHITE if on else INK
+
+
+# --- left menu ---------------------------------------------------------------------------------------------------
+
+func _build_menu() -> void:
+	for i in NAV.size():
+		var id: String = NAV[i][0]
+		var r := Rect2(14, 132 + i * 68, 212, 60)
+		var b := MockStyle.button(_base, r, NAV_TIPS.get(id, NAV[i][1]))
+		b.name = "nav_" + id
+		var plate := MockStyle.shape(b, Rect2(Vector2.ZERO, r.size), {"kind": UiShape.Kind.PLATE, "tip": 12.0, "radius": 10.0,
+			"border_width": 2.0, "gloss": 0.16, "shadow": Color(0, 0, 0, 0.35), "shadow_offset": Vector2(0, 3)})
+		var g := MockStyle.picture(b, MockStyle.glyph(NAV[i][2], 96), Rect2(26, 12, 38, 36))
+		var text: String = NAV[i][1]
+		var l := MockStyle.label(b, text, Rect2(80, 0, 130, 60), 25 if text.length() <= 3 else 22, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black",
+			2, Color(0, 0, 0, 0.35))
+		b.pressed.connect(func(): nav_pressed.emit(id))
+		_nav[id] = {"button": b, "plate": plate, "glyph": g, "label": l}
+	set_nav("")
+
+
+## Which menu entry is lit ("" for none). 店舗 keeps its gold look when it is not the lit one (the mockup's home entry).
+func set_nav(id: String) -> void:
+	for n in _nav:
+		var v: Dictionary = _nav[n]
+		var plate: UiShape = v["plate"]
+		if n == id:
+			plate.setup({"top": Color("4fb0ff"), "bottom": Color("1557c4"), "border": Color("c9ecff"), "glow": Color(0.35, 0.75, 1.0, 0.9), "glow_size": 9.0,
+				"inner": Color(1, 1, 1, 0.35)})
+			(v["glyph"] as TextureRect).modulate = Color.WHITE
+		elif n == "store":
+			plate.setup({"top": Color("7e4b22"), "bottom": Color("442510"), "border": Color("ffd27f"), "glow": Color(1.0, 0.72, 0.25, 0.7), "glow_size": 7.0,
+				"inner": Color(1, 0.85, 0.5, 0.35)})
+			(v["glyph"] as TextureRect).modulate = Color("ffd36b")
+		else:
+			plate.setup({"top": Color("4b3631"), "bottom": Color("281b1a"), "border": Color("b88f5f"), "glow": Color(0, 0, 0, 0), "glow_size": 0.0,
+				"inner": Color(1, 0.85, 0.6, 0.12)})
+			(v["glyph"] as TextureRect).modulate = Color("ffe9c6")
+
+
+# --- bottom bar --------------------------------------------------------------------------------------------------
+
+func _dark_card(parent: Control, r: Rect2) -> UiShape:
+	return MockStyle.shape(parent, r, {"top": Color("43322f"), "bottom": Color("2a1f1e"), "border": Color("9b7656"), "border_width": 2.0,
+		"radius": 14.0, "inner": Color(1, 0.85, 0.6, 0.12), "shadow": Color(0, 0, 0, 0.3)})
+
+
+func _build_bottom() -> void:
+	var bar := _blocker(_base, "bottom_bar", Rect2(0, 922, 1920, 158))
+	MockStyle.shape(bar, Rect2(4, 4, 1912, 152), {"top": Color(0.3, 0.21, 0.2, 0.95), "bottom": Color(0.17, 0.12, 0.12, 0.95),
+		"border": Color("c9a06a"), "border_width": 2.0, "radius": 16.0, "inner": Color(1, 0.85, 0.55, 0.18)})
+	# 本日の目標
+	_dark_card(bar, Rect2(18, 10, 346, 122))
+	MockStyle.picture(bar, MockStyle.art("flag"), Rect2(46, 4, 44, 42))
+	MockStyle.label(bar, "本日の目標", Rect2(98, 10, 220, 34), 21, Color("ffe3a8"), HORIZONTAL_ALIGNMENT_LEFT, "Black")
+	MockStyle.shape(bar, Rect2(30, 44, 324, 80), {"top": Color("fffcf6"), "bottom": Color("f6ead8"), "border": Color("e3cba5"), "border_width": 2.0,
+		"radius": 10.0})
+	_named("Goal", MockStyle.label(bar, "", Rect2(48, 48, 300, 36), 19, INK))
+	MockStyle.shape(bar, Rect2(44, 92, 246, 18), {"top": Color("3d3534"), "bottom": Color("5a504e"), "radius": 9.0})
+	_goal_fill = MockStyle.shape(bar, Rect2(44, 92, 18, 18), {"top": Color("a6e04a"), "bottom": Color("4fa30f"), "radius": 9.0, "gloss": 0.4})
+	_named("GoalPercent", MockStyle.label(bar, "", Rect2(290, 84, 62, 34), 22, INK, HORIZONTAL_ALIGNMENT_RIGHT, "Black"))
+	# the four figures
+	var cards := [["MSales", "本日の売上", 382, 176, "bar-chart", Color("a2e23c"), ""], ["MProfit", "本日の粗利", 566, 160, "", Color.WHITE, "coins"],
+		["MCustomers", "来店客数", 732, 146, "users", Color("a9dcff"), ""], ["MUnit", "客単価", 884, 156, "cart", Color("fff6e8"), ""]]
+	for c in cards:
+		_dark_card(bar, Rect2(c[2], 22, c[3], 100))
+		MockStyle.label(bar, c[1], Rect2(c[2] + 40, 34, c[3] - 44, 26), 16, Color("fff1dc"), HORIZONTAL_ALIGNMENT_CENTER, "Bold")
+		if c[6] != "":
+			MockStyle.picture(bar, MockStyle.art(c[6]), Rect2(c[2] + 10, 58, 40, 44))
+		else:
+			MockStyle.picture(bar, MockStyle.glyph(c[4], 96), Rect2(c[2] + 12, 60, 38, 38), c[5])
+		_named(c[0], MockStyle.label(bar, "", Rect2(c[2] + 44, 62, c[3] - 50, 44), 26, MockStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER, "Black"))
+	# today's event
+	MockStyle.shape(bar, Rect2(1058, 8, 414, 128), {"top": Color("fff3f8"), "bottom": Color("ffd2e3"), "border": Color("ffffff"), "border_width": 3.0,
+		"radius": 16.0, "inner": Color("ff9fc1"), "inner_inset": 2.0, "shadow": Color(0, 0, 0, 0.25)})
+	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(1070, 82, 40, 40), Color(1, 1, 1, 0.75))
+	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(1352, 14, 34, 34), Color(1, 1, 1, 0.8))
+	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(1420, 26, 26, 26), Color(1, 1, 1, 0.8))
+	var tag := MockStyle.shape(bar, Rect2(1062, 12, 132, 34), {"kind": UiShape.Kind.RIBBON, "top": Color("f0558a"), "bottom": Color("c92f63"), "radius": 8.0,
+		"gloss": 0.25})
+	MockStyle.picture(tag, MockStyle.glyph("star", 64), Rect2(10, 8, 18, 18))
+	MockStyle.label(tag, "開催中！", Rect2(32, 0, 90, 34), 17, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black")
+	_named("EventTitle", MockStyle.label(bar, "", Rect2(1100, 44, 250, 44), 27, INK, HORIZONTAL_ALIGNMENT_CENTER, "Black"))
+	_named("EventLine", MockStyle.label(bar, "", Rect2(1082, 88, 276, 34), 18, INK, HORIZONTAL_ALIGNMENT_CENTER))
+	_event_icon = MockStyle.picture(bar, null, Rect2(1352, 30, 108, 96))
+	# お知らせ / ミッション / 図鑑 / ショップ
+	_dark_card(bar, Rect2(1490, 8, 420, 128))
+	var corners := [["notices", "お知らせ", "bell"], ["missions", "ミッション", "mission"], ["encyclopedia", "図鑑", "book"], ["shop", "ショップ", "basket"]]
+	for i in corners.size():
+		var r := Rect2(1500 + i * 102, 16, 96, 112)
+		var tip: String = {"encyclopedia": "図鑑（準備中）", "shop": "ショップ（準備中）"}.get(corners[i][0], corners[i][1])
+		var b := MockStyle.button(bar, r, tip)
+		b.name = "corner_" + corners[i][0]
+		MockStyle.shape(b, Rect2(4, 0, 88, 108), {"top": Color("3b2c2a"), "bottom": Color("251b1a"), "radius": 18.0, "border": Color("6e5546"),
+			"border_width": 1.5, "gloss": 0.06})
+		MockStyle.picture(b, MockStyle.art(corners[i][2]), Rect2(16, 6, 64, 62))
+		MockStyle.label(b, corners[i][1], Rect2(0, 70, 96, 32), 17, Color("fff4e2"), HORIZONTAL_ALIGNMENT_CENTER, "Black", 2, Color(0, 0, 0, 0.5))
+		var cid: String = corners[i][0]
+		b.pressed.connect(func(): corner_pressed.emit(cid))
+
+
+# --- window --------------------------------------------------------------------------------------------------------
 
 func _build_window() -> void:
-	_picture(_window_layer, "rikka", false)
-	_picture(_window_layer, "bubble")
-	_bubble_text = _label(_window_layer, "BubbleText", Rect2(40, 742, 318, 148), 19, INK, HORIZONTAL_ALIGNMENT_LEFT)
+	var rikka := TextureRect.new()
+	rikka.name = "Rikka"
+	rikka.texture = load(RIKKA) if ResourceLoader.exists(RIKKA) else null
+	rikka.position = RIKKA_RECT.position
+	rikka.size = RIKKA_RECT.size
+	rikka.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rikka.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	rikka.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# her bubble: a cream cloud with a tail toward her, and her name tag
+	var bubble := _blocker(_window_layer, "Bubble", Rect2(10, 700, 370, 206))
+	var tail := Polygon2D.new()
+	tail.polygon = PackedVector2Array([Vector2(330, 70), Vector2(372, 60), Vector2(338, 104)])
+	tail.color = Color("fff6ea")
+	bubble.add_child(tail)
+	MockStyle.shape(bubble, Rect2(2, 34, 350, 168), {"top": Color("fffcf7"), "bottom": Color("fff0e0"), "border": Color("e2b798"), "border_width": 3.0,
+		"radius": 50.0, "shadow": Color(0.3, 0.15, 0.1, 0.25), "shadow_offset": Vector2(0, 4)})
+	var tag := MockStyle.shape(bubble, Rect2(24, 2, 128, 36), {"top": Color("ff8fb4"), "bottom": Color("e5507f"), "border": Color("ffffff"),
+		"border_width": 2.0, "radius": 18.0, "gloss": 0.3})
+	MockStyle.picture(tag, MockStyle.art("sakura"), Rect2(10, 5, 26, 26))
+	MockStyle.label(tag, "小春", Rect2(42, 0, 80, 36), 21, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black")
+	_bubble_text = MockStyle.label(bubble, "", Rect2(28, 46, 316, 148), 19, INK)
+	_bubble_text.name = "BubbleText"
 	_bubble_text.clip_text = false
-	_bubble_text.autowrap_mode = TextServer.AUTOWRAP_OFF
-	_picture(_window_layer, "window")
-	for id in TABS:
-		var b := _texture_button(_window_layer, "tab_%s_off" % id, "")
-		b.pressed.connect(func(): tab_pressed.emit(id))
-		_tab_buttons[id] = b
-	_hit(_window_layer, CLOSE, "閉じる (Esc)").pressed.connect(func(): close_pressed.emit())
-
-
-## Which menu entry is lit ("" for none).
-func set_nav(id: String) -> void:
-	_nav_on = id
-	for n in _nav_buttons:
-		_swap(_nav_buttons[n], "nav_%s_%s" % [n, "on" if n == id else "off"])
+	# the frame: brown outer frame with a gold inner line, the header plaque, the cream inside
+	var frame := _blocker(_window_layer, "window", Rect2(526, 204, 1100, 682))
+	MockStyle.shape(frame, Rect2(4, 58, 1090, 620), {"top": Color("6e4c3c"), "bottom": Color("4a3026"), "border": Color("e2b273"), "border_width": 3.0,
+		"radius": 30.0, "inner": Color("f6cf8f"), "inner_inset": 6.0, "shadow": Color(0, 0, 0, 0.4), "shadow_offset": Vector2(0, 6)})
+	MockStyle.shape(frame, Rect2(54, 14, 450, 90), {"top": Color("4c3632"), "bottom": Color("2d1f1c"), "border": Color("e2b273"), "border_width": 2.5,
+		"radius": 26.0, "inner": Color(1, 0.85, 0.55, 0.25)})
+	MockStyle.shape(frame, Rect2(20, 92, 1058, 572), {"top": Color("fff8ef"), "bottom": Color("f3e1d1"), "border": Color("e9cfb9"), "border_width": 2.0,
+		"radius": 22.0})
+	MockStyle.picture(frame, MockStyle.art("clipboard"), Rect2(70, 8, 80, 88))
+	MockStyle.label(frame, "経営管理", Rect2(164, 18, 200, 64), 44, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Black", 3, Color(0, 0, 0, 0.35))
+	MockStyle.label(frame, "Store Management", Rect2(352, 44, 150, 24), 14, Color("ead9c4"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	MockStyle.picture(frame, MockStyle.art("store_building"), Rect2(772, 0, 184, 96))
+	_window_layer.add_child(rikka)   # in front of the frame: her hand points into the window
+	var close := MockStyle.button(frame, Rect2(998, 30, 74, 74), "閉じる (Esc)")
+	close.name = "CloseScreen"
+	MockStyle.shape(close, Rect2(2, 2, 70, 70), {"kind": UiShape.Kind.CIRCLE, "top": Color("7a4232"), "bottom": Color("3e1f15"), "border": Color("f3e2c4"),
+		"border_width": 3.0, "gloss": 0.2, "shadow": Color(0, 0, 0, 0.4)})
+	MockStyle.label(close, "✕", Rect2(0, 0, 74, 74), 36, Color.WHITE, HORIZONTAL_ALIGNMENT_CENTER, "Black")
+	close.pressed.connect(func(): close_pressed.emit())
+	for t in TABS:
+		var r := Rect2(t[3] - 526, 112, t[4], 58)
+		var b := MockStyle.button(frame, r, t[1])
+		b.name = "tab_" + t[0]
+		var plate := MockStyle.shape(b, Rect2(Vector2.ZERO, r.size), {"radius": 10.0, "border_width": 2.0, "gloss": 0.35, "shadow": Color(0.3, 0.15, 0.1, 0.25),
+			"shadow_offset": Vector2(0, 3)})
+		var row := HBoxContainer.new()
+		row.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.add_theme_constant_override("separation", 10)
+		row.size = r.size
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		b.add_child(row)
+		var g := TextureRect.new()
+		g.texture = MockStyle.glyph(t[2], 96)
+		g.custom_minimum_size = Vector2(32, 32)
+		g.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		g.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		g.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		g.modulate = Color("3a2a26")
+		g.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(g)
+		var l := Label.new()
+		l.text = t[1]
+		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		l.size_flags_vertical = Control.SIZE_FILL
+		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		MockStyle.style_label(l, 25, Color("2e2420"), "Black")
+		row.add_child(l)
+		var tid: String = t[0]
+		b.pressed.connect(func(): tab_pressed.emit(tid))
+		_tabs[tid] = {"button": b, "plate": plate}
+	set_window(false, "goods")
 
 
 ## Opens or closes the window layer; `tab` is the lit tab.
 func set_window(open: bool, tab: String) -> void:
 	_window_layer.visible = open
-	_tab_on = tab
-	for t in _tab_buttons:
-		_swap(_tab_buttons[t], "tab_%s_%s" % [t, "on" if t == tab else "off"])
+	for t in _tabs:
+		var on: bool = t == tab
+		(_tabs[t]["plate"] as UiShape).setup({"top": Color("ffe85a") if on else Color("fffdfa"), "bottom": Color("ffae12") if on else Color("eee0d8"),
+			"border": Color("e98b1d") if on else Color("b8988a")})
 	_bubble_text.text = BUBBLE.get(tab, BUBBLE["goods"])
 
 
 func is_window_open() -> bool:
 	return _window_layer.visible
-
-
-func _swap(b: TextureButton, part: String) -> void:
-	b.texture_normal = load(DIR + part + ".png")
-	var p: Array = layout()[part]
-	b.position = Vector2(p[0], p[1])
-	b.size = Vector2(p[2], p[3])
-	b.texture_click_mask = _mask_of(b.texture_normal)
 
 
 func label(id: String) -> Label:
@@ -264,9 +370,8 @@ func label(id: String) -> Label:
 
 func apply_snapshot(s: Dictionary) -> void:
 	var day := int(s["day"])
-	var dpm := days_per_month
 	_labels["Day"].text = "DAY %d" % day
-	_labels["Date"].text = "%s（%s）" % [GameCalendar.month_week_text(day, dpm), GameCalendar.season_of(day, dpm)]
+	_labels["Date"].text = "%s（%s）" % [GameCalendar.month_week_text(day, days_per_month), GameCalendar.season_of(day, days_per_month)]
 	_labels["Clock"].text = GameHud.format_clock(int(s["time_sec"]))
 	_labels["Cash"].text = GameHud.format_yen(int(s["cash_yen"]))
 	var t := MetricBar.texts(s)
@@ -286,12 +391,9 @@ func apply_snapshot(s: Dictionary) -> void:
 		_labels["Goal"].text = ProgressionText.goal_text(String(goal["metric"]), int(goal["threshold"]))
 		ratio = MetricBar.goal_progress(int(goal["value"]), int(goal["threshold"]))
 	_labels["GoalPercent"].text = "%d%%" % roundi(ratio * 100.0)
-	_goal_fill.size.x = maxf(14.0, 241.0 * ratio)
+	_goal_fill.size.x = maxf(18.0, 246.0 * ratio)
 	_apply_event(s.get("gameplay_event", {"status": "no_data"}))
-	var speed := int(s["speed_setting"])
-	for id in _speed_buttons:
-		var on: bool = (id == "pause" and speed == 0) or (int(SPEEDS.get(id, -1)) == speed)
-		_swap(_speed_buttons[id], "speed_%s_%s" % [id, "on" if on else "off"])
+	_set_speed(int(s["speed_setting"]))
 
 
 func _apply_event(view: Dictionary) -> void:
@@ -301,11 +403,11 @@ func _apply_event(view: Dictionary) -> void:
 		var chips := EventText.effect_chips(view)
 		_labels["EventLine"].text = "・".join(chips.map(func(c): return c["text"])) if not chips.is_empty() else String(view.get("description_ja", ""))
 		var cats: Array = view.get("categories", {}).keys()
-		_event_icon.texture = _category_icon(String(cats[0])) if not cats.is_empty() else null
+		_event_icon.texture = _category_icon(String(cats[0])) if not cats.is_empty() else MockStyle.art("store_building")
 	else:
 		_labels["EventTitle"].text = "本日のイベント"
 		_labels["EventLine"].text = "2日目から毎日抽選" if int(view.get("day", 0)) < 1 else "今日は特別なイベントなし"
-		_event_icon.texture = null
+		_event_icon.texture = MockStyle.art("store_building")
 
 
 func _category_icon(category: String) -> Texture2D:

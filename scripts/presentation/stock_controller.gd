@@ -92,42 +92,63 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 		world.selection_changed.connect(func(_t): _refresh.call_deferred())
 
 
-## The 2026-11-01 mockup look (MockupChrome): the order controls laid over the 商品 page's picture (the dropdown and
-## stepper frames and the 発注 button are part of it), at its spots. `page` is the page's Control, in content px.
+## The 2026-11-01 mockup look (MockupChrome): the order controls at the mockup's spots on the 商品 page, over frames
+## drawn in code (the dropdown, the - 1 + stepper, the orange 発注 button). `page` is the page's Control, in content px.
 func mockup_layout(page: Control) -> void:
-	var font := MockupChrome.font()
-	_place(page, _backroom, Rect2(388, 12, 260, 36))
-	_backroom.add_theme_font_override("font", font)
-	_backroom.add_theme_font_size_override("font_size", 18)
-	_place(page, _order_sku, Rect2(46, 70, 500, 52))
+	var font := MockStyle.font("ExtraBold")
+	_place(page, _backroom, Rect2(382, 8, 300, 42))
+	MockStyle.style_label(_backroom, 19, MockStyle.INK)
+	MockStyle.shape(page, Rect2(40, 68, 548, 58), {"top": Color("fffdf9"), "bottom": Color("f9ece2"), "border": Color("c9ab98"), "border_width": 2.0,
+		"radius": 10.0, "shadow": Color(0.4, 0.25, 0.15, 0.18), "shadow_offset": Vector2(0, 2)})
+	MockStyle.label(page, "▼", Rect2(548, 68, 34, 58), 18, Color("4a3a3a"), HORIZONTAL_ALIGNMENT_CENTER)
+	_place(page, _order_sku, Rect2(46, 70, 500, 54))
 	for st in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
 		_order_sku.add_theme_stylebox_override(st, StyleBoxEmpty.new())
-	_order_sku.add_theme_icon_override("arrow", ImageTexture.new())   # the picture has the arrow
+	_order_sku.add_theme_icon_override("arrow", ImageTexture.new())   # the ▼ is drawn beside it
 	_order_sku.add_theme_font_override("font", font)
 	_order_sku.add_theme_font_size_override("font_size", 22)
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		_order_sku.add_theme_color_override(c, MockStyle.INK)
 	_order_sku.add_theme_constant_override("h_separation", 18)
 	_order_sku.add_theme_constant_override("icon_max_width", 64)
 	for i in _order_sku.item_count:
 		_order_sku.set_item_icon(i, ProductIcons.texture(_products.get_sku(_order_sku.get_item_metadata(i)), 64))
+	MockStyle.shape(page, Rect2(620, 72, 158, 46), {"top": Color("fffdf9"), "bottom": Color("f6ebe3"), "border": Color("c9ab98"), "border_width": 2.0,
+		"radius": 8.0, "shadow": Color(0.4, 0.25, 0.15, 0.18), "shadow_offset": Vector2(0, 2)})
+	for x in [664, 732]:
+		var bar := ColorRect.new()
+		bar.color = Color("dcc8ba")
+		bar.position = Vector2(x, 78)
+		bar.size = Vector2(2, 34)
+		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		page.add_child(bar)
 	var stepper := _order_qty.get_parent()
-	_place(page, _order_qty, Rect2(666, 74, 60, 42))
+	_place(page, _order_qty, Rect2(666, 74, 66, 42))
 	for st in ["normal", "focus", "read_only"]:
 		_order_qty.add_theme_stylebox_override(st, StyleBoxEmpty.new())
 	_order_qty.add_theme_font_override("font", font)
 	_order_qty.add_theme_font_size_override("font_size", 24)
+	_order_qty.add_theme_color_override("font_color", MockStyle.INK)
 	var steps := stepper.get_children()
 	for i in steps.size():
 		var b := steps[i] as Button
-		_place(page, b, Rect2(620, 72, 44, 46) if i == 0 else Rect2(730, 72, 44, 46))
-		b.text = ""
+		_place(page, b, Rect2(622, 72, 42, 46) if i == 0 else Rect2(734, 72, 42, 46))
 		_flat(b)
+		b.text = "−" if i == 0 else "＋"
+		MockStyle.style_label(b, 26, Color("2a2020"), "Black")
+		for c in ["font_hover_color", "font_pressed_color", "font_hover_pressed_color"]:
+			b.add_theme_color_override(c, Color("2a2020"))
 	var order_btn := _order_row.get_child(_order_row.get_child_count() - 1) as Button
 	_place(page, order_btn, Rect2(802, 64, 196, 62))
 	order_btn.text = ""
 	order_btn.icon = null
 	order_btn.tooltip_text = "発注"
 	_flat(order_btn)
-	_place(page, _status, Rect2(46, 124, 900, 22))
+	MockStyle.shape(order_btn, Rect2(Vector2.ZERO, order_btn.size), {"top": Color("ffb21e"), "bottom": Color("e1500a"), "border": Color("ffc35a"),
+		"border_width": 2.5, "radius": 12.0, "gloss": 0.35, "shadow": Color(0.5, 0.2, 0.0, 0.35), "shadow_offset": Vector2(0, 3)})
+	MockStyle.picture(order_btn, MockStyle.glyph("cart", 96), Rect2(30, 13, 40, 36))
+	MockStyle.label(order_btn, "発注", Rect2(84, 0, 100, 62), 31, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black", 3, Color("a8400a"))
+	_place(page, _status, Rect2(46, 126, 900, 20))
 	_status.add_theme_font_size_override("font_size", 14)
 
 

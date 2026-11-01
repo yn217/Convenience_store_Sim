@@ -89,6 +89,7 @@ func _ready() -> void:
 	_organize_panels.call_deferred()
 	if _chrome != null:
 		_mockup_goods_page.call_deferred()
+		_mockup_data_page.call_deferred()
 
 
 ## Overlay design: the store world fills the whole window; every panel anchors to an edge and floats over it.
@@ -416,31 +417,54 @@ func _build_chrome() -> void:
 	_chrome.corner_pressed.connect(_on_chrome_corner)
 
 
-## The 商品 page as the mockup draws it: its picture, the order controls on it and the price rows in a scrolling list.
-## The 在庫 / 販売価格 cards stay in the page, hidden (their controls moved onto the picture).
+## The 商品 page as the mockup draws it (in code): the 在庫・発注 card with the order controls on it and the 販売価格
+## card with its column headings and the price rows in a scrolling list. The old 在庫 / 販売価格 cards stay in the page,
+## hidden (their controls moved here).
 func _mockup_goods_page() -> void:
 	var page_box: VBoxContainer = _pages["商品"]
 	var page := Control.new()
 	page.name = "GoodsMockup"
 	page.custom_minimum_size = MockupChrome.CONTENT.size - Vector2(2, 2)
 	page.mouse_filter = Control.MOUSE_FILTER_PASS
-	var bg := TextureRect.new()
-	bg.texture = load(MockupChrome.DIR + "goods_page.png")
-	bg.size = MockupChrome.CONTENT.size
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	page.add_child(bg)
 	var cards := page_box.get_children()
 	page_box.add_child(page)
 	page_box.move_child(page, 0)
+	MockStyle.card(page, Rect2(8, 22, 1012, 126))
+	MockStyle.ribbon(page, Rect2(0, 2, 290, 50), "在庫・発注", MockStyle.RIBBON_BLUE, "box", 28)
+	MockStyle.picture(page, MockStyle.glyph("shelf", 64), Rect2(340, 14, 32, 32), Color("4a3a3a"))
+	MockStyle.card(page, Rect2(8, 186, 1012, 252))
+	var sub := MockStyle.ribbon(page, Rect2(232, 172, 236, 40), "（店頭の価格を変更します）", [Color("a0605a"), Color("7a3a3a")], "", 16)
+	(sub.get_child(0) as Label).position.x = 50   # the text starts after the main ribbon's round end
+	MockStyle.ribbon(page, Rect2(0, 166, 280, 52), "販売価格", MockStyle.RIBBON_BROWN, "tag", 30)
+	for h in [["販売価格", 470, 120], ["原価", 610, 92], ["粗利", 700, 96], ["粗利率", 790, 102]]:
+		MockStyle.label(page, h[0], Rect2(h[1], 178, h[2], 34), 16, MockStyle.INK, HORIZONTAL_ALIGNMENT_CENTER, "Black")
 	var stock := get_node_or_null("StockController")
 	var price := get_node_or_null("PriceController")
 	if stock != null:
 		stock.mockup_layout(page)
 	if price != null:
-		price.mockup_list(page, Rect2(10, 215, 1010, 222))
+		price.mockup_list(page, Rect2(12, 214, 1004, 222))
 	for c in cards:
 		(c as Control).visible = false
 	(page_box.get_parent() as ScrollContainer).vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+
+
+## The データ tab as the mockup draws it (MockDataPage). 詳細 shows the old report cards under it (kept, scrolled to).
+func _mockup_data_page() -> void:
+	var page_box: VBoxContainer = _pages["データ"]
+	var page := MockDataPage.new()
+	var cards := page_box.get_children()
+	page_box.add_child(page)
+	page_box.move_child(page, 0)
+	for c in cards:
+		(c as Control).visible = false
+	var reporter := get_node_or_null("ReportController")
+	if reporter != null:
+		reporter.mockup_page = page
+	page.details_requested.connect(func():
+		for c in cards:
+			(c as Control).visible = not (c as Control).visible
+		page.visible = not page.visible)
 
 
 func _on_chrome_nav(id: String) -> void:

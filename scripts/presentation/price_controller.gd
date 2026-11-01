@@ -113,7 +113,7 @@ func apply_snapshot(snap: Dictionary) -> void:
 ## price field and 変更 button pictures, columns under the page's own headings), in a scrolling list over `area`
 ## (content px). The fields replace the table's; the commands are the same.
 func mockup_list(page: Control, area: Rect2) -> void:
-	var font := MockupChrome.font()
+	var font := MockStyle.font("ExtraBold")
 	var scroll := ScrollContainer.new()
 	scroll.name = "MockupPriceList"
 	scroll.position = area.position
@@ -124,8 +124,6 @@ func mockup_list(page: Control, area: Rect2) -> void:
 	list.add_theme_constant_override("separation", 0)
 	list.custom_minimum_size.x = area.size.x - 12
 	scroll.add_child(list)
-	var field_tex: Texture2D = load(MockupChrome.DIR + "price_field.png")
-	var change_tex: Texture2D = load(MockupChrome.DIR + "change_button.png")
 	var ids := _products.skus.keys()
 	ids.sort()
 	for sku_id in ids:
@@ -143,18 +141,17 @@ func mockup_list(page: Control, area: Rect2) -> void:
 		icon.texture = ProductIcons.texture(sku, 64)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.position = Vector2(20, 4)
-		icon.size = Vector2(72, ROW_H - 8)
+		icon.position = Vector2(8, -2)
+		icon.size = Vector2(92, ROW_H + 4)
 		row.add_child(icon)
 		row.add_child(_mock_label(sku["display_name"], Rect2(110, 0, 220, ROW_H), 20, MockupChrome.INK, HORIZONTAL_ALIGNMENT_LEFT, font))
 		var edit := LineEdit.new()
-		var box := StyleBoxTexture.new()
-		box.texture = field_tex
-		box.set_texture_margin_all(10)
-		box.content_margin_left = 8
-		box.content_margin_right = 36   # the arrows on the right of the picture
+		var box := MockStyle.field_box(8)
+		box.content_margin_right = 36   # the arrows on the right
 		edit.add_theme_stylebox_override("normal", box)
-		edit.add_theme_stylebox_override("focus", box)
+		var focus := box.duplicate() as StyleBoxFlat
+		focus.border_color = Color("3a7fd6")
+		edit.add_theme_stylebox_override("focus", focus)
 		edit.add_theme_font_override("font", font)
 		edit.add_theme_font_size_override("font_size", 22)
 		edit.add_theme_color_override("font_color", MockupChrome.INK)
@@ -165,21 +162,23 @@ func mockup_list(page: Control, area: Rect2) -> void:
 		edit.select_all_on_focus = true
 		edit.text_submitted.connect(func(_t): submit(sku_id, edit))
 		row.add_child(edit)
+		var arrows := _mock_label("▲\n▼", Rect2(edit.position.x + 96, edit.position.y + 2, 26, 36), 10, Color("4a3a3a"), HORIZONTAL_ALIGNMENT_CENTER, font)
+		arrows.add_theme_constant_override("line_spacing", -3)
+		row.add_child(arrows)
+		var sep := ColorRect.new()
+		sep.color = Color("dcc8ba")
+		sep.position = Vector2(edit.position.x + 94, edit.position.y + 6)
+		sep.size = Vector2(1.5, 28)
+		sep.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(sep)
 		row.add_child(_mock_label(GameHud.format_yen(sku["purchase_cost_yen"]), Rect2(610, 0, 92, ROW_H), 19, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font))
 		var margin := _mock_label("", Rect2(700, 0, 96, ROW_H), 21, MockupChrome.GREEN, HORIZONTAL_ALIGNMENT_CENTER, font)
 		var rate := _mock_label("", Rect2(790, 0, 102, ROW_H), 19, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font)
 		row.add_child(margin)
 		row.add_child(rate)
-		var apply := TextureButton.new()
-		apply.texture_normal = change_tex
-		apply.ignore_texture_size = true
-		apply.stretch_mode = TextureButton.STRETCH_SCALE
-		apply.position = Vector2(895, (ROW_H - 42) / 2.0)
-		apply.size = Vector2(109, 42)
-		apply.tooltip_text = "変更"
-		apply.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		var apply := MockStyle.face_button(row, Rect2(895, (ROW_H - 42) / 2.0, 109, 42), "変更", Color("4f95e8"), Color("1d58b0"),
+			Color("bcdcff"), Color.WHITE, 19, "pencil", 8.0)
 		apply.pressed.connect(func(): submit(sku_id, edit))
-		row.add_child(apply)
 		_rows[sku_id] = edit
 		_margins[sku_id] = [margin, rate]
 		_show_margin(sku_id, int(edit.text))

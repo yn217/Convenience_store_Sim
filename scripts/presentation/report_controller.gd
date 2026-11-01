@@ -329,7 +329,13 @@ static func day_end_text(r: Dictionary) -> String:
 		GameHud.format_yen(int(r["operating_profit_yen"])), int(r["visitors"]), int(r["purchasing_customers"]), GameHud.format_yen(int(r["wastage_yen"]))]
 
 
+## The データ tab's mockup page (MockDataPage), fed with every snapshot once MainLayout has set it.
+var mockup_page: MockDataPage
+
+
 func apply_snapshot(snap: Dictionary) -> void:
+	if mockup_page != null:
+		mockup_page.apply_snapshot(snap)
 	var reports: Array = snap.get("daily_reports", [])
 	if _day_end != null:   # shown when exactly one more day closed (not on a load or a store switch)
 		_note_day(snap)
