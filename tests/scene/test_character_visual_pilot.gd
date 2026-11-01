@@ -9,6 +9,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
+		t.ok(not bool(entry.get("runtime_approved", true)), "%s remains review-only" % id)
 		t.ok(ResourceLoader.exists(path), "%s runtime path exists" % id)
 		t.ok(load(path) is Texture2D, "%s runtime texture loads" % id)
 	for pair in [
