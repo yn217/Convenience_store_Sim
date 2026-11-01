@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 36, "the pilot registry exposes all 36 selected visuals")
+	t.eq(panel._entries.size(), 39, "the pilot registry exposes all 39 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -35,6 +35,11 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.cue_entry("access_blocked").get("id", ""), "functional_access_blocked", "blocked access has a functional pilot pose")
 	t.eq(panel.cue_entry("empty_handed").get("id", ""), "functional_empty_handed", "an empty-handed exit has a functional pilot pose")
 	t.eq(panel.cue_entry("rival_opened").get("id", ""), "functional_rival_store", "rival opening reuses the rival pose")
+	t.eq(panel.cue_entry("capsule_rare").get("id", ""), "functional_capsule_rare", "capsule rare uses its functional pilot pose")
+	t.eq(panel.cue_entry("capsule_empty").get("id", ""), "functional_capsule_rare", "capsule empty reuses the capsule pose")
+	t.eq(panel.cue_entry("business_started").get("id", ""), "functional_business_opening", "opening cut-in has a functional pilot pose")
+	t.eq(panel.stage_entry({"story_cue": "story_first_profit", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_first_profit", "first-profit story uses its presentation pose")
+	t.eq(panel.day_end_entry("worried").get("id", ""), "functional_day_end_review", "negative day-end uses the review pose")
 	t.eq(panel.stage_entry({"story_cue": "story_start", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "story start stage avoids a bust-up asset")
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "queue reaction stage uses a functional full-body asset")
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_queue", "queue story uses the queue-specific pose")
@@ -87,6 +92,9 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	player.pilot_cue_requested.emit("rival_opened", {})
 	await tree.process_frame
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_rival_store.png", "rival opening selects the rival pose")
+	player.pilot_cue_requested.emit("capsule_rare", {"prize": "test"})
+	await tree.process_frame
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_capsule_rare.png", "capsule rare selects the capsule pose")
 	player.pilot_cue_requested.emit("empty_handed", {})
 	await tree.process_frame
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_empty_handed.png", "an empty-handed exit selects the exit pose")

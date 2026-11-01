@@ -120,7 +120,7 @@ func _connect_pilot_cue() -> void:
 
 
 func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
-	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened"].has(cue_id):
+	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty"].has(cue_id):
 		return
 	_pilot_cue_id = cue_id
 	_pilot_cue_payload = payload.duplicate()
@@ -255,7 +255,12 @@ func refresh_visual_pilot() -> void:
 	var enabled: bool = pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled()
 	var entry: Dictionary = {}
 	if enabled:
-		entry = pilot.cue_entry(_pilot_cue_id) if _pilot_cue_id != "" and pilot.has_method("cue_entry") else pilot.stage_entry(_snap)
+		if _pilot_cue_id != "" and pilot.has_method("cue_entry"):
+			entry = pilot.cue_entry(_pilot_cue_id)
+		elif _day_remark != "" and pilot.has_method("day_end_entry"):
+			entry = pilot.day_end_entry(_day_mood)
+		else:
+			entry = pilot.stage_entry(_snap)
 	var texture: Texture2D = load(String(entry.get("runtime_path", ""))) as Texture2D if not entry.is_empty() else null
 	var usable: bool = enabled and texture != null
 	_pilot_figure.visible = usable
@@ -355,6 +360,12 @@ func _build_cutin() -> void:
 func show_opening() -> void:
 	if _cutin == null:
 		return
+	var pilot := get_parent().get_node_or_null("CharacterVisualPilotPanel")
+	if pilot != null and pilot.has_method("cue_entry") and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled():
+		var opening: Dictionary = pilot.cue_entry("business_started")
+		var texture := load(String(opening.get("runtime_path", ""))) as Texture2D
+		if texture != null:
+			(_cutin.get_node("Rikka") as TextureRect).texture = texture
 	_cutin.visible = true
 	_cutin.modulate = Color(1, 1, 1, 0)
 	if not _cutin.is_inside_tree():

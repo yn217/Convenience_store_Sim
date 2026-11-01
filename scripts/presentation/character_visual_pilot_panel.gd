@@ -112,6 +112,8 @@ func cue_entry(cue_id: String) -> Dictionary:
 			return entry
 	if cue_id == "rival_opened":
 		return _find("functional_rival_store")
+	if cue_id == "capsule_empty":
+		return _find("functional_capsule_rare")
 	return {}
 
 
@@ -137,7 +139,9 @@ func _select_entry(snapshot: Dictionary) -> Dictionary:
 		return _find("reaction_discovery")
 	if story_cue in ["story_register", "story_first_restock"]:
 		return _find("fullbody_tutorial_layout")
-	if story_cue in ["story_first_sale", "story_first_profit"]:
+	if story_cue == "story_first_profit":
+		return _find("functional_first_profit")
+	if story_cue == "story_first_sale":
 		return _find("fullbody_emotion_05")
 	if story_cue != "":
 		return _find("functional_opening_checklist")
@@ -159,6 +163,10 @@ func _select_entry(snapshot: Dictionary) -> Dictionary:
 	if completed.has("ms_first_sale") or completed.has("ms_first_profit"):
 		return _find("fullbody_emotion_05")
 	return _find("fullbody_dynamic_201")
+
+
+func day_end_entry(mood: String) -> Dictionary:
+	return _find("functional_day_end_review") if mood == "worried" else _find("fullbody_emotion_05")
 
 
 func _find(asset_id: String) -> Dictionary:
