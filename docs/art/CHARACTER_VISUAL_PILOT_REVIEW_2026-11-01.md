@@ -18,6 +18,8 @@ This review covers the 48-image pilot. The remaining 286 candidates stay review-
 - Derived alpha integrity: 47 files keep their expected canvas (44 full-body at 1024x1536 and 3 bust-up reactions at 1024x1024), non-empty alpha, and transparent corners (`tests/tools/test_character_pilot_assets.py`)
 - Runtime event-panel spot check: `evt_quiet_street` at 1280x720 displays the transparent `reaction_deadpan` pilot in the dedicated event slot without the source white rectangle.
 - Event panel layout: full-body pilots use `EventPilotFullbodyPicture` (220x330) and bust-up reactions use `EventPilotReactionPicture` (300x300); only the matching slot is visible.
+- Runtime map spot check: the `map_proposal_open` full-body pilot is visible in the area-map side panel at 1280x720 without covering the map controls.
+- Runtime day-end spot check: the normal and worried report routes select their separate full-body pilots; the focused scene test covers both switches.
 - `runtime_approved`: `false`
 
 ## Candidate mapping

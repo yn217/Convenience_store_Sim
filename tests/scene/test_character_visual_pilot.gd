@@ -87,6 +87,12 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	panel._show_selected(panel.stage_entry(guide._snap))
 	var expected: Dictionary = panel.stage_entry(guide._snap)
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, expected.get("runtime_path", ""), "the stage texture follows the shared pilot route")
+	guide.say_day_end("通常決算の確認", "normal")
+	await tree.process_frame
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_report.png", "normal day-end uses the report pilot in the runtime stage")
+	guide.say_day_end("赤字決算の確認", "worried")
+	await tree.process_frame
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_end_review.png", "worried day-end uses the review pilot in the runtime stage")
 	main.queue_free()
 	await tree.process_frame
 
