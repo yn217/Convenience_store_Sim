@@ -5107,10 +5107,10 @@
       "display_policy": "cooldown",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 実画像はチェック/親指上げでqueue_too_longと用途不一致。生成チェック吹き出しも残るため保留"
     },
     {
       "asset_id": "reaction_022",
@@ -5124,10 +5124,10 @@
       "display_policy": "cooldown",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 実画像は明るい反応でaccess_blockedと用途不一致。手指と生成バルーンを再確認するまで保留"
     },
     {
       "asset_id": "reaction_023",
@@ -5192,10 +5192,10 @@
       "display_policy": "once",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 表情は明るいが手指の接続と生成吹き出しを要確認。保留"
     },
     {
       "asset_id": "reaction_027",
@@ -5243,10 +5243,10 @@
       "display_policy": "priority",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 片手の仕草は読めるが生成アイコンがUIと競合。payment_blockedへの接続は保留"
     },
     {
       "asset_id": "reaction_030",
@@ -5277,10 +5277,10 @@
       "display_policy": "once",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 実画像は達成/喜びでopening_check_failedと用途不一致。生成エフェクト除去後に再判定"
     },
     {
       "asset_id": "reaction_032",
@@ -5464,10 +5464,10 @@
       "display_policy": "once",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 実画像はぐるぐる目の混乱でms_first_saleと用途不一致。生成スパイラルも残るため保留"
     },
     {
       "asset_id": "reaction_043",
@@ -5481,10 +5481,10 @@
       "display_policy": "once",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 穏やかな表情だが生成キャラクター吹き出しが残る。milestone_reachedへの接続は保留"
     },
     {
       "asset_id": "reaction_044",
@@ -5498,10 +5498,10 @@
       "display_policy": "once",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 実画像はジト目/無表情でdaily_challenge_completedと用途不一致。生成ミニキャラ吹き出しも残る"
     },
     {
       "asset_id": "reaction_045",
@@ -5515,10 +5515,10 @@
       "display_policy": "daily",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 喜びは強いが強い遠近法で標準枠に不向き。daily_profit_positive接続は保留"
     },
     {
       "asset_id": "reaction_046",
@@ -5600,10 +5600,10 @@
       "display_policy": "once",
       "usage_role": "primary_candidate",
       "implementation_priority": "P2",
-      "approval_state": "proposed",
+      "approval_state": "proposed_variant",
       "visual_match": "not_yet_verified",
       "fallback": "existing_visual_by_state",
-      "notes": "PNGに埋め込まれたComfyUIプロンプト/画像実物との一致を実装前に再確認"
+      "notes": "2026-11-02 QA: 大きな生成!?が焼き込まれUI正本と競合。business_started接続は保留"
     },
     {
       "asset_id": "title_001",
