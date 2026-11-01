@@ -91,6 +91,16 @@ The `business_started` opening cut-in is exclusive: while `開店！` is animati
 
 The pilot review UI exists only in a Godot debug build and defaults on there for local review. Release builds do not create the review controls, so entries with `runtime_approved:false` cannot appear in the normal runtime.
 
+## 334-candidate placement review
+
+The complete read-only placement gallery is `scenes/review/ComfyUIPlacementReview.tscn`. Launch it directly with:
+
+```text
+Godot_v4.7.2-stable_win64.exe --path . --scene res://scenes/review/ComfyUIPlacementReview.tscn
+```
+
+It reads `docs/art/COMFYUI_334_IMAGE_PLACEMENT_20261101.json`, lists all 334 candidate IDs, and loads only the selected source PNG. Search and group filtering do not modify the registry, CSV/JSON approval state, or runtime assets. A focused loader test verifies 334 unique entries, explicit approval states, and `visual_match=not_yet_verified`; all 334 source PNG paths are present in the review asset tree.
+
 ## Title candidate QA
 
 The `title_background_pilot` candidate is now the daylight residential-store composition `title_screen_variant_04_1344x768_00001_.png`. The explicit `--visual-variant=painted_v1` QA path keeps the title logo, buttons, and embedded character separate from a second `TitleRikka` layer. It remains held for visual and rights review; the default title continues to use `assets/ui/title/title_background.png` with the existing fallback path.
