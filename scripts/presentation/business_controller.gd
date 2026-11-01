@@ -24,6 +24,7 @@ var _facility_info: Label
 var _map_window: Window          # #150: the area map, opened from the 地図で選ぶ button
 var _map_view: MapView
 var _map_info: Label
+var _pilot_map_picture: TextureRect
 var _map_pick: Button
 var _map_size: OptionButton      # #146: the size of a new store
 var _stores_box: VBoxContainer   # #146: the company's stores
@@ -477,6 +478,19 @@ func open_map() -> void:
 		_map_info.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		_map_info.text = "黄色の丸が出店できる区画です。クリックすると、立地と周りの施設・予想来店数が出ます。"
 		side.add_child(_map_info)
+		_pilot_map_picture = TextureRect.new()
+		_pilot_map_picture.name = "MapPilotPicture"
+		_pilot_map_picture.custom_minimum_size = Vector2(0, 220)
+		_pilot_map_picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_pilot_map_picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_pilot_map_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_pilot_map_picture.visible = false
+		side.add_child(_pilot_map_picture)
+		var pilot := get_node_or_null("../CharacterVisualPilotPanel")
+		if pilot != null and pilot.has_signal("pilot_visibility_changed"):
+			var refresh_picture := Callable(self, "_refresh_map_pilot_picture")
+			if not pilot.is_connected("pilot_visibility_changed", refresh_picture):
+				pilot.connect("pilot_visibility_changed", refresh_picture)
 		# Forecast layer: the visitors each site may expect in the chosen hour (#150 phase 2).
 		_map_hour_label = Label.new()
 		side.add_child(_map_hour_label)
@@ -509,9 +523,24 @@ func open_map() -> void:
 		row.add_child(side)
 		_map_window.add_child(row)
 		add_child(_map_window)
+		_refresh_map_pilot_picture()
 		show_map(String(_snap.get("map_id", "")) if String(_snap.get("map_id", "")) != "" else WorldMap.DEFAULT_MAP)
 	_map_view.current = _current_plot_on(_map_view.map_id)
 	_map_window.popup_centered()
+
+
+func _refresh_map_pilot_picture(_enabled: bool = true) -> void:
+	if _pilot_map_picture == null:
+		return
+	var texture: Texture2D = null
+	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
+	if pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled() and pilot.has_method("cue_entry"):
+		var entry: Dictionary = pilot.cue_entry("map_proposal_open")
+		var runtime_path := String(entry.get("runtime_path", ""))
+		if runtime_path != "":
+			texture = load(runtime_path) as Texture2D
+	_pilot_map_picture.texture = texture
+	_pilot_map_picture.visible = texture != null
 
 
 ## Shows another area map in the window (#154: Kakogawa beside 青葉市).

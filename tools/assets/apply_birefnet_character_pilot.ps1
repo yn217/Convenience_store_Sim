@@ -46,7 +46,8 @@ $files = @(
     "functional_capsule_rare.png",
     "functional_save_complete.png",
     "functional_staff_hiring.png",
-    "functional_campaign.png"
+    "functional_campaign.png",
+    "functional_map_proposal.png"
 )
 
 foreach ($file in $files) {

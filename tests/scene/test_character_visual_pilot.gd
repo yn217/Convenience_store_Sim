@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 42, "the pilot registry exposes all 42 selected visuals")
+	t.eq(panel._entries.size(), 43, "the pilot registry exposes all 43 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))

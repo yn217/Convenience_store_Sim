@@ -4,12 +4,12 @@ Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
 
 ## Scope
 
-This review covers the 42-image pilot. The remaining 292 candidates stay review-only and are not loaded by the pilot registry.
+This review covers the 43-image pilot. The remaining 291 candidates stay review-only and are not loaded by the pilot registry.
 
 ## Automated checks
 
-- Registry entries: 42
-- Runtime pilot PNGs: 42
+- Registry entries: 43
+- Runtime pilot PNGs: 43
 - Duplicate logical IDs: 0
 - Missing runtime paths: 0
 - Title candidate: 1344x768
@@ -51,6 +51,7 @@ This review covers the 42-image pilot. The remaining 292 candidates stay review-
 | `functional_save_complete` | functional pose | SCR-20 / `save_complete` | review pending; save confirmation pose |
 | `functional_staff_hiring` | functional pose | SCR-06 / `staff_hired` | review pending; hiring confirmation pose |
 | `functional_campaign` | functional pose | SCR-13 / `seasonal_campaign_started` | review pending; campaign product-presentation pose |
+| `functional_map_proposal` | functional pose | SCR-13 / `map_proposal_open` | review pending; map proposal pose shown in the area-map side panel |
 | `functional_three_sales` | functional pose | SCR-18 / `challenge_sales_3` | review pending; daily challenge presentation |
 | `functional_ten_sales` | functional pose | SCR-18 / `ms_ten_sales` | review pending; milestone presentation |
 | `functional_fifty_visitors` | functional pose | SCR-18 / `ms_fifty_visitors` | review pending; milestone presentation |
@@ -71,7 +72,7 @@ The staff-management screen requests `staff_schedule_open`, and successful save,
 
 ## Next gate
 
-1. Open the review gallery scene and inspect all 39 candidates.
+1. Open the review gallery scene and inspect all 43 candidates.
 2. Select/reject each candidate in the registry without changing Domain state.
 3. Create derived alpha PNGs only for approved full-body/bust-up images.
 4. Compare the title candidate at 1920x1080, 1600x900, and 1280x720 before connecting it to the title screen.
