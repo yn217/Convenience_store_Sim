@@ -6,14 +6,16 @@ extends PanelContainer
 
 signal item_pressed(id: String)
 
-const WIDTH := 72
-const ENTRY_HEIGHT := 60
-const ICON_SIZE := 26
-const LABEL_SIZE := 13
+const WIDTH := 84           # GUI v3 (#112): a compact floating rail with large icons and labels under them
+const ENTRY_HEIGHT := 66    # 34 px icon + 14 px label + padding; six entries fit under the HUD on a 720 px window
+const ENTRY_GAP := 4
+const ICON_SIZE := 34
+const LABEL_SIZE := 14
 ## Each entry: id (what MainLayout dispatches on), short label, icon name (UiIcons).
 const ITEMS := [
 	{"id": "store", "title": "店舗", "icon": "store"},
 	{"id": "goods", "title": "商品", "icon": "box"},
+	{"id": "order", "title": "発注", "icon": "truck"},   # opens the 商品 tab at the order section (MainLayout)
 	{"id": "management", "title": "経営", "icon": "megaphone"},
 	{"id": "data", "title": "データ", "icon": "bar-chart"},
 	{"id": "settings", "title": "設定", "icon": "gear"},
@@ -29,7 +31,7 @@ func _ready() -> void:
 	custom_minimum_size.x = WIDTH
 	add_theme_stylebox_override("panel", UiTheme.rail_box())
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 6)
+	column.add_theme_constant_override("separation", ENTRY_GAP)
 	add_child(column)
 	for i in ITEMS.size():
 		_add_entry(column, ITEMS[i])
@@ -39,6 +41,7 @@ func _ready() -> void:
 func _add_entry(column: VBoxContainer, item: Dictionary) -> void:
 	var b := Button.new()
 	b.custom_minimum_size = Vector2(WIDTH - 12, ENTRY_HEIGHT)
+	b.add_theme_font_size_override("font_size", LABEL_SIZE)
 	b.focus_mode = Control.FOCUS_NONE
 	b.clip_contents = true
 	b.tooltip_text = item["title"]
@@ -104,9 +107,9 @@ func _apply_style(b: Button, selected: bool) -> void:
 		var fill := Color(0, 0, 0, 0)
 		var glow := selected
 		if selected:
-			fill = UiTheme.BRAND_BLUE
+			fill = UiTheme.HIGHLIGHT_BLUE
 		elif state == "hover":
 			fill = Color(1, 1, 1, 0.08)
 		if state == "pressed":
-			fill = UiTheme.BRAND_BLUE.darkened(0.2) if selected else Color(1, 1, 1, 0.14)
+			fill = UiTheme.HIGHLIGHT_BLUE.darkened(0.2) if selected else Color(1, 1, 1, 0.14)
 		b.add_theme_stylebox_override(state, UiTheme.rail_entry_box(fill, glow))

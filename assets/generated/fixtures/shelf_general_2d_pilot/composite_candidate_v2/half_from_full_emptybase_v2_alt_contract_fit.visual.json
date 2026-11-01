@@ -1,0 +1,60 @@
+{
+  "source": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\half_from_full_emptybase_v2_alt.png",
+  "output": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\half_from_full_emptybase_v2_alt_contract_fit.png",
+  "source_alpha_bbox": [
+    28,
+    7,
+    1179,
+    1263
+  ],
+  "source_content_px": [
+    1151,
+    1256
+  ],
+  "source_alpha_threshold": 8,
+  "source_mirrored_horizontally": true,
+  "target_canvas_px": [
+    442,
+    449
+  ],
+  "fit_mode": "stretch_to_contract_alpha_box",
+  "fixture_contract": {
+    "projection_id": "iso2x_v1",
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "anchor_px": [
+      285.0,
+      302.0
+    ],
+    "target_alpha_box_px": [
+      38,
+      8,
+      403,
+      425
+    ]
+  },
+  "normalized_content_px": [
+    365,
+    417
+  ],
+  "scale_xy": [
+    0.31711555,
+    0.33200637
+  ],
+  "aspect_change_percent": -4.4851,
+  "output_alpha_bbox_px": [
+    38,
+    8,
+    403,
+    425
+  ],
+  "runtime_approved": false,
+  "notes": [
+    "single combined shelf and merchandise raster",
+    "no separate product placements",
+    "candidate only; no runtime integration",
+    "stretch mode applies non-uniform 2D scaling to match fixture alpha bounds; inspect for distortion"
+  ]
+}

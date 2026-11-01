@@ -8,17 +8,20 @@ const ALL := &"all"
 const SHELF := &"shelf"
 const COLD := &"cold"
 const COUNTER := &"counter"
-const TABS := [[ALL, "すべて"], [SHELF, "棚"], [COLD, "冷蔵・冷凍"], [COUNTER, "カウンター"]]
+const SERVICE := &"service"
+const TABS := [[ALL, "すべて"], [SHELF, "棚"], [COLD, "冷蔵・冷凍"], [COUNTER, "カウンター"], [SERVICE, "設備"]]
 
 ## Product categories (fixture allowed_categories) that mark a cold case, and the ones that mark a counter appliance.
 ## A fixture that holds a cold product is 冷蔵・冷凍; one that holds only counter products (or none, the register) is
-## カウンター; every other shelf is 棚.
-const COLD_PRODUCTS := ["drink", "dessert", "ice_cream"]
-const COUNTER_PRODUCTS := ["oden"]
+## カウンター; every other shelf is 棚. A fixture with no products that is not a register (ATM, copier, staff rooms) is 設備.
+const COLD_PRODUCTS := ["drink", "dessert", "ice_cream", "daily_fresh"]
+const COUNTER_PRODUCTS := ["oden", "coffee", "soft_serve", "frappe", "bakery", "pizza"]   # #131 / #130: made-to-order machines, ovens
+const SERVICE_PRODUCTS := ["capsule_toy", "crane_prize"]   # #139: the capsule machines sit with the ATM and the copier
 
 const CARD_SIZE := Vector2(108, 130)
 const THUMB_SIZE := Vector2(100, 70)
-const THUMB_PIXELS := Vector2i(192, 128)   # the cached source is 2x the drawn size, so it stays crisp
+const THUMB_PIXELS := Vector2i(192, 128)
+const CATALOG_PHOTOS := "res://assets/ui/catalog/"   # the cached source is 2x the drawn size, so it stays crisp
 const COLUMNS := 3
 const DIM := Color(1, 1, 1, 0.42)
 const PRICE_UNAFFORDABLE := Color("ff6b6b")
@@ -181,6 +184,10 @@ func _label(text: String, color: Color, node_name: String, font_size: int = UiTh
 ## Category of a fixture definition, from its allowed product categories (see COLD_PRODUCTS / COUNTER_PRODUCTS).
 static func category_of(def: Dictionary) -> StringName:
 	var cats: Array = def.get("allowed_categories", [])
+	if cats.is_empty() and not def.has("register_queue_max_tiles"):
+		return SERVICE
+	if not cats.is_empty() and cats.all(func(c): return SERVICE_PRODUCTS.has(c)):
+		return SERVICE
 	if cats.any(func(c): return COLD_PRODUCTS.has(c)):
 		return COLD
 	if cats.all(func(c): return COUNTER_PRODUCTS.has(c)):
@@ -190,7 +197,7 @@ static func category_of(def: Dictionary) -> StringName:
 
 ## Type ids of each tab, in catalog order. ALL holds every type.
 static func group(catalog: FixtureCatalog) -> Dictionary:
-	var out := {ALL: [], SHELF: [], COLD: [], COUNTER: []}
+	var out := {ALL: [], SHELF: [], COLD: [], COUNTER: [], SERVICE: []}
 	for type_id in catalog.types:
 		var category := category_of(catalog.get_type(type_id))
 		out[ALL].append(type_id)
@@ -212,10 +219,22 @@ static func thumbnail(type_id: String) -> Texture2D:
 	return tex
 
 
+static func _placeholder_thumbnail() -> Texture2D:
+	var out := Image.create_empty(THUMB_PIXELS.x, THUMB_PIXELS.y, false, Image.FORMAT_RGBA8)
+	out.fill(Color(0, 0, 0, 0))
+	var box := Rect2i(THUMB_PIXELS.x / 4, THUMB_PIXELS.y / 4, THUMB_PIXELS.x / 2, THUMB_PIXELS.y / 2)
+	out.fill_rect(box, Color("8a9bb0"))
+	out.fill_rect(box.grow(-4), Color("c9d3df"))
+	return ImageTexture.create_from_image(out)
+
+
 static func _build_thumbnail(type_id: String) -> Texture2D:
 	var entry := FixtureSprites.new().rotation_entry(type_id, 0)
 	if entry.is_empty():
-		return null
+		# A type without in-store art yet: its catalog photo (ComfyUI, tools/assets/build_catalog_thumbs.py, 192x128),
+		# else a plain box.
+		var photo := CATALOG_PHOTOS + type_id + ".png"
+		return load(photo) as Texture2D if ResourceLoader.exists(photo) else _placeholder_thumbnail()
 	var body := entry["layers"].get("body") as Texture2D
 	if body == null:
 		return null

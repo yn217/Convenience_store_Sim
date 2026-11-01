@@ -1,0 +1,34 @@
+{
+  "method": "Direct inspection of generated images plus final checkerboard comparison. Local image QA only, no independent review or application test suite.",
+  "A_refined": {
+    "stocked_rows": 5,
+    "display_boards": 5,
+    "top_board_stocked": true,
+    "four_lower_rows_preserved": true,
+    "side_labels_visible": true,
+    "extra_box_enclosure": false,
+    "integrated_2d_rgba": true,
+    "five_tiers_pass": true,
+    "long_axis_slope": -0.509445,
+    "strict_canonical_dimensions": "NOT_VERIFIED",
+    "observation": "Top-row addition fixed the four-row failure. Red/green/yellow cups remain mixed naturally; narrow frame and open short side retained. Preferred geometry candidate."
+  },
+  "B_refined": {
+    "stocked_rows": 5,
+    "display_boards": 5,
+    "top_board_stocked": true,
+    "four_lower_rows_preserved": true,
+    "side_labels_visible": true,
+    "extra_box_enclosure": false,
+    "integrated_2d_rgba": true,
+    "five_tiers_pass": true,
+    "long_axis_slope": -0.52039,
+    "strict_canonical_dimensions": "NOT_VERIFIED",
+    "observation": "Five tiers retained. Neighboring flavor-color blocks give a more organized stocked appearance. Small generation drift remains, including shelf edge angle relative to A."
+  },
+  "projection_note": "Both pass the diagnostic slope interval [-0.53,-0.47] used in prior pilot QA. This tolerance is a diagnostic, not a claim of the user's exact-match requirement being proven.",
+  "dimension_note": "Originals are 1202x1308; canonical is 442x481. Top cups extend above the canonical empty fixture. Whole-alpha bbox aspect is not a direct fixture-dimension comparison. No shear/stretch/rotation/independent-axis resize has been applied. Exact world-scale and landmark registration remain unverified.",
+  "alpha_note": "True alpha-zero exterior; no pixels above alpha8 touch the canvas border. Generated interior alpha is mostly 252-254, preserved unchanged. Checkerboard is in comparison image only.",
+  "status": "TWO_FIVE_TIER_CANDIDATES_READY_FOR_SELECTION__EXACT_GEOMETRY_NOT_VERIFIED",
+  "runtime_approved": false
+}

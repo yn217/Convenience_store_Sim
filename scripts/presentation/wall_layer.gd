@@ -9,10 +9,10 @@ extends Node2D
 ## viewport changes.
 
 const WALL_TOP := Color("f2efe8")     ## upper wall: warm white
-const WAINSCOT := Color("cbc2b4")     ## lower wall: warm grey-beige
-const TRIM := Color("e4ddd0")
-const BASEBOARD := Color("7f776d")
-const STRIPE_BLUE := Color("2f6db5")  ## chain stripe band (blue with thin white edges)
+const WAINSCOT := Color("deded7")     ## lower wall: warm grey-beige
+const TRIM := Color("f6f7f3")
+const BASEBOARD := Color("7c898c")
+const STRIPE_BLUE := Color("167ee0")  ## chain stripe band (blue with thin white edges)
 const STRIPE_WHITE := Color("f7f8fa")
 const GLASS := Color(0.624, 0.827, 0.941, 0.5)
 const LAMP := UiTheme.WARM
@@ -34,6 +34,14 @@ const WALL_PLANE := -0.5
 
 var _key: Array = []
 var _quads: Array = []
+var _mesh: ArrayMesh
+const ExteriorMesh := preload("res://scripts/presentation/exterior_mesh.gd")
+
+## Re-paints only the opaque wall planes after the background foliage, hiding roots and beds naturally.
+func draw_occlusion_overlay(target: CanvasItem, proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
+	for face in wall_quads(proj, width, height, entrances):
+		if face["kind"] == &"wall" or face["kind"] == &"wainscot" or face["kind"] == &"baseboard" or face["kind"] == &"stripe" or face["kind"] == &"stripe_edge" or face["kind"] == &"trim" or face["kind"] == &"panel_joint" or face["kind"] == &"cap_shadow" or face["kind"] == &"cap_edge" or face["kind"] == &"vent_frame" or face["kind"] == &"vent" or face["kind"] == &"door_frame" or face["kind"] == &"door_decal" or face["kind"] == &"door_handle" or face["kind"] == &"reflection":
+			target.draw_colored_polygon(face["points"], face["color"])
 
 
 ## Recomputes the wall quads when any input changed; otherwise does nothing.
@@ -43,15 +51,13 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 		return
 	_key = key
 	_quads = wall_quads(proj, width, height, entrances)
+	_mesh = ExteriorMesh.from_faces(_quads)
 	queue_redraw()
 
 
 func _draw() -> void:
-	for q in _quads:
-		if q.has("colors"):   # vertical gradients (lamp streaks)
-			draw_polygon(q["points"], q["colors"])
-		else:
-			draw_colored_polygon(q["points"], q["color"])
+	if _mesh != null:
+		draw_mesh(_mesh, null)
 
 
 ## Every wall piece to draw, in paint order (north wall, then west wall). Each entry is
@@ -86,6 +92,7 @@ static func _wall_pieces(out: Array, proj: IsoProjection, wall: String, length: 
 			j += 1
 		if is_gap:
 			out.append(_quad(proj, wall, i - 0.5, j + 0.5, 0.0, WALL_HEIGHT, GLASS, &"glass"))
+			_door_details(out, proj, wall, i - 0.5, j + 0.5)
 		else:
 			out.append(_quad(proj, wall, i - 0.5, j + 0.5, WAINSCOT_M, WALL_HEIGHT, WALL_TOP, &"wall"))
 			out.append(_quad(proj, wall, i - 0.5, j + 0.5, 0.0, WAINSCOT_M, WAINSCOT, &"wainscot"))
@@ -95,6 +102,7 @@ static func _wall_pieces(out: Array, proj: IsoProjection, wall: String, length: 
 			out.append(_quad(proj, wall, i - 0.5, j + 0.5, STRIPE_HI_M, STRIPE_HI_M + STRIPE_EDGE_M, STRIPE_WHITE, &"stripe_edge"))
 			out.append(_quad(proj, wall, i - 0.5, j + 0.5, WALL_HEIGHT - TRIM_M, WALL_HEIGHT, TRIM, &"trim"))
 		i = j + 1
+	_panel_details(out, proj, wall, length, gaps)
 	for k in range(1, length, LAMP_SPACING):
 		if not gaps.has(k):
 			out.append(_streak(proj, wall, k))
@@ -102,6 +110,41 @@ static func _wall_pieces(out: Array, proj: IsoProjection, wall: String, length: 
 
 
 ## Soft light falling down the wall from a lamp: transparent at the wainscot top, brightest at the lamp.
+static func _door_details(out: Array, proj: IsoProjection, wall: String, a: float, b: float) -> void:
+	# Extruded metal jambs and narrow reflections keep the opening readable without an opaque door sprite.
+	var metal := Color("9aaab3")
+	for s in [a, (a + b) * 0.5, b]:
+		out.append(_quad(proj, wall, s - 0.018, s + 0.018, 0.0, WALL_HEIGHT, metal, &"door_frame"))
+	for z in [0.08, 2.32]:
+		out.append(_quad(proj, wall, a, b, z, z + 0.045, metal, &"door_frame"))
+	for s in [a + (b - a) * 0.26, a + (b - a) * 0.74]:
+		out.append(_quad(proj, wall, s - 0.025, s + 0.025, 0.86, 1.2, Color("e9f0ee"), &"door_handle"))
+		out.append(_quad(proj, wall, s + 0.06, s + 0.14, 1.35, 2.16, Color(0.94, 0.98, 1.0, 0.22), &"reflection"))
+	# Safety decal at eye level, not an opaque patch over the entire window.
+	out.append(_quad(proj, wall, a + 0.07, b - 0.07, 1.33, 1.38, Color(0.14, 0.49, 0.85, 0.55), &"door_decal"))
+
+
+static func _panel_details(out: Array, proj: IsoProjection, wall: String, length: int, gaps: Dictionary) -> void:
+	# Dimensions are metres; seams, cap and vents follow the existing wall plane at every zoom.
+	var joint := Color(0.38, 0.44, 0.46, 0.22)
+	for k in range(length):
+		if gaps.has(k):
+			continue
+		var a := k - 0.5
+		out.append(_quad(proj, wall, a, a + 0.018, 0.12, WALL_HEIGHT - 0.08, joint, &"panel_joint"))
+		out.append(_quad(proj, wall, a + 0.018, a + 0.032, 0.12, WALL_HEIGHT - 0.08, Color(1.0, 1.0, 1.0, 0.32), &"panel_joint"))
+		out.append(_quad(proj, wall, a, a + 1.0, 0.47, 0.482, joint, &"panel_joint"))
+		out.append(_quad(proj, wall, a, a + 1.0, 2.43, 2.47, Color("c1cccd"), &"cap_shadow"))
+		# A narrow folded-aluminium edge gives the roof cutaway a real section, below the existing height limit.
+		out.append(_quad(proj, wall, a, a + 1.0, 2.48, 2.54, Color("b3c0c4"), &"cap_edge"))
+		out.append(_quad(proj, wall, a, a + 1.0, 2.54, WALL_HEIGHT, Color("fcfcf8"), &"cap_edge"))
+		if k % 6 == 3:
+			out.append(_quad(proj, wall, k - 0.25, k + 0.25, 2.07, 2.36, Color("9eabad"), &"vent_frame"))
+			out.append(_quad(proj, wall, k - 0.22, k + 0.22, 2.09, 2.34, Color("d8dfdc"), &"vent"))
+			for z in [2.12, 2.17, 2.22, 2.27, 2.32]:
+				out.append(_quad(proj, wall, k - 0.19, k + 0.19, z, z + 0.013, Color("78878a"), &"vent_louvre"))
+
+
 static func _streak(proj: IsoProjection, wall: String, k: int) -> Dictionary:
 	var q := _quad(proj, wall, k - LAMP_W * 0.9, k + LAMP_W * 0.9, WAINSCOT_M, LAMP_Z, STREAK, &"streak")
 	var clear := Color(STREAK, 0.0)

@@ -10,25 +10,27 @@ func _catalog() -> FixtureCatalog:
 	return FixtureCatalog.from_json_text(FileAccess.get_file_as_string(FIXTURES))
 
 
-func test_mvp_fixtures_split_into_three_tabs(t, _tree) -> void:
+func test_mvp_fixtures_split_into_four_tabs(t, _tree) -> void:
 	var groups := Cat.group(_catalog())
-	t.eq(groups[Cat.ALL].size(), 10, "すべて holds all ten types")
-	t.eq(groups[Cat.SHELF], ["shelf_general", "shelf_onigiri", "shelf_noodle", "shelf_bread", "shelf_snack"], "棚: the five shelves, in data order")
-	t.eq(groups[Cat.COLD], ["fridge_drink", "fridge_dessert", "freezer_ice"], "冷蔵・冷凍: the three cases")
-	t.eq(groups[Cat.COUNTER], ["register_basic", "warmer_oden"], "カウンター: the register and the oden warmer")
+	t.eq(groups[Cat.ALL].size(), 28, "すべて holds all twenty-eight types")
+	t.eq(groups[Cat.SHELF], ["shelf_general", "shelf_onigiri", "shelf_noodle", "shelf_bread", "shelf_snack", "shelf_goods"], "棚: the six shelves, in data order (goods, #133)")
+	t.eq(groups[Cat.COLD], ["fridge_drink", "fridge_dessert", "freezer_ice", "fridge_daily"], "冷蔵・冷凍: the four cases (daily fresh, #147)")
+	t.eq(groups[Cat.COUNTER], ["register_basic", "warmer_oden", "coffee_machine", "soft_serve_machine", "frappe_blender", "bakery_oven", "pizza_oven"], "カウンター: the register, the oden warmer, the coffee machine, the soft serve / frappé machines and the ovens")
+	t.eq(groups[Cat.SERVICE], ["atm", "copier", "staff_room_s", "staff_room_m", "staff_room_l", "capsule_toy_1", "capsule_toy_3", "capsule_toy_5", "eat_in_counter", "eat_in_table", "crane_game"], "設備: the ATM, the copier, the staff rooms, the capsule machines, the eat-in seats and the crane game")
 
 
 func test_every_type_is_in_exactly_one_category(t, _tree) -> void:
 	var groups := Cat.group(_catalog())
-	var count: int = groups[Cat.SHELF].size() + groups[Cat.COLD].size() + groups[Cat.COUNTER].size()
-	t.eq(count, int(groups[Cat.ALL].size()), "the three tabs partition the full list")
+	var count: int = groups[Cat.SHELF].size() + groups[Cat.COLD].size() + groups[Cat.COUNTER].size() + groups[Cat.SERVICE].size()
+	t.eq(count, int(groups[Cat.ALL].size()), "the four tabs partition the full list")
 
 
 func test_category_rule_from_allowed_categories(t, _tree) -> void:
 	t.eq(Cat.category_of({"allowed_categories": ["drink"]}), Cat.COLD, "a drink case is cold")
 	t.eq(Cat.category_of({"allowed_categories": ["snack", "dessert"]}), Cat.COLD, "any cold product makes it cold")
 	t.eq(Cat.category_of({"allowed_categories": ["oden"]}), Cat.COUNTER, "an oden-only warmer is a counter item")
-	t.eq(Cat.category_of({"allowed_categories": []}), Cat.COUNTER, "no product category (register) is a counter item")
+	t.eq(Cat.category_of({"allowed_categories": [], "register_queue_max_tiles": 3}), Cat.COUNTER, "the register (no products) is a counter item")
+	t.eq(Cat.category_of({"allowed_categories": []}), Cat.SERVICE, "no products and no register queue (ATM, copier) is a service item")
 	t.eq(Cat.category_of({"allowed_categories": ["bread"]}), Cat.SHELF, "a dry-goods shelf is 棚")
 
 

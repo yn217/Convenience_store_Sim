@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "_comment": "Crane game (UFO catcher, issue #132). One play costs the prize SKU's sell price; a customer plays up to max_plays (patience and money permitting) and stops at the first win; each play wins with 1 / win_one_in; play_seconds is the time per play at the machine. A win takes one prize (named from `prizes`) out of the machine. Fictional plush goods only; no real brand or character; in-game money only. max_per_store caps the machines in one store (phase 2); an emptied machine is announced (refill it). breakdown: a machine breaks after a number of plays since its last repair, drawn per machine and repair from after_plays [min, max] (a hash, no game random stream); a broken machine takes no players until repaired for repair_cost_yen (min 0 turns breakdowns off).",
+  "play_seconds": 40,
+  "max_plays": 5,
+  "win_one_in": 6,
+  "max_per_store": 2,
+  "breakdown": {
+    "after_plays": [
+      250,
+      400
+    ],
+    "repair_cost_yen": 5000
+  },
+  "prizes": {
+    "crane_001": [
+      "しろねこ",
+      "くろねこ",
+      "みけねこ",
+      "とらねこ"
+    ],
+    "crane_002": [
+      "ちゃいろのくま",
+      "しろくま",
+      "パンダ"
+    ],
+    "crane_003": [
+      "ピンクのうさぎ",
+      "みずいろのうさぎ"
+    ]
+  }
+}

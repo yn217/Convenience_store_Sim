@@ -1,0 +1,18 @@
+{
+  "scene": "title",
+  "seed": 5101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "scene_title_5101_00001_.png",
+  "positive": "anima_style, anime background art, japanese anime film background, detailed, soft light, beautiful colors, clean composition, no text, a small japanese convenience store on a quiet residential street corner at dusk, warm light from the glass storefront, vending machines beside the door, utility poles and wires, bicycles parked, gradient evening sky with pink and purple clouds, streetlights turning on, wide shot, no people",
+  "negative": "low quality, worst quality, blurry, text, letters, words, signage text, logo, brand name, watermark, signature, deformed, distorted, close-up face, malformed hands",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    1344,
+    768
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

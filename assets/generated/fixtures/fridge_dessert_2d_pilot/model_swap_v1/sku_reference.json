@@ -1,0 +1,38 @@
+[
+  {
+    "schema_version": 1,
+    "sku_id": "dessert_001",
+    "display_name": "カスタードプリン",
+    "category": "dessert",
+    "purchase_cost_yen": 120,
+    "default_sell_price_yen": 210,
+    "expires_after_seconds": 259200,
+    "demand_weight": 1,
+    "visual_id": "dessert_001_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "dessert_002",
+    "display_name": "チーズケーキ",
+    "category": "dessert",
+    "purchase_cost_yen": 155,
+    "default_sell_price_yen": 270,
+    "expires_after_seconds": 259200,
+    "demand_weight": 1,
+    "visual_id": "dessert_002_package",
+    "slot_units": 1
+  },
+  {
+    "schema_version": 1,
+    "sku_id": "dessert_003",
+    "display_name": "フルーツゼリー",
+    "category": "dessert",
+    "purchase_cost_yen": 95,
+    "default_sell_price_yen": 175,
+    "expires_after_seconds": 259200,
+    "demand_weight": 1,
+    "visual_id": "dessert_003_package",
+    "slot_units": 1
+  }
+]

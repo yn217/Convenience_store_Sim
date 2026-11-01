@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "map_id": "aoba_city_central_district_v2",
+  "display_name": "青葉市 中央地区",
+  "fictional": true,
+  "coordinate_system": {
+    "unit": "image_pixel",
+    "width_px": 1672,
+    "height_px": 941,
+    "origin": "top_left",
+    "gps": false
+  },
+  "labels_baked": true,
+  "source": "User package ui_free_map_bundle.zip (2026-10-26), aoba_city_central_district_map.json + _no_ui.png. Names and site ids as given; x/y re-measured on the picture (2026-10-26): sites = head of the baked pin, facilities = centre of the baked badge icon (the package's 1000x680 coordinates did not line up with the picture).",
+  "pois": [
+    {
+      "id": "ST01",
+      "name": "中央駅",
+      "type": "station",
+      "category": "station",
+      "x": 437,
+      "y": 273
+    },
+    {
+      "id": "ST02",
+      "name": "東口駅",
+      "type": "station",
+      "category": "station",
+      "x": 1352,
+      "y": 298
+    },
+    {
+      "id": "TR01",
+      "name": "バスターミナル",
+      "type": "bus_terminal",
+      "category": "transport",
+      "x": 486,
+      "y": 388
+    },
+    {
+      "id": "SC01",
+      "name": "青葉学園",
+      "type": "school",
+      "category": "school",
+      "x": 200,
+      "y": 465
+    },
+    {
+      "id": "UN01",
+      "name": "みどり大学",
+      "type": "university",
+      "category": "university",
+      "x": 190,
+      "y": 678
+    },
+    {
+      "id": "OF01",
+      "name": "中央ビジネス街",
+      "type": "office",
+      "category": "office",
+      "x": 955,
+      "y": 255
+    },
+    {
+      "id": "OF02",
+      "name": "南オフィス棟",
+      "type": "office",
+      "category": "office",
+      "x": 887,
+      "y": 465
+    },
+    {
+      "id": "RS01",
+      "name": "若葉住宅街",
+      "type": "residential",
+      "category": "residential",
+      "x": 1042,
+      "y": 588
+    },
+    {
+      "id": "RS02",
+      "name": "桜ヶ丘団地",
+      "type": "residential",
+      "category": "residential",
+      "x": 1316,
+      "y": 638
+    },
+    {
+      "id": "HT01",
+      "name": "駅前ホテル",
+      "type": "hotel",
+      "category": "hotel",
+      "x": 634,
+      "y": 150
+    },
+    {
+      "id": "HT02",
+      "name": "観光ホテル",
+      "type": "hotel",
+      "category": "hotel",
+      "x": 1218,
+      "y": 120
+    },
+    {
+      "id": "TO01",
+      "name": "さくら公園",
+      "type": "tourism",
+      "category": "park",
+      "x": 254,
+      "y": 128
+    },
+    {
+      "id": "TO02",
+      "name": "まちの博物館",
+      "type": "tourism",
+      "category": "museum",
+      "x": 722,
+      "y": 66
+    },
+    {
+      "id": "EV01",
+      "name": "文化イベント会場",
+      "type": "event_venue",
+      "category": "event",
+      "x": 1393,
+      "y": 143
+    },
+    {
+      "id": "HP01",
+      "name": "市民病院",
+      "type": "hospital",
+      "category": "hospital",
+      "x": 1441,
+      "y": 460
+    },
+    {
+      "id": "LG01",
+      "name": "南物流センター",
+      "type": "logistics",
+      "category": "logistics",
+      "x": 1400,
+      "y": 767
+    },
+    {
+      "id": "FM01",
+      "name": "市民農産市場",
+      "type": "market",
+      "category": "market",
+      "x": 730,
+      "y": 686
+    }
+  ],
+  "plots": [
+    {
+      "id": "P01",
+      "name": "駅北側・商業エリア",
+      "location_type": "station",
+      "x": 332,
+      "y": 237,
+      "status": "available"
+    },
+    {
+      "id": "P02",
+      "name": "駅周辺・飲食店街",
+      "location_type": "station",
+      "x": 645,
+      "y": 293,
+      "status": "available"
+    },
+    {
+      "id": "P03",
+      "name": "ビジネス街・オフィス",
+      "location_type": "office",
+      "x": 888,
+      "y": 205,
+      "status": "available"
+    },
+    {
+      "id": "P04",
+      "name": "東口駅前・商業施設",
+      "location_type": "station",
+      "x": 1261,
+      "y": 272,
+      "status": "available"
+    },
+    {
+      "id": "P05",
+      "name": "学園周辺・学生エリア",
+      "location_type": "school",
+      "x": 357,
+      "y": 552,
+      "status": "available"
+    },
+    {
+      "id": "P06",
+      "name": "オフィス・住宅の中間",
+      "location_type": "office",
+      "x": 821,
+      "y": 531,
+      "status": "available"
+    },
+    {
+      "id": "P07",
+      "name": "住宅街・生活道路沿い",
+      "location_type": "residential",
+      "x": 1144,
+      "y": 539,
+      "status": "available"
+    },
+    {
+      "id": "P08",
+      "name": "団地・住宅エリア",
+      "location_type": "residential",
+      "x": 1223,
+      "y": 672,
+      "status": "available"
+    }
+  ]
+}

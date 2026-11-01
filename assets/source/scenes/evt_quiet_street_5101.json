@@ -1,0 +1,18 @@
+{
+  "scene": "evt_quiet_street",
+  "seed": 5101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "scene_evt_quiet_street_5101_00001_.png",
+  "positive": "anima_style, anime background art, japanese anime film background, detailed, soft light, beautiful colors, clean composition, no text, calm early morning on an empty japanese residential street, soft sunlight, a cat sleeping on a low wall, quiet atmosphere, no people",
+  "negative": "low quality, worst quality, blurry, text, letters, words, signage text, logo, brand name, watermark, signature, deformed, distorted, close-up face, malformed hands",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    432
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

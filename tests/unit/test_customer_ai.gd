@@ -1,12 +1,14 @@
 extends RefCounted
 ## Issue #15: customer walks, shelf choice, reservation, register queue, leaving (03 §D, 09 §3).
 
+const LegacyPace := preload("res://tests/support/legacy_pace.gd")
+
 const Seeds := preload("res://tests/support/test_seeds.gd")
 var _n := 0
 
 
 func _state() -> GameState:
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	return GameState.from_balance(balance, Seeds.SEEDS, fx, pr)
@@ -32,7 +34,7 @@ func _store(qty: int = 5) -> GameState:
 	s.business_state = GameState.OPEN
 	s.speed_setting = 1
 	s.balance["base_potential_visitors_per_day"] = 0
-	s.balance["checkout_duration_game_seconds"] = 100000   # #15 tests stop before the till; #16 has its own
+	s.balance["checkout_base_game_seconds"] = 100000   # #15 tests stop before the till; #16 has its own
 	return s
 
 
@@ -153,8 +155,13 @@ func test_unreachable_shelf_is_not_a_candidate(t, _tree) -> void:
 	var ai := CustomerAI.new()
 	t.eq(ai.candidates(s).size(), 0, "no reachable access -> no candidate")
 	_arrive(s)
+	s.take_events()
 	_steps(s, ai, 1)
 	t.eq(s.customers[0]["outcome"], "no_candidate")
+	var blocked := s.take_events().filter(func(e): return e["type"] == "ACCESS_BLOCKED")
+	t.eq(blocked.size(), 1, "#24: the walled-in shelf is reported once the customer leaves")
+	t.eq(blocked[0]["payload"]["target"], "shelf")
+	t.ok(String(blocked[0]["payload"]["fixture_id"]) != "", "it names the fixture")
 
 
 func test_two_customers_one_unit_only_one_reserves(t, _tree) -> void:

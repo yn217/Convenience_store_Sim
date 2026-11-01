@@ -1,0 +1,11 @@
+Use case: stylized-concept
+Asset type: flat front-panel artwork for a fictional Japanese convenience-store bread package, to be UV-applied to a modeled transparent bread bag
+Primary request: Create distinct polished package-front artwork for butter rolls, clearly different from melon-pan. Feature two or three plump golden butter rolls, one cut or gently torn to show fluffy pale crumb, with a delicate butter gloss. Use an elegant brown-and-gold bakery palette, simple strong shapes, and clear contrast so the rolls read at small game zoom. This should feel like a premium everyday Japanese bakery item, not a pastry dessert.
+Scene/backdrop: flat full-bleed printed graphic only, no physical scene
+Style/medium: premium Japanese convenience-store food package illustration, refined hand-painted food art with clean graphic color blocks and subtle print texture
+Composition/framing: exact portrait 3:4 front panel; centered large butter-roll illustration occupying most of panel; distinct cluster composition; balanced border-safe design; graphic extends to all edges
+Lighting/mood: warm soft bakery light, appetizing and calm
+Color palette: toasted brown, deep cocoa, antique gold, warm ivory crumb, restrained honey highlights
+Materials/textures: smooth lightly glossy crust, soft airy bread crumb, subtly textured printed ink
+Text: none
+Constraints: absolutely no readable text, letters, numbers, logo, brand, watermark, package bag, container, product mockup, perspective, 3D object, cast shadow, barcode, price badge, nutrition label, or UI. This is only flat printable art. Avoid tiny busy details; food illustration must remain recognizable when reduced.

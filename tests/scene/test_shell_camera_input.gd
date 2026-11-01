@@ -5,6 +5,26 @@ const NO_TILE := Vector2i(-1, -1)
 const PATH_WORLD := "Layout/MainArea/StoreViewport/SubViewport/StoreWorld"
 
 
+func test_front_canopy_cuts_away_without_blocking_floor_selection(t, tree) -> void:
+	var r: Array = await _boot(tree)
+	var world: Node2D = r[2]
+	var canopy: Node2D = world.get_node("FacadeCanopy")
+	world.set_hover_screen(Vector2(-1000, -1000))
+	t.ok(canopy.visible, "front frame is visible while viewing the exterior")
+	var tile := Vector2i(8, 10)
+	var point: Vector2 = world.projection.tile_center(tile)
+	world.set_hover_screen(point)
+	t.ok(not canopy.visible, "hovering the store reveals the full working area")
+	world.primary_click(point)
+	t.eq(world.selected_tile, tile, "front frame never catches the floor click")
+	world.set_hover_screen(Vector2(-1000, -1000))
+	t.ok(not canopy.visible, "selected floor stays unobscured")
+	world.select_screen(Vector2(-1000, -1000))
+	t.ok(canopy.visible, "clearing selection restores the facade")
+	r[0].queue_free()
+	await tree.process_frame
+
+
 func _boot(tree, container_size: Vector2 = Vector2(1920, 1080)) -> Array:
 	var holder := Control.new()
 	holder.size = container_size
@@ -52,14 +72,36 @@ func _inside(world: Node2D) -> bool:
 	return Rect2(Vector2.ZERO, world.viewport_size()).encloses(b)
 
 
-func test_initial_view_shows_whole_16x12_store(t, tree) -> void:
+## Default view (issue #109): the interior fit. The floor fills most of the safe area (the area the UI leaves free),
+## and the storefront (west entrance tiles) stays on screen. The walls and exterior may go off-screen.
+func test_initial_view_is_the_interior_fit(t, tree) -> void:
 	var r: Array = await _boot(tree)
 	var world: Node2D = r[2]
 	t.eq(world.viewport_size().x >= 640.0, true, "store view keeps >= 640 px")
-	t.ok(_inside(world), "whole floor visible at start: %s in %s" % [str(world.projection.floor_bounds(16, 12)), str(world.viewport_size())])
-	t.ok(world.projection.zoom >= 0.5 and world.projection.zoom <= 1.0, "fit zoom within range")
-	for c in [Vector2i(0, 0), Vector2i(15, 0), Vector2i(0, 11), Vector2i(15, 11)]:
-		t.ok(Rect2(Vector2.ZERO, world.viewport_size()).has_point(world.projection.tile_center(c)), "corner tile %s on screen" % str(c))
+	t.eq(world.fit_mode, world.FitMode.INTERIOR, "the default fit is the interior fit")
+	var inset: Vector4 = world.safe_inset
+	var area: Vector2 = world.viewport_size() - Vector2(inset.x + inset.z, inset.y + inset.w)
+	var b: Rect2 = world.projection.floor_bounds(world.store_width, world.store_height)
+	var share := maxf(b.size.x / area.x, b.size.y / area.y)
+	t.ok(share >= 0.9 - 1e-3 and share <= 1.0 + 1e-6, "floor fills 90-100 percent of the safe area on its limiting axis (%s)" % str(share))
+	t.ok(absf(world.projection.zoom - IsoProjection.interior_zoom(area, 16, 12)) < 1e-9, "zoom is the interior zoom")
+	var safe := Rect2(Vector2(inset.x, inset.y), area)
+	for c in [Vector2i(0, 5), Vector2i(0, 6)]:
+		t.ok(safe.has_point(world.projection.tile_center(c)), "entrance tile %s is in the safe area" % str(c))
+	r[0].queue_free()
+	await tree.process_frame
+
+
+func test_default_view_returns_after_a_whole_fit(t, tree) -> void:
+	var r: Array = await _boot(tree)
+	var world: Node2D = r[2]
+	var interior_zoom: float = world.projection.zoom
+	var interior_origin: Vector2 = world.projection.origin
+	world.fit_whole()
+	t.ok(_inside(world), "whole fit shows the whole floor")
+	world.reset_default_view()
+	t.ok(absf(world.projection.zoom - interior_zoom) < 1e-9 and world.projection.origin.is_equal_approx(interior_origin), "reset_default_view (after a load) restores the interior fit")
+	t.eq(world.fit_mode, world.FitMode.INTERIOR, "reset leaves the interior mode")
 	r[0].queue_free()
 	await tree.process_frame
 
@@ -159,7 +201,7 @@ func test_cancel_keys_and_fit(t, tree) -> void:
 	var r: Array = await _boot(tree)
 	var world: Node2D = r[2]
 	var ctl: Node = world.get_node("InputController")
-	var fit_zoom: float = world.projection.zoom
+	var interior_zoom: float = world.projection.zoom
 	world.select_screen(world.projection.tile_center(Vector2i(4, 4)))
 	t.eq(world.selected_tile, Vector2i(4, 4))
 	ctl.handle_event(_key(KEY_ESCAPE, true))
@@ -172,9 +214,23 @@ func test_cancel_keys_and_fit(t, tree) -> void:
 	ctl.handle_event(_wheel(Vector2(500, 400), true))
 	t.ok(world.user_moved)
 	ctl.handle_event(_key(KEY_F, true))
-	t.ok(not world.user_moved and absf(world.projection.zoom - fit_zoom) < 1e-9 and _inside(world), "F refits the whole store")
+	var whole_zoom: float = world.projection.zoom
+	t.ok(not world.user_moved and _inside(world) and world.fit_mode == world.FitMode.WHOLE, "F refits the whole store")
+	t.ok(whole_zoom < interior_zoom, "whole-store zoom is smaller than the interior zoom")
+	ctl.handle_event(_shift_key(KEY_F, true))
+	t.ok(world.fit_mode == world.FitMode.INTERIOR and absf(world.projection.zoom - interior_zoom) < 1e-9, "Shift+F from the whole store goes to the interior fit")
+	ctl.handle_event(_shift_key(KEY_F, true))
+	t.ok(world.fit_mode == world.FitMode.WHOLE and absf(world.projection.zoom - whole_zoom) < 1e-9, "Shift+F again toggles back to the whole store")
+	ctl.handle_event(_key(KEY_F, false))
+	t.eq(world.fit_mode, world.FitMode.WHOLE, "key release does nothing")
 	r[0].queue_free()
 	await tree.process_frame
+
+
+func _shift_key(code: Key, pressed: bool) -> InputEventKey:
+	var e := _key(code, pressed)
+	e.shift_pressed = true
+	return e
 
 
 func test_ui_panels_do_not_leak_input_to_the_store(t, tree) -> void:

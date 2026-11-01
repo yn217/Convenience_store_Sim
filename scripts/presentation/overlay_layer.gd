@@ -10,6 +10,8 @@ const BLOCK := Color(0.10, 0.10, 0.12, 0.65)
 const ACCESS_FILL := Color(1.0, 0.78, 0.45, 0.30)
 const ACCESS_EDGE := Color(1.0, 0.78, 0.45, 0.95)
 const BADGE_BG := Color(0.08, 0.10, 0.14, 0.85)
+const QUEUE_FULL := Color("ffb300")   # amber: the register's line is at its maximum
+const QUEUE_OVERFLOW := Color("ff5252")   # red: customers outside the line
 const LEVEL_COLOR := {"empty": Color("ff8a80"), "low": Color("ffd54f"), "ok": Color("9ccc65"), "register": Color("90caf9"), "none": Color("cfd8dc")}
 
 var _world: Node2D
@@ -25,7 +27,7 @@ func _font() -> Font:
 
 
 func _process(_delta: float) -> void:
-	if _world != null and (_world.overlay_mode != OverlayModel.Mode.NORMAL or _world.selected_customer != ""):
+	if _world != null and (_world.overlay_mode != OverlayModel.Mode.NORMAL or _world.selected_customer != "" or not _world.customers.is_empty()):
 		queue_redraw()
 
 
@@ -33,6 +35,7 @@ func _draw() -> void:
 	if _world == null or _world.store_width <= 0 or _world.fixture_catalog == null:
 		return
 	_draw_selected_customer()
+	_draw_queue_badges()
 	match _world.overlay_mode:
 		OverlayModel.Mode.LAYOUT:
 			_draw_layout()
@@ -57,10 +60,58 @@ func _draw_selected_customer() -> void:
 			pts.append(foot + Vector2(cos(a) * 26.0, sin(a) * 13.0) * proj.zoom)
 		draw_polyline(pts, Color("5cc8ff"), 3.0)
 		_label(_font(), foot + Vector2(0, 26.0 * proj.zoom), "選択中", int(round(13.0 * maxf(proj.zoom, 0.8))))
+		# #141: where it is heading — the route ahead and a ring on the goal tile.
+		var route: PackedVector2Array = presenter.shown_route(c)
+		if route.size() >= 2:
+			var screen := PackedVector2Array()
+			for p in route:
+				screen.append(proj.world_to_screen(p.x, p.y))
+			draw_polyline(screen, Color(0.36, 0.78, 1.0, 0.75), 2.5 * maxf(proj.zoom, 0.8))
+			var goal := screen[screen.size() - 1]
+			var ring := PackedVector2Array()
+			for i in 17:
+				var a := TAU * i / 16.0
+				ring.append(goal + Vector2(cos(a) * 18.0, sin(a) * 9.0) * proj.zoom)
+			draw_polyline(ring, Color(1.0, 0.85, 0.3, 0.9), 2.5)
 
 
 func _cells(inst: Dictionary, def: Dictionary) -> Array[Vector2i]:
 	return StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
+
+
+## Point above a fixture's footprint centre, `lift` metres over its top (badges sit here).
+func _top_anchor(inst: Dictionary, def: Dictionary, lift: float) -> Vector2:
+	var cells := _cells(inst, def)
+	var cx := 0.0
+	var cy := 0.0
+	for c in cells:
+		cx += c.x
+		cy += c.y
+	return _world.projection.world_to_screen(cx / cells.size(), cy / cells.size(), float(def["dimensions_m"]["height"]) + lift)
+
+
+## "レジ待ち N人 ＋列外M人" above each register with at least one customer in line (slots or overflow).
+## Amber when the slots are full, red when customers are outside the line.
+func _draw_queue_badges() -> void:
+	if _world.overlay_mode == OverlayModel.Mode.INFO:
+		return   # the info mode shows the same counts in the register's own badge
+	var queues := OverlayModel.register_queues(_world.customers)
+	if queues.is_empty():
+		return
+	var font := _font()
+	var size := int(round(13.0 * maxf(_world.projection.zoom, 0.8)))
+	for inst in _world.fixtures:
+		var q: Dictionary = queues.get(inst["instance_id"], {})
+		if q.is_empty() or OverlayModel.line_size(q) < 1:
+			continue
+		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
+		var accent := LEVEL_COLOR["register"]
+		match OverlayModel.queue_badge_state(int(q["queued"]), int(q["overflow"]), AccessService.QUEUE_MAX):
+			"overflow":
+				accent = QUEUE_OVERFLOW
+			"full":
+				accent = QUEUE_FULL
+		_badge(font, _top_anchor(inst, def, OverlayModel.QUEUE_BADGE_LIFT), OverlayModel.queue_badge_text(int(q["queued"]), int(q["overflow"])), size, accent)
 
 
 func _draw_layout() -> void:
@@ -102,18 +153,18 @@ func _draw_info() -> void:
 	var proj: IsoProjection = _world.projection
 	var font := _font()
 	var size := int(round(14.0 * maxf(proj.zoom, 0.8)))
+	var queues := OverlayModel.register_queues(_world.customers)
 	for inst in _world.fixtures:
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
+		if AccessService.is_register(def):
+			var q: Dictionary = queues.get(inst["instance_id"], {})
+			var est := OverlayModel.estimated_wait_minutes(q, _world.checkout_duration_sec)
+			_badge(font, _top_anchor(inst, def, 0.25), OverlayModel.register_info_text(q, est), size, LEVEL_COLOR["register"])
+			continue
 		var status := OverlayModel.stock_status(def, _world.shelf_stock.get(inst["instance_id"], {}))
 		if status["text"] == "":
 			continue
-		var cells := _cells(inst, def)
-		var cx := 0.0
-		var cy := 0.0
-		for c in cells:
-			cx += c.x
-			cy += c.y
-		var pos := proj.world_to_screen(cx / cells.size(), cy / cells.size(), float(def["dimensions_m"]["height"]) + 0.25)
+		var pos := _top_anchor(inst, def, 0.25)
 		var line := "%s %s" % [status["icon"], status["text"]]
 		if not def["shelf_slots"].is_empty():
 			line += "  " + OverlayModel.sales_text(int(_world.fixture_sales.get(inst["instance_id"], 0)))

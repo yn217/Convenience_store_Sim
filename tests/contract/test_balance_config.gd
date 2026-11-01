@@ -11,3 +11,4 @@ func test_balance_defaults(t, _tree) -> void:
 	t.eq(int(b["simulation_step_game_seconds"]), 2)
 	t.eq(int(b["game_seconds_per_real_second"]), 60)
 	t.eq(b["game_speed_options"], [0.0, 1.0, 2.0, 4.0], "speed options")
+	t.eq(int(b["days_per_month"]), 4, "compressed calendar: 1 month = 4 game days (#135)")

@@ -1,0 +1,11 @@
+Use case: stylized-concept
+Asset type: flat front-panel artwork for a fictional Japanese convenience-store bread package, to be UV-applied to a modeled transparent bread bag
+Primary request: Create a polished, appetizing illustrated package-front graphic for melon-pan with a bakery-cream palette. Make one large, unmistakable Japanese melon-pan the hero: golden baked dome with crisp fine crosshatch cookie crust, soft pale interior visible at a small natural torn edge, subtle butter sheen. Add a restrained cream-and-warm-yellow field, delicate bakery motifs and a few small wheat/grain accents. Strong simple silhouette and high contrast so the bread reads clearly at small game zoom.
+Scene/backdrop: flat full-bleed printed graphic only, no physical scene
+Style/medium: premium Japanese convenience-store food package illustration, refined hand-painted food art with clean graphic color blocks and subtle print texture
+Composition/framing: exact portrait 3:4 front panel; centered hero melon-pan occupying most of the panel; balanced border-safe composition; graphic extends to all edges
+Lighting/mood: warm appetizing bakery warmth, clean and bright
+Color palette: toasted golden brown, butter cream, pale custard, small restrained amber accents
+Materials/textures: crisp crosshatch crust, soft bread crumb, lightly textured printed ink
+Text: none
+Constraints: absolutely no readable text, letters, numbers, logo, brand, watermark, package bag, container, product mockup, perspective, 3D object, cast shadow, barcode, price badge, nutrition label, or UI. This is only flat printable art. Avoid tiny busy details; food illustration must remain recognizable when reduced.

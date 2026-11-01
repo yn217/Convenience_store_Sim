@@ -89,6 +89,17 @@
   },
   {
     "schema_version": 1,
+    "cue_id": "access_blocked",
+    "source_event_type": "ACCESS_BLOCKED",
+    "animation_id": "queue_warning",
+    "duration_seconds": 4,
+    "priority": "important",
+    "sfx_key": "warning_soft",
+    "dedupe_payload_field": "target",
+    "cooldown_game_seconds": 600
+  },
+  {
+    "schema_version": 1,
     "cue_id": "long_queue",
     "source_event_type": "QUEUE_TOO_LONG",
     "animation_id": "queue_warning",
@@ -129,6 +140,160 @@
     "priority": "important",
     "sfx_key": "report_open",
     "dedupe_payload_field": "day_index",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "rival_opened",
+    "source_event_type": "RIVAL_OPENED",
+    "animation_id": "event_banner",
+    "duration_seconds": 3.5,
+    "priority": "important",
+    "sfx_key": "warning_soft",
+    "dedupe_payload_field": "rival_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "rival_sale",
+    "source_event_type": "RIVAL_SALE",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "rival_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "rival_renovation",
+    "source_event_type": "RIVAL_RENOVATION",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "rival_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "rival_closed",
+    "source_event_type": "RIVAL_CLOSED",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "rival_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "bake_done",
+    "source_event_type": "BAKE_DONE",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "crane_won",
+    "source_event_type": "CRANE_WON",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 600
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "crane_empty",
+    "source_event_type": "CRANE_EMPTY",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 600
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "crane_broken",
+    "source_event_type": "CRANE_BROKEN",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 600
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "crane_repaired",
+    "source_event_type": "CRANE_REPAIRED",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 600
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "capsule_empty",
+    "source_event_type": "CAPSULE_EMPTY",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "fixture_id",
+    "cooldown_game_seconds": 600
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "capsule_rare",
+    "source_event_type": "CAPSULE_RARE",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "customer_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "lottery_top",
+    "source_event_type": "LOTTERY_TOP",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "lottery_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "lottery_sold_out",
+    "source_event_type": "LOTTERY_SOLD_OUT",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "lottery_id",
+    "cooldown_game_seconds": 0
+  },
+  {
+    "schema_version": 1,
+    "cue_id": "condition_started",
+    "source_event_type": "CONDITION_STARTED",
+    "animation_id": "event_banner",
+    "duration_seconds": 3,
+    "priority": "normal",
+    "sfx_key": null,
+    "dedupe_payload_field": "condition_id",
     "cooldown_game_seconds": 0
   },
   {

@@ -1,0 +1,17 @@
+{
+  "candidate_placement.json": "fbdff84b8f950b725a9ea40fe050487c2900332592d8ddfdae30ee8f78f51f49",
+  "comparison_same_scale.png": "d8f4584b7c89b055675ff48202217935c386dbf7014ce1aa80c4f94824bb68c1",
+  "fridge_drink_full_r0_candidate_a.png": "b8ac9ff3028c562a974368862c19ad80ba79a6b22789e03ff9d8af055ac36f6e",
+  "fridge_drink_full_r0_candidate_b.png": "35e504a5342e35f8123adafa8517cbc5c2638ba8e52f78f8e3e56137db6cc5aa",
+  "generation_manifest.json": "991eca4d8f86963c5bf7eef7b8f855c68b21522d28ef38f63d63e24014240945",
+  "generation_provenance.json": "022ce463a7ff394bdf9d47438a2ddd0d9e4ef056e94339098ee94abe16a69ae3",
+  "input_guide.png": "f72edd7b5379e433f12a946752c3b0a693890fd61bc07adc682ff4b5b0ffb70b",
+  "measure_and_package.py": "b8e24f4e69a57a3bed342ca628bc550257d7a364c564561fe2bc205458b0697a",
+  "original_a.png": "45270a2c5781b54819af15471ed24a6fc1b1dcb918244a199b465af36c314af7",
+  "original_b.png": "0bb34997c43d087e891efff9a3df6432351387e092bfbab51f5ec0c0ee5d2c70",
+  "prompt_a.txt": "4e5f146976933e9c44aa0880af6fbd2cf4d7bb71bc5cc8b9f7d3f3602581bb64",
+  "prompt_b.txt": "d3f39efe02394508854c1b4424b0026d68f9d8c0491e790a881d42fbe85d2e01",
+  "qa_metrics.json": "1395e3950efbc34d8489f5dcfb1ecec2d6326eba7a10e0b082308299b3b36d6a",
+  "qa_visual.json": "73f88487b659e9ea150b52e5fa80ad551bf712ab44fb6f33fc73691b9bded4d5",
+  "README.md": "53259e11173eeba5a5051e460565652fb3bc94ebee387b7af962426e7685a8f4"
+}

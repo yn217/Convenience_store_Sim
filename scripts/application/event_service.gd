@@ -30,6 +30,7 @@ static func step(state: GameState) -> void:
 
 static func _draw_today(state: GameState, day_index: int) -> void:
 	var ges := state.gameplay_event_state
+	_remember(state)
 	var r := GameplayEventDirector.draw(state.gameplay_events, day_index, state.reputation, int(state.rng_states["events"]))
 	state.rng_states["events"] = r["next_state"]
 	ges["last_selected_day"] = day_index
@@ -48,6 +49,32 @@ static func _draw_today(state: GameState, day_index: int) -> void:
 	ges["event_end_sec"] = w.y
 
 
+## #31 イベント履歴: before a new day's draw replaces it, the last drawn day goes into state.event_history (held =
+## its window started while open). At most HISTORY_DAYS entries are kept; a day is recorded once.
+const HISTORY_DAYS := 30
+
+
+static func _remember(state: GameState) -> void:
+	var ges := state.gameplay_event_state
+	var last := int(ges["last_selected_day"])
+	if last < 1 or state.event_history.any(func(h): return int(h["day"]) == last):
+		return
+	state.event_history.append({"day": last, "event_id": String(ges["selected_event_id"]) if ges["selected_event_id"] != null else "",
+		"held": bool(ges["started"])})
+	while state.event_history.size() > HISTORY_DAYS:
+		state.event_history.pop_front()
+
+
+## イベント履歴 for the screen, newest first: {day, name_ja, held} (name_ja "" = no event that day).
+static func history(state: GameState) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for i in range(state.event_history.size() - 1, -1, -1):
+		var h: Dictionary = state.event_history[i]
+		var ev := GameplayEventDirector.event_by_id(state.gameplay_events, String(h["event_id"])) if String(h["event_id"]) != "" else {}
+		out.append({"day": int(h["day"]), "name_ja": String(ev.get("name_ja", "")), "held": bool(h["held"])})
+	return out
+
+
 ## The notice id is `daily:<day>:<event>:<started|ended>`; a notice already in shown_notice_ids is not repeated.
 static func _announce(state: GameState, day_index: int, phase: String, event_type: String) -> void:
 	var ges := state.gameplay_event_state
@@ -57,6 +84,29 @@ static func _announce(state: GameState, day_index: int, phase: String, event_typ
 	ges["shown_notice_ids"].append(id)
 	var ev := GameplayEventDirector.event_by_id(state.gameplay_events, String(ges["selected_event_id"]))
 	state.emit_event(event_type, {"event_id": ev["event_id"], "name_ja": ev["name_ja"], "window": "%02d:00-%02d:00" % [ev["window_start_hour"], ev["window_end_hour"]]}, id)
+
+
+## #31 本日のイベント一覧: every event of the master data in data order, with what it means for today:
+## state "selected" (today's draw), "candidate" (could be drawn today) or "locked" (lock: "DAY n から" / "評判 n 以上").
+## Read only. Each entry: {event_id, name_ja, description_ja, start_hour, end_hour, traffic, categories, state, lock}.
+static func catalog(state: GameState) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var day := state.time_sec / GameplayEventDirector.SECONDS_PER_DAY
+	var v := view(state)
+	var selected := String(v.get("event_id", "")) if String(v.get("status", "")) in ["scheduled", "active", "ended", "missed"] else ""
+	for e in state.gameplay_events:
+		var lock := ""
+		if day < int(e["min_day_index"]):
+			lock = "DAY %d から" % int(e["min_day_index"])
+		elif state.reputation < int(e["min_reputation"]):
+			lock = "評判 %d 以上" % int(e["min_reputation"])
+		out.append({
+			"event_id": e["event_id"], "name_ja": e["name_ja"], "description_ja": e["description_ja"],
+			"start_hour": int(e["window_start_hour"]), "end_hour": int(e["window_end_hour"]),
+			"traffic": float(e["effects"]["traffic_multiplier"]), "categories": e["effects"]["category_weight_multipliers"].duplicate(),
+			"state": "selected" if e["event_id"] == selected else ("locked" if lock != "" else "candidate"), "lock": lock,
+		})
+	return out
 
 
 ## Multipliers in force right now.

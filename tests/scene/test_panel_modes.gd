@@ -66,10 +66,14 @@ func test_normal_shows_only_the_store_hud_rail_and_summary(t, tree) -> void:
 	t.eq(main.mode_name(), "NORMAL", "starts in normal")
 	var p := _panels(main)
 	t.ok(not p["palette"] and not p["inspector"] and not p["window"] and not p["dimmer"], "no build palette, inspector, window or dimmer in NORMAL")
-	t.ok(main.get_node("Layout/TopHUD").is_visible_in_tree(), "HUD shown")
-	t.ok(main.get_node("Layout/MainArea/LeftNav").is_visible_in_tree(), "rail shown")
-	t.ok(main.find_child("MetricBar", true, false).is_visible_in_tree(), "summary shown")
-	t.eq(main.get_node("Layout/MainArea/LeftNav").entry_count(), 5, "rail has its entries")
+	# 2026-11-01 mockup: the chrome (top bar, eight menu entries, bottom bar) replaces the look of the HUD, rail and summary.
+	var chrome := main.get_node("MockupChrome") as MockupChrome
+	t.ok(chrome.get_node("Base").is_visible_in_tree(), "the mockup chrome is shown")
+	t.ok(not chrome.is_window_open(), "the window frame and 小春 only come with the window")
+	t.eq(chrome.find_children("nav_*", "Button", true, false).size(), 7, "the menu has its seven entries (no 発注)")
+	t.ok(not main.get_node("Layout/TopHUD").is_visible_in_tree() and not main.get_node("Layout/MainArea/LeftNav").is_visible_in_tree()
+		and not main.find_child("MetricBar", true, false).is_visible_in_tree(), "the old HUD band, rail and summary stay hidden")
+	t.eq(main.get_node("Layout/MainArea/LeftNav").entry_count(), 6, "rail has its entries")
 	main.queue_free()
 	await tree.process_frame
 
@@ -132,7 +136,7 @@ func test_store_fit_keeps_clear_of_the_hud_rail_and_summary(t, tree) -> void:
 	t.ok(world.safe_inset.x >= 84.0 and world.safe_inset.y >= 64.0 and world.safe_inset.w >= 76.0, "safe area covers rail, HUD and summary")
 	world.fit_view()
 	var floor_rect: Rect2 = world.projection.floor_bounds(world.store_width, world.store_height)
-	var top_left: Vector2 = world.projection.origin + floor_rect.position * world.projection.zoom
+	var top_left: Vector2 = floor_rect.position   # floor_bounds is already in screen space
 	t.ok(top_left.x >= world.safe_inset.x - 1.0 and top_left.y >= world.safe_inset.y - 1.0, "fitted floor starts right of the rail and under the HUD")
 	main.queue_free()
 	await tree.process_frame
@@ -220,20 +224,14 @@ func test_rail_floats_under_the_hud_and_fits_its_entries(t, tree) -> void:
 ## The four summary cards form one centred row 12 px above the bottom edge, and only the cards take mouse input.
 func test_summary_cards_are_a_centred_row_above_the_bottom(t, tree) -> void:
 	var main := await _boot(tree)
-	var bar := main.find_child("MetricBar", true, false) as Control
+	var chrome := main.get_node("MockupChrome") as MockupChrome
 	var window: Vector2 = main.get_viewport_rect().size
-	var cards: Array = bar.get_child(0).get_children()
-	t.eq(cards.size(), 4, "four cards")
-	var first: Rect2 = (cards[0] as Control).get_global_rect()
-	var last: Rect2 = (cards[3] as Control).get_global_rect()
-	t.ok(absf(window.y - 12.0 - first.end.y) <= 1.0, "cards end 12 px above the bottom edge")
-	var group_centre := (first.position.x + last.end.x) * 0.5
-	t.ok(absf(group_centre - window.x * 0.5) <= 2.0, "the card row is centred in the window")
-	for c in cards:
-		var card := c as Control
-		t.ok(card.get_global_rect().size.x >= 170.0 and card.get_global_rect().size.x <= 220.0, "card width 170..220 px")
-		t.eq(card.mouse_filter, Control.MOUSE_FILTER_STOP, "cards stop the mouse")
-	t.eq(bar.mouse_filter, Control.MOUSE_FILTER_IGNORE, "the summary strip itself passes the mouse through")
-	t.ok(_blockers_at(main, Vector2(window.x * 0.5, window.y - 90.0)).is_empty(), "the space just above the cards is not blocked")
+	var band := chrome.get_node("Base/bottom_bar") as Control
+	var rect := band.get_global_rect()
+	t.ok(absf(rect.end.y - window.y) <= 1.0 and rect.size.x >= window.x - 1.0, "the bottom bar spans the window at its bottom edge")
+	for id in ["Goal", "GoalPercent", "MSales", "MProfit", "MCustomers", "MUnit", "EventTitle", "EventLine"]:
+		t.ok(chrome.label(id) != null and rect.encloses(chrome.label(id).get_global_rect()), "%s is drawn on the bottom bar" % id)
+	t.eq(band.mouse_filter, Control.MOUSE_FILTER_STOP, "the band takes the mouse")
+	t.ok(_blockers_at(main, Vector2(window.x * 0.5, rect.position.y - 30.0)).is_empty(), "the space just above the bar is not blocked")
 	main.queue_free()
 	await tree.process_frame

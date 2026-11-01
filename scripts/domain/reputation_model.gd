@@ -16,7 +16,9 @@ static func daily_delta(visit_stats: Dictionary, rate_stats: Dictionary, balance
 	var u: Dictionary = section.get("reputation_update", {}) if typeof(section) == TYPE_DICTIONARY else {}
 	var entered := int(visit_stats.get("entered", 0))
 	var purchase_rate := rate(int(visit_stats.get("purchased", 0)), entered)
-	var abandon_rate := rate(int(rate_stats.get("abandoned", 0)), entered)
+	# Customers who turned back at the door (#142) count like queue give-ups, over everyone who reached the door.
+	var balked := int(rate_stats.get("balked", 0))
+	var abandon_rate := rate(int(rate_stats.get("abandoned", 0)) + balked, entered + balked)
 	var stockout_rate := rate(int(rate_stats.get("stockouts", 0)), entered)
 	var raw := float(u.get("purchase_rate_weight", 2.0)) * (purchase_rate - float(u.get("purchase_rate_center", 0.5))) \
 		- float(u.get("queue_abandon_weight", 2.0)) * abandon_rate - float(u.get("stockout_weight", 1.0)) * stockout_rate

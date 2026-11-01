@@ -1,0 +1,276 @@
+{
+  "issue": "#91",
+  "fixture_type_id": "shelf_noodle",
+  "generator": "Blender 2.91.0 / BLENDER_EEVEE via tools/assets/render_inventory_fixture_states.py",
+  "crop_builder": "tools/assets/build_inventory_fixture_states.py",
+  "projection_id": "iso2x_v1",
+  "azimuth_deg": 45.0,
+  "elevation_deg": 30.0,
+  "render_canvas_px": [
+    1600,
+    1600
+  ],
+  "origin_px": [
+    800.0,
+    800.0
+  ],
+  "crop_padding_px": 8,
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.7
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "product_setup": {
+    "shape": "cup_noodle 0.110 x 0.110 x 0.120m",
+    "art_sources": [
+      "assets/source/textures/packages/candidates/issue91_cup_noodle_wrap_art_v01/spicy_miso/label_art.png",
+      "assets/source/textures/packages/candidates/issue91_cup_noodle_wrap_art_v01/seafood_soy/label_art.png"
+    ],
+    "shape_dimensions_m": {
+      "cup_noodle": [
+        0.11,
+        0.11,
+        0.12
+      ]
+    }
+  },
+  "product_counts_by_state": {
+    "FULL": 64,
+    "HALF": 32,
+    "EMPTY": 0
+  },
+  "rotation_mesh_bbox": {
+    "FULL": {
+      "0": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          1.7000000476837158
+        ]
+      },
+      "1": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          1.7000000476837158
+        ]
+      },
+      "2": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          1.7000000476837158
+        ]
+      },
+      "3": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          1.7000000476837158
+        ]
+      }
+    },
+    "HALF": {
+      "0": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          1.7000000476837158
+        ]
+      },
+      "1": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          1.7000000476837158
+        ]
+      },
+      "2": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          1.7000000476837158
+        ]
+      },
+      "3": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          1.7000000476837158
+        ]
+      }
+    },
+    "EMPTY": {
+      "0": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          1.7000000476837158
+        ]
+      },
+      "1": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          1.7000000476837158
+        ]
+      },
+      "2": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          1.7000000476837158
+        ]
+      },
+      "3": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          1.7000000476837158
+        ]
+      }
+    }
+  },
+  "calibration": {
+    "chart": "calibration.png",
+    "measured_by": "tools/assets/validate_inventory_fixture_states.py",
+    "status": "see validation_report.json"
+  },
+  "runtime_approved": false,
+  "third_party_assets": false,
+  "visual_review_required": true,
+  "source_art_sha256": {
+    "assets/source/textures/packages/candidates/issue91_cup_noodle_wrap_art_v01/spicy_miso/label_art.png": "e88756dd60ae0f27d398cf1ebb9505aaff783e8889d857896c79eb94ff4a74a8",
+    "assets/source/textures/packages/candidates/issue91_cup_noodle_wrap_art_v01/seafood_soy/label_art.png": "56385cf5ed2297b458604a55eda0c825e8c2a057b9e5aa7add60ad7549a7084c"
+  },
+  "notes": "Composite is a single scene render with Blender depth occlusion; separated passes are not independently depth-aware. Generated packaging artwork is mapped to physical product geometry. All candidate textures and sprites remain runtime-unapproved.",
+  "sha256": {
+    "before_after_full_r0.png": "241bb38f86af3352a1d1aa1bd2e1f6ba850d31da918619f91e72255314a76666",
+    "calibration.png": "832df815d1eec946a39daab3d34a3f4fc9a2fd86c8f3ee7da0fc7ab86ffd5f45",
+    "contact_sheet.png": "476e891479a8651a8d7f219751570a95741eb32dcd095dc95aa2c1a64f42c418",
+    "shelf_noodle_empty_r0_body.png": "4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976",
+    "shelf_noodle_empty_r0_composite.png": "cc737e9e1a97a1c9c9b9e0d3f346da208f0e0c2cfb2d3e41684150b33af9e005",
+    "shelf_noodle_empty_r0_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r0_products.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r0_shadow.png": "223dba423462644c8eda2f5f08f4b22248754a620c62f49b047773b8df1eb710",
+    "shelf_noodle_empty_r1_body.png": "3fd8f929dc7b362c9dccda5fe19e03344ec0b4d570e99f99a3edbf23b20d9724",
+    "shelf_noodle_empty_r1_composite.png": "1a850cdec53d8e5df85aef4fc58e1faa2ffa60a2a76104696cb9543ad5e4e634",
+    "shelf_noodle_empty_r1_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r1_products.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r1_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_empty_r2_body.png": "80590dffcdc92c839feacdb5d11eaab59adda27673668d4fc228a6dca20633ce",
+    "shelf_noodle_empty_r2_composite.png": "a80abea90feaaa4a61422b480e36678f7e434f8b838812ba548d412102e18881",
+    "shelf_noodle_empty_r2_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r2_products.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r2_shadow.png": "223dba423462644c8eda2f5f08f4b22248754a620c62f49b047773b8df1eb710",
+    "shelf_noodle_empty_r3_body.png": "5eee6f183fec8c33158279fddc525dc0e4a8cf5c182f04636c6f8604e25ecc44",
+    "shelf_noodle_empty_r3_composite.png": "7c697092a34da3ad8b883d78563bc561cdbe29858f92e0bd149403bbe41ccaa0",
+    "shelf_noodle_empty_r3_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r3_products.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_empty_r3_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_full_r0_body.png": "4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976",
+    "shelf_noodle_full_r0_composite.png": "40e04bd73421e7a0c80a8b5db75ff223a1b86a7d49e3c27e048cedbafcc23e95",
+    "shelf_noodle_full_r0_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_full_r0_products.png": "26d4aa49e9ab5c9e052a038074de020b0fae0ea104deb38b6942c7d19d616574",
+    "shelf_noodle_full_r0_shadow.png": "223dba423462644c8eda2f5f08f4b22248754a620c62f49b047773b8df1eb710",
+    "shelf_noodle_full_r1_body.png": "3fd8f929dc7b362c9dccda5fe19e03344ec0b4d570e99f99a3edbf23b20d9724",
+    "shelf_noodle_full_r1_composite.png": "888facf4d487cb5ee9db71c3ccc3ff16a1ee1baf9509cce2406e6ccdae40aab3",
+    "shelf_noodle_full_r1_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_full_r1_products.png": "d34392db3b9c0ca0ec8d264aa1277a9b051072b520ea22151f701029db987da0",
+    "shelf_noodle_full_r1_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_full_r2_body.png": "80590dffcdc92c839feacdb5d11eaab59adda27673668d4fc228a6dca20633ce",
+    "shelf_noodle_full_r2_composite.png": "601d9af877ccb0f1e4d2e1fdc4e3b84a0c51785e1b65b1e40ceb376cd5b7f7f0",
+    "shelf_noodle_full_r2_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_full_r2_products.png": "5f6fca8f2fe19c8a3c0ca3cf4baa1fff1daf482e6083021b603ed3f4753ff40c",
+    "shelf_noodle_full_r2_shadow.png": "223dba423462644c8eda2f5f08f4b22248754a620c62f49b047773b8df1eb710",
+    "shelf_noodle_full_r3_body.png": "5eee6f183fec8c33158279fddc525dc0e4a8cf5c182f04636c6f8604e25ecc44",
+    "shelf_noodle_full_r3_composite.png": "f6e155d7d6151c52cb0874a262310e041a186dc1f66beff567937d99413108b6",
+    "shelf_noodle_full_r3_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_full_r3_products.png": "c6689046ed55f13e665d34a59086eb4b508f038b80a6d8651181c617b7031bb7",
+    "shelf_noodle_full_r3_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_half_r0_body.png": "4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976",
+    "shelf_noodle_half_r0_composite.png": "0ecca1e64ee0d79798b0c8563248d6c7f894c33de29ff93d56f18758f9e3730d",
+    "shelf_noodle_half_r0_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_half_r0_products.png": "5dad716df8e006592579196476ed3aaacd366a7cfbf46e8eaf3bf1420764c112",
+    "shelf_noodle_half_r0_shadow.png": "223dba423462644c8eda2f5f08f4b22248754a620c62f49b047773b8df1eb710",
+    "shelf_noodle_half_r1_body.png": "3fd8f929dc7b362c9dccda5fe19e03344ec0b4d570e99f99a3edbf23b20d9724",
+    "shelf_noodle_half_r1_composite.png": "c0fbae6a83ddb2ba53102d3f0bce717791b1df951b4678c7fd8f08d3e11a5fb5",
+    "shelf_noodle_half_r1_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_half_r1_products.png": "545e6b11e159a552782ecdd8f1da9a16d4a49e7c4fa77d1db60b53aa7310c1c0",
+    "shelf_noodle_half_r1_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f",
+    "shelf_noodle_half_r2_body.png": "80590dffcdc92c839feacdb5d11eaab59adda27673668d4fc228a6dca20633ce",
+    "shelf_noodle_half_r2_composite.png": "dbe5cbcb474c31fa003269b5aabe26406a71d63b15e4dc08d0614c03b7c94438",
+    "shelf_noodle_half_r2_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_half_r2_products.png": "c0d5ed20b7f3d94acc05eba84b822e3f9ff3b2f7daa451e97b05fc1ad24905fb",
+    "shelf_noodle_half_r2_shadow.png": "223dba423462644c8eda2f5f08f4b22248754a620c62f49b047773b8df1eb710",
+    "shelf_noodle_half_r3_body.png": "5eee6f183fec8c33158279fddc525dc0e4a8cf5c182f04636c6f8604e25ecc44",
+    "shelf_noodle_half_r3_composite.png": "c0dae51446f69befc5b8e059a3aefa296ce93e6975f004eab951cbb057b2e72b",
+    "shelf_noodle_half_r3_glass_front.png": "ed1c7245817455aaa88ae96ca38f16369ba9ea5fc926d2b57ab93d5717541b9e",
+    "shelf_noodle_half_r3_products.png": "c374a294ee8978113ad3f8b4ed9e0641a36df06f8f652fa5f20266a8613a3b01",
+    "shelf_noodle_half_r3_shadow.png": "bec05bcdde4b29d4b540372a3c2d8f2d655dbdd909f46363d8285898255f778f"
+  }
+}

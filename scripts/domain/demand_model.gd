@@ -4,7 +4,7 @@ extends RefCounted
 
 const STEPS_PER_DAY := 43200
 const SECONDS_PER_DAY := 86400
-const CATEGORY_COUNT := 8
+const CATEGORY_COUNT := 8   # the assortment bonus counts up to 8 stocked categories (more do not add, #147)
 ## 09 §2: raw weight per hour of day.
 const RAW_HOUR_WEIGHTS: Array[float] = [
 	0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
@@ -77,7 +77,8 @@ static func ad_multiplier(tiers: Array, yen_per_day: int) -> float:
 	return 1.0
 
 
-static func step_probability(hour: int, base_visits: float, ad_mult: float, reputation: int, stocked_categories: int, balance: Dictionary = {}, event_traffic: float = 1.0) -> float:
-	var weights := normalized_hour_weights()
-	var p := base_visits * weights[clampi(hour, 0, 23)] * ad_mult * reputation_multiplier(reputation, balance) * assortment_multiplier(stocked_categories, balance) * event_traffic / STEPS_PER_DAY
+## `hour_weights`: the store location's normalised curve (StoreLocation.hour_weights, #148); [] = the 09 §2 one.
+static func step_probability(hour: int, base_visits: float, ad_mult: float, reputation: int, stocked_categories: int, balance: Dictionary = {}, event_traffic: float = 1.0, hour_weights: Array = []) -> float:
+	var weights: Array = hour_weights if hour_weights.size() == 24 else normalized_hour_weights()
+	var p: float = base_visits * float(weights[clampi(hour, 0, 23)]) * ad_mult * reputation_multiplier(reputation, balance) * assortment_multiplier(stocked_categories, balance) * event_traffic / STEPS_PER_DAY
 	return clampf(p, 0.0, 1.0)

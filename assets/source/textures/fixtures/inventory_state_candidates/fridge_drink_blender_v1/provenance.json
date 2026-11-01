@@ -1,0 +1,278 @@
+{
+  "issue": "#91",
+  "fixture_type_id": "fridge_drink",
+  "generator": "Blender 2.91.0 / BLENDER_EEVEE via tools/assets/render_inventory_fixture_states.py",
+  "crop_builder": "tools/assets/build_inventory_fixture_states.py",
+  "projection_id": "iso2x_v1",
+  "azimuth_deg": 45.0,
+  "elevation_deg": 30.0,
+  "render_canvas_px": [
+    1600,
+    1600
+  ],
+  "origin_px": [
+    800.0,
+    800.0
+  ],
+  "crop_padding_px": 8,
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 2
+  },
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "product_setup": {
+    "shape": "bottle_500 0.068 x 0.068 x 0.225m",
+    "art_sources": [
+      "assets/source/textures/packages/candidates/issue91_beverage_label_art_v01/green_tea/label_art_v01.png",
+      "assets/source/textures/packages/candidates/issue91_beverage_label_art_v01/citrus_soda/label_art_v01.png",
+      "assets/source/textures/packages/candidates/issue91_beverage_label_art_v01/unsweetened_coffee/label_art_v01.png"
+    ],
+    "shape_dimensions_m": {
+      "bottle_500": [
+        0.068,
+        0.068,
+        0.225
+      ]
+    }
+  },
+  "product_counts_by_state": {
+    "FULL": 24,
+    "HALF": 12,
+    "EMPTY": 0
+  },
+  "rotation_mesh_bbox": {
+    "FULL": {
+      "0": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          2.0
+        ]
+      },
+      "1": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          2.0
+        ]
+      },
+      "2": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          2.0
+        ]
+      },
+      "3": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          2.0
+        ]
+      }
+    },
+    "HALF": {
+      "0": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          2.0
+        ]
+      },
+      "1": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          2.0
+        ]
+      },
+      "2": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          2.0
+        ]
+      },
+      "3": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          2.0
+        ]
+      }
+    },
+    "EMPTY": {
+      "0": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          2.0
+        ]
+      },
+      "1": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          2.0
+        ]
+      },
+      "2": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          0.46000000834465027,
+          1.4600000381469727,
+          2.0
+        ]
+      },
+      "3": {
+        "min": [
+          -0.46000000834465027,
+          -0.46000000834465027,
+          0.0
+        ],
+        "max": [
+          1.4600000381469727,
+          0.46000000834465027,
+          2.0
+        ]
+      }
+    }
+  },
+  "calibration": {
+    "chart": "calibration.png",
+    "measured_by": "tools/assets/validate_inventory_fixture_states.py",
+    "status": "see validation_report.json"
+  },
+  "runtime_approved": false,
+  "third_party_assets": false,
+  "visual_review_required": true,
+  "source_art_sha256": {
+    "assets/source/textures/packages/candidates/issue91_beverage_label_art_v01/green_tea/label_art_v01.png": "8a19c65ebafba6bc5b04e7ff0011f2c9aad6be849a1e361da82a605c6d12d4b5",
+    "assets/source/textures/packages/candidates/issue91_beverage_label_art_v01/citrus_soda/label_art_v01.png": "2aac631396517c1d615a75b32d8259c89a59f35307d44c87e72b17759eb6cde9",
+    "assets/source/textures/packages/candidates/issue91_beverage_label_art_v01/unsweetened_coffee/label_art_v01.png": "c4ece0cf3965733b660d7f86fc1b70ddd2b6c8b9e9fe2021c33b2a5a49e1010b"
+  },
+  "notes": "Composite is a single scene render with Blender depth occlusion; separated passes are not independently depth-aware. Generated packaging artwork is mapped to physical product geometry. All candidate textures and sprites remain runtime-unapproved.",
+  "sha256": {
+    "before_after_full_r0.png": "840d1d3aeee474224df804f606b95c2190fd9e04a6779fdaffcf693f5e06a207",
+    "calibration.png": "832df815d1eec946a39daab3d34a3f4fc9a2fd86c8f3ee7da0fc7ab86ffd5f45",
+    "contact_sheet.png": "065c89972134214cb91d363669a1ae2ef7e739e7c2534745ae2589712015ee3a",
+    "fridge_drink_empty_r0_body.png": "f7b568ddc738d9429d5349f517a5df2a25d0e6c80a78f47008d0ce83648993e5",
+    "fridge_drink_empty_r0_composite.png": "ec58dbbeb38edc94e9f5a7e78fbdb70fb0f562293461167f87d2095bee47b9a5",
+    "fridge_drink_empty_r0_glass_front.png": "558efc01cc2a0ee4ed94568f8987e9e5d150fa30b1ffb60774674aa79b87c6ab",
+    "fridge_drink_empty_r0_products.png": "6e82a61157d11f79761040242d26302db589109ccc0dfcd864a43d2eed84abc5",
+    "fridge_drink_empty_r0_shadow.png": "2ce5a9485801b46b7838782df5ca42becc49d4c1da8120f07d4e766ffb873e2c",
+    "fridge_drink_empty_r1_body.png": "498a456916f2ac9ce65179bbb3cf98c6bebfe3c3bd3ef63c3fab2bb605bd4ed4",
+    "fridge_drink_empty_r1_composite.png": "38b84d38f36a28c5f9849cea18fdcff700cdc45e55f81746f0872b54740b1bcf",
+    "fridge_drink_empty_r1_glass_front.png": "550aea12c878e3f4417d4e4c5ff57648c77a10196b5657ed05bfbbddba684d69",
+    "fridge_drink_empty_r1_products.png": "6e82a61157d11f79761040242d26302db589109ccc0dfcd864a43d2eed84abc5",
+    "fridge_drink_empty_r1_shadow.png": "8bbb4a003f5b803ad69d1ddbf49d29ab43ff0cf4c4bd8ea261743dffd1aff42c",
+    "fridge_drink_empty_r2_body.png": "feadbb83749ea7e93e2fe00fed45840b8d63566ad77f4b318448a96700d62918",
+    "fridge_drink_empty_r2_composite.png": "bff8aebcb653bdca4c49566906c39bdf459dc0283aeb02e4166124508cd36147",
+    "fridge_drink_empty_r2_glass_front.png": "de494475ff187d8950cd1a6bb2e3511f5e812ae3f33c38efaf209d42b16cdba5",
+    "fridge_drink_empty_r2_products.png": "6e82a61157d11f79761040242d26302db589109ccc0dfcd864a43d2eed84abc5",
+    "fridge_drink_empty_r2_shadow.png": "2ce5a9485801b46b7838782df5ca42becc49d4c1da8120f07d4e766ffb873e2c",
+    "fridge_drink_empty_r3_body.png": "0281ca16157c95c16580204d56819137e1944317cda5b0a7d989b0962a57d580",
+    "fridge_drink_empty_r3_composite.png": "b08eff032790332b7c191b4a23ef8e637eef255ef793010f7c0785c229182368",
+    "fridge_drink_empty_r3_glass_front.png": "34022d45afb6bc84fb9e3d2bac591d5a027a3d58e06bf6c4a7eecf9bc553d4f6",
+    "fridge_drink_empty_r3_products.png": "6e82a61157d11f79761040242d26302db589109ccc0dfcd864a43d2eed84abc5",
+    "fridge_drink_empty_r3_shadow.png": "8bbb4a003f5b803ad69d1ddbf49d29ab43ff0cf4c4bd8ea261743dffd1aff42c",
+    "fridge_drink_full_r0_body.png": "f7b568ddc738d9429d5349f517a5df2a25d0e6c80a78f47008d0ce83648993e5",
+    "fridge_drink_full_r0_composite.png": "a8ad3d629dac14beca77ce7639a4b502a5ae42bafe40daf6d4a97988c175d58d",
+    "fridge_drink_full_r0_glass_front.png": "558efc01cc2a0ee4ed94568f8987e9e5d150fa30b1ffb60774674aa79b87c6ab",
+    "fridge_drink_full_r0_products.png": "9c15ccd871e184724163219d93191da5ba236f28c8f307ab7451a862c445bdfc",
+    "fridge_drink_full_r0_shadow.png": "2ce5a9485801b46b7838782df5ca42becc49d4c1da8120f07d4e766ffb873e2c",
+    "fridge_drink_full_r1_body.png": "498a456916f2ac9ce65179bbb3cf98c6bebfe3c3bd3ef63c3fab2bb605bd4ed4",
+    "fridge_drink_full_r1_composite.png": "5b8fa3d90a661359eeeb46694bb5054aaeb32e6013c379662b2de8615fe98b56",
+    "fridge_drink_full_r1_glass_front.png": "550aea12c878e3f4417d4e4c5ff57648c77a10196b5657ed05bfbbddba684d69",
+    "fridge_drink_full_r1_products.png": "493399f13379a99d3db114a20e8705d4f13a402f285ba6aba8a550e6fe662688",
+    "fridge_drink_full_r1_shadow.png": "8bbb4a003f5b803ad69d1ddbf49d29ab43ff0cf4c4bd8ea261743dffd1aff42c",
+    "fridge_drink_full_r2_body.png": "feadbb83749ea7e93e2fe00fed45840b8d63566ad77f4b318448a96700d62918",
+    "fridge_drink_full_r2_composite.png": "bff8aebcb653bdca4c49566906c39bdf459dc0283aeb02e4166124508cd36147",
+    "fridge_drink_full_r2_glass_front.png": "de494475ff187d8950cd1a6bb2e3511f5e812ae3f33c38efaf209d42b16cdba5",
+    "fridge_drink_full_r2_products.png": "f8835a937f1c5a2eb347b946c63c6f2981bebaaa19bacf3aa3eafeb5acde779c",
+    "fridge_drink_full_r2_shadow.png": "2ce5a9485801b46b7838782df5ca42becc49d4c1da8120f07d4e766ffb873e2c",
+    "fridge_drink_full_r3_body.png": "0281ca16157c95c16580204d56819137e1944317cda5b0a7d989b0962a57d580",
+    "fridge_drink_full_r3_composite.png": "b08eff032790332b7c191b4a23ef8e637eef255ef793010f7c0785c229182368",
+    "fridge_drink_full_r3_glass_front.png": "34022d45afb6bc84fb9e3d2bac591d5a027a3d58e06bf6c4a7eecf9bc553d4f6",
+    "fridge_drink_full_r3_products.png": "5d0b9adc6cc8c6c0cc2d6fd347f478df3d9864fc8477d69aeb79d206961f4bcc",
+    "fridge_drink_full_r3_shadow.png": "8bbb4a003f5b803ad69d1ddbf49d29ab43ff0cf4c4bd8ea261743dffd1aff42c",
+    "fridge_drink_half_r0_body.png": "f7b568ddc738d9429d5349f517a5df2a25d0e6c80a78f47008d0ce83648993e5",
+    "fridge_drink_half_r0_composite.png": "6706553ba3dd235ce8c6c5808df4cbae31ba3d2e3af9eb41fb29654a767f9dba",
+    "fridge_drink_half_r0_glass_front.png": "558efc01cc2a0ee4ed94568f8987e9e5d150fa30b1ffb60774674aa79b87c6ab",
+    "fridge_drink_half_r0_products.png": "53d1c32ea29c3fa338c577546f38509643816039c6ee3f53262b44c60e1421e1",
+    "fridge_drink_half_r0_shadow.png": "2ce5a9485801b46b7838782df5ca42becc49d4c1da8120f07d4e766ffb873e2c",
+    "fridge_drink_half_r1_body.png": "498a456916f2ac9ce65179bbb3cf98c6bebfe3c3bd3ef63c3fab2bb605bd4ed4",
+    "fridge_drink_half_r1_composite.png": "8e173943deb0498ef93c7c9745402335b65d0a37b1ac26565d03bb45edc8b0e8",
+    "fridge_drink_half_r1_glass_front.png": "550aea12c878e3f4417d4e4c5ff57648c77a10196b5657ed05bfbbddba684d69",
+    "fridge_drink_half_r1_products.png": "aff7771c963e9c759edb449ee7abcc151f0ce53ca5d89f61c5848c14dc6a6ece",
+    "fridge_drink_half_r1_shadow.png": "8bbb4a003f5b803ad69d1ddbf49d29ab43ff0cf4c4bd8ea261743dffd1aff42c",
+    "fridge_drink_half_r2_body.png": "feadbb83749ea7e93e2fe00fed45840b8d63566ad77f4b318448a96700d62918",
+    "fridge_drink_half_r2_composite.png": "bff8aebcb653bdca4c49566906c39bdf459dc0283aeb02e4166124508cd36147",
+    "fridge_drink_half_r2_glass_front.png": "de494475ff187d8950cd1a6bb2e3511f5e812ae3f33c38efaf209d42b16cdba5",
+    "fridge_drink_half_r2_products.png": "46c18f0431b893804487c2c330d2ad89931b851d83ff153b964a53daabcdc76d",
+    "fridge_drink_half_r2_shadow.png": "2ce5a9485801b46b7838782df5ca42becc49d4c1da8120f07d4e766ffb873e2c",
+    "fridge_drink_half_r3_body.png": "0281ca16157c95c16580204d56819137e1944317cda5b0a7d989b0962a57d580",
+    "fridge_drink_half_r3_composite.png": "b08eff032790332b7c191b4a23ef8e637eef255ef793010f7c0785c229182368",
+    "fridge_drink_half_r3_glass_front.png": "34022d45afb6bc84fb9e3d2bac591d5a027a3d58e06bf6c4a7eecf9bc553d4f6",
+    "fridge_drink_half_r3_products.png": "197fe9bc088279b39a2f982f72076d215ea25d294386a754a4d8c9a1d94fb176",
+    "fridge_drink_half_r3_shadow.png": "8bbb4a003f5b803ad69d1ddbf49d29ab43ff0cf4c4bd8ea261743dffd1aff42c"
+  }
+}

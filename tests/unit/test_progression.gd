@@ -290,3 +290,38 @@ func test_skip_show_and_save_load_keep_progress_and_never_reannounce(t, _tree) -
 	t.eq(ProgressionService.evaluate(l).size(), 0, "a load announces nothing again")
 	t.ok(_run(GameCommands.new(l), &"SET_TUTORIAL_SKIPPED", {"skipped": false}).ok)
 	t.eq(_step(l), step, "showing the tutorial again keeps its progress")
+
+
+## #32 本日のミッション: today's challenge with its progress, read without changing anything.
+func test_challenge_progress_for_the_mission_list(t, _tree) -> void:
+	var s := _state()
+	ProgressionService.evaluate(s)
+	t.eq(ProgressionService.challenge_progress(s), {}, "day 0 has no challenge")
+	s.day = 1
+	ProgressionService.evaluate(s)
+	_sale(s, 2)
+	ProgressionService.evaluate(s)   # the day's sales are counted from the ledger when progress is evaluated
+	var before: Dictionary = s.progression_state.duplicate(true)
+	t.eq(ProgressionService.challenge_progress(s), {"challenge_id": "challenge_sales_3", "value": 2, "goal": 3, "done": false})
+	t.eq(s.progression_state, before, "reading the progress changes nothing")
+	_sale(s, 4)
+	ProgressionService.evaluate(s)
+	t.eq(ProgressionService.challenge_progress(s), {"challenge_id": "challenge_sales_3", "value": 3, "goal": 3, "done": true}, "capped at the goal once done")
+
+
+## The rows: the challenge first, then the three unfinished titles closest to done (ties keep the data order).
+func test_mission_rows(t, _tree) -> void:
+	var progress := [
+		{"milestone_id": "a", "name_ja": "A", "metric": "total_sales_count", "threshold": 10, "value": 10, "done": true},
+		{"milestone_id": "b", "name_ja": "B", "metric": "total_sales_count", "threshold": 10, "value": 2, "done": false},
+		{"milestone_id": "c", "name_ja": "C", "metric": "day_closed_count", "threshold": 7, "value": 6, "done": false},
+		{"milestone_id": "d", "name_ja": "D", "metric": "total_sales_count", "threshold": 100, "value": 0, "done": false},
+		{"milestone_id": "e", "name_ja": "E", "metric": "total_sales_count", "threshold": 50, "value": 0, "done": false},
+	]
+	var rows := ProgressionText.mission_rows({"challenge_id": "challenge_no_waste", "value": 1, "goal": 1, "done": false}, progress)
+	t.eq(rows.size(), 4)
+	t.eq(rows[0]["caption"], "今日のチャレンジ")
+	t.ok(rows[0]["goal"].begins_with("廃棄ゼロ") and rows[0]["goal"].ends_with("（閉店時に判定）"), rows[0]["goal"])
+	t.eq(rows.slice(1).map(func(r): return r["caption"]), ["称号「C」", "称号「B」", "称号「D」"], "nearest first, finished titles left out")
+	t.eq(rows[1]["goal"], "7 日間の営業を続けよう")
+	t.eq(ProgressionText.mission_rows({}, []).size(), 0)

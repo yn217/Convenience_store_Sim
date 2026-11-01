@@ -16,13 +16,14 @@ signal overlay_changed(mode: int)
 signal customer_selected(customer_id: String)
 signal pick_candidates_changed(labels: Array)
 
-enum Mode { OBSERVE, PLACE, MOVE }
+enum Mode { OBSERVE, PLACE, MOVE, ENTRANCE }   # ENTRANCE: pick a wall tile for the door (#121)
 
 const NO_TILE := Vector2i(-1, -1)
 const WALL := Color(0.25, 0.25, 0.28)
 const DOOR := Color(0.25, 0.60, 0.85)
 const OUTSIDE := Color(0.55, 0.62, 0.50)
-const MIN_VISIBLE_PX := 128.0
+## Which refit fit_view() does: the default interior fit (floor fills the safe area) or the whole store (F / Shift+F).
+enum FitMode { INTERIOR, WHOLE }
 
 var store_width: int = 0
 var store_height: int = 0
@@ -31,6 +32,7 @@ var entrance_tiles: Array[Vector2i] = []
 var _floor_key: Array = []   # what the floor and walls were last drawn from (layout, camera, viewport)
 var _shadows: Array = []     # fixture contact shadows in world space, cached by _shadow_sig (layout signature)
 var _shadow_sig: Array = []
+var _time_sec := -1          # game clock of the last snapshot (presentation light only), -1 before the first one
 var _debug_paths: DebugPathLayer   # customer path overlay (F3); draws nothing while disabled
 var fixtures: Array = []
 var fixture_catalog: FixtureCatalog
@@ -38,8 +40,11 @@ var shelf_stock: Dictionary = {}
 var shelf_skus: Dictionary = {}          # {fixture_id: {slot_id: sku_id}} from the snapshot
 var product_catalog: ProductCatalog      # SKU lookup for the package icons (set by the app)
 var customers: Array = []
+var checkout_duration_sec: int = 0       # game seconds per checkout (balance), for the queue estimate
 var speed_setting: int = 0
+var walk_tiles_per_game_second: float = 0.0   # the simulation's walking speed: figures keep to it (#117 v2)
 var fixture_sales: Dictionary = {}
+var closed_registers: Array = []         # register ids with nobody at the till (#113): SignLayer shows 休止中
 var overlay_mode: int = OverlayModel.Mode.NORMAL
 var selected_customer: String = ""
 ## Click cycling over overlapping objects: where the last pick was and which candidate it chose.
@@ -51,6 +56,7 @@ var selected_tile := NO_TILE
 var mode: Mode = Mode.OBSERVE
 ## True once the player zoomed/panned; resizing then keeps their view instead of refitting.
 var user_moved := false
+var fit_mode: FitMode = FitMode.INTERIOR
 ## Screen px the UI covers around the viewport (x = left rail, y = top HUD, z = right, w = bottom summary).
 ## fit_view() centres the floor in what is left. Set by MainLayout; zero means the whole viewport.
 var safe_inset := Vector4.ZERO
@@ -58,9 +64,17 @@ var safe_inset := Vector4.ZERO
 @onready var _selection: Node2D = $SelectionOverlay
 @onready var _fixture_view: Node2D = $ObjectSortRoot/FixturePresenter
 @onready var _light_glow: LightGlow = get_node_or_null("LightGlow") as LightGlow
+@onready var _light_spill: LightSpill = get_node_or_null("LightSpill") as LightSpill   # #114 storefront spill, lamps
 @onready var _sign_layer: SignLayer = get_node_or_null("SignLayer") as SignLayer
 @onready var _walls: WallLayer = get_node_or_null("WallLayer") as WallLayer
 @onready var _backdrop: BackdropLayer = get_node_or_null("BackdropLayer") as BackdropLayer
+@onready var _ext_decor: StoreDecor = get_node_or_null("ExteriorDecor") as StoreDecor   # #110 static dressing
+@onready var _wall_decor: StoreDecor = get_node_or_null("WallDecor") as StoreDecor
+@onready var _front_decor: StoreDecor = get_node_or_null("FrontDecor") as StoreDecor
+@onready var _equipment: StoreDecor = get_node_or_null("EquipmentDecor") as StoreDecor
+@onready var _facade_canopy: StoreDecor = get_node_or_null("FacadeCanopy") as StoreDecor
+@onready var _reg_floor: StoreDecor = get_node_or_null("RegisterFloorDecor") as StoreDecor   # #113 checkout area
+@onready var _reg_top: StoreDecor = get_node_or_null("RegisterTopDecor") as StoreDecor
 
 
 func _ready() -> void:
@@ -103,13 +117,20 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	shelf_stock = snapshot.get("shelf_stock", {})
 	shelf_skus = snapshot.get("shelf_skus", {})
 	customers = snapshot.get("customers", [])
+	if int(snapshot.get("passersby_per_day", 0)) > 0 and snapshot.has("time_sec"):   # #142: people walking past (presentation only)
+		customers = customers + Passersby.views(int(snapshot["time_sec"]), int(snapshot["store_width"]), int(snapshot["store_height"]),
+			snapshot.get("entrance_tiles", []), float(snapshot.get("walk_tiles_per_game_second", 0.0)), int(snapshot["passersby_per_day"]))
+	checkout_duration_sec = int(snapshot.get("checkout_duration_sec", 0))
 	speed_setting = int(snapshot.get("speed_setting", 0))
+	walk_tiles_per_game_second = float(snapshot.get("walk_tiles_per_game_second", 0.0))
 	fixture_sales = snapshot.get("fixture_sales", {})
-	var tint := get_node_or_null("TimeTint")
-	if tint != null and snapshot.has("time_sec"):
-		tint.color = LightingModel.tint(int(snapshot["time_sec"]))
-	if _light_glow != null and snapshot.has("time_sec"):
-		_light_glow.set_time(int(snapshot["time_sec"]))
+	closed_registers = snapshot.get("closed_registers", [])
+	if snapshot.has("time_sec"):
+		_time_sec = int(snapshot["time_sec"])
+		_apply_time_tint()
+		if _light_glow != null:
+			_light_glow.set_time(_time_sec)
+		_sync_light_spill()
 	if selected_customer != "" and not customers.any(func(c): return c["customer_id"] == selected_customer):
 		selected_customer = ""
 		customer_selected.emit("")
@@ -137,31 +158,68 @@ func viewport_size() -> Vector2:
 	return get_viewport_rect().size
 
 
-## F key: whole floor visible and centred, forgetting manual zoom/pan.
+## Refits the camera in the current fit mode (game start, resize, after a load). Forgets manual zoom/pan.
 func fit_view() -> void:
+	if fit_mode == FitMode.WHOLE:
+		fit_whole()
+	else:
+		fit_interior()
+
+
+## Default view after a fresh start or a loaded save: interior fit, whatever mode the player had.
+func reset_default_view() -> void:
+	fit_mode = FitMode.INTERIOR
+	fit_view()
+
+
+## F key: whole floor (walls and exterior included) visible and centred, forgetting manual zoom/pan.
+func fit_whole() -> void:
+	fit_mode = FitMode.WHOLE
 	if store_width <= 0:
 		return
 	user_moved = false
 	# The store fits the part of the viewport that the UI does not cover (safe_inset), so a refit never hides it
 	# under the HUD, rail or summary. Panels that open later overlay the store and do not move the camera.
-	var inset := safe_inset
-	var area := viewport_size() - Vector2(inset.x + inset.z, inset.y + inset.w)
-	projection.fit_floor(area, store_width, store_height)
-	projection.origin += Vector2(inset.x, inset.y)
+	var area := _safe_area()
+	projection.fit_floor(area.size, store_width, store_height)
+	projection.origin += area.position
 	_refresh()
+
+
+## Shift+F: switches between the interior fit and the whole fit.
+func toggle_fit_mode() -> void:
+	fit_mode = FitMode.INTERIOR if fit_mode == FitMode.WHOLE else FitMode.WHOLE
+	fit_view()
+
+
+## Interior fit: the floor fills most of the safe area, centred 1.5 tiles toward the entrances (see IsoProjection).
+func fit_interior() -> void:
+	fit_mode = FitMode.INTERIOR
+	if store_width <= 0:
+		return
+	user_moved = false
+	projection.fit_interior(_safe_area(), store_width, store_height,
+		IsoProjection.entrance_shift(entrance_tiles, store_width, store_height))
+	_refresh()
+
+
+## The part of the viewport the UI leaves free (safe_inset), as a screen rect.
+func _safe_area() -> Rect2:
+	var inset := safe_inset
+	return Rect2(Vector2(inset.x, inset.y), viewport_size() - Vector2(inset.x + inset.z, inset.y + inset.w))
 
 
 func zoom_at(pivot: Vector2, new_zoom: float) -> void:
 	user_moved = true
 	projection.zoom_at(pivot, new_zoom)
-	projection.clamp_to_viewport(viewport_size(), store_width, store_height, MIN_VISIBLE_PX)
+	projection.clamp_to_store_area(viewport_size(), store_width, store_height)
 	_refresh()
 
 
 func pan_by(delta: Vector2) -> void:
 	user_moved = true
 	projection.pan(delta)
-	projection.clamp_to_viewport(viewport_size(), store_width, store_height, MIN_VISIBLE_PX)
+	projection.clamp_to_store_area(viewport_size(), store_width, store_height)
 	_refresh()
 
 
@@ -172,6 +230,7 @@ func set_hover_screen(screen_pos: Vector2) -> Vector2i:
 	var tile := c if in_store(c) else NO_TILE
 	var changed := tile != hover_tile
 	hover_tile = tile
+	_update_canopy_visibility()
 	if _selection != null:
 		if hover_tile == NO_TILE:
 			_selection.clear()
@@ -340,6 +399,7 @@ var _ghost: Dictionary = {}
 func _set_selected(c: Vector2i) -> void:
 	var changed := c != selected_tile
 	selected_tile = c
+	_update_canopy_visibility()
 	if _selection != null:
 		if c == NO_TILE:
 			_selection.clear_selected()
@@ -353,7 +413,7 @@ func _on_viewport_resized() -> void:
 	if store_width <= 0:
 		return
 	if user_moved:
-		projection.clamp_to_viewport(viewport_size(), store_width, store_height, MIN_VISIBLE_PX)
+		projection.clamp_to_store_area(viewport_size(), store_width, store_height)
 		_refresh()
 	else:
 		fit_view()
@@ -363,14 +423,52 @@ func _on_viewport_resized() -> void:
 func _refresh() -> void:
 	_refresh_objects()
 	if _backdrop != null and store_width > 0:
-		_backdrop.sync(store_width, store_height, entrance_tiles, projection, viewport_size())
+		_backdrop.sync(store_width, store_height, entrance_tiles, projection, viewport_size(), PropSprites.is_available("cherry_tree_a"))
+	_sync_light_spill()
 	if _walls != null and store_width > 0:
 		_walls.sync(store_width, store_height, entrance_tiles, projection, viewport_size())
+	if store_width > 0:
+		if _ext_decor != null:
+			_ext_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _wall_decor != null:
+			_wall_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _front_decor != null:
+			_front_decor.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _equipment != null:
+			_equipment.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		if _facade_canopy != null:
+			_facade_canopy.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
+		for reg in [_reg_floor, _reg_top]:
+			if reg != null:
+				reg.sync(store_width, store_height, entrance_tiles, fixtures, fixture_catalog, projection, viewport_size())
 	queue_redraw()
+
+
+## Issue #114: the CanvasModulate carries the indoor tint over the whole world (the UI is not in this canvas), and the
+## outdoor layers (street, pavement, trees, parked cars, exterior props) multiply by their own modulate so they land on
+## LightingModel.outdoor() exactly. Assigned only when the value changes, so a publish does not touch them each time.
+func _apply_time_tint() -> void:
+	if _time_sec < 0:
+		return
+	var indoor := get_node_or_null("TimeTint") as CanvasModulate
+	if indoor != null:
+		indoor.color = LightingModel.indoor(_time_sec)
+	var outdoor := LightingModel.outdoor_modulate(_time_sec)
+	for layer in [_backdrop, _ext_decor, _front_decor, _equipment]:
+		if layer != null and layer.modulate != outdoor:
+			layer.modulate = outdoor
+
+
+## Storefront spill and lamp glows (LightSpill); it rebuilds only when its own key changes (see LightSpill.sync).
+func _sync_light_spill() -> void:
+	if _light_spill == null or store_width <= 0 or _time_sec < 0:
+		return
+	_light_spill.sync(_time_sec, store_width, store_height, entrance_tiles, projection, viewport_size())
 
 
 ## Selection, ghost and the object layers. The floor and walls (this node's own _draw) are left alone.
 func _refresh_objects() -> void:
+	_update_canopy_visibility()
 	if _selection != null:
 		if selected_tile != NO_TILE:
 			_selection.show_selected(projection.tile_diamond(selected_tile))
@@ -379,6 +477,11 @@ func _refresh_objects() -> void:
 		if not _ghost.is_empty():
 			set_ghost(_ghost["cells"], _ghost["access"], _ghost["valid"], _ghost["queue"])
 	_redraw_objects()
+
+
+func _update_canopy_visibility() -> void:
+	if _facade_canopy != null:
+		_facade_canopy.visible = mode == Mode.OBSERVE and selected_tile == NO_TILE and hover_tile == NO_TILE
 
 
 ## Floor pass (issue #61): tiles, grout, sheen, wall occlusion, then fixture contact shadows, all under
@@ -391,7 +494,7 @@ func _draw() -> void:
 	for y in store_height:
 		for x in store_width:
 			var c := Vector2i(x, y)
-			draw_colored_polygon(projection.tile_diamond(c), FloorStyle.tile_color(c, entrance_tiles))
+			draw_colored_polygon(projection.tile_diamond(c), FloorStyle.tile_color(c, entrance_tiles, store_width, store_height))
 	draw_multiline(FloorStyle.grout_segments(projection, store_width, store_height), FloorStyle.GROUT, maxf(1.0, projection.zoom))
 	var s := FloorStyle.sheen(projection, store_width, store_height)
 	draw_polygon(s["points"], s["colors"])
@@ -405,8 +508,13 @@ func _draw() -> void:
 	_draw_perimeter()
 
 
-## Walls are edges of the outer cells (they never occupy a cell); the west entrance
-## tiles are drawn as door segments on the x = -0.5 edge.
+func draw_background_wall_occlusion(target: CanvasItem) -> void:
+	if _walls != null:
+		_walls.draw_occlusion_overlay(target, projection, store_width, store_height, entrance_tiles)
+
+
+## Walls are edges of the outer cells (they never occupy a cell); each entrance tile is drawn as a door segment on
+## the outer edge of its tile, on whichever wall it sits (see BackdropLayer.door_segment).
 func _draw_perimeter() -> void:
 	var w := store_width - 0.5
 	var h := store_height - 0.5
@@ -418,4 +526,5 @@ func _draw_perimeter() -> void:
 	for i in 4:
 		draw_line(corners[i], corners[(i + 1) % 4], WALL, line_w)
 	for t in entrance_tiles:
-		draw_line(projection.world_to_screen(-0.5, t.y - 0.5), projection.world_to_screen(-0.5, t.y + 0.5), DOOR, line_w * 1.5)
+		var seg := BackdropLayer.door_segment(t, store_width, store_height)
+		draw_line(projection.world_to_screen(seg[0].x, seg[0].y), projection.world_to_screen(seg[1].x, seg[1].y), DOOR, line_w * 1.5)

@@ -1,12 +1,14 @@
 extends RefCounted
 ## Issue #16: one customer at the till at a time, queue advance, 120 s timeout, no register.
 
+const LegacyPace := preload("res://tests/support/legacy_pace.gd")
+
 const Seeds := preload("res://tests/support/test_seeds.gd")
 var _n := 0
 
 
 func _state() -> GameState:
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	return GameState.from_balance(balance, Seeds.SEEDS, fx, pr)
@@ -110,7 +112,9 @@ func test_only_one_customer_is_served_at_a_time(t, _tree) -> void:
 
 
 func test_checkout_takes_thirty_game_seconds(t, _tree) -> void:
+	# Issue #128: the checkout is 20 s + 8 s per item (was a flat 30 s). One item (basket forced to 1) takes 28 s.
 	var s := _store(5)
+	s.balance["basket_size_forced"] = 1
 	var ai := CustomerAI.new()
 	_arrive(s)
 	var start := -1
@@ -121,12 +125,12 @@ func test_checkout_takes_thirty_game_seconds(t, _tree) -> void:
 			start = s.time_sec
 		if done < 0 and s.visit_stats["purchased"] == 1:
 			done = s.time_sec
-	t.eq(done - start, 30, "30 game seconds from till to receipt")
+	t.eq(done - start, 28, "20 + 8 game seconds from till to receipt for one item")
 
 
 func test_waiting_past_the_timeout_releases_the_reservation(t, _tree) -> void:
 	var s := _store(10)
-	s.balance["checkout_duration_game_seconds"] = 100000   # the first customer blocks the till
+	s.balance["checkout_base_game_seconds"] = 100000   # the first customer blocks the till
 	var ai := CustomerAI.new()
 	_arrive(s, 2)
 	_tick(s, ai, 30)
@@ -169,7 +173,7 @@ func test_queue_advances_and_full_queue_waits(t, _tree) -> void:
 		_tick(s, ai, 1)
 		var ph := _phases(s)
 		most_waiting = maxi(most_waiting, int(ph.get("WAIT_QUEUE", 0)))
-		var in_line := int(ph.get("QUEUE", 0)) + int(ph.get("CHECKOUT", 0)) + int(ph.get("WALK_REGISTER", 0))
+		var in_line := s.customers.filter(func(c): return int(c["queue_slot"]) >= 0 or c["phase"] == "CHECKOUT").size()   # slot holders (a walker on its way to the line holds none, #117 v2)
 		t.ok(in_line <= 3, "at most 3 queue slots are in use")
 	t.ok(most_waiting >= 1, "with 14 customers and 3 slots somebody had to wait for a slot")
 

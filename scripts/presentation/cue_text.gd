@@ -16,8 +16,13 @@ static func is_achievement(toast: String) -> bool:
 ## critical cue is an error, the rest are info.
 const LEVEL_OF := {
 	"milestone_celebrate": "achievement",
-	"expiry_notice": "warning", "low_stock_notice": "warning", "long_queue": "warning",
+	"expiry_notice": "warning", "low_stock_notice": "warning", "long_queue": "warning", "access_blocked": "warning",
 	"daily_event_start": "info", "daily_event_end": "info", "daily_recap": "info",
+	"rival_opened": "warning", "rival_sale": "info", "condition_started": "info", "rival_renovation": "info", "rival_closed": "achievement",   # #129
+	"capsule_rare": "info", "capsule_empty": "warning",   # #139
+	"crane_won": "info", "crane_empty": "warning", "crane_broken": "warning", "crane_repaired": "info",   # #132
+	"bake_done": "info",   # #130
+	"lottery_top": "info", "lottery_sold_out": "achievement",   # #138
 }
 
 
@@ -42,6 +47,10 @@ static func toast_text(cue_id: String, payload: Dictionary, fixture_name: String
 			return "期限切れの商品を廃棄しました（%d個）" % qty
 		"long_queue":
 			return "レジの待ち時間が増えています"
+		"access_blocked":   # #24: a customer could not get there; the layout blocks a shelf or the register
+			if String(payload.get("target", "")) == "register":
+				return "通路がふさがり、お客様がレジまで行けません。配置を見直しましょう"
+			return "通路がふさがり、お客様が%sまで行けません。配置を見直しましょう" % (fixture_name if fixture_name != "" else "棚")
 		"daily_recap":
 			return "営業日が終わりました。日次レポートを確認しましょう"
 		"milestone_celebrate":
@@ -50,4 +59,32 @@ static func toast_text(cue_id: String, payload: Dictionary, fixture_name: String
 			return "今日のイベント: %s" % String(payload.get("name_ja", ""))
 		"daily_event_end":
 			return "イベントが終わりました: %s" % String(payload.get("name_ja", ""))
+		"rival_opened":
+			return "地域ニュース: 近くにライバル店「%s」が開店しました" % String(payload.get("name", ""))
+		"rival_sale":
+			return "地域ニュース: ライバル店「%s」が特売を始めました" % String(payload.get("name", ""))
+		"rival_renovation":
+			return "地域ニュース: ライバル店「%s」が改装のため%d日休業します" % [String(payload.get("name", "")), int(payload.get("days", 0))]
+		"rival_closed":
+			return "地域ニュース: ライバル店「%s」が閉店しました" % String(payload.get("name", ""))
+		"bake_done":
+			return "焼きたて「%s」が焼き上がりました（%d個）" % [String(payload.get("name", "")), int(payload.get("qty", 0))]
+		"crane_won":
+			return "UFOキャッチャーで「%s」が取れました（%d回目）" % [String(payload.get("prize", "")), int(payload.get("plays", 1))]
+		"crane_broken":
+			return "UFOキャッチャーが故障しました。什器カードから修理できます（%s）" % preload("res://scripts/presentation/game_hud.gd").format_yen(int(payload.get("cost_yen", 0)))
+		"crane_repaired":
+			return "UFOキャッチャーを修理しました"
+		"crane_empty":
+			return "UFOキャッチャーの景品がなくなりました。補充しましょう"
+		"capsule_empty":
+			return "カプセルトイ「%s」が空になりました。補充しましょう" % String(payload.get("name", ""))
+		"capsule_rare":
+			return "カプセルトイ: レアの「%s」が出ました（%s）" % [String(payload.get("prize", "")), String(payload.get("name", ""))]
+		"lottery_top":
+			return "店頭くじ: %sの「%s」が出ました" % [String(payload.get("set", "")), String(payload.get("prize", ""))]
+		"lottery_sold_out":
+			return "店頭くじ: %sが完売しました（最後の1枚に「%s」）" % [String(payload.get("set", "")), String(payload.get("last_one", ""))]
+		"condition_started":
+			return "地域ニュース: %s（%s）" % [String(payload.get("name_ja", "")), String(payload.get("note", ""))]
 	return ""

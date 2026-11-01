@@ -1,0 +1,13 @@
+{
+  "issue": "#91",
+  "generator": "Pillow deterministic fallback",
+  "blender_available": false,
+  "runtime_approved": false,
+  "regeneration": "python generate_shelf_noodle.py",
+  "unverified_points": [
+    "Blender render/projection calibration not verified.",
+    "Godot runtime integration intentionally not run.",
+    "Human visual review of final silhouette and anchors remains pending."
+  ],
+  "composition": "shadow -> body -> products; each is saved separately and composite is explicit."
+}

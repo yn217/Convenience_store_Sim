@@ -26,7 +26,7 @@ func test_card_follows_selection(t, tree) -> void:
 	t.eq(card._status.text, "設置中", "status chip: the store is still in setup")
 	t.eq(card._category.text, "おかし・カップ麺・パン", "category chip: the shelf's allowed categories, in Japanese")
 	t.ok(card._category.get_parent().visible, "the chip shows for a shelf")
-	t.eq(card._rows[0]["value"].text, "0 / 48", "empty shelf: nothing stocked yet")
+	t.eq(card._rows[0]["value"].text, "品切れ　0 / 48", "empty shelf: nothing stocked yet, 品切れ in words")
 	t.eq(card._rows[1]["value"].text, "¥500", "today's sales of this shelf come from the ledger")
 	t.eq(card._rows[1]["bar"].value, 1.0, "it is the whole store's sales today")
 	t.eq(card._rows[2]["value"].text, "¥300", "gross profit = revenue - cost")
@@ -35,5 +35,38 @@ func test_card_follows_selection(t, tree) -> void:
 	await tree.process_frame
 	t.eq(card._name.text, "未選択", "clearing the selection shows the empty state")
 	t.ok(not card._rows[0]["box"].visible, "rows hide when nothing is selected")
+	main.queue_free()
+	await tree.process_frame
+
+
+## #132: a broken crane game shows 故障中 and a 修理する button with the cost; pressing it repairs the machine.
+func test_a_broken_crane_is_repaired_from_its_card(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var app: Node = main.get_node("AppRoot")
+	var card: FixtureCard = main.get_node("FixtureCard")
+	var world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+	app.state.ledger.cash_yen = 5000000
+	var r: CommandResult = app.run_command({"command_id": "fc_crane", "kind": &"PLACE_FIXTURE", "type_id": "crane_game", "x": 3, "y": 2, "rotation": 0})
+	t.ok(r.ok, "a crane game can be placed")
+	var fid := String(r.data["instance_id"])
+	world.select_screen(world.projection.tile_center(Vector2i(3, 2)))
+	await tree.process_frame
+	t.ok(not card._repair.visible, "a working machine shows no repair button")
+	app.state.crane_stats[fid] = {"plays": 300, "wins": 40, "since": 300, "repairs": 0, "broken": true}
+	app._publish_snapshot()
+	await tree.process_frame
+	t.eq(card._status.text, "故障中", "status chip: out of order")
+	t.ok(card._repair.visible, "the repair button shows")
+	t.eq(card._repair.text, "修理する（¥5,000）", "with its cost")
+	var cash: int = app.state.ledger.cash_yen
+	card._repair.pressed.emit()
+	await tree.process_frame
+	t.ok(not CraneGame.is_broken(app.state, fid), "pressing it repairs the machine")
+	t.eq(app.state.ledger.cash_yen, cash - 5000, "the repair is paid")
+	t.ok(not card._repair.visible, "the button goes away")
+	t.eq(card._status.text, "設置中", "the usual status is back")
 	main.queue_free()
 	await tree.process_frame

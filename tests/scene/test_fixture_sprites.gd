@@ -2,7 +2,7 @@ extends RefCounted
 ## Issue #9: sprite layers/anchors come from manifests, other types stay placeholders, and the
 ## presenter draws every rotation at the three reference zooms with different shelf fill levels.
 
-const SPRITE_TYPES := ["shelf_general", "warmer_oden", "freezer_ice", "register_basic", "fridge_drink", "shelf_onigiri", "shelf_noodle", "shelf_bread", "shelf_snack", "fridge_dessert"]
+const SPRITE_TYPES := ["shelf_general", "warmer_oden", "freezer_ice", "register_basic", "fridge_drink", "shelf_onigiri", "shelf_noodle", "shelf_bread", "shelf_snack", "fridge_dessert", "atm", "copier"]
 
 
 func test_manifest_entries_for_every_rotation(t, _tree) -> void:

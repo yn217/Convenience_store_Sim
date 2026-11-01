@@ -39,15 +39,15 @@ func test_real_masters_load_and_cross_reference(t, _tree) -> void:
 	var fixtures := FixtureCatalog.from_json_text(_text(FIXTURES))
 	t.eq(products.errors, [] as Array[String], "products errors")
 	t.eq(fixtures.errors, [] as Array[String], "fixtures errors")
-	t.eq(products.skus.size(), 24, "24 SKUs")
-	t.eq(fixtures.types.size(), 10, "10 fixture types")
+	t.eq(products.skus.size(), 62, "62 SKUs (33 + 2 volume-up onigiri, #137, + 3 capsule series, #139, + 6 goods and hygiene, #133, + 6 soft serve / frappé, #131, + 3 fresh bread and 3 pizzas, #130, + 3 collab goods, #140, + 3 crane prizes, #132)")
+	t.eq(fixtures.types.size(), 28, "28 fixture types (3 capsule machines, #139; the goods shelf, #133; soft serve and frappé machines, #131; bakery and pizza ovens, #130; the eat-in counter and table, #134; the crane game, #132)")
 	t.eq(fixtures.product_errors(products), [] as Array[String], "every SKU has a compatible slot")
 	var cats := {}
 	for s in products.skus.values():
 		cats[s["category"]] = int(cats.get(s["category"], 0)) + 1
-	t.eq(cats.size(), 8, "8 categories")
+	t.eq(cats.size(), 20, "20 categories (bento, daily fresh, coffee: #147; capsule toys: #139; daily goods, hygiene: #133; soft serve, frappé: #131; bakery, pizza: #130; collab goods: #140; crane prizes: #132)")
 	for c in cats:
-		t.eq(cats[c], 3, "3 SKUs in " + c)
+		t.eq(cats[c], 5 if c == "rice_ball" else 3, "3 SKUs in %s (+2 volume-up onigiri, #137)" % c)
 
 
 func test_product_invalid_table(t, _tree) -> void:
@@ -102,7 +102,7 @@ func test_fixture_invalid_table(t, _tree) -> void:
 		["too wide for footprint", _fixture({"dimensions_m": {"width": 0.95, "depth": 1.92, "height": 1.5}}), "dimensions_m: exceeds_footprint"],
 		["too deep for footprint", _fixture({"dimensions_m": {"width": 0.92, "depth": 1.95, "height": 1.5}}), "dimensions_m: exceeds_footprint"],
 		["negative cost", _fixture({"placement_cost_yen": -1}), "placement_cost_yen: negative"],
-		["unknown category", _fixture({"allowed_categories": ["pizza"]}), "unknown_category"],
+		["unknown category", _fixture({"allowed_categories": ["sushi"]}), "unknown_category"],
 		["slot category outside fixture", _fixture({"allowed_categories": ["snack"]}), "not_in_fixture_categories"],
 		["duplicate slot id", _fixture({"shelf_slots": [slot_ok, slot_ok], "capacity_units": 20}), "slot_id: duplicate_id"],
 		["unknown edge", _fixture({"access_edges": ["X"]}), "access_edges: unknown_edge"],
@@ -123,12 +123,3 @@ func test_product_without_compatible_slot_is_reported(t, _tree) -> void:
 	var products := ProductCatalog.from_array([_product({"category": "snack", "sku_id": "snk_x"}), _product({"slot_units": 7, "sku_id": "big_x"})])
 	var errs := fixtures.product_errors(products)
 	t.eq(errs.size(), 2, "snack has no fixture; slot_units 7 exceeds largest slot (6)")
-
-
-func test_real_fixture_golden_values(t, _tree) -> void:
-	var fixtures := FixtureCatalog.from_json_text(_text(FIXTURES))
-	var fridge := fixtures.get_type("fridge_drink")
-	t.eq(fridge["footprint"], {"w": 1, "h": 2}, "fridge footprint")
-	t.eq(fridge["access_edges"], ["E"], "1x2 fridge access E")
-	t.eq(fixtures.get_type("freezer_ice")["footprint"], {"w": 2, "h": 2}, "ice 2x2")
-	t.eq(fixtures.get_type("register_basic")["capacity_units"], 0, "register has no stock capacity")

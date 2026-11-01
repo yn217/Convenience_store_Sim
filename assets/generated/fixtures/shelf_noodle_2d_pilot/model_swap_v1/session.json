@@ -1,0 +1,10 @@
+{
+  "asset": "shelf_noodle",
+  "state": "FULL",
+  "rotation": "r0",
+  "method": "built-in image_gen",
+  "canonical": "assets/generated/fixtures/shelf_noodle/shelf_noodle_0_body.png",
+  "reference_selection": "The prior pilot branch rev_shallow_v4 measurements identifies this exact canonical body (sha256 4570b922634b03ea6c98954fd67288c1b5ec5fc190510a79cb995708abc91976). Current checkout is integration/m6-ui; no branch switch or prior candidate overwrite.",
+  "transform_policy": "Only uniform scale plus canvas translation for comparison; no shear, rotation, perspective or independent-axis stretch.",
+  "runtime_approved": false
+}

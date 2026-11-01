@@ -10,11 +10,13 @@ const FIELDS: Array[String] = [
 	"electricity_yen", "fixed_cost_yen", "operating_profit_yen", "net_cash_delta_yen", "cash_end_yen",
 	"store_reputation", "potential_customers", "visitors", "purchasing_customers", "lost_customers", "units_sold",
 ]
+## Fields newer reports carry; a saved report without them still loads (balked_customers: #142).
+const OPTIONAL_FIELDS: Array[String] = ["balked_customers", "wages_yen", "promo_yen", "discount_yen", "satisfaction"]
 
 
-static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation: int, cash_end_yen: int) -> Dictionary:
+static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation: int, cash_end_yen: int, mood: Dictionary = {}) -> Dictionary:
 	var sum := LedgerSummary.summarize(ledger, day_index)
-	return {
+	var out := {
 		"day_index": day_index,
 		"revenue_yen": sum["revenue_yen"],
 		"cogs_yen": sum["cogs_yen"],
@@ -23,6 +25,8 @@ static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation:
 		"advertising_yen": sum["advertising_yen"],
 		"electricity_yen": sum["electricity_yen"],
 		"fixed_cost_yen": sum["fixed_cost_yen"],
+		"wages_yen": sum["wages_yen"],   # #143 (part of the operating profit)
+		"promo_yen": sum["promo_yen"], "discount_yen": sum["discount_yen"],   # #137
 		"operating_profit_yen": sum["operating_profit_yen"],
 		"net_cash_delta_yen": sum["cash_delta_yen"],
 		"cash_end_yen": cash_end_yen,
@@ -31,8 +35,12 @@ static func build(day_index: int, ledger: Ledger, stats: Dictionary, reputation:
 		"visitors": int(stats.get("entered", 0)),
 		"purchasing_customers": int(stats.get("purchased", 0)),
 		"lost_customers": int(stats.get("lost", 0)),
+		"balked_customers": int(stats.get("balked", 0)),   # #142: turned back at the door (part of lost_customers)
 		"units_sold": sum["units_sold"],
 	}
+	if int(mood.get("n", 0)) > 0:
+		out["satisfaction"] = int(round(float(mood["sum"]) / float(mood["n"])))   # #141: mean mood of the day's customers
+	return out
 
 
 ## Gross margin in percent, or null when there was no revenue (shown as "—", never NaN).

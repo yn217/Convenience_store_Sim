@@ -1,0 +1,83 @@
+{
+  "asset_id": "compact_car_painted_v1",
+  "source_type": "ai_generated",
+  "tool": "built-in image_gen",
+  "source_file": "assets/source/exterior/compact_car_painted_v1/original.png",
+  "generation_id": "exec-9a3ecba7-6bc0-4da8-a6c2-54ff09df2ff1",
+  "original_sha256": "e115a6761bad5fada103e53ed242cf38824311a248c34aeecae853d07310ae6f",
+  "packaging_script": "tools/assets/package_compact_car_painted.py",
+  "operations": [
+    "uniform Lanczos downscale with nearest integer canvas rounding",
+    "rot1 horizontal mirror"
+  ],
+  "uniform_scale": 0.5648582995951417,
+  "original_canvas_px": [
+    1536,
+    1024
+  ],
+  "opaque_body_bbox_alpha_200": [
+    156,
+    60,
+    1391,
+    937
+  ],
+  "target_body_projected_width_source_px": 697.5999999999999,
+  "original_ground_pivot_px": [
+    773.0,
+    690.0
+  ],
+  "ground_pivot_method": "visible tyre contact positions and projected footprint centre; approximate manual measurement",
+  "measured_original_edges": {
+    "long_edge": {
+      "from_px": [
+        685,
+        936
+      ],
+      "to_px": [
+        1268,
+        652
+      ],
+      "slope_dy_dx": -0.48713550600343053,
+      "ideal_slope": -0.5
+    },
+    "front_short_edge": {
+      "from_px": [
+        190,
+        758
+      ],
+      "to_px": [
+        690,
+        932
+      ],
+      "slope_dy_dx": 0.348,
+      "ideal_slope": 0.5
+    }
+  },
+  "alpha_validation": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "corner_alpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "nonzero_bbox": [
+      49,
+      11,
+      839,
+      533
+    ]
+  },
+  "limitations": [
+    "Generated shape is not an exact orthographic 2:1 projection; measured edges deviate from ideal slopes.",
+    "Width is calibrated to 1.65m plus 3.8m projected extent; no nonuniform shape correction was applied.",
+    "Ground pivot is a manually measured approximation requiring runtime parking-bay inspection.",
+    "rot1 mirrors baked sunlight and reflections; retained as a candidate, not approved for runtime.",
+    "rot2 and rot3 have no supplied art and must be skipped by PropSprites.",
+    "Faint generated contact-shadow alpha is preserved; no opaque background was introduced."
+  ]
+}

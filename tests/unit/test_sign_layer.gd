@@ -20,6 +20,25 @@ func test_every_category_colour_has_a_label(t, _tree) -> void:
 		t.ok(SignLayer.LABELS.has(cat), "label for %s" % cat)
 
 
+## #113: a register nobody staffs while trading is listed as closed; the one with a clerk at the till is not.
+func test_closed_registers_follow_the_clerk(t, _tree) -> void:
+	var Run := preload("res://tests/support/basket_run.gd")
+	var s := Run.new_state(100.0, {"staff_enabled": true})
+	var cmds := Run.place_layout(s)
+	t.eq(s.closed_registers(), [], "nothing is closed before opening")
+	Run.restock(s, cmds, 0)
+	cmds.execute({"command_id": "open", "kind": &"START_BUSINESS"})
+	var regs: Array = s.grid.instances.keys().filter(func(id): return AccessService.is_register(s.fixtures.get_type(s.grid.instances[id]["type_id"])))
+	t.ok(not regs.is_empty(), "the sample layout has a register")
+	for st in s.staff:
+		st["phase"] = "IDLE"
+	t.eq(s.closed_registers(), regs, "no clerk at the till: closed")
+	s.staff[0]["phase"] = "REGISTER"
+	s.staff[0]["tile"] = StaffAI.cashier_cell(s, regs[0])
+	t.ok(not s.closed_registers().has(regs[0]), "a clerk at the till opens it")
+	t.eq(s.snapshot()["closed_registers"], s.closed_registers(), "the snapshot carries it")
+
+
 func test_text_size_scales_and_clamps(t, _tree) -> void:
 	t.eq(SignLayer.text_size(1.0), 12, "12 px at normal zoom")
 	t.eq(SignLayer.text_size(0.6), 9, "clamped up to 9")

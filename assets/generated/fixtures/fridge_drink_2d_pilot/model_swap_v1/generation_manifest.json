@@ -1,0 +1,53 @@
+{
+  "asset": "fridge_drink",
+  "state": "FULL",
+  "rotation": 0,
+  "projection_id": "iso2x_v1",
+  "canonical_canvas_px": [
+    442,
+    527
+  ],
+  "anchor_px": [
+    285,
+    380
+  ],
+  "input_images": [
+    "assets/generated/fixtures/fridge_drink/fridge_drink_0_body.png"
+  ],
+  "sku_catalog": "data/products/mvp_v1.json",
+  "allowed_skus": [
+    {
+      "sku_id": "drink_001",
+      "name": "緑茶500ml"
+    },
+    {
+      "sku_id": "drink_002",
+      "name": "炭酸飲料500ml"
+    },
+    {
+      "sku_id": "drink_003",
+      "name": "ミネラル水500ml"
+    }
+  ],
+  "generator": "built-in image_gen",
+  "transparent_background": true,
+  "method": "Two independent whole-scene generations. Each generated complete fridge body, glass door case, shelves and all products in one image using the single canonical body guide.",
+  "prompts": [
+    "prompt_a.txt",
+    "prompt_b.txt"
+  ],
+  "outputs": {
+    "originals": [
+      "original_a.png",
+      "original_b.png"
+    ],
+    "candidates": [
+      "fridge_drink_full_r0_candidate_a.png",
+      "fridge_drink_full_r0_candidate_b.png"
+    ],
+    "comparison": "comparison_same_scale.png",
+    "metrics": "qa_metrics.json"
+  },
+  "commit": false,
+  "push": false
+}

@@ -8,6 +8,7 @@ extends Node
 const Hud := preload("res://scripts/presentation/game_hud.gd")
 const NONE_TEXT := "未選択"
 const NO_SHELF_TEXT := "棚なし"
+const SOLD_OUT_TEXT := "品切れ"
 const ROW_LABELS := ["在庫・陳列状況", "本日の売上", "本日の粗利"]
 const RESTOCK_TAB := "商品"
 const DETAILS_CLOSED := "詳細  ▸"
@@ -15,7 +16,14 @@ const DETAILS_OPEN := "詳細  ▾"
 const CATEGORY_NAMES := {
 	"bread": "パン", "dessert": "デザート", "drink": "飲料", "ice_cream": "アイス",
 	"instant_noodle": "カップ麺", "oden": "おでん", "rice_ball": "おにぎり", "snack": "おかし",
+	"bento": "弁当", "daily_fresh": "野菜・日配", "coffee": "コーヒー",
+	"capsule_toy": "カプセルトイ",
+	"daily_goods": "日用品", "hygiene": "衛生用品", "character_goods": "限定グッズ",
+	"soft_serve": "ソフトクリーム", "frappe": "フラッペ",
+	"bakery": "焼きたてパン", "pizza": "ピザ",
+	"crane_prize": "UFOキャッチャー",
 }
+const BROKEN_TEXT := "故障中"
 const STATUS_NAMES := {"SETUP": "設置中", "OPEN": "営業中", "CLOSING": "閉店中"}
 
 var _world: Node2D
@@ -33,6 +41,12 @@ var _details: Control     # scene nodes, cached in _ready: the section wrap late
 var _actions: Control
 var _details_open := false
 var _rows: Array = []   # per row: {box, caption, bar, value}
+var _shelf_title: Label
+var _shelf_list: VBoxContainer   # the products on this fixture's shelves: icon, name, price, 価格変更
+var _shelf_key := ""             # what the list was built from; rebuilt only when it changes
+var _set_goods: Button
+var _repair: Button   # #132: a broken crane game is repaired from its card
+var _repair_seq := 0
 
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -55,11 +69,36 @@ func _ready() -> void:
 	_block.add_child(sales)
 	_rows.append(_build_row(sales))
 	_rows.append(_build_row(sales))
+	_shelf_title = Label.new()
+	_shelf_title.text = "棚の商品"
+	_shelf_title.theme_type_variation = &"CardTitle"
+	_block.add_child(_shelf_title)
+	_shelf_list = VBoxContainer.new()
+	_shelf_list.name = "ShelfProducts"
+	_shelf_list.add_theme_constant_override("separation", 6)
+	_block.add_child(_shelf_list)
+	var actions := HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 8)
+	_block.add_child(actions)
 	_restock = Button.new()
 	_restock.text = "商品を補充"
 	_restock.theme_type_variation = &"PrimaryButton"
+	_restock.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_restock.pressed.connect(_open_restock)
-	_block.add_child(_restock)
+	actions.add_child(_restock)
+	_set_goods = Button.new()
+	_set_goods.name = "PriceSetButton"
+	_set_goods.text = "価格を設定"
+	_set_goods.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_set_goods.pressed.connect(_open_prices)
+	actions.add_child(_set_goods)
+	_repair = Button.new()
+	_repair.name = "RepairButton"
+	_repair.theme_type_variation = &"PrimaryButton"
+	_repair.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_repair.visible = false
+	_repair.pressed.connect(_repair_selected)
+	actions.add_child(_repair)
 	_details_toggle = Button.new()
 	_details_toggle.flat = true
 	_details_toggle.focus_mode = Control.FOCUS_NONE
@@ -178,8 +217,17 @@ func _render() -> void:
 			row["box"].visible = false
 		return
 	_name.text = def["display_name"]
+	var has_shelf := capacity(def) > 0
+	_shelf_title.visible = has_shelf
+	_shelf_list.visible = has_shelf
+	_set_goods.visible = has_shelf
+	if has_shelf:
+		_refresh_shelf(fid, catalog_products())
 	_thumb.texture = FixtureThumbnails.texture(inst["type_id"])
-	_set_chip(_status, status_text(str(_snap.get("business_state", "SETUP"))))
+	var broken := CraneGame.is_machine_type(def) and bool(_snap.get("crane_stats", {}).get(fid, {}).get("broken", false))
+	_set_chip(_status, BROKEN_TEXT if broken else status_text(str(_snap.get("business_state", "SETUP"))))
+	_repair.visible = broken
+	_repair.text = repair_text(CraneGame.repair_cost())
 	_set_chip(_category, category_text(def))
 	_size.text = "%d×%d" % [int(def["footprint"]["w"]), int(def["footprint"]["h"])]
 	_price.text = Hud.format_yen(int(def.get("placement_cost_yen", 0)))
@@ -188,6 +236,9 @@ func _render() -> void:
 	var sales := {"revenue_yen": int(money.get("revenue_yen", 0)), "gross_profit_yen": int(money.get("gross_profit_yen", 0))}
 	var totals: Dictionary = _snap.get("today", {})
 	var rows := FixtureCard.rows(def, _snap.get("shelf_stock", {}).get(fid, {}), sales, totals)
+	var bake: Dictionary = _snap.get("baking", {}).get(fid, {})
+	if not bake.is_empty():   # #130: a lot in the oven
+		rows[0]["value_text"] = "%s　%s" % [rows[0]["value_text"], baking_text(bake)]
 	for i in _rows.size():
 		var row: Dictionary = _rows[i]
 		row["box"].visible = true
@@ -216,11 +267,131 @@ func _toggle_details() -> void:
 	_render()
 
 
-## 商品を補充: opens the 商品 management tab (stock and shelves) of the main window.
+## 価格を設定: opens the 商品 tab's price section scrolled to the first SKU on this fixture's shelves.
+func _open_prices() -> void:
+	var fid: String = _world.selected_fixture_id() if _world != null else ""
+	var skus: Array = _snap.get("shelf_skus", {}).get(fid, {}).values()
+	var main := get_parent()
+	if main != null and main.has_method("open_prices_for"):
+		main.open_prices_for(skus)
+
+
+## 修理する (#132): repairs the selected crane game; the reason is told when it cannot be done.
+func _repair_selected() -> void:
+	var fid: String = _world.selected_fixture_id() if _world != null else ""
+	var main := get_parent()
+	var app: Node = main.get_node_or_null("AppRoot") if main != null else null
+	if fid == "" or app == null or not app.has_method("run_command"):
+		return
+	_repair_seq += 1
+	var r: CommandResult = app.run_command({"command_id": "ui_repair_%d" % _repair_seq, "kind": &"REPAIR_CRANE", "fixture_id": fid})
+	var build := main.get_node_or_null("BuildController")
+	if build != null and build.has_method("say"):   # the shared message line
+		build.say("UFOキャッチャーを修理しました" if r.ok else CommandMessages.text(r.code, r.message_key))
+
+
+static func repair_text(cost_yen: int) -> String:
+	return "修理する（%s）" % Hud.format_yen(cost_yen)
+
+
+## 商品を補充: opens the 商品 tab at the restock section of the selected fixture.
 func _open_restock() -> void:
 	var main := get_parent()
-	if main != null and main.has_method("open_screen_tab"):
+	if main != null and main.has_method("open_restock_section"):
+		main.open_restock_section()
+	elif main != null and main.has_method("open_screen_tab"):
 		main.open_screen_tab(RESTOCK_TAB)
+
+
+## The product catalog the world uses for SKU names and icons (set by the app), or null before it is wired.
+func catalog_products() -> ProductCatalog:
+	return _world.product_catalog if _world != null else null
+
+
+## Rebuilds the 棚の商品 list when the fixture's shelf contents or prices change.
+func _refresh_shelf(fid: String, products: ProductCatalog) -> void:
+	var rows := shelf_product_rows(_snap.get("shelf_skus", {}).get(fid, {}), _snap.get("product_price_overrides", {}), products, _snap.get("shelf_stock", {}).get(fid, {}))
+	var key := str(rows)
+	if key == _shelf_key:
+		return
+	_shelf_key = key
+	for c in _shelf_list.get_children():
+		_shelf_list.remove_child(c)
+		c.queue_free()
+	if rows.is_empty():
+		var none := Label.new()
+		none.text = "棚に商品はありません"
+		none.theme_type_variation = &"CardTitle"
+		_shelf_list.add_child(none)
+	for r in rows:
+		var line := HBoxContainer.new()
+		line.add_theme_constant_override("separation", 8)
+		var icon := TextureRect.new()
+		icon.custom_minimum_size = Vector2(32, 32)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.texture = ProductIcons.texture(products.get_sku(r["sku_id"]), 32) if products != null and products.skus.has(r["sku_id"]) else null
+		line.add_child(icon)
+		var text := VBoxContainer.new()
+		text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		text.add_theme_constant_override("separation", 0)
+		var name_label := Label.new()
+		name_label.text = r["name"] if int(r["slots"]) == 1 else "%s ×%d段" % [r["name"], int(r["slots"])]
+		name_label.clip_text = true
+		text.add_child(name_label)
+		var price_label := Label.new()
+		price_label.text = "%s　%s" % [Hud.format_yen(int(r["price"])), units_text(int(r["units"]))]
+		price_label.theme_type_variation = &"TileValue"
+		text.add_child(price_label)
+		line.add_child(text)
+		var change := Button.new()
+		change.name = "PriceChange"
+		change.text = "価格変更"
+		change.focus_mode = Control.FOCUS_NONE
+		var sku_id: String = r["sku_id"]
+		change.pressed.connect(_open_price.bind(sku_id))
+		line.add_child(change)
+		_shelf_list.add_child(line)
+
+
+## 価格変更 on one shelf product: the 商品 tab with that SKU's price field selected.
+func _open_price(sku_id: String) -> void:
+	var main := get_parent()
+	if main != null and main.has_method("open_price_for"):
+		main.open_price_for(sku_id)
+
+
+## 在庫 n, or 品切れ when none of the SKU is left on this fixture.
+static func units_text(units: int) -> String:
+	return SOLD_OUT_TEXT if units <= 0 else "在庫 %d" % units
+
+
+## The products on a fixture's shelves: one row per SKU, in first-slot order, {sku_id, name, price, slots, units} where
+## slots counts the shelf slots holding it and units the pieces on them (`stock` is {slot_id: qty}). The price is the
+## override when the player set one, else the SKU's default sell price. Pure apart from the catalog lookup.
+static func shelf_product_rows(slots: Dictionary, overrides: Dictionary, products: ProductCatalog, stock: Dictionary = {}) -> Array:
+	var out: Array = []
+	var by_sku := {}
+	var slot_ids := slots.keys()
+	slot_ids.sort()
+	for slot_id in slot_ids:
+		var sku_id: String = slots[slot_id]
+		if by_sku.has(sku_id):
+			by_sku[sku_id]["slots"] += 1
+			by_sku[sku_id]["units"] += int(stock.get(slot_id, 0))
+			continue
+		var sku: Dictionary = products.get_sku(sku_id) if products != null else {}
+		var default_price := int(sku.get("default_sell_price_yen", 0))
+		var row := {
+			"sku_id": sku_id,
+			"name": String(sku.get("display_name", sku_id)),
+			"price": int(overrides.get(sku_id, default_price)),
+			"slots": 1,
+			"units": int(stock.get(slot_id, 0)),
+		}
+		by_sku[sku_id] = row
+		out.append(row)
+	return out
 
 
 func _find_instance(fid: String) -> Dictionary:
@@ -269,7 +440,9 @@ static func capacity(def: Dictionary) -> int:
 
 ## Stock figure: "units / capacity", or 棚なし for a fixture without room for stock.
 static func stock_text(cap: int, units: int) -> String:
-	return NO_SHELF_TEXT if cap <= 0 else "%d / %d" % [units, cap]
+	if cap <= 0:
+		return NO_SHELF_TEXT
+	return "%s%d / %d" % [SOLD_OUT_TEXT + "　" if units <= 0 else "", units, cap]   # #21: 品切れ in words, not only an empty bar
 
 
 ## The three rows of the block. `stock` is {slot_id: qty} of this fixture; `sales` holds this fixture's
@@ -287,6 +460,11 @@ static func rows(def: Dictionary, stock: Dictionary, sales: Dictionary, totals: 
 		{"label": ROW_LABELS[1], "ratio": share(revenue, int(totals.get("revenue_yen", 0))), "value_text": Hud.format_yen(revenue)},
 		{"label": ROW_LABELS[2], "ratio": share(gross, int(totals.get("gross_profit_yen", 0))), "value_text": Hud.format_yen(gross)},
 	]
+
+
+## A lot in the oven (#130): 焼成中 n個（あとm分）.
+static func baking_text(bake: Dictionary) -> String:
+	return "焼成中 %d個（あと%d分）" % [int(bake.get("qty", 0)), ceili(float(bake.get("ready_in_sec", 0)) / 60.0)]
 
 
 ## part / whole clamped to 0..1; 0 when the store has nothing yet today.

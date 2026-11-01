@@ -4,21 +4,32 @@ extends Control
 ## window (SCREEN) appear only in their UiMode; the transitions are in ui_mode.gd. Card contents stay where the
 ## controllers built them, except that the cards not about the selection move into the management tabs.
 
-const SCREEN_TABS := ["商品", "経営", "データ", "設定"]
+const SCREEN_TABS := ["商品", "経営", "店員", "データ", "設定"]
 ## Rail entry id -> management tab it opens. 店舗 is not here: it toggles build mode.
-const RAIL_TAB := {"goods": "商品", "management": "経営", "data": "データ", "settings": "設定"}
+const RAIL_TAB := {"goods": "商品", "order": "商品", "management": "経営", "data": "データ", "settings": "設定"}
 ## Section title text -> management tab. Cards not listed here stay in the selection inspector.
 const TAB_OF_SECTION := {
 	"在庫": "商品", "販売価格": "商品",
-	"営業": "経営", "今日のイベント": "経営", "はじめかた・目標": "経営",
-	"日次レポート": "データ",
+	"営業": "経営", "販促": "経営", "媒体広告": "経営", "店頭くじ": "経営", "今日のイベント": "経営", "はじめかた・目標": "経営",
+	"日次レポート": "データ", "売れ筋ランキング": "データ",
+	"店員": "店員",
 	"演出・音": "設定", "表示モード (O)": "設定", "セーブ / ロード": "設定",
 }
 const INSPECTOR_CARD := "インスペクタ"
 const GAP := 12                                  # floating gap: from the window edges and the HUD, and between floating panels
-const BOTTOM_HEIGHT := 76                        # the summary cards (64) plus the gap under them (12); see MetricBar.HEIGHT
-const WINDOW_SIZE := Vector2(780, 600)
+const BOTTOM_HEIGHT := 108                       # the summary cards (MetricBar.HEIGHT = 96) plus the gap under them (12)
+const WINDOW_SIZE := Vector2(980, 640)
+## Tab id -> icon (UiIcons) on the window's tab buttons.
+const TAB_ICONS := {"商品": "box", "経営": "wallet", "店員": "users", "データ": "bar-chart", "設定": "gear"}
+## Management tab <-> the mockup chrome's tab / menu ids.
+const CHROME_TAB := {"商品": "goods", "経営": "management", "店員": "staff", "データ": "data", "設定": "settings"}
+## Section title -> ribbon colour in the window (the rest alternate blue / brown).
+const RIBBON_BROWN := ["販売価格", "販促", "店頭くじ", "売れ筋ランキング", "表示モード (O)"]
 const NO_TILE := Vector2i(-1, -1)
+## The mockup chrome's edges (MockupChrome): the top bar's bottom, the bottom bar's height, the menu's right edge.
+const CHROME_TOP := 64
+const CHROME_BOTTOM := 158
+const CHROME_MENU_RIGHT := 236
 
 var ui := UiMode.new()
 var _nav: LeftNav
@@ -34,6 +45,8 @@ var _dimmer: ColorRect
 var _window: PanelContainer
 var _tabs: TabContainer
 var _pages: Dictionary = {}   # tab name -> VBoxContainer the cards are moved into
+var _chrome: MockupChrome     # the mockup chrome (2026-11-01); null when its images are missing
+var _window_header: Control
 
 
 func _ready() -> void:
@@ -43,7 +56,7 @@ func _ready() -> void:
 	_inspector = $Layout/MainArea/FixtureInspector
 	_store = $Layout/MainArea/StoreViewport
 	_world = $Layout/MainArea/StoreViewport/SubViewport/StoreWorld
-	_state_label = $Layout/TopHUD/Row/StateLabel
+	_state_label = $Layout/TopHUD.find_child("StateLabel", true, false) as Label   # inside the badge in the HUD row
 	_selection_label = $Layout/MainArea/FixtureInspector/Scroll/Body/Details/SelectionLabel
 	_nav = LeftNav.new()
 	$Layout/MainArea.add_child(_nav)
@@ -57,6 +70,7 @@ func _ready() -> void:
 	_floats.setup()
 	_floats.jump_requested.connect(_on_alert_jump)
 	_build_screen_window()
+	_build_chrome()
 	_layout_overlay()
 	# The inspector window follows its content height: refit when its content or the window size changes.
 	_inspector.get_node("Scroll/Body").minimum_size_changed.connect(_fit_inspector)
@@ -77,6 +91,9 @@ func _ready() -> void:
 	_apply_mode()
 	style_sections.call_deferred()
 	_organize_panels.call_deferred()
+	if _chrome != null:
+		_mockup_goods_page.call_deferred()
+		_mockup_data_page.call_deferred()
 
 
 ## Overlay design: the store world fills the whole window; every panel anchors to an edge and floats over it.
@@ -109,10 +126,14 @@ func _layout_overlay() -> void:
 	_summary.offset_right = -GAP
 	_summary.offset_top = -BOTTOM_HEIGHT
 	_summary.offset_bottom = -GAP
-	_summary.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_summary.mouse_filter = Control.MOUSE_FILTER_STOP   # the band is one real strip: it takes the mouse (it sits outside the store's safe area)
 	# Camera safe area: the store is fitted between the rail and the right edge, under the HUD and above the summary,
 	# so it sits centred in the space the floating UI leaves. Panels that open later overlay the store.
 	_world.safe_inset = Vector4(rail_right + GAP, UiTheme.HUD_HEIGHT + GAP, GAP, BOTTOM_HEIGHT)
+	if _chrome != null:   # the mockup's menu, top bar and bottom bar take more room
+		_world.safe_inset = Vector4(CHROME_MENU_RIGHT + GAP, CHROME_TOP + GAP, GAP, CHROME_BOTTOM + GAP)
+		_floats.column_top = CHROME_TOP + GAP
+		_floats.column_bottom = CHROME_BOTTOM + GAP
 	_world.fit_view()
 
 
@@ -161,13 +182,17 @@ func _fit_palette() -> void:
 	var grid := scroll.get_node("TypeList") as Control
 	var height := size.y if size.y > 0.0 else get_viewport_rect().size.y
 	var top := UiTheme.HUD_HEIGHT + GAP
-	var room := maxf(height - top - BOTTOM_HEIGHT - GAP, 0.0)
+	var bottom := BOTTOM_HEIGHT
+	if _chrome != null:   # the mockup's taller bars
+		top = CHROME_TOP + GAP
+		bottom = CHROME_BOTTOM
+	var room := maxf(height - top - bottom - GAP, 0.0)
 	var frame := _palette.get_theme_stylebox("panel").get_minimum_size().y
 	scroll.custom_minimum_size.y = 0.0
 	var fixed := body.get_combined_minimum_size().y   # everything but the grid (the scroll has no minimum yet)
 	scroll.custom_minimum_size.y = minf(grid.get_combined_minimum_size().y, maxf(room - frame - fixed, 0.0))
 	var wanted := body.get_combined_minimum_size().y + frame
-	var left := _rail_right() + GAP
+	var left: float = (float(CHROME_MENU_RIGHT) if _chrome != null else _rail_right()) + GAP   # right of the menu, never under it
 	_palette.anchor_top = 0.0
 	_palette.anchor_bottom = 0.0
 	_palette.anchor_left = 0.0
@@ -187,8 +212,8 @@ func _fit_inspector() -> void:
 	var scroll := _inspector.get_node("Scroll") as ScrollContainer
 	var body := scroll.get_node("Body") as Control
 	var height := size.y if size.y > 0.0 else get_viewport_rect().size.y
-	var top := UiTheme.HUD_HEIGHT + INSPECTOR_TOP
-	var room := maxf(height - top - BOTTOM_HEIGHT - INSPECTOR_TOP, 0.0)
+	var top := (CHROME_TOP if _chrome != null else UiTheme.HUD_HEIGHT) + INSPECTOR_TOP
+	var room := maxf(height - top - (CHROME_BOTTOM if _chrome != null else BOTTOM_HEIGHT) - INSPECTOR_TOP, 0.0)
 	var frame := _inspector.get_theme_stylebox("panel").get_minimum_size().y
 	scroll.custom_minimum_size.y = minf(body.get_combined_minimum_size().y, maxf(room - frame, 0.0))
 	var wanted := scroll.get_combined_minimum_size().y + frame
@@ -256,8 +281,58 @@ func mode_name() -> String:
 func _on_rail_pressed(id: String) -> void:
 	if id == "store":
 		toggle_build()
+	elif id == "order":
+		open_goods_order()
 	else:
 		open_screen_tab(RAIL_TAB[id])
+
+
+## 発注 (rail) and similar shortcuts: the 商品 tab, scrolled to the order section (StockController).
+func open_goods_order() -> void:
+	open_screen_tab("商品")
+	var stock := get_node_or_null("StockController")
+	if stock != null and stock.has_method("order_section"):
+		_reveal.call_deferred(stock.order_section())
+
+
+## 商品を補充 in the inspector: the 商品 tab, scrolled to the restock section of the selected fixture.
+func open_restock_section() -> void:
+	open_screen_tab("商品")
+	var stock := get_node_or_null("StockController")
+	if stock != null and stock.has_method("restock_section"):
+		_reveal.call_deferred(stock.restock_section())
+
+
+## 価格変更 on an inspector row: the 商品 tab, scrolled to that SKU's price field, which takes focus.
+func open_price_for(sku_id: String) -> void:
+	open_screen_tab("商品")
+	var pricer := get_node_or_null("PriceController")
+	if pricer != null and pricer.has_method("focus_sku"):
+		pricer.focus_sku(sku_id)
+		_reveal.call_deferred(pricer.price_field(sku_id))
+
+
+## 価格を設定 in the inspector: the 商品 tab, scrolled to the price field of the first SKU in `sku_ids` (the fixture's
+## shelf products), which takes focus. The other fields of the price list stay where they are.
+func open_prices_for(sku_ids: Array) -> void:
+	open_screen_tab("商品")
+	var pricer := get_node_or_null("PriceController")
+	if pricer == null or sku_ids.is_empty():
+		return
+	var first := String(sku_ids[0])
+	pricer.focus_sku(first)
+	_reveal.call_deferred(pricer.price_field(first))
+
+
+## Scrolls every ScrollContainer above `control` so the control is in view. Runs deferred, after the layout is up.
+func _reveal(control: Control) -> void:
+	if control == null or not is_instance_valid(control):
+		return
+	var node := control.get_parent()
+	while node != null and node != self:
+		if node is ScrollContainer:
+			(node as ScrollContainer).ensure_control_visible(control)
+		node = node.get_parent()
 
 
 ## The 在庫アラート row's 選ぶ button: selects that fixture, as a click on it would (build mode gives way first).
@@ -292,7 +367,14 @@ func _apply_mode() -> void:
 	_fit_inspector()
 	_dimmer.visible = ui.is_screen()
 	_window.visible = ui.is_screen()
+	if _chrome != null:
+		_chrome.set_window(ui.is_screen(), CHROME_TAB.get(ui.screen_tab, "goods"))
+		var stock := get_node_or_null("StockController")
+		if stock != null and stock.backroom_panel != null and not (ui.is_screen() and ui.screen_tab == "商品"):
+			stock.backroom_panel.visible = false   # the list belongs to the 商品 tab
+		_chrome.set_nav("store" if ui.is_build() or ui.is_selected() else (CHROME_TAB.get(ui.screen_tab, "") if ui.is_screen() else ""))
 	if ui.is_screen():
+		_ribbon_headings()
 		var tab_index := SCREEN_TABS.find(ui.screen_tab)
 		if tab_index >= 0:
 			_tabs.current_tab = tab_index
@@ -312,6 +394,128 @@ func _rail_id_of_tab(tab: String) -> String:
 	return ""
 
 
+# --- mockup chrome ----------------------------------------------------------------------------------------
+
+## The 2026-11-01 mockup's chrome over the store (MockupChrome): it replaces the look of the HUD band, the rail and the
+## summary strip (those stay in the tree, hidden, and still hold the state the tests read), and frames the management
+## window, whose pages are laid into the frame's content area.
+func _build_chrome() -> void:
+	if not MockupChrome.available():
+		return
+	_chrome = MockupChrome.new()
+	add_child(_chrome)
+	move_child(_chrome, _dimmer.get_index() + 1)   # above the dimmer (the menu stays usable), under the window pages
+	$Layout/TopHUD.visible = false
+	_nav.visible = false
+	_summary.visible = false
+	_dimmer.color = Color(0, 0, 0, 0)   # the mockup does not dim the store behind the window
+	_window_header.visible = false
+	_tabs.tabs_visible = false
+	_window.theme_type_variation = &""
+	_window.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	_window.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_window.grow_horizontal = Control.GROW_DIRECTION_END
+	_window.grow_vertical = Control.GROW_DIRECTION_END
+	_window.custom_minimum_size = MockupChrome.CONTENT.size
+	_window.position = MockupChrome.CONTENT.position
+	_window.size = MockupChrome.CONTENT.size
+	var hud := $Layout/TopHUD as GameHud
+	_chrome.nav_pressed.connect(_on_chrome_nav)
+	_chrome.tab_pressed.connect(_on_chrome_tab)
+	_chrome.close_pressed.connect(close_screen)
+	_chrome.speed_pressed.connect(func(speed: int): hud.speed_requested.emit(speed))
+	_chrome.pause_pressed.connect(func(): hud._on_pause_pressed())
+	_chrome.corner_pressed.connect(_on_chrome_corner)
+
+
+## The 商品 page as the mockup draws it (in code): the 在庫・発注 card with the order controls on it and the 販売価格
+## card with its column headings and the price rows in a scrolling list. The old 在庫 / 販売価格 cards stay in the page,
+## hidden (their controls moved here).
+func _mockup_goods_page() -> void:
+	var page_box: VBoxContainer = _pages["商品"]
+	var page := Control.new()
+	page.name = "GoodsMockup"
+	page.custom_minimum_size = MockupChrome.CONTENT.size - Vector2(2, 2)
+	page.mouse_filter = Control.MOUSE_FILTER_PASS
+	var cards := page_box.get_children()
+	page_box.add_child(page)
+	page_box.move_child(page, 0)
+	MockStyle.card(page, Rect2(8, 6, 1012, 142))   # its top edge runs behind the ribbon, above the バックヤード line
+	MockStyle.ribbon(page, Rect2(0, 2, 290, 50), "在庫・発注", MockStyle.RIBBON_BLUE, "box3d", 28)
+	MockStyle.picture(page, MockStyle.glyph("shelf", 96), Rect2(338, 16, 38, 34), Color("4a3a3a"))   # drawn 31x27 (the glyph has a margin)
+	MockStyle.card(page, Rect2(8, 162, 1012, 276))   # likewise behind its ribbon, above the column headings
+	var sub := MockStyle.ribbon(page, Rect2(214, 172, 248, 40), "（店頭の価格を変更します）", [Color("a0605a"), Color("7a3a3a")], "", 16)
+	(sub.get_child(0) as Label).position.x = 28   # the text starts after the main ribbon's point
+	(sub.get_child(0) as Label).position.y -= 3   # level with the main ribbon's heading, as in the mockup
+	MockStyle.ribbon(page, Rect2(0, 166, 232, 52), "販売価格", MockStyle.RIBBON_BROWN, "tag", 30)
+	for h in [["販売価格", 470, 120], ["原価", 610, 92], ["粗利", 700, 96], ["粗利率", 790, 102]]:
+		MockStyle.label(page, h[0], Rect2(h[1], 178, h[2], 34), 16, MockStyle.INK, HORIZONTAL_ALIGNMENT_CENTER, "Black")
+	var stock := get_node_or_null("StockController")
+	var price := get_node_or_null("PriceController")
+	if stock != null:
+		stock.mockup_layout(page)
+	if price != null:
+		price.mockup_list(page, Rect2(12, 214, 1004, 222))
+	for c in cards:
+		(c as Control).visible = false
+	(page_box.get_parent() as ScrollContainer).vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+
+
+## The データ tab as the mockup draws it (MockDataPage). 詳細 shows the old report cards under it (kept, scrolled to).
+func _mockup_data_page() -> void:
+	var page_box: VBoxContainer = _pages["データ"]
+	var page := MockDataPage.new()
+	var cards := page_box.get_children()
+	page_box.add_child(page)
+	page_box.move_child(page, 0)
+	for c in cards:
+		(c as Control).visible = false
+	var reporter := get_node_or_null("ReportController")
+	if reporter != null:
+		reporter.mockup_page = page
+	page.details_requested.connect(func():
+		for c in cards:
+			(c as Control).visible = not (c as Control).visible
+		page.visible = not page.visible)
+
+
+func _on_chrome_nav(id: String) -> void:
+	match id:
+		"store", "equipment":
+			if ui.is_screen():
+				close_screen()
+			toggle_build()
+		"order":
+			open_goods_order()
+		"achievements":
+			open_screen_tab("経営")   # the goals and today's mission live there
+		_:
+			_open_chrome_tab(id)
+
+
+func _on_chrome_tab(id: String) -> void:
+	if id == "store":
+		close_screen()
+		toggle_build()
+		return
+	_open_chrome_tab(id)
+
+
+func _open_chrome_tab(id: String) -> void:
+	for tab in CHROME_TAB:
+		if CHROME_TAB[tab] == id:
+			open_screen_tab(tab)
+			return
+
+
+func _on_chrome_corner(id: String) -> void:
+	match id:
+		"notices":
+			_floats.visible = not _floats.visible
+		"missions":
+			open_screen_tab("経営")
+
+
 # --- management window -------------------------------------------------------------------------------------
 
 func _build_screen_window() -> void:
@@ -324,7 +528,8 @@ func _build_screen_window() -> void:
 	add_child(_dimmer)
 	_window = PanelContainer.new()
 	_window.name = "ManagementWindow"
-	_window.theme_type_variation = &"Card"
+	_window.theme = UiTheme.build_window()   # the cream window look; the HUD outside keeps the dark theme
+	_window.theme_type_variation = &"WindowFrame"
 	_window.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	_window.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_window.grow_vertical = Control.GROW_DIRECTION_BOTH
@@ -332,19 +537,34 @@ func _build_screen_window() -> void:
 	_window.visible = false
 	add_child(_window)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
+	column.add_theme_constant_override("separation", 10)
 	_window.add_child(column)
 	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
 	column.add_child(header)
+	_window_header = header
+	var mark := TextureRect.new()
+	mark.texture = UiTheme.tinted(UiIcons.texture("grid", 34), UiTheme.W_TEXT)
+	mark.custom_minimum_size = Vector2(34, 34)
+	mark.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	mark.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	header.add_child(mark)
 	var title := Label.new()
 	title.text = "経営管理"
-	title.theme_type_variation = &"SectionTitle"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.theme_type_variation = &"WindowTitle"
 	header.add_child(title)
+	var sub := Label.new()
+	sub.text = "Store Management"
+	sub.theme_type_variation = &"MutedLabel"
+	sub.size_flags_vertical = Control.SIZE_SHRINK_END
+	sub.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(sub)
 	var close := Button.new()
 	close.name = "CloseScreen"
-	close.text = "閉じる ×"
-	close.tooltip_text = "Esc"
+	close.text = "×"
+	close.tooltip_text = "閉じる (Esc)"
+	close.theme_type_variation = &"CloseRound"
+	close.custom_minimum_size = Vector2(46, 46)
 	close.pressed.connect(close_screen)
 	header.add_child(close)
 	_tabs = TabContainer.new()
@@ -363,6 +583,7 @@ func _build_screen_window() -> void:
 		page.add_theme_constant_override("separation", 10)
 		scroll.add_child(page)
 		_pages[tab] = page
+		_tabs.set_tab_icon(_tabs.get_tab_count() - 1, UiTheme.tinted(UiIcons.texture(TAB_ICONS[tab], 22), UiTheme.W_TEXT))
 
 
 ## Moves the cards built by the controllers into their management tabs (by SectionTitle text). The selection
@@ -373,16 +594,67 @@ func _organize_panels() -> void:
 		var title := _card_title(card)
 		if TAB_OF_SECTION.has(title):
 			card.reparent(_pages[TAB_OF_SECTION[title]])
+			var heading := _card_heading(card)
+			if heading != null:
+				(heading.get_parent() as Container).add_theme_constant_override("separation", 12)
 	var overlay := get_node_or_null("OverlayController")
-	var customer: Variant = overlay.get("_customer") if overlay != null else null
+	var customer: Variant = overlay.get("_customer_row") if overlay != null else null   # the portrait and the line together
 	var inspector_card := _find_card(body, INSPECTOR_CARD)
 	if customer is Node and inspector_card != null:
 		(customer as Node).reparent(inspector_card.get_child(0))   # the selected customer's line lives in the window
 	if inspector_card != null:
 		# The window is the inspector frame itself: the card inside it is transparent so there is one frame, not two.
 		inspector_card.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-		_add_close_button(inspector_card.find_children("*", "Label", true, false)[0], close_inspector)
-	_add_close_button($Layout/MainArea/BuildPalette/Body/Title, close_build)
+		var inspector_title := inspector_card.find_children("*", "Label", true, false)[0] as Label
+		_add_close_button(inspector_title, close_inspector)
+		_add_heading_icon(inspector_title, "person")
+	var palette_title := $Layout/MainArea/BuildPalette/Body/Title as Label
+	_add_close_button(palette_title, close_build)
+	_add_heading_icon(palette_title, "store")
+	_style_action_buttons()
+
+
+## Every SectionTitle in the window gets its ribbon (cards added after setup too, e.g. ゲームを終了・タイトルへ).
+func _ribbon_headings() -> void:
+	for l in _window.find_children("*", "Label", true, false):
+		var label := l as Label
+		if label.theme_type_variation == &"SectionTitle" and not label.has_theme_stylebox_override("normal"):
+			UiTheme.window_ribbon(label, UiTheme.W_RIBBON_BROWN if label.text in RIBBON_BROWN else UiTheme.W_RIBBON_BLUE)
+
+
+## The card's SectionTitle label (its first Label), or null.
+func _card_heading(card: Node) -> Label:
+	for l in card.find_children("*", "Label", true, false):
+		if (l as Label).theme_type_variation == &"SectionTitle":
+			return l
+	return null
+
+
+## Puts a small icon in front of a window heading (GUI v3: header with icon). The heading keeps its node and its row.
+func _add_heading_icon(title: Label, icon_name: String) -> void:
+	var row := title.get_parent()
+	var icon := TextureRect.new()
+	icon.name = "HeadingIcon"
+	icon.texture = UiIcons.texture(icon_name, 20)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(20, 20)
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon.modulate = UiTheme.WARM
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(icon)
+	row.move_child(icon, title.get_index())
+
+
+## Move / rotate / remove in the inspector get their icons (the actions keep their behaviour and disabled states).
+func _style_action_buttons() -> void:
+	for pair in [["MoveButton", "move"], ["RotateButton", "rotate"], ["RemoveButton", "trash"]]:
+		var b := find_child(pair[0], true, false) as Button
+		if b == null:
+			continue
+		b.icon = UiIcons.texture(pair[1], 18)
+		b.expand_icon = false
+		b.custom_minimum_size.y = 36
 
 
 func close_inspector() -> void:

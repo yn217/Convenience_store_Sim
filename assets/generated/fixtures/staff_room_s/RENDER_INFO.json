@@ -1,0 +1,27 @@
+{
+ "robust_extent_before_scale": [
+  0.7145,
+  0.9984,
+  0.3855
+ ],
+ "scale_x": 2.6873,
+ "scale_y": 1.9231,
+ "scale_vertical": 2.6143,
+ "cut_splats": 43971,
+ "shear": [
+  0.0,
+  0.01
+ ],
+ "cutaway": [
+  0.3,
+  0.25
+ ],
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\staff_room_s_9101_v1/reference.ply",
+ "type": "staff_room_s",
+ "front_yaw": 90.5,
+ "access_edge": "S"
+}

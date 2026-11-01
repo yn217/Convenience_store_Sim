@@ -64,5 +64,18 @@ static func has_save(slot_id: String, dir: String = DIR) -> bool:
 	return FileAccess.file_exists(path_for(slot_id, dir))
 
 
+## The slot saved last (by file time), or "" when there is no save (#20: 直近の正常なセーブ).
+static func latest_slot(dir: String = DIR) -> String:
+	var best := ""
+	var best_time := -1
+	for id in SLOTS:
+		if has_save(id, dir):
+			var time := FileAccess.get_modified_time(path_for(id, dir))
+			if time > best_time:
+				best_time = time
+				best = id
+	return best
+
+
 static func has_backup(slot_id: String, dir: String = DIR) -> bool:
 	return FileAccess.file_exists(path_for(slot_id, dir) + ".bak")

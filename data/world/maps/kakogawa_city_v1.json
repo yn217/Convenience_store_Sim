@@ -1,0 +1,271 @@
+{
+  "schema_version": "1.0-draft",
+  "map_id": "kakogawa_city_v1",
+  "name": "加古川市周辺（概念マップ）",
+  "assets": {
+    "base": "kakogawa_base.png",
+    "preview": "kakogawa_isometric_map.png",
+    "qa": "kakogawa_coordinate_qa.png"
+  },
+  "coordinate_system": {
+    "unit": "image_pixel",
+    "width_px": 1672,
+    "height_px": 940,
+    "origin": "top_left",
+    "x_positive": "right",
+    "y_positive": "down",
+    "gps": false,
+    "scale_is_real": false
+  },
+  "note": "画像上の位置・駅・施設はゲーム用概念配置。測量/GPSに利用できない。北が上、港湾が手前となるよう簡略化。実在地理とは一致しない点がある。",
+  "independent_of": [
+    "aoba_town_v1",
+    "kobe_awaji_v1"
+  ],
+  "pois": [
+    {
+      "id": "ST01",
+      "name": "加古川駅",
+      "type": "station",
+      "x": 540,
+      "y": 374,
+      "location_profile": "station"
+    },
+    {
+      "id": "ST02",
+      "name": "東加古川駅",
+      "type": "station",
+      "x": 1115,
+      "y": 460,
+      "location_profile": "station"
+    },
+    {
+      "id": "ST03",
+      "name": "日岡駅",
+      "type": "station",
+      "x": 820,
+      "y": 223,
+      "location_profile": "station"
+    },
+    {
+      "id": "ST04",
+      "name": "別府駅",
+      "type": "station",
+      "x": 1353,
+      "y": 627,
+      "location_profile": "station"
+    },
+    {
+      "id": "ST05",
+      "name": "浜の宮駅",
+      "type": "station",
+      "x": 932,
+      "y": 651,
+      "location_profile": "station"
+    },
+    {
+      "id": "ST06",
+      "name": "尾上の松駅",
+      "type": "station",
+      "x": 542,
+      "y": 636,
+      "location_profile": "station"
+    },
+    {
+      "id": "RV01",
+      "name": "加古川河川敷",
+      "type": "leisure",
+      "x": 301,
+      "y": 400,
+      "location_profile": "leisure"
+    },
+    {
+      "id": "PK01",
+      "name": "日岡山公園",
+      "type": "leisure",
+      "x": 973,
+      "y": 174,
+      "location_profile": "leisure"
+    },
+    {
+      "id": "SC01",
+      "name": "学校エリア",
+      "type": "school",
+      "x": 729,
+      "y": 279,
+      "location_profile": "school"
+    },
+    {
+      "id": "OF01",
+      "name": "駅前オフィス",
+      "type": "office",
+      "x": 633,
+      "y": 366,
+      "location_profile": "office"
+    },
+    {
+      "id": "CM01",
+      "name": "駅前商業施設",
+      "type": "commercial",
+      "x": 840,
+      "y": 420,
+      "location_profile": "commercial"
+    },
+    {
+      "id": "HP01",
+      "name": "医療エリア",
+      "type": "medical",
+      "x": 1236,
+      "y": 356,
+      "location_profile": "medical"
+    },
+    {
+      "id": "CT01",
+      "name": "公共施設エリア",
+      "type": "office",
+      "x": 902,
+      "y": 542,
+      "location_profile": "office"
+    },
+    {
+      "id": "RS01",
+      "name": "北東住宅地",
+      "type": "residential",
+      "x": 1260,
+      "y": 263,
+      "location_profile": "residential"
+    },
+    {
+      "id": "RS02",
+      "name": "沿岸住宅地",
+      "type": "residential",
+      "x": 1200,
+      "y": 635,
+      "location_profile": "residential"
+    },
+    {
+      "id": "HT01",
+      "name": "駅前ホテル想定地",
+      "type": "hotel",
+      "x": 667,
+      "y": 300,
+      "location_profile": "hotel"
+    },
+    {
+      "id": "LG01",
+      "name": "沿岸物流・工業",
+      "type": "industrial",
+      "x": 1230,
+      "y": 758,
+      "location_profile": "industrial"
+    },
+    {
+      "id": "PT01",
+      "name": "河口・港湾",
+      "type": "industrial",
+      "x": 512,
+      "y": 784,
+      "location_profile": "industrial"
+    },
+    {
+      "id": "TO01",
+      "name": "鶴林寺風観光地",
+      "type": "tourism",
+      "x": 1006,
+      "y": 533,
+      "location_profile": "tourism"
+    },
+    {
+      "id": "FM01",
+      "name": "郊外農業地域",
+      "type": "agriculture",
+      "x": 1429,
+      "y": 142,
+      "location_profile": "agriculture"
+    }
+  ],
+  "plots": [
+    {
+      "id": "P01",
+      "name": "加古川駅前",
+      "location_type": "station",
+      "x": 605,
+      "y": 354,
+      "nearest_poi_id": "ST01"
+    },
+    {
+      "id": "P02",
+      "name": "東加古川駅前",
+      "location_type": "station",
+      "x": 1132,
+      "y": 505,
+      "nearest_poi_id": "ST02"
+    },
+    {
+      "id": "P03",
+      "name": "学校前",
+      "location_type": "school",
+      "x": 734,
+      "y": 320,
+      "nearest_poi_id": "SC01"
+    },
+    {
+      "id": "P04",
+      "name": "住宅街",
+      "location_type": "residential",
+      "x": 1338,
+      "y": 345,
+      "nearest_poi_id": "RS01"
+    },
+    {
+      "id": "P05",
+      "name": "河川敷周辺",
+      "location_type": "tourism",
+      "x": 361,
+      "y": 521,
+      "nearest_poi_id": "RV01"
+    },
+    {
+      "id": "P06",
+      "name": "物流工場前",
+      "location_type": "industrial",
+      "x": 1270,
+      "y": 752,
+      "nearest_poi_id": "LG01"
+    },
+    {
+      "id": "P07",
+      "name": "商業施設前",
+      "location_type": "commercial",
+      "x": 945,
+      "y": 450,
+      "nearest_poi_id": "CM01"
+    },
+    {
+      "id": "P08",
+      "name": "沿岸住宅地",
+      "location_type": "residential",
+      "x": 1370,
+      "y": 663,
+      "nearest_poi_id": "RS02"
+    },
+    {
+      "id": "P09",
+      "name": "幹線道路沿い",
+      "location_type": "roadside",
+      "x": 1543,
+      "y": 551,
+      "nearest_poi_id": "ST04"
+    }
+  ],
+  "sections": [
+    "station",
+    "school",
+    "office",
+    "residential",
+    "commercial",
+    "industrial",
+    "tourism"
+  ],
+  "runtime_approved": false
+}

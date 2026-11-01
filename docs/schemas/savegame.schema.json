@@ -6,7 +6,8 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": 1
+      "description": "3 = visit purposes (issue #141): optional customers[].visit, rng_states.visits / impulse. 2 = basket purchases (issue #128). 1 = single item per visit; loaded as basket_size 1 with no basket_wishes.",
+      "enum": [1, 2, 3]
     },
     "save_id": {
       "type": "string",
@@ -208,8 +209,13 @@
               "kind": {
                 "enum": [
                   "BACKROOM",
-                  "FIXTURE"
+                  "FIXTURE",
+                  "OVEN"
                 ]
+              },
+              "ready_at_sec": {
+                "description": "OVEN (issue #130): the game second the baking lot goes on sale in its slot.",
+                "type": "integer"
               },
               "fixture_id": {
                 "type": "string",
@@ -352,7 +358,12 @@
               "QUEUE",
               "CHECKOUT",
               "EXIT",
-              "CANCELLED"
+              "CANCELLED",
+              "APPROACH",
+              "ENTER",
+              "WALK_AWAY",
+              "WALK_TO_SEAT",
+              "EAT_IN"
             ]
           },
           "position": {
@@ -443,6 +454,71 @@
           },
           "outcome": {
             "type": "string"
+          },
+          "basket_size": {
+            "description": "Items the customer came in for (1..4). Absent in schema 1 saves = 1.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "visit": {
+            "description": "Why the customer came and what it carries (issue #141). Absent (schema 1/2) = no purpose.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["purpose_id", "budget_yen", "wallet_yen", "planned_yen", "impulse_count", "basket_log", "seen_categories", "impulse_tried"],
+            "properties": {
+              "purpose_id": {"type": "string"},
+              "budget_yen": {"type": "integer", "minimum": 0},
+              "wallet_yen": {"type": "integer", "minimum": 0},
+              "planned_yen": {"type": "integer", "minimum": 0},
+              "impulse_count": {"type": "integer", "minimum": 0},
+              "basket_log": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["sku_id", "price_yen", "kind", "state"],
+                  "properties": {
+                    "sku_id": {"type": "string", "minLength": 1},
+                    "price_yen": {"type": "integer"},
+                    "kind": {"enum": ["target", "impulse", "deal"]},
+                    "state": {"enum": ["planned", "taken", "not_bought", "too_expensive", "stockout"]}
+                  }
+                }
+              },
+              "seen_categories": {"type": "array", "items": {"type": "string", "minLength": 1}},
+              "impulse_tried": {"type": "array", "items": {"type": "string", "minLength": 1}},
+              "coupon_id": {"description": "Next-visit coupon the customer came back with (issue #137 phase 2); \"\" when none.", "type": "string"},
+              "segment_id": {"description": "Customer segment of a visitor sent by a nearby facility (issue #149); absent or \"\" for the location's own visitors.", "type": "string"}
+            }
+          },
+          "eat": {
+            "description": "Eat-in seat (issue #134): the tile and the game seconds left there; absent when the customer does not eat in.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["seat", "remaining_sec"],
+            "properties": {
+              "seat": {"type": "object", "required": ["x", "y"], "properties": {"x": {"type": "integer"}, "y": {"type": "integer"}}},
+              "remaining_sec": {"type": "integer"}
+            }
+          },
+          "browse_remaining_sec": {
+            "description": "Game seconds the customer still looks over the shelf it stands at before taking the item; -1 = not browsing (issue #117 v2). Absent = -1.",
+            "type": "integer",
+            "minimum": -1
+          },
+          "basket_wishes": {
+            "description": "Items still to walk to, nearest first when visited (issue #128). Absent in schema 1 saves = [].",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "sku_id": {"type": "string", "minLength": 1},
+                "fixture_id": {"type": "string", "minLength": 1}
+              },
+              "required": ["sku_id", "fixture_id"]
+            }
           }
         },
         "required": [
@@ -483,6 +559,11 @@
                   "AD",
                   "DAILY_FIXED",
                   "ELECTRICITY",
+                  "WAGES",
+                  "PROMO",
+                  "DISCOUNT",
+                  "AD_SETUP",
+                  "AD_MEDIA",
                   "WASTAGE",
                   "FIXTURE_PURCHASE",
                   "REVERSAL"
@@ -635,6 +716,17 @@
             "minimum": 0
           },
           "lost_customers": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "satisfaction": {
+            "description": "Mean mood (0-100) of the customers who left the store that day (issue #141); absent when nobody did or in older saves.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "balked_customers": {
+            "description": "Customers who turned back at the door because of the line (issue #142); part of lost_customers. Absent in older saves.",
             "type": "integer",
             "minimum": 0
           },
@@ -865,6 +957,32 @@
             }
           }
         },
+        "staff": {
+          "description": "Store staff (issue #143): id, name, archetype, skills 1..5, fatigue 0..100, phase, position, route, walk_progress, timer, carry and the current restock task. Absent = the balance's starting staff.",
+          "type": "array",
+          "items": {"type": "object"}
+        },
+        "next_staff_seq": {"type": "integer", "minimum": 0},
+        "staff_candidates": {"description": "Today's hiring candidates (issue #144).", "type": "array", "items": {"type": "object"}},
+        "promotions": {"description": "Promotions (issue #137): {promotion_id, def_id, start_day, end_day} (inclusive days), running and finished.", "type": "array", "items": {"type": "object"}},
+        "next_promotion_seq": {"type": "integer", "minimum": 0},
+        "promo_stats": {"description": "Results per promotion id (issue #137): {units, discount_yen}.", "type": "object"},
+        "campaigns": {"description": "Media advertising campaigns (issue #136): {campaign_id, medium, category, daily_budget_yen, setup_cost_yen, booked_day, start_day, end_day, status (booked / cancelled / ended), spent_yen, paid_days, stock, stock_day, reputation_added}.", "type": "array", "items": {"type": "object"}},
+        "next_campaign_seq": {"type": "integer", "minimum": 0},
+        "coupons": {"description": "Outstanding next-visit coupons (issue #137 phase 2): {coupon_id, promotion_id, def_id, expires_day, yen, returning}.", "type": "array", "items": {"type": "object"}},
+        "next_coupon_seq": {"type": "integer", "minimum": 0},
+        "store_id": {"description": "This store's id in the company (issue #146): \"\" for the first store, \"s2\" ...; the prefix of its ledger rows.", "type": "string"},
+        "store_name": {"type": "string"},
+        "event_history": {"description": "Past days' daily event draws, oldest first (issue #31): event_id \"\" = no event that day; held = its window started while open. At most 30.", "type": "array", "maxItems": 30, "items": {"type": "object", "additionalProperties": false, "required": ["day", "event_id", "held"], "properties": {"day": {"type": "integer", "minimum": 1}, "event_id": {"type": "string"}, "held": {"type": "boolean"}}}},
+        "branches": {"description": "The company's other stores (issue #146), each a whole save of its own (this schema) without ledger rows: the ledger is this file's economy block, shared.", "type": "array", "items": {"type": "object"}},
+        "branch_carry": {"type": "number"},
+        "branch_items_carry": {"type": "number"},
+        "branch_sku_acc": {"type": "object"},
+        "map_id": {"description": "Area map of the store's site (issue #150), e.g. aoba_town_v1; \"\" when chosen without the map.", "type": "string"},
+        "plot_id": {"description": "The store's site on that map (issue #150); \"\" when the location was chosen by hand.", "type": "string"},
+        "facilities": {"description": "Nearby facility ids (issue #149), at most max_facilities.", "type": "array", "items": {"type": "string"}},
+        "facility_visits": {"description": "Visitors each facility sent today (issue #149).", "type": "object"},
+        "location_id": {"description": "Store location (issue #148): station / school / office / residential, or \"\" for the standard store.", "type": "string"},
         "last_nonzero_speed": {
           "type": "integer",
           "enum": [

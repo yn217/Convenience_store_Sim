@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "map_id": "kobe_akashi_awaji_region_v2",
+  "display_name": "神戸・明石〜淡路島",
+  "fictional": true,
+  "coordinate_system": {
+    "unit": "image_pixel",
+    "width_px": 1672,
+    "height_px": 941,
+    "origin": "top_left",
+    "gps": false
+  },
+  "labels_baked": true,
+  "source": "User package ui_free_map_bundle.zip (2026-10-26), kobe_akashi_awaji_region_map.json + _no_ui.png. Names and site ids as given; x/y re-measured on the picture (2026-10-26): sites = head of the baked pin P01-P09, facilities = centre of the baked badge icon (the package's coordinates were those of the older v1 concept map). The picture also shows an unnumbered pin with a garbled label at Iwaya port; it is not a site. Conceptual map inspired by Kobe, Akashi and Awaji Island; not a survey or GPS map.",
+  "pois": [
+    {
+      "id": "AK01",
+      "name": "明石駅",
+      "type": "station",
+      "category": "station",
+      "x": 284,
+      "y": 180
+    },
+    {
+      "id": "MA01",
+      "name": "舞子・橋本州側",
+      "type": "station",
+      "category": "station",
+      "x": 720,
+      "y": 255
+    },
+    {
+      "id": "KB01",
+      "name": "三ノ宮駅",
+      "type": "station",
+      "category": "station",
+      "x": 1122,
+      "y": 240
+    },
+    {
+      "id": "SK01",
+      "name": "新神戸駅",
+      "type": "station",
+      "category": "station",
+      "x": 1238,
+      "y": 152
+    },
+    {
+      "id": "RO01",
+      "name": "六甲山",
+      "type": "tourism",
+      "category": "mountain",
+      "x": 966,
+      "y": 90
+    },
+    {
+      "id": "AR01",
+      "name": "有馬温泉",
+      "type": "tourism",
+      "category": "hot_spring",
+      "x": 1446,
+      "y": 60
+    },
+    {
+      "id": "HL01",
+      "name": "神戸ハーバーランド",
+      "type": "shopping",
+      "category": "commercial",
+      "x": 1320,
+      "y": 318
+    },
+    {
+      "id": "PI01",
+      "name": "ポートアイランド",
+      "type": "office",
+      "category": "port_island",
+      "x": 1446,
+      "y": 475
+    },
+    {
+      "id": "AP01",
+      "name": "神戸空港",
+      "type": "hotel",
+      "category": "airport",
+      "x": 1388,
+      "y": 658
+    },
+    {
+      "id": "HW01",
+      "name": "明石海峡大橋",
+      "type": "road_hub",
+      "category": "bridge",
+      "x": 572,
+      "y": 353
+    },
+    {
+      "id": "IW01",
+      "name": "岩屋港",
+      "type": "tourism",
+      "category": "port",
+      "x": 928,
+      "y": 495
+    },
+    {
+      "id": "AS01",
+      "name": "淡路SA",
+      "type": "road_hub",
+      "category": "service_area",
+      "x": 281,
+      "y": 583
+    },
+    {
+      "id": "YD01",
+      "name": "淡路夢舞台",
+      "type": "tourism",
+      "category": "tourism",
+      "x": 727,
+      "y": 603
+    },
+    {
+      "id": "SU01",
+      "name": "洲本",
+      "type": "residential",
+      "category": "town",
+      "x": 538,
+      "y": 760
+    }
+  ],
+  "plots": [
+    {
+      "id": "P01",
+      "name": "明石駅前・商業エリア",
+      "location_type": "station",
+      "x": 387,
+      "y": 212,
+      "status": "available"
+    },
+    {
+      "id": "P02",
+      "name": "舞子公園・観光導線",
+      "location_type": "station",
+      "x": 784,
+      "y": 291,
+      "status": "available"
+    },
+    {
+      "id": "P03",
+      "name": "三宮中心街・オフィス",
+      "location_type": "office",
+      "x": 1179,
+      "y": 277,
+      "status": "available"
+    },
+    {
+      "id": "P04",
+      "name": "ハーバーランド・観光商業",
+      "location_type": "commercial",
+      "x": 1372,
+      "y": 362,
+      "status": "available"
+    },
+    {
+      "id": "P05",
+      "name": "ポートアイランド北・集客拠点",
+      "location_type": "commercial",
+      "x": 1520,
+      "y": 515,
+      "status": "available"
+    },
+    {
+      "id": "P06",
+      "name": "神戸空港アクセス側",
+      "location_type": "tourism",
+      "x": 1474,
+      "y": 708,
+      "status": "available"
+    },
+    {
+      "id": "P07",
+      "name": "淡路夢舞台周辺・観光導線",
+      "location_type": "tourism",
+      "x": 915,
+      "y": 606,
+      "status": "available"
+    },
+    {
+      "id": "P08",
+      "name": "淡路SA・高速動線",
+      "location_type": "roadside",
+      "x": 423,
+      "y": 587,
+      "status": "available"
+    },
+    {
+      "id": "P09",
+      "name": "洲本中心部・生活商圏",
+      "location_type": "residential",
+      "x": 659,
+      "y": 776,
+      "status": "available"
+    }
+  ]
+}

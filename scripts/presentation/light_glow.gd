@@ -1,12 +1,14 @@
 class_name LightGlow
 extends Node2D
 ## Issue #61 (light): warm additive glow pooled above each store fixture and a larger one at the
-## entrance. Its strength follows the night-ness of LightingModel.tint(), so the store reads lit at
+## entrance. Its strength follows the night-ness of the outdoor light (LightingModel.dusk_amount, #114), so the store reads lit at
 ## night and nearly unlit at noon. Static (no animation, so reduce_motion has nothing to tone down),
 ## presentation only, drawn between the fixtures and the overlay layers, and it never takes input.
 
-const DAY_FLOOR := 0.12   ## glow strength in full daylight
-const NIGHT_PEAK := 0.6   ## glow strength at night
+## The user found the indoor glows distracting (2026-10-24): the interior keeps its own bright tint at
+## night, so the glow over fixtures and the entrance is off. Kept as a node so it can be tuned back on.
+const DAY_FLOOR := 0.0    ## glow strength in full daylight
+const NIGHT_PEAK := 0.0   ## glow strength at night
 const FIXTURE_RADIUS_TILES := 1.1
 const ENTRANCE_RADIUS_TILES := 3.0
 const FIXTURE_LIFT_M := 0.4   ## glow source sits a little above the top of the fixture
@@ -31,17 +33,8 @@ func _ready() -> void:
 
 ## Glow strength for a game clock value in seconds: DAY_FLOOR in daylight, rising to NIGHT_PEAK at night.
 static func intensity(time_sec: int) -> float:
-	var tint := LightingModel.tint(time_sec)
-	var luma := 0.3 * tint.r + 0.59 * tint.g + 0.11 * tint.b
-	# The ends come from LightingModel itself, so retuning the tint keeps night-ness in 0..1.
-	var day_luma := _luma(LightingModel.DAY)
-	var night_luma := _luma(LightingModel.NIGHT)
-	var night := clampf((day_luma - luma) / maxf(day_luma - night_luma, 0.001), 0.0, 1.0)
-	return lerpf(DAY_FLOOR, NIGHT_PEAK, night)
-
-
-static func _luma(c: Color) -> float:
-	return 0.3 * c.r + 0.59 * c.g + 0.11 * c.b
+	# Night-ness comes from the outdoor light (#114): the glows show more as the street gets dark.
+	return lerpf(DAY_FLOOR, NIGHT_PEAK, LightingModel.dusk_amount(time_sec))
 
 
 ## Called by StoreWorld when the clock changes.
@@ -54,7 +47,7 @@ func set_time(time_sec: int) -> void:
 
 
 func _draw() -> void:
-	if _world == null or _world.store_width <= 0 or _world.fixture_catalog == null:
+	if _intensity <= 0.0 or _world == null or _world.store_width <= 0 or _world.fixture_catalog == null:
 		return
 	var proj: IsoProjection = _world.projection
 	var tile_px := proj.world_to_screen(1.0, 0.0).distance_to(proj.world_to_screen(0.0, 0.0))
@@ -72,7 +65,7 @@ func _draw() -> void:
 		_draw_glow(proj.world_to_screen(centre.x, centre.y, height), FIXTURE_RADIUS_TILES * tile_px, color)
 	var entrance_color := Color(GLOW_COLOR, _intensity * 0.8)
 	for t in _world.entrance_tiles:
-		_draw_glow(proj.world_to_screen(0.0, float(t.y), 1.2), ENTRANCE_RADIUS_TILES * tile_px, entrance_color)
+		_draw_glow(proj.world_to_screen(float(t.x), float(t.y), 1.2), ENTRANCE_RADIUS_TILES * tile_px, entrance_color)
 
 
 func _draw_glow(centre: Vector2, radius: float, color: Color) -> void:

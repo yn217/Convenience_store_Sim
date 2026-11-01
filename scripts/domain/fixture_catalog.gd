@@ -101,7 +101,7 @@ func _add_entry(e, path: String) -> void:
 	if typeof(e) != TYPE_DICTIONARY:
 		errors.append("%s: not_object" % path)
 		return
-	var errs := JsonCheck.key_errors(e, REQUIRED, ["register_queue_max_tiles"], path)
+	var errs := JsonCheck.key_errors(e, REQUIRED, ["register_queue_max_tiles", "staff_capacity", "min_store_width"], path)
 	if e.has("schema_version"):
 		if not JsonCheck.is_int(e["schema_version"]):
 			errs.append("%s.schema_version: not_integer" % path)
@@ -120,6 +120,8 @@ func _add_entry(e, path: String) -> void:
 	_nonneg_int(e, "electricity_cost_yen_per_day", path, errs)
 	_nonneg_int(e, "capacity_units", path, errs)
 	_nonneg_int(e, "register_queue_max_tiles", path, errs)
+	_nonneg_int(e, "staff_capacity", path, errs)    # #143: a staff room and how many staff it allows
+	_nonneg_int(e, "min_store_width", path, errs)   # #143: the smallest store (width in tiles) it fits
 
 	var fw := 0
 	var fh := 0

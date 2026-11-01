@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "_comment": "Capsule toy series (issue #139 phase 1): the prizes in one capsule SKU. One turn in rare_one_in is the rare prize, the rest one of the variants; the prize follows from the sale id (no random draw). Fictional mascots and goods only; no real brand, character or toy line.",
+  "series": [
+    {
+      "sku_id": "capsule_001",
+      "variants": [
+        "ねこ",
+        "いぬ",
+        "うさぎ",
+        "ぱんだ",
+        "ぺんぎん"
+      ],
+      "rare": "きんいろのねこ",
+      "rare_one_in": 12
+    },
+    {
+      "sku_id": "capsule_002",
+      "variants": [
+        "おにぎり",
+        "メロンパン",
+        "おでん",
+        "プリン",
+        "たいやき"
+      ],
+      "rare": "きらきらパフェ",
+      "rare_one_in": 12
+    },
+    {
+      "sku_id": "capsule_003",
+      "variants": [
+        "あかロボ",
+        "あおロボ",
+        "きいろロボ",
+        "みどりロボ"
+      ],
+      "rare": "メタリックロボ",
+      "rare_one_in": 16,
+      "limited": {
+        "every_days": 14,
+        "for_days": 7,
+        "pull": 1.5,
+        "name": "期間限定"
+      }
+    }
+  ],
+  "_comment_phase2": "Phase 2: a series with `limited` is sold in turns — it can be ordered only on days where (day % every_days) < for_days, and in those days customers want it more (pull); stock already in a machine still sells afterwards. A machine slot that turns empty is announced so it can be refilled."
+}

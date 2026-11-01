@@ -1,0 +1,16 @@
+{
+  "review_only": true,
+  "runtime_approved": false,
+  "generator": "deterministic_pillow_fallback",
+  "access_edge": "E",
+  "shelf_height_m": 1.7,
+  "unverified_points": [
+    "Blender projection calibration not verified.",
+    "Material fidelity and slot readability need human review.",
+    "Godot integration intentionally not run."
+  ],
+  "files": {
+    "visual_manifest": "shelf_noodle_candidate_v1.visual.json",
+    "regeneration_script": "generate_candidate.py"
+  }
+}

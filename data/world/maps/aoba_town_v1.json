@@ -1,0 +1,558 @@
+{
+  "schema_version": 1,
+  "map_id": "aoba_town_v1",
+  "display_name": "青葉市・中央地区",
+  "fictional": true,
+  "coordinate_system": {
+    "type": "local_2d",
+    "unit": "map_unit",
+    "origin": "top_left",
+    "x_axis": "east/right",
+    "y_axis": "south/down",
+    "width": 1000,
+    "height": 680,
+    "latitude_longitude": false,
+    "tile_meter_conversion": null
+  },
+  "layout": "fictional_draft_not_georeferenced",
+  "related_issues": [
+    150,
+    148,
+    146,
+    149,
+    151,
+    129
+  ],
+  "pois": [
+    {
+      "id": "ST01",
+      "name": "中央駅",
+      "type": "station",
+      "x": 280,
+      "y": 252,
+      "group": "交通",
+      "demand_note": "朝夕の通勤・乗換",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "ST02",
+      "name": "東口駅",
+      "type": "station",
+      "x": 803,
+      "y": 251,
+      "group": "交通",
+      "demand_note": "近郊の通勤・乗換",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "TR01",
+      "name": "バスターミナル",
+      "type": "bus_terminal",
+      "x": 325,
+      "y": 310,
+      "group": "交通",
+      "demand_note": "通勤・観光バス",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "SC01",
+      "name": "青葉学園",
+      "type": "school",
+      "x": 160,
+      "y": 475,
+      "group": "教育",
+      "demand_note": "登校・下校",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "UN01",
+      "name": "みどり大学",
+      "type": "university",
+      "x": 105,
+      "y": 600,
+      "group": "教育",
+      "demand_note": "学生・夕夜",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "OF01",
+      "name": "中央ビジネス街",
+      "type": "office",
+      "x": 622,
+      "y": 233,
+      "group": "仕事",
+      "demand_note": "昼の弁当需要",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "OF02",
+      "name": "南オフィス棟",
+      "type": "office",
+      "x": 570,
+      "y": 405,
+      "group": "仕事",
+      "demand_note": "平日・昼食",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "RS01",
+      "name": "若葉住宅街",
+      "type": "residential",
+      "x": 726,
+      "y": 507,
+      "group": "住宅",
+      "demand_note": "夕方の野菜・日配",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "RS02",
+      "name": "桜ヶ丘団地",
+      "type": "residential",
+      "x": 820,
+      "y": 570,
+      "group": "住宅",
+      "demand_note": "夜間・まとめ買い",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "HT01",
+      "name": "駅前ホテル",
+      "type": "hotel",
+      "x": 424,
+      "y": 150,
+      "group": "観光",
+      "demand_note": "朝食・夜食",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "HT02",
+      "name": "観光ホテル",
+      "type": "hotel",
+      "x": 758,
+      "y": 122,
+      "group": "観光",
+      "demand_note": "朝・夕の旅行客",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "TO01",
+      "name": "さくら公園",
+      "type": "tourism",
+      "x": 162,
+      "y": 125,
+      "group": "観光",
+      "demand_note": "花見・休日の観光需要",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "TO02",
+      "name": "まちの博物館",
+      "type": "tourism",
+      "x": 475,
+      "y": 98,
+      "group": "観光",
+      "demand_note": "土産・菓子",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "EV01",
+      "name": "文化イベント会場",
+      "type": "event_venue",
+      "x": 870,
+      "y": 123,
+      "group": "観光",
+      "demand_note": "催事前後の集中需要",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "HP01",
+      "name": "市民病院",
+      "type": "hospital",
+      "x": 878,
+      "y": 426,
+      "group": "生活",
+      "demand_note": "午前・診療/面会",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "LG01",
+      "name": "南物流センター",
+      "type": "logistics",
+      "x": 897,
+      "y": 612,
+      "group": "仕事",
+      "demand_note": "交代勤務・夜勤",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "FM01",
+      "name": "市民農産市場",
+      "type": "market",
+      "x": 523,
+      "y": 555,
+      "group": "商業",
+      "demand_note": "野菜・日配",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "CS01",
+      "name": "商店街",
+      "type": "shopping",
+      "x": 388,
+      "y": 418,
+      "group": "商業",
+      "demand_note": "買物・週末",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "PA01",
+      "name": "中央駐車場",
+      "type": "parking",
+      "x": 711,
+      "y": 608,
+      "group": "交通",
+      "demand_note": "ドライバー・車利用",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "RD01",
+      "name": "国道交差点",
+      "type": "road_hub",
+      "x": 366,
+      "y": 559,
+      "group": "交通",
+      "demand_note": "ドライバー需要",
+      "position_unit": "map_unit"
+    }
+  ],
+  "plots": [
+    {
+      "id": "P01",
+      "name": "駅前候補",
+      "location_id": "station",
+      "x": 315,
+      "y": 345,
+      "status": "available",
+      "note": "ST01付近：通勤需要",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "P02",
+      "name": "学校前候補",
+      "location_id": "school",
+      "x": 213,
+      "y": 520,
+      "status": "available",
+      "note": "SC01付近：朝と放課後",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "P03",
+      "name": "オフィス候補",
+      "location_id": "office",
+      "x": 621,
+      "y": 327,
+      "status": "available",
+      "note": "OF01付近：朝と昼",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "P04",
+      "name": "住宅地候補",
+      "location_id": "residential",
+      "x": 740,
+      "y": 553,
+      "status": "available",
+      "note": "RS01付近：夕方の買い足し",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "P05",
+      "name": "観光候補",
+      "location_id": "tourism",
+      "x": 237,
+      "y": 172,
+      "status": "locked",
+      "note": "TO01付近：訪日・観光需要／拡張",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "P06",
+      "name": "ホテル候補",
+      "location_id": "tourism",
+      "x": 472,
+      "y": 183,
+      "status": "locked",
+      "note": "HT01付近：宿泊需要／拡張",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "P07",
+      "name": "物流候補",
+      "location_id": "logistics",
+      "x": 926,
+      "y": 561,
+      "status": "locked",
+      "note": "LG01付近：交代勤務／拡張",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "P08",
+      "name": "病院候補",
+      "location_id": "hospital",
+      "x": 922,
+      "y": 465,
+      "status": "locked",
+      "note": "HP01付近：医療利用者／拡張",
+      "position_unit": "map_unit"
+    },
+    {
+      "id": "R01",
+      "name": "ライバル店",
+      "location_id": "competitor",
+      "x": 488,
+      "y": 374,
+      "status": "rival",
+      "note": "競合商圏イベント#129、現在値はデモ",
+      "position_unit": "map_unit"
+    }
+  ],
+  "features": {
+    "roads": [
+      {
+        "id": "ROAD_N",
+        "name": "北環状通り",
+        "points": [
+          [
+            40,
+            195
+          ],
+          [
+            340,
+            195
+          ],
+          [
+            560,
+            184
+          ],
+          [
+            955,
+            184
+          ]
+        ],
+        "width": 18
+      },
+      {
+        "id": "ROAD_C",
+        "name": "中央大通り",
+        "points": [
+          [
+            20,
+            390
+          ],
+          [
+            310,
+            390
+          ],
+          [
+            625,
+            390
+          ],
+          [
+            970,
+            390
+          ]
+        ],
+        "width": 24
+      },
+      {
+        "id": "ROAD_S",
+        "name": "南大通り",
+        "points": [
+          [
+            20,
+            572
+          ],
+          [
+            355,
+            572
+          ],
+          [
+            665,
+            572
+          ],
+          [
+            985,
+            572
+          ]
+        ],
+        "width": 24
+      },
+      {
+        "id": "ROAD_EW",
+        "name": "駅前通り",
+        "points": [
+          [
+            280,
+            18
+          ],
+          [
+            280,
+            280
+          ],
+          [
+            285,
+            665
+          ]
+        ],
+        "width": 17
+      },
+      {
+        "id": "ROAD_V2",
+        "name": "商店街通り",
+        "points": [
+          [
+            475,
+            28
+          ],
+          [
+            475,
+            650
+          ]
+        ],
+        "width": 14
+      },
+      {
+        "id": "ROAD_V3",
+        "name": "東部縦貫",
+        "points": [
+          [
+            760,
+            30
+          ],
+          [
+            760,
+            650
+          ]
+        ],
+        "width": 17
+      }
+    ],
+    "railways": [
+      {
+        "id": "RAIL01",
+        "name": "中央線",
+        "points": [
+          [
+            20,
+            257
+          ],
+          [
+            300,
+            257
+          ],
+          [
+            620,
+            257
+          ],
+          [
+            980,
+            257
+          ]
+        ],
+        "station_ids": [
+          "ST01",
+          "ST02"
+        ]
+      }
+    ],
+    "zones": [
+      {
+        "id": "Z_ST",
+        "type": "station",
+        "name": "駅前エリア",
+        "center": [
+          305,
+          302
+        ],
+        "radius": 120
+      },
+      {
+        "id": "Z_SC",
+        "type": "school",
+        "name": "学校前エリア",
+        "center": [
+          190,
+          512
+        ],
+        "radius": 116
+      },
+      {
+        "id": "Z_OF",
+        "type": "office",
+        "name": "オフィス街",
+        "center": [
+          620,
+          280
+        ],
+        "radius": 145
+      },
+      {
+        "id": "Z_RS",
+        "type": "residential",
+        "name": "住宅地",
+        "center": [
+          750,
+          531
+        ],
+        "radius": 155
+      },
+      {
+        "id": "Z_TO",
+        "type": "tourism",
+        "name": "観光エリア",
+        "center": [
+          186,
+          142
+        ],
+        "radius": 106
+      }
+    ]
+  },
+  "gameplay_contract": {
+    "candidate_plots_first_release": [
+      "P01",
+      "P02",
+      "P03",
+      "P04"
+    ],
+    "other_plots": "visual_planning_only",
+    "rival_plot": "R01",
+    "all_demand_modifiers": "proposal_not_implemented",
+    "multilingual_pop": false,
+    "location_profiles": [
+      "station",
+      "school",
+      "office",
+      "residential"
+    ],
+    "poi_dependent_demand": "future_issue_149_151"
+  },
+  "render": {
+    "svg_file": "aoba_town_map_v1.svg",
+    "png_file": "aoba_town_map_v1.png",
+    "view_box": [
+      0,
+      0,
+      1800,
+      1140
+    ],
+    "map_region": {
+      "left": 82,
+      "top": 177,
+      "scale": 1.235,
+      "width": 1235,
+      "height": 840
+    }
+  }
+}

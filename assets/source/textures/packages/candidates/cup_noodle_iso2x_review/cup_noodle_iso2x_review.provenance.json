@@ -1,0 +1,25 @@
+{
+  "candidate_id": "cup_noodle_iso2x_review",
+  "shape_id": "cup_noodle",
+  "dimensions_m": {"width": 0.110, "depth": 0.110, "height": 0.120},
+  "projection_id": "iso2x_v1",
+  "source_px_per_tile": [256, 128],
+  "slot_units": 1,
+  "anchor_px": [32, 50],
+  "canvas_px": [64, 64],
+  "runtime_approved": false,
+  "review_status": "review-only",
+  "generator": "generate_cup_noodle.py",
+  "generation_method": "deterministic Pillow fallback; Blender unavailable",
+  "sha256": {
+    "cup_noodle_r0.png": "ac4c55d26c84b076f6df019b69d26e4193b8bf142ef21ea3df19c1f3af83c7b7",
+    "cup_noodle_r1.png": "7dbd8fd4d2032a422f4ebb80cfa05a3b8fa92464b4a153afe9cbaf0e51b80360",
+    "cup_noodle_r2.png": "cc3fccc33f63efbc8de57a31354f5a8d861b92123c2f286b8daf8835391b8671",
+    "cup_noodle_r3.png": "ea6bef55bbd5840245ae34f9e3341694bf2888ac5ae5654d64e41762391100da"
+  },
+  "unverified_points": [
+    "Blender mesh/camera calibration not executed",
+    "Godot runtime placement and neighboring-slot occlusion not verified",
+    "Visual art direction and label readability require human review"
+  ]
+}

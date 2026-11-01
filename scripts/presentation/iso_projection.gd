@@ -17,6 +17,12 @@ const ZOOM_MAX := 2.0
 const SOURCE_SCALE := 2.0
 ## Back walls (WallLayer) rise this high above the far floor corner; fit and centring count them.
 const WALL_HEIGHT_M := 2.6
+## Interior fit (the default view): the floor's bounding box fills this share of the safe area on its limiting axis,
+## and the view centre sits this many tiles toward the entrances, so the storefront stays in view.
+const INTERIOR_FILL := 0.9
+const INTERIOR_SHIFT_TILES := 1.5
+## Pan limit: the view centre may go this many tiles past the floor edges (the exterior ring).
+const PAN_MARGIN_TILES := 4.0
 
 var origin: Vector2 = Vector2.ZERO
 var zoom: float = ZOOM_NORMAL
@@ -91,19 +97,69 @@ func fit_floor(viewport_size: Vector2, width: int, height: int, margin: float = 
 	center_floor(viewport_size, width, height)
 
 
-## Keeps at least `min_visible` px of the floor on screen along each axis so it cannot be panned away.
-func clamp_to_viewport(viewport_size: Vector2, width: int, height: int, min_visible: float = 128.0) -> void:
+## Pan limit: the point at the viewport centre (on the ground plane) may go at most `margin_tiles` past the floor's
+## edges, so the player can look a few tiles outside the store (exterior) but never pan it away. Zoom is unchanged.
+func clamp_to_store_area(viewport_size: Vector2, width: int, height: int, margin_tiles: float = PAN_MARGIN_TILES) -> void:
+	var c := screen_to_world(viewport_size * 0.5)
+	var clamped := Vector2(
+		clampf(c.x, -0.5 - margin_tiles, width - 0.5 + margin_tiles),
+		clampf(c.y, -0.5 - margin_tiles, height - 0.5 + margin_tiles))
+	if clamped.is_equal_approx(c):
+		return
+	origin += world_to_screen(c.x, c.y) - world_to_screen(clamped.x, clamped.y)
+
+
+## Interior fit (default view): the zoom at which the floor's bounding box fills `fill` of the safe `area` on its
+## limiting axis. The walls and exterior may go off-screen; only the floor is sized. Clamped to the zoom range.
+static func interior_zoom(area: Vector2, width: int, height: int, fill: float = INTERIOR_FILL) -> float:
+	var n := float(width + height)
+	if n <= 0.0 or area.x <= 0.0 or area.y <= 0.0:
+		return ZOOM_NORMAL
+	var by_width := fill * area.x / (n * HALF_TILE_W)    # floor bounds are (w+h)*64 wide and (w+h)*32 high at zoom 1
+	var by_height := fill * area.y / (n * HALF_TILE_H)
+	return clampf(minf(by_width, by_height), ZOOM_MIN, ZOOM_MAX)
+
+
+## Tiles from the floor centre toward the entrances (their centroid), as a world offset of `tiles` length.
+## Zero when there are no entrances or the entrances sit on the centre.
+static func entrance_shift(entrances: Array, width: int, height: int, tiles: float = INTERIOR_SHIFT_TILES) -> Vector2:
+	if entrances.is_empty():
+		return Vector2.ZERO
+	var sum := Vector2.ZERO
+	for e in entrances:
+		sum += Vector2(e.x, e.y)
+	var toward := sum / entrances.size() - Vector2((width - 1) * 0.5, (height - 1) * 0.5)
+	if toward.length() < 0.01:
+		return Vector2.ZERO
+	return toward.normalized() * tiles
+
+
+## Origin that puts the world point `floor centre + shift` at the centre of `area` (a screen rect) at `zoom`.
+static func interior_origin(area: Rect2, zoom: float, width: int, height: int, shift: Vector2 = Vector2.ZERO) -> Vector2:
+	var c := Vector2((width - 1) * 0.5, (height - 1) * 0.5) + shift
+	var anchor := area.position + area.size * 0.5
+	return anchor - zoom * Vector2(HALF_TILE_W * (c.x - c.y), HALF_TILE_H * (c.x + c.y))
+
+
+## Applies the interior fit to this projection: zoom from the area, origin centred on the shifted floor centre.
+## The shift toward the entrances may move the floor past the area's edge (the floor fills 90% of the limiting axis,
+## so there is little slack on the other one); the origin is then pulled back so the whole floor stays inside `area`.
+## The storefront stays in view because the floor's near edge is what remains at the bottom.
+func fit_interior(area: Rect2, width: int, height: int, shift: Vector2 = Vector2.ZERO) -> void:
+	set_zoom(interior_zoom(area.size, width, height))
+	origin = interior_origin(area, zoom, width, height, shift)
 	var b := floor_bounds(width, height)
-	var d := Vector2.ZERO
-	if b.end.x < min_visible:
-		d.x = min_visible - b.end.x
-	elif b.position.x > viewport_size.x - min_visible:
-		d.x = (viewport_size.x - min_visible) - b.position.x
-	if b.end.y < min_visible:
-		d.y = min_visible - b.end.y
-	elif b.position.y > viewport_size.y - min_visible:
-		d.y = (viewport_size.y - min_visible) - b.position.y
-	origin += d
+	if b.size.x <= area.size.x and b.size.y <= area.size.y:
+		origin += Vector2(_pull_into(b.position.x, b.end.x, area.position.x, area.end.x), _pull_into(b.position.y, b.end.y, area.position.y, area.end.y))
+
+
+## Offset that moves a span [lo, hi] back inside [a0, a1] (0 when it already fits).
+static func _pull_into(lo: float, hi: float, a0: float, a1: float) -> float:
+	if lo < a0:
+		return a0 - lo
+	if hi > a1:
+		return a1 - hi
+	return 0.0
 
 
 ## Moves the origin so the floor is centred in `viewport_size` (zoom unchanged).

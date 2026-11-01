@@ -7,7 +7,7 @@ extends RefCounted
 const NONE_WEIGHT := 30
 const SECONDS_PER_HOUR := 3600
 const SECONDS_PER_DAY := 86400
-const CATEGORIES := ["rice_ball", "oden", "instant_noodle", "bread", "drink", "snack", "dessert", "ice_cream"]
+const CATEGORIES := ["rice_ball", "oden", "instant_noodle", "bread", "drink", "snack", "dessert", "ice_cream", "bento", "daily_fresh", "coffee"]
 const KEYS := ["schema_version", "event_id", "name_ja", "description_ja", "weight", "min_day_index", "min_reputation",
 		"window_start_hour", "window_end_hour", "effects", "visual_theme", "tone"]
 const TRAFFIC_RANGE := Vector2(0.70, 1.40)

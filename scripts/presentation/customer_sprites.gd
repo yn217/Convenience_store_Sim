@@ -5,7 +5,13 @@ extends RefCounted
 ## move the ground contact. Missing art returns {} and the caller draws a plain placeholder.
 
 const DIR := "res://assets/generated/characters"
-const VARIANTS: Array[String] = ["customer_a", "customer_b", "customer_c"]
+# Anime chibi looks (ComfyUI, tools/assets/build_chibi_sprites.py, 2026-10-31) in place of the box figures; the colours
+# of customer_a / b / c are kept, so a look's portrait (Portraits) is its id without CHIBI.
+const CHIBI := "chibi_"
+const VARIANTS: Array[String] = ["chibi_customer_a", "chibi_customer_b", "chibi_customer_c",
+		"chibi_office_worker", "chibi_student", "chibi_parent",   # #104: more clothes (2026-10-31)
+		"chibi_elderly_woman", "chibi_worker", "chibi_uni_student", "chibi_young_woman"]   # fewer repeated faces (2026-11-01)
+const CLERK := "chibi_clerk"
 ## Facing index = clockwise quarter turns from +x (E, S, W, N), as in the manifests.
 const FACING_E := 0
 const FACING_S := 1
@@ -24,7 +30,11 @@ func variant(variant_id: String) -> Dictionary:
 
 
 ## Stable variant for a customer id: the numeric tail picks one of the three looks.
-static func variant_for(customer_id: String) -> String:
+## Staff (#143) wear the chibi look of their face (Portraits.id_for_staff of the name, 2026-10-31); without a name, the
+## shared clerk look.
+static func variant_for(customer_id: String, staff_name: String = "") -> String:
+	if customer_id.begins_with("staff_"):
+		return CHIBI + Portraits.id_for_staff(staff_name) if staff_name != "" else CLERK
 	var digits := ""
 	for i in range(customer_id.length() - 1, -1, -1):
 		var ch := customer_id[i]
@@ -46,10 +56,23 @@ static func facing_for(delta: Vector2, keep: int) -> int:
 ## Animation for the customer's phase (14 §2): walking, standing in line, reaching for a shelf.
 static func anim_for(phase: String) -> String:
 	match phase:
-		"WALK_SHELF", "WALK_REGISTER", "EXIT":
+		"WALK_SHELF", "WALK_REGISTER", "EXIT", "WALK_SEAT":
 			return "walk"
 		"SELECT":
 			return "inspect"
+	return "idle"
+
+
+## Animation for what the figure is doing on screen: walking only while its shown position moves, otherwise a
+## pose (inspect while choosing or while standing by a shelf after a pick), otherwise idle. Standing still never
+## plays the walk cycle (#117).
+static func anim_for_state(phase: String, moving: bool, posing: bool) -> String:
+	if moving:
+		return "walk"
+	if phase == "EAT":
+		return "eat"   # #134: seated at the eat-in counter (a sheet without it falls back to idle)
+	if posing or phase == "SELECT":
+		return "inspect"
 	return "idle"
 
 

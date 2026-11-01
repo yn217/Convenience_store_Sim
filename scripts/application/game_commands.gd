@@ -7,7 +7,7 @@ extends RefCounted
 ## their Issues land. Every command validates first and mutates only when it cannot fail.
 
 const LAYOUT_KINDS: Array[StringName] = [
-	&"PLACE_FIXTURE", &"MOVE_FIXTURE", &"REMOVE_FIXTURE", &"UNDO_LAYOUT", &"REDO_LAYOUT",
+	&"PLACE_FIXTURE", &"MOVE_FIXTURE", &"REMOVE_FIXTURE", &"UNDO_LAYOUT", &"REDO_LAYOUT", &"MOVE_ENTRANCE",
 ]
 
 ## Sanity ceiling for a typed price; the spec only fixes the lower bound (>= 1).
@@ -21,6 +21,13 @@ func _init(state: GameState) -> void:
 
 
 ## Read-only preview for the UI (08 §1.1): never changes state, cash or reservations.
+## Read-only preview of MOVE_ENTRANCE (#121): "" when the entrance can go to the wall tiles starting at (x, y).
+func validate_entrance(x: int, y: int) -> String:
+	if _state.business_state != GameState.SETUP:
+		return "construction_needs_setup"
+	return EntranceRules.check(_state.grid, _state.fixtures, EntranceRules.tiles_at(_state.grid.width, _state.grid.height, x, y))
+
+
 func validate_placement(type_id: String, x: int, y: int, rotation: int, move_instance_id: String = "") -> PlacementResult:
 	if _state.business_state != GameState.SETUP:
 		var r := PlacementResult.new()
@@ -65,6 +72,54 @@ func execute(command: Dictionary) -> CommandResult:
 			if not _require_setup():
 				return _fail(&"NOT_IN_SETUP", &"restock_needs_setup")
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
+		&"SET_RIVALS":   # #129: rival stores on or off (the company's)
+			var on := bool(command.get("enabled", true))
+			for st in Company.stores(_state):
+				st.rivals_enabled = on
+			var rv: Array[String] = ["%s:RIVALS_SET" % command_id]
+			result = _commit(command_id, rv)
+		&"OPEN_STORE":
+			var opened := Company.open_store(_state, command_id, String(command.get("map_id", "")), String(command.get("plot_id", "")), String(command.get("size_id", "")))
+			if opened.has("error"):
+				result = _fail(&"INSUFFICIENT_CASH" if opened["error"] == "not_enough_cash" else &"INVALID_OPERATION", StringName(opened["error"]))
+			else:
+				var ev: Array[String] = ["%s:STORE_OPENED" % command_id]
+				result = _commit(command_id, ev, {"store_id": (opened["store"] as GameState).store_id})
+		&"TRANSFER_STAFF":
+			var terr := Company.transfer_staff(_state, String(command.get("staff_id", "")), String(command.get("to_store_id", "")))
+			if terr != "":
+				result = _fail(&"INVALID_OPERATION", StringName(terr))
+			else:
+				var tev: Array[String] = ["%s:STAFF_TRANSFERRED" % command_id]
+				result = _commit(command_id, tev)
+		&"BOOK_CAMPAIGN":
+			result = _campaign_result(command_id, Marketing.book(_state, command_id, String(command.get("medium", "")), int(command.get("days", 0)), int(command.get("daily_budget_yen", 0)), String(command.get("category", ""))), "CAMPAIGN_BOOKED")
+		&"CANCEL_CAMPAIGN":
+			result = _campaign_result(command_id, Marketing.cancel(_state, String(command.get("campaign_id", ""))), "CAMPAIGN_CANCELLED")
+		&"START_PROMOTION":
+			result = _promotion_result(command_id, Promotions.start(_state, command_id, String(command.get("def_id", "")), int(command.get("days", 0))), "PROMOTION_STARTED")
+		&"START_LOTTERY":   # #138
+			result = _promotion_result(command_id, Lottery.start(_state, command_id, String(command.get("set_id", ""))), "LOTTERY_STARTED")
+		&"STOP_PROMOTION":
+			result = _promotion_result(command_id, Promotions.stop(_state, String(command.get("promotion_id", ""))), "PROMOTION_STOPPED")
+		&"SET_STORE_SIZE":
+			result = _set_store_size(command_id, String(command.get("size_id", "")))
+		&"EXPAND_STORE":
+			result = _expand_store(command_id)
+		&"MOVE_ENTRANCE":   # #121
+			result = _move_entrance(command_id, command.get("x"), command.get("y"))
+		&"SET_SITE":
+			result = _set_site(command_id, String(command.get("map_id", WorldMap.DEFAULT_MAP)), String(command.get("plot_id", "")))
+		&"SET_FACILITIES":
+			result = _set_facilities(command_id, command.get("facility_ids", []))
+		&"SET_LOCATION":
+			result = _set_location(command_id, String(command.get("location_id", "")))
+		&"REPAIR_CRANE":   # #132 phase 2
+			result = _repair_crane(command_id, String(command.get("fixture_id", "")))
+		&"HIRE_STAFF":
+			result = _staff_result(command_id, StaffMarket.hire(_state, String(command.get("candidate_id", ""))), "STAFF_HIRED")
+		&"FIRE_STAFF":
+			result = _staff_result(command_id, StaffMarket.fire(_state, String(command.get("staff_id", ""))), "STAFF_LEFT")
 		&"UNDO_LAYOUT":
 			result = _undo(command_id)
 		&"REDO_LAYOUT":
@@ -180,6 +235,11 @@ func _start_business(command_id: String) -> CommandResult:
 	var problem := BusinessService.opening_problem(_state)
 	if problem != &"":
 		return _fail(problem, StringName(String(problem).to_lower()))
+	var work := _state.construction_days
+	if work > 0:   # #145: the days of the expansion work pass first
+		if BusinessService.total(BusinessService.day_costs(_state)) * (work + 1) > _state.cash_yen:
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+		_pass_construction_days(work)
 	if not BusinessService.day_charged(_state, _state.day):
 		if BusinessService.total(BusinessService.day_costs(_state)) > _state.cash_yen:
 			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
@@ -188,7 +248,32 @@ func _start_business(command_id: String) -> CommandResult:
 	_state.speed_setting = 1
 	_state.last_nonzero_speed = 1
 	var events: Array[String] = ["%s:BUSINESS_STARTED" % command_id]
-	return _commit(command_id, events)
+	if work > 0:
+		events.push_front("%s:CONSTRUCTION_FINISHED" % command_id)
+	return _commit(command_id, events, {"construction_days": work})
+
+
+## The expansion work (#145): the store stays shut for `days` days before it opens. Each of them is charged like a
+## business day (fixed cost, electricity, wages, ads) and reported with no sales; the date moves on hour by hour,
+## so stock still expires, the day's events and the rivals move on, and the company's other stores keep trading.
+func _pass_construction_days(days: int) -> void:
+	for i in days:
+		if not BusinessService.day_charged(_state, _state.day):
+			BusinessService.charge_day(_state, _state.day, false)
+		var midnight := (_state.day + 1) * DemandModel.SECONDS_PER_DAY
+		while _state.time_sec < midnight:
+			var prev_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
+			_state.time_sec = mini((_state.time_sec / 3600 + 1) * 3600, midnight)
+			InventoryService.sweep_expired(_state)
+			if _state.bakes_pending > 0:
+				Cooking.finish_bakes(_state)
+			EventService.step(_state)
+			var new_day := _state.time_sec / DemandModel.SECONDS_PER_DAY
+			if new_day != prev_day:
+				SimulationRunner.roll_day(_state, prev_day, new_day)
+				Market.on_new_day(_state)
+			BranchSim.step(_state)
+	_state.construction_days = 0
 
 
 func _request_close(command_id: String) -> CommandResult:
@@ -214,6 +299,158 @@ func _stock_result(command_id: String, r: Dictionary) -> CommandResult:
 
 ## Allowed in every business state. Only the override map changes: lot costs, open
 ## reservations and ledger rows keep the price they were snapshotted with (03).
+## BOOK_CAMPAIGN / CANCEL_CAMPAIGN (#136): any business state, also while paused.
+func _campaign_result(command_id: String, err: String, event: String) -> CommandResult:
+	if err != "":
+		return _fail(&"INSUFFICIENT_CASH" if err == "not_enough_cash" else &"INVALID_OPERATION", StringName(err))
+	var events: Array[String] = ["%s:%s" % [command_id, event]]
+	return _commit(command_id, events)
+
+
+## START_PROMOTION / STOP_PROMOTION (#137): any business state, also while paused.
+func _promotion_result(command_id: String, err: String, event: String) -> CommandResult:
+	if err != "":
+		return _fail(&"INSUFFICIENT_CASH" if err == "not_enough_cash" else &"INVALID_OPERATION", StringName(err))
+	var events: Array[String] = ["%s:%s" % [command_id, event]]
+	return _commit(command_id, events)
+
+
+## SET_STORE_SIZE (#145): the size of a new store, before it first opens (no cost). Fixtures keep their place
+## relative to the entrance wall; a size they do not fit in is refused.
+func _set_store_size(command_id: String, size_id: String) -> CommandResult:
+	if _state.location_locked():
+		return _fail(&"INVALID_OPERATION", &"store_size_locked")
+	var size := StoreSize.find(_state.balance, size_id)
+	if size.is_empty():
+		return _fail(&"INVALID_OPERATION", &"unknown_store_size")
+	return _resize(command_id, size, 0, "STORE_SIZE_SET")
+
+
+## EXPAND_STORE (#145): one size up while the store is closed (SETUP), for the bigger size's expand_cost_yen.
+func _expand_store(command_id: String) -> CommandResult:
+	if not _require_setup():
+		return _fail(&"NOT_IN_SETUP", &"expansion_needs_setup")
+	var size := StoreSize.next(_state.balance, _state.grid)
+	if size.is_empty():
+		return _fail(&"INVALID_OPERATION", &"largest_store")
+	var r := _resize(command_id, size, int(size.get("expand_cost_yen", 0)), "STORE_EXPANDED")
+	if r.ok:
+		_state.construction_days += int(size.get("construction_days", 0))   # #145: shut that long when it opens
+	return r
+
+
+## MOVE_ENTRANCE (#121): the entrance moves to two tiles on an outer wall starting at (x, y), while closed (準備中),
+## for entrance_move_cost_yen (building work, booked like a fixture purchase). Refused when a fixture stands there or
+## when a fixture or a register would be cut off (EntranceRules).
+func _move_entrance(command_id: String, x, y) -> CommandResult:
+	if not _require_setup():
+		return _fail(&"NOT_IN_SETUP", &"construction_needs_setup")
+	if typeof(x) != TYPE_INT or typeof(y) != TYPE_INT:
+		return _fail(&"INVALID_OPERATION", &"command_malformed")
+	var tiles := EntranceRules.tiles_at(_state.grid.width, _state.grid.height, x, y)
+	var err := EntranceRules.check(_state.grid, _state.fixtures, tiles)
+	if err != "":
+		return _fail(&"INVALID_OPERATION", StringName(err))
+	var cost := int(_state.balance.get("entrance_move_cost_yen", 0))
+	if cost > 0:
+		if _state.ledger.cash_yen < cost:
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+		if not _state.ledger.record("FIXTURE_PURCHASE", "%s:ENTRANCE" % command_id, -cost, _state.day, _state.time_sec, {"entrance": [tiles[0].x, tiles[0].y]}):
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+	var from := _state.grid.entrance_tiles.duplicate()
+	_set_entrance(tiles)
+	_state.layout_history.push({   # #121: undoable like a placement (refunded on undo, paid again on redo)
+		"kind": "ENTRANCE", "instance_id": "", "type_id": "", "from": from, "to": tiles.duplicate(),
+		"cost_yen": cost, "purchase_event_id": "%s:ENTRANCE" % command_id if cost > 0 else "", "segments": [],
+	})
+	var events: Array[String] = ["%s:ENTRANCE_MOVED" % command_id]
+	return _commit(command_id, events, {"entrance_tiles": tiles})
+
+
+func _set_entrance(tiles: Array[Vector2i]) -> void:
+	_state.grid.entrance_tiles = tiles
+	_state.grid.revision += 1   # paths and access are worked out again
+
+
+func _resize(command_id: String, size: Dictionary, cost: int, event: String) -> CommandResult:
+	var res := StoreSize.resized(_state.grid, int(size["width"]), int(size["height"]), _state.fixtures)
+	if res.has("error"):
+		return _fail(&"INVALID_OPERATION", StringName(res["error"]))
+	if cost > 0:
+		if _state.ledger.cash_yen < cost:
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+		if not _state.ledger.record("FIXTURE_PURCHASE", "%s:EXPANSION" % command_id, -cost, _state.day, _state.time_sec, {"expansion": size["size_id"]}):
+			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+	_state.apply_resized(res)
+	var events: Array[String] = ["%s:%s" % [command_id, event]]
+	return _commit(command_id, events, {"size_id": size["size_id"]})
+
+
+## SET_SITE (#150): the store's site on the area map, until it first opens. The site sets the location (#148) and
+## the nearby facilities (#149) from the map.
+func _set_site(command_id: String, map_id: String, plot_id: String) -> CommandResult:
+	if _state.location_locked():
+		return _fail(&"INVALID_OPERATION", &"site_locked")
+	var site := WorldMap.site(map_id, plot_id)
+	if site.is_empty():
+		return _fail(&"INVALID_OPERATION", &"site_unavailable")
+	_state.map_id = map_id
+	_state.plot_id = plot_id
+	_state.location_id = site["location_id"]
+	_state.facilities = (site["facilities"] as Array).duplicate()
+	var events: Array[String] = ["%s:SITE_SET" % command_id]
+	return _commit(command_id, events)
+
+
+## SET_FACILITIES (#149): the store's nearby facilities, until it first opens (like the location).
+func _set_facilities(command_id: String, ids) -> CommandResult:
+	if _state.location_locked():
+		return _fail(&"INVALID_OPERATION", &"facilities_locked")
+	if typeof(ids) != TYPE_ARRAY or (ids as Array).size() > NearbyFacility.max_count():
+		return _fail(&"INVALID_OPERATION", &"too_many_facilities")
+	var out: Array = []
+	for id in ids:
+		if NearbyFacility.find(String(id)).is_empty() or out.has(String(id)):
+			return _fail(&"INVALID_OPERATION", &"unknown_facility")
+		out.append(String(id))
+	_state.facilities = out
+	_state.plot_id = ""   # chosen by hand: no longer the map site's surroundings
+	var events: Array[String] = ["%s:FACILITIES_SET" % command_id]
+	return _commit(command_id, events)
+
+
+## SET_LOCATION (#148): only before the store first opens; "" = the standard store.
+func _set_location(command_id: String, location_id: String) -> CommandResult:
+	if _state.location_locked():
+		return _fail(&"INVALID_OPERATION", &"location_locked")
+	if location_id != "" and StoreLocation.find(location_id).is_empty():
+		return _fail(&"INVALID_OPERATION", &"unknown_location")
+	_state.location_id = location_id
+	_state.plot_id = ""
+	var events: Array[String] = ["%s:LOCATION_SET" % command_id]
+	return _commit(command_id, events)
+
+
+## HIRE_STAFF / FIRE_STAFF (#144): allowed in every business state and while paused.
+func _repair_crane(command_id: String, fixture_id: String) -> CommandResult:
+	var err := CraneGame.repair(_state, fixture_id, command_id)
+	if err == "not_enough_cash":
+		return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+	if err != "":
+		return _fail(&"INVALID_OPERATION", StringName(err))
+	var events: Array[String] = ["%s:CRANE_REPAIRED" % command_id]
+	return _commit(command_id, events, {"fixture_id": fixture_id})
+
+
+func _staff_result(command_id: String, err: String, event: String) -> CommandResult:
+	if not StaffAI.enabled(_state.balance):
+		return _fail(&"INVALID_OPERATION", &"staff_disabled")
+	if err != "":
+		return _fail(&"INVALID_OPERATION", StringName(err))
+	var events: Array[String] = ["%s:%s" % [command_id, event]]
+	return _commit(command_id, events)
+
+
 func _set_price(command_id: String, command: Dictionary) -> CommandResult:
 	var sku_id = command.get("sku_id")
 	var price = command.get("price_yen")
@@ -221,7 +458,7 @@ func _set_price(command_id: String, command: Dictionary) -> CommandResult:
 		return _fail(&"INVALID_OPERATION", &"sku_unknown")
 	if not _is_int(price) or price < 1 or price > MAX_PRICE_YEN:
 		return _fail(&"INVALID_OPERATION", &"price_invalid")
-	if price == _state.sell_price(sku_id):
+	if price == _state.list_price(sku_id):
 		return _fail(&"INVALID_OPERATION", &"no_change")
 	if price == int(_state.products.get_sku(sku_id)["default_sell_price_yen"]):
 		_state.product_price_overrides.erase(sku_id)
@@ -239,6 +476,14 @@ func _place(command_id: String, command: Dictionary) -> CommandResult:
 	var type_id = command.get("type_id")
 	if typeof(type_id) != TYPE_STRING or not _is_int(command.get("x")) or not _is_int(command.get("y")) or not _is_int(command.get("rotation")):
 		return _fail(&"INVALID_OPERATION", &"command_malformed")
+	var room_def := _state.fixtures.get_type(type_id)
+	if int(room_def.get("staff_capacity", 0)) > 0:   # #143: one staff room per store, sized to the store
+		if StaffAI.staff_room(_state) != "":
+			return _fail(&"INVALID_OPERATION", &"staff_room_exists")
+		if int(room_def.get("min_store_width", 0)) > _state.grid.width:
+			return _fail(&"INVALID_OPERATION", &"store_too_small")
+	if CraneGame.is_machine_type(room_def) and CraneGame.machines(_state, type_id) >= int(CraneGame.data().get("max_per_store", 2)):
+		return _fail(&"INVALID_OPERATION", &"crane_limit")   # #132 phase 2
 	var res := PlacementRules.validate(_state.grid, _state.fixtures, type_id, command["x"], command["y"], command["rotation"], _state.ledger.cash_yen)
 	if not res.ok:
 		return _fail(res.code, res.message_key)
@@ -357,6 +602,18 @@ func _undo(command_id: String) -> CommandResult:
 				return _fail(res2.code, res2.message_key)
 			_add_instance(e["instance_id"], e["type_id"], pose["x"], pose["y"], pose["rotation"])
 			_restore_stock(e["segments"])
+		"ENTRANCE":   # #121: the door goes back, the building work is refunded
+			var back_tiles: Array[Vector2i] = []
+			back_tiles.assign(e["from"])
+			var err := EntranceRules.check(_state.grid, _state.fixtures, back_tiles)
+			if err != "":
+				return _fail(&"INVALID_OPERATION", StringName(err))
+			if int(e["cost_yen"]) > 0:
+				var refund_id := "%s:REVERSAL" % command_id
+				if not _state.ledger.record("REVERSAL", refund_id, int(e["cost_yen"]), _state.day, _state.time_sec, {"reverses": e["purchase_event_id"]}):
+					return _fail(&"INVALID_OPERATION", &"reversal_rejected")
+				events.append(refund_id)
+			_set_entrance(back_tiles)
 	history.undo_stack.pop_back()
 	history.redo_stack.append(e)
 	events.append("%s:LAYOUT_UNDONE" % command_id)
@@ -395,6 +652,19 @@ func _redo(command_id: String) -> CommandResult:
 				return _fail(&"RESERVATION_ACTIVE", &"reservation_active")
 			_stock_to_backroom(e["instance_id"])
 			_state.grid.remove_instance(e["instance_id"])
+		"ENTRANCE":
+			var to_tiles: Array[Vector2i] = []
+			to_tiles.assign(e["to"])
+			var err2 := EntranceRules.check(_state.grid, _state.fixtures, to_tiles)
+			if err2 != "":
+				return _fail(&"INVALID_OPERATION", StringName(err2))
+			if int(e["cost_yen"]) > 0:
+				var pay_id := "%s:ENTRANCE" % command_id
+				if not _state.ledger.record("FIXTURE_PURCHASE", pay_id, -int(e["cost_yen"]), _state.day, _state.time_sec, {"entrance": [to_tiles[0].x, to_tiles[0].y]}):
+					return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+				e["purchase_event_id"] = pay_id
+				events.append(pay_id)
+			_set_entrance(to_tiles)
 	history.redo_stack.pop_back()
 	history.undo_stack.append(e)
 	events.append("%s:LAYOUT_REDONE" % command_id)

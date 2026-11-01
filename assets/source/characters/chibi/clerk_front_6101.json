@@ -1,0 +1,19 @@
+{
+  "person": "clerk",
+  "view": "front",
+  "seed": 6101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "chibi_clerk_front_6101_00001_.png",
+  "positive": "anima_style, solo, chibi, super deformed, cute anime game character, full body, standing, simple clean lineart, flat soft cel shading, plain pure white background, no shadow, 1boy, young man, short black hair, teal convenience store uniform shirt with a small name tag, dark navy trousers, black shoes, three-quarter view from the front, body turned to the left, looking to the left, ",
+  "negative": "low quality, worst quality, blurry, multiple views, reference sheet, text, watermark, logo, cropped feet, out of frame, background scenery, floor, shadow, extra limbs, malformed hands",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    512,
+    768
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

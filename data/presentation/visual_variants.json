@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "_comment": "Ordered visual variant preferences per asset id (first usable wins; base variant \"a\" is the fallback). A variant is usable when its manifest exists and runtime_approved is true, or a dev override is on. See scripts/presentation/visual_variants.gd.",
+  "paths": {
+    "fixtures": {
+      "painted_v1": "res://assets/generated/fixtures/{id}/{id}_painted_v1.visual.json"
+    },
+    "props": {
+      "painted_v1": "res://assets/generated/props/{id}_painted_v1/{id}_painted_v1.visual.json"
+    }
+  },
+  "fixtures": {
+    "fridge_drink": ["painted_v1", "a"],
+    "shelf_general": ["painted_v1", "a"]
+  },
+  "props": {}
+}

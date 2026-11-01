@@ -1,3 +1,4 @@
+class_name AppRoot
 extends Node
 ## Boot + dependency injection (01 §5). Starts paused in SETUP with an empty store.
 
@@ -17,6 +18,8 @@ var commands: GameCommands
 var runner: SimulationRunner
 ## Where save files live (tests point this at a scratch folder).
 var save_dir: String = SaveStore.DIR
+## The slot to load when the game starts (the title screen's 続きから, #28); "" = a new game.
+static var start_slot := ""
 var _balance: Dictionary
 var _fixtures: FixtureCatalog
 var cue_bridge := PresentationEventBridge.new()
@@ -59,6 +62,7 @@ func _ready() -> void:
 	var hud := get_node_or_null("../Layout/TopHUD")
 	if hud != null and hud.has_signal("speed_requested"):
 		hud.speed_requested.connect(set_speed)
+		hud.days_per_month = GameCalendar.days_per_month(balance)
 	var business := get_node_or_null("../BusinessController")
 	if business != null:
 		business.setup(self, balance)
@@ -74,6 +78,18 @@ func _ready() -> void:
 	var reporter := get_node_or_null("../ReportController")
 	if reporter != null:
 		reporter.setup(self)
+	var staffer := get_node_or_null("../StaffController")
+	if staffer != null:
+		staffer.setup(self)
+	var promoter := get_node_or_null("../PromotionController")
+	if promoter != null:
+		promoter.setup(self)
+	var media := get_node_or_null("../MediaController")
+	if media != null:
+		media.setup(self)
+	var kuji := get_node_or_null("../LotteryController")   # #138
+	if kuji != null:
+		kuji.setup(self)
 	var stocker := get_node_or_null("../StockController")
 	if stocker != null:
 		stocker.setup(self, products, fixtures)
@@ -82,6 +98,10 @@ func _ready() -> void:
 		pricer.setup(self, products)
 	ProgressionService.evaluate(state)   # tut_01: the game is running
 	_publish_snapshot()
+	if start_slot != "":   # #28: 続きから on the title screen
+		var slot := start_slot
+		start_slot = ""
+		_load_game(slot, false)
 
 
 func _process(delta: float) -> void:
@@ -113,6 +133,11 @@ func _deliver_cues() -> void:
 	var player := get_node_or_null("../CuePlayer")
 	if player != null and player.has_method("play") and not requests.is_empty():
 		player.play(requests)
+	var world := get_node_or_null("../Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
+	var presenter := world.get_node_or_null("ObjectSortRoot/FixturePresenter") if world != null else null
+	for r in requests:   # the pick cue turns the customer to the shelf (drawing only)
+		if r["cue_id"] == "product_pickup" and presenter != null and presenter.has_method("note_pick"):
+			presenter.note_pick(String(r["payload"].get("customer_id", "")), String(r["payload"].get("fixture_id", "")))
 
 
 func _load_gameplay_events() -> Array[Dictionary]:
@@ -153,6 +178,8 @@ func run_command(command: Dictionary) -> CommandResult:
 			return _save_game(String(command.get("slot_id", "")))
 		&"LOAD_GAME":
 			return _load_game(String(command.get("slot_id", "")), bool(command.get("use_backup", false)))
+		&"SWITCH_STORE":
+			return _switch_store(String(command.get("store_id", "")))
 	var result := commands.execute(command)
 	if result.ok:
 		state.emit_event("UI_COMMAND_SUCCEEDED", {"command_id": String(command.get("command_id", ""))})
@@ -214,6 +241,26 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
 	_publish_snapshot()
+	var world := _world()
+	if world != null and world.has_method("reset_default_view"):
+		world.reset_default_view()   # a loaded save opens in the default interior view, like a new game
+	var events: Array[String] = []
+	return CommandResult.success(state.revision, events)
+
+
+## SWITCH_STORE (#146): another store of the company comes on screen; the one left carries on off screen.
+func _switch_store(store_id: String) -> CommandResult:
+	var target := Company.switch_to(state, store_id)
+	if target == null:
+		return CommandResult.failure(&"INVALID_OPERATION", state.revision, &"unknown_store")
+	state = target
+	cue_bridge.reset()
+	commands = GameCommands.new(state)
+	runner = SimulationRunner.new(state)
+	_publish_snapshot()
+	var world := _world()
+	if world != null and world.has_method("reset_default_view"):
+		world.reset_default_view()
 	var events: Array[String] = []
 	return CommandResult.success(state.revision, events)
 
@@ -243,6 +290,18 @@ func _publish_snapshot() -> void:
 	var business := get_node_or_null("../BusinessController")
 	if business != null and business.has_method("apply_snapshot") and business.is_node_ready() and business.get("_tiers") != null and not business._tiers.is_empty():
 		business.apply_snapshot(snap)
+	var staffer := get_node_or_null("../StaffController")
+	if staffer != null and staffer.is_node_ready() and staffer.get("_summary") != null:
+		staffer.apply_snapshot(snap)
+	var promoter := get_node_or_null("../PromotionController")
+	if promoter != null and promoter.is_node_ready() and promoter.get("_box") != null:
+		promoter.apply_snapshot(snap)
+	var media := get_node_or_null("../MediaController")
+	if media != null and media.is_node_ready() and media.get("_box") != null:
+		media.apply_snapshot(snap)
+	var kuji := get_node_or_null("../LotteryController")
+	if kuji != null and kuji.is_node_ready() and kuji.get("_box") != null:
+		kuji.apply_snapshot(snap)
 	var reporter := get_node_or_null("../ReportController")
 	if reporter != null and reporter.has_method("apply_snapshot") and reporter.is_node_ready() and reporter.get("_chart") != null:
 		reporter.apply_snapshot(snap)

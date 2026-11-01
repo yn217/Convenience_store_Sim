@@ -1,0 +1,19 @@
+{
+  "promotion": "gift_clearfile",
+  "seed": 7101,
+  "loras": {
+    "Koharu-Koharu-epoch100": 0.8,
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "promo_gift_clearfile_7101_00001_.png",
+  "positive": "koharu_rikka, anima_style, 1girl, solo, grey hair, purple eyes, double bun, short hair, small pink round hair clip, white short-sleeved collared shirt, navy blue apron with thin white vertical stripes, anime illustration, she shows a cute clear file folder with a pastel illustration, snack bags beside her, gift campaign, sparkles",
+  "negative": "low quality, worst quality, blurry, text, letters, words, logo, brand name, watermark, signature, malformed hands, extra fingers, distorted face, other people",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    432
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

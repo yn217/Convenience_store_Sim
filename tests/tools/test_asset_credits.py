@@ -30,9 +30,9 @@ class Credits(unittest.TestCase):
     def test_repo_passes(self):
         self.assertEqual(cc.problems(ROOT), [])
 
-    def test_all_ten_fixtures_and_three_customers_are_listed(self):
+    def test_all_twenty_eight_fixtures_and_three_customers_are_listed(self):
         ids = {r["asset_id"] for r in cc.parse(ROOT)}
-        self.assertEqual(len([i for i in ids if i.startswith("fixture_")]), 10)
+        self.assertEqual(len([i for i in ids if i.startswith("fixture_")]), 28)
         self.assertEqual(len([i for i in ids if i.startswith("customer_")]), 3)
 
     def test_unlisted_asset_is_found(self):
@@ -58,7 +58,7 @@ class Credits(unittest.TestCase):
         self.assertEqual(rows["ui_icons"]["path"], "assets/ui/icons")
         self.assertEqual(rows["ui_icons"]["redistribution"], "yes")
         svgs = sorted(p.name for p in (ROOT / "assets/ui/icons").glob("*.svg"))
-        self.assertEqual(len(svgs), 25)
+        self.assertGreaterEqual(len(svgs), 25)   # the README must name every icon, however many there are
         readme = (ROOT / "assets/ui/icons/README.md").read_text(encoding="utf-8")
         for name in svgs:
             self.assertIn(name[:-4], readme, "README names " + name)

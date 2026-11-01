@@ -1,0 +1,31 @@
+{
+  "visual_review": "two generated raster sprites inspected at original resolution and at 1:1 canonical comparison",
+  "whole_fixture_and_stock_generated_together": true,
+  "one_reference_image_per_generation": true,
+  "visible_catalog_drink_types": [
+    "green tea",
+    "carbonated drink",
+    "mineral water"
+  ],
+  "three_stocked_tiers": true,
+  "glass_obscures_product_labels": false,
+  "glass_reflection": "subtle; labels and bottle colors remain visible",
+  "visible_door_frames": true,
+  "actual_alpha_background": true,
+  "alpha_gt8_touches_canvas_border": false,
+  "axis_slope_approx_minus_half": true,
+  "A": {
+    "arrangement": "mixed green tea, soda and mineral water colors on all three tiers",
+    "note": "labels use simple leaf, citrus and water graphics; generic packaging"
+  },
+  "B": {
+    "arrangement": "adjacent color groups for green tea, soda and mineral water within each tier",
+    "note": "strongest SKU color grouping and label visibility"
+  },
+  "caveats": [
+    "BBox differs from canonical by up to 18 px in y after uniform full-image fit; B differs by up to 10 px.",
+    "Anchor (285,380) is retained as canonical metadata and marked in the comparison; exact mechanical landmark registration is not claimed.",
+    "Illustrated bottles include dimensional highlights as part of the raster art; no separate or post-pasted bottle assets were used.",
+    "Fine text is not relied on; SKU identity reads through label colors and broad icons."
+  ]
+}

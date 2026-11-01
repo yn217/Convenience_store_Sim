@@ -1,0 +1,42 @@
+{
+  "manifest_version": 1,
+  "asset_id": "roadside_greenery_v2",
+  "category": "static_world_anchored_exterior_vegetation_strip",
+  "view_direction": "iso2x_v1 continuous one-edge planting strip",
+  "render_width_px": 1774,
+  "render_height_px": 1125,
+  "ground_anchor_px": [
+    886.5,
+    695.428
+  ],
+  "ground_edge_endpoints_px": [
+    [
+      15,
+      261
+    ],
+    [
+      1755,
+      1042
+    ]
+  ],
+  "anchor_type": "planter_ground_contact_at_world_side_anchor_z0",
+  "sort_key": "vegetation_before_store_and_wall_occlusion",
+  "runtime_fit": {
+    "uniform_scale_only": true,
+    "world_edge_length": "full_store_side_plus_1m_overhang",
+    "source_ground_edge_slope": 0.4999258304342062,
+    "target_edge_slopes": [
+      -0.5,
+      0.5
+    ],
+    "runtime_vertical_shear": 7.416956579381351e-05,
+    "roots_hidden_by_wall": true
+  },
+  "source_file": "assets/source/background/roadside_greenery_v2/side_strip_v1.png",
+  "alpha_bbox_px": [
+    0,
+    27,
+    1759,
+    1097
+  ]
+}

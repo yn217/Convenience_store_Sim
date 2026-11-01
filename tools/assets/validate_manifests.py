@@ -33,10 +33,17 @@ ID = re.compile(r"^[a-z][a-z0-9_]*$")
 LAYER_KEYS = {"body", "shadow", "glass_front", "fixture_back", "fixture_front"}
 ROT_KEYS = {"canvas_px", "anchor_px", "layers", "slot_anchors_px", "selection_polygon_px", "sorting_anchor_px"}
 TOP_KEYS = {"manifest_version", "visual_id", "fixture_type_id", "projection_id", "world_units_per_tile",
-            "source_px_per_tile_diamond", "footprint", "dimensions_m", "rotations"}
+            "source_px_per_tile_diamond", "footprint", "dimensions_m", "rotations",
+            "variant", "state", "runtime_approved"}
 TOP_REQUIRED = {"manifest_version", "visual_id", "fixture_type_id", "projection_id", "world_units_per_tile",
                 "source_px_per_tile_diamond"}
 GROUND_TOL_PX = 2.0     # source px; 1 screen px at zoom 1.0
+## Model-derived fixtures: feet, casters and plinths sit inside the envelope's front corner (about 0.1-0.2 m), so the
+## lowest silhouette pixel may stay this far above it. The model itself is placed on z = 0 by render_fixture.py.
+MODEL_GROUND_TOL_PX = 32.0
+# Idol models whose envelope's near corner is open floor: chairs and stools on legs, a row of
+# machines on a narrow base. Their lowest opaque pixel sits further above the ground point.
+MODEL_GROUND_TOL_OPEN_PX = {"eat_in_table": 64.0, "eat_in_counter": 48.0, "capsule_toy_3": 48.0}
 PADDING_PX = 8
 
 
@@ -172,6 +179,15 @@ def silhouette_errors(d, r, rot, base):
     ax, ay = rot["anchor_px"]
     got = (xs.min() - ax, ys.min() - ay, xs.max() + 1 - ax, ys.max() + 1 - ay)
     errs = []
+    if blueprints.is_model_type(d["type_id"]):
+        # a model cut to its envelope: inside it on every side, and standing on the floor (bottom edge close)
+        for name, g, w, sign in zip(("left", "top", "right", "bottom"), got, want, (1, 1, -1, -1)):
+            if sign * (g - w) < -GROUND_TOL_PX:
+                errs.append("%s r%d: %s edge %.1f px outside the body envelope" % (d["type_id"], r, name, g - w))
+        tol = MODEL_GROUND_TOL_OPEN_PX.get(d["type_id"], MODEL_GROUND_TOL_PX)
+        if want[3] - got[3] > tol:
+            errs.append("%s r%d: bottom edge %.1f px above the ground point (> %.1f)" % (d["type_id"], r, want[3] - got[3], tol))
+        return errs
     for name, g, w in zip(("left", "top", "right", "bottom"), got, want):
         if abs(g - w) > GROUND_TOL_PX:
             errs.append("%s r%d: %s edge %.1f px from the projected blueprint (> %.1f)" % (d["type_id"], r, name, g - w, GROUND_TOL_PX))
@@ -239,7 +255,7 @@ def manifest_errors(mpath, catalog, prov):
     d = catalog.get(m["fixture_type_id"])
     if d is None:
         return errs + ["%s: unknown fixture type %s" % (name, m["fixture_type_id"])]
-    if m["visual_id"] != d["visual_id"]:
+    if m["visual_id"] != d["visual_id"] and not m.get("variant"):
         errs.append("%s: visual_id %s != catalog %s" % (name, m["visual_id"], d["visual_id"]))
     if m.get("footprint") != d["footprint"]:
         errs.append("%s: footprint differs from the catalog" % name)

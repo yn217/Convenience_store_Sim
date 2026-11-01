@@ -46,9 +46,12 @@ def manifest_errors(mpath):
     ax, ay = m["anchor_px"]
     if not (0 <= ax <= cw and 0 <= ay <= ch):
         e.append("%s: anchor outside the canvas" % name)
-    for anim, count in figures.ANIMS.items():
+    expected = {"idle": 2, "checkout": 4} if m.get("visual_id") == "clerk" else figures.ANIMS
+    for anim, count in expected.items():
         spec = m["animations"].get(anim)
-        if spec is None or spec["frames"] != count or abs(spec["fps"] - figures.FPS[anim]) > 0.01 or spec["loop"] != figures.LOOP[anim]:
+        want_fps = figures.FPS.get(anim, 4.0 / 0.45)
+        want_loop = figures.LOOP.get(anim, False)
+        if spec is None or spec["frames"] != count or abs(spec["fps"] - want_fps) > 0.01 or spec["loop"] != want_loop:
             e.append("%s: animation %s differs from the 14 §2 frame counts / rates" % (name, anim))
     files = [m["shadow"]]
     for d in range(4):
@@ -56,7 +59,7 @@ def manifest_errors(mpath):
         if dd is None:
             e.append("%s: direction %d missing" % (name, d))
             continue
-        for anim, count in figures.ANIMS.items():
+        for anim, count in expected.items():
             frames = dd.get(anim, [])
             if len(frames) != count:
                 e.append("%s: direction %d %s has %d frames, want %d" % (name, d, anim, len(frames), count))
@@ -112,8 +115,8 @@ def main(argv=None):
         prov = json.load(f)
     errs = vm.calibration_errors(prov, args.dir)
     manifests = sorted(glob.glob(os.path.join(args.dir, "*", "*.character.json")))
-    if len(manifests) < 3:
-        errs.append("need at least 3 customer variants, found %d" % len(manifests))
+    if len(manifests) < 7:
+        errs.append("need at least 7 character variants, found %d" % len(manifests))
     heights = set()
     for path in manifests:
         r = manifest_errors(path)

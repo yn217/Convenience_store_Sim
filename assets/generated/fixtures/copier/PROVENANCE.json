@@ -1,0 +1,20 @@
+{
+  "asset_id": "copier_a",
+  "source_type": "AI (image) -> image-to-3D -> Blender render",
+  "input_image": "user-supplied AI image, convenience_remaining_asset_images_20261024.zip / 01_original_full_resolution/S02_multifunction_copier.png; cut out by tools/assets/pixal3d/cutout.py (sha256 8b58e79df75c7f4688428532f7c3e8b859f3d0a4a1af9d907734e1d15e093800)",
+  "image_to_3d": "Pixal3D (TencentARC, MIT) snapshot b0cb2e1b794cab9aa0ac38a95d794a4d9337437f, single view, 1024_cascade, seed 42, fov 0.2 rad, --low_vram; DINOv3 ViT-L/16 lvd1689m (Meta DINOv3 License); NAF (valeoai, Apache-2.0); no RMBG-2.0",
+  "glb_sha256": "7840e56461df48a285edab8ce47beb240a9e2bc35c05bb24be6b801285473ac6",
+  "render": "Blender 4.5.3 Cycles (CUDA), tools/assets/pixal3d/render_fixture.py: upright by min bbox, floor splats removed, scaled into the body box (footprint-0.04 m x height), cut to it; crop_fixture.py: crop + footprint shadow",
+  "edit_steps": [
+    "cutout",
+    "Pixal3D GLB",
+    "upright + body-box fit",
+    "4 rotation renders",
+    "crop + shadow layer"
+  ],
+  "license_or_usage_terms": "project asset; generated from the user's own AI reference image with MIT/Apache tools; no real brand or logo visible",
+  "generation_date": "2026-10-25",
+  "runtime_approved": true,
+  "user_review": "2026-10-25 adopted by the user (hot snack counter rejected for distortion)",
+  "fit_scale": "horizontal 1.1743, vertical 1.5506"
+}

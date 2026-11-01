@@ -1,0 +1,18 @@
+{
+  "type_id": "capsule_toy_1",
+  "seed": 8101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "catalog_capsule_toy_1_8101_00001_.png",
+  "positive": "anima_style, clean product illustration, single object, three-quarter view from above, isometric angle, japanese convenience store equipment, soft shading, plain pure white background, no text, no logo, one capsule toy vending machine with clear dome full of colorful capsules and a turning handle",
+  "negative": "low quality, worst quality, blurry, text, letters, logo, brand name, watermark, people, person, hands, background scenery, floor shadow",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    512
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

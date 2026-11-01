@@ -25,7 +25,19 @@
         "drink",
         "snack",
         "dessert",
-        "ice_cream"
+        "ice_cream",
+        "bento",
+        "daily_fresh",
+        "coffee",
+        "capsule_toy",
+        "daily_goods",
+        "hygiene",
+        "character_goods",
+        "soft_serve",
+        "frappe",
+        "bakery",
+        "pizza",
+        "crane_prize"
       ]
     },
     "purchase_cost_yen": {

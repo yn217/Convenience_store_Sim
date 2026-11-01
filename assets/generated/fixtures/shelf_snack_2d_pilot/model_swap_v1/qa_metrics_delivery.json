@@ -1,0 +1,90 @@
+{
+  "canonical": "assets\\generated\\fixtures\\shelf_snack\\shelf_snack_0_body.png",
+  "canonical_sha256": "b26ebbefb52e59e90d119215c24e86726ba9fad8b6b79d999cbdbbd738d9a29d",
+  "canvas_px": [
+    442,
+    465
+  ],
+  "canonical_bbox_alpha128": [
+    39,
+    9,
+    403,
+    441
+  ],
+  "canonical_long_edge_angle_deg_hough": -26.565,
+  "method": "Uniform resampling and translation only. No warp, separate x/y scales, generated product compositing, or alpha repainting.",
+  "candidates": {
+    "a": {
+      "raw": "a_generated_raw.png",
+      "final": "shelf_snack_full_r0_a_delivery.png",
+      "raw_size_px": [
+        1223,
+        1286
+      ],
+      "raw_bbox_alpha128": [
+        100,
+        17,
+        1122,
+        1260
+      ],
+      "uniform_scale": 0.3475462590506838,
+      "translation_px": [
+        8.64923572003218,
+        3.0917135961383906
+      ],
+      "bbox_alpha128": [
+        44,
+        9,
+        399,
+        441
+      ],
+      "transparent_pixel_fraction": 0.42314,
+      "partial_alpha_pixel_count": 118123,
+      "border_alpha_max": 0,
+      "opaque_pixel_count": 116580,
+      "saturated_color_fraction_of_occupied_proxy": 0.441988,
+      "silhouette_iou_vs_empty": 0.876008,
+      "long_edge_angle_deg_hough": -25.705,
+      "angle_delta_deg": 0.86,
+      "bbox_width_delta_px": -9,
+      "bbox_height_delta_px": 0,
+      "exact_geometry_guaranteed": false
+    },
+    "b": {
+      "raw": "b_generated_raw.png",
+      "final": "shelf_snack_full_r0_b_delivery.png",
+      "raw_size_px": [
+        1223,
+        1286
+      ],
+      "raw_bbox_alpha128": [
+        97,
+        20,
+        1130,
+        1275
+      ],
+      "uniform_scale": 0.34422310756972113,
+      "translation_px": [
+        9.81912350597608,
+        2.115537848605584
+      ],
+      "bbox_alpha128": [
+        43,
+        9,
+        399,
+        441
+      ],
+      "transparent_pixel_fraction": 0.434705,
+      "partial_alpha_pixel_count": 115980,
+      "border_alpha_max": 0,
+      "opaque_pixel_count": 115203,
+      "saturated_color_fraction_of_occupied_proxy": 0.471785,
+      "silhouette_iou_vs_empty": 0.93881,
+      "long_edge_angle_deg_hough": -26.874,
+      "angle_delta_deg": -0.309,
+      "bbox_width_delta_px": -8,
+      "bbox_height_delta_px": 0,
+      "exact_geometry_guaranteed": false
+    }
+  }
+}

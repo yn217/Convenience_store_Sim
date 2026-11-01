@@ -4,6 +4,7 @@ extends RefCounted
 const TYPES := [
 	"register_basic", "shelf_general", "shelf_onigiri", "warmer_oden", "shelf_noodle",
 	"shelf_bread", "fridge_drink", "shelf_snack", "fridge_dessert", "freezer_ice",
+	"atm", "copier",
 ]
 
 

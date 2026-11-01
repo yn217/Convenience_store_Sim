@@ -1,0 +1,18 @@
+{
+  "person": "office_worker",
+  "seed": 4101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "portrait_office_worker_4101_00001_.png",
+  "positive": "1boy, office worker in his thirties, short neat black hair, navy business suit, white shirt, blue tie, anima_style, solo, anime illustration, soft shading, delicate lineart, gentle highlights, head and shoulders portrait, bust shot, facing the viewer, centered, friendly natural expression, plain pure white background, simple background",
+  "negative": "low quality, worst quality, malformed face, distorted face, extra eyes, cropped head, out of frame, hands, text, watermark, logo, signature, busy background, scenery, other people, koharu_rikka, grey hair double bun",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    512,
+    512
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

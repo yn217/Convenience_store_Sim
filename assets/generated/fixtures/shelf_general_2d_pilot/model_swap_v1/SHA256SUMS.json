@@ -1,0 +1,14 @@
+{
+  "a_initial_raw.png": "e06e32e0080c6adbe861dcd57d0c7837e3501f4eb0fbaeb6609fd235cfb1cd87",
+  "a_refined_raw.png": "0b3658512c0a4198cf2fe2aa685e2b8b5eeb47896c52dcfbbe519fc4101b817c",
+  "b_generated_raw.png": "dd92b2f363f05f00002a4baeb34ac3f025472907472e0b35a1b8413da3164cd8",
+  "comparison.png": "ea40054f853326d2dd7d2371eff45eb29bbe56acf75ecea7e3719653bda15b4c",
+  "package_and_qa.py": "0eff3c44cbb4847571dfd34b9e7ad0a80951ec90b4a41251d09cf1b6813425f4",
+  "prompt_b.json": "0a86705c5a7f18467839631f299ea9132e9d2a5aeed5235cb754f5a473ad743a",
+  "prompts.json": "d82bd4428ec7e10f984022936ddc939962999ddaf061d7d17408afd2ef43e8c0",
+  "qa_metrics.json": "319e908ed07efcd9a1d6c2f9e8e0823f6276a4fff4430d5288ef514cbed250d7",
+  "qa_overlay_a.png": "f7ce604ff2c8972fa058e5c3a4e272e6b373630ab1ada45fdccce2eb4146a086",
+  "qa_overlay_b.png": "1bd3282ee154942aa015e97613b8de4e04c3ed04441752a1329de31414883735",
+  "shelf_general_full_r0_a.png": "5793baaad11fd6b008458b5db6a8a7a8031f7050ff6afe21c3708bc74740d9ed",
+  "shelf_general_full_r0_b.png": "c139873415b338c996a17e4c7615d49e004317094ade90cbe79296d47ad382fa"
+}

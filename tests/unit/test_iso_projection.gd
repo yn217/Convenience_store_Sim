@@ -119,3 +119,62 @@ func test_sprite_anchor_and_rotated_footprint_ground_point(t, _tree) -> void:
 			t.ok(p.screen_to_world(screen).distance_to(centroid) * 64.0 * z < 1.0, "rotation %d ground point within 1 screen px" % r)
 			for c in cells:
 				t.ok(cells.has(p.screen_to_tile(p.tile_center(c))), "occupied cell round trips")
+
+
+## Interior fit (default view): the floor's bounding box fills 90% of the safe area on its limiting axis.
+func test_interior_zoom_fills_the_safe_area(t, _tree) -> void:
+	var area := Vector2(1812, 896)   # 1920x1080 minus the rail, HUD, summary and gaps (MainLayout)
+	var z := IsoProjection.interior_zoom(area, 16, 12)
+	var p := IsoProjection.new()
+	p.set_zoom(z)
+	var b := p.floor_bounds(16, 12)
+	var share_w := b.size.x / area.x
+	var share_h := b.size.y / area.y
+	t.ok(absf(maxf(share_w, share_h) - IsoProjection.INTERIOR_FILL) < 1e-6, "limiting axis fills INTERIOR_FILL (%s, %s)" % [str(share_w), str(share_h)])
+	t.ok(share_w <= 1.0 + 1e-9 and share_h <= 1.0 + 1e-9, "floor bounding box never exceeds the safe area")
+	t.ok(z > IsoProjection.ZOOM_MIN and z <= IsoProjection.ZOOM_NORMAL, "interior zoom for 1920x1080 is in range (zoom %s)" % str(z))
+
+
+func test_interior_zoom_clamps_to_zoom_range(t, _tree) -> void:
+	t.eq(IsoProjection.interior_zoom(Vector2(100000, 100000), 16, 12), IsoProjection.ZOOM_MAX, "huge area clamps to ZOOM_MAX")
+	t.eq(IsoProjection.interior_zoom(Vector2(40, 30), 16, 12), IsoProjection.ZOOM_MIN, "tiny area clamps to ZOOM_MIN")
+	t.eq(IsoProjection.interior_zoom(Vector2.ZERO, 16, 12), IsoProjection.ZOOM_NORMAL, "empty area falls back to zoom 1")
+
+
+func test_entrance_shift_points_at_the_entrances(t, _tree) -> void:
+	var s := IsoProjection.entrance_shift([Vector2i(0, 5), Vector2i(0, 6)], 16, 12)
+	t.ok(_near(s, Vector2(-IsoProjection.INTERIOR_SHIFT_TILES, 0.0)), "west entrance shifts the centre 1.5 tiles west: %s" % str(s))
+	t.ok(absf(s.length() - IsoProjection.INTERIOR_SHIFT_TILES) < 1e-9, "shift length is INTERIOR_SHIFT_TILES")
+	t.ok(_near(IsoProjection.entrance_shift([], 16, 12), Vector2.ZERO), "no entrance, no shift")
+	t.ok(_near(IsoProjection.entrance_shift([Vector2i(15, 5), Vector2i(15, 6)], 16, 12), Vector2(IsoProjection.INTERIOR_SHIFT_TILES, 0.0)), "east entrance shifts east")
+
+
+func test_fit_interior_centres_the_shifted_floor_in_the_area(t, _tree) -> void:
+	var area := Rect2(96, 76, 1812, 896)
+	var shift := IsoProjection.entrance_shift([Vector2i(0, 5), Vector2i(0, 6)], 16, 12)
+	var p := IsoProjection.new()
+	p.fit_interior(area, 16, 12, shift)
+	var centre_world := Vector2(7.5, 5.5) + shift
+	t.ok(_near(p.world_to_screen(centre_world.x, centre_world.y), area.position + area.size * 0.5, 1e-6), "shifted floor centre sits at the area centre")
+	var screen_b := p.floor_bounds(16, 12)   # already in screen space (origin included)
+	t.ok(area.grow(1.0).encloses(screen_b), "the whole floor box stays inside the safe area with the shift: %s in %s" % [str(screen_b), str(area)])
+
+
+## Pan limit: the view centre may go PAN_MARGIN_TILES past the floor edges, never further.
+func test_clamp_to_store_area_limits_the_pan(t, _tree) -> void:
+	var vp := Vector2(1920, 1080)
+	var p := IsoProjection.new()
+	p.set_zoom(1.0)
+	p.center_floor(vp, 16, 12)
+	p.origin += Vector2(-99999, 0)   # drag the floor far to the left: the view centre heads far east
+	p.clamp_to_store_area(vp, 16, 12)
+	var c := p.screen_to_world(vp * 0.5)
+	t.ok(absf(c.x - (16 - 0.5 + IsoProjection.PAN_MARGIN_TILES)) < 1e-6, "far east pan stops at the margin (x=%s)" % str(c.x))
+	p.origin += Vector2(99999 * 2.0, 0)   # and far west
+	p.clamp_to_store_area(vp, 16, 12)
+	c = p.screen_to_world(vp * 0.5)
+	t.ok(absf(c.x - (-0.5 - IsoProjection.PAN_MARGIN_TILES)) < 1e-6, "far west pan stops at the margin (x=%s)" % str(c.x))
+	t.eq(p.zoom, 1.0, "clamping keeps the zoom")
+	var inside := p.origin
+	p.clamp_to_store_area(vp, 16, 12)
+	t.ok(p.origin.is_equal_approx(inside), "a view already inside the limit is not moved")

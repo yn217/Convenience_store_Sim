@@ -1,0 +1,16 @@
+# Shape-only runtime for official Hunyuan3D-2 (f8db630), standard 2mv fp16.
+# Install inside hunyuan2mv, which inherits CUDA torch/torchvision from hunyuan3d.
+# Upstream setup.py requires transformers>=4.48.0; pin the overlay independently.
+transformers==4.48.3
+huggingface-hub==0.30.2
+diffusers==0.30.0
+accelerate==1.1.1
+safetensors==0.4.4
+omegaconf==2.3.0
+einops==0.8.0
+numpy==2.2.6
+scipy==1.15.3
+opencv-python-headless==4.12.0.88
+scikit-image==0.24.0
+trimesh==4.10.1
+pymeshlab==2022.2.post3

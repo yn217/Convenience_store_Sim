@@ -1,0 +1,22 @@
+{
+  "a_raw.png": "86f6e4e415a942c9e99d1a20c3754ff996cdbb6cec6bd5b550029c719bfda547",
+  "b_initial_raw.png": "4fac5ba065c7e6b067b184300ba337c0aae5901b667908b4c91a2a8fd231f078",
+  "b_raw.png": "a5635e8562ff1e20f4388ebd24afb7b932b1e87711f78991fb1b0eedfc2d836d",
+  "canonical_contract.json": "e4867e24c0945254c13cd307f585ef9c3e4737ab0b5153bef0168b55a72701b6",
+  "comparison.png": "b62374ee6663df36c1e4ce3ba4149adfe8812028a6ed824e1cfe787c34f3bacd",
+  "fridge_dessert_full_r0_a.png": "43f0c00c8f8e5f06e423b7016dd8cd63aa9c4e651547e39c15ac5f53883dd872",
+  "fridge_dessert_full_r0_b.png": "dac02d11e3222d966e4cf61b61b446d7beffa24af4947746708d6e256fa4c961",
+  "generation_manifest.json": "bda03dffd249632cee8887e481f76c9ee2b88648e7cdf2c83bd87eea47a6b734",
+  "package_and_qa.py": "54bbf89da86e63a486747c89d61fd2982a42659bb0202c65b153ca9ef73489dd",
+  "prompt_a.txt": "8e8f7bae9a1a3f8441878488a1627c3db2f14d4633711dde3eea0d5aceb2dd0b",
+  "prompt_b.txt": "695ecf0279e5ad3a2ca270a9f21678f6a961673e5f08d2638494cebdbe7a0667",
+  "prompt_b_refined.txt": "089dab0492f56e7b05b0697f0d7691741ec4b6aa967856e8188c5d5ad8a9cf3e",
+  "qa_metrics.json": "171368e9d66673ca4c67daa3862a3c153b40f9a67e8cd4e3c0e9c05b1aa66220",
+  "qa_overlay_a.png": "8cb20ac0c15b43e3a565fd58a5e6e97b4299378cae22aa567bd439d27d00e89a",
+  "qa_overlay_b.png": "925b7342b40ed8a9fe98df4ae277d08c657b90b357059fc9780fc736e1560e80",
+  "qa_visual.json": "472197bd8f3abc3e575256f636d0d1a140a1701a79fda2829c177f915461ffcf",
+  "README.md": "ac6d47f0e52d59f5154282e0688413ab055e8cedc998efbc00244aa68367a0d0",
+  "SHA256SUMS.json": "f4f4ff10f78386da0ba18e9b7915042a980cc7048b70795ab674b7747c5f5274",
+  "sku_reference.json": "2e26696ada58923a5000b66de68d1056ca09b7fe8966081bc3487a41fa4aab1e",
+  "write_delivery_records.py": "69d940ad63833c5862d3c5633eeefcd0db0abbe8a232a8c21f9fc7077143b99e"
+}

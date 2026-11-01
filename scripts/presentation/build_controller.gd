@@ -1,7 +1,7 @@
 extends Node
 ## Build UI controller (04 §2): palette / inspector / store clicks -> commands.
 ## Presentation only: it asks AppRoot to run commands and previews with the read-only
-## validate_placement; it never edits GameState. UI modes: OBSERVE / PLACE / MOVE (never mixed).
+## validate_placement; it never edits GameState. UI modes: OBSERVE / PLACE / MOVE / ENTRANCE (never mixed).
 
 const NO_TILE := Vector2i(-1, -1)
 const NO_ID := ""
@@ -21,6 +21,7 @@ var _instances: Dictionary = {}
 var _seq: int = 0
 var _catalog_view: BuildCatalog
 var _products: ProductCatalog
+var _door_button: Button   # #121: 入口を移す (pick a wall tile)
 
 @onready var _type_list: GridContainer = $"../Layout/MainArea/BuildPalette/Body/Scroll/TypeList"
 @onready var _undo: Button = $"../Layout/MainArea/BuildPalette/Body/UndoRow/UndoButton"
@@ -43,6 +44,14 @@ func setup(app: Node, world: Node2D, catalog: FixtureCatalog, products: ProductC
 	_catalog_view.setup(_type_list, _type_list.get_parent(), catalog, begin_place)
 	_undo.pressed.connect(func(): run_simple(&"UNDO_LAYOUT"))
 	_redo.pressed.connect(func(): run_simple(&"REDO_LAYOUT"))
+	_door_button = Button.new()
+	_door_button.name = "MoveEntranceButton"
+	_door_button.text = "入口を移す"
+	_door_button.tooltip_text = "外周の壁のマスをクリックすると、そこから2マスが入口になります（工事費がかかります）"
+	_door_button.pressed.connect(begin_entrance)
+	var undo_row := _undo.get_parent()
+	undo_row.get_parent().add_child(_door_button)
+	undo_row.get_parent().move_child(_door_button, undo_row.get_index() + 1)
 	_move_button.pressed.connect(begin_move)
 	_rotate_button.pressed.connect(rotate_selected)
 	_remove_button.pressed.connect(request_remove)
@@ -107,6 +116,17 @@ func begin_move() -> void:
 	_say("移動先をクリックしてください。R で回転、Esc でキャンセル")
 
 
+## #121: the next click on an outer wall tile moves the entrance there (two tiles along the wall).
+func begin_entrance() -> void:
+	if not is_setup():
+		_say(CommandMessages.text(&"NOT_IN_SETUP", &"construction_needs_setup"))
+		return
+	pending_type = ""
+	moving_id = NO_ID
+	_enter_mode(3)
+	_say("入口にする外周の壁のマスをクリックしてください（そこから2マス）。Esc でキャンセル")
+
+
 func cancel_mode() -> void:
 	pending_type = ""
 	moving_id = NO_ID
@@ -146,6 +166,10 @@ func on_tile_clicked(tile: Vector2i) -> void:
 		var r := _run({"command_id": _next_id(), "kind": &"MOVE_FIXTURE", "instance_id": moving_id, "x": tile.x, "y": tile.y, "rotation": preview_rotation})
 		if r.ok:
 			cancel_mode()
+	elif mode == 3:
+		var r2 := _run({"command_id": _next_id(), "kind": &"MOVE_ENTRANCE", "x": tile.x, "y": tile.y})
+		if r2.ok:
+			cancel_mode()
 
 
 func rotate_selected() -> void:
@@ -171,6 +195,7 @@ func confirm_remove() -> void:
 const OK_TEXT := {
 	&"PLACE_FIXTURE": "設置しました", &"MOVE_FIXTURE": "移動しました", &"REMOVE_FIXTURE": "撤去しました",
 	&"UNDO_LAYOUT": "元に戻しました（設置は購入費も戻ります）", &"REDO_LAYOUT": "やり直しました",
+	&"MOVE_ENTRANCE": "入口を移しました（元に戻すと工事費も戻ります）",
 }
 
 
@@ -200,6 +225,14 @@ func _update_ghost() -> void:
 		_preview_label.text = ""
 		return
 	var t: Vector2i = _world.hover_tile
+	if mode == 3:   # #121: the two wall tiles the entrance would take
+		var w := int(_snapshot.get("store_width", 0))
+		var h := int(_snapshot.get("store_height", 0))
+		var err: String = _app.commands.validate_entrance(t.x, t.y)
+		var tiles := EntranceRules.tiles_at(w, h, t.x, t.y)
+		_world.set_ghost(tiles if not tiles.is_empty() else ([t] as Array[Vector2i]), [] as Array[Vector2i], err == "")
+		_preview_label.text = "入口にできます %s" % GameHud.format_yen(int(_snapshot.get("entrance_move_cost_yen", 0))) if err == "" else CommandMessages.text(&"INVALID_OPERATION", StringName(err))
+		return
 	var res: PlacementResult = _app.commands.validate_placement(pending_type, t.x, t.y, preview_rotation, moving_id)
 	_world.set_ghost(res.cells, res.access_cells, res.ok, res.queue_cells)
 	if res.ok:

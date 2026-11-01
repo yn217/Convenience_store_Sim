@@ -10,6 +10,12 @@ const CATEGORY_COLOR := {
 	"rice_ball": Color("e8a87c"), "oden": Color("c0794a"), "instant_noodle": Color("e6c35c"),
 	"bread": Color("d9b38c"), "drink": Color("5caefd"), "snack": Color("e07a9a"),
 	"dessert": Color("b79bdc"), "ice_cream": Color("8fd6e0"),
+	"bento": Color("d98c5f"), "daily_fresh": Color("8cc77a"), "coffee": Color("8a6248"),
+	"capsule_toy": Color("e05a9c"),
+	"daily_goods": Color("7a8fb8"), "hygiene": Color("6cc3d5"), "character_goods": Color("f2b63d"),
+	"soft_serve": Color("f3e3c3"), "frappe": Color("f08aa8"),
+	"bakery": Color("d9a35f"), "pizza": Color("e0703a"),
+	"crane_prize": Color("c77dd9"),
 }
 const REGISTER_COLOR := Color("7f8c99")
 const FRONT_COLOR := Color("ffc873")
@@ -44,11 +50,18 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if _world == null or _world.customers.is_empty() or _world.speed_setting <= 0:
+	if _sprites.refresh():   # the visual variant override changed: rebuild the sprites and their retained segments
+		_seg_cache.clear()
+		queue_redraw()
+	_age_pick_faces(delta)
+	if _world == null or _world.speed_setting <= 0:
+		return
+	if _world.customers.is_empty() and _track.is_empty():
 		return
 	var dt := delta * float(_world.speed_setting)
 	anim_time += dt
 	_sync_customers(dt)
+	_synced = true   # the draw that follows this frame's step does not need a second (zero-step) sync
 	queue_redraw()
 
 
@@ -65,15 +78,84 @@ static func target_pos(c: Dictionary) -> Vector2:
 ## Forward motion also stops at every turning tile of the chain, so the straight line between two frames
 ## never cuts a corner, whatever the frame rate or the speed (x1, x2, x4) and however many steps one frame covers.
 var _track: Dictionary = {}
-## Catch-up rate of the shown position toward the simulation's (per unit of dt, which is real time x speed).
-const SHOW_EASE := 120.0
+## Set by _process after its step, so the draw that follows does not step again with zero time (#117 perf).
+var _synced := false
+var _ghost_buf: Array = []   # departing figures of the current compose (reused, not reallocated)
+## Shown walking pace in tiles per REAL second (the simulation walks about 36 tiles per real second at x1; the
+## figure keeps to this calm pace on its walked trail and catches up when the simulation stops it). Same at every speed.
+## The pace grows with the speed as sqrt(speed) (x2 is 1.4 times x1, x4 twice x1): the simulation feeds customers
+## faster at higher speeds, so the figures walk a little faster too, but never at the simulation's own pace.
+const WALK_TILES_PER_SEC := 5.0
+## A figure that is more than WALK_LAG_FREE tiles behind the simulation speeds up to catch up, at most to WALK_MAX.
+## (A figure keeps its pace while it is that far behind: pace^2 / (2 * WALK_ACCEL) tiles, so the brake never bites.)
+const WALK_LAG_FREE := 6.0
+const WALK_MAX := 12.0   # 0.2 tile per frame at 60 fps: no jumps
+## #117 v2 (the simulation walks at the shown pace): the figure walks FOLLOW_PACE times the simulation's speed and
+## brakes so that it trails the simulation by at most about LAG_FOLLOW tiles (what a click shows is where it stands).
+const FOLLOW_PACE := 1.1
+const LAG_FOLLOW := 0.3
+var _follow := false
+var _accel := WALK_ACCEL
+## Start and stop: the pace changes by at most this much per real second (tiles/s per s), so figures never snap.
+const WALK_ACCEL := 10.0
+## Facing turns only after this many tiles of movement in the new direction (no flicker at corners or in queues).
+const FACE_HYSTERESIS := 0.35
+## After a turn, the figure does not turn straight back for this many real seconds (staircase paths, A-B-A).
+const FACE_HOLD := 0.3
+## Real seconds the walking animation holds after the figure last moved (no idle/walk flicker between frames).
+const MOVING_HOLD := 0.15
+## A customer the simulation has removed walks on for at most this many real seconds, fading out over the last
+## GHOST_FADE_SEC (the walk never runs ahead of the simulation, so a removed customer is only late, not warped).
+const GHOST_MAX_SEC := 1.5
+const GHOST_FADE_SEC := 0.4
+## Visual budget (#117): above this many figures on screen (live and departing), departing figures fade
+## GHOST_CROWD_RATE times faster, so a crowd of lagging walkers does not pile up on the floor.
+const FIGURE_BUDGET := 20
+const GHOST_CROWD_RATE := 8.0
+## A movement larger than this in one frame is a placement (spawn, teleport), not a walk: it does not turn the figure.
+const PLACE_TILES := 1.0
 const TRACK_KEEP := 4
+const MOVE_EPS := 0.0005
+const _NO_IDS: Array = []     # shared empty lists (read only), so no list is built per frame
+const _NO_TRAIL: Array = []
 
 
-## Moves the shown positions along each customer's walk and keeps each person's facing.
+## Presentation-only walk state of one customer. Typed fields: this is read and written for every figure every
+## frame, and dictionary lookups were most of the presenter's per-frame cost (#117 perf).
+## hist: tiles walked so far (ends at the simulation's tile); seen: steps taken in from the simulation's trail;
+## s: shown position as an index into hist + remaining path (the shown position moves only along that chain, so
+## it stays on tile centres); v: shown speed (tiles per real second); run: net movement since the last facing change;
+## hold: real seconds the walk animation still holds; prev_face / face_age: the last turn, for FACE_HOLD;
+## ghost: real seconds left for a customer the simulation removed (set when it leaves).
+class Walk extends RefCounted:
+	var hist: Array[Vector2i] = []
+	var seen := 0
+	var s := 0.0
+	var v := 0.0
+	var run := Vector2.ZERO
+	var hold := 0.0
+	var prev_face := -1
+	var face_age := 1.0e6
+	var placed := false
+	var departed := false
+	var ghost := 0.0
+
+
+## Moves the shown positions along each customer's walk and keeps each person's facing. `dt` is the game-time step
+## (real time x speed); the walk itself runs in real time, so the pace is the same at x1, x2 and x4.
 func _sync_customers(dt: float) -> void:
 	_alive.clear()
-	var k := 1.0 - exp(-dt * SHOW_EASE)   # same for every customer this call
+	var real := dt / float(maxi(_world.speed_setting, 1))
+	var pace := WALK_TILES_PER_SEC * sqrt(float(maxi(_world.speed_setting, 1)))
+	# #117 v2: the simulation itself walks slowly. The figure keeps to the simulation's own pace (a little
+	# faster, so it never falls behind) and accelerates hard enough to stay within LAG_FOLLOW tiles of it.
+	var sim_walk := float(_world.get("walk_tiles_per_game_second")) if _world.get("walk_tiles_per_game_second") != null else 0.0
+	_follow = sim_walk > 0.0
+	if _follow:
+		pace = sim_walk * GameClock.GAME_SECONDS_PER_REAL_SECOND * float(maxi(_world.speed_setting, 1)) * FOLLOW_PACE
+		_accel = maxf(WALK_ACCEL, pace * pace / (2.0 * LAG_FOLLOW))
+	else:
+		_accel = WALK_ACCEL
 	for c in _world.customers:
 		var id: String = c["customer_id"]
 		_alive[id] = true
@@ -81,97 +163,327 @@ func _sync_customers(dt: float) -> void:
 		var path: Array = c.get("path", [])
 		if not c.has("path") and c.has("next") and c["next"] != tile:
 			path = [c["next"]]   # a view without the full path: the next tile is all there is
-		var tr: Dictionary = _track.get(id, {})
-		if tr.is_empty():
-			tr = {"hist": [tile], "seen": int(c.get("moved", 0)), "s": 0.0}
+		var tr: Walk = _track[id] if _track.has(id) else null
+		if tr == null:
+			tr = Walk.new()
+			tr.hist.append(tile)
+			tr.seen = int(c.get("moved", 0))
 			_track[id] = tr
 			if not _facing.has(id):
 				_facing[id] = CustomerSprites.facing_for(Vector2(c.get("next", tile) - tile), CustomerSprites.FACING_E)
 		else:
 			_take_steps(tr, c)
-		var hist: Array = tr["hist"]
-		var chain: Array = hist + path
-		var target := float(hist.size() - 1)
-		if not path.is_empty():
-			target += float(c.get("progress", 0.0))
-		var s0: float = tr["s"]
-		var s := s0 + (target - s0) * k
-		if s > s0:
-			s = minf(s, _next_turn(chain, s0))
-		tr["s"] = s
-		var pos := _point_on(chain, s)
-		var old: Vector2 = _pos.get(id, pos)
-		if pos.distance_to(old) > 0.0001:
-			_facing[id] = CustomerSprites.facing_for(pos - old, int(_facing.get(id, CustomerSprites.FACING_E)))
-		_pos[id] = pos
-	for id in _track.keys():
-		if not _alive.has(id):
+		_walk(id, tr, path, float(c.get("progress", 0.0)), real, pace)
+		if int(c.get("browse_left", -1)) > 0 and not _pick_faces.has(id):
+			note_pick(id, String(c.get("fixture_id", "")))   # browsing a shelf (#117 v2): face it, as for a pick
+	# Visual budget only (#117): when more figures than FIGURE_BUDGET are on screen (fast speeds feed customers
+	# faster than they can walk out), departing figures fade GHOST_CROWD_RATE times faster. The simulation is untouched.
+	var ghosts := _track.size() - _alive.size()   # tracked figures the simulation no longer has (approximately)
+	var ghost_rate := GHOST_CROWD_RATE if _track.size() > FIGURE_BUDGET and ghosts > 0 else 1.0
+	for id in (_track.keys() if ghosts > 0 else _NO_IDS):   # the key list is only built when someone has left
+		if _alive.has(id):
+			continue
+		# A customer the simulation removed walks on to the end of its trail (a ghost), then is forgotten.
+		var tr: Walk = _track[id]
+		if not tr.departed:
+			tr.departed = true
+			tr.ghost = GHOST_MAX_SEC
+		tr.ghost -= real * ghost_rate
+		if tr.ghost > 0.0 and tr.s < float(tr.hist.size() - 1) - 0.001:
+			_walk(id, tr, _NO_IDS, 0.0, real, pace)
+		else:
 			_track.erase(id)
 			_pos.erase(id)
 			_facing.erase(id)
 			_look.erase(id)
+			_pick_faces.erase(id)
+
+
+## One step of the shown walk of one customer along its chain (history + remaining path).
+func _walk(id: String, tr: Walk, path: Array, progress: float, real: float, pace: float) -> void:
+	var hist: Array[Vector2i] = tr.hist
+	var target := float(hist.size() - 1)
+	if not path.is_empty():
+		target += progress
+	var s0 := tr.s
+	var want := maxf(target - s0, 0.0)   # tiles the simulation is ahead of the shown figure
+	var placed := tr.placed   # the trail was restarted this frame (spawn, teleport): place, do not walk
+	tr.placed = false
+	# At rest with no path (a queue, a shelf, a register): nothing moves, so skip the walk (per-frame cost, #117 perf).
+	if want <= 0.0 and path.is_empty() and tr.v <= 0.0 and _pos.has(id) and not placed:
+		tr.hold = maxf(tr.hold - real, 0.0)
+		_update_facing(id, tr, Vector2.ZERO, _pos[id], real)   # still ages the turn hold and the pick pose
+		return
+	# Pace: walk at the calm pace while the simulation is ahead (faster only when far behind), and brake so the
+	# figure comes to rest on its position instead of stopping dead.
+	var lag_free := LAG_FOLLOW if _follow else WALK_LAG_FREE
+	var goal := clampf(pace + maxf(want - lag_free, 0.0) * 1.5, pace, WALK_MAX) if want > 0.001 else 0.0
+	var v := move_toward(tr.v, goal, _accel * real)
+	v = minf(v, sqrt(2.0 * _accel * want))
+	tr.v = v
+	var s := s0 + minf(v * real, want)
+	# Never past a turning tile in one frame (no corner cutting). A turn can only be passed when the step
+	# crosses a tile boundary, which is rare per frame (pace 0.08 tile per frame at x1).
+	if s > s0 and int(floor(s)) > int(floor(s0)):
+		s = _clip_at_turn(hist, path, s0, s)
+	tr.s = s
+	tr.hold = maxf(tr.hold - real, 0.0)
+	var pos := _point_on(hist, path, s)
+	var old: Vector2 = _pos.get(id, pos)
+	var delta := pos - old
+	_pos[id] = pos
+	if delta.length() > MOVE_EPS and delta.length() < PLACE_TILES:
+		tr.hold = MOVING_HOLD
+	_update_facing(id, tr, delta, pos, real)
+
+
+## Facing with hysteresis: a figure turns only after walking FACE_HYSTERESIS tiles in a new direction (the net
+## movement, so back-and-forth wobble cancels), and it does not turn straight back within FACE_HOLD real seconds
+## of its last turn. A pick cue turns a standing figure toward its shelf.
+func _update_facing(id: String, tr: Walk, delta: Vector2, pos: Vector2, real: float) -> void:
+	var cur := int(_facing.get(id, CustomerSprites.FACING_E))
+	var run := tr.run
+	if delta.length() > MOVE_EPS and delta.length() < PLACE_TILES:
+		run += delta
+	tr.face_age += real
+	if run.length() >= FACE_HYSTERESIS:
+		var want := CustomerSprites.facing_for(run, cur)
+		run = Vector2.ZERO
+		var turning_back: bool = want == tr.prev_face
+		if want != cur and not (turning_back and tr.face_age < FACE_HOLD):
+			tr.prev_face = cur
+			tr.face_age = 0.0
+			cur = want
+	tr.run = run
+	if _pick_faces.has(id):
+		var pick: Dictionary = _pick_faces[id]
+		var away := pos.distance_to(pick["center"])
+		if away < PICK_NEAR_TILES:
+			pick["near"] = true
+		elif pick["near"] and away > PICK_LEAVE_TILES:
+			_pick_faces.erase(id)   # the figure walked away from its shelf: the pose is over
+		elif delta.length() <= MOVE_EPS:
+			cur = CustomerSprites.facing_for(pick["center"] - pos, cur)
+	_facing[id] = cur
+
+
+## Whether the figure is walking now (movement within MOVING_HOLD real seconds).
+func _is_moving(id: String) -> bool:
+	return _track.has(id) and (_track[id] as Walk).hold > 0.0
+
+
+## Customers the simulation removed that are still walking out (drawn after the live customers).
+func _ghost_views() -> Array:
+	var out: Array = _ghost_buf
+	out.clear()
+	for id in _track.keys():
+		if _alive.has(id):
+			continue
+		var tr: Walk = _track[id]
+		var last: Vector2i = tr.hist.back()
+		var alpha := clampf(tr.ghost / GHOST_FADE_SEC, 0.0, 1.0)
+		out.append({"customer_id": id, "tile": last, "next": last, "path": [], "progress": 0.0, "phase": "EXIT", "alpha": alpha})
+	return out
 
 
 ## Appends the tiles the simulation walked since the last call to the customer's history (from its trail).
 ## Any tile change the trail does not explain (a spawn, a teleport, a gap longer than the trail) restarts
 ## the history at the current tile: the one place where the shown position is placed rather than walked.
-func _take_steps(tr: Dictionary, c: Dictionary) -> void:
+func _take_steps(tr: Walk, c: Dictionary) -> void:
 	var tile: Vector2i = c["tile"]
 	var moved := int(c.get("moved", 0))
-	var new_steps := moved - int(tr["seen"])
-	var hist: Array = tr["hist"]
-	var trail: Array = c.get("trail", [])
-	tr["seen"] = moved
+	var new_steps := moved - tr.seen
+	var hist: Array[Vector2i] = tr.hist
+	var trail: Array = c["trail"] if c.has("trail") else _NO_TRAIL
+	tr.seen = moved
 	var still: bool = new_steps == 0 and hist.back() == tile
 	var walked: bool = new_steps > 0 and new_steps <= trail.size() and trail.back() == tile
 	if not (still or walked):
-		hist.clear()
-		hist.append(tile)
-		tr["s"] = 0.0
+		# The simulation walked more steps than its trail keeps (a stall longer than the trail: at x4 about 0.3 s of
+		# frames). The figure walks the free tiles between its last shown tile and the simulation's tile (catch-up),
+		# never a straight jump. Any other change of tile is a placement (spawn, teleport), as before.
+		var gap: Array = []
+		if new_steps > 0 and not trail.is_empty() and trail.back() == tile:
+			gap = _route_gap(hist.back(), tile)
+		if gap.is_empty():
+			hist.clear()
+			hist.append(tile)
+			tr.s = 0.0
+			tr.v = 0.0
+			tr.run = Vector2.ZERO
+			tr.placed = true
+			return
+		for g in gap:
+			hist.append(g)
 		return
-	for i in range(trail.size() - new_steps, trail.size()):
+	for i in range(trail.size() - new_steps, trail.size()):   # only the steps since the last frame (usually one)
 		hist.append(trail[i])
-	while hist.size() > TRACK_KEEP and float(tr["s"]) >= 1.0:
+	while hist.size() > TRACK_KEEP and tr.s >= 1.0:
 		hist.pop_front()
-		tr["s"] = float(tr["s"]) - 1.0
+		tr.s -= 1.0
 
 
-## First turning tile of the chain strictly after position s (the chain end when there is none).
-static func _next_turn(chain: Array, s: float) -> float:
-	var last := chain.size() - 1
-	var i := int(floor(s)) + 1
-	while i < last:
-		if (chain[i] - chain[i - 1]) != (chain[i + 1] - chain[i]):
+## Free tiles of the store for the catch-up route (fixture footprints only, as the simulation's paths see them).
+var _blocked_cache: Dictionary = {}
+const GAP_MARGIN := 12   # the catch-up search stays this many tiles around the two ends
+const GAP_MAX := 400     # and gives up beyond this many visited tiles (then the figure is placed, as before)
+
+
+## Shortest walk on free tiles from a to b (4-connected, exclusive of a, inclusive of b), or [] when there is none
+## in the search box. Presentation only: it only decides how a stalled figure catches up.
+func _route_gap(a: Vector2i, b: Vector2i) -> Array:
+	_fixture_items()   # keeps _blocked_cache in step with the layout
+	var lo := Vector2i(mini(a.x, b.x) - GAP_MARGIN, mini(a.y, b.y) - GAP_MARGIN)
+	var hi := Vector2i(maxi(a.x, b.x) + GAP_MARGIN, maxi(a.y, b.y) + GAP_MARGIN)
+	var prev := {a: a}
+	var queue: Array[Vector2i] = [a]
+	var head := 0
+	var dirs := [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
+	while head < queue.size() and head < GAP_MAX and not prev.has(b):
+		var c: Vector2i = queue[head]
+		head += 1
+		for d in dirs:
+			var n: Vector2i = c + d
+			if n.x < lo.x or n.y < lo.y or n.x > hi.x or n.y > hi.y or _blocked_cache.has(n) or prev.has(n):
+				continue
+			prev[n] = c
+			queue.append(n)
+	if not prev.has(b):
+		return []
+	var out: Array = []
+	var cur := b
+	while cur != a:
+		out.push_front(cur)
+		cur = prev[cur]
+	return out
+
+
+## The chain is the history followed by the remaining path, read by index without building a joined array
+## (this runs for every customer every frame).
+static func _chain_at(hist: Array, path: Array, i: int) -> Vector2i:
+	var n := hist.size()
+	return hist[i] if i < n else path[i - n]
+
+
+static func _chain_size(hist: Array, path: Array) -> int:
+	return hist.size() + path.size()
+
+
+## Position s, clipped at the first turning tile of the chain in (s0, s] (the walk stops there for the frame).
+## Only the tiles between s0 and s are looked at, so the cost does not grow with the length of the path.
+static func _clip_at_turn(hist: Array, path: Array, s0: float, s: float) -> float:
+	var last := _chain_size(hist, path) - 1
+	var i := int(floor(s0)) + 1
+	while i < last and float(i) <= s:
+		if (_chain_at(hist, path, i) - _chain_at(hist, path, i - 1)) != (_chain_at(hist, path, i + 1) - _chain_at(hist, path, i)):
 			return float(i)
 		i += 1
-	return float(last)
+	return s
 
 
 ## Point at chain position s (index + fraction): always on the straight segment between two chain tiles.
-static func _point_on(chain: Array, s: float) -> Vector2:
-	if chain.size() == 1 or s <= 0.0:
-		return Vector2(chain[0])
+static func _point_on(hist: Array, path: Array, s: float) -> Vector2:
+	var n := hist.size()
+	var size := n + path.size()
+	if size == 1 or s <= 0.0:
+		return Vector2(hist[0])
 	var i := int(floor(s))
-	if i >= chain.size() - 1:
-		return Vector2(chain[chain.size() - 1])
-	return Vector2(chain[i]).lerp(Vector2(chain[i + 1]), s - float(i))
+	if i >= size - 1:
+		return Vector2(hist[n - 1] if size - 1 < n else path[size - 1 - n])
+	var a: Vector2i = hist[i] if i < n else path[i - n]
+	var b: Vector2i = hist[i + 1] if i + 1 < n else path[i + 1 - n]
+	return Vector2(a).lerp(Vector2(b), s - float(i))
+
+
+## Pick cue (presentation only, real time): the customer faces the fixture it takes an item from, from the
+## reservation event until it walks away from the shelf. Keyed by customer id -> {"center", "left", "near"}.
+var _pick_faces: Dictionary = {}
+## The pose lasts while the figure stands by its shelf: it starts within PICK_NEAR_TILES of the shelf centre and
+## ends once it has walked beyond PICK_LEAVE_TILES. PICK_FACE_SECONDS is only a safety limit (real seconds).
+const PICK_FACE_SECONDS := 12.0
+const PICK_NEAR_TILES := 1.2
+const PICK_LEAVE_TILES := 1.6
+
+
+## Called for each product_pickup cue. Only turns the drawing; the simulation never reads it.
+func note_pick(customer_id: String, fixture_id: String) -> void:
+	var center := _fixture_center(fixture_id)
+	if customer_id == "" or center == Vector2.INF:
+		return
+	_pick_faces[customer_id] = {"center": center, "left": PICK_FACE_SECONDS, "near": false}
+
+
+func _age_pick_faces(delta: float) -> void:
+	for id in _pick_faces.keys():
+		_pick_faces[id]["left"] = float(_pick_faces[id]["left"]) - delta
+		if float(_pick_faces[id]["left"]) <= 0.0:
+			_pick_faces.erase(id)
+
+
+## Centre of a placed fixture's footprint in tile units, or Vector2.INF when it is not on the layout.
+func _fixture_type(fixture_id: String) -> String:
+	if _world == null or fixture_id == "":
+		return ""
+	for inst in _world.fixtures:
+		if inst["instance_id"] == fixture_id:
+			return String(inst["type_id"])
+	return ""
+
+
+func _fixture_center(fixture_id: String) -> Vector2:
+	if _world == null or _world.fixture_catalog == null:
+		return Vector2.INF
+	for inst in _world.fixtures:
+		if inst["instance_id"] != fixture_id:
+			continue
+		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
+		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
+		var sum := Vector2.ZERO
+		for c in cells:
+			sum += Vector2(c)
+		return sum / float(maxi(cells.size(), 1)) if not cells.is_empty() else Vector2.INF
+	return Vector2.INF
 
 
 ## Sprite sheet, variant id and animation time offset of a customer, looked up once per id (not per frame).
-func _look_for(id: String) -> Array:
+func _look_for(id: String, staff_name: String = "") -> Array:
 	if not _look.has(id):
-		var variant_id := CustomerSprites.variant_for(id)
+		var variant_id := CustomerSprites.variant_for(id, staff_name)
+		if variant_id != CustomerSprites.CLERK and _people.variant(variant_id).is_empty():
+			variant_id = CustomerSprites.CLERK if id.begins_with("staff_") else variant_id   # a staff look not built yet
 		_look[id] = [_people.variant(variant_id), variant_id, float(id.hash() % 7) * 0.37]
 	return _look[id]
+
+
+## Debug overlay only: the route the drawn figure still walks, as tile-unit points: its shown position, then every
+## tile after it on the chain (walked trail first, then the remaining path). Empty when the figure is not tracked.
+func shown_route(c: Dictionary) -> PackedVector2Array:
+	var id: String = c["customer_id"]
+	if not _track.has(id):
+		return PackedVector2Array()
+	var tr: Walk = _track[id]
+	var hist: Array[Vector2i] = tr.hist
+	var path: Array = c.get("path", [])
+	var size := hist.size() + path.size()
+	var out := PackedVector2Array([_pos[id] if _pos.has(id) else Vector2(hist.back())])
+	var i := int(floor(tr.s)) + 1
+	while i < size:
+		out.append(Vector2(_chain_at(hist, path, i)))
+		i += 1
+	return out
 
 
 ## What is drawn for a customer now: {"pos", "facing", "anim", "frame", "variant"}.
 func customer_view(c: Dictionary) -> Dictionary:
 	var id: String = c["customer_id"]
-	var anim := CustomerSprites.anim_for(c["phase"])
-	var look := _look_for(id)
+	var anim := CustomerSprites.anim_for_state(c["phase"], _is_moving(id), _pick_faces.has(id) or int(c.get("browse_left", -1)) > 0)   # browsing at a shelf (#117 v2) poses too
+	var look := _look_for(id, String(c.get("name", "")))   # staff wear the look of their face (Portraits)
 	var sheet: Dictionary = look[0]
 	var frame := 0
+	if anim == "inspect" and _fixture_type(String(c.get("fixture_id", ""))) == "crane_game" 			and not sheet.is_empty() and (sheet["animations"] as Dictionary).has("play"):
+		anim = "play"   # #132: at the crane game's controls rather than looking over a shelf
+	if not sheet.is_empty() and not (sheet["animations"] as Dictionary).has(anim):
+		anim = "checkout" if c.get("phase", "") == "REGISTER" and (sheet["animations"] as Dictionary).has("checkout") else "idle"   # the clerk sheet has idle + checkout only; no eat pose -> idle
 	if not sheet.is_empty():
 		frame = CustomerSprites.frame_index(sheet["animations"][anim], anim_time + float(look[2]))
 	var pos: Vector2 = _pos[id] if _pos.has(id) else target_pos(c)
@@ -191,17 +503,27 @@ func compose() -> Array:
 	var fixture_items := _fixture_items()   # refreshes _fixed when the layout changed
 	var fixed := _fixed
 	_clear_fade()
-	_sync_customers(0.0)
+	if _synced:
+		_synced = false   # _process has just moved the figures for this frame
+	else:
+		_sync_customers(0.0)
 	var items: Array = fixture_items.duplicate()
 	var cells: Array[Vector2i] = []
 	for c in _world.customers:
-		var shown: Vector2 = _pos.get(c["customer_id"], target_pos(c))
-		var cell := Vector2i(roundi(shown.x), roundi(shown.y))
-		items.append({"kind": "customer", "rect": DrawOrder.cell_rect(cell), "customer": c, "pos": shown})
-		cells.append(cell)
+		_add_customer_item(c, items, cells)
+	for c in _ghost_views():
+		_add_customer_item(c, items, cells)
 	var sorted := DrawOrder.sorted_fixed(items, fixed, cells)
 	_mark_see_through(sorted)
 	return sorted
+
+
+## One customer's draw item (its cell from the shown position, its alpha for departing figures).
+func _add_customer_item(c: Dictionary, items: Array, cells: Array[Vector2i]) -> void:
+	var shown: Vector2 = _pos.get(c["customer_id"], target_pos(c))
+	var cell := Vector2i(roundi(shown.x), roundi(shown.y))
+	items.append({"kind": "customer", "rect": DrawOrder.cell_rect(cell), "customer": c, "pos": shown, "alpha": float(c.get("alpha", 1.0))})
+	cells.append(cell)
 
 
 ## Segment items of the fixtures; rebuilt only when the layout revision changes.
@@ -219,9 +541,12 @@ func _fixture_items() -> Array:
 	_fixture_count = _world.fixtures.size()
 	_fixture_items_cache = []
 	_seg_cache.clear()   # segment keys and commands belong to the item list that was just rebuilt
+	_blocked_cache = {}
 	for inst in _world.fixtures:
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
 		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
+		for c in cells:
+			_blocked_cache[c] = true
 		var lo := Vector2i(1 << 20, 1 << 20)
 		var hi := Vector2i(-1, -1)
 		for c in cells:
@@ -321,7 +646,7 @@ func _draw_all() -> void:
 	for it in ordered:
 		if it["kind"] == "customer":
 			q0 = Time.get_ticks_usec()
-			_draw_customer(proj, it["customer"])
+			_draw_customer(proj, it["customer"], float(it.get("alpha", 1.0)))
 			prof_customers += Time.get_ticks_usec() - q0
 			continue
 		var entry := _sprites.rotation_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))
@@ -436,7 +761,8 @@ func _emit_sprite(proj: IsoProjection, it: Dictionary, entry: Dictionary, ground
 	for name in FixtureSprites.LAYER_ORDER_BELOW:
 		if layers.has(name):
 			_blit(layers[name], top_left, s, strip, tint, cmds)
-	_emit_products(it, entry, top_left, s, proj.zoom, strip, stock, skus, tint.a, cmds)
+	if draws_products(entry):
+		_emit_products(it, entry, top_left, s, proj.zoom, strip, stock, skus, tint.a, cmds)
 	for name in FixtureSprites.LAYER_ORDER_ABOVE:
 		if layers.has(name):
 			_blit(layers[name], top_left, s, strip, tint, cmds)
@@ -449,6 +775,11 @@ func _blit(tex: Texture2D, top_left: Vector2, s: float, strip: Vector2, tint: Co
 	if u1 - u0 < 0.5:
 		return
 	cmds.append([0, tex, Rect2(top_left + Vector2(u0 * s, 0.0), Vector2(u1 - u0, size.y) * s), Rect2(u0, 0.0, u1 - u0, size.y), tint])
+
+
+## Items are drawn on top of the sprite unless the variant has its products baked in (painted FULL, issue #91).
+static func draws_products(entry: Dictionary) -> bool:
+	return not bool(entry.get("baked", false))
 
 
 ## True when shelf items are drawn as package icons: close zoom and not the far "bar" LOD. Otherwise rects.
@@ -514,7 +845,7 @@ func _emit_products(it: Dictionary, entry: Dictionary, top_left: Vector2, s: flo
 				continue
 			var r := Rect2(a - Vector2(half, ITEM_H * s), size)
 			if icons and not sku.is_empty():
-				cmds.append([3, ProductIcons.texture(sku, ICON_PX), r, Color(1, 1, 1, alpha)])
+				cmds.append([3, ProductIcons.placeholder(sku, ICON_PX), r, Color(1, 1, 1, alpha)])   # the shelf look stays as it is (#91)
 				continue
 			cmds.append([1, r, fill, true, -1.0])
 			if outline:

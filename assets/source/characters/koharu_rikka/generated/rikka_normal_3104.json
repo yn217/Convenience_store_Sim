@@ -1,0 +1,19 @@
+{
+  "expression": "normal",
+  "seed": 3104,
+  "comfy_output": "rikka_normal_3104_00001_.png",
+  "positive": "koharu_rikka, anima_style, 1girl, solo, grey hair, purple eyes, double bun, short hair, hair ornament, anime illustration, soft shading, delicate lineart, gentle highlights, convenience store clerk, white short-sleeved collared shirt, navy blue apron with thin white vertical stripes, small name tag on the apron, gentle friendly smile, closed mouth, looking at viewer, one hand raised slightly in a welcoming gesture, cowboy shot, upper body to thighs, standing, facing the viewer, centered, full head visible with margin above, plain pure white background, simple background, no shadow on the background",
+  "negative": "low quality, worst quality, malformed hands, extra fingers, missing fingers, fused fingers, extra arms, duplicate limbs, distorted face, cropped head, out of frame, text, watermark, logo, signature, busy background, scenery, room, shelves, other people",
+  "base": "Anima-Base-v1.0",
+  "loras": {
+    "Koharu-Koharu-epoch100": 0.8,
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "size": [
+    640,
+    960
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

@@ -1,0 +1,166 @@
+{
+ "manifest_version": 1,
+ "visual_id": "nobori_banner_coffee",
+ "fixture_type_id": "nobori_banner_coffee",
+ "projection_id": "iso2x_v1",
+ "world_units_per_tile": 1,
+ "source_px_per_tile_diamond": [
+  256,
+  128
+ ],
+ "footprint": {
+  "w": 1,
+  "h": 1
+ },
+ "dimensions_m": {
+  "width": 0.92,
+  "depth": 0.92,
+  "height": 2.0
+ },
+ "rotations": {
+  "0": {
+   "canvas_px": [
+    320,
+    320
+   ],
+   "anchor_px": [
+    160,
+    210
+   ],
+   "layers": {
+    "body": "nobori_banner_coffee_0_body.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     160,
+     210
+    ],
+    [
+     288,
+     274
+    ],
+    [
+     160,
+     338
+    ],
+    [
+     32,
+     274
+    ]
+   ],
+   "sorting_anchor_px": [
+    160,
+    210
+   ]
+  },
+  "1": {
+   "canvas_px": [
+    320,
+    320
+   ],
+   "anchor_px": [
+    160,
+    210
+   ],
+   "layers": {
+    "body": "nobori_banner_coffee_1_body.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     160,
+     210
+    ],
+    [
+     288,
+     274
+    ],
+    [
+     160,
+     338
+    ],
+    [
+     32,
+     274
+    ]
+   ],
+   "sorting_anchor_px": [
+    160,
+    210
+   ]
+  },
+  "2": {
+   "canvas_px": [
+    320,
+    320
+   ],
+   "anchor_px": [
+    160,
+    210
+   ],
+   "layers": {
+    "body": "nobori_banner_coffee_2_body.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     160,
+     210
+    ],
+    [
+     288,
+     274
+    ],
+    [
+     160,
+     338
+    ],
+    [
+     32,
+     274
+    ]
+   ],
+   "sorting_anchor_px": [
+    160,
+    210
+   ]
+  },
+  "3": {
+   "canvas_px": [
+    320,
+    320
+   ],
+   "anchor_px": [
+    160,
+    210
+   ],
+   "layers": {
+    "body": "nobori_banner_coffee_3_body.png"
+   },
+   "slot_anchors_px": {},
+   "selection_polygon_px": [
+    [
+     160,
+     210
+    ],
+    [
+     288,
+     274
+    ],
+    [
+     160,
+     338
+    ],
+    [
+     32,
+     274
+    ]
+   ],
+   "sorting_anchor_px": [
+    160,
+    210
+   ]
+  }
+ }
+}

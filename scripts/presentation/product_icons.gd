@@ -1,9 +1,9 @@
 class_name ProductIcons
 extends RefCounted
-## Code-made placeholder package icons (issue #12 stand-in until generated art is approved).
-## Everything is drawn with Image pixels: a per-category silhouette, a colour derived from the
-## sku_id hash and the category, and a fictional two-glyph label plate. No external assets,
-## no real brands or logos. Textures are cached per (sku, category, label, size).
+## Package icons for the UI rows. A SKU with a picture in ART_DIR (ComfyUI, tools/assets/build_product_icons.py,
+## 64 px) gets it scaled to the row size; any other falls back to the code-made placeholder: a per-category
+## silhouette, a colour derived from the sku_id hash and the category, and a fictional two-glyph label plate. No real
+## brands or logos. Textures are cached per (sku, category, label, size).
 
 const PLATE_COLOR := Color(0.97, 0.96, 0.92)
 const INK_COLOR := Color(0.18, 0.16, 0.2)
@@ -11,11 +11,49 @@ const NORI_COLOR := Color(0.1, 0.18, 0.12)
 const BROTH_COLOR := Color(0.45, 0.25, 0.12)
 const CONE_COLOR := Color(0.85, 0.62, 0.36)
 
+const ART_DIR := "res://assets/ui/products/"
+
 static var _cache: Dictionary = {}
 
 
 ## Texture for one SKU row. `sku` is a product dictionary (sku_id, category, name_ja/display_name).
 static func texture(sku: Dictionary, size: int = 48) -> Texture2D:
+	var path := ART_DIR + str(sku.get("sku_id", "")) + ".png"
+	var px := maxi(size, 8)
+	var key := "art|%s|%d" % [path, px]
+	if _cache.has(key):
+		return _cache[key]
+	if ResourceLoader.exists(path):
+		var img := (load(path) as Texture2D).get_image()
+		if img.get_width() != px:
+			img.resize(px, px, Image.INTERPOLATE_LANCZOS)   # an OptionButton draws its icon at the texture's own size
+		_cache[key] = ImageTexture.create_from_image(img)
+		return _cache[key]
+	return placeholder(sku, size)
+
+
+## The picture cropped to what is drawn on it and scaled to `height` px tall (wide items such as a croissant stay wide):
+## for rows that show the product beside its name at the mockup's size. Falls back to texture().
+static func trimmed(sku: Dictionary, height: int) -> Texture2D:
+	var path := ART_DIR + str(sku.get("sku_id", "")) + ".png"
+	var key := "trim|%s|%d" % [path, height]
+	if _cache.has(key):
+		return _cache[key]
+	if not ResourceLoader.exists(path):
+		return texture(sku, height)
+	var img := (load(path) as Texture2D).get_image()
+	img.convert(Image.FORMAT_RGBA8)
+	var used := img.get_used_rect()
+	if used.size.x > 0:
+		img = img.get_region(used)
+	var w := maxi(1, roundi(float(img.get_width()) * float(height) / float(img.get_height())))
+	img.resize(w, height, Image.INTERPOLATE_LANCZOS)
+	_cache[key] = ImageTexture.create_from_image(img)
+	return _cache[key]
+
+
+## The code-drawn icon, also used where the picture would not fit (the products drawn on a shelf in the store, #91).
+static func placeholder(sku: Dictionary, size: int = 48) -> Texture2D:
 	var sku_id := str(sku.get("sku_id", ""))
 	var category := str(sku.get("category", ""))
 	var label := label_for(sku)
@@ -99,6 +137,91 @@ static func _hit(category: String, u: float, v: float) -> int:
 			if v < 0.42:
 				return 0
 			return 1 if pow((u - 0.5) / 0.46, 2.0) + pow((v - 0.42) / 0.48, 2.0) <= 1.0 else 0
+		"bento":   # a tray with a clear lid band and compartments
+			if u < 0.1 or u > 0.9 or v < 0.3 or v > 0.86:
+				return 0
+			if v < 0.4:
+				return 3
+			return 2 if absf(u - 0.5) < 0.02 or absf(v - 0.63) < 0.02 else 1
+		"daily_fresh":   # a round head of cabbage with leaf veins
+			var d := pow((u - 0.5) / 0.4, 2.0) + pow((v - 0.56) / 0.36, 2.0)
+			if d > 1.0:
+				return 0
+			return 2 if absf(u - 0.5) < 0.03 or absf((u - 0.5) - (v - 0.56) * 0.8) < 0.025 else 1
+		"coffee":   # a paper cup with a lid and a sleeve
+			if v < 0.14 or v > 0.92:
+				return 0
+			if v < 0.24:
+				return 3 if absf(u - 0.5) <= 0.36 else 0
+			var half_k := 0.32 - (v - 0.24) / 0.68 * 0.08
+			if absf(u - 0.5) > half_k:
+				return 0
+			return 2 if v >= 0.48 and v <= 0.66 else 1
+		"bakery":   # a round bun with a glazed top and a score line
+			var e := pow((u - 0.5) / 0.4, 2.0) + pow((v - 0.58) / 0.28, 2.0)
+			if e > 1.0:
+				return 0
+			if absf(v - 0.5) < 0.03 and absf(u - 0.5) < 0.25:
+				return 2
+			return 3 if v < 0.48 else 1
+		"pizza":   # a slice: crust along the top, cheese below, two toppings
+			if v < 0.18 or v > 0.9:
+				return 0
+			var half_p := 0.4 * (0.9 - v) / 0.72
+			if absf(u - 0.5) > half_p:
+				return 0
+			if v < 0.27:
+				return 2
+			if pow(u - 0.44, 2.0) + pow(v - 0.4, 2.0) < 0.003 or pow(u - 0.55, 2.0) + pow(v - 0.56, 2.0) < 0.003:
+				return 3
+			return 1
+		"soft_serve":   # a swirl of soft serve on a cone
+			if v >= 0.52:
+				var half_s := 0.2 * (0.96 - v) / 0.44
+				return 2 if v <= 0.96 and absf(u - 0.5) <= half_s else 0
+			var w := 0.26 * (1.0 - absf(v - 0.36) / 0.26)
+			if v < 0.1 or absf(u - 0.5) > w * 0.9:
+				return 0
+			return 3 if absf(v - 0.3) < 0.02 or absf(v - 0.42) < 0.02 else 1
+		"frappe":   # a tall cup with a domed lid and a straw
+			if absf(u - 0.62) < 0.03 and v >= 0.04 and v < 0.26:
+				return 2
+			if v < 0.18 or v > 0.94:
+				return 0
+			if v < 0.3:
+				return 3 if pow((u - 0.5) / 0.3, 2.0) + pow((v - 0.3) / 0.12, 2.0) <= 1.0 else 0
+			return 1 if absf(u - 0.5) <= 0.28 - (v - 0.3) * 0.12 else 0
+		"character_goods":   # a mug with a handle and a round mascot face
+			if pow((u - 0.78) / 0.12, 2.0) + pow((v - 0.55) / 0.16, 2.0) <= 1.0 and not pow((u - 0.78) / 0.06, 2.0) + pow((v - 0.55) / 0.09, 2.0) <= 1.0:
+				return 2
+			if u < 0.2 or u > 0.68 or v < 0.26 or v > 0.88:
+				return 0
+			return 3 if pow(u - 0.44, 2.0) + pow(v - 0.56, 2.0) < 0.012 else 1
+		"daily_goods":   # a hanging pack: a card header with a hole and a soft bag below
+			if u < 0.2 or u > 0.8 or v < 0.1 or v > 0.92:
+				return 0
+			if v < 0.26:
+				return 0 if pow(u - 0.5, 2.0) + pow(v - 0.18, 2.0) < 0.004 else 3
+			return 2 if absf(v - 0.4) < 0.025 else 1
+		"hygiene":   # a flat box with a band (no cross: the red cross is a protected emblem)
+			if u < 0.14 or u > 0.86 or v < 0.24 or v > 0.86:
+				return 0
+			if v < 0.34:
+				return 3
+			return 2 if absf(v - 0.5) < 0.06 else 1
+		"crane_prize":   # a plush head: a round face with two round ears and a lighter muzzle
+			if pow(u - 0.5, 2.0) + pow(v - 0.6, 2.0) <= 0.3 * 0.3:
+				return 3 if pow(u - 0.5, 2.0) + pow(v - 0.7, 2.0) <= 0.11 * 0.11 else 1
+			if pow(u - 0.26, 2.0) + pow(v - 0.32, 2.0) <= 0.1 * 0.1 or pow(u - 0.74, 2.0) + pow(v - 0.32, 2.0) <= 0.1 * 0.1:
+				return 2
+			return 0
+		"capsule_toy":   # a round capsule: a coloured top half and a clear bottom half
+			var r := pow(u - 0.5, 2.0) + pow(v - 0.55, 2.0)
+			if r > 0.36 * 0.36:
+				return 0
+			if absf(v - 0.55) < 0.025:
+				return 2
+			return 1 if v < 0.55 else 3
 		"ice_cream":
 			if pow(u - 0.5, 2.0) + pow(v - 0.36, 2.0) <= 0.28 * 0.28:
 				return 1
@@ -129,6 +252,48 @@ static func _color_for(category: String, hit: int, body: Color) -> Color:
 			return BROTH_COLOR if hit == 3 else body
 		"ice_cream":
 			return CONE_COLOR if hit == 2 else body
+		"bento":
+			if hit == 3:
+				return body.lightened(0.6)
+			return body.darkened(0.35) if hit == 2 else body
+		"daily_fresh":
+			return body.darkened(0.3) if hit == 2 else body
+		"coffee":
+			if hit == 3:
+				return Color(0.95, 0.95, 0.92)
+			return body.darkened(0.4) if hit == 2 else body
+		"crane_prize":
+			if hit == 3:
+				return body.lightened(0.55)
+			return body.darkened(0.2) if hit == 2 else body
+		"capsule_toy":
+			if hit == 3:
+				return Color(0.92, 0.95, 0.98)
+			return body.darkened(0.3) if hit == 2 else body
+		"bakery":
+			if hit == 3:
+				return body.darkened(0.25)
+			return body.darkened(0.45) if hit == 2 else body
+		"pizza":
+			if hit == 3:
+				return Color(0.75, 0.15, 0.12)
+			return CONE_COLOR.darkened(0.1) if hit == 2 else body
+		"soft_serve":
+			if hit == 2:
+				return CONE_COLOR
+			return body.darkened(0.15) if hit == 3 else body
+		"frappe":
+			if hit == 3:
+				return Color(0.97, 0.97, 0.97)
+			return Color(0.2, 0.6, 0.4) if hit == 2 else body
+		"character_goods":
+			if hit == 3:
+				return Color(0.98, 0.8, 0.3)
+			return body.darkened(0.3) if hit == 2 else body
+		"daily_goods", "hygiene":
+			if hit == 3:
+				return Color(0.96, 0.96, 0.94)
+			return body.darkened(0.3) if hit == 2 else body
 	return body
 
 
@@ -151,6 +316,30 @@ static func _plate_rect(category: String) -> Rect2:
 			return Rect2(0.34, 0.56, 0.32, 0.14)
 		"ice_cream":
 			return Rect2(0.36, 0.3, 0.28, 0.12)
+		"bento":
+			return Rect2(0.3, 0.7, 0.4, 0.12)
+		"daily_fresh":
+			return Rect2(0.34, 0.66, 0.32, 0.12)
+		"coffee":
+			return Rect2(0.36, 0.5, 0.28, 0.12)
+		"capsule_toy":
+			return Rect2(0.36, 0.62, 0.28, 0.1)
+		"crane_prize":
+			return Rect2(0.4, 0.86, 0.2, 0.06)
+		"bakery":
+			return Rect2(0.34, 0.66, 0.32, 0.1)
+		"pizza":
+			return Rect2(0.4, 0.6, 0.2, 0.08)
+		"soft_serve":
+			return Rect2(0.38, 0.66, 0.24, 0.1)
+		"frappe":
+			return Rect2(0.34, 0.56, 0.32, 0.14)
+		"character_goods":
+			return Rect2(0.26, 0.74, 0.36, 0.1)
+		"daily_goods":
+			return Rect2(0.3, 0.6, 0.4, 0.14)
+		"hygiene":
+			return Rect2(0.3, 0.64, 0.4, 0.14)
 	return Rect2(0.3, 0.4, 0.4, 0.2)
 
 
@@ -189,6 +378,30 @@ static func _tint(category: String) -> Color:
 			return Color(0.72, 0.45, 0.25)
 		"ice_cream":
 			return Color(0.6, 0.85, 0.95)
+		"bento":
+			return Color(0.85, 0.35, 0.25)
+		"daily_fresh":
+			return Color(0.55, 0.8, 0.4)
+		"coffee":
+			return Color(0.92, 0.88, 0.8)
+		"capsule_toy":
+			return Color(0.9, 0.35, 0.6)
+		"crane_prize":
+			return Color(0.78, 0.55, 0.85)
+		"bakery":
+			return Color(0.88, 0.66, 0.36)
+		"pizza":
+			return Color(0.98, 0.85, 0.45)
+		"soft_serve":
+			return Color(0.98, 0.95, 0.88)
+		"frappe":
+			return Color(0.95, 0.55, 0.65)
+		"character_goods":
+			return Color(0.96, 0.96, 0.94)
+		"daily_goods":
+			return Color(0.45, 0.55, 0.8)
+		"hygiene":
+			return Color(0.45, 0.8, 0.9)
 	return Color(0.7, 0.7, 0.7)
 
 

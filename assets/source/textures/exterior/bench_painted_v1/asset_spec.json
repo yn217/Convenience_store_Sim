@@ -1,0 +1,38 @@
+{
+  "asset_id": "bench_painted_v1",
+  "category": "outdoor_furniture",
+  "view_direction": "iso2x_long_axis_down_right",
+  "world_width": 1.9,
+  "world_depth": 0.65,
+  "world_height": 0.9,
+  "render_width_px": 384,
+  "render_height_px": 336,
+  "pivot_x": 192,
+  "pivot_y": 215,
+  "anchor_type": "ground_footprint_center",
+  "placement_offset": [
+    0,
+    0,
+    0
+  ],
+  "occlusion_group": "exterior_sorted",
+  "sort_key": "world_x+world_y",
+  "asset_variant": "painted_v1",
+  "light_direction": "upper_left",
+  "source_scale": 2,
+  "source_crop_px": [
+    141,
+    14,
+    1372,
+    1017
+  ],
+  "uniform_scale": 0.261505376344086,
+  "calibration_long_foot_delta_px": [
+    930,
+    436
+  ],
+  "orientation_notes": "Single genuine view only; rotations 1-3 intentionally absent, never substitute identical art. Source long slope approx .469 and backrest approx .515; within the stylized .5 target. Feet are inset from the .65m depth envelope.",
+  "alpha_qa": "Composite on pale green confirms clean open silhouette and transparent under-seat spaces. PNG carries meaningful alpha; hidden RGB glow is alpha zero.",
+  "tool": "built-in image_gen",
+  "source_sha256": "91c331536138ef0cb0c66ddbfffaa4ff8ff63b6fb2a5af32e8d41ce1aef93a87"
+}

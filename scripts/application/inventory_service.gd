@@ -113,8 +113,10 @@ static func reserve(state: GameState, reservation_id: String, customer_id: Strin
 
 
 ## Atomic checkout (03 §E): one transaction id is applied once; an expired segment sells nothing.
+## `basket_id` groups the rows of one customer's checkout (issue #128): every item row of that basket
+## carries it in details.transaction_id; it defaults to `transaction_id` for a single item.
 ## Returns {"ok": bool, "reason": String}.
-static func complete_sale(state: GameState, transaction_id: String, reservation_id: String) -> Dictionary:
+static func complete_sale(state: GameState, transaction_id: String, reservation_id: String, basket_id: String = "") -> Dictionary:
 	if state.ledger.has_event(transaction_id):
 		return {"ok": false, "reason": "duplicate_transaction"}
 	var index := -1
@@ -135,9 +137,18 @@ static func complete_sale(state: GameState, transaction_id: String, reservation_
 		return {"ok": false, "reason": "insufficient_stock"}
 	var revenue := int(res["sell_unit_yen_snapshot"]) * qty
 	var cogs := int(res["cost_unit_yen_snapshot"]) * qty
-	if not state.ledger.record("SALE", transaction_id, revenue, state.day, state.time_sec,
-			{"reservation_id": reservation_id, "sku_id": seg["sku_id"], "qty": qty, "fixture_id": seg["location"].get("fixture_id", "")}, {"revenue": revenue, "cogs": cogs}):
+	var details := {"reservation_id": reservation_id, "sku_id": seg["sku_id"], "qty": qty, "fixture_id": seg["location"].get("fixture_id", ""), "transaction_id": basket_id if basket_id != "" else transaction_id}
+	# #137: a unit sold below its list price was sold on a deal (the running price promotion for its category).
+	var deal := ""
+	if not state.promotions.is_empty():
+		var list := state.list_price(seg["sku_id"])
+		deal = Promotions.price_promotion_for(state, String(state.products.get_sku(seg["sku_id"]).get("category", "")))
+		if deal != "" and int(res["sell_unit_yen_snapshot"]) < list:
+			details["discount_yen"] = (list - int(res["sell_unit_yen_snapshot"])) * qty
+	if not state.ledger.record("SALE", transaction_id, revenue, state.day, state.time_sec, details, {"revenue": revenue, "cogs": cogs}):
 		return {"ok": false, "reason": "ledger_rejected"}
+	if details.has("discount_yen"):
+		Promotions.note_sale(state, deal, qty, int(details["discount_yen"]))
 	seg["physical_qty"] = int(seg["physical_qty"]) - qty
 	seg["reserved_qty"] = int(seg["reserved_qty"]) - qty
 	state.reservations.remove_at(index)

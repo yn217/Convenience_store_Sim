@@ -1,0 +1,125 @@
+{
+  "manifest_version": 1,
+  "visual_id": "casual_man",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "height_m": 1.68,
+  "facing_names": [
+    "E",
+    "S",
+    "W",
+    "N"
+  ],
+  "canvas_px": [
+    190,
+    329
+  ],
+  "anchor_px": [
+    95.0,
+    282.0
+  ],
+  "shadow": "shadow.png",
+  "animations": {
+    "walk": {
+      "frames": 6,
+      "fps": 8.0,
+      "loop": true
+    },
+    "idle": {
+      "frames": 2,
+      "fps": 1.6666666666666667,
+      "loop": true
+    },
+    "inspect": {
+      "frames": 4,
+      "fps": 8.88888888888889,
+      "loop": false
+    }
+  },
+  "directions": {
+    "0": {
+      "walk": [
+        "d0_walk_f0.png",
+        "d0_walk_f1.png",
+        "d0_walk_f2.png",
+        "d0_walk_f3.png",
+        "d0_walk_f4.png",
+        "d0_walk_f5.png"
+      ],
+      "idle": [
+        "d0_idle_f0.png",
+        "d0_idle_f1.png"
+      ],
+      "inspect": [
+        "d0_inspect_f0.png",
+        "d0_inspect_f1.png",
+        "d0_inspect_f2.png",
+        "d0_inspect_f3.png"
+      ]
+    },
+    "1": {
+      "walk": [
+        "d1_walk_f0.png",
+        "d1_walk_f1.png",
+        "d1_walk_f2.png",
+        "d1_walk_f3.png",
+        "d1_walk_f4.png",
+        "d1_walk_f5.png"
+      ],
+      "idle": [
+        "d1_idle_f0.png",
+        "d1_idle_f1.png"
+      ],
+      "inspect": [
+        "d1_inspect_f0.png",
+        "d1_inspect_f1.png",
+        "d1_inspect_f2.png",
+        "d1_inspect_f3.png"
+      ]
+    },
+    "2": {
+      "walk": [
+        "d2_walk_f0.png",
+        "d2_walk_f1.png",
+        "d2_walk_f2.png",
+        "d2_walk_f3.png",
+        "d2_walk_f4.png",
+        "d2_walk_f5.png"
+      ],
+      "idle": [
+        "d2_idle_f0.png",
+        "d2_idle_f1.png"
+      ],
+      "inspect": [
+        "d2_inspect_f0.png",
+        "d2_inspect_f1.png",
+        "d2_inspect_f2.png",
+        "d2_inspect_f3.png"
+      ]
+    },
+    "3": {
+      "walk": [
+        "d3_walk_f0.png",
+        "d3_walk_f1.png",
+        "d3_walk_f2.png",
+        "d3_walk_f3.png",
+        "d3_walk_f4.png",
+        "d3_walk_f5.png"
+      ],
+      "idle": [
+        "d3_idle_f0.png",
+        "d3_idle_f1.png"
+      ],
+      "inspect": [
+        "d3_inspect_f0.png",
+        "d3_inspect_f1.png",
+        "d3_inspect_f2.png",
+        "d3_inspect_f3.png"
+      ]
+    }
+  }
+}

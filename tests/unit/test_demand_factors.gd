@@ -1,12 +1,14 @@
 extends RefCounted
 ## Issue #27: price attractiveness, assortment, reputation and the balance-driven parameters.
 
+const LegacyPace := preload("res://tests/support/legacy_pace.gd")
+
 const Seeds := preload("res://tests/support/test_seeds.gd")
 var _n := 0
 
 
 func _state() -> GameState:
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	return GameState.from_balance(balance, Seeds.SEEDS, fx, pr)
@@ -56,7 +58,7 @@ func test_defaults_are_the_spec_values(t, _tree) -> void:
 	t.ok(_near(DemandModel.purchase_probability(2.0), 0.95), "cap 0.95")
 	t.ok(_near(DemandModel.purchase_probability(0.3), 0.24))
 	t.ok(_near(DemandModel.purchase_probability(0.0), 0.05), "floor 0.05")
-	var balance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance: Dictionary = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	t.ok(balance.has("demand_model"), "the coefficients live in the balance data")
 	t.ok(_near(DemandModel.price_factor(150, 300, balance), 0.5), "shipped balance = defaults")
 	for c in ProductCatalog.CATEGORIES:
@@ -181,7 +183,7 @@ func test_reputation_moves_the_next_day_and_is_reproducible(t, _tree) -> void:
 
 func test_queue_giveups_and_stockouts_are_counted_separately(t, _tree) -> void:
 	var s := _store()
-	s.balance["checkout_duration_game_seconds"] = 100000
+	s.balance["checkout_base_game_seconds"] = 100000
 	var ai := CustomerAI.new()
 	_arrive(s, 3)
 	for i in 120:
@@ -201,7 +203,7 @@ func test_queue_giveups_and_stockouts_are_counted_separately(t, _tree) -> void:
 
 
 func test_advertising_and_assortment_do_not_touch_the_purchase_chance(t, _tree) -> void:
-	var tiers: Array = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))["advertising_tiers"]
+	var tiers: Array = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))["advertising_tiers"]
 	var base := DemandModel.step_probability(12, 100.0, 1.0, 50, 4)
 	var more_ads := DemandModel.step_probability(12, 100.0, DemandModel.ad_multiplier(tiers, 5000), 50, 4)
 	var wider := DemandModel.step_probability(12, 100.0, 1.0, 50, 8)

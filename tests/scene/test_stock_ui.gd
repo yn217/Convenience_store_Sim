@@ -33,6 +33,9 @@ func test_order_then_restock_through_the_panel(t, tree) -> void:
 	sc._refresh()
 	t.ok(sc._restock_box.visible, "restock controls for the selected shelf")
 	t.ok(sc._restock_sku.item_count > 0)
+	for i in sc._restock_sku.item_count:   # the onigiri shelf also takes bento (#147): pick the rice ball
+		if sc._restock_sku.get_item_metadata(i) == "rice_001":
+			sc._restock_sku.select(i)
 	sc._restock_qty.text = "12"
 	t.ok(sc.submit_restock().ok)
 	t.eq(app.state.snapshot()["shelf_stock"][shelf]["row0"], 12)
@@ -43,3 +46,13 @@ func test_order_then_restock_through_the_panel(t, tree) -> void:
 	t.eq(app.state.backroom_available("rice_001"), 3)
 	main.queue_free()
 	await tree.process_frame
+
+
+## The mockup 商品 tab: the バックヤード summary counts kinds and units; 在庫一覧 lists them most first and searches by name.
+func test_backroom_summary_and_list(t, _tree) -> void:
+	t.eq(StockController.backroom_summary({}), "バックヤード 在庫なし")
+	t.eq(StockController.backroom_summary({"rice_001": 4, "bento_001": 3, "drink_001": 0, "bake_003": 5}), "バックヤード 3品目 / 合計12個")
+	var products := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
+	var rows := BackroomPanel.rows({"rice_001": 2, "bake_003": 4, "bento_001": 3, "drink_001": 0}, products, "")
+	t.eq(rows.map(func(r): return r[0]), ["bake_003", "bento_001", "rice_001"], "most first, empty kinds left out")
+	t.eq(BackroomPanel.rows({"rice_001": 2, "bake_003": 4}, products, "おにぎり").map(func(r): return r[0]), ["rice_001"], "search by name")

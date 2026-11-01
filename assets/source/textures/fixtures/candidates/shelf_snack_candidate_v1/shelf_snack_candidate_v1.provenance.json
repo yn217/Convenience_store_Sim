@@ -1,0 +1,41 @@
+{
+  "runtime_approved": false,
+  "generator": "Pillow deterministic fallback",
+  "projection_id": "iso2x_v1",
+  "source_px_per_tile": [
+    256,
+    128
+  ],
+  "access_edge": "E",
+  "shelf_height_m": 1.6,
+  "physical_dimensions_m": [
+    0.92,
+    1.92,
+    1.6
+  ],
+  "unverified_points": [
+    "Blender camera calibration and projection tolerance not verified.",
+    "Visual silhouette and slot readability review is pending.",
+    "Godot runtime integration intentionally not performed."
+  ],
+  "sha256": {
+    "shelf_snack_0_body.png": "5163e727697547b35d7d9918e6389787db8a14e04a16bcb203a1e862bb7b5a73",
+    "shelf_snack_0_shadow.png": "d28ad6718870cfdfb9525b56058323096e37038445d37a0d23b3a3baba1ae446",
+    "shelf_snack_1_body.png": "910022d6b94b47ff3372da1460717e103c55d76baed47f5c4b7780d3c1b98614",
+    "shelf_snack_1_shadow.png": "ab5db8c23e5493bca72abe10042957c6361bfe40e30bb98a84312d0d267651b8",
+    "shelf_snack_2_body.png": "792043b1984f3f358e2cad95086e78e8a80c11282b9efcd1be269dafadb9fc95",
+    "shelf_snack_2_shadow.png": "d28ad6718870cfdfb9525b56058323096e37038445d37a0d23b3a3baba1ae446",
+    "shelf_snack_3_body.png": "b34457fdab00ba3f85b9643948d39e254175d7a75267968dbf72a721ac14b52c",
+    "shelf_snack_3_shadow.png": "ab5db8c23e5493bca72abe10042957c6361bfe40e30bb98a84312d0d267651b8"
+  },
+  "files": [
+    "shelf_snack_0_body.png",
+    "shelf_snack_0_shadow.png",
+    "shelf_snack_1_body.png",
+    "shelf_snack_1_shadow.png",
+    "shelf_snack_2_body.png",
+    "shelf_snack_2_shadow.png",
+    "shelf_snack_3_body.png",
+    "shelf_snack_3_shadow.png"
+  ]
+}

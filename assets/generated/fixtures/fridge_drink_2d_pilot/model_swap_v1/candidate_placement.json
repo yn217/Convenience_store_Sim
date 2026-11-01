@@ -1,0 +1,27 @@
+{
+  "projection_id": "iso2x_v1",
+  "rotation": 0,
+  "state": "FULL",
+  "canvas_px": [
+    442,
+    527
+  ],
+  "anchor_px": [
+    285,
+    380
+  ],
+  "sorting_anchor_px": [
+    285,
+    380
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "candidates": [
+    "fridge_drink_full_r0_candidate_a.png",
+    "fridge_drink_full_r0_candidate_b.png"
+  ],
+  "status": "generated_candidates_with_bbox_deviation",
+  "exact_registration_certified": false
+}

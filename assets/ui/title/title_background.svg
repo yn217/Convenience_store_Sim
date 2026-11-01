@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+<title>Convenience Store Sim title — sunset storefront background without baked UI</title>
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#244b80"/><stop offset=".42" stop-color="#a87091"/><stop offset=".76" stop-color="#f7b27c"/><stop offset="1" stop-color="#eab98c"/></linearGradient>
+ <linearGradient id="road" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6c7888"/><stop offset="1" stop-color="#24374b"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c9eff4" stop-opacity=".86"/><stop offset=".65" stop-color="#6a9fb1" stop-opacity=".8"/><stop offset="1" stop-color="#d7e8e8" stop-opacity=".72"/></linearGradient>
+ <linearGradient id="light" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff6c4"/><stop offset="1" stop-color="#fdbb72"/></linearGradient>
+ <linearGradient id="vignette" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#10233d" stop-opacity=".65"/><stop offset=".48" stop-color="#16354c" stop-opacity=".16"/><stop offset="1" stop-color="#061d3f" stop-opacity=".22"/></linearGradient>
+ <pattern id="glassLines" width="66" height="68" patternUnits="userSpaceOnUse"><path d="M 0 0 L 0 68 M 0 68 L66 68" fill="none" stroke="#f0f9f8" stroke-opacity=".24" stroke-width="3"/></pattern>
+ <filter id="glow"><feGaussianBlur stdDeviation="14"/></filter>
+</defs>
+<rect width="1920" height="1080" fill="url(#sky)"/>
+<ellipse cx="1370" cy="380" rx="176" ry="90" fill="#ffd9a1" opacity=".45" filter="url(#glow)"/>
+<g fill="#ecf0e9" opacity=".30"><path d="M -40 225 q125 -115 255 0q80 -72 173 1q130 -61 230 0v44H-40Z"/><path d="M1200 180q110 -125 235 -30q95 -55 176 5q100 -63 260 24v44H1200Z"/></g>
+<g fill="#405979" opacity=".51"><rect x="0" y="400" width="120" height="250"/><rect x="118" y="350" width="195" height="305"/><rect x="280" y="410" width="145" height="228"/><rect x="1520" y="360" width="160" height="300"/><rect x="1670" y="295" width="158" height="370"/><rect x="1830" y="400" width="120" height="250"/></g>
+<g fill="#fff3c4" opacity=".25"><path d="M135 390h18v24h-18zm40 0h18v24h-18zm40 0h18v24h-18zm-80 70h18v24h-18zm40 0h18v24h-18zm40 0h18v24h-18zM1690 349h25v40h-25zm52 0h25v40h-25zm-52 90h25v40h-25zm52 0h25v40h-25z"/></g>
+<rect y="680" width="1920" height="400" fill="#8a8690"/>
+<path d="M0 795 1920 758V1080H0Z" fill="url(#road)"/>
+<path d="M0 778 1920 748" stroke="#ddd6b8" stroke-width="15" opacity=".8"/>
+<path d="M160 965 610 900m90 -14 450 -70m86 -14 445 -63" fill="none" stroke="#fef2cf" stroke-width="9" stroke-dasharray="105 54" opacity=".58"/>
+<!-- Store geometry intentionally separate from title/menu controls -->
+<g transform="translate(205 345)">
+ <path d="M0 135 1225 90 1425 140 1425 435 0 490Z" fill="#eee9e1" stroke="#d6d8d8" stroke-width="6"/>
+ <path d="M-7 150 1225 108 1431 153V213L-7 252Z" fill="#fdfbf5"/>
+ <path d="M0 193 1224 149 1430 192V209L0 261Z" fill="#247abe"/>
+ <path d="M0 210 1225 167 1430 205V217L0 277Z" fill="#fff"/>
+ <path d="M0 228 1225 184 1430 219V236L0 295Z" fill="#efb74c"/>
+ <path d="M0 259 1225 215 1430 250V277L0 318Z" fill="#fdfaf4"/>
+ <path d="M0 318 1418 275V458L0 488Z" fill="#3e6775" opacity=".8"/>
+ <rect x="40" y="328" width="1090" height="141" fill="url(#light)"/>
+ <g fill="#d4895e" opacity=".55"><rect x="92" y="366" width="150" height="85"/><rect x="281" y="346" width="135" height="101"/><rect x="640" y="351" width="160" height="97"/><rect x="851" y="335" width="120" height="98"/></g>
+ <g fill="#8f4b5b" opacity=".55"><path d="M107 372h30v70h-30zm39 8h30v62h-30zm171-8h34v70h-34zm44 8h30v62h-30zm305-8h30v70h-30zm40 5h30v65h-30z"/></g>
+ <path d="M30 311 1380 273V449L30 482Z" fill="url(#glass)"/>
+ <path d="M30 311 1380 273V449L30 482Z" fill="url(#glassLines)" opacity=".75"/>
+ <g stroke="#d4e6ea" stroke-width="9"><path d="M260 310V474M485 303V471M715 293V463M957 283V459M1181 278V451"/></g>
+ <path d="M550 305 550 467M686 299 686 464" stroke="#dae5e7" stroke-width="13"/>
+ <path d="M575 356V414 M663 345V411" stroke="#edf4ed" stroke-width="7" opacity=".9"/>
+ <path d="M-13 295 1429 241" stroke="#637b8b" stroke-width="11"/>
+ <path d="M-10 489 1429 452" stroke="#b5b1a4" stroke-width="9"/>
+ <!-- canopy lamps -->
+ <g fill="#fff8c8"><ellipse cx="230" cy="282" rx="42" ry="8"/><ellipse cx="640" cy="268" rx="42" ry="8"/><ellipse cx="1110" cy="254" rx="42" ry="8"/></g>
+</g>
+<!-- Four leafy trees / flowerbeds -->
+<g>
+<path d="M125 765V467" stroke="#5e524e" stroke-width="27"/><path d="M117 590 47 532M127 562 201 488" stroke="#5e524e" stroke-width="18"/><g fill="#397655"><circle cx="94" cy="422" r="106"/><circle cx="35" cy="500" r="78"/><circle cx="187" cy="478" r="82"/></g><g fill="#e8a4b7" opacity=".77"><circle cx="35" cy="443" r="10"/><circle cx="192" cy="414" r="14"/><circle cx="142" cy="363" r="12"/><circle cx="219" cy="530" r="10"/></g>
+<path d="M1760 795V458" stroke="#554e4c" stroke-width="30"/><path d="M1759 585 1682 514M1770 540 1842 480" stroke="#554e4c" stroke-width="19"/><g fill="#356f55"><circle cx="1700" cy="442" r="101"/><circle cx="1834" cy="439" r="102"/><circle cx="1781" cy="347" r="102"/></g><g fill="#f7c0c8" opacity=".75"><circle cx="1715" cy="403" r="10"/><circle cx="1822" cy="358" r="16"/><circle cx="1738" cy="299" r="14"/></g>
+</g>
+<!-- Clean game-view title background; UI/title typography intentionally not baked in -->
+<rect width="1920" height="1080" fill="url(#vignette)"/>
+</svg>

@@ -1,0 +1,112 @@
+{
+  "projection_id": "iso2x_v1",
+  "footprint": [
+    1,
+    2
+  ],
+  "anchor_px": [
+    285,
+    302
+  ],
+  "target_canvas_px": [
+    442,
+    449
+  ],
+  "target_reference_bbox": [
+    38,
+    8,
+    403,
+    425
+  ],
+  "reference_bbox": [
+    10,
+    4,
+    1166,
+    1325
+  ],
+  "source_canvas_px": [
+    1173,
+    1341
+  ],
+  "nominal_uniform_scale": 0.315669947009841,
+  "effective_scale_xy_after_pixel_rounding": [
+    0.3154305200341006,
+    0.31543624161073824
+  ],
+  "offset_px": [
+    36,
+    7
+  ],
+  "flip_x": true,
+  "alpha_threshold": 8,
+  "states": {
+    "full": {
+      "source": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\full_snacks_ratio0875_v2.png",
+      "source_bbox": [
+        10,
+        4,
+        1166,
+        1325
+      ],
+      "output": "shelf_general_full_fixed_transform.png",
+      "output_bbox_alpha_nonzero": [
+        36,
+        7,
+        405,
+        428
+      ],
+      "output_bbox_alpha_threshold": [
+        38,
+        8,
+        403,
+        425
+      ]
+    },
+    "half": {
+      "source": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\half_uniform_full_v1.png",
+      "source_bbox": [
+        9,
+        5,
+        1167,
+        1328
+      ],
+      "output": "shelf_general_half_fixed_transform.png",
+      "output_bbox_alpha_nonzero": [
+        36,
+        7,
+        406,
+        428
+      ],
+      "output_bbox_alpha_threshold": [
+        38,
+        8,
+        403,
+        426
+      ]
+    },
+    "empty": {
+      "source": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\empty_uniform_dual_ref_v3.png",
+      "source_bbox": [
+        10,
+        4,
+        1169,
+        1329
+      ],
+      "output": "shelf_general_empty_fixed_transform.png",
+      "output_bbox_alpha_nonzero": [
+        36,
+        7,
+        405,
+        429
+      ],
+      "output_bbox_alpha_threshold": [
+        37,
+        8,
+        403,
+        427
+      ]
+    }
+  },
+  "runtime_approved": false,
+  "note": "Shared transform is not proof of fixture or anchor correspondence."
+}

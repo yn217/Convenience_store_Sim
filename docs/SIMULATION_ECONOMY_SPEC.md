@@ -61,13 +61,14 @@
 
 ## 5. 需要・客数と売れやすさ
 **MVPの調整可能な仮モデル**：
-- 1日来店希望数の期待値 = base_traffic(time, weekday) × ad_multiplier(ad_tier) × reputation_multiplier × assortment_multiplier。
+- 1日来店希望数の期待値 = base_traffic(time)（曜日は持たない: ゲーム内暦は1日=1週、[00 §8](implementation/00_BASELINE_AND_DECISIONS.md)） × ad_multiplier(ad_tier) × reputation_multiplier × assortment_multiplier。
 - 広告倍率のテーブル（初期仮値）: 0円→1.00、1,000円→1.10、2,000円→1.18、5,000円→1.30、10,000円→1.40。広告1万円で来店が無制限に増える設計にしない。
 - 商品購入候補の重み = category_preference × availability × price_attractiveness × placement_accessibility × appeal。正規化して抽選。商品の在庫がなければ重み0。
 - 価格魅力度例（仮） = clamp((reference_price / sell_price)^elasticity, 0.3, 2.0)。0円、負数を拒否。売価高いほど購入確率が下がる可能性を表現。
 - 品揃え乗数例（仮）= 0.75 + 0.25×min(1, stocked_categories/8)。カテゴリ数だけの購買水増しではなく需要計算に限定。
 - 評判: 0〜100、初期50。欠品・レジ待ち・来店時の商品選択成功率などから日単位で微増減。設置レイアウト/品揃えを通じ改善する動機にする。
 - 売上/来店 = 購買率×平均買上金額。**潜在来店・実来店・購買客・購入個数・逸失客を別指標**に分ける。
+- （#128）1来店は1〜4点のかご（1点40/2点35/3点20/4点5%）。来店数は100→50に半減し、購入点数（平均約1.9点/来店）で販売規模を保つ。会計は20秒＋1点8秒。客単価 = 売上 ÷ 購入客数。
 - 全係数はデータテーブル化し、調整可能。ランダム変動を独立乱数ストリーム化（来店、品目選択、ビジュアル演出）し、UI演出変更が売上乱数を変えない。
 
 ## 6. 広告と日付境界

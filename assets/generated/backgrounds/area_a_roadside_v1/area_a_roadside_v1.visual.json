@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "asset_id": "area_a_roadside_v1",
+  "category": "static_world_anchored_parking_sidewalk_apron",
+  "view_direction": "iso2x_v1 unified frontage parking area",
+  "render_width_px": 1672,
+  "render_height_px": 941,
+  "anchor_type": "measured_frontage_edge_on_entrance_side",
+  "frontage_p0_px": [249.0, 29.0],
+  "frontage_p1_px": [1657.0, 604.0],
+  "runtime_fit": {
+    "uniform_scale_only": true,
+    "source_edge_slope": 0.4084,
+    "frontage_alignment": "measured source endpoints map to the projected entrance-side edge endpoints",
+    "runtime_rotation": "per entrance side",
+    "runtime_vertical_shear": 0.0,
+    "entrance_crosswalk": "drawn dynamically by game geometry; omitted from artwork"
+  },
+  "source_file": "assets/source/background/area_a_roadside_v1/original.png",
+  "alpha_bbox_px": [0, 0, 1670, 929],
+  "corner_alpha": [0, 0, 0, 0]
+}

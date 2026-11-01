@@ -1,0 +1,21 @@
+{
+ "robust_extent_before_scale": [
+  0.9961,
+  0.4548,
+  0.8032
+ ],
+ "scale_x": 1.9275,
+ "scale_y": 2.0228,
+ "scale_vertical": 1.992,
+ "cut_splats": 17937,
+ "shear": null,
+ "cutaway": null,
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\bakery_oven_9101_v1/reference.ply",
+ "type": "bakery_oven",
+ "front_yaw": 90.0,
+ "access_edge": "E"
+}

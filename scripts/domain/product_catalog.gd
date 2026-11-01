@@ -6,6 +6,13 @@ extends RefCounted
 const SUPPORTED_SCHEMA_VERSION := 1
 const CATEGORIES: Array[String] = [
 	"rice_ball", "oden", "instant_noodle", "bread", "drink", "snack", "dessert", "ice_cream",
+	"bento", "daily_fresh", "coffee",   # #147: lunch boxes, vegetables / dairy, counter coffee
+	"capsule_toy",   # #139: capsule toy machines
+	"daily_goods", "hygiene",   # #133: socks, underwear, umbrellas / masks, plasters, wet wipes (no medicines)
+	"character_goods",   # #140: limited goods of a collab fair (fictional mascot)
+	"soft_serve", "frappe",   # #131: made to order at their machines
+	"bakery", "pizza",   # #130: fresh bread from the store's oven, pizza baked to order
+	"crane_prize",   # #132: plush prizes of the crane game
 ]
 const REQUIRED := [
 	"schema_version", "sku_id", "display_name", "category", "purchase_cost_yen",

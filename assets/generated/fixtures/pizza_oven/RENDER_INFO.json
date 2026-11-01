@@ -1,0 +1,21 @@
+{
+ "robust_extent_before_scale": [
+  0.8228,
+  0.5754,
+  0.9953
+ ],
+ "scale_x": 1.1181,
+ "scale_y": 1.4536,
+ "scale_vertical": 1.4067,
+ "cut_splats": 8518,
+ "shear": null,
+ "cutaway": null,
+ "slots": null,
+ "glass_above": null,
+ "glass_alpha": 1.0,
+ "drop_above": null,
+ "ply": "F:/Cordex_OpenAI/ゲーム製作_コンビニ経営/assets/source/idol\\pizza_oven_9101_v1/reference.ply",
+ "type": "pizza_oven",
+ "front_yaw": 90.0,
+ "access_edge": "S"
+}

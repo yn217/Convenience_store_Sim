@@ -1,0 +1,45 @@
+{
+  "manifest_version": 1,
+  "asset_id": "store_exterior_backdrop_v2",
+  "category": "static_world_anchored_exterior_vegetation",
+  "view_direction": "iso2x_v1 rear V backdrop with tall trees",
+  "render_width_px": 1774,
+  "render_height_px": 947,
+  "ground_apex_px": [
+    887.661,
+    435.866
+  ],
+  "left_ground_endpoint_px": [
+    0,
+    879.856
+  ],
+  "right_ground_endpoint_px": [
+    1773,
+    878.561
+  ],
+  "anchor_type": "behind_far_corner_ground_z0",
+  "sort_key": "vegetation_before_opaque_far_wall",
+  "runtime_fit": {
+    "uniform_scale_only": true,
+    "world_root_anchor": "(-0.5 - offset, -0.5 - offset, 0)",
+    "separate_edge_checks": true,
+    "edge_slopes": [
+      -0.5001795801090549,
+      0.5000279865105018
+    ],
+    "root_and_planter_occlusion": "opaque far wall overlay"
+  },
+  "source_file": "assets/source/background/store_exterior_backdrop_v2/corner_v1.png",
+  "alpha_bbox_px": [
+    0,
+    16,
+    1774,
+    947
+  ],
+  "corner_alpha": [
+    0,
+    0,
+    0,
+    0
+  ]
+}

@@ -10,9 +10,16 @@
  ],
  "padding_px": 8,
  "variants": [
+  "casual_man",
+  "casual_woman",
+  "clerk",
   "customer_a",
   "customer_b",
-  "customer_c"
+  "customer_c",
+  "office_worker",
+  "older_person",
+  "parent",
+  "student_uniform"
  ],
  "origin_px": [
   384.0,
@@ -22,7 +29,8 @@
   "iso2x.py": "e3b79e77b28a24b6",
   "figures.py": "146d674521f13799",
   "render_customers.py": "3560176ed171f927",
-  "build_customers.py": "d374c9ba5822fbac"
+    "build_customers.py": "d374c9ba5822fbac",
+    "generate_character_variants.py": "issue-104-deterministic-pillow"
  },
  "calibration": {
   "file": "calibration/iso2x_v1_calibration.png",

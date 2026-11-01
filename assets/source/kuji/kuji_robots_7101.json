@@ -1,0 +1,18 @@
+{
+  "set": "kuji_robots",
+  "seed": 7101,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "comfy_output": "kuji_kuji_robots_7101_00001_.png",
+  "positive": "anima_style, still life, a prize display shelf of a convenience store lottery, a big shiny combining robot figure, mini robot figures, robot mugs, rubber keychains, trading cards, metallic blue and red, dramatic light, no people",
+  "negative": "low quality, worst quality, blurry, text, letters, words, logo, brand name, watermark, signature, malformed hands, extra fingers, distorted face, other people, 1girl, person",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    768,
+    432
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

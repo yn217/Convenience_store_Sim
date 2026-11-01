@@ -1,0 +1,17 @@
+{
+  "method": "Manual inspection at raw size and the 442x465 fitted comparison, plus alpha and Hough diagnostics.",
+  "A": {
+    "stocked_shelves": 3,
+    "items": "Round custard pudding cups, cheesecake cups, fruit jelly cups",
+    "case": "Top cap, cabinet side, clear two-panel glass front, center mullion, base and three shelves visibly present.",
+    "readability": "Large cup bands and dessert colors are distinct; fine label lettering is small at game scale."
+  },
+  "B": {
+    "stocked_shelves": 3,
+    "items": "Each shelf shows grouped jelly, pudding and cheesecake cups",
+    "case": "Top cap, cabinet side, clear two-panel glass front, center mullion, base and three shelves visibly present.",
+    "readability": "Strong shelf color groups; fine label lettering is small at game scale."
+  },
+  "geometry_gate": "NOT_EXACTLY_VERIFIED. Canvas size is canonical. Hough long-edge median and silhouette bbox are diagnostics only, not proof of door, rail, shelf, length or anchor alignment.",
+  "transparency": "Candidate alpha outside the object is fully clear (border alpha maximum 0 after fitting). No checkerboard was included in the sprites."
+}

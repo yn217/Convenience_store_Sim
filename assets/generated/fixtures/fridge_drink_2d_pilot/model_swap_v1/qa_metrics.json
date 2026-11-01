@@ -1,0 +1,168 @@
+{
+  "input_guide.png": {
+    "canvas_px": [
+      442,
+      527
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      38,
+      8,
+      403,
+      503
+    ],
+    "transparent_fraction": 0.38281659182429356,
+    "partial_alpha_fraction": 0.010397795083585909,
+    "border_pixels_alpha_gt8": 0,
+    "long_diagonal_slope_median": -0.5057471264367817,
+    "sha256": "f72edd7b5379e433f12a946752c3b0a693890fd61bc07adc682ff4b5b0ffb70b"
+  },
+  "fridge_drink_full_r0_candidate_a.png": {
+    "canvas_px": [
+      442,
+      527
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      37,
+      7,
+      401,
+      521
+    ],
+    "transparent_fraction": 0.35704105025457855,
+    "partial_alpha_fraction": 0.6376613117878884,
+    "border_pixels_alpha_gt8": 0,
+    "long_diagonal_slope_median": -0.4915254237288136,
+    "sha256": "b8ac9ff3028c562a974368862c19ad80ba79a6b22789e03ff9d8af055ac36f6e",
+    "bbox_delta_from_guide_px": [
+      -1,
+      -1,
+      -2,
+      18
+    ],
+    "bbox_aspect_ratio_vs_guide": 0.9603965673471564,
+    "anchor_px": [
+      285,
+      380
+    ],
+    "long_diagonal_target_slope": -0.5,
+    "slope_tolerance_diagnostic": {
+      "interval": [
+        -0.54,
+        -0.46
+      ],
+      "pass": true
+    }
+  },
+  "fridge_drink_full_r0_candidate_b.png": {
+    "canvas_px": [
+      442,
+      527
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      35,
+      6,
+      409,
+      513
+    ],
+    "transparent_fraction": 0.3504383215846549,
+    "partial_alpha_fraction": 0.6442468682115964,
+    "border_pixels_alpha_gt8": 0,
+    "long_diagonal_slope_median": -0.49056603773584906,
+    "sha256": "35e504a5342e35f8123adafa8517cbc5c2638ba8e52f78f8e3e56137db6cc5aa",
+    "bbox_delta_from_guide_px": [
+      -3,
+      -2,
+      6,
+      10
+    ],
+    "bbox_aspect_ratio_vs_guide": 1.0004052849152956,
+    "anchor_px": [
+      285,
+      380
+    ],
+    "long_diagonal_target_slope": -0.5,
+    "slope_tolerance_diagnostic": {
+      "interval": [
+        -0.54,
+        -0.46
+      ],
+      "pass": true
+    }
+  },
+  "original_a.png": {
+    "canvas_px": [
+      1148,
+      1370
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      96,
+      19,
+      1040,
+      1353
+    ],
+    "transparent_fraction": 0.3602482260484753,
+    "partial_alpha_fraction": 0.6390294768432564,
+    "border_pixels_alpha_gt8": 0,
+    "long_diagonal_slope_median": -0.5102739726027398,
+    "sha256": "45270a2c5781b54819af15471ed24a6fc1b1dcb918244a199b465af36c314af7"
+  },
+  "original_b.png": {
+    "canvas_px": [
+      1148,
+      1370
+    ],
+    "alpha_bbox_gt8_xyxy_exclusive": [
+      92,
+      17,
+      1062,
+      1334
+    ],
+    "transparent_fraction": 0.3516486940156159,
+    "partial_alpha_fraction": 0.647865535746077,
+    "border_pixels_alpha_gt8": 0,
+    "long_diagonal_slope_median": -0.5080906148867314,
+    "sha256": "0bb34997c43d087e891efff9a3df6432351387e092bfbab51f5ec0c0ee5d2c70"
+  },
+  "_normalization": {
+    "a": {
+      "source_canvas_px": [
+        1148,
+        1370
+      ],
+      "uniform_scale": 0.38467153284671535,
+      "resized_px": [
+        442,
+        527
+      ],
+      "transparent_offset_px": [
+        0,
+        0
+      ],
+      "operation": "whole image uniform resampling and transparent canvas placement only",
+      "anchor_px": [
+        285,
+        380
+      ]
+    },
+    "b": {
+      "source_canvas_px": [
+        1148,
+        1370
+      ],
+      "uniform_scale": 0.38467153284671535,
+      "resized_px": [
+        442,
+        527
+      ],
+      "transparent_offset_px": [
+        0,
+        0
+      ],
+      "operation": "whole image uniform resampling and transparent canvas placement only",
+      "anchor_px": [
+        285,
+        380
+      ]
+    }
+  },
+  "_method": "Alpha >8 bbox, border transparency, Canny 60/160 + Hough long negative diagonals. Slope is a diagnostic only and does not prove exact geometry. Final candidates are complete original sprites scaled uniformly to fit 442x527 with transparent padding; comparison displays 1:1 canvases."
+}

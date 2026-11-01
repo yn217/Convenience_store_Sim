@@ -1,0 +1,18 @@
+{
+  "sku_id": "snack_001",
+  "seed": 9301,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "positive": "anima_style, cute product icon illustration, a single item, centered, whole item in frame, slight three-quarter view from the front, clean lineart, soft shading, plain pure white background, no text, no letters, no logo, a bag of potato chips with a plain yellow package and a few chips beside it",
+  "negative": "low quality, worst quality, blurry, text, letters, words, numbers, logo, brand name, watermark, people, person, hands, character, background scenery, table, multiple items, cropped",
+  "comfy_output": "product_snack_001_9301_00001_.png",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    512,
+    512
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

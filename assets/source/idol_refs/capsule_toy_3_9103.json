@@ -1,0 +1,16 @@
+{
+  "type_id": "capsule_toy_3",
+  "seed": 9103,
+  "loras": {},
+  "base": "Anima-Base-v1.0",
+  "size": [
+    1024,
+    1024
+  ],
+  "positive": "realistic 3d render, product visualization, single object, isolated, three-quarter front view from slightly above, the whole object in frame with margin, soft even studio lighting, plain pure white background, clean surfaces, japanese convenience store equipment, exactly three small capsule toy vending machines in one straight row side by side, gachapon, pink and white cabinets, clear windows full of colourful capsules, ",
+  "negative": "anime, cartoon, lineart, outlines, ink lines, cel shading, illustration, sketch, low quality, worst quality, blurry, text, letters, logo, brand name, watermark, people, person, hands, background scenery, room, wall, floor, cropped, out of frame, multiple views",
+  "comfy_output": "idolref_capsule_toy_3_9103_00001_.png",
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

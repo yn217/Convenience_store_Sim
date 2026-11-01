@@ -16,6 +16,7 @@ const SETTINGS_VERSION := 1
 ## Sounds start OFF: the player turns them on once to hear them, and the choice is saved.
 var muted := true
 var reduce_motion := false
+var intent_icons := true   # #141: an icon over each customer's head (what it is heading for / doing)
 var sfx_volume := 0.8
 var settings_path := "user://settings.json"
 
@@ -80,13 +81,15 @@ func _play_one(r: Dictionary) -> void:
 			glows.append({"register_id": payload.get("register_id", ""), "age": 0.0, "ttl": float(r["duration_seconds"])})
 			if glows.size() > MAX_FLOATS:
 				glows.pop_front()
-			NotificationPolicy.add_sale(floats, String(payload.get("register_id", "")), int(payload.get("revenue_yen", 0)))
+			NotificationPolicy.add_sale(floats, String(payload.get("register_id", "")), int(payload.get("revenue_yen", 0)), String(payload.get("name", "")))
 			while floats.size() > MAX_FLOATS:
 				floats.pop_front()
 		"customer_enter":
 			door_flash = float(r["duration_seconds"])
 		"product_pickup":
-			_add_mark("pick", String(payload.get("customer_id", "")), float(r["duration_seconds"]))
+			_add_mark("pick", String(payload.get("customer_id", "")), float(r["duration_seconds"]), {
+				"category": String(payload.get("category", "")), "fixture_id": String(payload.get("fixture_id", "")), "sku_id": String(payload.get("sku_id", "")),
+			})
 		"empty_handed":
 			_add_mark("empty", String(payload.get("customer_id", "")), float(r["duration_seconds"]))
 		"milestone_celebrate":
@@ -102,8 +105,10 @@ func dismiss_toast(item: Dictionary) -> void:
 		notices.dismiss(item)
 
 
-func _add_mark(kind: String, customer_id: String, ttl: float) -> void:
-	marks.append({"kind": kind, "customer_id": customer_id, "age": 0.0, "ttl": ttl})
+func _add_mark(kind: String, customer_id: String, ttl: float, extra: Dictionary = {}) -> void:
+	var mark := {"kind": kind, "customer_id": customer_id, "age": 0.0, "ttl": ttl}
+	mark.merge(extra)
+	marks.append(mark)
 	while marks.size() > MAX_FLOATS * 2:
 		marks.pop_front()
 
@@ -180,14 +185,22 @@ func load_settings() -> void:
 		return
 	muted = bool(data.get("muted", true))
 	reduce_motion = bool(data.get("reduce_motion", false))
+	intent_icons = bool(data.get("intent_icons", true))
 	UiFx.reduced = reduce_motion
 	sfx_volume = clampf(float(data.get("sfx_volume", 0.8)), 0.0, 1.0)
+	VisualVariants.set_test_images(bool(data.get("test_images", false)))
 
 
 func save_settings() -> void:
 	var f := FileAccess.open(settings_path, FileAccess.WRITE)
 	if f != null:
-		f.store_string(JSON.stringify({"version": SETTINGS_VERSION, "muted": muted, "reduce_motion": reduce_motion, "sfx_volume": sfx_volume}))
+		f.store_string(JSON.stringify({"version": SETTINGS_VERSION, "muted": muted, "reduce_motion": reduce_motion, "intent_icons": intent_icons, "sfx_volume": sfx_volume, "test_images": VisualVariants.test_images()}))
+
+
+## 'テスト用の画像を使う': switches the sprites to the painted pilot variant (dev only, see VisualVariants).
+func set_test_images(value: bool) -> void:
+	VisualVariants.set_test_images(value)
+	save_settings()
 
 
 func set_muted(value: bool) -> void:
@@ -201,6 +214,11 @@ func set_reduce_motion(value: bool) -> void:
 	if value:
 		particles.clear()
 		floats.clear()
+	save_settings()
+
+
+func set_intent_icons(value: bool) -> void:
+	intent_icons = value
 	save_settings()
 
 
@@ -227,6 +245,16 @@ func _build_settings_ui() -> void:
 	calm.button_pressed = reduce_motion
 	calm.toggled.connect(set_reduce_motion)
 	body.add_child(calm)
+	var icons := CheckButton.new()
+	icons.text = "客の頭上アイコン（目当て・会計など）"
+	icons.button_pressed = intent_icons
+	icons.toggled.connect(set_intent_icons)
+	body.add_child(icons)
+	var test_images := CheckButton.new()
+	test_images.text = "テスト用の画像を使う"
+	test_images.button_pressed = VisualVariants.test_images()
+	test_images.toggled.connect(set_test_images)
+	body.add_child(test_images)
 	var vol := HSlider.new()
 	vol.min_value = 0.0
 	vol.max_value = 1.0

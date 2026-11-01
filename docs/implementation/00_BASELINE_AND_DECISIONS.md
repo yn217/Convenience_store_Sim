@@ -38,9 +38,11 @@
 |game_seconds_per_real_second|60|1×。1ゲーム日=24実時間分、4×=6分|
 |simulation_step_game_seconds|2|固定ステップ。1×=30step/s、4×=120step/s|
 |game_speed_options|0,1,2,4|停止、通常、高速|
-|base_potential_visitors_per_day|100|需要の基準期待値。初日は待機が長い場合高速化可能|
+|base_potential_visitors_per_day|50（#128で100から半減）|需要の基準期待値。かご買い（平均約1.9点）と組で売上規模を保つ。初日は待機が長い場合高速化可能|
+|basket_size_distribution|1点40% / 2点35% / 3点20% / 4点5%（#128）|1来店のかごの点数。入店時に`arrivals`から決定論的に抽選|
+|checkout_base_game_seconds / checkout_per_item_game_seconds|20 / 8（#128で`checkout_duration_game_seconds` 30 から置換）|会計時間 = base + 1点ごと。1点なら28秒|
 |customer_walk_tiles_per_game_second|0.6|1タイル約1.67ゲーム秒、見た目の移動は補間|
-|checkout_duration_game_seconds|30|レジ会計1客|
+|checkout_duration_game_seconds|（廃止）30|レジ会計1客。#128で checkout_base / checkout_per_item に置換（上の行）|
 |max_active_customers|30|同時描画/シミュレーション上限。超過入店はlost_customerに計上|
 |reputation_min/max|0/100|初期50|
 |initial_ad_budget_yen_per_day|0|翌日変更適用|
@@ -90,3 +92,10 @@
 - 既存24SKU/10什器/1顧客1個/Day0 tutorial方針を維持したまま、**12の日替わりイベント**、**15のPresentation Cue**、**12の成長実績**、**3日ローテーションの日次目標**を追加（すべて初期チューニング値）。
 - Domainの制約・金銭の正本は変えず、イベントによるゲーム効果は来店/商品カテゴリー人気の倍率に限定。イベントによる在庫や現金の無条件生成は禁止。
 - 正本は[13 EventDirector](13_EVENT_DIRECTOR_AND_GAMEPLAY_EVENTS.md)、[14 映像/音](14_ANIMATION_AUDIO_VFX_CONTRACT.md)、[15 成長/ストーリー](15_PROGRESSION_STORY_AND_SCENARIOS.md)、[16 QA](16_EVENT_QA_AND_ASSET_CHECKLIST.md)と`docs/examples/mvp_v1.{gameplay_events,presentation_cues,milestones}.json`。
+
+## 8. ゲーム内暦の圧縮（#135、ユーザー決定 2026-10-24 案A）
+- 1か月 = 4ゲーム日（各日が1週: 第1週〜第4週）、1年 = 12か月 = 48日。DAY 0 = 春 4月 第1週。表示は『春 4月 第1週』。
+- 曜日は表示しない（1日=1週のため）。季節は月から決める（春3〜5月、夏6〜8月、秋9〜11月、冬12〜2月）。
+- 値は `data/balance/mvp_v1.json` の `days_per_month`（既定4、欠落時も4）。暦の変換は `scripts/domain/game_calendar.gd`（GameCalendar）が唯一の正本で、HUDの日付・季節アイコン/文字・ツールチップはすべてこれを使う。
+- 暦は日番号（`day`）から導出するため保存項目は増えず、既存セーブはそのまま読める（移行なし）。
+- 経済・商品期限・広告・日報はゲーム内日数基準のまま変更なし。イベント抽選は日番号のみに依存し暦に依存しないため、固定seed 345678のゴールデン値（DAY1 → evt_after_work）は変わらない。

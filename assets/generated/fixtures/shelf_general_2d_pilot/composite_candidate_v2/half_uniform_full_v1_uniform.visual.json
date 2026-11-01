@@ -1,0 +1,60 @@
+{
+  "source": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\half_uniform_full_v1.png",
+  "output": "assets\\generated\\fixtures\\shelf_general_2d_pilot\\composite_candidate_v2\\half_uniform_full_v1_uniform.png",
+  "source_alpha_bbox": [
+    9,
+    5,
+    1167,
+    1328
+  ],
+  "source_content_px": [
+    1158,
+    1323
+  ],
+  "source_alpha_threshold": 8,
+  "source_mirrored_horizontally": true,
+  "target_canvas_px": [
+    442,
+    449
+  ],
+  "fit_mode": "uniform_contain",
+  "fixture_contract": {
+    "projection_id": "iso2x_v1",
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "anchor_px": [
+      285.0,
+      302.0
+    ],
+    "target_alpha_box_px": [
+      38,
+      8,
+      403,
+      425
+    ]
+  },
+  "normalized_content_px": [
+    365,
+    417
+  ],
+  "scale_xy": [
+    0.31519274,
+    0.31519274
+  ],
+  "aspect_change_percent": 0.0,
+  "output_alpha_bbox_px": [
+    38,
+    8,
+    403,
+    425
+  ],
+  "runtime_approved": false,
+  "notes": [
+    "single combined shelf and merchandise raster",
+    "no separate product placements",
+    "candidate only; no runtime integration",
+    "uniform scale preserves source proportions"
+  ]
+}

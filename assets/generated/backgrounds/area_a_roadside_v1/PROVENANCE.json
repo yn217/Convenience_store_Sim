@@ -1,0 +1,14 @@
+{
+  "asset_id": "area_a_roadside_v1",
+  "source_type": "ai_generated",
+  "tool": "built-in image_gen via image-generation subagent",
+  "generation_id": "exec-37f94035-396b-4814-8dff-3c966b828b44",
+  "prompt": "A single transparent isometric convenience-store outdoor apron combining parking bays, walkway pavement, curb, road lane markings and small planted edges. Match the 2:1 store projection. Do not draw a zebra crossing; entrance-positioned crossing is drawn separately by the game. No storefront, buildings, cars, signage, text or UI.",
+  "source_file": "assets/source/background/area_a_roadside_v1/original.png",
+  "original_sha256": "dbf60b9d3cc0fcbabc92d208767d52ba29f173a746d329fa2dc8b649c877285a",
+  "runtime_fit": "uniform scale from measured frontage endpoints with a small vertical affine shear to align to the 2:1 world edge",
+  "limitations": [
+    "Static apron image; entrance-dependent zebra crossing remains game geometry.",
+    "Needs visual comparison with the rest of the street and is not a user-approved final asset."
+  ]
+}

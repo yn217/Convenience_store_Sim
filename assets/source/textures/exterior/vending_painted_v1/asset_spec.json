@@ -1,0 +1,62 @@
+{
+  "asset_id": "vending_painted_v1",
+  "category": "outdoor_equipment",
+  "view_direction": "front_axis_world_x_down_right_depth_world_y_up_right",
+  "world_width": 1.07,
+  "world_depth": 0.77,
+  "world_height": 1.87,
+  "requested_dimensions_m": [
+    1,
+    0.75,
+    1.9
+  ],
+  "render_width_px": 320,
+  "render_height_px": 480,
+  "pivot_x": 158,
+  "pivot_y": 380,
+  "anchor_type": "ground_footprint_center",
+  "placement_offset": [
+    0,
+    0,
+    0
+  ],
+  "occlusion_group": "exterior_sorted",
+  "sort_key": "world_x+world_y",
+  "asset_variant": "guide_painted_v1",
+  "source_scale": 2,
+  "source_crop_px": [
+    145,
+    65,
+    897,
+    1420
+  ],
+  "uniform_scale": 0.314,
+  "guide_front_delta_px": [
+    128,
+    64
+  ],
+  "guide_depth_delta_px": [
+    96,
+    -48
+  ],
+  "guide_height_px": 298,
+  "generated_top_front_delta_px": [
+    438,
+    224
+  ],
+  "generated_top_depth_delta_px": [
+    309,
+    -165
+  ],
+  "generated_top_front_slope": 0.5114155251141552,
+  "generated_top_depth_slope": -0.5339805825242718,
+  "limitations": [
+    "Measurements are approximate stylized art, not exact geometry. Bottom silhouette slopes remain approx +.59/-.58; top edges approx +.511/-.534.",
+    "Dimensions adjusted from requested1/.75/1.9 to the measured image envelope1.07/.77/1.87m using uniform scaling only.",
+    "Only one real art direction exists. Do not fabricate other rotations by reusing it."
+  ],
+  "alpha_qa": "Composite on pale green passes; outside cabinet is transparent and no ground shadow/glow appears.",
+  "review_status": "parent in-game visual QA pending",
+  "tool": "built-in image_gen",
+  "source_sha256": "1ff81e2709559a2c6cb8285bf354825832d387d26a2687213fffb3b3cccc62cd"
+}

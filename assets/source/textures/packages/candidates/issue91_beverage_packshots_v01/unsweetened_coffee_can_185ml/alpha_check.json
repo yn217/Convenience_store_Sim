@@ -1,0 +1,14 @@
+{
+  "file": "unsweetened_coffee_can_185ml_v01.png",
+  "dimensions_px": [1024, 1536],
+  "mode": "RGBA",
+  "alpha_min": 0,
+  "alpha_max": 254,
+  "fully_transparent_pixels": 750966,
+  "partially_transparent_pixels": 821898,
+  "fully_opaque_pixels": 0,
+  "alpha_bbox_xyxy": [0, 17, 992, 1488],
+  "corner_alpha": [0, 0, 0, 0],
+  "assessment": "Alpha channel and transparent corners present. Broad partially transparent studio glow remains around the cutout; edge cleanup required before use.",
+  "runtime_approved": false
+}

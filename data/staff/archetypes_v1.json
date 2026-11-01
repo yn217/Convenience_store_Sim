@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "_comment": "Staff archetypes for the daily hiring candidates (issue #144). skills: inclusive ranges 1..5. weight: relative chance.",
+  "archetypes": [
+    {"archetype": "register", "label": "レジ得意", "weight": 2, "skills": {"register": [4, 5], "restock": [1, 2], "stamina": [2, 3], "service": [2, 3]}},
+    {"archetype": "restock", "label": "品出し得意", "weight": 2, "skills": {"register": [1, 2], "restock": [4, 5], "stamina": [2, 3], "service": [1, 3]}},
+    {"archetype": "stamina", "label": "タフ", "weight": 2, "skills": {"register": [2, 3], "restock": [2, 3], "stamina": [5, 5], "service": [1, 2]}},
+    {"archetype": "service", "label": "接客上手", "weight": 2, "skills": {"register": [2, 3], "restock": [1, 2], "stamina": [2, 3], "service": [4, 5]}},
+    {"archetype": "balanced", "label": "バランス型", "weight": 3, "skills": {"register": [3, 3], "restock": [3, 3], "stamina": [3, 3], "service": [3, 3]}}
+  ],
+  "names": ["高橋", "田中", "伊藤", "渡辺", "山本", "中村", "小林", "加藤", "吉田", "山田", "佐々木", "山口", "松本", "井上", "木村", "林", "清水", "山崎", "森", "池田", "橋本", "阿部", "石川", "前田"]
+}

@@ -7,6 +7,7 @@ var _n := 0
 
 func _state() -> GameState:
 	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	balance["staff_enabled"] = false   # the day charges here are advertising, fixed cost and power (wages: test_staff.gd)
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	return GameState.from_balance(balance, Seeds.SEEDS, fx, pr)
@@ -146,7 +147,7 @@ func test_request_close_and_return_to_setup(t, _tree) -> void:
 	t.ok(_run(cmds, &"REQUEST_CLOSE").ok)
 	t.eq(s.business_state, GameState.CLOSING)
 	t.eq(s.speed_setting, 2, "resumes at the last non-zero speed")
-	s.customers.append({"customer_id": "c1", "phase": "CHECKOUT", "checkout_left": 100000, "register_id": "x", "reservation_id": "", "queue_slot": -1, "tile": Vector2i(1, 1)})
+	s.customers.append({"customer_id": "c1", "phase": "CHECKOUT", "checkout_left": 100000, "register_id": "x", "reservation_ids": [], "queue_slot": -1, "tile": Vector2i(1, 1)})
 	var runner := SimulationRunner.new(s)
 	runner.process_frame(1.0)
 	t.eq(s.business_state, GameState.CLOSING, "a customer is still inside")

@@ -9,8 +9,9 @@ const OPEN := &"OPEN"
 const CLOSING := &"CLOSING"
 const PAYMENT_BLOCKED := &"PAYMENT_BLOCKED"
 const SPEED_OPTIONS: Array[int] = [0, 1, 2, 4]
-## Fixed west-wall door (00_BASELINE §2.1); players cannot move or remove it.
-const ENTRANCE_TILES: Array[Vector2i] = [Vector2i(0, 5), Vector2i(0, 6)]
+## Default door: two tiles on the south wall (y = 11), the long near edge that faces the default camera. Saves carry
+## their own entrance_tiles, so older saves keep the west door they were made with (00_BASELINE §2.1).
+const ENTRANCE_TILES: Array[Vector2i] = [Vector2i(8, 11), Vector2i(9, 11)]
 
 var revision: int = 0
 var time_sec: int = 0
@@ -40,8 +41,45 @@ var applied_ad_tier_yen: int = 0
 var next_day_ad_yen: int = 0
 ## Costs recognised but not paid because cash ran out (shown separately from cash).
 var unpaid_cost_yen: int = 0
+var construction_days: int = 0   # #145: days of expansion work still to pass before the store opens again
 ## Today's visitor counters, kept apart (03 §G): wished-to-visit / actually entered / turned away.
 var visit_stats := {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
+var mood_today := {"sum": 0, "n": 0}   # #141: moods of the customers who left today (not saved: a reload counts on)
+var staff: Array = []          # #143: store staff (StaffAI)
+var next_staff_seq := 0
+var staff_candidates: Array = []        # #144: today's hiring candidates (StaffMarket)
+var promotions: Array = []      # #137: running and finished promotions (Promotions)
+var next_promotion_seq := 0
+var promo_stats: Dictionary = {}
+var campaigns: Array = []          # #136: media advertising campaigns (Marketing)
+var next_campaign_seq := 0
+var coupons: Array = []            # #137: outstanding next-visit coupons (Promotions.issue_coupon)
+var next_coupon_seq := 0  # promotion id -> {units, discount_yen}
+var facilities: Array = []             # #149: nearby facility ids (NearbyFacility), chosen before the first opening
+var facility_visits: Dictionary = {}   # facility id -> visitors it sent today
+var visitors_by_hour: Array = []          # #150: potential visitors per hour today (24) and yesterday, for the map
+var visitors_by_hour_yesterday: Array = []
+var map_id := ""                       # #150: the area map and the store's site on it ("" = chosen without the map)
+var plot_id := ""
+var store_id := ""                      # #146: "" for the first store, "s2" ... (the ledger scope and id prefixes)
+var store_name := ""                    # #146: shown in the store list ("" = 1号店)
+var branches: Array = []                # #146: the company's other stores (only on the store on screen)
+var rivals: Array = []                  # #129: rival stores on the map (Market), the company's
+var rivals_enabled := true
+var bakes_pending := 0                 # #130: lots in the ovens (recounted from the segments on load)
+var eat_in_total := 0                  # #134: customers who sat down to eat
+var lotteries: Array = []              # #138: prize draw sets bought and their tickets (Lottery)
+var event_history: Array = []          # #31: past days' event draws, oldest first: {day, event_id ("" = none), held} (EventService)
+var _sales_index: SalesIndex = null   # per-day SALE sums for the views, rebuilt from the ledger (not saved)
+var capsule_stats: Dictionary = {}     # #139: sku_id -> {turns, rare} of the capsule machines (CapsuleToys)
+var crane_stats: Dictionary = {}       # #132: fixture_id -> {plays, wins, since, repairs, broken} of the crane games (CraneGame)
+var market_conditions: Array = []      # #129 phase 2: local conditions (Market), the company's
+var branch_carry := 0.0                 # #146 BranchSim: fractions of visitors and items carried between hours
+var branch_items_carry := 0.0
+var branch_sku_acc: Dictionary = {}     # #146 BranchSim: accumulated pull per SKU
+var location_id := ""                   # #148: station / school / office / residential; "" = the standard store
+var staff_metrics: Dictionary = {}      # #144: today's staffing figures (StaffMarket.record_step)
+var staff_metrics_yesterday: Dictionary = {}
 ## Inputs of the daily reputation update: customers who gave up in the queue / found nothing to buy.
 var rate_stats := {"abandoned": 0, "stockouts": 0}
 ## Customers in the store (filled by M3-02) and arrivals waiting to be spawned as customers.
@@ -93,8 +131,19 @@ static func from_balance(balance: Dictionary, seeds: Dictionary, fixture_catalog
 	s.rng_states = seeds.duplicate()
 	if not s.rng_states.has("events"):
 		s.rng_states["events"] = 345678   # separate stream for the event director (09 §1)
+	if not s.rng_states.has("visits"):
+		s.rng_states["visits"] = 246813   # budget and wallet of each visit (#141)
+	if not s.rng_states.has("impulse"):
+		s.rng_states["impulse"] = 135792   # impulse pick-ups on the way (#141)
+	if not s.rng_states.has("staff"):
+		s.rng_states["staff"] = 97531   # hiring candidates (#144)
 	s.balance = balance.duplicate(true)
 	s.next_day_ad_yen = int(balance.get("starting_ad_budget_yen_per_day", 0))
+	if StaffAI.enabled(s.balance):
+		for entry in s.balance.get("starting_staff", []):
+			s.staff.append(StaffAI.make(s, entry, s.grid.entrance_tiles[0]))
+		s.staff_metrics = StaffMarket.empty_metrics()
+		StaffMarket.draw_candidates(s)
 	return s
 
 
@@ -125,55 +174,106 @@ func close_day_once(day_index: int) -> bool:
 	for r in daily_reports:
 		if r["day_index"] == day_index:
 			return false
-	daily_reports.append(DailyReport.build(day_index, ledger, visit_stats, reputation, ledger.cash_yen))
+	daily_reports.append(DailyReport.build(day_index, ledger, visit_stats, reputation, ledger.cash_yen, mood_today))
+	mood_today = {"sum": 0, "n": 0}
 	reputation = ReputationModel.next_reputation(reputation, visit_stats, rate_stats, balance)
 	visit_stats = {"potential": 0, "entered": 0, "lost": 0, "purchased": 0}
 	rate_stats = {"abandoned": 0, "stockouts": 0}
+	if StaffAI.enabled(balance):
+		staff_metrics_yesterday = staff_metrics
+		staff_metrics = StaffMarket.empty_metrics()
 	emit_event("DAILY_CLOSED", {"day_index": day_index})
 	return true
 
 
-## Revenue and gross profit of the current day for the HUD. Walks the ledger from the end and
-## stops at the first earlier day, so it stays cheap while the ledger grows.
+## Makes this state store `id` of the company: its ledger rows and staff ids carry the id (#146).
+func set_store_id(id: String) -> void:
+	store_id = id
+	ledger.scope = "" if id == "" else id + "/"
+
+
+## Revenue and gross profit of the current day for the HUD (from the sales index: only new ledger rows are read).
 func today_summary() -> Dictionary:
-	var revenue := 0
-	var cogs := 0
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day:
-			break
-		if tx["event_type"] == "SALE":
-			revenue += int(tx["revenue_delta_yen"])
-			cogs += int(tx["cogs_delta_yen"])
-	return {"revenue_yen": revenue, "gross_profit_yen": revenue - cogs}
+	var b := _sales_day(day)
+	return {"revenue_yen": int(b["revenue"]), "gross_profit_yen": int(b["revenue"]) - int(b["cogs"])}
+
+
+## Items sold today (sum of SALE qty; a basket of 3 items is 3).
+func units_sold_today() -> int:
+	return int(_sales_day(day)["units"])
+
+
+## The sales index's sums for one day (SalesIndex: kept up to date incrementally, older days dropped).
+func _sales_day(day_index: int) -> Dictionary:
+	if _sales_index == null:
+		_sales_index = SalesIndex.new()
+	_sales_index.forget_before(day - 1)
+	if day_index < _sales_index.kept_from:   # an older day than the index keeps: a one-off index of the whole ledger
+		return SalesIndex.new().day(ledger, day_index)
+	return _sales_index.day(ledger, day_index)
+
+
+## The day's profit and loss (LedgerSummary.summarize of that day) from the sales index: for views that refresh often.
+func day_summary(day_index: int) -> Dictionary:
+	return LedgerSummary.finish(_sales_day(day_index)["pl"])
+
+
+## #19 売上の推移: revenue of the day's SALE rows per hour of the day (24 ints).
+func sales_by_hour(day_index: int) -> Array:
+	return (_sales_day(day_index)["hours"] as Array).duplicate()
+
+
+## #24 売れ筋: today's confirmed product sales per SKU, most units first (ties: revenue, then sku id). Only shelf
+## sales count (rows with a reservation and a sku): crane plays and lottery tickets are not products.
+## Each entry: {sku_id, name, category, qty, revenue_yen}.
+func best_sellers_today() -> Array[Dictionary]:
+	return best_sellers(day)
+
+
+## The same for any day still in the ledger (the ranking's 前日 view).
+func best_sellers(day_index: int) -> Array[Dictionary]:
+	var skus: Dictionary = _sales_day(day_index)["skus"]
+	var out: Array[Dictionary] = []
+	for sku in skus:
+		var p := products.get_sku(sku)
+		out.append({"sku_id": sku, "name": String(p.get("display_name", sku)), "category": String(p.get("category", "")),
+			"qty": int(skus[sku]["qty"]), "revenue_yen": int(skus[sku]["revenue_yen"])})
+	out.sort_custom(func(a, b):
+		if a["qty"] != b["qty"]:
+			return a["qty"] > b["qty"]
+		if a["revenue_yen"] != b["revenue_yen"]:
+			return a["revenue_yen"] > b["revenue_yen"]
+		return String(a["sku_id"]) < String(b["sku_id"]))
+	return out
+
+
+## #24 棚別売上: the day's product sales per fixture, highest revenue first (ties: units, then fixture id). Only
+## fixtures still in the store are named; each entry: {fixture_id, name, x, y, qty, revenue_yen}.
+func shelf_ranking(day_index: int) -> Array[Dictionary]:
+	var shelves: Dictionary = _sales_day(day_index)["shelves"]
+	var out: Array[Dictionary] = []
+	for fid in shelves:
+		var inst: Dictionary = grid.instances.get(fid, {})
+		var def := fixtures.get_type(String(inst.get("type_id", ""))) if not inst.is_empty() else {}
+		out.append({"fixture_id": fid, "name": String(def.get("display_name", "撤去した棚")), "x": int(inst.get("x", -1)), "y": int(inst.get("y", -1)),
+			"qty": int(shelves[fid]["qty"]), "revenue_yen": int(shelves[fid]["revenue_yen"])})
+	out.sort_custom(func(a, b):
+		if a["revenue_yen"] != b["revenue_yen"]:
+			return a["revenue_yen"] > b["revenue_yen"]
+		if a["qty"] != b["qty"]:
+			return a["qty"] > b["qty"]
+		return String(a["fixture_id"]) < String(b["fixture_id"]))
+	return out
 
 
 ## Units sold today per fixture id (SALE rows carry the fixture they were taken from).
 func fixture_sales_today() -> Dictionary:
-	var out := {}
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day:
-			break
-		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "":
-			out[tx["details"]["fixture_id"]] = int(out.get(tx["details"]["fixture_id"], 0)) + int(tx["details"].get("qty", 1))
-	return out
+	return (_sales_day(day)["fixture_units"] as Dictionary).duplicate()
 
 
-## Revenue and gross profit per fixture id today (the selected-fixture card). Same walk as above.
+## Revenue and gross profit per fixture id today (the selected-fixture card).
 func fixture_money_today() -> Dictionary:
-	var out := {}
-	for i in range(ledger.transactions.size() - 1, -1, -1):
-		var tx: Dictionary = ledger.transactions[i]
-		if int(tx["day_index"]) < day:
-			break
-		if tx["event_type"] == "SALE" and tx["details"].get("fixture_id", "") != "":
-			var fid: String = tx["details"]["fixture_id"]
-			var m: Dictionary = out.get(fid, {"revenue_yen": 0, "gross_profit_yen": 0})
-			m["revenue_yen"] = int(m["revenue_yen"]) + int(tx["revenue_delta_yen"])
-			m["gross_profit_yen"] = int(m["gross_profit_yen"]) + int(tx["revenue_delta_yen"]) - int(tx["cogs_delta_yen"])
-			out[fid] = m
-	return out
+	return (_sales_day(day)["fixture_money"] as Dictionary).duplicate(true)
 
 
 ## Achievements since the last call; the UI announces each one exactly once.
@@ -187,10 +287,19 @@ func active_customer_count() -> int:
 	return customers.size()
 
 
-func sell_price(sku_id: String) -> int:
+## The price the player set (or the default): what SET_PRICE edits and the price shown as the list price.
+func list_price(sku_id: String) -> int:
 	if product_price_overrides.has(sku_id):
 		return int(product_price_overrides[sku_id])
 	return int(products.get_sku(sku_id).get("default_sell_price_yen", 0))
+
+
+## The price customers pay now: the list price, or a running promotion's sale price (#137).
+func sell_price(sku_id: String) -> int:
+	var list := list_price(sku_id)
+	if promotions.is_empty():
+		return list
+	return int(Promotions.price_now(self, sku_id, list)["price"])
 
 
 ## Units of `sku_id` in the backroom that no reservation holds.
@@ -218,7 +327,7 @@ func snapshot() -> Dictionary:
 		"speed_setting": speed_setting,
 		"store_width": grid.width,
 		"store_height": grid.height,
-		"entrance_tiles": grid.entrance_tiles.duplicate(),
+		"entrance_tiles": grid.entrance_tiles.duplicate(), "entrance_move_cost_yen": int(balance.get("entrance_move_cost_yen", 0)),
 		"fixtures": placed,
 		"product_price_overrides": product_price_overrides.duplicate(),
 		"backroom_stock": _backroom_stock(),
@@ -234,16 +343,41 @@ func snapshot() -> Dictionary:
 		"unpaid_cost_yen": unpaid_cost_yen,
 		"daily_reports": daily_reports.duplicate(true),
 		"today": today_summary(),
+		"units_sold_today": units_sold_today(),
+		"best_sellers_today": best_sellers_today(),
+		"best_sellers_yesterday": best_sellers(day - 1) if day > 0 else [],
+		"shelf_ranking": {"today": shelf_ranking(day), "yesterday": shelf_ranking(day - 1) if day > 0 else []},
+		"hourly_sales": {"today": sales_by_hour(day), "yesterday": sales_by_hour(day - 1) if day > 0 else []},
 		"progression": progression_state.duplicate(true),
 		"story_cue": AssistantService.current(self),
 		"milestone_progress": ProgressionService.milestone_progress(self, stocked.size()),
+		"challenge_progress": ProgressionService.challenge_progress(self),
 		"opening": BusinessService.opening_report(self) if business_state == SETUP else {},
 		"visit_stats": visit_stats.duplicate(),
 		"rate_stats": rate_stats.duplicate(),
-		"customers": _customer_views(),
+		"customers": _customer_views() + _staff_views(),
+		"closed_registers": closed_registers(),
+		"staff_count": staff.size(), "staff_cap": StaffAI.capacity(self) if StaffAI.enabled(balance) else 0,
+		"staff_candidates": _candidate_views(), "staffing": _staffing_view(),
+		"location_id": location_id, "location_name": StoreLocation.display_name(location_id), "location_locked": location_locked(),
+		"promotions": _promotion_views(), "lotteries": Lottery.views(self), "lottery_selling": not Lottery.selling(self).is_empty(),
+		"stores": Company.views(self), "store_id": store_id,
+		"rivals": Market.views(self, rivals, day), "conditions": Market.condition_views(market_conditions, day), "rivals_enabled": rivals_enabled, "capsule_stats": capsule_stats.duplicate(true), "crane_stats": crane_stats.duplicate(true), "rival_factor": Market.visitor_factor(self, rivals, day),
+		"company_totals": Company.totals(self, int(daily_reports.back()["day_index"]) if not daily_reports.is_empty() else -1),
+		"marketing": Marketing.views(self),
+		"map_id": map_id, "plot_id": plot_id,
+		"visitors_by_hour": visitors_by_hour.duplicate(), "visitors_by_hour_yesterday": visitors_by_hour_yesterday.duplicate(),
+		"facilities": facilities.duplicate(), "facility_visits": facility_visits.duplicate(), "max_facilities": NearbyFacility.max_count(),
+		"store_size_id": String(StoreSize.of_grid(balance, grid).get("size_id", "")), "store_sizes": StoreSize.all(balance),
+		"next_store_size": StoreSize.next(balance, grid), "construction_days": construction_days, "baking": Cooking.baking(self),
+		"checkout_duration_sec": BasketModel.checkout_seconds(balance, roundi(BasketModel.mean_size(balance))),   # the average basket, for the queue estimate
+		"walk_tiles_per_game_second": float(balance.get("customer_walk_tiles_per_game_second", 0.0)),
+		"passersby_per_day": int(balance.get("passersby_per_day", 0)) if bool(balance.get("outdoor_approach", false)) else 0,   # #142, presentation only   # the figures walk at the simulation's pace (#117 v2)
 		"fixture_sales": fixture_sales_today(),
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
+		"event_catalog": EventService.catalog(self),
+		"event_history": EventService.history(self),
 		"stocked_categories": stocked,
 	}
 
@@ -268,6 +402,125 @@ func _shelf_skus() -> Dictionary:
 	return out
 
 
+func _log_view(log: Array) -> Array:
+	var out: Array = []
+	for e in log:
+		var sku := products.get_sku(e["sku_id"]) if products != null else {}
+		out.append({"sku_id": e["sku_id"], "name": sku.get("display_name", e["sku_id"]), "category": sku.get("category", ""),
+			"price": int(e["price"]), "kind": e["kind"], "state": e["state"]})
+	return out
+
+
+## Swaps in a resized grid (StoreSize.resized, #145): staff move with the rows, the layout history ends.
+func apply_resized(res: Dictionary) -> void:
+	grid = res["grid"]
+	var dy := int(res["dy"])
+	for s in staff:
+		var t: Vector2i = s["tile"]
+		s["tile"] = Vector2i(clampi(t.x, 0, grid.width - 1), clampi(t.y + dy, 0, grid.height - 1))
+		s["path"] = [] as Array[Vector2i]
+		s["progress"] = 0.0
+		s["phase"] = "IDLE"
+		s["task"] = {}
+		s["carry"] = 0
+	layout_history.clear()
+	revision += 1
+
+
+## One potential visitor in the current hour (DemandGenerator; #150 actual-vs-forecast).
+func count_visitor_hour() -> void:
+	if visitors_by_hour.size() != 24:
+		visitors_by_hour.resize(24)
+		visitors_by_hour.fill(0)
+	var h := DemandModel.hour_of_day(time_sec)
+	visitors_by_hour[h] = int(visitors_by_hour[h]) + 1
+
+
+## Promotions for the 販促 card (#137): every definition with its running instance (if any) and results.
+func _promotion_views() -> Array:
+	var out: Array = []
+	for d in Promotions.data()["promotions"]:
+		var v: Dictionary = d.duplicate(true)
+		v["running"] = {}
+		for p in Promotions.running(self):
+			if p["def_id"] == d["def_id"]:
+				v["running"] = p.duplicate()
+				v["running"]["days_left"] = int(p["end_day"]) - day + 1
+				v["running"]["stats"] = promo_stats.get(p["promotion_id"], {}).duplicate()
+		out.append(v)
+	return out
+
+
+## A customer leaving the store with this mood (#141).
+func note_mood(mood: int) -> void:
+	mood_today["sum"] = int(mood_today["sum"]) + mood
+	mood_today["n"] = int(mood_today["n"]) + 1
+
+
+## The location can be chosen until the store first opens (#148: no free move after it is built and running).
+func location_locked() -> bool:
+	return business_state != SETUP or time_sec > 0
+
+
+func _candidate_views() -> Array:
+	var out: Array = []
+	for c in staff_candidates:
+		var v: Dictionary = c.duplicate(true)
+		v["label"] = StaffMarket.label(c["archetype"])
+		v["daily_wage_yen"] = StaffAI.daily_wage(balance, c)
+		out.append(v)
+	return out
+
+
+## The 店員 tab's figures (#144): line by hour today and yesterday, people lost to the line, utilisation, advice.
+## Registers with nobody at the till while the store is trading (#143 / #113): their sign reads 休止中. Empty in
+## SETUP and without the staff model (every register is open then).
+func closed_registers() -> Array:
+	var out: Array = []
+	if not StaffAI.enabled(balance) or business_state == SETUP:
+		return out
+	var ids := grid.instances.keys()
+	ids.sort()
+	for id in ids:
+		var inst: Dictionary = grid.instances[id]
+		if not AccessService.is_register(fixtures.get_type(inst["type_id"])) or not inst.get("enabled", true):
+			continue
+		var cell := StaffAI.cashier_cell_cached(self, id)
+		if not staff.any(func(s): return s["phase"] == "REGISTER" and s["tile"] == cell):
+			out.append(id)
+	return out
+
+
+func _staffing_view() -> Dictionary:
+	if not StaffAI.enabled(balance):
+		return {}
+	var util := {}
+	for s in staff:
+		util[s["staff_id"]] = StaffMarket.utilisation(staff_metrics, s["staff_id"])
+	return {
+		"line_today": StaffMarket.line_by_hour(staff_metrics), "line_yesterday": StaffMarket.line_by_hour(staff_metrics_yesterday),
+		"balked_today": (staff_metrics.get("balked", []) as Array).duplicate(), "abandoned_today": (staff_metrics.get("abandoned", []) as Array).duplicate(),
+		"utilisation": util, "advice": StaffMarket.advice(self), "wages_per_day": BusinessService.wages(self),
+	}
+
+
+## Staff drawn like customers (the presenter animates any id; "staff_" ids wear the clerk look, #143).
+func _staff_views() -> Array:
+	var out: Array = []
+	for s in staff:
+		var path: Array = s["path"]
+		out.append({
+			"customer_id": s["staff_id"], "staff": true, "name": s["name"], "archetype": s["archetype"], "skills": s["skills"].duplicate(),
+			"fatigue": float(s["fatigue"]), "phase": s["phase"], "tile": s["tile"], "path": path.duplicate(),
+			"next": path[0] if not path.is_empty() else s["tile"], "progress": float(s["progress"]) if not path.is_empty() else 0.0,
+			"trail": (s["trail"] as Array).duplicate(), "moved": int(s["moved"]), "carry": int(s["carry"]),
+			"task_fixture": String((s["task"] as Dictionary).get("fixture_id", "")), "task_sku": String((s["task"] as Dictionary).get("sku_id", "")),
+			"daily_wage_yen": StaffAI.daily_wage(balance, s),
+			"fixture_id": String((s["task"] as Dictionary).get("fixture_id", "")), "sku_id": "", "register_id": "", "queue_slot": -1, "outcome": "",
+		})
+	return out
+
+
 func _customer_views() -> Array:
 	var out: Array = []
 	for c in customers:
@@ -277,5 +530,18 @@ func _customer_views() -> Array:
 			"next": path[0] if not path.is_empty() else c["tile"], "progress": float(c.get("progress", 0.0)) if not path.is_empty() else 0.0,
 			"path": path.duplicate(), "trail": c.get("trail", []).duplicate(), "moved": int(c.get("moved", 0)),
 			"fixture_id": c.get("fixture_id", ""),
+			# Read-only copies for the presentation (what the customer is doing now); never read back by the simulation.
+			"sku_id": c.get("sku_id", ""), "reserved": not (c.get("reservation_ids", []) as Array).is_empty(),
+				"basket_size": int(c.get("basket_size", 1)), "items_reserved": (c.get("reservation_ids", []) as Array).size(),
+			"register_id": c.get("register_id", ""), "queue_slot": int(c.get("queue_slot", -1)),
+			"checkout_left": int(c.get("checkout_left", 0)),
+			"browse_left": int(c.get("browse_left", -1)), "outcome": String(c.get("outcome", "")),
+			# #141: purpose, money and the basket log (names and prices for the customer panel).
+			"purpose_id": String(c.get("purpose_id", "")), "purpose_name": VisitPurpose.display_name(balance, String(c.get("purpose_id", ""))),
+			"segment_name": NearbyFacility.segment_name(String(c.get("segment_id", ""))),   # #149
+			"budget_yen": int(c.get("budget_yen", 0)), "wallet_yen": int(c.get("wallet_yen", 0)), "planned_yen": int(c.get("planned_yen", 0)),
+			"impulse_count": int(c.get("impulse_count", 0)), "basket_log": _log_view(c.get("basket_log", [])),
+			"mood": CustomerMood.of(c, time_sec),   # #141
+			"target_tile": path[path.size() - 1] if not path.is_empty() else c["tile"],
 		})
 	return out

@@ -48,6 +48,109 @@ static func notice(event: Dictionary, milestones: Array) -> String:
 	return ""
 
 
+## What the assistant says when she celebrates an achievement (#32 達成演出): titles and daily challenges only;
+## tutorial steps stay in the notices. "" means no celebration.
+static func celebration(event: Dictionary, milestones: Array) -> String:
+	match event["kind"]:
+		"MILESTONE":
+			for m in milestones:
+				if m["milestone_id"] == event["id"]:
+					return "やりましたね、店長！\n称号「%s」を獲得しました。" % m["name_ja"]
+			return "やりましたね、店長！\n新しい称号を獲得しました。"
+		"CHALLENGE":
+			return "今日のチャレンジ達成です！\n%s" % String(CHALLENGE.get(event["challenge_id"], "")).trim_prefix("今日のチャレンジ: ")
+	return ""
+
+
+## What the assistant says over the day-end card (#19/#32 mockup 営業結果): praise or comfort for the result, the
+## change from the day before, and one tip from the day's numbers. `reports` are the closed days, newest last.
+static func day_end_remark(reports: Array) -> String:
+	if reports.is_empty():
+		return ""
+	var r: Dictionary = reports.back()
+	if int(r["purchasing_customers"]) == 0:
+		return "今日もお疲れさまでした。\n今日はお買い上げがありませんでした。棚に商品を並べて、営業を始めてみましょう！"
+	var lines: Array[String] = []
+	if int(r["operating_profit_yen"]) >= 0:
+		lines.append("今日もお疲れさまでした！黒字で締められましたね。")
+	else:
+		lines.append("今日もお疲れさまでした。赤字でしたが、まだまだこれからです！")
+	if reports.size() >= 2:
+		var d := int(r["revenue_yen"]) - int((reports[reports.size() - 2] as Dictionary)["revenue_yen"])
+		if d > 0:
+			lines.append("売上は前日より %s 増えました！" % GameHud.format_yen(d))
+		elif d < 0:
+			lines.append("売上は前日より %s 減りました。" % GameHud.format_yen(-d))
+	lines.append(_day_end_tip(r))
+	return "\n".join(lines)
+
+
+## Her face over the day-end card: worried on a loss or a day without a sale, happy otherwise.
+static func day_end_mood(r: Dictionary) -> String:
+	if int(r.get("purchasing_customers", 0)) == 0 or int(r.get("operating_profit_yen", 0)) < 0:
+		return "worried"
+	return "happy"
+
+
+## The one tip of the day-end remark: the most pressing thing in the day's numbers, else a cheer.
+static func _day_end_tip(r: Dictionary) -> String:
+	if int(r.get("balked_customers", 0)) > 0:
+		return "混雑で引き返したお客様が %d 人いました。レジや店員を増やすと良さそうです。" % int(r["balked_customers"])
+	if int(r["lost_customers"]) > 0:
+		return "買えずに帰ったお客様が %d 人いました。品揃えと在庫を確かめましょう。" % int(r["lost_customers"])
+	if int(r["wastage_yen"]) > 0:
+		return "廃棄が %s ありました。仕入れの量を見直してみましょう。" % GameHud.format_yen(int(r["wastage_yen"]))
+	if r.has("satisfaction") and int(r["satisfaction"]) < 60:
+		return "お客様の満足度が %d でした。品切れやレジ待ちを減らしましょう。" % int(r["satisfaction"])
+	return "この調子で、もっと素敵なお店にしていきましょうね！"
+
+
+## The rows of the 本日のミッション list (#32 mockup, without its cash/EXP rewards: the badge is the only reward):
+## today's challenge, then the unfinished titles closest to done (by share, ties in data order), `titles` of them.
+## Each row is {kind: "challenge"|"title", caption, goal, value, goal_value, done}.
+static func mission_rows(challenge: Dictionary, progress: Array, titles: int = 3) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if not challenge.is_empty():
+		var what := String(CHALLENGE.get(challenge["challenge_id"], "")).trim_prefix("今日のチャレンジ: ")
+		if challenge["challenge_id"] == "challenge_no_waste":
+			what += "（閉店時に判定）"
+		out.append({"kind": "challenge", "caption": "今日のチャレンジ", "goal": what,
+				"value": int(challenge["value"]), "goal_value": int(challenge["goal"]), "done": bool(challenge["done"])})
+	var open: Array = progress.filter(func(e): return not e["done"])
+	var order := range(open.size())
+	order.sort_custom(func(a, b):
+		var ra := float(open[a]["value"]) / maxf(float(open[a]["threshold"]), 1.0)
+		var rb := float(open[b]["value"]) / maxf(float(open[b]["threshold"]), 1.0)
+		return ra > rb if not is_equal_approx(ra, rb) else a < b)
+	for i in order.slice(0, titles):
+		var e: Dictionary = open[i]
+		out.append({"kind": "title", "caption": "称号「%s」" % e["name_ja"], "goal": goal_text(e["metric"], int(e["threshold"])),
+				"value": int(e["value"]), "goal_value": int(e["threshold"]), "done": false})
+	return out
+
+
+## The goal sentence for the 本日の目標 card: what the next milestone asks for, e.g. "累計 10 件の会計を達成しよう".
+static func goal_text(metric: String, threshold: int) -> String:
+	match metric:
+		"total_sales_count":
+			return "累計 %d 件の会計を達成しよう" % threshold
+		"total_revenue_yen":
+			return "累計売上 %s にしよう" % GameHud.format_yen(threshold)
+		"total_customers_entered":
+			return "累計 %d 人のお客様を迎えよう" % threshold
+		"unique_categories_stocked":
+			return "%d カテゴリの品揃えにしよう" % threshold
+		"fixtures_installed_count":
+			return "什器を %d 台に増やそう" % threshold
+		"day_closed_count":
+			return "%d 日間の営業を続けよう" % threshold
+		"reputation_at_least":
+			return "評判を %d 点まで上げよう" % threshold
+		"daily_operating_profit_at_least":
+			return "1日の営業利益 %s を目指そう" % GameHud.format_yen(threshold)
+	return ""
+
+
 static func metric_unit(metric: String) -> String:
 	match metric:
 		"total_sales_count":
@@ -76,6 +179,7 @@ const ASSISTANT := {
 	"story_first_profit": "今月ではなく、今日は利益が出ています。仕入れの支払いと利益の違いにも注目しましょう。",
 	"story_sold_out": "この棚は売切れです。閉店して補充するか、次の営業の品揃えを工夫しましょう。",
 	"story_queue_giveup": "行列で帰ったお客さんがいます。レジ周辺の動線を見直すと改善するかもしれません。",
+	"story_staff_short": "レジが混んで、入口で引き返したお客さんがいます。「店員」タブで採用を検討しましょう。",
 	"story_event": "今日は飲料が人気です。棚を補充していたら売れ方の違いが見えるかもしれません。",
 }
 

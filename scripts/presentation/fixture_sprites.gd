@@ -1,17 +1,31 @@
 class_name FixtureSprites
 extends RefCounted
-## Manifest-driven fixture sprites (#9). Loads assets/generated/fixtures/<type>/<type>_a.visual.json
-## and the imported layer textures once; types without a manifest return {} (placeholder boxes).
+## Manifest-driven fixture sprites (#9). Loads the visual variant chosen by VisualVariants (the painted pilot when
+## approved or overridden, else assets/generated/fixtures/<type>/<type>_a.visual.json) and its imported layer
+## textures once; types without a manifest return {} (placeholder boxes).
 
 const DIR := "res://assets/generated/fixtures"
 const LAYER_ORDER_BELOW := ["shadow", "body"]
 const LAYER_ORDER_ABOVE := ["glass_front"]
 
 var _cache: Dictionary = {}
+var _prefs: Dictionary = VisualVariants.load_preferences()
+var _generation: int = VisualVariants.generation
 
 
-## {"anchor": Vector2, "layers": {name: Texture2D}, "slots": {slot_name: Vector2}} or {}.
+## Drops the cached entries when the visual variant override changed. True when they were dropped.
+func refresh() -> bool:
+	if _generation == VisualVariants.generation:
+		return false
+	_generation = VisualVariants.generation
+	_cache.clear()
+	return true
+
+
+## {"anchor": Vector2, "layers": {name: Texture2D}, "slots": {slot_name: Vector2}, "variant": String,
+## "baked": bool} or {}. "baked" means the products are drawn into the sprite (no item drawing on top).
 func rotation_entry(type_id: String, rotation: int) -> Dictionary:
+	refresh()
 	var key := "%s/%d" % [type_id, rotation]
 	if _cache.has(key):
 		return _cache[key]
@@ -21,12 +35,14 @@ func rotation_entry(type_id: String, rotation: int) -> Dictionary:
 
 
 func has_sprites(type_id: String) -> bool:
-	return FileAccess.file_exists("%s/%s/%s_a.visual.json" % [DIR, type_id, type_id])
+	var choice := VisualVariants.resolve(_prefs, "fixtures", type_id, VisualVariants.override())
+	return str(choice["path"]) != "" and FileAccess.file_exists(str(choice["path"]))
 
 
 func _load(type_id: String, rotation: int) -> Dictionary:
-	var path := "%s/%s/%s_a.visual.json" % [DIR, type_id, type_id]
-	if not FileAccess.file_exists(path):
+	var choice := VisualVariants.resolve(_prefs, "fixtures", type_id, VisualVariants.override())
+	var path := str(choice["path"])
+	if path == "" or not FileAccess.file_exists(path):
 		return {}
 	var json := JSON.new()
 	if json.parse(FileAccess.get_file_as_string(path)) != OK or typeof(json.data) != TYPE_DICTIONARY:
@@ -36,7 +52,10 @@ func _load(type_id: String, rotation: int) -> Dictionary:
 		return {}
 	var layers := {}
 	for name in rot["layers"]:
-		var tex := load("%s/%s/%s" % [DIR, type_id, rot["layers"][name]]) as Texture2D
+		var layer_path := "%s/%s" % [path.get_base_dir(), rot["layers"][name]]
+		if not ResourceLoader.exists(layer_path):
+			return {}
+		var tex := load(layer_path) as Texture2D
 		if tex == null:
 			return {}
 		layers[name] = tex
@@ -47,4 +66,6 @@ func _load(type_id: String, rotation: int) -> Dictionary:
 		"anchor": Vector2(rot["anchor_px"][0], rot["anchor_px"][1]),
 		"layers": layers,
 		"slots": slots,
+		"variant": choice["variant"],
+		"baked": VisualVariants.products_baked(json.data),
 	}

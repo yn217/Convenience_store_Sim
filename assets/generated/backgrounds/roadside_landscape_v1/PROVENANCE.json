@@ -1,0 +1,9 @@
+{
+  "asset_id": "roadside_landscape_v1",
+  "source_type": "ai_generated",
+  "tool": "image_gen via image-generation subagent",
+  "generation_id": "exec-35f92e14-432b-474b-b187-c18c4004ffe2",
+  "prompt": "Isometric Japanese roadside flowerbed, two trees and lamp as a single static scene, on a flat vivid magenta chroma-key background without glow or shadows.",
+  "processing": "Runtime chroma-key shader; a single sprite is positioned outside the road before the entrance crossing.",
+  "status": "provisional; other entrance sides and screen sizes require visual verification"
+}

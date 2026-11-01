@@ -51,7 +51,9 @@ static func _location_errors(seg: Dictionary, products: ProductCatalog, fixtures
 	if loc["kind"] == "BACKROOM":
 		if loc.has("fixture_id") or loc.has("slot_id"):
 			errs.append("%s.location: backroom_has_slot" % path)
-	elif loc["kind"] == "FIXTURE":
+	elif loc["kind"] == "FIXTURE" or loc["kind"] == "OVEN":   # OVEN: a lot baking for that slot (#130), with ready_at_sec
+		if loc["kind"] == "OVEN" and not JsonCheck.is_int(loc.get("ready_at_sec")):
+			errs.append("%s.location.ready_at_sec: invalid" % path)
 		if not JsonCheck.is_nonempty_string(loc.get("fixture_id")) or not JsonCheck.is_nonempty_string(loc.get("slot_id")):
 			errs.append("%s.location: fixture_slot_missing" % path)
 		elif grid != null:
@@ -93,7 +95,7 @@ static func list_errors(segments, products: ProductCatalog, fixtures: FixtureCat
 			errs.append("%s.segment_id: duplicate_id" % path)
 		ids[seg["segment_id"]] = true
 		var loc: Dictionary = seg["location"]
-		if loc["kind"] == "FIXTURE":
+		if loc["kind"] == "FIXTURE" or loc["kind"] == "OVEN":
 			var key := "%s/%s" % [loc["fixture_id"], loc["slot_id"]]
 			if slot_sku.has(key) and slot_sku[key] != seg["sku_id"]:
 				errs.append("%s.location: slot_holds_multiple_skus" % path)

@@ -1,6 +1,8 @@
 extends RefCounted
 ## Issue #30 (Domain / Application side): EventEnvelope stream and the PresentationEventBridge.
 
+const LegacyPace := preload("res://tests/support/legacy_pace.gd")
+
 const Seeds := preload("res://tests/support/test_seeds.gd")
 var _n := 0
 
@@ -26,7 +28,7 @@ func test_fifteen_cues_load_and_validate(t, _tree) -> void:
 	var problems: Array[String] = []
 	var cues := PresentationEventBridge.load_cues(JSON.parse_string(FileAccess.get_file_as_string("res://data/presentation/cues_v1.json")), problems)
 	t.eq(problems, [] as Array[String])
-	t.eq(cues.size(), 15)
+	t.eq(cues.size(), 30, "15 + access_blocked (#24), rival_opened, rival_sale, condition_started, rival_renovation, rival_closed (#129), capsule_rare, capsule_empty (#139), lottery_top, lottery_sold_out (#138), bake_done (#130), crane_won, crane_empty, crane_broken, crane_repaired (#132)")
 	var bad: Array = [{"schema_version": 1, "cue_id": "x", "source_event_type": "A", "animation_id": "a", "duration_seconds": 9, "priority": "loud", "sfx_key": null, "dedupe_payload_field": "id", "cooldown_game_seconds": 0}]
 	var errs: Array[String] = []
 	PresentationEventBridge.load_cues(bad, errs)
@@ -69,7 +71,7 @@ func test_event_id_memory_is_bounded(t, _tree) -> void:
 # ---------------------------------------------------------------- Domain events
 
 func _state() -> GameState:
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var pr := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	return GameState.from_balance(balance, Seeds.SEEDS, fx, pr)
@@ -154,7 +156,7 @@ func test_events_are_not_saved_and_do_not_replay_after_load(t, _tree) -> void:
 	t.ok(s.event_log.size() > 0)
 	var data := SaveGame.to_dict(s, "slot", "2026-01-01T00:00:00Z")
 	t.ok(not JSON.stringify(data).contains("ev_0000"), "no envelope in the save file")
-	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
+	var balance = LegacyPace.apply(JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json")))
 	var loaded := SaveGame.from_dict(data, balance, s.fixtures, s.products)
 	t.ok(loaded["ok"])
 	t.eq(loaded["state"].take_events().size(), 0, "a loaded game starts with a silent log")
@@ -173,3 +175,16 @@ func test_stock_and_queue_and_day_events(t, _tree) -> void:
 	for e in seen:
 		if e["type"] == "STOCK_LOW":
 			t.ok(e["payload"].has("fixture_id"))
+
+
+## #24: an access problem becomes one warning naming the shelf (or the register), not repeated for every customer.
+func test_access_blocked_warning(t, _tree) -> void:
+	var b := _bridge()
+	var first := b.map([_ev("ev_a1", "ACCESS_BLOCKED", {"target": "shelf", "fixture_id": "fx_0003", "customer_id": "c1"})], 100)
+	t.eq(first.size(), 1)
+	t.eq(first[0]["cue_id"], "access_blocked")
+	t.eq(b.map([_ev("ev_a2", "ACCESS_BLOCKED", {"target": "shelf", "fixture_id": "fx_0003", "customer_id": "c2"})], 160).size(), 0, "the next customer within the cooldown adds nothing")
+	t.eq(b.map([_ev("ev_a3", "ACCESS_BLOCKED", {"target": "register", "customer_id": "c3"})], 160).size(), 1, "the register is its own warning")
+	t.eq(CueText.level_of("access_blocked", "important"), "warning")
+	t.eq(CueText.toast_text("access_blocked", {"target": "shelf"}, "おかし棚"), "通路がふさがり、お客様がおかし棚まで行けません。配置を見直しましょう")
+	t.ok(CueText.toast_text("access_blocked", {"target": "register"}).contains("レジまで行けません"))

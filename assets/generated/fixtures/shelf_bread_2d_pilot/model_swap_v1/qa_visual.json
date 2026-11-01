@@ -1,0 +1,32 @@
+{
+  "review_type": "author visual QA of generated artwork, not independent review",
+  "input_image_count_per_call": 1,
+  "three_selling_tiers": true,
+  "all_selling_tiers_stocked": true,
+  "canopy_empty": true,
+  "allowed_sku_semantics": [
+    "melon pan",
+    "croissant",
+    "anpan"
+  ],
+  "sandwiches_drawn": false,
+  "whole_fixture_and_stock_generated_together": true,
+  "soft_bags_with_bread_windows": true,
+  "floating_product_cards_observed": false,
+  "rigid_box_mesh_products_observed": false,
+  "A": {
+    "arrangement": "mixed facings",
+    "packaging_front_readability": "large bread windows and prominent Japanese name labels; fine lettering is not guaranteed at 1:1"
+  },
+  "B": {
+    "arrangement": "adjacent SKU groups",
+    "packaging_front_readability": "large bread windows and simple label bands; SKU recognition relies on bread shape and color"
+  },
+  "limitations": [
+    "Generated shelf vertices do not exactly match the guide: alpha>8 bounding extents differ by up to 9 px after whole-image normalization.",
+    "Anchor (285,303) is preserved as canonical metadata and comparison crosshair; exact geometric registration is not certified.",
+    "Croissants are stylized rounded laminated shapes rather than consistently pronounced crescents.",
+    "At high magnification a faint colored fringe and very low-alpha stray pixels remain in the generator originals; alpha is preserved without background stripping.",
+    "Corresponding canopy length estimates are manual, approximately 2px endpoint uncertainty; Hough medians are diagnostics, not proof of exact projection."
+  ]
+}

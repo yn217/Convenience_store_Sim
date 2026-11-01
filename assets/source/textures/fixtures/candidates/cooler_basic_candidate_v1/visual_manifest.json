@@ -1,0 +1,152 @@
+{
+  "manifest_version": 1,
+  "asset_id": "cooler_basic_candidate_v1",
+  "status": "review-only",
+  "projection_id": "iso2x_v1",
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 2.0
+  },
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "canvas_px": [
+    512,
+    512
+  ],
+  "anchor_px": [
+    256,
+    380
+  ],
+  "selection_polygon_px": "per-direction in directions[]",
+  "directions": [
+    {
+      "rotation_deg": 0,
+      "body_png": "body_000.png",
+      "shadow_png": "shadow_000.png",
+      "anchor_px": [
+        256,
+        380
+      ],
+      "selection_polygon_px": [
+        [
+          320,
+          289
+        ],
+        [
+          438,
+          348
+        ],
+        [
+          192,
+          471
+        ],
+        [
+          74,
+          412
+        ]
+      ],
+      "canvas_px": [
+        512,
+        512
+      ]
+    },
+    {
+      "rotation_deg": 90,
+      "body_png": "body_090.png",
+      "shadow_png": "shadow_090.png",
+      "anchor_px": [
+        256,
+        380
+      ],
+      "selection_polygon_px": [
+        [
+          438,
+          412
+        ],
+        [
+          320,
+          471
+        ],
+        [
+          74,
+          348
+        ],
+        [
+          192,
+          289
+        ]
+      ],
+      "canvas_px": [
+        512,
+        512
+      ]
+    },
+    {
+      "rotation_deg": 180,
+      "body_png": "body_180.png",
+      "shadow_png": "shadow_180.png",
+      "anchor_px": [
+        256,
+        380
+      ],
+      "selection_polygon_px": [
+        [
+          192,
+          471
+        ],
+        [
+          74,
+          412
+        ],
+        [
+          320,
+          289
+        ],
+        [
+          438,
+          348
+        ]
+      ],
+      "canvas_px": [
+        512,
+        512
+      ]
+    },
+    {
+      "rotation_deg": 270,
+      "body_png": "body_270.png",
+      "shadow_png": "shadow_270.png",
+      "anchor_px": [
+        256,
+        380
+      ],
+      "selection_polygon_px": [
+        [
+          74,
+          348
+        ],
+        [
+          192,
+          289
+        ],
+        [
+          438,
+          412
+        ],
+        [
+          320,
+          471
+        ]
+      ],
+      "canvas_px": [
+        512,
+        512
+      ]
+    }
+  ],
+  "runtime_approved": false,
+  "source_type": "deterministic_pillow_fallback"
+}

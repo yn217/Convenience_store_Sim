@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "layout_id": "sample_store_v1",
+  "store": "16x12, entrance on the south wall at (8,11)-(9,11)",
+  "comment": "Sample/demo/bench layout (not gameplay data). Zones: back-wall drink coolers (north), central gondolas (two back-to-back pairs), chilled section on the east wall, register and impulse items by the south door. Rotation: 0 = access on the east side, 1 = south, 2 = west, 3 = north.",
+  "placements": [
+    {"type_id": "fridge_drink", "x": 3, "y": 0, "rotation": 1, "comment": "Back wall: drink cooler, faces the aisle at y=1 (magnet at the back)"},
+    {"type_id": "fridge_drink", "x": 5, "y": 0, "rotation": 1, "comment": "Back wall: drink cooler"},
+    {"type_id": "fridge_drink", "x": 7, "y": 0, "rotation": 1, "comment": "Back wall: drink cooler, in front of the main aisle end"},
+    {"type_id": "fridge_drink", "x": 9, "y": 0, "rotation": 1, "comment": "Back wall: drink cooler, in front of the main aisle end"},
+    {"type_id": "shelf_noodle", "x": 4, "y": 2, "rotation": 2, "comment": "Gondola A (cols 4-5), west face: cup noodles"},
+    {"type_id": "shelf_noodle", "x": 5, "y": 2, "rotation": 0, "comment": "Gondola A, east face: cup noodles"},
+    {"type_id": "shelf_snack", "x": 4, "y": 4, "rotation": 2, "comment": "Gondola A, west face: snacks"},
+    {"type_id": "shelf_snack", "x": 5, "y": 4, "rotation": 0, "comment": "Gondola A, east face: snacks"},
+    {"type_id": "shelf_general", "x": 4, "y": 6, "rotation": 2, "comment": "Gondola A, west face: general goods"},
+    {"type_id": "shelf_general", "x": 5, "y": 6, "rotation": 0, "comment": "Gondola A, east face: general goods"},
+    {"type_id": "shelf_snack", "x": 12, "y": 2, "rotation": 2, "comment": "Gondola B (cols 12-13), west face: snacks"},
+    {"type_id": "shelf_general", "x": 13, "y": 2, "rotation": 0, "comment": "Gondola B, east face: general goods (faces the chilled aisle)"},
+    {"type_id": "shelf_bread", "x": 12, "y": 4, "rotation": 2, "comment": "Gondola B end: bread, close to the chilled section"},
+    {"type_id": "shelf_onigiri", "x": 15, "y": 1, "rotation": 2, "comment": "Chilled section, east wall: onigiri / bento"},
+    {"type_id": "shelf_onigiri", "x": 15, "y": 3, "rotation": 2, "comment": "Chilled section, east wall: onigiri / bento"},
+    {"type_id": "fridge_dessert", "x": 15, "y": 5, "rotation": 2, "comment": "Chilled section, east wall: dessert case beside onigiri"},
+    {"type_id": "shelf_bread", "x": 15, "y": 7, "rotation": 2, "comment": "Chilled section, east wall: bread next to the chilled zone"},
+    {"type_id": "register_basic", "x": 11, "y": 9, "rotation": 2, "comment": "Register by the door, cashier side faces the sales floor (west)"},
+    {"type_id": "warmer_oden", "x": 11, "y": 8, "rotation": 0, "comment": "Oden warmer on the counter (impulse item next to the register)"},
+    {"type_id": "freezer_ice", "x": 13, "y": 9, "rotation": 0, "comment": "Ice freezer one tile east of the register (impulse item)"}
+  ]
+}

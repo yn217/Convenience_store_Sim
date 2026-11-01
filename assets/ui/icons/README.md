@@ -1,6 +1,6 @@
 # UI icons (assets/ui/icons)
 
-Provenance: all 25 icons are original SVG drawings made for this project (Issue #61, Phase E). They are hand-written
+Provenance: all 41 icons are original SVG drawings made for this project (Issue #61, Phase E). They are hand-written
 geometry (rectangles, circles, paths) with no third-party artwork, no traced images, no fonts, no logos and no trademarks.
 License: the project license (see the repository root). Redistribution: yes.
 
@@ -8,6 +8,9 @@ License: the project license (see the repository root). Redistribution: yes.
 - Loading: `scripts/presentation/ui_icons.gd` reads the SVG text and rasterises it at the requested size
   (`UiIcons.texture(name, size)`), so no `.import` sidecar is needed.
 - Names: store, box, person, megaphone, bar-chart, gear, cash, wallet, users, sun, chevron-right, trash, rotate,
-  move, heart, calendar, music-note, drop, eye, cart, truck, tag, grid, play, pause.
+  move, heart, calendar, music-note, drop, eye, cart, truck, tag, grid, play, pause,
+  moon, sunset, sakura, leaf, maple, snowflake, star, target (HUD time of day, seasons, goals),
+  onigiri, drink, bread, cake, bowl, bag (category pills in the store),
+  coin (本日の粗利 KPI, GUI v3 #112), clock (event timeline rows, GUI v3 #112).
 
 The ledger row is in `docs/ASSET_CREDITS.md`.

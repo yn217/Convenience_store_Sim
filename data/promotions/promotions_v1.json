@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "_comment": "Store promotions (issue #137): phase 1 price sales (a fixed price or a percentage off, optionally only in an hour window) and bundles (a discount when the basket holds one item of each group). Fictional plans; no real chain's names, dates or prices. max_active: how many may run at once.",
+  "max_active": 3,
+  "promotions": [
+    {
+      "def_id": "sale_onigiri",
+      "display_name": "おにぎり均一セール（100円）",
+      "kind": "price",
+      "categories": [
+        "rice_ball"
+      ],
+      "fixed_price_yen": 100,
+      "setup_cost_yen": 3000,
+      "default_days": 3
+    },
+    {
+      "def_id": "sale_bread_morning",
+      "display_name": "朝のパン20%引き（6〜10時）",
+      "kind": "price",
+      "categories": [
+        "bread"
+      ],
+      "percent_off": 20,
+      "hours": [
+        6,
+        10
+      ],
+      "setup_cost_yen": 2000,
+      "default_days": 3
+    },
+    {
+      "def_id": "sale_oden",
+      "display_name": "おでん30%引き",
+      "kind": "price",
+      "categories": [
+        "oden"
+      ],
+      "percent_off": 30,
+      "setup_cost_yen": 2000,
+      "default_days": 2
+    },
+    {
+      "def_id": "sale_coffee",
+      "display_name": "コーヒーお試し価格（100円）",
+      "kind": "price",
+      "categories": [
+        "coffee"
+      ],
+      "fixed_price_yen": 100,
+      "setup_cost_yen": 2000,
+      "default_days": 3
+    },
+    {
+      "def_id": "bundle_morning",
+      "display_name": "朝食セット：おにぎりかパン＋飲み物で50円引き",
+      "kind": "bundle",
+      "bundle": [
+        [
+          "rice_ball",
+          "bread"
+        ],
+        [
+          "drink"
+        ]
+      ],
+      "discount_yen": 50,
+      "setup_cost_yen": 3000,
+      "default_days": 3
+    },
+    {
+      "def_id": "multi_snack",
+      "display_name": "お菓子2点で40円引き・3点で90円引き",
+      "kind": "multi",
+      "categories": [
+        "snack"
+      ],
+      "tiers": [
+        [
+          2,
+          40
+        ],
+        [
+          3,
+          90
+        ]
+      ],
+      "extra_take": 0.45,
+      "max_units": 3,
+      "setup_cost_yen": 2500,
+      "default_days": 3
+    },
+    {
+      "def_id": "second_half_noodle",
+      "display_name": "カップ麺 2個目半額",
+      "kind": "second_half",
+      "categories": [
+        "instant_noodle"
+      ],
+      "extra_take": 0.4,
+      "max_units": 2,
+      "setup_cost_yen": 2500,
+      "default_days": 3
+    },
+    {
+      "def_id": "coupon_meal",
+      "display_name": "おにぎり・弁当を買うと次回50円券",
+      "kind": "coupon",
+      "categories": [
+        "rice_ball",
+        "bento"
+      ],
+      "coupon_yen": 50,
+      "valid_days": 3,
+      "return_rate": 0.4,
+      "setup_cost_yen": 2000,
+      "default_days": 3
+    },
+    {
+      "def_id": "free_dessert",
+      "display_name": "デザートを1個買うと次回1個無料",
+      "kind": "coupon",
+      "free_item": true,
+      "categories": [
+        "dessert"
+      ],
+      "coupon_yen": 0,
+      "valid_days": 3,
+      "return_rate": 0.5,
+      "setup_cost_yen": 3000,
+      "default_days": 3
+    },
+    {
+      "def_id": "volume_up_onigiri",
+      "display_name": "おにぎり増量（値段そのまま）",
+      "kind": "volume_up",
+      "skus": [
+        "rice_001_up",
+        "rice_002_up"
+      ],
+      "setup_cost_yen": 2000,
+      "default_days": 5
+    },
+    {
+      "def_id": "bundle_lunch",
+      "display_name": "お弁当＋飲み物で30円引き",
+      "kind": "bundle",
+      "bundle": [
+        [
+          "bento"
+        ],
+        [
+          "drink"
+        ]
+      ],
+      "discount_yen": 30,
+      "setup_cost_yen": 3000,
+      "default_days": 3
+    },
+    {
+      "def_id": "gift_clearfile",
+      "display_name": "お菓子3点で限定クリアファイル（先着40枚）",
+      "kind": "gift",
+      "categories": [
+        "snack"
+      ],
+      "need_units": 3,
+      "novelty_name": "限定クリアファイル",
+      "stock": 40,
+      "novelty_cost_yen": 60,
+      "extra_take": 0.5,
+      "pull": 1.3,
+      "setup_cost_yen": 3000,
+      "default_days": 5
+    },
+    {
+      "def_id": "gift_sticker",
+      "display_name": "対象の飲み物でオリジナルステッカー（先着60枚）",
+      "kind": "gift",
+      "categories": [
+        "drink"
+      ],
+      "need_units": 1,
+      "novelty_name": "オリジナルステッカー",
+      "stock": 60,
+      "novelty_cost_yen": 20,
+      "extra_take": 0.0,
+      "pull": 1.2,
+      "setup_cost_yen": 1500,
+      "default_days": 3
+    },
+    {
+      "def_id": "stamps_lunch",
+      "display_name": "ごはんスタンプラリー：3個でマスコットのミニタオル（20枚）",
+      "kind": "stamps",
+      "categories": [
+        "rice_ball",
+        "bento",
+        "coffee"
+      ],
+      "card_every": 5,
+      "stamps_needed": 3,
+      "return_rate": 1.0,
+      "valid_days": 2,
+      "novelty_name": "マスコットのミニタオル",
+      "stock": 20,
+      "novelty_cost_yen": 200,
+      "setup_cost_yen": 3000,
+      "default_days": 10
+    },
+    {
+      "def_id": "fair_autumn",
+      "display_name": "秋の味覚フェア（お菓子・デザート）",
+      "kind": "fair",
+      "pulls": {
+        "snack": 1.3,
+        "dessert": 1.3
+      },
+      "visitors": 1.04,
+      "setup_cost_yen": 4000,
+      "default_days": 7
+    },
+    {
+      "def_id": "fair_winter",
+      "display_name": "冬のあったかフェア（おでん・カップ麺・飲み物）",
+      "kind": "fair",
+      "pulls": {
+        "oden": 1.4,
+        "instant_noodle": 1.2,
+        "drink": 1.15
+      },
+      "visitors": 1.04,
+      "setup_cost_yen": 4000,
+      "default_days": 7
+    },
+    {
+      "def_id": "fair_summer",
+      "display_name": "夏のひんやりフェア（アイス・飲み物）",
+      "kind": "fair",
+      "pulls": {
+        "ice_cream": 1.4,
+        "soft_serve": 1.4,
+        "frappe": 1.4,
+        "drink": 1.2
+      },
+      "visitors": 1.04,
+      "setup_cost_yen": 4000,
+      "default_days": 7
+    },
+    {
+      "def_id": "fair_regional",
+      "display_name": "ご当地グルメフェア（弁当・おにぎり）",
+      "kind": "fair",
+      "pulls": {
+        "bento": 1.3,
+        "rice_ball": 1.2
+      },
+      "visitors": 1.04,
+      "setup_cost_yen": 4000,
+      "default_days": 7
+    },
+    {
+      "def_id": "collab_mascot",
+      "display_name": "ご当地マスコット コラボフェア（限定グッズ・お菓子）",
+      "kind": "collab",
+      "skus": [
+        "cgoods_001",
+        "cgoods_002",
+        "cgoods_003"
+      ],
+      "pulls": {
+        "snack": 1.2
+      },
+      "visitors": 1.05,
+      "setup_cost_yen": 5000,
+      "default_days": 7
+    }
+  ],
+  "_comment_140": "Issue #140 phase 1 (purchase bonuses and fairs; fictional goods and mascots only): gift = a basket with need_units of its categories gets one novelty while the stock lasts (bought at the start: stock x novelty_cost_yen with the setup), customers may take more to reach it (extra_take) and its categories pull more while it lasts; stamps = every card_every-th basket of its categories gets a stamp card (1 stamp), holders come back like coupon holders (return_rate over valid_days) and get a stamp per basket of the categories, stamps_needed stamps earn the prize while the stock lasts; cards end with the campaign; fair = its categories pull more (pulls) and a few more people come (visitors). Initial values, to be tuned by play.",
+  "_comment_140b": "Issue #140 phase 2: collab = a fair with limited goods (fictional mascot): its skus can be ordered only while it runs (stock bought still sells after), its categories pull more (pulls) and a few more people come (visitors); fans come for the goods while they are on the shelf."
+}

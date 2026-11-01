@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-27T22:08:52Z",
+  "timezone": "UTC timestamps; display in Asia/Tokyo",
+  "definitions": {
+    "imagegen": "tool event elapsed; internal inference/queue not separated",
+    "process": "recorded process elapsed; scope may combine steps",
+    "git": "chronology only, never labor duration"
+  },
+  "events": [
+    {
+      "case": "A",
+      "asset_id": "store_exterior_backdrop_v1",
+      "phase": "image_generation",
+      "event_id": "106cc763",
+      "duration_ms": 27695,
+      "result": "rejected",
+      "basis": "session event started_at_ms/completed_at_ms",
+      "started_at_utc": "2026-10-26T20:06:33.926Z",
+      "completed_at_utc": "2026-10-26T20:07:01.621Z"
+    },
+    {
+      "case": "A",
+      "asset_id": "store_exterior_backdrop_v1",
+      "phase": "image_generation",
+      "event_id": "146ca07d",
+      "duration_ms": 43067,
+      "result": "candidate",
+      "basis": "session event started_at_ms/completed_at_ms",
+      "started_at_utc": "2026-10-26T21:17:40.804Z",
+      "completed_at_utc": "2026-10-26T21:18:23.871Z"
+    },
+    {
+      "case": "A",
+      "asset_id": "store_exterior_backdrop_v1",
+      "phase": "image_generation",
+      "event_id": "c77f564b",
+      "duration_ms": 51880,
+      "result": "generated_delivery_unconfirmed",
+      "basis": "session event started_at_ms/completed_at_ms",
+      "started_at_utc": "2026-10-27T17:13:42.806Z",
+      "completed_at_utc": "2026-10-27T17:14:34.686Z"
+    },
+    {
+      "case": "A",
+      "asset_id": "store_exterior_backdrop_v1",
+      "phase": "image_generation",
+      "event_id": "c1aade1e",
+      "duration_ms": 539341,
+      "result": "adopted_source_candidate",
+      "basis": "session event started_at_ms/completed_at_ms",
+      "started_at_utc": "2026-10-27T17:20:23.898Z",
+      "completed_at_utc": "2026-10-27T17:29:23.239Z"
+    },
+    {
+      "case": "A",
+      "asset_id": "store_exterior_backdrop_v1",
+      "phase": "packaging",
+      "duration_ms": 2664,
+      "result": "completed",
+      "basis": "recorded process duration"
+    },
+    {
+      "case": "A",
+      "asset_id": "store_exterior_backdrop_v1",
+      "phase": "packaging",
+      "duration_ms": 5279,
+      "result": "completed",
+      "basis": "recorded process duration"
+    },
+    {
+      "case": "A",
+      "asset_id": "store_exterior_backdrop_v1",
+      "phase": "godot_capture",
+      "duration_ms": 14911,
+      "result": "captured",
+      "scope": "launch_plus_capture_process"
+    },
+    {
+      "case": "A",
+      "asset_id": "store_exterior_backdrop_v1",
+      "phase": "godot_capture",
+      "duration_ms": 13925,
+      "result": "captured",
+      "scope": "launch_plus_capture_process"
+    },
+    {
+      "case": "B",
+      "asset_id": "roadside_landscape_v1",
+      "phase": "image_generation",
+      "event_id": "35f92e14",
+      "duration_ms": 32645,
+      "result": "adopted_source_candidate",
+      "started_at_utc": "2026-10-27T09:57:40.502Z",
+      "completed_at_utc": "2026-10-27T09:58:13.147Z"
+    },
+    {
+      "case": "B",
+      "asset_id": "roadside_landscape_v1",
+      "phase": "image_edit",
+      "event_id": "eb362197",
+      "duration_ms": 41515,
+      "result": "not_adopted_blur_reintroduced",
+      "started_at_utc": "2026-10-27T09:59:53.916Z",
+      "completed_at_utc": "2026-10-27T10:00:35.431Z"
+    },
+    {
+      "case": "B",
+      "asset_id": "exterior_hvac_v1",
+      "phase": "image_generation",
+      "event_id": "bf5c44ec",
+      "duration_ms": 44404,
+      "result": "alternative_concurrent_candidate",
+      "started_at_utc": "2026-10-27T10:31:09.002Z",
+      "completed_at_utc": "2026-10-27T10:31:53.406Z"
+    },
+    {
+      "case": "B",
+      "asset_id": "exterior_hvac_v1",
+      "phase": "image_generation",
+      "event_id": "f4c389b0",
+      "duration_ms": 45708,
+      "result": "adopted_source_candidate",
+      "overlapped": true,
+      "started_at_utc": "2026-10-27T10:31:19.511Z",
+      "completed_at_utc": "2026-10-27T10:32:05.219Z"
+    },
+    {
+      "case": "B",
+      "asset_id": "roadside_landscape_v1",
+      "phase": "godot_capture",
+      "duration_ms": 12050,
+      "result": "captured",
+      "scope": "launch_plus_capture_process"
+    },
+    {
+      "case": "B",
+      "asset_id": "exterior_hvac_v1",
+      "phase": "integration_and_capture",
+      "duration_ms": 12300,
+      "result": "captured",
+      "scope": "correction_plus_capture_not_separated"
+    }
+  ],
+  "cases": {
+    "A": {
+      "total_elapsed_ms": null,
+      "complete_attempt_count": null,
+      "accepted_asset_duration_ms": null
+    },
+    "B": {
+      "total_elapsed_ms": null,
+      "complete_attempt_count": null,
+      "accepted_asset_duration_ms": null
+    },
+    "C": {
+      "asset_id": "shelf_general_2d_pilot",
+      "generation_durations_recorded": 0,
+      "normalization_durations_recorded": 0,
+      "qa_durations_recorded": 0,
+      "approved_asset_duration_ms": null,
+      "status": "latest_p0_stop_roofed_ambient_reference_hard_fail"
+    }
+  },
+  "unknown_phases": [
+    "T01",
+    "T02",
+    "T04",
+    "T05_complete",
+    "T06_complete",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11_separate",
+    "T12_separate",
+    "T13",
+    "T14_duration",
+    "T15",
+    "T16_active_wait_split"
+  ],
+  "runtime_performance_not_production_time": {
+    "frame_median_ms": {
+      "x1": 19.261,
+      "x2": 22.715,
+      "x4": 32.187
+    },
+    "frame_p95_ms": {
+      "x1": 32.025,
+      "x2": 37.454,
+      "x4": 50.95
+    },
+    "frames_per_speed": 600
+  },
+  "extraction_note": "Recorded at 2026-10-27T22:08:52Z after confirming the 2026-10-27T21:23:15Z issue comment; individual generation event endpoints are copied from session event records."
+}

@@ -21,8 +21,15 @@ static func order(state: GameState, command_id: String, sku_id, qty) -> Dictiona
 		return _fail(&"INVALID_OPERATION", &"sku_unknown")
 	if typeof(qty) != TYPE_INT or qty < 1 or qty > MAX_QTY:
 		return _fail(&"INVALID_OPERATION", &"qty_invalid")
+	if not Promotions.orderable(state, sku_id):
+		return _fail(&"INVALID_OPERATION", &"campaign_only_sku")   # #137 volume-up products
+	if not CapsuleToys.orderable(state, sku_id):
+		return _fail(&"INVALID_OPERATION", &"series_out_of_season")   # #139 a limited capsule series
 	var sku := state.products.get_sku(sku_id)
-	var cost: int = qty * int(sku["purchase_cost_yen"])
+	var unit := int(sku["purchase_cost_yen"])
+	if not state.market_conditions.is_empty():   # #129: a supply squeeze raises the order price
+		unit = int(round(float(unit) * Market.condition_cost(state.market_conditions, state.day, String(sku["category"]))))
+	var cost: int = qty * unit
 	var event := "%s:STOCK_PURCHASED" % command_id
 	if not state.ledger.record("ORDER", event, -cost, state.day, state.time_sec, {"sku_id": sku_id, "qty": qty}):
 		return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
@@ -33,7 +40,7 @@ static func order(state: GameState, command_id: String, sku_id, qty) -> Dictiona
 		"segment_id": "seg_%04d" % state.next_segment_seq,
 		"lot_id": "lot_%04d" % state.next_lot_seq,
 		"sku_id": sku_id,
-		"unit_cost_yen": int(sku["purchase_cost_yen"]),
+		"unit_cost_yen": unit,   # what was paid (#129 supply squeeze)
 		"expires_at_sec": null if expires == null else state.time_sec + int(expires),
 		"physical_qty": qty,
 		"reserved_qty": 0,
@@ -66,7 +73,7 @@ static func restock(state: GameState, command_id: String, instance_id, slot_id, 
 	var used := 0
 	for seg in state.inventory_segments:
 		var loc: Dictionary = seg["location"]
-		if loc["kind"] == "FIXTURE" and loc["fixture_id"] == instance_id and loc["slot_id"] == slot_id and int(seg["physical_qty"]) > 0:
+		if (loc["kind"] == "FIXTURE" or loc["kind"] == "OVEN") and loc["fixture_id"] == instance_id and loc["slot_id"] == slot_id and int(seg["physical_qty"]) > 0:
 			if seg["sku_id"] != sku_id:
 				return _fail(&"INVALID_OPERATION", &"slot_other_sku")
 			used += int(seg["physical_qty"]) * int(state.products.get_sku(sku_id)["slot_units"])
@@ -80,6 +87,9 @@ static func restock(state: GameState, command_id: String, instance_id, slot_id, 
 			sources.append(seg)
 	sources.sort_custom(_fefo_before)
 	var target := {"kind": "FIXTURE", "fixture_id": instance_id, "slot_id": slot_id}
+	var bake := Cooking.bake_seconds(String(sku["category"]))
+	if bake > 0:   # #130 phase 2: a lot of dough goes into the oven, on sale once baked
+		target = {"kind": "OVEN", "fixture_id": instance_id, "slot_id": slot_id, "ready_at_sec": state.time_sec + bake}
 	var remaining: int = qty
 	for seg in sources:
 		if remaining == 0:
@@ -97,6 +107,8 @@ static func restock(state: GameState, command_id: String, instance_id, slot_id, 
 			part["location"] = target.duplicate()
 			state.inventory_segments.append(part)
 		remaining -= take
+		if bake > 0:
+			state.bakes_pending += 1
 	return _ok("%s:STOCK_MOVED" % command_id, {"moved_qty": qty})
 
 
