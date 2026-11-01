@@ -1,0 +1,49 @@
+# Character visual pilot review — 2026-11-01
+
+Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
+
+## Scope
+
+This review covers the 11-image pilot only. The remaining 323 candidates stay review-only and are not loaded by the pilot registry.
+
+## Automated checks
+
+- Registry entries: 11
+- Runtime pilot PNGs: 11
+- Duplicate logical IDs: 0
+- Missing runtime paths: 0
+- Title candidate: 1344x768
+- Full-body/event candidates: 1024x1536
+- Bust-up candidates: 1024x1024
+- `runtime_approved`: `false`
+
+## Candidate mapping
+
+| ID | Role | Screen / trigger | Initial review state |
+|---|---|---|---|
+| `title_background_pilot` | title background | SCR-05 / title open | review pending; compare crop and UI safe area |
+| `fullbody_dynamic_201` | full body | SCR-06 / tutorial greeting | review pending; check full silhouette and hands |
+| `fullbody_tutorial_layout` | full body | SCR-06 / layout guidance | review pending; check white-background extraction |
+| `fullbody_emotion_05` | full body | SCR-18 / first milestone | review pending; check expression and feet |
+| `reaction_discovery` | bust-up | SCR-06 / discovery | review pending; generated `!` bubble is not authoritative UI text |
+| `reaction_deadpan` | bust-up | SCR-11 / quiet street | review pending; generated `...` remains a visual reference |
+| `reaction_pleading` | bust-up | SCR-18 / assistant request | review pending; check hands and symbol separation |
+| `functional_opening_checklist` | functional pose | SCR-09 / opening checklist | review pending; do not infer checklist text from pixels |
+| `functional_sold_out` | functional pose | SCR-11 / sold out | review pending; check full-body framing and hands |
+| `functional_rival_store` | functional pose | SCR-11 / rival-store event | review pending; event must be backed by real state |
+| `event_neighbor_mentions` | event image | SCR-11 / `evt_neighbor_mentions` | review pending; use only when the event is actually active |
+
+## Visual observations
+
+- The title candidate has a readable ordinary daytime storefront composition and leaves the right side relatively open for title UI, but it already contains Koharu. It must not be combined with a second `title_rikka.png` layer.
+- The sampled full-body candidate preserves both odango buns and the uniform, but the white background is still opaque. Alpha extraction must be a separate derived step and must preserve the white blouse, hands, and shoe edges.
+- The sampled bust-up candidate communicates surprise, but its generated speech bubble and punctuation are not production UI. Godot should own the symbol/text overlay.
+- No candidate is approved for production replacement until the user reviews the gallery at the target resolutions.
+
+## Next gate
+
+1. Open the review gallery scene and inspect all 11 candidates.
+2. Select/reject each candidate in the registry without changing Domain state.
+3. Create derived alpha PNGs only for approved full-body/bust-up images.
+4. Compare the title candidate at 1920x1080, 1600x900, and 1280x720 before connecting it to the title screen.
+5. Keep `runtime_approved:false` until the above checks, rights review, and Godot screenshot QA are complete.
