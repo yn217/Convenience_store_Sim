@@ -165,6 +165,18 @@
       "fallback": "text_only"
     },
     {
+      "id": "functional_access_blocked",
+      "kind": "functional_pose",
+      "screen_id": "SCR-11",
+      "trigger": "access_blocked",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_access_blocked.png",
+      "derived_from": "res://assets/runtime/character_pilot/functional_access_blocked.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_030_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
       "id": "event_neighbor_mentions",
       "kind": "event_image",
       "screen_id": "SCR-11",

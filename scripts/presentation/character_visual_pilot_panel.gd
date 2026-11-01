@@ -105,6 +105,8 @@ func cue_entry(cue_id: String) -> Dictionary:
 	for entry in _entries:
 		if String(entry.get("kind", "")) == "functional_pose" and String(entry.get("trigger", "")) == cue_id:
 			return entry
+	if cue_id == "rival_opened":
+		return _find("functional_rival_store")
 	return {}
 
 

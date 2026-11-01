@@ -4,12 +4,12 @@ Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
 
 ## Scope
 
-This review covers the 24-image pilot. The remaining 310 candidates stay review-only and are not loaded by the pilot registry.
+This review covers the 25-image pilot. The remaining 309 candidates stay review-only and are not loaded by the pilot registry.
 
 ## Automated checks
 
-- Registry entries: 24
-- Runtime pilot PNGs: 24
+- Registry entries: 25
+- Runtime pilot PNGs: 25
 - Duplicate logical IDs: 0
 - Missing runtime paths: 0
 - Title candidate: 1344x768
@@ -45,6 +45,7 @@ This review covers the 24-image pilot. The remaining 310 candidates stay review-
 | `functional_low_stock` | functional pose | SCR-11 / `low_stock_notice` | review pending; warning cue uses a temporary pose |
 | `functional_expiry` | functional pose | SCR-11 / `expiry_notice` | review pending; warning cue uses a temporary pose |
 | `functional_queue` | functional pose | SCR-11 / `long_queue` | review pending; warning cue uses a temporary pose |
+| `functional_access_blocked` | functional pose | SCR-11 / `access_blocked` | review pending; warning cue uses a temporary pose |
 
 ## Visual observations
 
@@ -55,7 +56,7 @@ This review covers the 24-image pilot. The remaining 310 candidates stay review-
 
 ## Next gate
 
-1. Open the review gallery scene and inspect all 24 candidates.
+1. Open the review gallery scene and inspect all 25 candidates.
 2. Select/reject each candidate in the registry without changing Domain state.
 3. Create derived alpha PNGs only for approved full-body/bust-up images.
 4. Compare the title candidate at 1920x1080, 1600x900, and 1280x720 before connecting it to the title screen.

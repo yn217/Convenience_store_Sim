@@ -28,7 +28,8 @@ $files = @(
     "functional_sold_out.png",
     "functional_low_stock.png",
     "functional_expiry.png",
-    "functional_queue.png"
+    "functional_queue.png",
+    "functional_access_blocked.png"
 )
 
 foreach ($file in $files) {

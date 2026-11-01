@@ -120,7 +120,7 @@ func _connect_pilot_cue() -> void:
 
 
 func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
-	if not ["low_stock_notice", "expiry_notice", "long_queue"].has(cue_id):
+	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "rival_opened"].has(cue_id):
 		return
 	_pilot_cue_id = cue_id
 	_pilot_cue_payload = payload.duplicate()
