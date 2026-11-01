@@ -82,7 +82,7 @@ The pilot review UI exists only in a Godot debug build and defaults on there for
 
 ## Title candidate QA
 
-The `title_background_pilot` candidate was rendered with `--visual-variant=painted_v1` at 1920x1080, 1600x900, and 1280x720. The title logo, buttons, and the embedded character remain visible without a second `TitleRikka` layer or viewport cropping. The candidate is still held for review because its dusk lighting does not match the required ordinary daytime title direction; the default title continues to use `assets/ui/title/title_background.png` with the existing fallback path.
+The `title_background_pilot` candidate is now the daylight residential-store composition `title_screen_variant_04_1344x768_00001_.png`. The explicit `--visual-variant=painted_v1` QA path keeps the title logo, buttons, and embedded character separate from a second `TitleRikka` layer. It remains held for visual and rights review; the default title continues to use `assets/ui/title/title_background.png` with the existing fallback path.
 
 ## Next gate
 

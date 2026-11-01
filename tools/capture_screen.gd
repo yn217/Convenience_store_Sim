@@ -20,6 +20,14 @@ func _run() -> void:
 	var variant := VisualVariants.override()
 	if variant != "":
 		print("visual variant override: ", variant)
+	if OS.get_cmdline_user_args().has("--title"):
+		var title: Node = load("res://scenes/title/Title.tscn").instantiate()
+		root.add_child(title)
+		for i in 30:
+			await process_frame
+		get_root().get_texture().get_image().save_png(out_png)
+		quit(0)
+		return
 	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
 	root.add_child(main)
 	for i in 5:
