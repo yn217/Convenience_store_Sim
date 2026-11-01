@@ -97,6 +97,20 @@
       "overlay_symbol": "?"
     },
     {
+      "id": "reaction_milestone_calm",
+      "kind": "bustup_reaction",
+      "screen_id": "SCR-12",
+      "trigger": "story_first_profit",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/reaction_milestone_calm.png",
+      "derived_from": "res://assets/runtime/character_pilot/reaction_milestone_calm.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_43_1024x1024_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "fullbody_emotion_05",
+      "review_note": "BiRefNet派生で周囲の生成吹き出しを除去。穏やかな達成反応としてstory_first_profitへ限定接続し、手指・境界・権利確認は継続",
+      "overlay_symbol": ""
+    },
+    {
       "id": "functional_opening_checklist",
       "kind": "functional_pose",
       "screen_id": "SCR-09",

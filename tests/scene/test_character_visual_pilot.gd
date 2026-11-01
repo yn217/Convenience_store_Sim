@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 48, "the pilot registry exposes all 48 selected visuals")
+	t.eq(panel._entries.size(), 49, "the pilot registry exposes all 49 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -57,6 +57,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "queue reaction stage uses a functional full-body asset")
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_queue", "queue story uses the queue-specific pose")
 	t.eq(panel.reaction_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("id", ""), "reaction_pleading", "queue story uses the pleading bust-up layer")
+	t.eq(panel.reaction_entry({"story_cue": "story_first_profit", "gameplay_event": {}, "progression": {}}).get("id", ""), "reaction_milestone_calm", "first-profit story uses the clean calm bust-up layer")
 	t.eq(panel.stage_entry({"story_cue": "story_staff_short", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_staff_short", "staff shortage story uses the staff-specific pose")
 	t.ok(panel.reaction_entry({"story_cue": "story_staff_short", "gameplay_event": {}, "progression": {}}).is_empty(), "staff shortage keeps its full-body pose instead of stacking a reaction")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_six_categories"]}}).get("id", ""), "functional_six_categories", "six-category achievement uses its presentation pose")
@@ -109,6 +110,11 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.ok(guide._pilot_reaction.visible, "queue give-up shows the pleading bust-up reaction")
 	t.eq((guide._pilot_reaction.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_pleading.png", "queue give-up loads the pleading reaction texture")
 	t.eq(guide._pilot_reaction_symbol.text, "?", "queue give-up renders the question symbol as a Godot overlay")
+	guide.apply_snapshot({"story_cue": "story_first_profit", "progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "active_daily_challenge_id": null, "completed_milestone_ids": []}})
+	await tree.process_frame
+	t.ok(guide._pilot_reaction.visible, "first profit shows the clean calm bust-up reaction")
+	t.eq((guide._pilot_reaction.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_milestone_calm.png", "first profit loads the clean calm reaction texture")
+	t.ok(not guide._pilot_reaction_symbol.visible, "clean calm reaction does not add a duplicate symbol")
 	guide.apply_snapshot({"story_cue": "story_staff_short", "progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "active_daily_challenge_id": null, "completed_milestone_ids": []}})
 	await tree.process_frame
 	t.ok(not guide._pilot_reaction.visible, "staff shortage does not stack a bust-up reaction")

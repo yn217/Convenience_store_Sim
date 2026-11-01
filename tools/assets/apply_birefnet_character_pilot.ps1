@@ -23,6 +23,7 @@ $files = @(
 	"reaction_discovery.png",
 	"reaction_deadpan.png",
 	"reaction_pleading.png",
+	"reaction_milestone_calm.png",
     "event_neighbor_mentions.png",
     "fullbody_dynamic_201.png",
     "fullbody_emotion_05.png",

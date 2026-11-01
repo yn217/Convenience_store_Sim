@@ -135,6 +135,8 @@ func reaction_entry(snapshot: Dictionary) -> Dictionary:
 			return _find("reaction_discovery")
 		"story_queue_giveup":
 			return _find("reaction_pleading")
+		"story_first_profit":
+			return _find("reaction_milestone_calm")
 	return {}
 
 
