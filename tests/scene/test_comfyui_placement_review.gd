@@ -11,6 +11,8 @@ func test_placement_review_loader_is_complete(t, _tree) -> void:
 		var id := String(entry.get("asset_id", ""))
 		t.ok(not id.is_empty() and not ids.has(id), "%s is a unique candidate id" % id)
 		ids[id] = true
-		t.ok(not String(entry.get("candidate_relpath", "")).is_empty(), "%s has a source path" % id)
+		var relative_path := String(entry.get("candidate_relpath", ""))
+		t.ok(not relative_path.is_empty(), "%s has a source path" % id)
+		t.ok(FileAccess.file_exists("res://assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/" + relative_path), "%s source image exists" % id)
 		t.ok(not String(entry.get("approval_state", "")).is_empty(), "%s keeps an explicit approval state" % id)
 		t.eq(String(entry.get("visual_match", "")), "not_yet_verified", "%s remains unverified until review" % id)
