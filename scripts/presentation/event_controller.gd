@@ -23,7 +23,7 @@ var _pilot_caption: Label
 var _pilot_picture: TextureRect
 const PICTURE_DIR := "res://assets/ui/events/"
 const PICTURE_SIZE := Vector2(384, 216)
-const PILOT_PICTURE_SIZE := Vector2(0, 300)
+const PILOT_PICTURE_SIZE := Vector2(300, 300)
 static var _pictures := {}
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"

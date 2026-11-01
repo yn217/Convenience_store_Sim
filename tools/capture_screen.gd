@@ -196,6 +196,13 @@ func _run() -> void:
 		if a.begins_with("--map-zoom="):   # --map-zoom=1.8: zoomed about the centre of the map view
 			var mv: MapView = main.get_node("BusinessController")._map_view
 			mv.zoom_at(mv.size * 0.5, float(a.trim_prefix("--map-zoom=")))
+	if OS.get_cmdline_user_args().has("--inspect-pilot"):
+		await process_frame
+		var event_panel := main.get_node_or_null("EventController")
+		var event_picture = event_panel.get("_pilot_picture") if event_panel != null else null
+		if event_picture != null:
+			var tex: Texture2D = event_picture.texture
+			print("pilot_event visible=%s position=%s size=%s texture=%s texture_size=%s" % [event_picture.visible, event_picture.position, event_picture.size, tex.resource_path if tex != null else "", tex.get_size() if tex != null else Vector2.ZERO])
 	if OS.get_cmdline_user_args().has("--whole"):   # --whole: the whole-store fit (F key) instead of the default interior fit (#109)
 		main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld").fit_whole()
 	for a in OS.get_cmdline_user_args():   # --zoom=1.2: capture at that camera zoom (package icons, #12)

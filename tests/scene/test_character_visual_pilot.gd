@@ -63,6 +63,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"active_daily_challenge_id": "challenge_stock_2", "completed_milestone_ids": []}}).get("id", ""), "functional_stock_challenge", "stock challenge uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"active_daily_challenge_id": "challenge_no_waste", "completed_milestone_ids": []}}).get("id", ""), "functional_no_waste", "no-waste challenge uses its presentation pose")
 	t.eq(panel.event_entry("evt_neighbor_mentions").get("id", ""), "event_neighbor_mentions", "neighbor mentions uses the selected event pilot")
+	t.eq(panel.event_entry("evt_quiet_street").get("id", ""), "reaction_deadpan", "quiet street uses the dedicated deadpan reaction slot")
 	for event_id in ["evt_local_fair", "evt_roadworks", "evt_hot_day", "evt_cold_day", "evt_sweets_spotlight", "evt_snack_buzz", "evt_lunch_pick", "evt_drink_pick", "evt_bread_feature", "evt_after_work"]:
 		t.eq(panel.event_entry(event_id).get("trigger", ""), event_id, "%s has a selected event pilot" % event_id)
 
@@ -167,6 +168,11 @@ func test_runtime_event_panel_shows_selected_event_pilot(t, tree) -> void:
 	t.ok(panel.is_pilot_enabled(), "event pilot is enabled for the QA runtime")
 	t.ok(picture.visible, "active events show the selected event pilot")
 	t.eq((picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/event_roadworks.png", "roadworks selects the event pilot texture")
+	t.ok(picture.size.x > 0.0, "event pilot has a visible layout width")
 	t.ok(picture.size.y > 0.0, "event pilot has a visible layout height")
+	view["event_id"] = "evt_quiet_street"
+	events.apply_snapshot({"gameplay_event": view, "event_catalog": [], "event_history": [], "time_sec": 1800, "stocked_categories": []})
+	t.ok(picture.visible, "events without a dedicated illustration still show a reaction pilot")
+	t.eq((picture.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_deadpan.png", "quiet street uses the deadpan reaction pilot")
 	main.queue_free()
 	await tree.process_frame

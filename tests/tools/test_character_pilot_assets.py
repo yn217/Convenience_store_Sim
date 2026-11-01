@@ -18,14 +18,15 @@ class CharacterPilotAssetTests(unittest.TestCase):
             entry for entry in registry["assets"]
             if "/derived_alpha/" in entry.get("runtime_path", "")
         ]
-        self.assertEqual(len(derived), 44)
+        self.assertEqual(len(derived), 47)
 
         for entry in derived:
             runtime_path = ROOT / entry["runtime_path"].removeprefix("res://")
             self.assertTrue(runtime_path.is_file(), entry["id"])
             with Image.open(runtime_path) as image:
                 rgba = image.convert("RGBA")
-                self.assertEqual(rgba.size, (1024, 1536), entry["id"])
+                expected_size = (1024, 1024) if entry.get("kind") == "bustup_reaction" else (1024, 1536)
+                self.assertEqual(rgba.size, expected_size, entry["id"])
                 alpha = rgba.getchannel("A")
                 self.assertIsNotNone(alpha.getbbox(), entry["id"])
                 corners = [

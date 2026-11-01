@@ -129,6 +129,8 @@ func event_entry(event_id: String) -> Dictionary:
 	for entry in _entries:
 		if String(entry.get("kind", "")) == "event_image" and String(entry.get("trigger", "")) == event_id:
 			return entry
+	if event_id == "evt_quiet_street":
+		return _find("reaction_deadpan")
 	return {}
 
 

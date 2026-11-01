@@ -15,7 +15,8 @@ This review covers the 48-image pilot. The remaining 286 candidates stay review-
 - Title candidate: 1344x768
 - Full-body/event candidates: 1024x1536
 - Bust-up candidates: 1024x1024
-- Derived alpha integrity: 43 files keep a 1024x1536 canvas, non-empty alpha, and transparent corners (`tests/tools/test_character_pilot_assets.py`)
+- Derived alpha integrity: 47 files keep their expected canvas (44 full-body at 1024x1536 and 3 bust-up reactions at 1024x1024), non-empty alpha, and transparent corners (`tests/tools/test_character_pilot_assets.py`)
+- Runtime event-panel spot check: `evt_quiet_street` at 1280x720 displays the transparent `reaction_deadpan` pilot in the dedicated event slot without the source white rectangle.
 - `runtime_approved`: `false`
 
 ## Candidate mapping
@@ -84,7 +85,7 @@ The `title_background_pilot` candidate was rendered with `--visual-variant=paint
 
 ## Next gate
 
-1. Open the review gallery scene and inspect all 43 candidates.
+1. Open the review gallery scene and inspect all 47 derived-alpha candidates.
 2. Select/reject each candidate in the registry without changing Domain state.
 3. Create derived alpha PNGs only for approved full-body/bust-up images.
 4. Compare the title candidate at 1920x1080, 1600x900, and 1280x720 before connecting it to the title screen.

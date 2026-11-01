@@ -19,6 +19,9 @@ New-Item -ItemType Directory -Path $derivedDir -Force | Out-Null
 New-Item -ItemType Directory -Path $inputDir -Force | Out-Null
 
 $files = @(
+	"reaction_discovery.png",
+	"reaction_deadpan.png",
+	"reaction_pleading.png",
     "event_neighbor_mentions.png",
     "fullbody_dynamic_201.png",
     "fullbody_emotion_05.png",
