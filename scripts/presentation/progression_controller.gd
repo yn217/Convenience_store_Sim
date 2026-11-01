@@ -58,6 +58,9 @@ var _missions: VBoxContainer   # 本日のミッション: today's challenge and
 var _mission_rows: Array = []  # per row: {box, caption, goal, bar, count, chip}
 var _history: Array[String] = []
 var _snap: Dictionary = {}
+var _pilot_cue_id := ""
+var _pilot_cue_payload: Dictionary = {}
+var _pilot_cue_timer: Timer
 var _seq: int = 0
 var _milestone_defs: Array = []
 
@@ -100,7 +103,35 @@ func setup(app: Node, milestones: Array) -> void:
 	_watch_window.call_deferred()
 	_build_cutin()
 	get_parent().add_child.call_deferred(_cutin)
+	_pilot_cue_timer = Timer.new()
+	_pilot_cue_timer.one_shot = true
+	_pilot_cue_timer.timeout.connect(_clear_pilot_cue)
+	add_child(_pilot_cue_timer)
+	_connect_pilot_cue.call_deferred()
 	apply_snapshot({"progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [], "active_daily_challenge_id": null}})
+
+
+func _connect_pilot_cue() -> void:
+	var player := get_parent().get_node_or_null("CuePlayer")
+	if player != null and player.has_signal("pilot_cue_requested"):
+		var callback := Callable(self, "_on_pilot_cue")
+		if not player.is_connected("pilot_cue_requested", callback):
+			player.connect("pilot_cue_requested", callback)
+
+
+func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
+	if not ["low_stock_notice", "expiry_notice", "long_queue"].has(cue_id):
+		return
+	_pilot_cue_id = cue_id
+	_pilot_cue_payload = payload.duplicate()
+	_pilot_cue_timer.start(2.5)
+	_refresh_stage()
+
+
+func _clear_pilot_cue() -> void:
+	_pilot_cue_id = ""
+	_pilot_cue_payload = {}
+	_refresh_stage()
 
 
 func apply_snapshot(snap: Dictionary) -> void:
@@ -190,9 +221,11 @@ func _refresh_stage() -> void:
 		_assistant.text = String(_celebrations[0]["line"])
 	elif _day_remark != "":
 		_assistant.text = _day_remark
-	else:
+	elif cue != "":
 		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
-	_stage.visible = _suppressed_by.is_empty() and (warn or celebrating or _day_remark != "" or cue != "")
+	else:
+		_assistant.text = CueText.toast_text(_pilot_cue_id, _pilot_cue_payload)
+	_stage.visible = _suppressed_by.is_empty() and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
 	if warn:
 		set_mood("worried")
 	else:
@@ -220,7 +253,9 @@ func refresh_visual_pilot() -> void:
 		return
 	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
 	var enabled: bool = pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled()
-	var entry: Dictionary = pilot.stage_entry(_snap) if enabled and pilot.has_method("stage_entry") else {}
+	var entry: Dictionary = {}
+	if enabled:
+		entry = pilot.cue_entry(_pilot_cue_id) if _pilot_cue_id != "" and pilot.has_method("cue_entry") else pilot.stage_entry(_snap)
 	var texture: Texture2D = load(String(entry.get("runtime_path", ""))) as Texture2D if not entry.is_empty() else null
 	var usable: bool = enabled and texture != null
 	_pilot_figure.visible = usable

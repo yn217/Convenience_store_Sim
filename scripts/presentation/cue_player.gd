@@ -6,6 +6,8 @@ extends Node
 ## Toast rules (levels, limit, merging, lifetimes) are in NotificationPolicy.
 ## Limits (14 §4): 3 toasts, 6 sales pop-ups, 80 particles, 8 simultaneous sounds.
 
+signal pilot_cue_requested(cue_id: String, payload: Dictionary)
+
 const MAX_TOASTS := NotificationPolicy.MAX_VISIBLE
 const MAX_FLOATS := 6
 const MAX_PARTICLES := 80
@@ -68,6 +70,7 @@ func _play_one(r: Dictionary) -> void:
 		handled.pop_front()
 	var payload: Dictionary = r["payload"]
 	var cue_id: String = r["cue_id"]
+	pilot_cue_requested.emit(cue_id, payload)
 	var fixture_name := _fixture_name(String(payload.get("fixture_id", "")))
 	if CueText.toast_text(cue_id, {}) != "":
 		var text_for := func(amount: int, count: int) -> String:

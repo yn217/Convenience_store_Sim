@@ -129,6 +129,42 @@
       "fallback": "text_only"
     },
     {
+      "id": "functional_low_stock",
+      "kind": "functional_pose",
+      "screen_id": "SCR-11",
+      "trigger": "low_stock_notice",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_low_stock.png",
+      "derived_from": "res://assets/runtime/character_pilot/functional_low_stock.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_023_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "functional_expiry",
+      "kind": "functional_pose",
+      "screen_id": "SCR-11",
+      "trigger": "expiry_notice",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_expiry.png",
+      "derived_from": "res://assets/runtime/character_pilot/functional_expiry.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_025_functional_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
+      "id": "functional_queue",
+      "kind": "functional_pose",
+      "screen_id": "SCR-11",
+      "trigger": "long_queue",
+      "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_queue.png",
+      "derived_from": "res://assets/runtime/character_pilot/functional_queue.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_026_functional_pilot_00001_.png",
+      "status": "pilot_selected",
+      "runtime_approved": false,
+      "fallback": "text_only"
+    },
+    {
       "id": "event_neighbor_mentions",
       "kind": "event_image",
       "screen_id": "SCR-11",

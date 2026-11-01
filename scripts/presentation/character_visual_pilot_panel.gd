@@ -101,6 +101,13 @@ func event_entry(event_id: String) -> Dictionary:
 	return {}
 
 
+func cue_entry(cue_id: String) -> Dictionary:
+	for entry in _entries:
+		if String(entry.get("kind", "")) == "functional_pose" and String(entry.get("trigger", "")) == cue_id:
+			return entry
+	return {}
+
+
 func _select_entry(snapshot: Dictionary) -> Dictionary:
 	var event_data: Dictionary = snapshot.get("gameplay_event", {})
 	var event_id := String(event_data.get("event_id", event_data.get("id", "")))

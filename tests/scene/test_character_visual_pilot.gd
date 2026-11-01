@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 21, "the pilot registry exposes all 21 selected visuals")
+	t.eq(panel._entries.size(), 24, "the pilot registry exposes all 24 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -29,6 +29,9 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.ok(panel.has_method("stage_entry"), "pilot panel exposes a full-body stage route")
 	t.ok(panel.has_method("event_entry"), "pilot panel exposes event-image routing")
 	t.eq(panel.selected_entry({"story_cue": "story_sold_out", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_sold_out", "stage consumers share pilot routing")
+	t.eq(panel.cue_entry("long_queue").get("id", ""), "functional_queue", "a long queue has a functional pilot pose")
+	t.eq(panel.cue_entry("low_stock_notice").get("id", ""), "functional_low_stock", "low stock has a functional pilot pose")
+	t.eq(panel.cue_entry("expiry_notice").get("id", ""), "functional_expiry", "expiry has a functional pilot pose")
 	t.eq(panel.stage_entry({"story_cue": "story_start", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "story start stage avoids a bust-up asset")
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("kind", ""), "fullbody", "queue reaction stage uses a full-body asset")
 	t.eq(panel.event_entry("evt_neighbor_mentions").get("id", ""), "event_neighbor_mentions", "neighbor mentions uses the selected event pilot")
@@ -48,5 +51,24 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.ok(guide._pilot_figure.texture is Texture2D, "the assistant stage loads a pilot texture")
 	var expected: Dictionary = panel.stage_entry(guide._snap)
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, expected.get("runtime_path", ""), "the stage texture follows the shared pilot route")
+	main.queue_free()
+	await tree.process_frame
+
+
+func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var panel: Node = main.get_node("CharacterVisualPilotPanel")
+	var pc: ProgressionController = main.get_node("ProgressionController")
+	var player: Node = main.get_node("CuePlayer")
+	t.ok(panel.is_pilot_enabled(), "notification pilot is enabled for the QA runtime")
+	player.pilot_cue_requested.emit("long_queue", {})
+	await tree.process_frame
+	t.ok(pc._stage.visible, "a warning cue opens the assistant stage")
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_queue.png", "long queue selects the queue pose")
+	pc._pilot_cue_timer.stop()
+	pc._clear_pilot_cue()
 	main.queue_free()
 	await tree.process_frame
