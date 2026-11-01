@@ -48,11 +48,16 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 		_order_sku.add_icon_item(ProductIcons.texture(sku, 32), "%s ¥%d" % [sku["display_name"], sku["purchase_cost_yen"]])
 		_order_sku.set_item_metadata(_order_sku.item_count - 1, sku_id)
 	_order_qty = _qty_edit()
+	_order_qty.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var order_btn := Button.new()
 	order_btn.text = "発注"
+	order_btn.theme_type_variation = &"PrimaryButton"
+	order_btn.icon = UiIcons.texture("cart", 22)
+	order_btn.custom_minimum_size = Vector2(140, 44)
 	order_btn.pressed.connect(submit_order)
+	order_row.add_theme_constant_override("separation", 10)
 	order_row.add_child(_order_sku)
-	order_row.add_child(_order_qty)
+	order_row.add_child(_stepper(_order_qty))
 	order_row.add_child(order_btn)
 	_body.add_child(order_row)
 	_order_row = order_row
@@ -87,10 +92,29 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 		world.selection_changed.connect(func(_t): _refresh.call_deferred())
 
 
+## A quantity field between - and + buttons (1..9999; a typed value is still checked by parse_qty_text).
+func _stepper(edit: LineEdit) -> HBoxContainer:
+	var box := HBoxContainer.new()
+	box.add_theme_constant_override("separation", 2)
+	for d in [-1, 1]:
+		var b := Button.new()
+		b.text = "−" if d < 0 else "+"
+		b.theme_type_variation = &"StepButton"
+		b.custom_minimum_size = Vector2(38, 0)
+		b.focus_mode = Control.FOCUS_NONE
+		b.pressed.connect(func():
+			var q := parse_qty_text(edit.text)
+			edit.text = str(clampi((q if q > 0 else 1) + d, 1, 9999)))
+		box.add_child(b)
+	box.add_child(edit)
+	box.move_child(edit, 1)
+	return box
+
+
 func _qty_edit() -> LineEdit:
 	var e := LineEdit.new()
 	e.text = "1"
-	e.custom_minimum_size = Vector2(48, 0)
+	e.custom_minimum_size = Vector2(56, 0)
 	e.select_all_on_focus = true
 	return e
 

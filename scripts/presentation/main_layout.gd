@@ -18,7 +18,11 @@ const TAB_OF_SECTION := {
 const INSPECTOR_CARD := "インスペクタ"
 const GAP := 12                                  # floating gap: from the window edges and the HUD, and between floating panels
 const BOTTOM_HEIGHT := 108                       # the summary cards (MetricBar.HEIGHT = 96) plus the gap under them (12)
-const WINDOW_SIZE := Vector2(780, 600)
+const WINDOW_SIZE := Vector2(980, 640)
+## Tab id -> icon (UiIcons) on the window's tab buttons.
+const TAB_ICONS := {"商品": "box", "経営": "wallet", "店員": "users", "データ": "bar-chart", "設定": "gear"}
+## Section title -> ribbon colour in the window (the rest alternate blue / brown).
+const RIBBON_BROWN := ["販売価格", "販促", "店頭くじ", "売れ筋ランキング", "表示モード (O)"]
 const NO_TILE := Vector2i(-1, -1)
 
 var ui := UiMode.new()
@@ -344,6 +348,7 @@ func _apply_mode() -> void:
 	_dimmer.visible = ui.is_screen()
 	_window.visible = ui.is_screen()
 	if ui.is_screen():
+		_ribbon_headings()
 		var tab_index := SCREEN_TABS.find(ui.screen_tab)
 		if tab_index >= 0:
 			_tabs.current_tab = tab_index
@@ -375,7 +380,8 @@ func _build_screen_window() -> void:
 	add_child(_dimmer)
 	_window = PanelContainer.new()
 	_window.name = "ManagementWindow"
-	_window.theme_type_variation = &"Card"
+	_window.theme = UiTheme.build_window()   # the cream window look; the HUD outside keeps the dark theme
+	_window.theme_type_variation = &"WindowFrame"
 	_window.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	_window.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_window.grow_vertical = Control.GROW_DIRECTION_BOTH
@@ -383,19 +389,33 @@ func _build_screen_window() -> void:
 	_window.visible = false
 	add_child(_window)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
+	column.add_theme_constant_override("separation", 10)
 	_window.add_child(column)
 	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
 	column.add_child(header)
+	var mark := TextureRect.new()
+	mark.texture = UiTheme.tinted(UiIcons.texture("grid", 34), UiTheme.W_TEXT)
+	mark.custom_minimum_size = Vector2(34, 34)
+	mark.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	mark.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	header.add_child(mark)
 	var title := Label.new()
 	title.text = "経営管理"
-	title.theme_type_variation = &"SectionTitle"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.theme_type_variation = &"WindowTitle"
 	header.add_child(title)
+	var sub := Label.new()
+	sub.text = "Store Management"
+	sub.theme_type_variation = &"MutedLabel"
+	sub.size_flags_vertical = Control.SIZE_SHRINK_END
+	sub.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(sub)
 	var close := Button.new()
 	close.name = "CloseScreen"
-	close.text = "閉じる ×"
-	close.tooltip_text = "Esc"
+	close.text = "×"
+	close.tooltip_text = "閉じる (Esc)"
+	close.theme_type_variation = &"CloseRound"
+	close.custom_minimum_size = Vector2(46, 46)
 	close.pressed.connect(close_screen)
 	header.add_child(close)
 	_tabs = TabContainer.new()
@@ -414,6 +434,7 @@ func _build_screen_window() -> void:
 		page.add_theme_constant_override("separation", 10)
 		scroll.add_child(page)
 		_pages[tab] = page
+		_tabs.set_tab_icon(_tabs.get_tab_count() - 1, UiTheme.tinted(UiIcons.texture(TAB_ICONS[tab], 22), UiTheme.W_TEXT))
 
 
 ## Moves the cards built by the controllers into their management tabs (by SectionTitle text). The selection
@@ -424,6 +445,9 @@ func _organize_panels() -> void:
 		var title := _card_title(card)
 		if TAB_OF_SECTION.has(title):
 			card.reparent(_pages[TAB_OF_SECTION[title]])
+			var heading := _card_heading(card)
+			if heading != null:
+				(heading.get_parent() as Container).add_theme_constant_override("separation", 12)
 	var overlay := get_node_or_null("OverlayController")
 	var customer: Variant = overlay.get("_customer_row") if overlay != null else null   # the portrait and the line together
 	var inspector_card := _find_card(body, INSPECTOR_CARD)
@@ -439,6 +463,22 @@ func _organize_panels() -> void:
 	_add_close_button(palette_title, close_build)
 	_add_heading_icon(palette_title, "store")
 	_style_action_buttons()
+
+
+## Every SectionTitle in the window gets its ribbon (cards added after setup too, e.g. ゲームを終了・タイトルへ).
+func _ribbon_headings() -> void:
+	for l in _window.find_children("*", "Label", true, false):
+		var label := l as Label
+		if label.theme_type_variation == &"SectionTitle" and not label.has_theme_stylebox_override("normal"):
+			UiTheme.window_ribbon(label, UiTheme.W_RIBBON_BROWN if label.text in RIBBON_BROWN else UiTheme.W_RIBBON_BLUE)
+
+
+## The card's SectionTitle label (its first Label), or null.
+func _card_heading(card: Node) -> Label:
+	for l in card.find_children("*", "Label", true, false):
+		if (l as Label).theme_type_variation == &"SectionTitle":
+			return l
+	return null
 
 
 ## Puts a small icon in front of a window heading (GUI v3: header with icon). The heading keeps its node and its row.

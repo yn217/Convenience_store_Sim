@@ -8,7 +8,6 @@ extends Node
 const LIST_COLUMNS := 3
 const STATE_JA := {"selected": "選択中", "candidate": "候補"}
 const HISTORY_LINES := 7
-const DOWN_TEXT := Color("ff8a8e")   # a lowered effect: DANGER_RED is too dark for text on the card
 
 var _status: Label
 var _effects: HFlowContainer
@@ -115,7 +114,7 @@ func _render_effects(chips: Array) -> void:
 		var l := Label.new()
 		l.text = chip["text"]
 		var good: bool = chip["good"]
-		l.add_theme_color_override("font_color", UiTheme.SUCCESS_GREEN if good else DOWN_TEXT)
+		l.theme_type_variation = &"GoodLabel" if good else &"BadLabel"
 		var box := UiTheme.chip_box(UiTheme.SUCCESS_GREEN if good else UiTheme.DANGER_RED)
 		box.content_margin_left = 10
 		box.content_margin_right = 10
@@ -141,16 +140,7 @@ func _render_catalog(entries: Array) -> void:
 		panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		panel.tooltip_text = EventText.catalog_tooltip(e)
 		panel.mouse_filter = Control.MOUSE_FILTER_PASS
-		var edge: Color = UiTheme.WARM if state == "selected" else UiTheme.BORDER
-		var box := UiTheme.chip_box(edge)
-		box.set_corner_radius_all(8)
-		box.content_margin_left = 8
-		box.content_margin_right = 8
-		box.content_margin_top = 4
-		box.content_margin_bottom = 4
-		if state == "selected":
-			box.set_border_width_all(2)
-		panel.add_theme_stylebox_override("panel", box)
+		panel.theme_type_variation = &"SubCardSelected" if state == "selected" else &"SubCard"
 		var col := VBoxContainer.new()
 		col.add_theme_constant_override("separation", 0)
 		col.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -164,12 +154,12 @@ func _render_catalog(entries: Array) -> void:
 		tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		match state:
 			"selected":
-				tag.add_theme_color_override("font_color", UiTheme.WARM)
+				tag.theme_type_variation = &"AccentLabel"
 			"candidate":
-				tag.add_theme_color_override("font_color", UiTheme.TEXT_SECONDARY)
+				tag.theme_type_variation = &"MutedLabel"
 			_:
 				panel.modulate = Color(1, 1, 1, 0.55)
-				tag.add_theme_color_override("font_color", UiTheme.TEXT_SECONDARY)
+				tag.theme_type_variation = &"MutedLabel"
 		col.add_child(name_label)
 		col.add_child(tag)
 		panel.add_child(col)

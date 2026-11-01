@@ -215,7 +215,224 @@ static func build() -> Theme:
 	theme.set_type_variation("AlertCount", "Label")
 	theme.set_color("font_color", "AlertCount", Color.WHITE)
 	theme.set_font_size("font_size", "AlertCount", FONT_SMALL)
+	_role_types(theme, WARM, TEXT_SECONDARY, SUCCESS_GREEN, Color("ff8a8a"), chip_box(BORDER), chip_box(WARM), WARM)
 	return theme
+
+
+## Role types used inside cards that also appear in the cream window: accent / muted / good / bad text, a sub-card and
+## its selected look, good / bad chips, and a button whose text marks the chosen option. Each theme gives its colours.
+static func _role_types(theme: Theme, accent: Color, muted: Color, good: Color, bad: Color, sub: StyleBoxFlat,
+		sub_selected: StyleBoxFlat, selected_text: Color) -> void:
+	for v in [["AccentLabel", accent], ["MutedLabel", muted], ["GoodLabel", good], ["BadLabel", bad]]:
+		theme.add_type(v[0])
+		theme.set_type_variation(v[0], "Label")
+		theme.set_color("font_color", v[0], v[1])
+	sub.set_corner_radius_all(10)
+	sub.set_content_margin_all(10)
+	sub_selected.set_corner_radius_all(10)
+	sub_selected.set_content_margin_all(10)
+	sub_selected.set_border_width_all(2)
+	for v in [["SubCard", sub], ["SubCardSelected", sub_selected]]:
+		theme.add_type(v[0])
+		theme.set_type_variation(v[0], "PanelContainer")
+		theme.set_stylebox("panel", v[0], v[1])
+	theme.add_type("SelectedButton")
+	theme.set_type_variation("SelectedButton", "Button")
+	for c in ["font_color", "font_pressed_color", "font_hover_pressed_color", "font_hover_color"]:
+		theme.set_color(c, "SelectedButton", selected_text)
+
+
+## Window look (the 経営管理 window, mockup 2026-11-01): a cream body in a brown frame, dark brown text, big tab buttons
+## (the selected one yellow), white cards under coloured ribbon headings, blue small buttons and an orange primary
+## button. Set as the window node's own theme, so only what is inside the window changes; the HUD bands stay dark.
+const W_FACE_TOP := Color("fbf3e2")
+const W_FACE_BOTTOM := Color("f1e2c4")
+const W_RIM := Color("9a6a3a")
+const W_TEXT := Color("4a2f1b")
+const W_MUTED := Color("7d634c")
+const W_ACCENT := Color("b4560a")      # headings and highlights on cream (WARM is too light here)
+const W_GOOD := Color("1f8a4c")
+const W_CARD := Color("fffaf0")
+const W_CARD_RIM := Color("dcc4a0")
+const W_FIELD := Color("ffffff")
+const W_BLUE := Color("2f74c8")
+const W_BLUE_EDGE := Color("1d4f8f")
+const W_ORANGE := Color("f07a14")
+const W_ORANGE_EDGE := Color("a84c05")
+const W_TAB := Color("fff8ea")
+const W_TAB_SELECTED := Color("ffc928")
+const W_RIBBON_BLUE := Color("2d6fc2")
+const W_RIBBON_BROWN := Color("8a4a2a")
+const W_RADIUS := 18
+
+
+static func build_window() -> Theme:
+	var theme := Theme.new()
+	theme.set_stylebox("panel", "PanelContainer", StyleBoxEmpty.new())
+	theme.add_type("Card")
+	theme.set_type_variation("Card", "PanelContainer")
+	theme.set_stylebox("panel", "Card", _light_box(W_CARD, W_CARD_RIM, 12, 2, 12))
+	theme.add_type("WindowFrame")
+	theme.set_type_variation("WindowFrame", "PanelContainer")
+	theme.set_stylebox("panel", "WindowFrame", _rounded_box(W_FACE_TOP, W_FACE_BOTTOM, W_RIM, W_RADIUS, 16))
+	theme.set_color("font_color", "Label", W_TEXT)
+	theme.set_font_size("font_size", "Label", FONT_BODY)
+	_role_types(theme, W_ACCENT, W_MUTED, W_GOOD, Color("c0392b"), _light_box(W_FIELD, W_CARD_RIM, 10, 2, 10),
+		_light_box(Color("fff4d6"), W_ORANGE, 10, 2, 10), W_TEXT)
+	_light_button_set(theme, "SelectedButton", W_TAB_SELECTED, Color("d99a00"), W_TEXT)
+	theme.add_type("CardTitle")
+	theme.set_type_variation("CardTitle", "Label")
+	theme.set_color("font_color", "CardTitle", W_MUTED)
+	theme.set_font_size("font_size", "CardTitle", FONT_SMALL)
+	theme.add_type("WindowTitle")
+	theme.set_type_variation("WindowTitle", "Label")
+	theme.set_color("font_color", "WindowTitle", W_TEXT)
+	theme.set_font_size("font_size", "WindowTitle", 30)
+	theme.add_type("SectionTitle")   # white on a coloured ribbon (MainLayout draws the ribbon)
+	theme.set_type_variation("SectionTitle", "Label")
+	theme.set_color("font_color", "SectionTitle", Color.WHITE)
+	theme.set_font_size("font_size", "SectionTitle", 20)
+	theme.add_type("ColumnHeader")   # the small headings over the price table's columns
+	theme.set_type_variation("ColumnHeader", "Label")
+	theme.set_color("font_color", "ColumnHeader", W_MUTED)
+	theme.set_font_size("font_size", "ColumnHeader", FONT_SMALL)
+	for v in ["CardValue", "TileValue", "SummaryValue"]:
+		theme.add_type(v)
+		theme.set_type_variation(v, "Label")
+		theme.set_color("font_color", v, W_ACCENT)
+	_light_button_set(theme, "Button", W_BLUE, W_BLUE_EDGE, Color.WHITE)
+	theme.add_type("PrimaryButton")
+	theme.set_type_variation("PrimaryButton", "Button")
+	_light_button_set(theme, "PrimaryButton", W_ORANGE, W_ORANGE_EDGE, Color.WHITE)
+	theme.set_font_size("font_size", "PrimaryButton", FONT_TITLE)
+	theme.add_type("ConfirmButton")
+	theme.set_type_variation("ConfirmButton", "Button")
+	_light_button_set(theme, "ConfirmButton", Color("2e9a5a"), Color("1b6a3c"), Color.WHITE)
+	theme.add_type("DangerButton")
+	theme.set_type_variation("DangerButton", "Button")
+	_light_button_set(theme, "DangerButton", Color("cf4141"), Color("8c2525"), Color.WHITE)
+	theme.add_type("StepButton")   # the - / + of a quantity
+	theme.set_type_variation("StepButton", "Button")
+	_light_button_set(theme, "StepButton", W_FIELD, W_CARD_RIM, W_TEXT)
+	theme.set_font_size("font_size", "StepButton", FONT_TITLE)
+	theme.add_type("CloseRound")   # the round x of the window
+	theme.set_type_variation("CloseRound", "Button")
+	_light_button_set(theme, "CloseRound", Color("6b3a1e"), Color("3e1f0c"), Color.WHITE)
+	for st in ["normal", "hover", "pressed", "hover_pressed"]:
+		var b := theme.get_stylebox(st, "CloseRound").duplicate() as StyleBoxFlat
+		b.set_corner_radius_all(24)
+		b.set_border_width_all(3)
+		b.border_color = Color("f3e2c4")
+		theme.set_stylebox(st, "CloseRound", b)
+	theme.set_font_size("font_size", "CloseRound", 24)
+	# Choosers and fields: white faces with a tan edge, dark text.
+	_light_button_set(theme, "OptionButton", W_FIELD, W_CARD_RIM, W_TEXT)
+	for st in ["normal", "focus", "read_only"]:
+		theme.set_stylebox(st, "LineEdit", _light_box(W_FIELD, W_BLUE if st == "focus" else W_CARD_RIM, 8, 2, 8))
+	theme.set_color("font_color", "LineEdit", W_TEXT)
+	theme.set_color("font_uneditable_color", "LineEdit", W_MUTED)
+	theme.set_color("caret_color", "LineEdit", W_TEXT)
+	theme.set_color("selection_color", "LineEdit", Color(W_BLUE, 0.3))
+	theme.set_font_size("font_size", "LineEdit", FONT_TITLE)
+	for type in ["CheckButton", "CheckBox"]:   # plain rows: the toggle is the control, not a button face
+		for st in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
+			theme.set_stylebox(st, type, StyleBoxEmpty.new())
+		for c in ["font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color", "font_focus_color"]:
+			theme.set_color(c, type, W_TEXT)
+	theme.set_color("default_color", "RichTextLabel", W_TEXT)
+	theme.set_stylebox("background", "ProgressBar", _bar_box(Color("e3d3b5")))
+	theme.set_stylebox("fill", "ProgressBar", _bar_box(Color("4cb15a")))
+	theme.set_stylebox("separator", "HSeparator", _line_box(W_CARD_RIM))
+	# Tabs: big rounded buttons in a row, the selected one yellow.
+	theme.set_stylebox("panel", "TabContainer", StyleBoxEmpty.new())
+	theme.set_stylebox("tabbar_background", "TabContainer", StyleBoxEmpty.new())
+	theme.set_stylebox("tab_selected", "TabContainer", _light_tab(W_TAB_SELECTED, Color("d99a00")))
+	theme.set_stylebox("tab_unselected", "TabContainer", _light_tab(W_TAB, W_CARD_RIM))
+	theme.set_stylebox("tab_hovered", "TabContainer", _light_tab(Color("fff1c9"), Color("e2b85a")))
+	theme.set_stylebox("tab_focus", "TabContainer", StyleBoxEmpty.new())
+	for c in ["font_selected_color", "font_unselected_color", "font_hovered_color"]:
+		theme.set_color(c, "TabContainer", W_TEXT)
+	theme.set_font_size("font_size", "TabContainer", 20)
+	theme.set_constant("icon_separation", "TabContainer", 8)
+	theme.set_constant("side_margin", "TabContainer", 0)
+	for st in [["scroll", Color("ead9bb")], ["grabber", Color("b89262")], ["grabber_highlight", W_RIM], ["grabber_pressed", W_RIM]]:
+		theme.set_stylebox(st[0], "VScrollBar", _light_box(st[1], st[1], 4, 0, 0))
+	return theme
+
+
+## Ribbon heading on cream: a solid colour band with a rounded right end behind the white heading text. It is the
+## label's own background stylebox, so the heading stays a plain Label and the band is sized to its text.
+static func window_ribbon(label: Label, color: Color) -> void:
+	var box := StyleBoxFlat.new()
+	box.bg_color = color
+	box.corner_radius_top_left = 10
+	box.corner_radius_bottom_left = 4
+	box.corner_radius_top_right = 22
+	box.corner_radius_bottom_right = 22
+	box.content_margin_left = 16.0
+	box.content_margin_right = 34.0
+	box.content_margin_top = 4.0
+	box.content_margin_bottom = 4.0
+	box.shadow_color = Color(0, 0, 0, 0.18)
+	box.shadow_size = 3
+	box.shadow_offset = Vector2(0, 2)
+	label.add_theme_stylebox_override("normal", box)
+	label.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+
+
+## A white icon recoloured (the window's tab icons are dark brown, not the HUD's white).
+static func tinted(tex: Texture2D, color: Color) -> Texture2D:
+	if tex == null:
+		return null
+	var img := tex.get_image()
+	img.convert(Image.FORMAT_RGBA8)
+	for y in img.get_height():
+		for x in img.get_width():
+			var c := img.get_pixel(x, y)
+			if c.a > 0.0:
+				img.set_pixel(x, y, Color(color, c.a))
+	return ImageTexture.create_from_image(img)
+
+
+static func _light_box(face: Color, rim: Color, radius: int, border: int, pad: int) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = face
+	b.border_color = rim
+	b.set_border_width_all(border)
+	b.set_corner_radius_all(radius)
+	b.set_content_margin_all(pad)
+	return b
+
+
+static func _light_tab(face: Color, rim: Color) -> StyleBoxFlat:
+	var b := _light_box(face, rim, 10, 2, 0)
+	b.border_width_bottom = 4
+	b.content_margin_left = 22.0
+	b.content_margin_right = 22.0
+	b.content_margin_top = 8.0
+	b.content_margin_bottom = 8.0
+	return b
+
+
+static func _line_box(color: Color) -> StyleBoxLine:
+	var b := StyleBoxLine.new()
+	b.color = color
+	b.thickness = 1
+	return b
+
+
+static func _light_button_set(theme: Theme, type: String, face: Color, edge: Color, text: Color) -> void:
+	var pressed_face := face.darkened(0.1)
+	theme.set_stylebox("normal", type, _button(face, edge))
+	theme.set_stylebox("hover", type, _button(face.lightened(0.08), edge))
+	theme.set_stylebox("pressed", type, _button(pressed_face, edge, true))
+	theme.set_stylebox("hover_pressed", type, _button(pressed_face, edge, true))
+	theme.set_stylebox("disabled", type, _button(Color("d8cbb4"), Color("b9a88c")))
+	theme.set_stylebox("focus", type, StyleBoxEmpty.new())
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		theme.set_color(c, type, text)
+	theme.set_color("font_disabled_color", type, Color(W_TEXT, 0.45))
+	theme.set_font_size("font_size", type, FONT_BODY)
 
 
 ## The alert count badge: a red pill, sized to its number.

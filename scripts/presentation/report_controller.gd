@@ -108,7 +108,7 @@ func _build_ranking() -> void:
 		var rank := Label.new()
 		rank.text = "%d" % (i + 1)
 		rank.custom_minimum_size.x = 22
-		rank.add_theme_color_override("font_color", UiTheme.WARM if i == 0 else UiTheme.TEXT_SECONDARY)
+		rank.theme_type_variation = &"AccentLabel" if i == 0 else &"MutedLabel"
 		var product := Label.new()
 		product.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		product.clip_text = true
@@ -157,13 +157,7 @@ func _set_ranking_day(which: String) -> void:
 func _mark_ranking_day() -> void:
 	for k in _day_buttons:
 		var b: Button = _day_buttons[k]
-		if k == _ranking_day:
-			b.add_theme_color_override("font_color", UiTheme.WARM)
-			b.add_theme_color_override("font_pressed_color", UiTheme.WARM)
-			b.add_theme_color_override("font_hover_pressed_color", UiTheme.WARM)
-		else:
-			for c in ["font_color", "font_pressed_color", "font_hover_pressed_color"]:
-				b.remove_theme_color_override(c)
+		b.theme_type_variation = &"SelectedButton" if k == _ranking_day else &""
 
 
 func _render_rankings(snap: Dictionary) -> void:

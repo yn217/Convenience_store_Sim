@@ -33,12 +33,12 @@ func setup(app: Node) -> void:
 	_body.add_child(_staff_box)
 	var cand_title := _label()
 	cand_title.text = "採用候補（毎朝入れ替わります）"
-	cand_title.add_theme_color_override("font_color", UiTheme.WARM)
+	cand_title.theme_type_variation = &"AccentLabel"
 	_cand_box = VBoxContainer.new()
 	_body.add_child(_cand_box)
 	var hours_title := _label()
 	hours_title.text = "時間帯別のレジ待ち（今日・平均人数）"
-	hours_title.add_theme_color_override("font_color", UiTheme.WARM)
+	hours_title.theme_type_variation = &"AccentLabel"
 	_hours = _label()
 	_hours.add_theme_font_size_override("font_size", 13)
 	_advice = _label()
@@ -165,10 +165,7 @@ func _candidate_card(c: Dictionary, full: bool) -> PanelContainer:
 	card.name = "Candidate_" + String(c["candidate_id"])
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	card.tooltip_text = candidate_line(c)
-	var box := UiTheme.chip_box(UiTheme.BORDER)
-	box.set_corner_radius_all(10)
-	box.set_content_margin_all(10)
-	card.add_theme_stylebox_override("panel", box)
+	card.theme_type_variation = &"SubCard"
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 4)
 	card.add_child(col)
@@ -186,7 +183,7 @@ func _candidate_card(c: Dictionary, full: bool) -> PanelContainer:
 	who.add_child(name_label)
 	var kind := Label.new()
 	kind.text = "%s\n日給 %s" % [c.get("label", c.get("archetype", "")), OverlayModel.yen(int(c.get("daily_wage_yen", 0)))]
-	kind.add_theme_color_override("font_color", UiTheme.WARM)
+	kind.theme_type_variation = &"AccentLabel"
 	who.add_child(kind)
 	head.add_child(who)
 	col.add_child(head)
