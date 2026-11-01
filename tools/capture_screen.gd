@@ -66,8 +66,10 @@ func _run() -> void:
 			var xy := a.trim_prefix("--entrance=").split(",")
 			var er: CommandResult = app.run_command({"command_id": "door", "kind": &"MOVE_ENTRANCE", "x": int(xy[0]), "y": int(xy[1])})
 			print("entrance: ", er.ok, " ", er.message_key)
-	if not OS.get_cmdline_user_args().has("--place-preview"):
+	if not OS.get_cmdline_user_args().has("--place-preview") and not OS.get_cmdline_user_args().has("--setup"):
 		app.run_command({"command_id": "pstart", "kind": &"START_BUSINESS"})
+	if OS.get_cmdline_user_args().has("--setup"):   # --setup: stay before opening (開店までの手順)
+		app._publish_snapshot()
 	# --calm: the normal arrival rate of the balance file (no crowd forced in), so the shot shows a typical store (#105 B7).
 	var calm := OS.get_cmdline_user_args().has("--calm")
 	if not calm:

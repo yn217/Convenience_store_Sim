@@ -235,3 +235,21 @@ func test_summary_cards_are_a_centred_row_above_the_bottom(t, tree) -> void:
 	t.ok(_blockers_at(main, Vector2(window.x * 0.5, rect.position.y - 30.0)).is_empty(), "the space just above the bar is not blocked")
 	main.queue_free()
 	await tree.process_frame
+
+
+## 開店までの手順: shown while setting up, the next step marked, 開店する disabled until the store can open.
+func test_opening_guide(t, tree) -> void:
+	var main := await _boot(tree)
+	var g := (main.get_node("MockupChrome") as MockupChrome).guide
+	g.apply_snapshot({"business_state": "SETUP", "progression": {"tutorial_step_index": 1},
+		"opening": {"ready": false, "register_ok": false, "stock_ok": false, "cash_ok": true}})
+	t.ok(g.visible, "shown while setting up")
+	t.ok(g.get_node("OpenStore").disabled, "開店する waits for the conditions")
+	t.eq(OpeningGuide.why_not({"register_ok": false, "stock_ok": false, "cash_ok": true}), "まずレジを置きましょう")
+	g.apply_snapshot({"business_state": "SETUP", "progression": {"tutorial_step_index": 5},
+		"opening": {"ready": true, "register_ok": true, "stock_ok": true, "cash_ok": true}})
+	t.ok(not g.get_node("OpenStore").disabled, "開店する once ready")
+	g.apply_snapshot({"business_state": "OPEN", "progression": {"tutorial_step_index": 6}, "opening": {}})
+	t.ok(not g.visible, "gone once the store is open")
+	main.queue_free()
+	await tree.process_frame
