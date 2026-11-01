@@ -12,6 +12,24 @@ REGISTRY = ROOT / "data" / "presentation" / "character_visuals_v1.json"
 
 
 class CharacterPilotAssetTests(unittest.TestCase):
+    def test_display_derivation_keeps_the_original_fullbody_canvas(self):
+        registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        derived = [
+            entry for entry in registry["assets"]
+            if "/derived_alpha/" in entry.get("runtime_path", "")
+        ]
+
+        for entry in derived:
+            runtime_path = ROOT / entry["runtime_path"].removeprefix("res://")
+            source_ref = entry.get("derived_from", "")
+            source_path = ROOT / source_ref.removeprefix("res://")
+            self.assertTrue(runtime_path.is_file(), entry["id"])
+            self.assertTrue(source_path.is_file(), entry["id"])
+            self.assertNotEqual(runtime_path.resolve(), source_path.resolve(), entry["id"])
+            with Image.open(source_path) as original:
+                expected_size = (1024, 1024) if entry.get("kind") == "bustup_reaction" else (1024, 1536)
+                self.assertEqual(original.size, expected_size, entry["id"])
+
     def test_derived_pilot_images_keep_canvas_and_transparent_corners(self):
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
         derived = [
