@@ -1,0 +1,91 @@
+{
+  "asset_id": "freezer_icecream_chest_FULL_v1",
+  "review_only": true,
+  "runtime_approved": false,
+  "status": "review_candidate_rejected_projection_scale_and_alpha",
+  "generated_date": "2026-11-01",
+  "production_method": "Codex built-in ImageGen",
+  "source_file": "source_original.png",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "16d422eebe65892a1f79221386ac4b8cedb97870364f1483ae1096b36f343ce3",
+  "alpha_source": {
+    "threshold_gt_8_bbox_xyxy": [
+      83,
+      82,
+      1451,
+      998
+    ],
+    "threshold_gt_8_margins_percent_ltrb": [
+      5.4,
+      8.01,
+      5.53,
+      2.54
+    ],
+    "threshold_gt_1_bbox_xyxy": [
+      57,
+      24,
+      1522,
+      1024
+    ],
+    "threshold_gt_128_bbox_xyxy": [
+      84,
+      83,
+      1448,
+      997
+    ],
+    "edge_alpha_max_top_bottom_left_right": [
+      0,
+      1,
+      0,
+      0
+    ],
+    "minimum_required_margin_percent": 12,
+    "pass": false
+  },
+  "padded_review_image": {
+    "file": "sprite_padded_review.png",
+    "dimensions_px": [
+      2048,
+      2048
+    ],
+    "operation": "center unchanged source image on transparent canvas without resampling",
+    "file_size_bytes": 1627156,
+    "sha256": "67f30d5ce605bf7781b4a2d6dc647964d399fa52e6957e961edd7fee2ea23d66",
+    "threshold_gt_8_margins_percent_ltrb": [
+      16.55,
+      29.0,
+      16.65,
+      26.27
+    ],
+    "margin_pass": true
+  },
+  "preview": {
+    "file": "preview_checkerboard.jpg",
+    "dimensions_px": [
+      2048,
+      2048
+    ],
+    "file_size_bytes": 363357,
+    "sha256": "b7e70b24bddffc20968f917e452eb7a9440e862362a1131aebb9d6bc79350589"
+  },
+  "visual_qa": {
+    "integrated_freezer_and_products": "pass",
+    "chest_freezer_category": "pass",
+    "glass_top_and_lids": "pass",
+    "products_visible_through_lids": "pass",
+    "goods_seated_inside_case": "visually_plausible_unverified",
+    "deep_package_side_faces": "concern_observed",
+    "blank_front_body_at_game_size": "concern_observed",
+    "strict_iso2x_v1": "fail_visual_perspective_convergence",
+    "raw_alpha_margin": "fail",
+    "padded_margin": "canvas_only_pass",
+    "dimensions_footprint_anchor": "not_verified",
+    "godot_display": "not_checked",
+    "independent_review": "pending"
+  },
+  "file_size_bytes": 2093675
+}
