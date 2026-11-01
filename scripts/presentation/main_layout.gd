@@ -431,7 +431,7 @@ func _mockup_goods_page() -> void:
 	page_box.move_child(page, 0)
 	MockStyle.card(page, Rect2(8, 6, 1012, 142))   # its top edge runs behind the ribbon, above the バックヤード line
 	MockStyle.ribbon(page, Rect2(0, 2, 290, 50), "在庫・発注", MockStyle.RIBBON_BLUE, "box3d", 28)
-	MockStyle.picture(page, MockStyle.glyph("shelf", 64), Rect2(342, 19, 31, 27), Color("4a3a3a"))
+	MockStyle.picture(page, MockStyle.glyph("shelf", 96), Rect2(338, 16, 38, 34), Color("4a3a3a"))   # drawn 31x27 (the glyph has a margin)
 	MockStyle.card(page, Rect2(8, 162, 1012, 276))   # likewise behind its ribbon, above the column headings
 	var sub := MockStyle.ribbon(page, Rect2(214, 172, 248, 40), "（店頭の価格を変更します）", [Color("a0605a"), Color("7a3a3a")], "", 16)
 	(sub.get_child(0) as Label).position.x = 28   # the text starts after the main ribbon's point

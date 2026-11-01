@@ -96,7 +96,7 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 ## drawn in code (the dropdown, the - 1 + stepper, the orange 発注 button). `page` is the page's Control, in content px.
 func mockup_layout(page: Control) -> void:
 	var font := MockStyle.font("ExtraBold")
-	_place(page, _backroom, Rect2(388, 12, 300, 42))
+	_place(page, _backroom, Rect2(388, 18, 300, 42))   # text centred on the icon (y 424 on screen, as the mockup)
 	MockStyle.style_label(_backroom, 19, MockStyle.INK)
 	MockStyle.shape(page, Rect2(40, 68, 548, 58), {"top": Color("fffdf9"), "bottom": Color("f9ece2"), "border": Color("c9ab98"), "border_width": 2.0,
 		"radius": 10.0, "shadow": Color(0.4, 0.25, 0.15, 0.18), "shadow_offset": Vector2(0, 2)})
