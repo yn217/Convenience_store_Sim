@@ -13,7 +13,8 @@ signal pause_pressed
 signal close_pressed
 signal corner_pressed(id: String)   # the bottom right buttons: notices / missions / encyclopedia / shop
 
-const NAV := [["store", "店舗", "home"], ["goods", "商品", "box3d"], ["order", "発注", "truck"], ["management", "経営", "chart-up"],
+## 発注 is not here: ordering lives on the 商品 tab (user, 2026-11-01). The entries are packed from the top.
+const NAV := [["store", "店舗", "home"], ["goods", "商品", "box3d"], ["management", "経営", "chart-up"],
 	["data", "データ", "bar-chart"], ["staff", "スタッフ", "users"], ["equipment", "設備", "tools"], ["achievements", "実績・称号", "trophy"]]
 ## The menu icons' colours (the mockup's gold / cream / white glyphs).
 const NAV_TINT := {"store": Color("ffcf63"), "goods": Color("ffffff"), "order": Color("fff3dc"), "management": Color("ffcf63"),

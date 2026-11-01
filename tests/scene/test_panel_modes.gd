@@ -70,7 +70,7 @@ func test_normal_shows_only_the_store_hud_rail_and_summary(t, tree) -> void:
 	var chrome := main.get_node("MockupChrome") as MockupChrome
 	t.ok(chrome.get_node("Base").is_visible_in_tree(), "the mockup chrome is shown")
 	t.ok(not chrome.is_window_open(), "the window frame and 小春 only come with the window")
-	t.eq(chrome.find_children("nav_*", "Button", true, false).size(), 8, "the menu has its eight entries")
+	t.eq(chrome.find_children("nav_*", "Button", true, false).size(), 7, "the menu has its seven entries (no 発注)")
 	t.ok(not main.get_node("Layout/TopHUD").is_visible_in_tree() and not main.get_node("Layout/MainArea/LeftNav").is_visible_in_tree()
 		and not main.find_child("MetricBar", true, false).is_visible_in_tree(), "the old HUD band, rail and summary stay hidden")
 	t.eq(main.get_node("Layout/MainArea/LeftNav").entry_count(), 6, "rail has its entries")
