@@ -157,6 +157,8 @@ Both resolutions show the `low_stock_notice` pilot without left-menu overlap; th
 
 The same layout was rechecked through the repository's CLI capture path after a headless import (`--headless --import --quit`): `build/character_pilot_cli_1280.png` was produced with `Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path . --resolution 1280x720 --script res://tools/capture_screen.gd -- --calm --pilot-cue=low_stock_notice --freeze --inspect-pilot`. The capture log reports `stage_visible=true`, `pilot_visible=true`, and the expected `derived_alpha/functional_low_stock.png` texture; the saved PNG shows the figure clear of the left menu and the speech bubble below the figure head.
 
+Follow-up CLI captures also passed at 1920x1080 (`build/character_pilot_cli_1920.png`) and on the active roadworks management event at 1280x720 (`build/character_pilot_event_cli_1280.png`). The former keeps the assistant stage clear of the left menu at the target desktop resolution; the latter reports `event_roadworks.png` in `EventPilotFullbodyPicture` while the management window remains usable. The event pilot is shown only for the active event and does not replace the event's domain text or illustration.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 47 derived-alpha candidates.
