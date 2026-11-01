@@ -32,6 +32,26 @@ static func texture(sku: Dictionary, size: int = 48) -> Texture2D:
 	return placeholder(sku, size)
 
 
+## The picture cropped to what is drawn on it and scaled to `height` px tall (wide items such as a croissant stay wide):
+## for rows that show the product beside its name at the mockup's size. Falls back to texture().
+static func trimmed(sku: Dictionary, height: int) -> Texture2D:
+	var path := ART_DIR + str(sku.get("sku_id", "")) + ".png"
+	var key := "trim|%s|%d" % [path, height]
+	if _cache.has(key):
+		return _cache[key]
+	if not ResourceLoader.exists(path):
+		return texture(sku, height)
+	var img := (load(path) as Texture2D).get_image()
+	img.convert(Image.FORMAT_RGBA8)
+	var used := img.get_used_rect()
+	if used.size.x > 0:
+		img = img.get_region(used)
+	var w := maxi(1, roundi(float(img.get_width()) * float(height) / float(img.get_height())))
+	img.resize(w, height, Image.INTERPOLATE_LANCZOS)
+	_cache[key] = ImageTexture.create_from_image(img)
+	return _cache[key]
+
+
 ## The code-drawn icon, also used where the picture would not fit (the products drawn on a shelf in the store, #91).
 static func placeholder(sku: Dictionary, size: int = 48) -> Texture2D:
 	var sku_id := str(sku.get("sku_id", ""))

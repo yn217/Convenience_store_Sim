@@ -430,12 +430,12 @@ func _mockup_goods_page() -> void:
 	page_box.add_child(page)
 	page_box.move_child(page, 0)
 	MockStyle.card(page, Rect2(8, 22, 1012, 126))
-	MockStyle.ribbon(page, Rect2(0, 2, 290, 50), "在庫・発注", MockStyle.RIBBON_BLUE, "box", 28)
-	MockStyle.picture(page, MockStyle.glyph("shelf", 64), Rect2(340, 14, 32, 32), Color("4a3a3a"))
+	MockStyle.ribbon(page, Rect2(0, 2, 290, 50), "在庫・発注", MockStyle.RIBBON_BLUE, "box3d", 28)
+	MockStyle.picture(page, MockStyle.glyph("shelf", 64), Rect2(342, 19, 31, 27), Color("4a3a3a"))
 	MockStyle.card(page, Rect2(8, 186, 1012, 252))
-	var sub := MockStyle.ribbon(page, Rect2(232, 172, 236, 40), "（店頭の価格を変更します）", [Color("a0605a"), Color("7a3a3a")], "", 16)
-	(sub.get_child(0) as Label).position.x = 50   # the text starts after the main ribbon's round end
-	MockStyle.ribbon(page, Rect2(0, 166, 280, 52), "販売価格", MockStyle.RIBBON_BROWN, "tag", 30)
+	var sub := MockStyle.ribbon(page, Rect2(214, 172, 248, 40), "（店頭の価格を変更します）", [Color("a0605a"), Color("7a3a3a")], "", 16)
+	(sub.get_child(0) as Label).position.x = 28   # the text starts after the main ribbon's point
+	MockStyle.ribbon(page, Rect2(0, 166, 232, 52), "販売価格", MockStyle.RIBBON_BROWN, "tag", 30)
 	for h in [["販売価格", 470, 120], ["原価", 610, 92], ["粗利", 700, 96], ["粗利率", 790, 102]]:
 		MockStyle.label(page, h[0], Rect2(h[1], 178, h[2], 34), 16, MockStyle.INK, HORIZONTAL_ALIGNMENT_CENTER, "Black")
 	var stock := get_node_or_null("StockController")

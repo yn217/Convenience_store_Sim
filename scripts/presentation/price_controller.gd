@@ -18,6 +18,7 @@ const ROW_H := 54   # a row of the mockup's price list
 var _app: Node
 var _products: ProductCatalog
 var _rows: Dictionary = {}
+var _badges: Dictionary = {}    # sku_id -> the 人気 badge of the mockup list (today's best seller)
 var _margins: Dictionary = {}   # sku_id -> [粗利 label, 粗利率 label], derived from the shown price (display only)
 var _status: Label
 var _seq: int = 0
@@ -97,6 +98,10 @@ func setup(app: Node, products: ProductCatalog) -> void:
 
 
 func apply_snapshot(snap: Dictionary) -> void:
+	var best: Array = snap.get("best_sellers_today", [])
+	var top_id := String(best[0]["sku_id"]) if not best.is_empty() else ""
+	for id in _badges:
+		(_badges[id] as Control).visible = id == top_id
 	var overrides: Dictionary = snap.get("product_price_overrides", {})
 	for sku_id in _rows:
 		var edit: LineEdit = _rows[sku_id]
@@ -138,16 +143,22 @@ func mockup_list(page: Control, area: Rect2) -> void:
 		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(line)
 		var icon := TextureRect.new()
-		icon.texture = ProductIcons.texture(sku, 64)
+		icon.texture = ProductIcons.trimmed(sku, 46)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.position = Vector2(8, -2)
-		icon.size = Vector2(92, ROW_H + 4)
+		icon.position = Vector2(24, 2)
+		icon.size = Vector2(76, ROW_H - 6)
 		row.add_child(icon)
-		row.add_child(_mock_label(sku["display_name"], Rect2(110, 0, 220, ROW_H), 20, MockupChrome.INK, HORIZONTAL_ALIGNMENT_LEFT, font))
+		row.add_child(_mock_label(sku["display_name"], Rect2(117, 0, 220, ROW_H), 21, MockupChrome.INK, HORIZONTAL_ALIGNMENT_LEFT, font))
+		var badge := _popular_badge()
+		badge.position = Vector2(310, (ROW_H - 28) / 2.0)
+		badge.visible = false
+		row.add_child(badge)
+		_badges[sku_id] = badge
 		var edit := LineEdit.new()
 		var box := MockStyle.field_box(8)
 		box.content_margin_right = 36   # the arrows on the right
+		box.content_margin_left = 34    # the ¥ on the left
 		edit.add_theme_stylebox_override("normal", box)
 		var focus := box.duplicate() as StyleBoxFlat
 		focus.border_color = Color("3a7fd6")
@@ -155,14 +166,15 @@ func mockup_list(page: Control, area: Rect2) -> void:
 		edit.add_theme_font_override("font", font)
 		edit.add_theme_font_size_override("font_size", 22)
 		edit.add_theme_color_override("font_color", MockupChrome.INK)
-		edit.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		edit.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		edit.position = Vector2(455, (ROW_H - 40) / 2.0)
 		edit.size = Vector2(126, 40)
 		edit.text = str(sku["default_sell_price_yen"])
 		edit.select_all_on_focus = true
 		edit.text_submitted.connect(func(_t): submit(sku_id, edit))
 		row.add_child(edit)
-		var arrows := _mock_label("▲\n▼", Rect2(edit.position.x + 96, edit.position.y + 2, 26, 36), 10, Color("4a3a3a"), HORIZONTAL_ALIGNMENT_CENTER, font)
+		row.add_child(_mock_label("¥", Rect2(edit.position.x + 12, edit.position.y + 3, 22, 40), 22, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font))
+		var arrows := _mock_label("▲\n▼", Rect2(edit.position.x + 96, edit.position.y + 1, 26, 38), 14, Color("3a2a2a"), HORIZONTAL_ALIGNMENT_CENTER, font)
 		arrows.add_theme_constant_override("line_spacing", -3)
 		row.add_child(arrows)
 		var sep := ColorRect.new()
@@ -171,9 +183,9 @@ func mockup_list(page: Control, area: Rect2) -> void:
 		sep.size = Vector2(1.5, 28)
 		sep.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(sep)
-		row.add_child(_mock_label(GameHud.format_yen(sku["purchase_cost_yen"]), Rect2(610, 0, 92, ROW_H), 19, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font))
-		var margin := _mock_label("", Rect2(700, 0, 96, ROW_H), 21, MockupChrome.GREEN, HORIZONTAL_ALIGNMENT_CENTER, font)
-		var rate := _mock_label("", Rect2(790, 0, 102, ROW_H), 19, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font)
+		row.add_child(_mock_label(GameHud.format_yen(sku["purchase_cost_yen"]), Rect2(602, 0, 92, ROW_H), 20, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font))
+		var margin := _mock_label("", Rect2(690, 0, 96, ROW_H), 22, MockupChrome.GREEN, HORIZONTAL_ALIGNMENT_CENTER, font)
+		var rate := _mock_label("", Rect2(782, 0, 102, ROW_H), 20, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font)
 		row.add_child(margin)
 		row.add_child(rate)
 		var apply := MockStyle.face_button(row, Rect2(895, (ROW_H - 42) / 2.0, 109, 42), "変更", Color("4f95e8"), Color("1d58b0"),
@@ -182,6 +194,16 @@ func mockup_list(page: Control, area: Rect2) -> void:
 		_rows[sku_id] = edit
 		_margins[sku_id] = [margin, rate]
 		_show_margin(sku_id, int(edit.text))
+
+
+## The 人気 badge: a gold pill with a crown, on the row of today's best-selling product.
+static func _popular_badge() -> Control:
+	var s := UiShape.new()
+	s.size = Vector2(78, 28)
+	s.setup({"top": Color("ffe36a"), "bottom": Color("f2a91a"), "border": Color("c98a10"), "border_width": 1.5, "radius": 6.0, "gloss": 0.35})
+	MockStyle.picture(s, MockStyle.glyph("crown", 64), Rect2(6, 4, 22, 20), Color.WHITE)
+	MockStyle.label(s, "人気", Rect2(30, 0, 44, 28), 16, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "ExtraBold", 2, Color("b37208"))
+	return s
 
 
 static func _mock_label(text: String, r: Rect2, size: int, color: Color, align: HorizontalAlignment, font: Font) -> Label:

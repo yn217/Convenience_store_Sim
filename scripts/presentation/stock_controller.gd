@@ -96,7 +96,7 @@ func setup(app: Node, products: ProductCatalog, fixtures: FixtureCatalog) -> voi
 ## drawn in code (the dropdown, the - 1 + stepper, the orange 発注 button). `page` is the page's Control, in content px.
 func mockup_layout(page: Control) -> void:
 	var font := MockStyle.font("ExtraBold")
-	_place(page, _backroom, Rect2(382, 8, 300, 42))
+	_place(page, _backroom, Rect2(388, 12, 300, 42))
 	MockStyle.style_label(_backroom, 19, MockStyle.INK)
 	MockStyle.shape(page, Rect2(40, 68, 548, 58), {"top": Color("fffdf9"), "bottom": Color("f9ece2"), "border": Color("c9ab98"), "border_width": 2.0,
 		"radius": 10.0, "shadow": Color(0.4, 0.25, 0.15, 0.18), "shadow_offset": Vector2(0, 2)})
@@ -106,13 +106,13 @@ func mockup_layout(page: Control) -> void:
 		_order_sku.add_theme_stylebox_override(st, StyleBoxEmpty.new())
 	_order_sku.add_theme_icon_override("arrow", ImageTexture.new())   # the ▼ is drawn beside it
 	_order_sku.add_theme_font_override("font", font)
-	_order_sku.add_theme_font_size_override("font_size", 22)
+	_order_sku.add_theme_font_size_override("font_size", 24)
 	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
 		_order_sku.add_theme_color_override(c, MockStyle.INK)
-	_order_sku.add_theme_constant_override("h_separation", 18)
-	_order_sku.add_theme_constant_override("icon_max_width", 64)
+	_order_sku.add_theme_constant_override("h_separation", 12)
+	_order_sku.add_theme_constant_override("icon_max_width", 110)
 	for i in _order_sku.item_count:
-		_order_sku.set_item_icon(i, ProductIcons.texture(_products.get_sku(_order_sku.get_item_metadata(i)), 64))
+		_order_sku.set_item_icon(i, ProductIcons.trimmed(_products.get_sku(_order_sku.get_item_metadata(i)), 46))
 	MockStyle.shape(page, Rect2(620, 72, 158, 46), {"top": Color("fffdf9"), "bottom": Color("f6ebe3"), "border": Color("c9ab98"), "border_width": 2.0,
 		"radius": 8.0, "shadow": Color(0.4, 0.25, 0.15, 0.18), "shadow_offset": Vector2(0, 2)})
 	for x in [664, 732]:
@@ -146,8 +146,8 @@ func mockup_layout(page: Control) -> void:
 	_flat(order_btn)
 	MockStyle.shape(order_btn, Rect2(Vector2.ZERO, order_btn.size), {"top": Color("ffb21e"), "bottom": Color("e1500a"), "border": Color("ffc35a"),
 		"border_width": 2.5, "radius": 12.0, "gloss": 0.35, "shadow": Color(0.5, 0.2, 0.0, 0.35), "shadow_offset": Vector2(0, 3)})
-	MockStyle.picture(order_btn, MockStyle.glyph("cart", 96), Rect2(30, 13, 40, 36))
-	MockStyle.label(order_btn, "発注", Rect2(84, 0, 100, 62), 31, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black", 3, Color("a8400a"))
+	MockStyle.picture(order_btn, MockStyle.glyph("cart", 96), Rect2(30, 10, 47, 42))
+	MockStyle.label(order_btn, "発注", Rect2(95, 0, 96, 62), 30, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "ExtraBold", 3, Color("a8400a"))
 	_place(page, _status, Rect2(46, 126, 900, 20))
 	_status.add_theme_font_size_override("font_size", 14)
 

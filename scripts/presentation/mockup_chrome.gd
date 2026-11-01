@@ -13,8 +13,11 @@ signal pause_pressed
 signal close_pressed
 signal corner_pressed(id: String)   # the bottom right buttons: notices / missions / encyclopedia / shop
 
-const NAV := [["store", "店舗", "home"], ["goods", "商品", "box"], ["order", "発注", "truck"], ["management", "経営", "chart-up"],
-	["data", "データ", "bar-chart"], ["staff", "スタッフ", "users"], ["equipment", "設備", "wrench"], ["achievements", "実績・称号", "trophy"]]
+const NAV := [["store", "店舗", "home"], ["goods", "商品", "box3d"], ["order", "発注", "truck"], ["management", "経営", "chart-up"],
+	["data", "データ", "bar-chart"], ["staff", "スタッフ", "users"], ["equipment", "設備", "tools"], ["achievements", "実績・称号", "trophy"]]
+## The menu icons' colours (the mockup's gold / cream / white glyphs).
+const NAV_TINT := {"store": Color("ffcf63"), "goods": Color("ffffff"), "order": Color("fff3dc"), "management": Color("ffcf63"),
+	"data": Color("ffcf63"), "staff": Color("ffffff"), "equipment": Color("ffffff"), "achievements": Color("ffcf63")}
 const NAV_TIPS := {"store": "店舗（建設モード）", "equipment": "設備（建設モード）", "achievements": "実績・称号（経営の目標）"}
 const TABS := [["goods", "商品", "box", 572, 176], ["management", "経営", "chart-up", 754, 163], ["store", "店舗", "store", 920, 159],
 	["staff", "スタッフ", "users", 1083, 164], ["data", "データ", "bar-chart", 1253, 171], ["settings", "設定", "gear", 1427, 164]]
@@ -114,33 +117,33 @@ func _build_top() -> void:
 	bar.add_child(rim)
 	MockStyle.shape(bar, Rect2(-30, -10, 498, 82), {"kind": UiShape.Kind.PLATE, "tip": 34.0, "radius": 8.0, "top": Color("2f222a"),
 		"bottom": Color("1d1419"), "border": Color("d6a45c"), "border_width": 2.0, "shadow": Color(0, 0, 0, 0.35)})
-	MockStyle.picture(bar, MockStyle.art("logo_store"), Rect2(14, 4, 62, 56))
-	MockStyle.label(bar, "コンビニ経営シミュレーション", Rect2(86, 2, 372, 36), 24, Color("fff4e2"), HORIZONTAL_ALIGNMENT_LEFT, "Black")
-	MockStyle.label(bar, "Convenience Store Management Sim.", Rect2(90, 35, 340, 20), 14, Color("e9dcc8"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	MockStyle.picture(bar, MockStyle.glyph("store", 128), Rect2(18, 8, 59, 53), Color("f4c87a"))
+	MockStyle.label(bar, "コンビニ経営シミュレーション", Rect2(90, 2, 372, 40), 26, Color("fff4e2"), HORIZONTAL_ALIGNMENT_LEFT, "ExtraBold")
+	MockStyle.label(bar, "Convenience Store Management Sim.", Rect2(91, 35, 360, 24), 19, Color("e9dcc8"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
 	_pill(bar, Rect2(458, 12, 144, 46), true)
-	MockStyle.picture(bar, MockStyle.art("calendar"), Rect2(466, 16, 36, 36))
+	MockStyle.picture(bar, MockStyle.glyph("calendar", 64), Rect2(468, 19, 30, 30))
 	_named("Day", MockStyle.label(bar, "DAY 0", Rect2(504, 13, 96, 42), 26, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black", 3, Color("a3214d")))
-	_named("Date", MockStyle.label(bar, "", Rect2(612, 14, 132, 42), 19, Color("fff3e0")))
-	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(742, 12, 42, 42))
+	_named("Date", MockStyle.label(bar, "", Rect2(618, 14, 124, 42), 18, Color("fff3e0"), HORIZONTAL_ALIGNMENT_LEFT, "Bold"))
+	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(740, 11, 48, 45))
 	_pill(bar, Rect2(798, 12, 138, 46))
-	MockStyle.picture(bar, MockStyle.glyph("moon", 64), Rect2(810, 19, 32, 32), Color("ffe27a"))
-	_named("Clock", MockStyle.label(bar, "", Rect2(846, 11, 88, 46), 29, Color.WHITE))
+	MockStyle.picture(bar, MockStyle.glyph("moon", 64), Rect2(810, 20, 29, 29), Color("ffe27a"))
+	_named("Clock", MockStyle.label(bar, "", Rect2(849, 11, 88, 46), 27, Color.WHITE))
 	_pill(bar, Rect2(944, 12, 226, 46))
 	MockStyle.picture(bar, MockStyle.art("coins"), Rect2(954, 15, 36, 40))
-	MockStyle.label(bar, "所持金", Rect2(996, 14, 54, 42), 15, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
-	_named("Cash", MockStyle.label(bar, "", Rect2(1050, 13, 118, 44), 22, MockStyle.GOLD))
+	MockStyle.label(bar, "所持金", Rect2(997, 14, 56, 42), 16, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Cash", MockStyle.label(bar, "", Rect2(1055, 13, 114, 44), 20, MockStyle.GOLD))
 	_pill(bar, Rect2(1176, 12, 226, 46))
-	MockStyle.picture(bar, MockStyle.glyph("bar-chart", 64), Rect2(1186, 19, 30, 30), Color("4fc6ff"))
-	MockStyle.label(bar, "本日の売上", Rect2(1222, 14, 76, 42), 14, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
-	_named("Sales", MockStyle.label(bar, "", Rect2(1296, 13, 104, 44), 22, MockStyle.GOLD))
+	MockStyle.picture(bar, MockStyle.glyph("bar-chart", 64), Rect2(1180, 19, 40, 37), Color("4fc6ff"))
+	MockStyle.label(bar, "本日の売上", Rect2(1227, 14, 80, 42), 15, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Sales", MockStyle.label(bar, "", Rect2(1305, 13, 96, 44), 21, MockStyle.GOLD))
 	_pill(bar, Rect2(1408, 12, 196, 46))
-	MockStyle.picture(bar, MockStyle.art("arrow_up"), Rect2(1414, 15, 34, 40))
-	MockStyle.label(bar, "本日の粗利", Rect2(1450, 14, 72, 42), 14, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
-	_named("Profit", MockStyle.label(bar, "", Rect2(1519, 13, 84, 44), 22, MockStyle.GOLD))
+	MockStyle.picture(bar, MockStyle.glyph("arrow-up", 64), Rect2(1415, 20, 28, 37), Color("5fdde6"))
+	MockStyle.label(bar, "本日の粗利", Rect2(1452, 14, 72, 42), 15, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Profit", MockStyle.label(bar, "", Rect2(1523, 13, 80, 44), 21, MockStyle.GOLD))
 	_pill(bar, Rect2(1610, 12, 158, 46))
-	MockStyle.picture(bar, MockStyle.glyph("person", 64), Rect2(1618, 17, 34, 34), Color("a9dcff"))
-	MockStyle.label(bar, "来店客数", Rect2(1656, 14, 58, 42), 14, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
-	_named("Visitors", MockStyle.label(bar, "", Rect2(1712, 13, 56, 44), 20, Color("fff1dc")))
+	MockStyle.picture(bar, MockStyle.glyph("person", 64), Rect2(1619, 19, 33, 32), Color("a9dcff"))
+	MockStyle.label(bar, "来店客数", Rect2(1658, 14, 58, 42), 15, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Visitors", MockStyle.label(bar, "", Rect2(1716, 13, 54, 44), 22, Color("fff1dc")))
 	MockStyle.shape(bar, Rect2(1770, 7, 146, 52), {"top": Color("2a2029"), "bottom": Color("1d161c"), "border": Color("5a4651"),
 		"border_width": 1.5, "radius": 10.0})
 	for sp in SPEEDS:
@@ -182,9 +185,9 @@ func _build_menu() -> void:
 		b.name = "nav_" + id
 		var plate := MockStyle.shape(b, Rect2(Vector2.ZERO, r.size), {"kind": UiShape.Kind.PLATE, "tip": 12.0, "radius": 10.0,
 			"border_width": 2.0, "gloss": 0.16, "shadow": Color(0, 0, 0, 0.35), "shadow_offset": Vector2(0, 3)})
-		var g := MockStyle.picture(b, MockStyle.glyph(NAV[i][2], 96), Rect2(26, 12, 38, 36))
+		var g := MockStyle.picture(b, MockStyle.glyph(NAV[i][2], 128), Rect2(18, 8, 50, 44))
 		var text: String = NAV[i][1]
-		var l := MockStyle.label(b, text, Rect2(80, 0, 130, 60), 25 if text.length() <= 3 else 22, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black",
+		var l := MockStyle.label(b, text, Rect2(95, 0, 120, 60), 27 if text.length() <= 3 else (24 if text.length() == 4 else 21), Color("fff3e0"), HORIZONTAL_ALIGNMENT_LEFT, "Bold",
 			2, Color(0, 0, 0, 0.35))
 		b.pressed.connect(func(): nav_pressed.emit(id))
 		_nav[id] = {"button": b, "plate": plate, "glyph": g, "label": l}
@@ -203,11 +206,11 @@ func set_nav(id: String) -> void:
 		elif n == "store":
 			plate.setup({"top": Color("7e4b22"), "bottom": Color("442510"), "border": Color("ffd27f"), "glow": Color(1.0, 0.72, 0.25, 0.7), "glow_size": 7.0,
 				"inner": Color(1, 0.85, 0.5, 0.35)})
-			(v["glyph"] as TextureRect).modulate = Color("ffd36b")
+			(v["glyph"] as TextureRect).modulate = NAV_TINT[n]
 		else:
 			plate.setup({"top": Color("4b3631"), "bottom": Color("281b1a"), "border": Color("b88f5f"), "glow": Color(0, 0, 0, 0), "glow_size": 0.0,
 				"inner": Color(1, 0.85, 0.6, 0.12)})
-			(v["glyph"] as TextureRect).modulate = Color("ffe9c6")
+			(v["glyph"] as TextureRect).modulate = NAV_TINT[n]
 
 
 # --- bottom bar --------------------------------------------------------------------------------------------------
@@ -227,21 +230,26 @@ func _build_bottom() -> void:
 	MockStyle.label(bar, "本日の目標", Rect2(98, 10, 220, 34), 21, Color("ffe3a8"), HORIZONTAL_ALIGNMENT_LEFT, "Black")
 	MockStyle.shape(bar, Rect2(30, 44, 324, 80), {"top": Color("fffcf6"), "bottom": Color("f6ead8"), "border": Color("e3cba5"), "border_width": 2.0,
 		"radius": 10.0})
-	_named("Goal", MockStyle.label(bar, "", Rect2(48, 48, 300, 36), 19, INK))
+	_named("Goal", MockStyle.label(bar, "", Rect2(58, 46, 296, 40), 20, INK, HORIZONTAL_ALIGNMENT_LEFT, "Bold"))
 	MockStyle.shape(bar, Rect2(44, 92, 246, 18), {"top": Color("3d3534"), "bottom": Color("5a504e"), "radius": 9.0})
 	_goal_fill = MockStyle.shape(bar, Rect2(44, 92, 18, 18), {"top": Color("a6e04a"), "bottom": Color("4fa30f"), "radius": 9.0, "gloss": 0.4})
 	_named("GoalPercent", MockStyle.label(bar, "", Rect2(290, 84, 62, 34), 22, INK, HORIZONTAL_ALIGNMENT_RIGHT, "Black"))
 	# the four figures
-	var cards := [["MSales", "本日の売上", 382, 176, "bar-chart", Color("a2e23c"), ""], ["MProfit", "本日の粗利", 566, 160, "", Color.WHITE, "coins"],
-		["MCustomers", "来店客数", 732, 146, "users", Color("a9dcff"), ""], ["MUnit", "客単価", 884, 156, "cart", Color("fff6e8"), ""]]
+	# [label id, caption, card x, card w, glyph, tint, picture, icon rect (screen px), caption x, value x]
+	var cards := [["MSales", "本日の売上", 382, 176, "bar-chart", Color("a2e23c"), "", Rect2(395, 977, 45, 41), 431, 436],
+		["MProfit", "本日の粗利", 566, 160, "", Color.WHITE, "coins", Rect2(577, 978, 39, 39), 606, 614],
+		["MCustomers", "来店客数", 732, 146, "users", Color("a9dcff"), "", Rect2(745, 976, 39, 40), 778, 790],
+		["MUnit", "客単価", 884, 156, "cart", Color("fff6e8"), "", Rect2(899, 977, 39, 40), 938, 940]]
 	for c in cards:
 		_dark_card(bar, Rect2(c[2], 22, c[3], 100))
-		MockStyle.label(bar, c[1], Rect2(c[2] + 40, 34, c[3] - 44, 26), 16, Color("fff1dc"), HORIZONTAL_ALIGNMENT_CENTER, "Bold")
+		var ir: Rect2 = c[7]
+		ir.position.y -= 922
+		MockStyle.label(bar, c[1], Rect2(c[8], 38, c[2] + c[3] - c[8] - 4, 30), 20, Color("fff1dc"), HORIZONTAL_ALIGNMENT_CENTER, "Bold")
 		if c[6] != "":
-			MockStyle.picture(bar, MockStyle.art(c[6]), Rect2(c[2] + 10, 58, 40, 44))
+			MockStyle.picture(bar, MockStyle.art(c[6]), ir)
 		else:
-			MockStyle.picture(bar, MockStyle.glyph(c[4], 96), Rect2(c[2] + 12, 60, 38, 38), c[5])
-		_named(c[0], MockStyle.label(bar, "", Rect2(c[2] + 44, 62, c[3] - 50, 44), 26, MockStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER, "Black"))
+			MockStyle.picture(bar, MockStyle.glyph(c[4], 96), ir, c[5])
+		_named(c[0], MockStyle.label(bar, "", Rect2(c[9], 60, c[2] + c[3] - c[9] - 6, 46), 30, MockStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER, "ExtraBold"))
 	# today's event
 	MockStyle.shape(bar, Rect2(1058, 8, 414, 128), {"top": Color("fff3f8"), "bottom": Color("ffd2e3"), "border": Color("ffffff"), "border_width": 3.0,
 		"radius": 16.0, "inner": Color("ff9fc1"), "inner_inset": 2.0, "shadow": Color(0, 0, 0, 0.25)})
@@ -266,7 +274,7 @@ func _build_bottom() -> void:
 		MockStyle.shape(b, Rect2(4, 0, 88, 108), {"top": Color("3b2c2a"), "bottom": Color("251b1a"), "radius": 18.0, "border": Color("6e5546"),
 			"border_width": 1.5, "gloss": 0.06})
 		MockStyle.picture(b, MockStyle.art(corners[i][2]), Rect2(16, 6, 64, 62))
-		MockStyle.label(b, corners[i][1], Rect2(0, 70, 96, 32), 17, Color("fff4e2"), HORIZONTAL_ALIGNMENT_CENTER, "Black", 2, Color(0, 0, 0, 0.5))
+		MockStyle.label(b, corners[i][1], Rect2(0, 76, 96, 30), 17, Color("fff4e2"), HORIZONTAL_ALIGNMENT_CENTER, "ExtraBold", 2, Color(0, 0, 0, 0.5))
 		var cid: String = corners[i][0]
 		b.pressed.connect(func(): corner_pressed.emit(cid))
 
@@ -294,7 +302,7 @@ func _build_window() -> void:
 		"border_width": 2.0, "radius": 18.0, "gloss": 0.3})
 	MockStyle.picture(tag, MockStyle.art("sakura"), Rect2(10, 5, 26, 26))
 	MockStyle.label(tag, "小春", Rect2(42, 0, 80, 36), 21, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black")
-	_bubble_text = MockStyle.label(bubble, "", Rect2(28, 46, 316, 148), 19, INK)
+	_bubble_text = MockStyle.label(bubble, "", Rect2(24, 46, 320, 148), 19, INK, HORIZONTAL_ALIGNMENT_LEFT, "Bold")
 	_bubble_text.name = "BubbleText"
 	_bubble_text.clip_text = false
 	# the frame: brown outer frame with a gold inner line, the header plaque, the cream inside
@@ -305,10 +313,10 @@ func _build_window() -> void:
 		"radius": 26.0, "inner": Color(1, 0.85, 0.55, 0.25)})
 	MockStyle.shape(frame, Rect2(20, 92, 1058, 572), {"top": Color("fff8ef"), "bottom": Color("f3e1d1"), "border": Color("e9cfb9"), "border_width": 2.0,
 		"radius": 22.0})
-	MockStyle.picture(frame, MockStyle.art("clipboard"), Rect2(70, 8, 80, 88))
-	MockStyle.label(frame, "経営管理", Rect2(164, 18, 200, 64), 44, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Black", 3, Color(0, 0, 0, 0.35))
-	MockStyle.label(frame, "Store Management", Rect2(352, 44, 150, 24), 14, Color("ead9c4"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
-	MockStyle.picture(frame, MockStyle.art("store_building"), Rect2(772, 0, 184, 96))
+	MockStyle.picture(frame, MockStyle.art("mission"), Rect2(64, 2, 90, 94))
+	MockStyle.label(frame, "経営管理", Rect2(156, 12, 220, 66), 47, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "ExtraBold", 3, Color(0, 0, 0, 0.35))
+	MockStyle.label(frame, "Store Management", Rect2(356, 50, 150, 24), 13, Color("ead9c4"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	MockStyle.picture(frame, MockStyle.art("logo_store"), Rect2(770, 2, 190, 92))
 	_window_layer.add_child(rikka)   # in front of the frame: her hand points into the window
 	var close := MockStyle.button(frame, Rect2(998, 30, 74, 74), "閉じる (Esc)")
 	close.name = "CloseScreen"
@@ -330,7 +338,7 @@ func _build_window() -> void:
 		b.add_child(row)
 		var g := TextureRect.new()
 		g.texture = MockStyle.glyph(t[2], 96)
-		g.custom_minimum_size = Vector2(32, 32)
+		g.custom_minimum_size = Vector2(38, 38)
 		g.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		g.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		g.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -342,7 +350,7 @@ func _build_window() -> void:
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		l.size_flags_vertical = Control.SIZE_FILL
 		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		MockStyle.style_label(l, 25, Color("2e2420"), "Black")
+		MockStyle.style_label(l, 27, Color("2e2420"), "ExtraBold")
 		row.add_child(l)
 		var tid: String = t[0]
 		b.pressed.connect(func(): tab_pressed.emit(tid))

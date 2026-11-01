@@ -5,7 +5,7 @@ extends Control
 ## outer border, an optional inner rim line, a soft drop shadow, an outer glow and a gloss on its upper part.
 ## Presentation only; it never takes the mouse (the Button or Control it sits in does).
 
-enum Kind { ROUND, PLATE, RIBBON, CIRCLE }
+enum Kind { ROUND, PLATE, RIBBON, CIRCLE, CLOUD }
 
 var kind := Kind.ROUND
 var top := Color.WHITE
@@ -15,7 +15,9 @@ var border_width := 0.0
 var inner := Color(0, 0, 0, 0)        # a thin rim line inside the border
 var inner_inset := 4.0
 var radius := 10.0
-var tip := 14.0                       # PLATE: how far the pointed ends stick out
+var tip := 14.0                       # PLATE: how far the pointed ends stick out; RIBBON with arrow: the point's length
+var arrow := false                    # RIBBON: a pointed right end instead of a round one
+var bumps := 7                        # CLOUD: bumps along the top and bottom edges
 var shadow := Color(0, 0, 0, 0)
 var shadow_offset := Vector2(0, 3)
 var glow := Color(0, 0, 0, 0)
@@ -82,6 +84,8 @@ func outline(r: Rect2) -> PackedVector2Array:
 			return _plate(r)
 		Kind.RIBBON:
 			return _ribbon(r)
+		Kind.CLOUD:
+			return _cloud(r)
 	return _round_rect(r, minf(radius, minf(r.size.x, r.size.y) * 0.5))
 
 
@@ -124,10 +128,11 @@ func _plate(r: Rect2) -> PackedVector2Array:
 	var y1 := r.end.y
 	var ym := r.get_center().y
 	var out := PackedVector2Array()
-	out.append(Vector2(x0, ym))
+	var tr := t * 0.55   # the points are rounded too
+	_arc(out, Vector2(x0 + tr * 1.25, ym), tr, 150, 210)
 	_arc(out, Vector2(x0 + t + rad, y0 + rad), rad, 225, 270)
 	_arc(out, Vector2(x1 - t - rad, y0 + rad), rad, 270, 315)
-	out.append(Vector2(x1, ym))
+	_arc(out, Vector2(x1 - tr * 1.25, ym), tr, -30, 30)
 	_arc(out, Vector2(x1 - t - rad, y1 - rad), rad, 45, 90)
 	_arc(out, Vector2(x0 + t + rad, y1 - rad), rad, 90, 135)
 	return out
@@ -139,6 +144,31 @@ func _ribbon(r: Rect2) -> PackedVector2Array:
 	var rad := minf(radius, r.size.y * 0.5)
 	var h := r.size.y * 0.5
 	_arc(out, Vector2(r.position.x + rad, r.position.y + rad), rad, 180, 270)
-	_arc(out, Vector2(r.end.x - h, r.position.y + h), h, 270, 450)
+	if arrow:
+		var t := minf(tip, h)
+		_arc(out, Vector2(r.end.x - t - 3, r.position.y + 3), 3, 270, 300)
+		_arc(out, Vector2(r.end.x - 3, r.position.y + h), 3, -40, 40)
+		_arc(out, Vector2(r.end.x - t - 3, r.end.y - 3), 3, 60, 90)
+	else:
+		_arc(out, Vector2(r.end.x - h, r.position.y + h), h, 270, 450)
 	_arc(out, Vector2(r.position.x + rad, r.end.y - rad), rad, 90, 180)
+	return out
+
+
+## A speech cloud: a rounded box whose top and bottom edges bulge in `bumps` soft arcs and whose sides bulge once.
+func _cloud(r: Rect2) -> PackedVector2Array:
+	var out := PackedVector2Array()
+	var c := r.get_center()
+	var a := r.size.x * 0.5
+	var b := r.size.y * 0.5
+	var n := 160
+	for i in n:
+		var th := TAU * float(i) / float(n)
+		var dx := cos(th)
+		var dy := sin(th)
+		# a superellipse (boxy) base, then gentle bumps
+		var p := 4.0
+		var base := 1.0 / pow(pow(absf(dx), p) + pow(absf(dy), p), 1.0 / p)
+		var bump := 1.0 - 0.035 * (0.5 + 0.5 * cos(th * float(bumps * 2)))
+		out.append(c + Vector2(dx * a, dy * b) * base * bump)
 	return out

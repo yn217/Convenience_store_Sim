@@ -118,12 +118,13 @@ static func card(parent: Control, r: Rect2) -> UiShape:
 
 ## A section ribbon: coloured band with a round right end, a white glyph and white heading text.
 static func ribbon(parent: Control, r: Rect2, text: String, colors: Array, glyph_name: String = "", px := 26) -> UiShape:
-	var s := shape(parent, r, {"kind": UiShape.Kind.RIBBON, "top": colors[0], "bottom": colors[1], "radius": 10.0,
+	var s := shape(parent, r, {"kind": UiShape.Kind.RIBBON, "arrow": true, "tip": 16.0, "top": colors[0], "bottom": colors[1], "radius": 10.0,
 		"shadow": Color(0, 0, 0, 0.18), "shadow_offset": Vector2(0, 2), "gloss": 0.18})
 	var x := 16.0
 	if glyph_name != "":
-		picture(s, glyph(glyph_name, 64), Rect2(14, (r.size.y - 30) * 0.5, 30, 30))
-		x = 54.0
+		var gs := minf(r.size.y - 6.0, 40.0)
+		picture(s, glyph(glyph_name, 96), Rect2(18, (r.size.y - gs) * 0.5, gs, gs))
+		x = 28.0 + gs
 	label(s, text, Rect2(x, 0, r.size.x - x - 20, r.size.y), px, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black", 2, Color(0, 0, 0, 0.25))
 	return s
 
