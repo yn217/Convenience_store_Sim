@@ -138,6 +138,14 @@ func _apply_filter() -> void:
 	_refresh_list()
 
 
+## Capture-only helper for visual QA. It changes only the local read-only filter.
+func set_review_query(query: String) -> void:
+	if _filter == null:
+		return
+	_filter.text = query
+	_apply_filter()
+
+
 func _refresh_list() -> void:
 	if _list == null:
 		return

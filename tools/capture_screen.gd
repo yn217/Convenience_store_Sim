@@ -20,6 +20,18 @@ func _run() -> void:
 	var variant := VisualVariants.override()
 	if variant != "":
 		print("visual variant override: ", variant)
+	if OS.get_cmdline_user_args().has("--placement-review"):
+		var review: Control = load("res://scenes/review/ComfyUIPlacementReview.tscn").instantiate()
+		root.add_child(review)
+		for i in 12:
+			await process_frame
+		for a in OS.get_cmdline_user_args():
+			if a.begins_with("--placement-candidate=") and review.has_method("set_review_query"):
+				review.set_review_query(a.trim_prefix("--placement-candidate="))
+		for i in 8:
+			await process_frame
+		quit(0 if _save_png(out_png) else 1)
+		return
 	if OS.get_cmdline_user_args().has("--title"):
 		var title: Node = load("res://scenes/title/Title.tscn").instantiate()
 		root.add_child(title)

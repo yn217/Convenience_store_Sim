@@ -13,6 +13,14 @@ python tools/assets/build_comfyui_334_contact_sheet.py
 
 この画像は視覚確認を補助するだけで、CSV/JSONの`runtime_approved`や個別候補の承認状態を変更しない。採用判断には個別PNG、埋め込みprompt、権利情報、実画面QAを引き続き用いる。
 
+Godotの読み取り専用レビュー画面を候補IDで開く場合は、次のCLIキャプチャを使える。これは通常のMain画面やランタイム台帳を変更しない。
+
+```powershell
+Godot_v4.7.2-stable_win64_console.exe --path . --resolution 1280x720 --script res://tools/capture_screen.gd -- --placement-review --placement-candidate=additional_001 build/placement_review_additional_001_1280.png
+```
+
+`--placement-candidate`を省略すると334件の一覧画面になり、指定すると該当候補だけを選択した状態になる。
+
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
 
