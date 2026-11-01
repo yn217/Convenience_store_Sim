@@ -2,6 +2,17 @@
 対象: [COMFYUI_334_IMAGE_PLACEMENT_20261101.csv](COMFYUI_334_IMAGE_PLACEMENT_20261101.csv) / [COMFYUI_334_IMAGE_PLACEMENT_20261101.json](COMFYUI_334_IMAGE_PLACEMENT_20261101.json)。参照元: `assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/generation_manifest.json`。
 
 CSVが人間編集用の正本で、JSONは `python tools/assets/export_comfyui_334_placement.py` で再生成する。JSONの`runtime_approved`は常に`false`で、配置提案とランタイム採用承認を分離する。
+
+## 334件のレビュー用コンタクトシート
+
+全候補を一覧で比較するためのレビュー用画像は [COMFYUI_334_CONTACT_SHEET_20261103.png](COMFYUI_334_CONTACT_SHEET_20261103.png) である。再生成する場合は次を実行する。
+
+```powershell
+python tools/assets/build_comfyui_334_contact_sheet.py
+```
+
+この画像は視覚確認を補助するだけで、CSV/JSONの`runtime_approved`や個別候補の承認状態を変更しない。採用判断には個別PNG、埋め込みprompt、権利情報、実画面QAを引き続き用いる。
+
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
 
