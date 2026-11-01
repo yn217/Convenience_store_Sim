@@ -167,13 +167,13 @@ func mockup_list(page: Control, area: Rect2) -> void:
 		edit.add_theme_font_size_override("font_size", 22)
 		edit.add_theme_color_override("font_color", MockupChrome.INK)
 		edit.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		edit.position = Vector2(455, (ROW_H - 40) / 2.0)
+		edit.position = Vector2(455, (ROW_H - 40) / 2.0 - 2.0)   # its text level with 原価 / 粗利 (the field's padding sits it low)
 		edit.size = Vector2(126, 40)
 		edit.text = str(sku["default_sell_price_yen"])
 		edit.select_all_on_focus = true
 		edit.text_submitted.connect(func(_t): submit(sku_id, edit))
 		row.add_child(edit)
-		row.add_child(_mock_label("¥", Rect2(edit.position.x + 12, edit.position.y + 3, 22, 40), 22, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font))
+		row.add_child(_mock_label("¥", Rect2(edit.position.x + 12, edit.position.y + 1, 22, 40), 22, MockupChrome.INK, HORIZONTAL_ALIGNMENT_CENTER, font))
 		var arrows := _mock_label("▲\n▼", Rect2(edit.position.x + 96, edit.position.y + 1, 26, 38), 14, Color("3a2a2a"), HORIZONTAL_ALIGNMENT_CENTER, font)
 		arrows.add_theme_constant_override("line_spacing", -3)
 		row.add_child(arrows)

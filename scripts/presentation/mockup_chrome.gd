@@ -138,12 +138,12 @@ func _build_top() -> void:
 	_named("Sales", MockStyle.label(bar, "", Rect2(1305, 13, 96, 44), 21, MockStyle.GOLD))
 	_pill(bar, Rect2(1408, 12, 196, 46))
 	MockStyle.picture(bar, MockStyle.glyph("arrow-up", 64), Rect2(1415, 20, 28, 37), Color("5fdde6"))
-	MockStyle.label(bar, "本日の粗利", Rect2(1452, 14, 72, 42), 15, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
-	_named("Profit", MockStyle.label(bar, "", Rect2(1523, 13, 80, 44), 21, MockStyle.GOLD))
+	MockStyle.label(bar, "本日の粗利", Rect2(1450, 14, 72, 42), 14, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Profit", MockStyle.label(bar, "", Rect2(1526, 13, 78, 44), 21, MockStyle.GOLD))
 	_pill(bar, Rect2(1610, 12, 158, 46))
 	MockStyle.picture(bar, MockStyle.glyph("person", 64), Rect2(1619, 19, 33, 32), Color("a9dcff"))
-	MockStyle.label(bar, "来店客数", Rect2(1658, 14, 58, 42), 15, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
-	_named("Visitors", MockStyle.label(bar, "", Rect2(1716, 13, 54, 44), 22, Color("fff1dc")))
+	MockStyle.label(bar, "来店客数", Rect2(1656, 14, 58, 42), 14, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
+	_named("Visitors", MockStyle.label(bar, "", Rect2(1716, 13, 52, 44), 21, Color("fff1dc")))
 	MockStyle.shape(bar, Rect2(1770, 7, 146, 52), {"top": Color("2a2029"), "bottom": Color("1d161c"), "border": Color("5a4651"),
 		"border_width": 1.5, "radius": 10.0})
 	for sp in SPEEDS:
@@ -232,7 +232,7 @@ func _build_bottom() -> void:
 	MockStyle.label(bar, "本日の目標", Rect2(98, 10, 220, 34), 21, Color("ffe3a8"), HORIZONTAL_ALIGNMENT_LEFT, "Black")
 	MockStyle.shape(bar, Rect2(30, 44, 324, 80), {"top": Color("fffcf6"), "bottom": Color("f6ead8"), "border": Color("e3cba5"), "border_width": 2.0,
 		"radius": 10.0})
-	_named("Goal", MockStyle.label(bar, "", Rect2(58, 46, 296, 40), 20, INK, HORIZONTAL_ALIGNMENT_LEFT, "Bold"))
+	_named("Goal", MockStyle.label(bar, "", Rect2(58, 51, 296, 40), 20, INK, HORIZONTAL_ALIGNMENT_LEFT, "Bold"))
 	MockStyle.shape(bar, Rect2(44, 92, 246, 18), {"top": Color("3d3534"), "bottom": Color("5a504e"), "radius": 9.0})
 	_goal_fill = MockStyle.shape(bar, Rect2(44, 92, 18, 18), {"top": Color("a6e04a"), "bottom": Color("4fa30f"), "radius": 9.0, "gloss": 0.4})
 	_named("GoalPercent", MockStyle.label(bar, "", Rect2(290, 84, 62, 34), 22, INK, HORIZONTAL_ALIGNMENT_RIGHT, "Black"))
@@ -316,7 +316,7 @@ func _build_window() -> void:
 	MockStyle.shape(frame, Rect2(20, 92, 1058, 572), {"top": Color("fff8ef"), "bottom": Color("f3e1d1"), "border": Color("e9cfb9"), "border_width": 2.0,
 		"radius": 22.0})
 	MockStyle.picture(frame, MockStyle.art("mission"), Rect2(64, 2, 90, 94))
-	MockStyle.label(frame, "経営管理", Rect2(156, 12, 220, 66), 47, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "ExtraBold", 3, Color(0, 0, 0, 0.35))
+	MockStyle.label(frame, "経営管理", Rect2(158, 17, 220, 66), 43, Color("fff1dc"), HORIZONTAL_ALIGNMENT_LEFT, "ExtraBold", 3, Color(0, 0, 0, 0.35))
 	MockStyle.label(frame, "Store Management", Rect2(356, 50, 150, 24), 13, Color("ead9c4"), HORIZONTAL_ALIGNMENT_LEFT, "Bold")
 	MockStyle.picture(frame, MockStyle.art("logo_store"), Rect2(770, 2, 190, 92))
 	_window_layer.add_child(rikka)   # in front of the frame: her hand points into the window

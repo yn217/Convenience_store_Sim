@@ -435,6 +435,7 @@ func _mockup_goods_page() -> void:
 	MockStyle.card(page, Rect2(8, 162, 1012, 276))   # likewise behind its ribbon, above the column headings
 	var sub := MockStyle.ribbon(page, Rect2(214, 172, 248, 40), "（店頭の価格を変更します）", [Color("a0605a"), Color("7a3a3a")], "", 16)
 	(sub.get_child(0) as Label).position.x = 28   # the text starts after the main ribbon's point
+	(sub.get_child(0) as Label).position.y -= 3   # level with the main ribbon's heading, as in the mockup
 	MockStyle.ribbon(page, Rect2(0, 166, 232, 52), "販売価格", MockStyle.RIBBON_BROWN, "tag", 30)
 	for h in [["販売価格", 470, 120], ["原価", 610, 92], ["粗利", 700, 96], ["粗利率", 790, 102]]:
 		MockStyle.label(page, h[0], Rect2(h[1], 178, h[2], 34), 16, MockStyle.INK, HORIZONTAL_ALIGNMENT_CENTER, "Black")

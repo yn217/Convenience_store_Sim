@@ -108,5 +108,39 @@ def main() -> None:
         print("%-14s %-22s %-22s %6d %6d %6.2f" % (name, "%d,%d,%d,%d" % m, "%d,%d,%d,%d" % g, m[0] - g[0], m[1] - g[1], m[3] / g[3]))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and "--pairs" not in sys.argv:
     main()
+
+
+# icon / text pairs that sit on one line: their vertical centres should agree in the game as they do in the mockup
+PAIRS = [("calendar", "day_text"), ("moon", "clock"), ("coins", "cash_cap"), ("coins", "cash"), ("sales_icon", "sales_cap"),
+         ("sales_icon", "sales"), ("arrow", "profit_cap"), ("arrow", "profit"), ("person", "visitors_cap"), ("person", "visitors"),
+         ("date", "sakura"), ("logo", "title"),
+         *[("nav_%d_icon" % i, "nav_%d_text" % i) for i in range(8)],
+         ("kpi1_icon", "kpi1_val"), ("kpi2_icon", "kpi2_val"), ("kpi3_icon", "kpi3_val"), ("kpi4_icon", "kpi4_val"),
+         ("win_icon", "win_title"), ("rib1_icon", "rib1_text"), ("backroom_icon", "backroom"), ("drop_icon", "drop_text"),
+         ("order_icon", "order_text"), ("row1_icon", "row1_name"), ("row1_name", "row1_price"), ("row1_price", "row1_cost"),
+         ("row1_cost", "row1_rate"), ("goal_text", "goal_title"), ("kpi1_cap", "kpi1_val"), ("rib2_text", "rib2_sub"),
+         ("kpi1_icon", "kpi1_cap"), ("rank1_name", "rank1_qty"), ("rib_text", "date_text")]
+
+
+def pairs(cap_path, tab):
+    cap = np.asarray(Image.open(cap_path).convert("RGB").resize((1920, 1080)))
+    mock = np.asarray(Image.open("docs/mockups/ui_target_%s_2026-11-01.png" % tab).convert("RGB").resize((1920, 1080), Image.LANCZOS))
+    elems = {**COMMON, **(GOODS if tab == "goods" else DATA)}
+    print("%-30s %8s %8s %6s" % ("pair (a - b centre y)", "mockup", "game", "diff"))
+    for a, b in PAIRS:
+        if a not in elems or b not in elems:
+            continue
+        r = []
+        for img in (mock, cap):
+            ba, bb = ink_box(img, elems[a], mode_of(a)), ink_box(img, elems[b], mode_of(b))
+            r.append(None if ba is None or bb is None else (ba[1] + ba[3] / 2) - (bb[1] + bb[3] / 2))
+        if None in r:
+            continue
+        flag = "  <--" if abs(r[1] - r[0]) > 3 else ""
+        print("%-30s %8.1f %8.1f %6.1f%s" % (a + " / " + b, r[0], r[1], r[1] - r[0], flag))
+
+
+if __name__ == "__main__" and len(sys.argv) > 3 and sys.argv[3] == "--pairs":
+    pairs(sys.argv[1], sys.argv[2])
