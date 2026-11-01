@@ -58,6 +58,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_queue", "queue story uses the queue-specific pose")
 	t.eq(panel.reaction_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("id", ""), "reaction_pleading", "queue story uses the pleading bust-up layer")
 	t.eq(panel.stage_entry({"story_cue": "story_staff_short", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_staff_short", "staff shortage story uses the staff-specific pose")
+	t.ok(panel.reaction_entry({"story_cue": "story_staff_short", "gameplay_event": {}, "progression": {}}).is_empty(), "staff shortage keeps its full-body pose instead of stacking a reaction")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_six_categories"]}}).get("id", ""), "functional_six_categories", "six-category achievement uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_ten_sales"]}}).get("id", ""), "functional_ten_sales", "ten-sales achievement uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_three_fixtures"]}}).get("id", ""), "functional_expansion", "fixture expansion achievement uses its presentation pose")
@@ -100,6 +101,11 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	await tree.process_frame
 	t.ok(guide._pilot_reaction.visible, "queue give-up shows the pleading bust-up reaction")
 	t.eq((guide._pilot_reaction.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_pleading.png", "queue give-up loads the pleading reaction texture")
+	guide.apply_snapshot({"story_cue": "story_staff_short", "progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "active_daily_challenge_id": null, "completed_milestone_ids": []}})
+	await tree.process_frame
+	t.ok(not guide._pilot_reaction.visible, "staff shortage does not stack a bust-up reaction")
+	t.ok(guide._pilot_figure.visible, "staff shortage shows its dedicated full-body pose")
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_staff_short.png", "staff shortage loads the dedicated full-body texture")
 	guide.say_day_end("通常決算の確認", "normal")
 	await tree.process_frame
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_report.png", "normal day-end uses the report pilot in the runtime stage")

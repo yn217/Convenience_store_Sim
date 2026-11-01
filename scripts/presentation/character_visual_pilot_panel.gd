@@ -133,7 +133,7 @@ func reaction_entry(snapshot: Dictionary) -> Dictionary:
 	match story_cue:
 		"story_start":
 			return _find("reaction_discovery")
-		"story_queue_giveup", "story_staff_short":
+		"story_queue_giveup":
 			return _find("reaction_pleading")
 	return {}
 

@@ -22,7 +22,7 @@ This review covers the 48-image pilot. The remaining 286 candidates stay review-
 - Runtime map spot check: the `map_proposal_open` full-body pilot is visible in the area-map side panel at 1280x720 without covering the map controls.
 - Runtime day-end spot check: the normal and worried report routes select their separate full-body pilots; the focused scene test covers both switches.
 - Runtime warning spot check: `low_stock_notice` keeps `functional_low_stock` visible above an open management window; the focused scene test covers the warning route.
-- Runtime story-reaction spot check: `story_start` shows `reaction_discovery` and `story_queue_giveup` shows `reaction_pleading` in a dedicated 260x260 layer. The full-body pilot layer is hidden while either bust-up is active, so the two representations do not stack.
+- Runtime story-reaction spot check: `story_start` shows `reaction_discovery` and `story_queue_giveup` shows `reaction_pleading` in a dedicated 260x260 layer. The full-body pilot layer is hidden while either bust-up is active, so the two representations do not stack. `story_staff_short` intentionally keeps its dedicated `functional_staff_short` full-body pose.
 - `runtime_approved`: `false`
 
 ## Candidate mapping
