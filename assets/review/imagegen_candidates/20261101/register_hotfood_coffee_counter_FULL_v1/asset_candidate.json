@@ -20,24 +20,24 @@
       "path": "assets/review/imagegen_candidates/20261101/register_hotfood_coffee_counter_FULL_v1/source_original.png",
       "byte_size": 1260565,
       "sha256": "7e72cc1531df8ebb57059e54b32bb1c7d65b9e9d82329e557325c5f69b4a3e1d",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "33634351ebb33f5374c83ffcd28937eb01b00977",
+      "github_uploaded": true
     },
     {
       "role": "sprite_fullres",
       "path": "assets/review/imagegen_candidates/20261101/register_hotfood_coffee_counter_FULL_v1/sprite_padded_review.png",
       "byte_size": 1200895,
       "sha256": "235202601b438a75f509a5ca1627a0efb1cc0617764f5f3bb962d18a96fa6027",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "9cc68a1475e30592f5057bc1cec16cb944072b39",
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
       "path": "assets/review/imagegen_candidates/20261101/register_hotfood_coffee_counter_FULL_v1/preview_checkerboard.jpg",
       "byte_size": 310323,
       "sha256": "9768e381b857ddfd750bbc9440ac3bacc2c2c658d7d83bf76e1ea76cfbd9455a",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "a095c26e37cf555ac8bd531818869be6026d341b",
+      "github_uploaded": true
     }
   ],
   "projection": {
