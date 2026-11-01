@@ -1,0 +1,45 @@
+{
+  "source_size_px": [
+    1212,
+    1297
+  ],
+  "source_mode": "RGBA",
+  "source_alpha_extrema": [
+    0,
+    255
+  ],
+  "alpha_threshold": 8,
+  "alpha_bbox_xyxy": [
+    288,
+    66,
+    967,
+    1226
+  ],
+  "margins_px_ltrb": [
+    288,
+    66,
+    245,
+    71
+  ],
+  "margin_fraction_ltrb": [
+    0.2376,
+    0.0509,
+    0.2021,
+    0.0547
+  ],
+  "projection_visual": "approximate only; calibrated axis/error check blocked",
+  "geometry": "unverified; nominal 1x1 and 0.92x0.92x1.20m contract recorded",
+  "transparent_review_padding": {
+    "canvas_px": [
+      1553,
+      1553
+    ],
+    "offset_px": [
+      170,
+      128
+    ],
+    "resampled": false
+  },
+  "godot_checked": false,
+  "runtime_approved": false
+}
