@@ -22,6 +22,10 @@ Write-Host '== catalog sync check =='
 python (Join-Path $PSScriptRoot 'validation\check_catalog.py') $root
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+Write-Host '== schema check (#167) =='
+python (Join-Path $PSScriptRoot 'validation\check_schemas.py') $root
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 Write-Host '== asset credits audit =='
 python (Join-Path $PSScriptRoot 'validation\check_asset_credits.py') $root
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

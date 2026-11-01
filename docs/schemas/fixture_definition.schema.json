@@ -81,7 +81,19 @@
           "drink",
           "snack",
           "dessert",
-          "ice_cream"
+          "ice_cream",
+          "bento",
+          "daily_fresh",
+          "coffee",
+          "capsule_toy",
+          "daily_goods",
+          "hygiene",
+          "character_goods",
+          "soft_serve",
+          "frappe",
+          "bakery",
+          "pizza",
+          "crane_prize"
         ]
       }
     },
@@ -133,7 +145,19 @@
                 "drink",
                 "snack",
                 "dessert",
-                "ice_cream"
+                "ice_cream",
+                "bento",
+                "daily_fresh",
+                "coffee",
+                "capsule_toy",
+                "daily_goods",
+                "hygiene",
+                "character_goods",
+                "soft_serve",
+                "frappe",
+                "bakery",
+                "pizza",
+                "crane_prize"
               ]
             }
           }
@@ -143,6 +167,16 @@
     "register_queue_max_tiles": {
       "type": "integer",
       "minimum": 0
+    },
+    "staff_capacity": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Staff room only (#143): how many staff the store may employ with this room."
+    },
+    "min_store_width": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Staff room only (#143): the narrowest store, in tiles, this room can be placed in."
     }
   },
   "required": [
