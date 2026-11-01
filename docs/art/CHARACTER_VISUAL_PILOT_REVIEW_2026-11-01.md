@@ -21,6 +21,7 @@ This review covers the 48-image pilot. The remaining 286 candidates stay review-
 - Runtime event-panel spot checks: `build/character_pilot_event_roadworks_management_1280.png` shows the full-body `event_roadworks` pilot beside the event CG, and `build/character_pilot_event_quiet_management_1280.png` shows the `reaction_deadpan` bust-up in the same dedicated column.
 - Runtime map spot check: the `map_proposal_open` full-body pilot is visible in the area-map side panel at 1280x720 without covering the map controls.
 - Runtime day-end spot check: the normal and worried report routes select their separate full-body pilots; the focused scene test covers both switches.
+- Runtime warning spot check: `low_stock_notice` keeps `functional_low_stock` visible above an open management window; the focused scene test covers the warning route.
 - `runtime_approved`: `false`
 
 ## Candidate mapping

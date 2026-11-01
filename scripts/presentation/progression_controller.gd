@@ -64,7 +64,10 @@ var _pilot_cue_timer: Timer
 var _seq: int = 0
 var _milestone_defs: Array = []
 
-const PILOT_SCREEN_CUES := ["opening_checklist", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"]
+const PILOT_SCREEN_CUES := [
+	"opening_checklist", "low_stock_notice", "expiry_notice",
+	"staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"
+]
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
