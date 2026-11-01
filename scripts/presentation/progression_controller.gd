@@ -43,6 +43,7 @@ var _dismiss: Button
 var _heading: Label            # 目標達成！ while celebrating, hidden otherwise
 var _figure: TextureRect
 var _pilot_figure: TextureRect
+var _pilot_reaction: TextureRect
 var _figure_textures: Dictionary = {}   # mood -> Texture2D
 var _day_mood := "normal"      # her face for the day-end remark
 var _blocked_closed := false
@@ -268,6 +269,7 @@ func refresh_visual_pilot() -> void:
 	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
 	var enabled: bool = pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled()
 	var entry: Dictionary = {}
+	var reaction_entry: Dictionary = {}
 	if enabled:
 		if _pilot_cue_id != "" and pilot.has_method("cue_entry"):
 			entry = pilot.cue_entry(_pilot_cue_id)
@@ -275,15 +277,22 @@ func refresh_visual_pilot() -> void:
 			entry = pilot.day_end_entry(_day_mood)
 		else:
 			entry = pilot.stage_entry(_snap)
+			if pilot.has_method("reaction_entry"):
+				reaction_entry = pilot.reaction_entry(_snap)
 	var texture: Texture2D = load(String(entry.get("runtime_path", ""))) as Texture2D if not entry.is_empty() else null
+	var reaction_texture: Texture2D = load(String(reaction_entry.get("runtime_path", ""))) as Texture2D if not reaction_entry.is_empty() else null
 	var usable: bool = enabled and texture != null
-	_pilot_figure.visible = usable
+	var reaction_usable: bool = enabled and reaction_texture != null
+	_pilot_figure.visible = usable and not reaction_usable
 	_pilot_figure.texture = texture if usable else null
+	if _pilot_reaction != null:
+		_pilot_reaction.visible = reaction_usable
+		_pilot_reaction.texture = reaction_texture if reaction_usable else null
 	if _figure != null:
-		_figure.visible = not usable
+		_figure.visible = not usable and not reaction_usable
 	var chrome := get_node_or_null("../MockupChrome")
 	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):
-		chrome.set_pilot_assistant_visible(_stage.visible and usable)
+		chrome.set_pilot_assistant_visible(_stage.visible and (usable or reaction_usable))
 
 
 func mood() -> String:
@@ -486,6 +495,19 @@ func _build_stage() -> void:
 	pilot_figure.offset_bottom = -Layout.BOTTOM_HEIGHT
 	_stage.add_child(pilot_figure)
 	_pilot_figure = pilot_figure
+	var pilot_reaction := TextureRect.new()
+	pilot_reaction.name = "AssistantPilotReaction"
+	pilot_reaction.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	pilot_reaction.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	pilot_reaction.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pilot_reaction.visible = false
+	pilot_reaction.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	pilot_reaction.offset_left = 18
+	pilot_reaction.offset_right = 18 + 260
+	pilot_reaction.offset_top = -Layout.BOTTOM_HEIGHT - 260
+	pilot_reaction.offset_bottom = -Layout.BOTTOM_HEIGHT
+	_stage.add_child(pilot_reaction)
+	_pilot_reaction = pilot_reaction
 	_celebrate_timer = Timer.new()
 	_celebrate_timer.one_shot = true
 	_celebrate_timer.wait_time = CELEBRATE_SECONDS

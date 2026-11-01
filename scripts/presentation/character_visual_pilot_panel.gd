@@ -125,6 +125,19 @@ func stage_entry(snapshot: Dictionary) -> Dictionary:
 	return _find("fullbody_dynamic_201")
 
 
+## Returns a bust-up reaction for story cues that benefit from a close facial read.
+## The full-body stage remains available as a separate fallback/route; callers must
+## choose one display layer so the two character representations never stack.
+func reaction_entry(snapshot: Dictionary) -> Dictionary:
+	var story_cue := String(snapshot.get("story_cue", ""))
+	match story_cue:
+		"story_start":
+			return _find("reaction_discovery")
+		"story_queue_giveup", "story_staff_short":
+			return _find("reaction_pleading")
+	return {}
+
+
 func event_entry(event_id: String) -> Dictionary:
 	for entry in _entries:
 		if String(entry.get("kind", "")) == "event_image" and String(entry.get("trigger", "")) == event_id:

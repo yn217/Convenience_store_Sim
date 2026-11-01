@@ -212,15 +212,26 @@ func _run() -> void:
 				if guide._celebrate_timer != null:
 					guide._celebrate_timer.stop()
 				guide.request_pilot_cue(cue_id, {})
+	for a in OS.get_cmdline_user_args():   # --story-cue=story_start: replay a story presentation cue for visual QA
+		if a.begins_with("--story-cue="):
+			var story_cue := a.trim_prefix("--story-cue=")
+			var guide := main.get_node_or_null("ProgressionController")
+			if guide != null and guide.has_method("apply_snapshot"):
+				var snapshot: Dictionary = guide._snap.duplicate(true)
+				snapshot["story_cue"] = story_cue
+				guide.apply_snapshot(snapshot)
 	if OS.get_cmdline_user_args().has("--inspect-pilot"):
 		await process_frame
 		var guide := main.get_node_or_null("ProgressionController")
 		if guide != null:
 			var assistant_figure = guide.get("_pilot_figure")
 			var assistant_texture: Texture2D = assistant_figure.texture if assistant_figure != null else null
+			var assistant_reaction = guide.get("_pilot_reaction")
+			var assistant_reaction_texture: Texture2D = assistant_reaction.texture if assistant_reaction != null else null
 			var legacy_figure = guide.get("_figure")
 			var legacy_texture: Texture2D = legacy_figure.texture if legacy_figure != null else null
 			print("pilot_assistant cue=%s stage_visible=%s pilot_visible=%s pilot_texture=%s pilot_size=%s legacy_visible=%s legacy_texture=%s" % [guide.get("_pilot_cue_id"), guide.get("_stage").visible if guide.get("_stage") != null else false, assistant_figure.visible if assistant_figure != null else false, assistant_texture.resource_path if assistant_texture != null else "", assistant_texture.get_size() if assistant_texture != null else Vector2.ZERO, legacy_figure.visible if legacy_figure != null else false, legacy_texture.resource_path if legacy_texture != null else ""])
+			print("pilot_reaction visible=%s texture=%s size=%s" % [assistant_reaction.visible if assistant_reaction != null else false, assistant_reaction_texture.resource_path if assistant_reaction_texture != null else "", assistant_reaction_texture.get_size() if assistant_reaction_texture != null else Vector2.ZERO])
 			var pilot_panel := main.get_node_or_null("CharacterVisualPilotPanel")
 			var review_image = pilot_panel.get("_image") if pilot_panel != null else null
 			var review_texture: Texture2D = review_image.texture if review_image != null else null

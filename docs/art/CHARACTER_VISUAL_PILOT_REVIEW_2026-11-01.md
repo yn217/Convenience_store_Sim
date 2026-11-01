@@ -22,6 +22,7 @@ This review covers the 48-image pilot. The remaining 286 candidates stay review-
 - Runtime map spot check: the `map_proposal_open` full-body pilot is visible in the area-map side panel at 1280x720 without covering the map controls.
 - Runtime day-end spot check: the normal and worried report routes select their separate full-body pilots; the focused scene test covers both switches.
 - Runtime warning spot check: `low_stock_notice` keeps `functional_low_stock` visible above an open management window; the focused scene test covers the warning route.
+- Runtime story-reaction spot check: `story_start` shows `reaction_discovery` and `story_queue_giveup` shows `reaction_pleading` in a dedicated 260x260 layer. The full-body pilot layer is hidden while either bust-up is active, so the two representations do not stack.
 - `runtime_approved`: `false`
 
 ## Candidate mapping
@@ -81,6 +82,8 @@ This review covers the 48-image pilot. The remaining 286 candidates stay review-
 ## Runtime cue overlay
 
 The staff-management screen requests `staff_schedule_open`, the order and restock actions request `order_help` and `restock_help`, and successful save, hiring, and promotion commands request their corresponding functional cues. These cues temporarily keep the selected pilot figure visible above the management window; ordinary story lines continue to step aside while a management screen is open.
+
+Story reactions use a separate layer from full-body poses. For visual QA, `tools/capture_screen.gd` accepts `--story-cue=story_start` or `--story-cue=story_queue_giveup`; `--inspect-pilot` reports both the full-body and bust-up texture paths. The reaction layer is presentation-only and does not alter story or economy state.
 
 The pilot review UI exists only in a Godot debug build and defaults on there for local review. Release builds do not create the review controls, so entries with `runtime_approved:false` cannot appear in the normal runtime.
 

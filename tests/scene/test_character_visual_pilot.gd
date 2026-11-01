@@ -28,6 +28,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.ok(panel.has_method("is_pilot_enabled"), "pilot panel exposes its display toggle")
 	t.ok(panel.has_method("selected_entry"), "pilot panel exposes the selected runtime entry")
 	t.ok(panel.has_method("stage_entry"), "pilot panel exposes a full-body stage route")
+	t.ok(panel.has_method("reaction_entry"), "pilot panel exposes a separate bust-up reaction route")
 	t.ok(panel.has_method("event_entry"), "pilot panel exposes event-image routing")
 	t.eq(panel.selected_entry({"story_cue": "story_sold_out", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_sold_out", "stage consumers share pilot routing")
 	t.eq(panel.cue_entry("long_queue").get("id", ""), "functional_queue", "a long queue has a functional pilot pose")
@@ -52,8 +53,10 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.day_end_entry("worried").get("id", ""), "functional_day_end_review", "negative day-end uses the review pose")
 	t.eq(panel.day_end_entry("normal").get("id", ""), "functional_day_report", "normal day-end uses the business report pose")
 	t.eq(panel.stage_entry({"story_cue": "story_start", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "story start stage avoids a bust-up asset")
+	t.eq(panel.reaction_entry({"story_cue": "story_start", "gameplay_event": {}, "progression": {}}).get("id", ""), "reaction_discovery", "story start uses the discovery bust-up layer")
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("kind", ""), "functional_pose", "queue reaction stage uses a functional full-body asset")
 	t.eq(panel.stage_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_queue", "queue story uses the queue-specific pose")
+	t.eq(panel.reaction_entry({"story_cue": "story_queue_giveup", "gameplay_event": {}, "progression": {}}).get("id", ""), "reaction_pleading", "queue story uses the pleading bust-up layer")
 	t.eq(panel.stage_entry({"story_cue": "story_staff_short", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_staff_short", "staff shortage story uses the staff-specific pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_six_categories"]}}).get("id", ""), "functional_six_categories", "six-category achievement uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {"completed_milestone_ids": ["ms_ten_sales"]}}).get("id", ""), "functional_ten_sales", "ten-sales achievement uses its presentation pose")
@@ -78,6 +81,7 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	var panel := main.get_node("CharacterVisualPilotPanel")
 	t.ok(panel.is_pilot_enabled(), "the pilot toggle defaults on for visual review")
 	t.ok(guide._pilot_figure != null, "the assistant stage owns a pilot figure layer")
+	t.ok(guide._pilot_reaction != null, "the assistant stage owns a separate pilot reaction layer")
 	t.ok(guide._pilot_figure.texture is Texture2D, "the assistant stage loads a pilot texture")
 	var reaction_preview: TextureRect = panel._reaction_image
 	t.ok(reaction_preview != null, "bust-up review has a dedicated preview slot")
@@ -87,6 +91,15 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	panel._show_selected(panel.stage_entry(guide._snap))
 	var expected: Dictionary = panel.stage_entry(guide._snap)
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, expected.get("runtime_path", ""), "the stage texture follows the shared pilot route")
+	guide.apply_snapshot({"story_cue": "story_start", "progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "active_daily_challenge_id": null, "completed_milestone_ids": []}})
+	await tree.process_frame
+	t.ok(guide._pilot_reaction.visible, "story start shows the discovery bust-up reaction")
+	t.eq((guide._pilot_reaction.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_discovery.png", "story start loads the discovery reaction texture")
+	t.ok(not guide._pilot_figure.visible, "story start does not stack the full-body pilot with the reaction")
+	guide.apply_snapshot({"story_cue": "story_queue_giveup", "progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "active_daily_challenge_id": null, "completed_milestone_ids": []}})
+	await tree.process_frame
+	t.ok(guide._pilot_reaction.visible, "queue give-up shows the pleading bust-up reaction")
+	t.eq((guide._pilot_reaction.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/reaction_pleading.png", "queue give-up loads the pleading reaction texture")
 	guide.say_day_end("通常決算の確認", "normal")
 	await tree.process_frame
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_report.png", "normal day-end uses the report pilot in the runtime stage")
