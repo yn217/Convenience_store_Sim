@@ -202,8 +202,23 @@ func _run() -> void:
 		if a.begins_with("--map-zoom="):   # --map-zoom=1.8: zoomed about the centre of the map view
 			var mv: MapView = main.get_node("BusinessController")._map_view
 			mv.zoom_at(mv.size * 0.5, float(a.trim_prefix("--map-zoom=")))
+	for a in OS.get_cmdline_user_args():   # --pilot-cue=low_stock_notice: replay one presentation-side pilot cue for visual QA
+		if a.begins_with("--pilot-cue="):
+			var cue_id := a.trim_prefix("--pilot-cue=")
+			var guide := main.get_node_or_null("ProgressionController")
+			if guide != null and guide.has_method("request_pilot_cue"):
+				# Keep the capture focused on the requested cue, not the startup achievement toast.
+				guide._celebrations.clear()
+				if guide._celebrate_timer != null:
+					guide._celebrate_timer.stop()
+				guide.request_pilot_cue(cue_id, {})
 	if OS.get_cmdline_user_args().has("--inspect-pilot"):
 		await process_frame
+		var guide := main.get_node_or_null("ProgressionController")
+		if guide != null:
+			var assistant_figure = guide.get("_pilot_figure")
+			var assistant_texture: Texture2D = assistant_figure.texture if assistant_figure != null else null
+			print("pilot_assistant cue=%s stage_visible=%s figure_visible=%s texture=%s texture_size=%s" % [guide.get("_pilot_cue_id"), guide.get("_stage").visible if guide.get("_stage") != null else false, assistant_figure.visible if assistant_figure != null else false, assistant_texture.resource_path if assistant_texture != null else "", assistant_texture.get_size() if assistant_texture != null else Vector2.ZERO])
 		var event_panel := main.get_node_or_null("EventController")
 		var event_picture = event_panel.get("_pilot_picture") if event_panel != null else null
 		var reaction_picture = event_panel.get("_pilot_reaction_picture") if event_panel != null else null
