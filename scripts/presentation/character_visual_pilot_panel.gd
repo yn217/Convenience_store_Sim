@@ -82,6 +82,11 @@ func selected_entry(snapshot: Dictionary) -> Dictionary:
 
 func stage_entry(snapshot: Dictionary) -> Dictionary:
 	var entry := _select_entry(snapshot)
+	var story_cue := String(snapshot.get("story_cue", ""))
+	if story_cue == "story_queue_giveup":
+		return _find("functional_queue")
+	if story_cue == "story_staff_short":
+		return _find("functional_staff_short")
 	if String(entry.get("kind", "")) != "bustup_reaction":
 		return entry
 	match String(entry.get("id", "")):
