@@ -27,6 +27,14 @@ Mainの店長アシスタント枠で配置を確認する場合は、`--pilot-c
 Godot_v4.7.2-stable_win64_console.exe --path . --resolution 1280x720 --script res://tools/capture_screen.gd -- --pilot-candidate=additional_001 --pilot-cue=opening_checklist --freeze --inspect-pilot build/pilot_candidate_additional_001_1280.png
 ```
 
+候補の背景除去を比較する場合は、ComfyUIのBiRefNetレビュー処理を指定候補だけに実行できる。出力は`assets/review/derived_alpha/`に保存され、通常ランタイムには接続されない。
+
+```powershell
+.\tools\assets\apply_birefnet_review_candidate.ps1 -CandidateId additional_001
+```
+
+2026-11-03の試験では`additional_001`を`assets/review/derived_alpha/additional_001.png`へ出力し、`RGBA 1024x1536 / alpha=(0,255)`を確認した。元の候補PNGは変更していない。透過派生を`--pilot-candidate=additional_001`でMainに表示した実画面は`build/pilot_candidate_additional_001_alpha_1280.png`で、白背景は除去されたが、これはまだレビュー専用である。
+
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
 

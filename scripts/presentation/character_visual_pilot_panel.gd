@@ -124,11 +124,14 @@ func set_review_candidate(asset_id: String) -> void:
 		var source_path := CANDIDATE_ROOT + relative_path
 		if relative_path == "" or not ResourceLoader.exists(source_path):
 			return
+		var review_alpha_path := "res://assets/review/derived_alpha/%s.png" % asset_id
+		var display_path := review_alpha_path if ResourceLoader.exists(review_alpha_path) else source_path
 		_review_candidate = {
 			"id": asset_id,
 			"asset_id": asset_id,
 			"kind": kind,
-			"runtime_path": source_path,
+			"runtime_path": display_path,
+			"source_path": source_path,
 			"trigger": String(raw_entry.get("trigger_id", "")),
 			"review_only": true,
 		}
