@@ -1,0 +1,93 @@
+{
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v13",
+  "review_only": true,
+  "runtime_approved": false,
+  "status": "review_candidate_projection_alpha_and_brand_text_review",
+  "generated_date": "2026-11-01",
+  "production_method": "Codex built-in ImageGen with repository fixture reference",
+  "source_file": "source_original.png",
+  "dimensions_px": [
+    1300,
+    1209
+  ],
+  "mode": "RGBA",
+  "sha256": "e78e3e4ab814296ed0b155a9e770a863308073c593ab2cf9822396cfdd2f8dc9",
+  "alpha_source": {
+    "threshold_gt_8_bbox_xyxy": [
+      135,
+      188,
+      1168,
+      1203
+    ],
+    "threshold_gt_8_margins_percent_ltrb": [
+      10.38,
+      15.55,
+      10.15,
+      0.5
+    ],
+    "threshold_gt_1_bbox_xyxy": [
+      0,
+      0,
+      1286,
+      1209
+    ],
+    "threshold_gt_128_bbox_xyxy": [
+      136,
+      189,
+      1165,
+      1203
+    ],
+    "edge_alpha_max_top_bottom_left_right": [
+      1,
+      1,
+      1,
+      0
+    ],
+    "minimum_required_margin_percent": 12,
+    "pass": false
+  },
+  "padded_review_image": {
+    "file": "sprite_padded_review.png",
+    "dimensions_px": [
+      1800,
+      1800
+    ],
+    "operation": "center unchanged source image on transparent canvas without resampling",
+    "file_size_bytes": 1815583,
+    "sha256": "bad0c1ba774fb6fc42fa3989dc99d7224da9fcda7b98fbdf69e127f3ea9ef711",
+    "threshold_gt_8_margins_percent_ltrb": [
+      21.39,
+      26.83,
+      21.22,
+      16.78
+    ],
+    "margin_pass": true
+  },
+  "preview": {
+    "file": "preview_checkerboard.jpg",
+    "dimensions_px": [
+      1800,
+      1800
+    ],
+    "file_size_bytes": 448804,
+    "sha256": "5fccaf9135fdf9c8152818bce18c951e019f87c1666f0fae5141f774222e7871"
+  },
+  "visual_qa": {
+    "integrated_fixture_and_products": "pass",
+    "four_sale_rows": "pass",
+    "continuous_front_facing_merchandise": "pass",
+    "bare_shelf_exposure": "improved_but_not_fully_checked",
+    "detached_cards": "not_observed",
+    "thick_cuboid_products": "not_observed",
+    "fixture_camera_matches_reference": "broadly_similar",
+    "strict_iso2x_v1_projection": "fail_visual_long_axis_too_shallow",
+    "approx_long_axis_slope": "about_0.25_by_visual_estimate; not calibrated",
+    "raw_alpha_margin": "fail_bottom_edge",
+    "padded_margin": "canvas_only_pass",
+    "brand_names_and_generated_text": "review_required",
+    "dimensions_footprint_anchor": "not_verified",
+    "godot_display": "not_checked",
+    "independent_review": "pending"
+  },
+  "file_size_bytes": 1831662
+}
