@@ -4,12 +4,12 @@ Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
 
 ## Scope
 
-This review covers the 39-image pilot. The remaining 295 candidates stay review-only and are not loaded by the pilot registry.
+This review covers the 41-image pilot. The remaining 293 candidates stay review-only and are not loaded by the pilot registry.
 
 ## Automated checks
 
-- Registry entries: 39
-- Runtime pilot PNGs: 39
+- Registry entries: 41
+- Runtime pilot PNGs: 41
 - Duplicate logical IDs: 0
 - Missing runtime paths: 0
 - Title candidate: 1344x768
@@ -48,6 +48,8 @@ This review covers the 39-image pilot. The remaining 295 candidates stay review-
 | `functional_access_blocked` | functional pose | SCR-11 / `access_blocked` | review pending; warning cue uses a temporary pose |
 | `functional_empty_handed` | functional pose | SCR-11 / `empty_handed` | review pending; customer departure reaction |
 | `functional_staff_short` | functional pose | SCR-06 / `story_staff_short` | review pending; staff shortage story reaction |
+| `functional_save_complete` | functional pose | SCR-20 / `save_complete` | review pending; save confirmation pose |
+| `functional_staff_hiring` | functional pose | SCR-06 / `staff_hired` | review pending; hiring confirmation pose |
 | `functional_three_sales` | functional pose | SCR-18 / `challenge_sales_3` | review pending; daily challenge presentation |
 | `functional_ten_sales` | functional pose | SCR-18 / `ms_ten_sales` | review pending; milestone presentation |
 | `functional_fifty_visitors` | functional pose | SCR-18 / `ms_fifty_visitors` | review pending; milestone presentation |

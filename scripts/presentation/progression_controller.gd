@@ -119,8 +119,14 @@ func _connect_pilot_cue() -> void:
 			player.connect("pilot_cue_requested", callback)
 
 
+func request_pilot_cue(cue_id: String, payload: Dictionary = {}) -> void:
+	## Lets sibling UI controllers announce a successful presentation event without
+	## coupling them to CuePlayer's gameplay notification signal.
+	_on_pilot_cue(cue_id, payload)
+
+
 func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
-	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty"].has(cue_id):
+	if not ["low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "save_complete", "staff_hired"].has(cue_id):
 		return
 	_pilot_cue_id = cue_id
 	_pilot_cue_payload = payload.duplicate()

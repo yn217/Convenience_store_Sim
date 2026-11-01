@@ -52,6 +52,10 @@ func _slot_id() -> String:
 func save_slot() -> CommandResult:
 	var r := _send({"kind": &"SAVE_GAME", "slot_id": _slot_id()})
 	_status.text = "保存しました（%s）" % _slot.get_item_text(_slot.selected) if r.ok else CommandMessages.text(r.code, r.message_key)
+	if r.ok:
+		var guide := get_node_or_null("../ProgressionController")
+		if guide != null and guide.has_method("request_pilot_cue"):
+			guide.request_pilot_cue("save_complete", {"slot_id": _slot_id()})
 	return r
 
 

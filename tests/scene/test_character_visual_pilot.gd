@@ -5,7 +5,7 @@ extends RefCounted
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
-	t.eq(panel._entries.size(), 39, "the pilot registry exposes all 39 selected visuals")
+	t.eq(panel._entries.size(), 41, "the pilot registry exposes all 41 selected visuals")
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
@@ -37,6 +37,8 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.cue_entry("rival_opened").get("id", ""), "functional_rival_store", "rival opening reuses the rival pose")
 	t.eq(panel.cue_entry("capsule_rare").get("id", ""), "functional_capsule_rare", "capsule rare uses its functional pilot pose")
 	t.eq(panel.cue_entry("capsule_empty").get("id", ""), "functional_capsule_rare", "capsule empty reuses the capsule pose")
+	t.eq(panel.cue_entry("save_complete").get("id", ""), "functional_save_complete", "save completion uses its functional pilot pose")
+	t.eq(panel.cue_entry("staff_hired").get("id", ""), "functional_staff_hiring", "staff hiring uses its functional pilot pose")
 	t.eq(panel.cue_entry("business_started").get("id", ""), "functional_business_opening", "opening cut-in has a functional pilot pose")
 	t.eq(panel.stage_entry({"story_cue": "story_first_profit", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_first_profit", "first-profit story uses its presentation pose")
 	t.eq(panel.day_end_entry("worried").get("id", ""), "functional_day_end_review", "negative day-end uses the review pose")
@@ -98,6 +100,12 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	player.pilot_cue_requested.emit("empty_handed", {})
 	await tree.process_frame
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_empty_handed.png", "an empty-handed exit selects the exit pose")
+	pc.request_pilot_cue("save_complete", {})
+	await tree.process_frame
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_save_complete.png", "save completion selects the save pose")
+	pc.request_pilot_cue("staff_hired", {})
+	await tree.process_frame
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_staff_hiring.png", "staff hiring selects the hiring pose")
 	pc._pilot_cue_timer.stop()
 	pc._clear_pilot_cue()
 	main.queue_free()

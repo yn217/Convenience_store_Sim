@@ -141,6 +141,10 @@ func hire_candidate(candidate_id: String) -> CommandResult:
 	_seq += 1
 	var r: CommandResult = _app.run_command({"command_id": "ui_hire_%d_%d" % [Time.get_ticks_usec(), _seq], "kind": &"HIRE_STAFF", "candidate_id": candidate_id})
 	_status.text = "採用しました。" if r.ok else "採用できません（%s）" % ERRORS.get(String(r.message_key), String(r.message_key))
+	if r.ok:
+		var guide := get_node_or_null("../ProgressionController")
+		if guide != null and guide.has_method("request_pilot_cue"):
+			guide.request_pilot_cue("staff_hired", {"candidate_id": candidate_id})
 	return r
 
 
