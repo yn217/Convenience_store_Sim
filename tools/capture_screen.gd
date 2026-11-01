@@ -218,7 +218,7 @@ func _run() -> void:
 		if a.begins_with("--story-cue="):
 			var story_cue := a.trim_prefix("--story-cue=")
 			var guide := main.get_node_or_null("ProgressionController")
-			if guide != null and guide.has_method("apply_snapshot"):
+			if guide != null and guide.has_method("set_capture_story_cue"):
 				if bool(guide.get("_opening_cutin_active")) and guide.has_method("_finish_opening_cutin"):
 					guide._finish_opening_cutin()
 				# Keep the reaction capture independent from the startup achievement toast.
@@ -227,9 +227,7 @@ func _run() -> void:
 					guide._celebrate_timer.stop()
 				if guide.has_method("_refresh_stage"):
 					guide._refresh_stage()
-				var snapshot: Dictionary = guide._snap.duplicate(true)
-				snapshot["story_cue"] = story_cue
-				guide.apply_snapshot(snapshot)
+				guide.set_capture_story_cue(story_cue)
 	if OS.get_cmdline_user_args().has("--inspect-pilot"):
 		await process_frame
 		var guide := main.get_node_or_null("ProgressionController")
@@ -240,7 +238,7 @@ func _run() -> void:
 			var assistant_reaction_texture: Texture2D = assistant_reaction.texture if assistant_reaction != null else null
 			var legacy_figure = guide.get("_figure")
 			var legacy_texture: Texture2D = legacy_figure.texture if legacy_figure != null else null
-			print("pilot_assistant cue=%s stage_visible=%s pilot_visible=%s pilot_texture=%s pilot_size=%s legacy_visible=%s legacy_texture=%s" % [guide.get("_pilot_cue_id"), guide.get("_stage").visible if guide.get("_stage") != null else false, assistant_figure.visible if assistant_figure != null else false, assistant_texture.resource_path if assistant_texture != null else "", assistant_texture.get_size() if assistant_texture != null else Vector2.ZERO, legacy_figure.visible if legacy_figure != null else false, legacy_texture.resource_path if legacy_texture != null else ""])
+			print("pilot_assistant cue=%s story_cue=%s stage_visible=%s pilot_visible=%s pilot_texture=%s pilot_size=%s legacy_visible=%s legacy_texture=%s" % [guide.get("_pilot_cue_id"), guide.get("_snap").get("story_cue", "") if guide.get("_snap") is Dictionary else "", guide.get("_stage").visible if guide.get("_stage") != null else false, assistant_figure.visible if assistant_figure != null else false, assistant_texture.resource_path if assistant_texture != null else "", assistant_texture.get_size() if assistant_texture != null else Vector2.ZERO, legacy_figure.visible if legacy_figure != null else false, legacy_texture.resource_path if legacy_texture != null else ""])
 			print("pilot_reaction visible=%s texture=%s size=%s" % [assistant_reaction.visible if assistant_reaction != null else false, assistant_reaction_texture.resource_path if assistant_reaction_texture != null else "", assistant_reaction_texture.get_size() if assistant_reaction_texture != null else Vector2.ZERO])
 			var pilot_panel := main.get_node_or_null("CharacterVisualPilotPanel")
 			var review_image = pilot_panel.get("_image") if pilot_panel != null else null
@@ -304,13 +302,11 @@ func _run() -> void:
 		for a in OS.get_cmdline_user_args():
 			if a.begins_with("--story-cue="):
 				var story_guide := main.get_node_or_null("ProgressionController")
-				if story_guide != null and story_guide.has_method("apply_snapshot"):
+				if story_guide != null and story_guide.has_method("set_capture_story_cue"):
 					story_guide._celebrations.clear()
 					if story_guide._celebrate_timer != null:
 						story_guide._celebrate_timer.stop()
-					var story_snapshot: Dictionary = story_guide._snap.duplicate(true)
-					story_snapshot["story_cue"] = a.trim_prefix("--story-cue=")
-					story_guide.apply_snapshot(story_snapshot)
+					story_guide.set_capture_story_cue(a.trim_prefix("--story-cue="))
 	var review_world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 	if OS.get_cmdline_user_args().has("--clear-hover"):
 		review_world.set_hover_screen(Vector2(-1000, -1000))

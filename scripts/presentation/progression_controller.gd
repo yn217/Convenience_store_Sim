@@ -66,6 +66,7 @@ var _snap: Dictionary = {}
 var _pilot_cue_id := ""
 var _pilot_cue_payload: Dictionary = {}
 var _pilot_cue_timer: Timer
+var _capture_story_cue_override := ""   # visual-QA capture only; never written to GameState
 var _opening_cutin_active := false
 var _seq: int = 0
 var _milestone_defs: Array = []
@@ -161,6 +162,9 @@ func clear_pilot_cue() -> void:
 
 
 func apply_snapshot(snap: Dictionary) -> void:
+	if _capture_story_cue_override != "":
+		snap = snap.duplicate(true)
+		snap["story_cue"] = _capture_story_cue_override
 	var state := String(snap.get("business_state", ""))
 	if _last_business == String(GameState.SETUP) and state == String(GameState.OPEN):
 		show_opening()   # the player just opened the store (never on a load: the first snapshot only sets _last_business)
@@ -183,6 +187,16 @@ func apply_snapshot(snap: Dictionary) -> void:
 	for entry in snap.get("milestone_progress", []):
 		lines.append(ProgressionText.progress_line(entry))
 	_achievements.text = "実績一覧\n" + "\n".join(lines) if not lines.is_empty() else ""
+
+
+func set_capture_story_cue(cue: String) -> void:
+	## Capture-only presentation override. It keeps a requested story image visible while the real state continues
+	## to publish snapshots during the deterministic screenshot setup.
+	_capture_story_cue_override = cue
+	if not _snap.is_empty():
+		var snapshot := _snap.duplicate(true)
+		snapshot["story_cue"] = cue
+		apply_snapshot(snapshot)
 
 
 func _build_mission_row() -> Dictionary:

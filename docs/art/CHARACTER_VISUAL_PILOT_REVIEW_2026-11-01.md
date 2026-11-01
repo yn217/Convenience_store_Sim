@@ -4,12 +4,12 @@ Issue: [#230](https://github.com/yn217/Convenience_store_Sim/issues/230)
 
 ## Scope
 
-This review covers the 49-image pilot. The remaining 285 candidates stay review-only and are not loaded by the pilot registry.
+This review covers the 50-image pilot. The remaining 284 candidates stay review-only and are not loaded by the pilot registry.
 
 ## Automated checks
 
-- Registry entries: 49
-- Runtime pilot PNGs: 49
+- Registry entries: 50
+- Runtime pilot PNGs: 50
 - Duplicate logical IDs: 0
 - Missing runtime paths: 0
 - Title candidate: 1344x768
@@ -134,7 +134,7 @@ The story reaction capture `build/character_pilot_story_queue_clean_latest.png` 
 
 The 47 PNGs under `assets/runtime/character_pilot/derived_alpha` were reviewed together on a dark matte in `build/character_pilot_alpha_contact.png`. At contact-sheet scale, the full-body set keeps the white blouse, apron silhouette, trousers, and shoes, with no gross white-background island or large surrounding residue visible. This is a coarse alpha/silhouette gate, not per-image hand or edge approval.
 
-The three original bust-up reactions remain held because generated bubbles/symbols are still present in their source-derived pixels. `reaction_milestone_calm` is a fourth pilot route derived from candidate 043; BiRefNet removed its disconnected generated bubble in the derived PNG, and it is limited to `story_first_profit`. Godot's independent symbol layer remains authoritative, so this candidate is still `runtime_approved:false` pending detailed hand/edge and rights review.
+The three original bust-up reactions remain held because generated bubbles/symbols are still present in their source-derived pixels. `reaction_milestone_calm` is a fourth pilot route derived from candidate 043, and `reaction_first_sale_joy` is a fifth route derived from candidate 031 after its proposed trigger was corrected from an opening failure to the actual first-sale celebration shown in the image. BiRefNet removed their disconnected generated effects, and the routes are limited to `story_first_profit` and `story_first_sale`. Godot's independent symbol layer remains authoritative, so both candidates are still `runtime_approved:false` pending detailed hand/edge and rights review.
 
 ### Individual functional-pose spot checks
 
