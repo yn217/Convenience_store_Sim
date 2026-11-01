@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "asset_id": "warmer_oden_integrated_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "One small Japanese convenience-store oden warmer, warmer_oden, 1x1 tile, nominal 0.92 x 0.92 x 1.10m, access edge N.",
+  "actual_subject": "One compact stainless and cream cabinet oden warmer with glass guard and six ingredient compartments.",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "warmer_oden",
+  "source": {
+    "path": "assets/review/imagegen_candidates/20261101/warmer_oden_integrated_FULL_v1/source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1849895,
+    "sha256": "2be376d096b41549f91e30cbb1494e354bb3a4243993617f5c6800ea82a41859",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "assets/review/imagegen_candidates/20261101/warmer_oden_integrated_FULL_v1/source_original.png",
+      "byte_size": 1849895,
+      "sha256": "2be376d096b41549f91e30cbb1494e354bb3a4243993617f5c6800ea82a41859",
+      "git_blob_sha": "ad1ffaf5778f5ca56eef4fcbcd02ef25cbb67537",
+      "github_uploaded": false
+    },
+    {
+      "role": "sprite_fullres",
+      "path": "assets/review/imagegen_candidates/20261101/warmer_oden_integrated_FULL_v1/sprite_padded_review.png",
+      "byte_size": 1755411,
+      "sha256": "9ae12c322566ca041abc3ecf12e4f208d5dd60f03533c931adf66f14a2af8c13",
+      "git_blob_sha": "b80d841519b6699c799712f0bf02e33f0b1c097c",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "assets/review/imagegen_candidates/20261101/warmer_oden_integrated_FULL_v1/preview_checkerboard.jpg",
+      "byte_size": 322373,
+      "sha256": "5fee1b7b006c6154e8ee9155efda540cd3ccf42cb7b27abbc0240594c9a9ca6d",
+      "git_blob_sha": "a6ac104d0580883a04f18eba18fa760a56ebe7bd",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "N",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      1
+    ],
+    "dimensions_m": [
+      0.92,
+      0.92,
+      1.1
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "pass",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "fail",
+    "state_sync": "not_checked",
+    "godot_runtime": "blocked",
+    "human_visual": "pass",
+    "notes": [
+      "One compact oden warmer with glass guard and six visible ingredient bays; alpha>8 bbox (65, 71, 1078, 1336) on 1145x1374; L/T/R/B margins px=[65, 71, 67, 38], fractions=[0.0568, 0.0517, 0.0585, 0.0277].",
+      "Content reads as heated oden fixture; ingredient bays and metal/glass structure are visible.",
+      "Projection is visually plausible but not calibrated to iso2x_v1. No measured world-axis control points, screen error, exact footprint, dimensions or ground anchor; treat as unverified.",
+      "MVP nominal contract: warmer_oden, 1x1 tile, 0.92x0.92x1.10m, access N. Fit not verified.",
+      "Transparent margin gate: FAIL at alpha>8.",
+      "No Godot runtime/display, access/occlusion or state QA; runtime_approved:false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

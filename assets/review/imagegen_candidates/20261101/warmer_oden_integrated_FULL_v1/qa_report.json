@@ -1,0 +1,49 @@
+{
+  "source_size_px": [
+    1145,
+    1374
+  ],
+  "source_mode": "RGBA",
+  "source_alpha_extrema": [
+    0,
+    255
+  ],
+  "alpha_threshold": 8,
+  "alpha_bbox_xyxy": [
+    65,
+    71,
+    1078,
+    1336
+  ],
+  "margins_px_ltrb": [
+    65,
+    71,
+    67,
+    38
+  ],
+  "margin_fraction_ltrb": [
+    0.0568,
+    0.0517,
+    0.0585,
+    0.0277
+  ],
+  "transparent_review_padding": {
+    "canvas_px": [
+      1630,
+      1630
+    ],
+    "offset_px": [
+      242,
+      128
+    ],
+    "resampled": false
+  },
+  "visual_qa": {
+    "ingredient_bays": 6,
+    "projection": "unverified; no measured landmarks",
+    "geometry": "nominal fixture dimensions unverified",
+    "godot_checked": false,
+    "runtime_approved": false
+  },
+  "source_sha256": "2be376d096b41549f91e30cbb1494e354bb3a4243993617f5c6800ea82a41859"
+}
