@@ -16,7 +16,12 @@ These PNGs are review-stage concept candidates generated in ComfyUI. They are no
 - `new_event_cg_1344x768/`: ten new event CG candidates for promotion, seasonal campaigns, store operations, and regional events (Issues #30/#32/#137/#140); the lost-customer scene uses one background customer while keeping a single Koharu Rikka.
 - `character_sprites_1024x1536/`: a double-odango character sprite set: one base standing image, twelve pose candidates, four framing revisions, and three hand-quality comparison candidates. These remain solid-background review PNGs; transparent RGBA extraction is a separate production step.
 - `character_sprites_1024x1536/additional_50_poses/`: fifty additional readable standing-pose candidates using the same double-odango, white-background, full-body setup. The pose expansion was generated as review material; hand-specific cleanup remains selective.
-- `character_sprites_1024x1536/200set_pilot/`: a 21-image quality pilot for the four proposed 50-pose categories: seven service, eight emotion, five product, and one Live2D/front-facing pose. The remaining 179 prompts are not generated yet.
+- `character_sprites_1024x1536/additional_201_250_poses/`: fifty additional pose candidates (No.201-250) covering dynamic standing, cute gestures, daily store work, management reactions, and presentation poses.
+- `character_sprites_1024x1536/200set_pilot/`: a 21-image quality pilot for the four proposed 50-pose categories: seven service, eight emotion, five product, and one Live2D/front-facing pose.
+- `character_sprites_1024x1536/200set_remaining/`: the remaining 179 candidates from the four-category 200-pose set, generated after the pilot review.
+- `character_sprites_1024x1536/functional_50_poses/`: fifty function-linked assistant poses for tutorial, daily events, store trouble, results, hiring, fatigue, promotion, and expansion UI assignments.
+- `character_reactions_1024x1024/`: fifty bust-up reaction sprites with varied eye shapes and manga-style reaction symbols; exact punctuation and symbols should be overlaid in Godot when needed.
+- `title_screen_1344x768/`: five daytime title-screen composition candidates, including storefront, roadside, interior, elevated-storefront, and original wide compositions.
 - `assistant/`: Issue #32 manager-assistant expression references at `512x512`; display target is approximately `256-300px` in the 340px inspector panel.
 - `event_icons/`: Issue #31 daily-event POP/HUD icon references at `512x512`; display target is approximately `64-96px`.
 - `vfx_icons/`: Issue #30 presentation/VFX icon references at `512x512`; display target is approximately `64-128px`.
@@ -49,3 +54,13 @@ The character-sprite pass uses `1024x1536`, fixes both upper-side hair buns with
 The additional 50-pose batch uses the same `1024x1536` setup with simple readable poses, no dramatic foreshortening, and Seeds `2602601-2602650`.
 
 The 200-pose pilot uses Seeds `2602701-2602721`. Product images are shape references; the onigiri and other package graphics may need separate product assets or compositing for production consistency.
+
+The additional No.201-250 pose batch uses `1024x1536`, Seeds `2602801-2602850`, and the same two LoRAs at `0.8`.
+
+The remaining 179 images from the 200-pose set use `1024x1536`, Seeds `2602901-2603079`, and preserve the four-category prompt split after excluding the 21-image pilot.
+
+The function-linked 50-pose set uses `1024x1536`, Seeds `2603101-2603150`, and maps the recommended first-pass assets to tutorial, daily-event, store-operation, result, and expansion use cases.
+
+The bust-up reaction set uses `1024x1024`, Seeds `2603301-2603350`, and deliberately separates the character from one nearby manga-style symbol or bubble. Generated punctuation is review-stage only; production symbols should remain Godot-owned overlays.
+
+The title-screen candidates use `1344x768`, Seeds `2603201-2603205`, and keep the ordinary sunny Japanese neighborhood convenience-store direction without logos, readable signage, title text, or menu UI.
