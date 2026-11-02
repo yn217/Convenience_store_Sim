@@ -1,0 +1,27 @@
+{
+  "asset_id": "eat_in_table_4seat_iso2x_v1",
+  "runtime_approved": false,
+  "review_verdict": "REVIEW_ONLY / NOT_APPROVED_FOR_RUNTIME",
+  "source_sha256": "f56420e7615dc9ccae8253f0ecd6018c1b6de444e66ce42eedd387bd6be56582",
+  "content": "PASS — exactly four distinct chairs, two on each long side; two paper cups and one napkin holder are present.",
+  "style": "FAIL — glossy wood, strong specular highlights, and product-render shading do not match the soft painted game reference.",
+  "alpha": "FAIL — faint background haze/fringe extends close to all edges at alpha>=1 (L/T/R/B 2.15/4.79/1.82/2.54%); alpha>=8 top margin 11.82%, slightly below the 12% minimum.",
+  "projection": "PARTIAL — visually near the requested isometric orientation, but exact projection, camera elevation, axis direction, and runtime alignment are not calibrated.",
+  "dimensions_m": [
+    1.84,
+    0.92,
+    0.75
+  ],
+  "footprint_tiles": [
+    2,
+    1
+  ],
+  "access_edges": [
+    "N",
+    "S"
+  ],
+  "seat_capacity": 4,
+  "anchor_px": null,
+  "game_zoom_review": "NOT RUN — no Godot/Renderer/runtime changes",
+  "notes": "The four-seat count is visually correct. Validate the full chair/collision footprint and grid-aligned projection before considering use; do not force-fit via nonuniform scaling."
+}

@@ -1,0 +1,132 @@
+{
+  "schema_version": "imagegen_candidate_v1",
+  "asset_id": "eat_in_table_4seat_iso2x_v1",
+  "asset_class": "integrated_fixture_with_seating",
+  "requested_subject": "Runtime eat_in_table; elongated 2x1 tile, 1.84x0.92x0.75m, exactly four customer seats, north/south access",
+  "actual_subject": "Rectangular table with exactly four chairs (two along each long side), two cups, and one napkin holder",
+  "review_only": true,
+  "runtime_approved": false,
+  "production_method": "Codex built-in ImageGen; new image; style reference C:/Users/yuuna/Downloads/image-1792819026698.webp",
+  "prompt_file": "prompt.txt",
+  "source": {
+    "file": "source_original.png",
+    "dimensions_px": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA",
+    "bytes": 1375126,
+    "sha256": "f56420e7615dc9ccae8253f0ecd6018c1b6de444e66ce42eedd387bd6be56582"
+  },
+  "fixture_target": {
+    "type_id": "eat_in_table",
+    "visual_id": "eat_in_table_a",
+    "footprint_tiles": [
+      2,
+      1
+    ],
+    "dimensions_m": [
+      1.84,
+      0.92,
+      0.75
+    ],
+    "access_edges": [
+      "N",
+      "S"
+    ],
+    "seat_capacity": 4
+  },
+  "alpha": {
+    "extrema": [
+      0,
+      254
+    ],
+    "fully_transparent_percent": 77.44,
+    "low_alpha_1_to_7_percent": 1.29,
+    "measurements": [
+      {
+        "threshold": 1,
+        "bbox_xyxy": [
+          33,
+          49,
+          1508,
+          998
+        ],
+        "margins_percent_ltrb": [
+          2.15,
+          4.79,
+          1.82,
+          2.54
+        ],
+        "coverage_percent": 22.56
+      },
+      {
+        "threshold": 8,
+        "bbox_xyxy": [
+          363,
+          121,
+          1179,
+          889
+        ],
+        "margins_percent_ltrb": [
+          23.63,
+          11.82,
+          23.24,
+          13.18
+        ],
+        "coverage_percent": 21.27
+      },
+      {
+        "threshold": 128,
+        "bbox_xyxy": [
+          364,
+          122,
+          1178,
+          889
+        ],
+        "margins_percent_ltrb": [
+          23.7,
+          11.91,
+          23.31,
+          13.18
+        ],
+        "coverage_percent": 20.92
+      },
+      {
+        "threshold": 250,
+        "bbox_xyxy": [
+          365,
+          125,
+          1176,
+          887
+        ],
+        "margins_percent_ltrb": [
+          23.76,
+          12.21,
+          23.44,
+          13.38
+        ],
+        "coverage_percent": 19.96
+      }
+    ]
+  },
+  "projection": {
+    "target": "iso2x_v1; world axes project at screen slopes ±0.5; long 2-tile table axis along +X",
+    "status": "VISUAL_ESTIMATE_ONLY",
+    "visual_estimate": "Table top appears near an isometric diamond, with its long axis descending to screen-right and the short axis rising to screen-right. This is only visual inspection; no control-point fit or game screenshot confirms the exact ±0.5 slopes or direction.",
+    "godot_verified": false
+  },
+  "quality": {
+    "content": "PASS — exactly four distinct chairs, two on each long side; two paper cups and one napkin holder are present.",
+    "composition": "PARTIAL — all parts read as one table fixture, but chair backs/legs extend beyond the tabletop and the full 2x1 placement footprint needs an overlay check.",
+    "style": "FAIL — glossy wood, strong specular highlights, and product-render shading do not match the soft painted game reference.",
+    "alpha": "FAIL — faint background haze/fringe extends close to all edges at alpha>=1 (L/T/R/B 2.15/4.79/1.82/2.54%); alpha>=8 top margin 11.82%, slightly below the 12% minimum.",
+    "projection": "PARTIAL — visually near the requested isometric orientation, but exact projection, camera elevation, axis direction, and runtime alignment are not calibrated.",
+    "dimensions_anchor": "UNVERIFIED — target dimensions recorded; object scale, full chair footprint, ground pivot, and access edges have not been checked in Godot."
+  },
+  "limitations": [
+    "Review-only candidate, not for runtime.",
+    "No Godot, Renderer, or runtime changes were made.",
+    "Do not crop/scale/stretch to conceal projection or footprint differences."
+  ]
+}
