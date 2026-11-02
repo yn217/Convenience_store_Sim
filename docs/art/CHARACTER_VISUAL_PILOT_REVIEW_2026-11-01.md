@@ -342,6 +342,25 @@ If a newly approved route causes a visual or runtime regression:
 The current branch has no applied approvals, so the fallback path is still the
 baseline and no rollback artifact is required yet.
 
+## Deferred-load measurement (2026-11-03)
+
+`tools/measure_character_pilot_load.gd` measures actual Godot texture loads without
+changing the registry. On Godot 4.7.2 with the OpenGL Compatibility renderer and an
+RTX 3090, the 11-image core set loaded **11/11** entries in **480.492 ms** total;
+the slowest entry was **60.284 ms**, and the observed video-memory peak was
+**29.96 MB** (baseline **6.12 MB**). The 50 registered pilot entries loaded
+**50/50** in **2134.629 ms**, with a slowest entry of **86.676 ms** and the same
+observed peak **29.96 MB** in this run.
+
+These measurements cover only the selected pilot registry, not all 334 review
+images. They confirm that the runtime paths are loadable and that the Presentation
+routes do not need a startup preload of the review set. Re-run with:
+
+```powershell
+Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path . --script res://tools/measure_character_pilot_load.gd -- build/character_pilot_load_20261103.json
+Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path . --script res://tools/measure_character_pilot_load.gd -- --all-pilot build/character_pilot_load_all_20261103.json
+```
+
 ## Latest stock-sold-out route capture (2026-11-03)
 
 `build/character_pilot_stock_sold_out_current_1280.png` was captured through the
