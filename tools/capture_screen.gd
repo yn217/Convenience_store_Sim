@@ -188,6 +188,8 @@ func _run() -> void:
 			app._publish_snapshot()
 			for _f in 20:
 				await process_frame
+			_clear_capture_transients(main)
+			await process_frame
 			quit(0 if _save_png(out_png) else 1)
 			return
 		elif a == "--no-assistant":   # hide the corner assistant (window content under her bubble)
@@ -394,6 +396,25 @@ func _capture_pilot_cue_id() -> String:
 		if arg.begins_with("--pilot-cue="):
 			return arg.trim_prefix("--pilot-cue=")
 	return ""
+
+
+func _clear_capture_transients(main: Node) -> void:
+	## Capture-only cleanup: keep opening/story screenshots focused on the requested character layer.
+	var guide := main.get_node_or_null("ProgressionController")
+	if guide != null:
+		guide._celebrations.clear()
+		if guide._celebrate_timer != null:
+			guide._celebrate_timer.stop()
+		if guide.has_method("_refresh_stage"):
+			guide._refresh_stage()
+	var player := main.get_node_or_null("CuePlayer")
+	if player != null:
+		player.notices.items.clear()
+		player.floats.clear()
+		player.particles.clear()
+		player.glows.clear()
+		player.marks.clear()
+		player.door_flash = 0.0
 
 
 func _reapply_capture_story_cue(main: Node) -> void:
