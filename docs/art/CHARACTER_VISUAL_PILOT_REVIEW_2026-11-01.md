@@ -298,6 +298,12 @@ hands, and held objects from background-removal regressions. The current focused
 **9 tests / 0 failures**. These are still QA captures; all 50 registry rows remain
 `runtime_approved:false` pending visual, rights, and redistribution review.
 
+The registry now also names an explicit 11-image core QA set in `core_pilot_ids`:
+one title candidate, three full-body/service poses, three bust-up reactions, three
+operation-state poses, and one event image. The remaining registry entries stay
+available for route review; this core list is a QA baseline, not an approval or a
+reduction of the 50-entry pilot registry.
+
 ## Latest stock-sold-out route capture (2026-11-03)
 
 `build/character_pilot_stock_sold_out_current_1280.png` was captured through the

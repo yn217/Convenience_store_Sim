@@ -23,6 +23,30 @@ REACTION_SYMBOL_REGIONS = {
 
 
 class CharacterPilotAssetTests(unittest.TestCase):
+    def test_core_pilot_has_the_issue_230_minimum_11_routes(self):
+        """The initial visual QA set is explicit without reducing the 50-entry registry."""
+        registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        assets = {entry["id"]: entry for entry in registry["assets"]}
+        core = registry.get("core_pilot_ids", [])
+        self.assertEqual(len(core), 11)
+        self.assertEqual(len(set(core)), 11)
+        self.assertTrue(set(core).issubset(assets))
+        self.assertEqual(len(assets), 50)
+        self.assertEqual(assets["title_background_pilot"]["kind"], "title_background")
+        self.assertEqual(
+            [assets[asset_id]["kind"] for asset_id in core].count("bustup_reaction"),
+            3,
+        )
+        self.assertEqual(
+            [assets[asset_id]["kind"] for asset_id in core].count("event_image"),
+            1,
+        )
+        self.assertTrue(all(not bool(assets[asset_id].get("runtime_approved", False)) for asset_id in core))
+        for asset_id in core:
+            runtime_path = str(assets[asset_id].get("runtime_path", ""))
+            self.assertTrue(runtime_path.startswith("res://"), asset_id)
+            self.assertTrue((ROOT / runtime_path.removeprefix("res://")).is_file(), asset_id)
+
     def test_runtime_registry_entries_trace_to_the_334_placement_rows(self):
         """Every pilot route must point at the same source candidate recorded in the placement table."""
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))

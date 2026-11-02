@@ -8,6 +8,19 @@
     "These images are not a replacement for the existing UI until visual QA and rights review approve them.",
     "Reaction symbols and text remain Godot-owned overlay layers."
   ],
+  "core_pilot_ids": [
+    "title_background_pilot",
+    "fullbody_dynamic_201",
+    "functional_layout_guidance",
+    "functional_business_greeting",
+    "reaction_discovery",
+    "reaction_deadpan",
+    "reaction_first_sale_joy",
+    "functional_low_stock",
+    "functional_sold_out",
+    "functional_queue",
+    "event_hot_day"
+  ],
   "assets": [
     {
       "id": "title_background_pilot",
