@@ -1,0 +1,27 @@
+{
+  "asset_id": "clerk_register_idle_back_v1",
+  "dimensions_px": [
+    1024,
+    1536
+  ],
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox_gt0_xyxy": [
+    23,
+    3,
+    1004,
+    1504
+  ],
+  "source_sha256": "719fcb5d333ff6b47d5f884660b649d747d121c909c94b5f003920af5516a4ec",
+  "content": "pass: full rear view, hair, apron tie, trousers and shoes visible",
+  "identity_consistency": "visual estimate only; hair/outfit align with front reference; no independent identity test",
+  "orientation": "requested rear orientation appears clear; exact yaw unmeasured",
+  "projection": "blocked: no calibrated iso2x guide or world-size comparison",
+  "alpha": "preview included; no crop or alpha edits applied",
+  "runtime": "not tested; incomplete direction and animation set",
+  "decision": "review-only rear candidate; projection and identity need independent review",
+  "runtime_approved": false,
+  "github_uploaded": false
+}
