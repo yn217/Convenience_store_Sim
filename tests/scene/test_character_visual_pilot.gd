@@ -129,6 +129,9 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.ok(crop.offset_left < 236.0, "the assistant crop sits to the left of the menu safe edge")
 	t.eq(guide._bubble.offset_left - crop.offset_left, 260.0, "the dialogue bubble follows the portrait horizontally")
 	t.ok(guide._bubble.offset_top > -ProgressionController.FIGURE_SIZE.y - ProgressionController.ASSISTANT_BOTTOM + 40.0, "the dialogue bubble is lowered in the assistant slot")
+	var chrome_bottom: float = main.get_viewport_rect().size.y - ProgressionController.ASSISTANT_BOTTOM
+	t.ok(crop.get_global_rect().end.y <= chrome_bottom + 1.0, "the assistant crop stays above the bottom chrome")
+	t.ok(guide._bubble.get_global_rect().end.y <= chrome_bottom + 1.0, "the assistant dialogue stays above the bottom chrome")
 	t.eq(Vector2((guide._pilot_figure.texture as Texture2D).get_size()), Vector2(1024, 1536), "the source full-body texture remains unmodified")
 	panel.set_review_candidate("additional_001")
 	await tree.process_frame
