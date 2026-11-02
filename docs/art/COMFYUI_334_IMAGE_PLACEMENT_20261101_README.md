@@ -63,6 +63,7 @@ P1リアクション`reaction_001`〜`reaction_010`も透過処理し、全件`R
 続く実ゲームイベント用の立ち絵`remaining_071`〜`remaining_080`も同様に処理・検査し、代表`remaining_076`を`build/pilot_candidate_remaining_076_alpha_1280.png`でMain表示確認した。
 続く実ゲームイベント用の立ち絵`remaining_081`〜`remaining_090`も同様に処理・検査し、代表`remaining_086`を`build/pilot_candidate_remaining_086_alpha_1280.png`でMain表示確認した。
 続く実ゲームイベント用の立ち絵`remaining_091`〜`remaining_100`も同様に処理・検査し、代表`remaining_096`を`build/pilot_candidate_remaining_096_alpha_1280.png`でMain表示確認した。
+続く実ゲームイベント用の立ち絵`remaining_101`〜`remaining_110`も同様に処理・検査し、代表`remaining_106`を`build/pilot_candidate_remaining_106_alpha_1280.png`でMain表示確認した。
 
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
