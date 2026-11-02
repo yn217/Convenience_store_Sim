@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "asset_id": "clerk_register_idle_uniform_v1",
+  "asset_class": "reference_only",
+  "requested_subject": "日本のコンビニ店員の待機ポーズ。レジ演出に使う人物アートの初期候補",
+  "actual_subject": "青白の無地制服と紺エプロンを着用した成人女性店員1人の全身3/4向き静止画",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1265243,
+    "sha256": "2ef13f98baa1501467455c495c5b008dc9e988feb7af2f4aabc4ff792342af56",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "byte_size": 1265243,
+      "sha256": "2ef13f98baa1501467455c495c5b008dc9e988feb7af2f4aabc4ff792342af56",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "checkerboard_review.jpg",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "manifest",
+      "path": "asset_candidate.json",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "fail",
+    "state_sync": "blocked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "Single idle pose only. Not a four-direction or multi-animation pack and not runtime-ready.",
+      "Full body and both shoes are visible; pose and uniform are readable.",
+      "Projection, world height, ground anchor, sprite crop and game zoom readability are uncalibrated because no target guide/runtime comparison was used.",
+      "The visible alpha silhouette nearly touches the left canvas edge; checkerboard shows no visible background halo, but safe transparent margin is insufficient. No source edit or crop applied.",
+      "No visual human review against the current merged character set; keep as reference-only candidate."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

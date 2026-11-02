@@ -1,0 +1,26 @@
+{
+  "asset_id": "clerk_register_idle_uniform_v1",
+  "dimensions_px": [
+    1024,
+    1536
+  ],
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    23,
+    994,
+    1491
+  ],
+  "source_sha256": "2ef13f98baa1501467455c495c5b008dc9e988feb7af2f4aabc4ff792342af56",
+  "content": "pass: single complete clerk, uniform and both shoes visible",
+  "pose": "pass as a neutral idle visual concept; animation continuity not evaluated",
+  "projection": "blocked: requested slight elevated 3/4 view is not measured against iso2x_v1 projection guides",
+  "alpha": "fail: alpha bbox begins at x=0, leaving no left safety margin; checkerboard review shows no visible halo. Original left unchanged.",
+  "runtime": "not checked in Godot; not eligible as production animation or runtime sprite",
+  "decision": "reference-only art candidate; requires visual review against merged characters, four-direction consistency, projection/anchor measurement and separate checkout/idle poses",
+  "runtime_approved": false,
+  "github_uploaded": false
+}
