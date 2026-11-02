@@ -1,0 +1,31 @@
+{
+  "asset_id": "issue05_store_shell_hud_rikka",
+  "kind": "ui_mockup",
+  "issue": 5,
+  "title": "店舗シェル・基本HUD 小春六花案",
+  "character_identity": "小春六花",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue05_store_shell_hud_rikka.png",
+  "screen_role": "store view camera controls and selected tile inspector",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "text_encoder": "qwen_3_06b_base.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "loras": [
+      {
+        "file": "Koharu-Koharu-epoch100.safetensors",
+        "trigger": "koharu_rikka",
+        "strength": 0.8
+      },
+      {
+        "file": "anima-style-epoch35-lr5e5.safetensors",
+        "trigger": "anima_style",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "c350e40c-68ab-4401-ba0a-34ad7b1c48bc"
+  }
+}
