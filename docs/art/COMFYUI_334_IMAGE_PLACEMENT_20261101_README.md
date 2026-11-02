@@ -29,6 +29,7 @@ Godot_v4.7.2-stable_win64_console.exe --path . --resolution 1280x720 --script re
 
 `--pilot-cue`は起動時の非同期Cueに上書きされないよう、検査フレーム後と保存直前に指定値を再適用する。`--inspect-pilot`の出力とPNGが同じ立ち絵を指すことを確認する。
 代表4経路を候補オーバーライドなしで確認し、`opening_checklist`→`functional_opening_checklist.png`、`low_stock_notice`→`functional_low_stock.png`、`rival_opened`→`functional_rival_store.png`、`save_complete`→`functional_save_complete.png` が左メニュー直下の同一アシスタント枠へ表示された。
+バストアップ/イベント経路も確認し、`story_start`→`reaction_discovery.png`、`story_queue_giveup`→`reaction_pleading.png`、`story_event`→`event_neighbor_mentions.png` がfullbodyと重複せず表示された。`--story-cue`使用時は起動時fullbody Cueを解除してから反応画像を再適用する。
 
 候補の背景除去を比較する場合は、ComfyUIのBiRefNetレビュー処理を指定候補だけに実行できる。出力は`assets/review/derived_alpha/`に保存され、通常ランタイムには接続されない。
 

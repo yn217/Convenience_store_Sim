@@ -242,6 +242,8 @@ func _run() -> void:
 				guide._celebrations.clear()
 				if guide._celebrate_timer != null:
 					guide._celebrate_timer.stop()
+				if _capture_pilot_cue_id() == "" and guide.has_method("clear_pilot_cue"):
+					guide.clear_pilot_cue()
 				if guide.has_method("_refresh_stage"):
 					guide._refresh_stage()
 				guide.set_capture_story_cue(story_cue)
@@ -250,6 +252,7 @@ func _run() -> void:
 		# Startup cues may be delivered asynchronously while the deterministic scene settles.
 		# Re-apply the requested QA cue after that frame before printing the inspection state.
 		_reapply_capture_pilot_cue(main)
+		_reapply_capture_story_cue(main)
 		var guide := main.get_node_or_null("ProgressionController")
 		if guide != null:
 			var assistant_figure = guide.get("_pilot_figure")
@@ -326,6 +329,8 @@ func _run() -> void:
 					story_guide._celebrations.clear()
 					if story_guide._celebrate_timer != null:
 						story_guide._celebrate_timer.stop()
+					if _capture_pilot_cue_id() == "" and story_guide.has_method("clear_pilot_cue"):
+						story_guide.clear_pilot_cue()
 					story_guide.set_capture_story_cue(a.trim_prefix("--story-cue="))
 	var review_world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 	if OS.get_cmdline_user_args().has("--clear-hover"):
@@ -362,15 +367,13 @@ func _run() -> void:
 	for i in 30:
 		await process_frame
 	_reapply_capture_pilot_cue(main)
+	_reapply_capture_story_cue(main)
 	await process_frame
 	quit(0 if _save_png(out_png) else 1)
 
 
 func _reapply_capture_pilot_cue(main: Node) -> void:
-	var cue_id := ""
-	for arg in OS.get_cmdline_user_args():
-		if arg.begins_with("--pilot-cue="):
-			cue_id = arg.trim_prefix("--pilot-cue=")
+	var cue_id := _capture_pilot_cue_id()
 	if cue_id == "":
 		return
 	var guide := main.get_node_or_null("ProgressionController")
@@ -380,6 +383,30 @@ func _reapply_capture_pilot_cue(main: Node) -> void:
 	if guide._celebrate_timer != null:
 		guide._celebrate_timer.stop()
 	guide.request_pilot_cue(cue_id, {})
+
+
+func _capture_pilot_cue_id() -> String:
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--pilot-cue="):
+			return arg.trim_prefix("--pilot-cue=")
+	return ""
+
+
+func _reapply_capture_story_cue(main: Node) -> void:
+	if _capture_pilot_cue_id() != "":
+		return
+	var story_cue := ""
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--story-cue="):
+			story_cue = arg.trim_prefix("--story-cue=")
+	if story_cue == "":
+		return
+	var guide := main.get_node_or_null("ProgressionController")
+	if guide == null or not guide.has_method("set_capture_story_cue"):
+		return
+	if guide.has_method("clear_pilot_cue"):
+		guide.clear_pilot_cue()
+	guide.set_capture_story_cue(story_cue)
 
 
 ## Origin tile of the first register (by instance id), or (-1, -1) when the store has none.
