@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "asset_id": "staff_room_l_breakroom_integrated_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "staff_room_l, 4x3 footprint, 3.92x2.92x2.4m, south access, capacity 10",
+  "actual_subject": "Isometric cutaway large staff break room with nine visible lockers, kitchenette counter, two dining tables and chairs",
+  "fixture_type_id": "staff_room_l",
+  "production_method": "Codex built-in image_gen",
+  "created_local_date": "2026-11-03",
+  "review_only": true,
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "file_size_bytes": 1948959,
+    "sha256": "aea0b3e17e15c8f3861cd9f90f5b70a8741286658ff2426c642c8fe8e95a5070",
+    "generated_from": "C:\\Users\\yuuna\\.codex\\generated_images\\01a167fe-68ec-7a33-b9a0-3e0524a92252\\exec-9a21f8b8-a6cf-4ca4-bae6-d5688c873d19.png",
+    "style_reference": "C:/Users/yuuna/Downloads/image-1792819026698.webp (style only)"
+  },
+  "fixture_contract": {
+    "footprint_tiles": [
+      4,
+      3
+    ],
+    "dimensions_m": [
+      3.92,
+      2.92,
+      2.4
+    ],
+    "access_edge": "S",
+    "staff_capacity": 10,
+    "copied_from": "data/fixtures/mvp_v1.json",
+    "verified_against_artwork": false
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "unchanged_original": true,
+      "sha256": "aea0b3e17e15c8f3861cd9f90f5b70a8741286658ff2426c642c8fe8e95a5070"
+    },
+    {
+      "role": "alpha_review_preview",
+      "path": "checkerboard_review.jpg",
+      "derived_from": "source_original.png",
+      "sha256": "67590e4694a75625e80a1a04eed907c9e4a2dacd6d2d54edca7ab485efdc9e22"
+    }
+  ],
+  "prompt_file": "prompt.txt",
+  "projection": {
+    "id": "iso2x_v1",
+    "target_slopes": [
+      -0.5,
+      0.5
+    ],
+    "estimated_visual_slopes": null,
+    "control_points": [],
+    "checked_in_godot": false,
+    "verdict": "NOT_CALIBRATED"
+  },
+  "geometry": {
+    "visual_footprint_verdict": "UNVERIFIED; image impression is near-square and does not prove the required 4:3 tile rectangle",
+    "dimensions_m": [
+      3.92,
+      2.92,
+      2.4
+    ],
+    "footprint_tiles": [
+      4,
+      3
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "alpha": {
+    "format": "RGBA",
+    "thresholds": {
+      "1": {
+        "bbox_xyxy": [
+          79,
+          21,
+          1464,
+          964
+        ],
+        "margins_percent_ltrb": [
+          5.14,
+          2.05,
+          4.69,
+          5.86
+        ],
+        "meets_12pct_each_edge": false
+      },
+      "8": {
+        "bbox_xyxy": [
+          84,
+          24,
+          1453,
+          959
+        ],
+        "margins_percent_ltrb": [
+          5.47,
+          2.34,
+          5.4,
+          6.35
+        ],
+        "meets_12pct_each_edge": false
+      },
+      "128": {
+        "bbox_xyxy": [
+          85,
+          24,
+          1452,
+          959
+        ],
+        "margins_percent_ltrb": [
+          5.53,
+          2.34,
+          5.47,
+          6.35
+        ],
+        "meets_12pct_each_edge": false
+      }
+    },
+    "alpha_zero_percent": 42.52,
+    "alpha_gte8_percent": 56.81,
+    "unique_alpha_values": 255,
+    "status": "FAIL_12_PERCENT_MARGIN"
+  },
+  "quality": {
+    "content": "PARTIAL: break-room function reads, but nine visible lockers are short of the requested ten; seat capacity is not verified",
+    "style": "FAIL_GLOSSY_RENDERED_PRODUCT_LOOK_AND_DARK_VIGNETTE",
+    "projection": "UNVERIFIED_VISUAL_ESTIMATE_ONLY",
+    "alpha": "FAIL_MARGIN_BELOW_12_PERCENT",
+    "world_scale": "NOT_VERIFIED",
+    "godot_runtime": "NOT_CHECKED",
+    "overall": "REVIEW_ONLY_NOT_APPROVED",
+    "notes": [
+      "The room and kitchenette are recognizable; the large staff-room fixture type is distinct from the existing S/M candidates.",
+      "Visual inspection shows nine locker doors, fewer than the requested ten; seating count/capacity is not independently verified.",
+      "Room floor looks close to square in the image; the required 4x3 tile ratio is not demonstrated. Do not resize/warp to force the fixture dimensions.",
+      "The glossy, rendered finish and dark vignette do not match the target game style.",
+      "At alpha thresholds 1, 8, and 128, the silhouette fails the 12% padding target on every edge; low-alpha haze surrounds the content.",
+      "Projection slopes, exact 4x3 ground polygon, 2.4m height, south access clearance, anchor and Godot display remain unverified.",
+      "Original PNG is retained byte-for-byte; no crop, scale, or alpha cleanup was applied."
+    ]
+  }
+}
