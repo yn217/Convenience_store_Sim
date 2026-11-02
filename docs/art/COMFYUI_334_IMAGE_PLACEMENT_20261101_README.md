@@ -95,6 +95,18 @@ python tools/assets/approve_character_pilot.py functional_low_stock `
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
 
+### 埋め込みpromptの機械照合
+
+PNGのComfyUI `prompt` メタデータからPositive/Negative prompt、Seed、SaveImageの接頭辞を読み取り、CSVと画像サイズ・Seed・ファイル名を照合するには次を実行する。
+
+```powershell
+python tools/assets/report_comfyui_prompt_review.py
+```
+
+結果は`docs/art/COMFYUI_334_PROMPT_REVIEW_20261103.json`に保存される。これは読み取り専用の確認レポートであり、元PNG、CSV、`visual_match`、`runtime_approved`は変更しない。機械照合が通っても、指定ポーズと実画像の一致、衣装・手・お団子・透過品質の目視確認を代替しない。
+
+現在のレポートでは、334枚すべてでPNGメタデータ・ファイル接頭辞・画像サイズを読み取れる。一方、CSVのSeed記録はPNG内の実ワークフローSeedと一致する行だけを合格として数える。差分は対応表の修正候補として残し、生成番号から意味を推定したり、無断でCSVを書き換えたりしない。
+
 ## 各画像セットの採用規則
 - `title`: 5枚をSCR-05の背景候補とし、1番を**第一比較候補**に指定、残り4枚は代替候補。人物が背景に描かれていれば `title_rikka.png` の二重表示を禁止。タイトルロゴと操作ボタンは現行GodotのControl。
 - `functional`: チュートリアル8段、日替イベント、開店、初会計、日末、支払不能、実績、在庫警告などの明確な状態に割り当てる。実際の姿勢に合わない画像は候補入れ替え。
