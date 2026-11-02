@@ -30,5 +30,8 @@
 - `build/character_core_normal_1600.png` / `build/character_core_normal_1920.png`: 1600×900と1920×1080でも、表示時クロップ・吹き出し・下部メニューとの間隔を確認。
 - `build/character_core_opening_1280.png`: `--opening` の開店経路で、承認済みの接客立ち絵を通常ステージへ接続。開店演出終了後も旧アシスタントとの二重表示なし。
 - `build/character_core_low_stock_1280.png` / `build/character_core_long_queue_1280.png`: 承認済みの在庫不足・レジ行列cueを通常画面で確認。CLI inspectionでもそれぞれ `functional_low_stock.png` / `functional_queue.png` が選択され、legacy表示は非表示。
+- `build/character_core_sold_out_1280.png`: `story_sold_out` で `functional_sold_out.png` を表示し、legacy表示を抑制。
+- `build/character_core_first_sale_1280.png`: `story_first_sale` で `reaction_first_sale_joy.png` だけを表示し、全身立ち絵との重複を抑制。
+- `build/character_core_quiet_street_1280.png`: `evt_quiet_street` で `reaction_deadpan.png` をイベント反応枠へ接続し、記号・キャラクターを別レイヤーとして表示。
 
 いずれもGodot 4.7.2のCLIキャプチャで確認し、元の全身PNGは変更していない。
