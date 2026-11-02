@@ -26,7 +26,7 @@ const BUBBLE_WIDTH := 420
 # between the menu and the portrait/bubble group.  All assistant visuals share
 # this anchor, so the full-body source and the display-time bust-up crop move
 # together without modifying any source image files.
-const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 56.0
+const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 296.0
 # Keep the line panel aligned with the portrait's lower-left presentation area,
 # leaving the character face unobstructed and placing the dialogue a little lower.
 const BUBBLE_TOP_DROP := 92.0
@@ -81,7 +81,7 @@ const PILOT_SCREEN_CUES := [
 	"opening_checklist", "low_stock_notice", "expiry_notice",
 	"long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty",
 	"order_help", "restock_help", "staff_schedule_open",
-	"save_complete", "staff_hired", "seasonal_campaign_started"
+	"save_complete", "staff_hired", "seasonal_campaign_started", "layout_help"
 ]
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
@@ -146,7 +146,7 @@ func request_pilot_cue(cue_id: String, payload: Dictionary = {}) -> void:
 
 
 func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
-	if not ["opening_checklist", "low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "order_help", "restock_help", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started"].has(cue_id):
+	if not ["opening_checklist", "low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "order_help", "restock_help", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started", "layout_help"].has(cue_id):
 		return
 	_pilot_cue_id = cue_id
 	_pilot_cue_payload = payload.duplicate()
@@ -276,7 +276,8 @@ func _refresh_stage() -> void:
 	# persistent assistant even when opening a management tab also queued a short
 	# screen cue such as opening_checklist.
 	var event_pilot_suppressed := _suppressed_by.has("event_pilot")
-	_stage.visible = not event_pilot_suppressed and (_suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
+	var build_suppressed := _suppressed_by.has("build")
+	_stage.visible = not event_pilot_suppressed and not build_suppressed and (_suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
 	if warn:
 		set_mood("worried")
 	else:
@@ -336,7 +337,7 @@ func refresh_visual_pilot() -> void:
 		_pilot_reaction_symbol.visible = reaction_usable and not _pilot_reaction_symbol.text.is_empty()
 	if _figure != null:
 		_figure.visible = not usable and not reaction_usable
-	if review_candidate_active and not _suppressed_by.has("event_pilot"):
+	if review_candidate_active and not _suppressed_by.has("event_pilot") and not _suppressed_by.has("build"):
 		_stage.visible = true
 	var chrome := get_node_or_null("../MockupChrome")
 	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):

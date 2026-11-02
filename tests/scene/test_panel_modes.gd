@@ -75,6 +75,8 @@ func test_normal_shows_only_the_store_hud_rail_and_summary(t, tree) -> void:
 	t.ok(not main.get_node("Layout/TopHUD").is_visible_in_tree() and not main.get_node("Layout/MainArea/LeftNav").is_visible_in_tree()
 		and not main.find_child("MetricBar", true, false).is_visible_in_tree(), "the old HUD band, rail and summary stay hidden")
 	t.eq(main.get_node("Layout/MainArea/LeftNav").entry_count(), 6, "rail has its entries")
+	t.eq(chrome.find_children("corner_*", "Button", true, false).size(), 5, "the bottom-right actions have five entries")
+	t.ok(chrome.get_node("Base/bottom_bar/corner_quit") != null, "the rightmost bottom action is the quit button")
 	main.queue_free()
 	await tree.process_frame
 
@@ -149,6 +151,8 @@ func test_only_panels_and_the_dimmer_block_mouse(t, tree) -> void:
 	_show(main, "BUILD")
 	await tree.process_frame
 	t.eq(_blockers_at(main, ORIGIN_POINT), [], "BUILD: empty store area still reaches the world")
+	var assistant_stage := main.get_node_or_null("ProgressionController/AssistantStage") as Control
+	t.ok(assistant_stage == null or not assistant_stage.is_visible_in_tree(), "BUILD: assistant stage stays clear of the palette")
 	var palette_point: Vector2 = main.get_node("Layout/MainArea/BuildPalette").get_global_rect().get_center()
 	t.ok(_blockers_at(main, palette_point).has("BuildPalette"), "BUILD: the palette takes its own clicks")
 	_show(main, "NORMAL")

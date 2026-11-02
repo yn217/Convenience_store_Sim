@@ -13,7 +13,7 @@ signal tab_pressed(id: String)
 signal speed_pressed(speed: int)
 signal pause_pressed
 signal close_pressed
-signal corner_pressed(id: String)   # the bottom right buttons: notices / missions / encyclopedia / shop
+signal corner_pressed(id: String)   # the bottom right buttons: notices / missions / save / settings / quit
 
 ## 発注 is not here: ordering lives on the 商品 tab (user, 2026-11-01). The entries are packed from the top.
 const NAV := [["store", "店舗", "home"], ["goods", "商品", "box3d"], ["management", "経営", "chart-up"],
@@ -273,18 +273,25 @@ func _build_bottom() -> void:
 	_named("EventTitle", MockStyle.label(bar, "", Rect2(1100, 44, 250, 44), 27, INK, HORIZONTAL_ALIGNMENT_CENTER, "Black"))
 	_named("EventLine", MockStyle.label(bar, "", Rect2(1082, 88, 276, 34), 18, INK, HORIZONTAL_ALIGNMENT_CENTER))
 	_event_icon = MockStyle.picture(bar, null, Rect2(1352, 30, 108, 96))
-	# お知らせ / ミッション / 図鑑 / ショップ
+	# お知らせ / ミッション / セーブ / 設定 / ゲーム終了
 	_dark_card(bar, Rect2(1490, 8, 420, 128))
-	var corners := [["notices", "お知らせ", "bell"], ["missions", "ミッション", "mission"], ["encyclopedia", "図鑑", "book"], ["shop", "ショップ", "basket"]]
+	var corners := [["notices", "お知らせ", "bell", "art"], ["missions", "ミッション", "mission", "art"],
+		["save", "セーブ", "clipboard", "art"], ["settings", "設定", "gear", "glyph"], ["quit", "ゲーム終了", "", "power"]]
 	for i in corners.size():
-		var r := Rect2(1500 + i * 102, 16, 96, 112)
-		var tip: String = {"encyclopedia": "図鑑（準備中）", "shop": "ショップ（準備中）"}.get(corners[i][0], corners[i][1])
+		var r := Rect2(1496 + i * 82, 16, 78, 112)
+		var tip: String = {"save": "セーブ画面を開く", "settings": "設定画面を開く", "quit": "タイトルへ戻る"}.get(corners[i][0], corners[i][1])
 		var b := MockStyle.button(bar, r, tip)
 		b.name = "corner_" + corners[i][0]
-		MockStyle.shape(b, Rect2(4, 0, 88, 108), {"top": Color("3b2c2a"), "bottom": Color("251b1a"), "radius": 18.0, "border": Color("6e5546"),
+		var is_quit: bool = corners[i][0] == "quit"
+		MockStyle.shape(b, Rect2(2, 0, 74, 108), {"top": Color("b83b43") if is_quit else Color("3b2c2a"), "bottom": Color("6e202b") if is_quit else Color("251b1a"), "radius": 18.0, "border": Color("ffb0a5") if is_quit else Color("6e5546"),
 			"border_width": 1.5, "gloss": 0.06})
-		MockStyle.picture(b, MockStyle.art(corners[i][2]), Rect2(16, 6, 64, 62))
-		MockStyle.label(b, corners[i][1], Rect2(0, 76, 96, 30), 17, Color("fff4e2"), HORIZONTAL_ALIGNMENT_CENTER, "ExtraBold", 2, Color(0, 0, 0, 0.5))
+		if corners[i][3] == "glyph":
+			MockStyle.picture(b, MockStyle.glyph(corners[i][2], 96), Rect2(10, 7, 54, 58), Color("fff4e2"))
+		elif corners[i][3] == "power":
+			MockStyle.label(b, "⏻", Rect2(0, 2, 78, 60), 45, Color("fff4e2"), HORIZONTAL_ALIGNMENT_CENTER, "Black", 2, Color("6e202b"))
+		else:
+			MockStyle.picture(b, MockStyle.art(corners[i][2]), Rect2(8, 5, 62, 58))
+		MockStyle.label(b, corners[i][1], Rect2(0, 70, 78, 36), 14 if is_quit else 15, Color("fff4e2"), HORIZONTAL_ALIGNMENT_CENTER, "ExtraBold", 2, Color(0, 0, 0, 0.5))
 		var cid: String = corners[i][0]
 		b.pressed.connect(func(): corner_pressed.emit(cid))
 

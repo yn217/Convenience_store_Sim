@@ -31,7 +31,7 @@ This review covers the 50-image pilot. The remaining 284 candidates stay review-
 |---|---|---|---|
 | `title_background_pilot` | title background | SCR-05 / title open | review pending; compare crop and UI safe area |
 | `fullbody_dynamic_201` | full body | SCR-06 / tutorial greeting | review pending; check full silhouette and hands |
-| `fullbody_tutorial_layout` | full body | SCR-06 / layout guidance | review pending; check white-background extraction |
+| `functional_layout_guidance` | functional pose | SCR-06 / `layout_help` | review pending; construction-mode guidance candidate, check palette-safe display |
 | `fullbody_emotion_05` | full body | SCR-18 / first milestone | review pending; check expression and feet |
 | `reaction_discovery` | bust-up | SCR-06 / discovery | review pending; generated `!` bubble is not authoritative UI text |
 | `reaction_deadpan` | bust-up | SCR-11 / quiet street | review pending; generated `...` remains a visual reference |

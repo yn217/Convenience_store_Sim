@@ -15,10 +15,10 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 		t.ok(not bool(entry.get("runtime_approved", true)), "%s remains review-only" % id)
 		t.ok(ResourceLoader.exists(path), "%s runtime path exists" % id)
 		t.ok(load(path) is Texture2D, "%s runtime texture loads" % id)
-	t.eq(kind_counts.get("functional_pose", 0), 30, "all 30 functional standing poses are selected")
+	t.eq(kind_counts.get("functional_pose", 0), 31, "all 31 functional standing poses are selected")
 	t.eq(kind_counts.get("event_image", 0), 11, "all 11 selected event standing images are registered")
 	t.eq(kind_counts.get("bustup_reaction", 0), 5, "five cleaned reactions have dedicated routes")
-	t.eq(kind_counts.get("fullbody", 0), 3, "three general full-body pilots are registered")
+	t.eq(kind_counts.get("fullbody", 0), 2, "two general full-body pilots are registered")
 	t.eq(kind_counts.get("title_background", 0), 1, "one title background pilot is kept exclusive")
 	for pair in [
 		["story_start", "reaction_discovery"],
@@ -68,6 +68,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.eq(panel.cue_entry("restock_help").get("id", ""), "functional_restock_guidance", "the restock screen has a replenishment guidance pose")
 	t.eq(panel.cue_entry("opening_checklist").get("id", ""), "functional_opening_checklist", "the setup management screen has an opening checklist pose")
 	t.eq(panel.cue_entry("business_started").get("id", ""), "functional_business_greeting", "opening cut-in has a greeting pilot pose")
+	t.eq(panel.cue_entry("layout_help").get("id", ""), "functional_layout_guidance", "build mode has a layout guidance pilot pose")
 	t.eq(panel.stage_entry({"story_cue": "story_first_profit", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_first_profit", "first-profit story uses its presentation pose")
 	t.eq(panel.stage_entry({"story_cue": "story_register", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_register_guidance", "register tutorial uses the register guidance pose")
 	t.eq(panel.stage_entry({"story_cue": "story_first_restock", "gameplay_event": {}, "progression": {}}).get("id", ""), "functional_restock_guidance", "restock tutorial uses the restock guidance pose")
@@ -105,7 +106,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 		elif kind == "event_image":
 			t.eq(panel.event_entry(trigger).get("id", ""), id, "%s event trigger is reachable" % id)
 	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {}, "progression": {}}).get("id", ""), "fullbody_dynamic_201", "default full-body pilot is reachable")
-	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {"event_id": "evt_quiet_street"}, "progression": {}}).get("id", ""), "fullbody_tutorial_layout", "quiet-street full-body fallback is reachable")
+	t.eq(panel.stage_entry({"story_cue": "", "gameplay_event": {"event_id": "evt_quiet_street"}, "progression": {}}).get("id", ""), "fullbody_dynamic_201", "quiet-street full-body fallback is reachable")
 	t.eq(panel.stage_entry({"story_cue": "story_first_sale", "gameplay_event": {}, "progression": {}}).get("id", ""), "fullbody_emotion_05", "first-sale full-body pilot is reachable")
 
 
@@ -124,6 +125,7 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.eq(String(crop.name), "AssistantPilotBustupCrop", "the store assistant uses a display-only bust-up crop frame")
 	t.ok(crop.clip_contents, "the bust-up crop clips only the display frame")
 	t.eq(crop.size.y, 300.0, "the display crop keeps the upper-body window height")
+	t.ok(crop.offset_left <= 0.0, "the assistant crop is flush-left like the target layout")
 	t.ok(crop.offset_left < 236.0, "the assistant crop sits to the left of the menu safe edge")
 	t.eq(guide._bubble.offset_left - crop.offset_left, 260.0, "the dialogue bubble follows the portrait horizontally")
 	t.ok(guide._bubble.offset_top > -440.0, "the dialogue bubble is lowered in the assistant slot")

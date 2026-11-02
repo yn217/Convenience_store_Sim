@@ -252,6 +252,9 @@ func toggle_build() -> void:
 	else:
 		ui.open_build()
 		_apply_mode()
+		var guide := get_node_or_null("ProgressionController")
+		if guide != null and guide.has_method("request_pilot_cue"):
+			guide.request_pilot_cue("layout_help", {})
 
 
 func close_build() -> void:
@@ -259,6 +262,9 @@ func close_build() -> void:
 	if build != null:
 		build.cancel_mode()   # leave any pending placement or move
 	ui.close()
+	var guide := get_node_or_null("ProgressionController")
+	if guide != null and guide.has_method("clear_pilot_cue"):
+		guide.clear_pilot_cue()
 	_world.clear_selection()
 	_apply_mode()
 
@@ -387,6 +393,12 @@ func _apply_mode() -> void:
 	var event_controller := get_node_or_null("EventController")
 	if event_controller != null and event_controller.has_method("sync_assistant_suppression"):
 		event_controller.sync_assistant_suppression(ui.is_screen() and ui.screen_tab == "経営")
+	# The build palette occupies the same lower-left area as the assistant bubble.
+	# Keep the assistant stage out of the way while the palette is interactive;
+	# normal mode still uses the left-aligned, display-only cropped portrait.
+	var guide := get_node_or_null("ProgressionController")
+	if guide != null and guide.has_method("set_suppressed"):
+		guide.set_suppressed(ui.is_build(), "build")
 	if _chrome != null:
 		_chrome.set_window(ui.is_screen(), CHROME_TAB.get(ui.screen_tab, "goods"))
 		var stock := get_node_or_null("StockController")
@@ -555,6 +567,12 @@ func _on_chrome_corner(id: String) -> void:
 			_floats.visible = not _floats.visible
 		"missions":
 			open_screen_tab("経営")
+		"save", "settings":
+			open_screen_tab("設定")
+		"quit":
+			var returner := get_node_or_null("TitleReturnController")
+			if returner != null and returner.has_method("ask_return_to_title"):
+				returner.ask_return_to_title()
 
 
 # --- management window -------------------------------------------------------------------------------------
