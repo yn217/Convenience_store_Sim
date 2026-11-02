@@ -48,6 +48,7 @@ Godot_v4.7.2-stable_win64_console.exe --path . --resolution 1280x720 --script re
 `functional_041`〜`functional_050`の10件も同様に処理・検査し、代表`functional_050`を`build/pilot_candidate_functional_050_alpha_1280.png`でMain表示確認した。
 P1リアクション`reaction_001`〜`reaction_010`も透過処理し、全件`RGBA 1024x1024`・alpha extrema `(0,255)`を確認した。代表`reaction_001`は`build/pilot_candidate_reaction_001_alpha_1280.png`でリアクション表示スロットを確認した。
 残りのP1リアクション`reaction_011`〜`reaction_018`も同様に処理・検査し、代表`reaction_013`を`build/pilot_candidate_reaction_013_alpha_1280.png`で確認した。
+実ゲームイベントに直結する立ち絵`remaining_001`〜`remaining_010`も透過処理し、全件`RGBA 1024x1536`・alpha extrema `(0,255)`を確認した。代表`remaining_004`は`build/pilot_candidate_remaining_004_alpha_1280.png`でMain表示確認した。
 
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
