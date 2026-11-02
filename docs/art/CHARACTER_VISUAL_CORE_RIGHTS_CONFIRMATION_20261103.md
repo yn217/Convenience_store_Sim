@@ -24,5 +24,6 @@
 
 - `build/title_core_normal_1280.png`: デバッグ用の `--visual-variant` や手動cueなしで、承認済みタイトル背景を表示。背景内の小春六花と独立 `TitleRikka` の二重表示なし。
 - `build/event_hot_day_core_normal_1280.png`: `--event=evt_hot_day` の発生中だけ、イベントCGと承認済み `event_hot_day` 立ち絵を表示。通常アシスタントとの重複なし。
+- `build/character_core_normal_1280.png`: 通常画面のアシスタント枠で、元の `1024x1536` 全身PNGを変更せず、表示用のクリップ枠だけでバストアップ表示。吹き出しも左メニュー下の同じ表示レイヤーに収まり、下部メニューと接触しない。
 
 いずれもGodot 4.7.2のCLIキャプチャで確認し、元の全身PNGは変更していない。
