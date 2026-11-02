@@ -1,0 +1,55 @@
+{
+  "asset_id": "staff_room_m_breakroom_integrated_v1",
+  "review_date": "2026-11-02",
+  "review_status": "PARTIAL_REVIEW_CANDIDATE",
+  "source_original": {
+    "path": "source_original.png",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "byte_size": 1911796,
+    "sha256": "a782b7591ffaa151aff0ccdd1ee52c1a1923e844a73a35b055c0cc8e3a29fe08",
+    "preserved_unchanged": true
+  },
+  "content_review": {
+    "status": "PASS_WITH_MINOR_EXTRAS",
+    "notes": "Medium staff break-room function is apparent: three lockers, microwave/hot-drink counter, shared table/bench, clock and bulletin board. An extra potted plant and waste bin were generated. Front/south is visibly open; actual walkable clearance is not measured."
+  },
+  "alpha": {
+    "status": "PARTIAL",
+    "min": 0,
+    "max": 254,
+    "fully_transparent_pixels": 796488,
+    "fully_opaque_pixels": 0,
+    "semi_transparent_pixels": 776376,
+    "fully_transparent_ratio": 0.506393,
+    "semi_transparent_ratio": 0.493607,
+    "fully_opaque_ratio": 0.0,
+    "bbox_alpha_ge_8_xyxy": [174, 56, 1367, 976],
+    "edge_max_alpha": {"left": 1, "right": 0, "top": 0, "bottom": 0},
+    "notes": "Checkerboard composite shows transparent exterior and no obvious broad opaque background. But the entire nontransparent subject is semitransparent and no pixel reaches alpha 255; opacity/edge behavior must be inspected in game before adoption."
+  },
+  "projection_and_shape": {
+    "status": "PARTIAL_NOT_CALIBRATED",
+    "requested_projection": "iso2x_v1",
+    "requested_footprint_tiles": [3, 2],
+    "fixture_dimensions_m": [2.92, 1.92, 2.4],
+    "access_edge": "S",
+    "visual_notes": "Single 3/4 cutaway with open front. The layout reads wider than deep, but several visible edge slopes appear inconsistent with strict 2:1 axes. No control-point measurement was taken; do not treat prompt compliance as projection proof.",
+    "measured_control_points": [],
+    "world_anchor_verified": false,
+    "godot_checked": false
+  },
+  "unverified": [
+    "exact 3x2 projected tile diamond",
+    "strict iso2x_v1 X/Y slopes and vertical scale",
+    "2.92x1.92x2.4m silhouette correspondence",
+    "ground pivot and placement anchor",
+    "south access clearance and interaction path",
+    "occlusion by store/backroom walls",
+    "readability at game zoom",
+    "Godot rendering and performance"
+  ],
+  "runtime_approved": false,
+  "recommended_action": "Review-only candidate. Resolve opacity at game scale and measure floor/wall control points against the fixture dimensions and iso2x_v1 guide. Keep source unchanged; do not stretch or mirror to force a match."
+}

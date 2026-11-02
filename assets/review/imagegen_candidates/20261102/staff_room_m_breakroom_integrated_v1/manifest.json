@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "asset_id": "staff_room_m_breakroom_integrated_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "Convenience-store medium staff room, staff_room_m, 3x2 footprint, south access, capacity 6",
+  "actual_subject": "Isometric break-room cutaway with three lockers, microwave/hot-drink counter, shared bench table, clock, bulletin board, potted plant and waste bin",
+  "production_method": "codex_imagegen_builtin",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "fixture_type_id": "staff_room_m",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1911796,
+    "sha256": "a782b7591ffaa151aff0ccdd1ee52c1a1923e844a73a35b055c0cc8e3a29fe08",
+    "generated_from": "C:/Users/yuuna/.codex/generated_images/01a167fe-68ec-7a33-b9a0-3e0524a92252/exec-8ebb2bac-8749-45a7-8ffa-113e230e71b4.png",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {"role": "source_original", "path": "source_original.png", "byte_size": 1911796, "sha256": "a782b7591ffaa151aff0ccdd1ee52c1a1923e844a73a35b055c0cc8e3a29fe08", "github_uploaded": false},
+    {"role": "qa_overlay", "path": "checkerboard_review.jpg", "github_uploaded": false}
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "S",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null,
+    "visual_assessment": "PARTIAL; broad axonometric appearance but several floor/wall slopes appear inconsistent with strict 2:1 axes; not measured"
+  },
+  "geometry": {
+    "footprint_tiles": [3, 2],
+    "dimensions_m": [2.92, 1.92, 2.4],
+    "staff_capacity": 6,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified_against_image": false
+  },
+  "quality": {
+    "subject": "pass_with_unrequested_decor",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "not_verified",
+    "projection": "not_verified",
+    "alpha": "partial",
+    "state_sync": "not_applicable",
+    "godot_runtime": "not_checked",
+    "human_visual": "partial",
+    "notes": [
+      "Staff-room function and M-size furnishings are recognizable; one extra potted plant and a waste bin are present.",
+      "The front/south side is open as a cutaway, but exact access-edge clearance is not measured.",
+      "Transparent exterior is visible on checkerboard; alpha has no fully opaque pixels (max 254), so opacity at game scale needs review.",
+      "Exact 3x2 tile diamond, iso2x slopes, 2.4m height, ground anchor and Godot appearance are unverified.",
+      "Review-only; runtime_approved:false."
+    ]
+  },
+  "github": {"repository": "yn217/Convenience_store_Sim", "draft_pr": 164, "branch": "art/chatgpt-interior-open-gondola-20261028"},
+  "runtime_approved": false
+}
