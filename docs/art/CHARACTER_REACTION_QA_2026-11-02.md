@@ -96,3 +96,10 @@ focused test `test_character_visual_pilot.gd`: 4 tests / 291 assertions / 0 fail
 レビュー候補を指定したときだけステージを表示し、解除時は通常の表示計算へ戻す。`test_character_visual_pilot.gd` は
 4 tests / 354 assertions / 0 failures。確認画像は `build/pilot_candidate_additional_001_main_1280_fixed.png` で、
 候補の全身元画像は表示時クロップされ、旧アシスタントは非表示、既存UI操作領域は維持される。
+
+同じ `Main` 経路でバストアップ候補 `reaction_001` も確認した。非headless CLIのログは
+`stage_visible=true`、`pilot_visible=false`、`pilot_reaction visible=true`、
+`texture=res://assets/review/derived_alpha/reaction_001.png`、`size=(1024,1024)`、
+`legacy_visible=false` で、リアクション専用レイヤーが表示され、旧アシスタントは非表示だった。
+確認画像は `build/pilot_candidate_reaction_001_main_1280_latest.png`。候補は引き続きレビュー専用であり、
+生成画像内の吹き出し・記号はゲームUIの正本として扱わず、`runtime_approved:false` も維持する。
