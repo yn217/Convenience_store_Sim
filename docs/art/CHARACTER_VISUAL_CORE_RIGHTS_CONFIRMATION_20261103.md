@@ -23,7 +23,10 @@
 ## 通常経路の実画面確認
 
 - `build/title_core_normal_1280.png`: デバッグ用の `--visual-variant` や手動cueなしで、承認済みタイトル背景を表示。背景内の小春六花と独立 `TitleRikka` の二重表示なし。
+- `build/title_core_normal_1600.png` / `build/title_core_normal_1920.png`: 1600×900と1920×1080でも、タイトル背景内の小春六花とGodot UIの配置・可読性を確認。
 - `build/event_hot_day_core_normal_1280.png`: `--event=evt_hot_day` の発生中だけ、イベントCGと承認済み `event_hot_day` 立ち絵を表示。通常アシスタントとの重複なし。
+- `build/event_hot_day_core_normal_1600.png` / `build/event_hot_day_core_normal_1920.png`: 1600×900と1920×1080でも、イベントCG・イベント立ち絵・経営ウィンドウの配置と二重表示なしを確認。
 - `build/character_core_normal_1280.png`: 通常画面のアシスタント枠で、元の `1024x1536` 全身PNGを変更せず、表示用のクリップ枠だけでバストアップ表示。吹き出しも左メニュー下の同じ表示レイヤーに収まり、下部メニューと接触しない。
+- `build/character_core_normal_1600.png` / `build/character_core_normal_1920.png`: 1600×900と1920×1080でも、表示時クロップ・吹き出し・下部メニューとの間隔を確認。
 
 いずれもGodot 4.7.2のCLIキャプチャで確認し、元の全身PNGは変更していない。
