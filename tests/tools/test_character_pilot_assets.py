@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 import unittest
 
+import cv2
+import numpy as np
 from PIL import Image
 
 
@@ -84,6 +86,19 @@ class CharacterPilotAssetTests(unittest.TestCase):
                     alpha.getpixel((cutout.width - 1, cutout.height - 1)),
                 ]
                 self.assertEqual(corners, [0, 0, 0, 0], asset_id)
+
+    def test_clean_reactions_do_not_keep_small_disconnected_symbols(self):
+        for asset_id in ("reaction_discovery", "reaction_deadpan"):
+            path = ROOT / "assets" / "runtime" / "character_pilot" / "derived_alpha" / f"{asset_id}.png"
+            with Image.open(path) as image:
+                alpha = np.array(image.convert("RGBA").getchannel("A"))
+            count, _labels, stats, _centroids = cv2.connectedComponentsWithStats(
+                (alpha > 32).astype(np.uint8), connectivity=8
+            )
+            self.assertGreaterEqual(count, 2, asset_id)
+            areas = stats[1:, cv2.CC_STAT_AREA]
+            largest = int(areas.max())
+            self.assertTrue(np.all(areas >= largest * 0.05), asset_id)
 
 
 if __name__ == "__main__":

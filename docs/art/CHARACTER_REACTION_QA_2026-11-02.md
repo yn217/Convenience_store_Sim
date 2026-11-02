@@ -30,6 +30,19 @@
 - 追加候補を実装する場合は、生成吹き出し・文字・エフェクトを除去した派生PNGを別パスへ作成し、手指とお団子を再確認してから、専用の論理IDを登録する。
 - `runtime_approved=false` と `visual_match=not_yet_verified` は変更しない。
 
+## 分離成分の除去（2026-11-02）
+
+`reaction_discovery` と `reaction_deadpan` は、BiRefNet後のアルファでキャラクター本体から分離した生成吹き出し／記号成分が残ることを確認した。`tools/assets/prune_disconnected_alpha.py` を明示的な反応画像にだけ適用し、最大の前景成分と面積比5%以上の成分を残す。元のComfyUI画像は変更せず、派生PNGだけを再生成する。Godot側の記号レイヤーは引き続き正本とし、`runtime_approved=false` は維持する。再処理後は派生PNGの連結成分検査も行う。
+
+BiRefNetを再実行した場合は、次の明示的な後処理を再度実行する。
+
+```powershell
+python tools/assets/prune_disconnected_alpha.py `
+  --input assets/runtime/character_pilot/derived_alpha/reaction_discovery.png `
+          assets/runtime/character_pilot/derived_alpha/reaction_deadpan.png `
+  --in-place
+```
+
 ## `reaction_043` パイロット接続確認
 
 BiRefNetで生成吹き出しを除去した派生画像を `assets/runtime/character_pilot/derived_alpha/reaction_milestone_calm.png`
