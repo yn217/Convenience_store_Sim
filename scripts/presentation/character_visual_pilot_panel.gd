@@ -289,7 +289,11 @@ func _find(asset_id: String) -> Dictionary:
 
 
 func _entry_allowed(entry: Dictionary) -> bool:
-	return OS.is_debug_build() or bool(entry.get("runtime_approved", false))
+	return entry_allowed_for_mode(entry, OS.is_debug_build())
+
+
+static func entry_allowed_for_mode(entry: Dictionary, debug_build: bool) -> bool:
+	return debug_build or bool(entry.get("runtime_approved", false))
 
 
 func _has_runtime_approved_entry() -> bool:
