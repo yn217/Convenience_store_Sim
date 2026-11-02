@@ -201,7 +201,9 @@ func _title_badge_style() -> StyleBoxFlat:
 ## QA-only title candidate. The registry keeps this disabled for normal builds until visual/rights review.
 ## A non-empty VisualVariants override explicitly waives that gate for local inspection.
 static func pilot_title_texture(override_name: String = "") -> Texture2D:
-	if override_name == "":
+	# The explicit override is a QA-only path. A release build must never load
+	# the held title candidate while its registry row is unapproved.
+	if not OS.is_debug_build() or override_name == "":
 		return null
 	if not FileAccess.file_exists(PILOT_REGISTRY_PATH):
 		return null
