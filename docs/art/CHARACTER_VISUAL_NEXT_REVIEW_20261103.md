@@ -87,3 +87,12 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 
 3件ともイベントCGと未承認立ち絵が経営画面の専用行に収まり、イベント名・効果・操作UIを
 隠さないことを確認した。いずれもレビュー専用キャプチャであり、`runtime_approved` は変更していない。
+
+## 追加の日替わりイベントレビュー（続き、2026-11-03）
+
+- `build/character_review_event_local_fair_1280.png` — `evt_local_fair`
+- `build/character_review_event_sweets_spotlight_1280.png` — `evt_sweets_spotlight`
+- `build/character_review_event_lunch_pick_1280.png` — `evt_lunch_pick`
+
+3件ともイベントCGと未承認立ち絵が経営画面の専用行に収まり、イベント名・効果・操作UIを
+隠さないことを確認した。いずれもレビュー専用キャプチャであり、`runtime_approved` は変更していない。
