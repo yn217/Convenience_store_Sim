@@ -22,7 +22,7 @@
       "byte_size": 2579177,
       "sha256": "a4a9708dce56d36a1ed1f2167e681bbdba90e2193e9c62a04e376b1c5d3ea0be",
       "git_blob_sha": "f13b5bb5430d733bda308ecaf33d76f591eaf79a",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
@@ -30,7 +30,7 @@
       "byte_size": 451282,
       "sha256": "778e15751b363a38e34ca6bb953bf7c00eac00068cd3180e6834e8318b8da413",
       "git_blob_sha": "614799944131ca8e81e9e6bf8896d4a64b1fc39d",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "other",
@@ -38,7 +38,7 @@
       "byte_size": 2340,
       "sha256": "95052d407ebded2c46e7878d67fbcacc6587de8659da247a2ca7e8d096da66a5",
       "git_blob_sha": "15d5bdbf2eda48a53ee5a31bfc9136112bfcc24b",
-      "github_uploaded": false
+      "github_uploaded": true
     },
     {
       "role": "other",
@@ -46,7 +46,7 @@
       "byte_size": 1139,
       "sha256": "c2143e2173cd149e774ee18c3eaddfeb9a7e4dd8c73cd9fc6bc344239f022220",
       "git_blob_sha": "e99c69d0f24db7a506e03d35f4f682144b71766d",
-      "github_uploaded": false
+      "github_uploaded": true
     }
   ],
   "projection": {
@@ -87,7 +87,8 @@
   "github": {
     "repository": "yn217/Convenience_store_Sim",
     "draft_pr": 164,
-    "branch": "art/chatgpt-interior-open-gondola-20261028"
+    "branch": "art/chatgpt-interior-open-gondola-20261028",
+    "uploaded_commit": "246a188da8238bd8063402f9beff4fc733844a36"
   },
   "runtime_approved": false
 }

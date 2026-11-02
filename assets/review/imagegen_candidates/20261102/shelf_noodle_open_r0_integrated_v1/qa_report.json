@@ -24,5 +24,6 @@
   "independent_review": "Sub-agent visual QA agrees: shelf/product content readable; projection and background isolation fail.",
   "decision": "FAIL as game sprite; retain source unchanged as review evidence and request a new generation with true transparent background and explicit iso2x guide alignment.",
   "runtime_approved": false,
-  "github_uploaded": false
+  "github_uploaded": true,
+  "github_commit": "246a188da8238bd8063402f9beff4fc733844a36"
 }
