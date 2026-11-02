@@ -400,15 +400,13 @@ func test_roadside_tracks_entrance_and_camera(t, tree) -> void:
 	layer.queue_free()
 
 
-func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
+func test_detached_side_landscape_asset_is_not_loaded(t, tree) -> void:
 	var layer := BackdropLayer.new()
 	tree.root.add_child(layer)
 	var p := _proj()
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
 		layer.sync(size.x, size.y, [Vector2i(0, 5)], p, Vector2(1600, 900))
-		var sprite := layer.get_node_or_null("SideLandscapeSprite") as Sprite2D
-		t.ok(sprite != null, "legacy planting layer remains addressable for %dx%d" % [size.x, size.y])
-		t.eq(sprite.visible, false, "detached planting strip is excluded at %dx%d" % [size.x, size.y])
+		t.eq(layer.has_node("SideLandscapeSprite"), false, "detached planting strip is not instantiated for %dx%d" % [size.x, size.y])
 	layer.queue_free()
 
 
