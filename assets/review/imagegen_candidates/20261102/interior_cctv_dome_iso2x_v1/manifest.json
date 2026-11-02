@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "asset_id": "interior_cctv_dome_iso2x_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "One compact ceiling/wall mounted dome CCTV assembly with visible lens, iso2x_v1, transparent cutout",
+  "actual_subject": "One warm-white hemispherical surveillance camera with dark lens dome and integrated mounting base/bracket; no text or other objects",
+  "production_method": "codex_imagegen_builtin_via_subagent",
+  "stock_state": "not_applicable",
+  "review_only": true,
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "width": 1312,
+    "height": 1199,
+    "mode": "RGBA",
+    "file_size_bytes": 589471,
+    "sha256": "fa3e95d9ddc01a98b5e28eb515013268319cb0af9d239654ec1332c7ba3871d2",
+    "generated_from": "C:\\Users\\yuuna\\.codex\\generated_images\\01a19cad-3698-7b80-8c0b-314dda69c834\\exec-c3390269-0006-4411-891a-e765b8295ef8.png",
+    "subagent_id": "01a19cad-3698-7b80-8c0b-314dda69c834",
+    "github_branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "outputs": [
+    {"role":"source_original","path":"source_original.png","unchanged_original":true,"sha256":"fa3e95d9ddc01a98b5e28eb515013268319cb0af9d239654ec1332c7ba3871d2"},
+    {"role":"alpha_review_preview","path":"checkerboard_review.jpg","derived_from":"source_original.png","sha256":"7e6f0b4d83d00a5ddc0a5261d3eb239b14b6258c7cef28dd6ce27546e54965e4"}
+  ],
+  "prompt_file": "prompt.txt",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": null,
+    "checked_in_godot": false,
+    "target_slopes": [-0.5, 0.5],
+    "control_points": [],
+    "verdict": "NOT_VERIFIED_PERSPECTIVE_LIKE"
+  },
+  "geometry": {"intended_footprint_tiles":null,"dimensions_m":null,"world_anchor_px":null,"verified":false},
+  "alpha": {
+    "format":"RGBA",
+    "thresholds": {
+      "1":{"bbox_xyxy":[0,72,1224,1094],"margins_percent_ltrb":[0.0,6.01,6.71,8.76],"status":"FAIL_LOW_ALPHA_FRINGE_EDGE_AND_MARGIN"},
+      "8":{"bbox_xyxy":[398,216,927,973],"margins_percent_ltrb":[30.34,18.02,29.34,18.85],"status":"PASS_12_PERCENT_MARGIN"},
+      "128":{"bbox_xyxy":[399,217,926,972],"margins_percent_ltrb":[30.41,18.1,29.42,18.93],"status":"PASS_12_PERCENT_MARGIN"}
+    },
+    "alpha_zero_percent":80.17,
+    "alpha_gte8_percent":19.51,
+    "unique_alpha_values":256
+  },
+  "quality": {
+    "content":"PARTIAL_PASS_LENS_AND_DOME_IDENTIFIABLE",
+    "style":"FAIL_PHOTOREALISTIC_GLOSSY",
+    "projection":"FAIL_OR_UNVERIFIED_PERSPECTIVE_LIKE",
+    "alpha":"FAIL_THRESHOLD_1_FRINGE",
+    "world_scale":"NOT_VERIFIED",
+    "godot_runtime":"NOT_CHECKED",
+    "runtime_approved":false,
+    "overall":"REVIEW_ONLY_NOT_APPROVED",
+    "notes":[
+      "The camera is a single coherent assembly; lens and dome are visually identifiable.",
+      "Mount/bracket is oversized and sculpted relative to the compact request.",
+      "Photorealistic glossy material and specular reflections do not match restrained game art.",
+      "At alpha >=1, fringe reaches the left edge; at alpha >=8, the main object has ample padding.",
+      "No control points, physical installation dimensions, world anchor, tile footprint, or Godot comparison are available.",
+      "Original source is preserved without crop, resize, recolor, or alpha cleanup."
+    ]
+  }
+}
+
