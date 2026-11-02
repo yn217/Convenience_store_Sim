@@ -247,6 +247,9 @@ func _run() -> void:
 				guide.set_capture_story_cue(story_cue)
 	if OS.get_cmdline_user_args().has("--inspect-pilot"):
 		await process_frame
+		# Startup cues may be delivered asynchronously while the deterministic scene settles.
+		# Re-apply the requested QA cue after that frame before printing the inspection state.
+		_reapply_capture_pilot_cue(main)
 		var guide := main.get_node_or_null("ProgressionController")
 		if guide != null:
 			var assistant_figure = guide.get("_pilot_figure")
@@ -358,7 +361,25 @@ func _run() -> void:
 		cut.visible = false
 	for i in 30:
 		await process_frame
+	_reapply_capture_pilot_cue(main)
+	await process_frame
 	quit(0 if _save_png(out_png) else 1)
+
+
+func _reapply_capture_pilot_cue(main: Node) -> void:
+	var cue_id := ""
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--pilot-cue="):
+			cue_id = arg.trim_prefix("--pilot-cue=")
+	if cue_id == "":
+		return
+	var guide := main.get_node_or_null("ProgressionController")
+	if guide == null or not guide.has_method("request_pilot_cue"):
+		return
+	guide._celebrations.clear()
+	if guide._celebrate_timer != null:
+		guide._celebrate_timer.stop()
+	guide.request_pilot_cue(cue_id, {})
 
 
 ## Origin tile of the first register (by instance id), or (-1, -1) when the store has none.

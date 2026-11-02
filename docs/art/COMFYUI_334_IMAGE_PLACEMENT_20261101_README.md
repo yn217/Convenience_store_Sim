@@ -27,6 +27,8 @@ Mainの店長アシスタント枠で配置を確認する場合は、`--pilot-c
 Godot_v4.7.2-stable_win64_console.exe --path . --resolution 1280x720 --script res://tools/capture_screen.gd -- --pilot-candidate=additional_001 --pilot-cue=opening_checklist --freeze --inspect-pilot build/pilot_candidate_additional_001_1280.png
 ```
 
+`--pilot-cue`は起動時の非同期Cueに上書きされないよう、検査フレーム後と保存直前に指定値を再適用する。`--inspect-pilot`の出力とPNGが同じ立ち絵を指すことを確認する。
+
 候補の背景除去を比較する場合は、ComfyUIのBiRefNetレビュー処理を指定候補だけに実行できる。出力は`assets/review/derived_alpha/`に保存され、通常ランタイムには接続されない。
 
 ```powershell
