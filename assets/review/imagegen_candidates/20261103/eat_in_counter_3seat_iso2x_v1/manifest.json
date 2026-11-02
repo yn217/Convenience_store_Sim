@@ -1,0 +1,131 @@
+{
+  "schema_version": "imagegen_candidate_v1",
+  "asset_id": "eat_in_counter_3seat_iso2x_v1",
+  "asset_class": "integrated_fixture_with_seating",
+  "requested_subject": "Runtime fixture eat_in_counter: one 3-seat eat-in counter, exactly three seats, footprint 3x1 tiles, with only small tabletop amenities",
+  "actual_subject": "One elongated counter with exactly three stools, two paper cups, and one napkin dispenser",
+  "review_only": true,
+  "runtime_approved": false,
+  "production_method": "Codex built-in ImageGen; new image; style reference C:/Users/yuuna/Downloads/image-1792819026698.webp",
+  "prompt_file": "prompt.txt",
+  "source": {
+    "file": "source_original.png",
+    "dimensions_px": [
+      1774,
+      887
+    ],
+    "mode": "RGBA",
+    "bytes": 586124,
+    "sha256": "8dd599bd6d253e73f5a56c8abe59accebcc690a5a3c1dab18c1a0af8e9d9d6e5"
+  },
+  "fixture_target": {
+    "type_id": "eat_in_counter",
+    "visual_id": "eat_in_counter_a",
+    "footprint_tiles": [
+      3,
+      1
+    ],
+    "dimensions_m": [
+      2.76,
+      0.92,
+      1.0
+    ],
+    "access_edges": [
+      "S"
+    ],
+    "seat_capacity": 3
+  },
+  "alpha": {
+    "extrema": [
+      0,
+      255
+    ],
+    "fully_transparent_percent": 79.57,
+    "low_alpha_1_to_7_percent": 0.425,
+    "measurements": [
+      {
+        "threshold": 1,
+        "bbox_xyxy": [
+          25,
+          10,
+          1638,
+          800
+        ],
+        "margins_percent_ltrb": [
+          1.41,
+          1.13,
+          7.67,
+          9.81
+        ],
+        "coverage_percent": 20.43
+      },
+      {
+        "threshold": 8,
+        "bbox_xyxy": [
+          433,
+          125,
+          1340,
+          798
+        ],
+        "margins_percent_ltrb": [
+          24.41,
+          14.09,
+          24.46,
+          10.03
+        ],
+        "coverage_percent": 20.0
+      },
+      {
+        "threshold": 128,
+        "bbox_xyxy": [
+          434,
+          126,
+          1339,
+          797
+        ],
+        "margins_percent_ltrb": [
+          24.46,
+          14.21,
+          24.52,
+          10.15
+        ],
+        "coverage_percent": 19.82
+      },
+      {
+        "threshold": 250,
+        "bbox_xyxy": [
+          435,
+          128,
+          1338,
+          796
+        ],
+        "margins_percent_ltrb": [
+          24.52,
+          14.43,
+          24.58,
+          10.26
+        ],
+        "coverage_percent": 19.44
+      }
+    ]
+  },
+  "projection": {
+    "target": "iso2x_v1; tile vectors are ±0.5 screen dy/dx; counter long axis aligned to +X (down-right) with three-tile length",
+    "status": "VISUAL_ESTIMATE_ONLY",
+    "visual_estimate": "Visible long counter edges are approximately +0.5 screen dy/dx and short top edges around -0.54, broadly consistent with an isometric top. This is an eyeballed estimate, not a calibrated control-point fit; the orthographic camera, exact projection, scale, and axis direction remain unverified.",
+    "godot_verified": false
+  },
+  "quality": {
+    "content": "PASS — exactly three distinct stools and one counter; two cups and a napkin dispenser are present as small amenities.",
+    "composition": "PARTIAL — counter, stools, and tabletop items read as one coordinated fixture. Stool extensions may exceed the 3x1 logical footprint; requires a ground-plane overlay.",
+    "style": "FAIL — strong glossy/specular surfaces and near-photorealistic product-render finish differ from the soft painted game reference.",
+    "alpha": "PARTIAL/FAIL — at alpha>=8 the bottom margin is 10.03%, below the 12% target; at alpha>=1 faint fringe reaches close to all edges (left 1.41%, top 1.13%, right 7.67%, bottom 9.81%).",
+    "projection": "PARTIAL — visible edge slopes look near the requested isometric direction, but no projected grid/control-point overlay or actual game comparison was run.",
+    "dimensions_anchor": "UNVERIFIED — runtime dimensions and footprint are recorded as the target; sprite scale, stool footprint, ground pivot, and seat access alignment have not been validated."
+  },
+  "limitations": [
+    "Review candidate only; not a runtime asset.",
+    "No Godot, renderer, or runtime changes were made.",
+    "Do not stretch the art to mask a footprint or projection discrepancy."
+  ]
+}

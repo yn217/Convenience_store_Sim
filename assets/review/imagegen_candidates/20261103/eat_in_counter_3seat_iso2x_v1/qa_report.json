@@ -1,0 +1,26 @@
+{
+  "asset_id": "eat_in_counter_3seat_iso2x_v1",
+  "runtime_approved": false,
+  "review_verdict": "REVIEW_ONLY / NOT_APPROVED_FOR_RUNTIME",
+  "source_sha256": "8dd599bd6d253e73f5a56c8abe59accebcc690a5a3c1dab18c1a0af8e9d9d6e5",
+  "content": "PASS — exactly three distinct stools and one counter; two cups and a napkin dispenser are present as small amenities.",
+  "style": "FAIL — strong glossy/specular surfaces and near-photorealistic product-render finish differ from the soft painted game reference.",
+  "alpha": "PARTIAL/FAIL — at alpha>=8 the bottom margin is 10.03%, below the 12% target; at alpha>=1 faint fringe reaches close to all edges (left 1.41%, top 1.13%, right 7.67%, bottom 9.81%).",
+  "projection": "PARTIAL — visible edge slopes look near the requested isometric direction, but no projected grid/control-point overlay or actual game comparison was run.",
+  "dimensions_m": [
+    2.76,
+    0.92,
+    1.0
+  ],
+  "footprint_tiles": [
+    3,
+    1
+  ],
+  "access_edges": [
+    "S"
+  ],
+  "seat_capacity": 3,
+  "anchor_px": null,
+  "game_zoom_review": "NOT RUN — no Godot/Renderer/runtime changes",
+  "notes": "Visually promising seat count and long shape, but the art finish and alpha margins fail/partially fail. Confirm 3x1 footprint and access edge S with projected control points before use; do not fix with nonuniform scaling."
+}
