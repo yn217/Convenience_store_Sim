@@ -23,6 +23,44 @@ REACTION_SYMBOL_REGIONS = {
 
 
 class CharacterPilotAssetTests(unittest.TestCase):
+    def test_runtime_registry_entries_trace_to_the_334_placement_rows(self):
+        """Every pilot route must point at the same source candidate recorded in the placement table."""
+        registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        placement = json.loads(PLACEMENT.read_text(encoding="utf-8"))
+        placement_by_source = {
+            str(entry["candidate_relpath"]): entry
+            for entry in placement["assets"]
+        }
+        registry_entries = [
+            entry for entry in registry["assets"]
+            if entry.get("source_path", "").startswith("assets/review/imagegen_candidates/")
+        ]
+        self.assertGreaterEqual(len(registry_entries), 49)
+
+        for entry in registry_entries:
+            source_ref = str(entry["source_path"])
+            source_path = ROOT / source_ref
+            self.assertTrue(source_path.is_file(), entry["id"])
+            # The title pilot is intentionally maintained in the separate title
+            # candidate set; it is not one of the 329 character rows in the
+            # 334-image placement table.
+            if not source_ref.startswith(
+                "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/"
+            ):
+                self.assertEqual(entry.get("kind"), "title_background", entry["id"])
+                runtime_ref = str(entry.get("runtime_path", ""))
+                self.assertTrue((ROOT / runtime_ref.removeprefix("res://")).is_file(), entry["id"])
+                continue
+            candidate_relpath = source_ref.split("issue30_31_32_comfyui/", 1)[-1]
+            mapped = placement_by_source.get(candidate_relpath)
+            self.assertIsNotNone(mapped, entry["id"])
+            self.assertTrue(mapped["asset_id"].strip(), entry["id"])
+            self.assertFalse(bool(mapped.get("runtime_approved", False)), entry["id"])
+
+            runtime_ref = str(entry.get("runtime_path", ""))
+            if runtime_ref.startswith("res://"):
+                self.assertTrue((ROOT / runtime_ref.removeprefix("res://")).is_file(), entry["id"])
+
     def test_display_derivation_keeps_the_original_fullbody_canvas(self):
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
         derived = [
