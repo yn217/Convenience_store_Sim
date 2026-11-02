@@ -23,5 +23,5 @@
   "runtime": "not tested; incomplete view/animation set",
   "decision": "review-only right-profile candidate; await independent review before continuing view set",
   "runtime_approved": false,
-  "github_uploaded": false
+  "github_uploaded": true
 }
