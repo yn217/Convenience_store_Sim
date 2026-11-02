@@ -23,5 +23,6 @@
   "runtime": "not tested; one still view only",
   "decision": "reference-only; complete cardinal view candidates exist but need independent set-level review before production use",
   "runtime_approved": false,
-  "github_uploaded": false
+  "github_uploaded": true,
+  "github_commit": "c2ee6ca011238f5ad0cd101e2b1d7933ef881b61"
 }
