@@ -308,6 +308,10 @@ Side-by-side review of the source and derived PNGs did not show a clear sleeve, 
 hole in either image. The cup-holding fingers in `event_after_work` and the can grip in
 `event_snack_buzz` are still retained as pending hand-anatomy checks.
 
+The reproducible close-up sheet is `build/character_pilot_hand_review_20261103.png`, generated
+by `python tools/assets/build_character_hand_review_sheet.py`. It places source, derived-alpha,
+and hand/product crops side by side for the two flagged candidates.
+
 The registry now also names an explicit 11-image core QA set in `core_pilot_ids`:
 one title candidate, three full-body/service poses, three bust-up reactions, three
 operation-state poses, and one event image. The remaining registry entries stay
