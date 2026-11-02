@@ -1,0 +1,27 @@
+{
+  "asset_id": "clerk_register_idle_front_v1",
+  "dimensions_px": [
+    1024,
+    1536
+  ],
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox_gt0_xyxy": [
+    75,
+    20,
+    994,
+    1508
+  ],
+  "source_sha256": "3a2ba9102af41fcb814273cd838ddc7d635e30553dd45a9a5ce194f5931431a0",
+  "content": "pass: full body and shoes visible, uniform resembles the three-quarter candidate",
+  "identity_consistency": "visual estimate only; hair/outfit colors align, face details and body proportions need independent review",
+  "pose_view": "pass: frontal idle pose, symmetric stance",
+  "projection": "blocked: not calibrated against iso2x_v1 or game projection",
+  "alpha": "not checked in engine; checkerboard preview provided and original unchanged",
+  "runtime": "not tested; incomplete character view set",
+  "decision": "reference-only view candidate; await review before continuing additional directions/animations",
+  "runtime_approved": false,
+  "github_uploaded": false
+}
