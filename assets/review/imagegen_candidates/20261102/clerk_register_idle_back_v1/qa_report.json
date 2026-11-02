@@ -23,5 +23,5 @@
   "runtime": "not tested; incomplete direction and animation set",
   "decision": "review-only rear candidate; projection and identity need independent review",
   "runtime_approved": false,
-  "github_uploaded": false
+  "github_uploaded": true
 }
