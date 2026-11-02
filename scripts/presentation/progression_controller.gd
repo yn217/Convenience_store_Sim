@@ -340,8 +340,12 @@ func refresh_visual_pilot() -> void:
 		_pilot_reaction_symbol.visible = reaction_usable and not _pilot_reaction_symbol.text.is_empty()
 	if _figure != null:
 		_figure.visible = not usable and not reaction_usable
-	if review_candidate_active and not _suppressed_by.has("event_pilot") and not _suppressed_by.has("build"):
+	if review_candidate_active and not _suppressed_by.has("event_pilot") and not _suppressed_by.has("build") and not _opening_cutin_active:
 		_stage.visible = true
+	if _opening_cutin_active:
+		# The opening cut-in owns the character layer for its whole animation.
+		# Keep both the generated pilot stage and the legacy fallback out of the frame.
+		_stage.visible = false
 	var chrome := get_node_or_null("../MockupChrome")
 	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):
 		var event_pilot_owns_assistant := _suppressed_by.has("event_pilot")
