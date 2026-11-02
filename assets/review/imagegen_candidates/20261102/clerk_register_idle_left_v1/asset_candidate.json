@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "asset_id": "clerk_register_idle_left_v1",
+  "asset_class": "reference_only",
+  "requested_subject": "#104 同一店員の左向き側面・待機ビュー",
+  "actual_subject": "青白制服・紺エプロンの成人女性店員1人を左向き側面から描いた全身静止画",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1184282,
+    "sha256": "2f5ca17b9d8932a5d5f8d3ff70c601739b956b12ac8f70252a3c9071d4e75c7d",
+    "reference_hashes": [
+      "2ef13f98baa1501467455c495c5b008dc9e988feb7af2f4aabc4ff792342af56",
+      "3a2ba9102af41fcb814273cd838ddc7d635e30553dd45a9a5ce194f5931431a0"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "byte_size": 1184282,
+      "sha256": "2f5ca17b9d8932a5d5f8d3ff70c601739b956b12ac8f70252a3c9071d4e75c7d",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "checkerboard_review.jpg",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "front_left_comparison.jpg",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "manifest",
+      "path": "asset_candidate.json",
+      "byte_size": null,
+      "sha256": null,
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "blocked",
+    "projection": "blocked",
+    "alpha": "not_checked",
+    "state_sync": "blocked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "One left-facing profile idle view only; not a completed pack.",
+      "Profile silhouette and full body are visible; hairstyle and uniform broadly match other candidates.",
+      "Identity consistency and exact 90-degree yaw are visual estimates only.",
+      "Projection, world scale, ground anchor, game zoom and runtime rendering are unverified.",
+      "Original alpha retained; use checkerboard preview; no crop or cleanup applied.",
+      "Reference-only candidate; separate from runtime assets and not approved."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

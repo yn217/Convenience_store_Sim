@@ -1,0 +1,27 @@
+{
+  "asset_id": "clerk_register_idle_left_v1",
+  "dimensions_px": [
+    1024,
+    1536
+  ],
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox_gt0_xyxy": [
+    41,
+    14,
+    1004,
+    1511
+  ],
+  "source_sha256": "2f5ca17b9d8932a5d5f8d3ff70c601739b956b12ac8f70252a3c9071d4e75c7d",
+  "content": "pass: complete left-facing profile, uniform, trousers and sneakers visible",
+  "identity_consistency": "visual only; same outfit/low ponytail cues as existing views, exact identity not verified",
+  "orientation": "left-facing profile appears clear, exact 90-degree yaw unmeasured",
+  "projection": "blocked: no iso2x guide or runtime capture",
+  "alpha": "checkerboard preview included; no source edits or crop",
+  "runtime": "not tested; one still view only",
+  "decision": "reference-only; complete cardinal view candidates exist but need independent set-level review before production use",
+  "runtime_approved": false,
+  "github_uploaded": false
+}
