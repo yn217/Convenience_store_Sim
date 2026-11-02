@@ -1,0 +1,94 @@
+{
+  "asset_id": "interior_hand_sanitizer_stand_iso2x_v1",
+  "review_verdict": "REVIEW_ONLY_NOT_APPROVED",
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "sha256": "5c0cf3eeca5f30f7401038d09925da9674ce94d29852dcd46f858b3fe9c6978a",
+    "dimensions_px": [
+      1310,
+      1200
+    ],
+    "mode": "RGBA",
+    "bytes": 283841,
+    "unchanged_original": true
+  },
+  "content": "PASS_VISUAL_ONLY",
+  "style": "FAIL_GLOSSY_RENDERED_LOOK_VS_PAINTED_GAME_REFERENCE",
+  "alpha": {
+    "format": "RGBA",
+    "thresholds": {
+      "1": {
+        "bbox_xyxy": [
+          58,
+          45,
+          1282,
+          1152
+        ],
+        "margins_percent_ltrb": [
+          4.43,
+          3.75,
+          2.14,
+          4.0
+        ],
+        "meets_15pct_each_edge": false
+      },
+      "8": {
+        "bbox_xyxy": [
+          521,
+          161,
+          846,
+          1071
+        ],
+        "margins_percent_ltrb": [
+          39.77,
+          13.42,
+          35.42,
+          10.75
+        ],
+        "meets_15pct_each_edge": false
+      },
+      "128": {
+        "bbox_xyxy": [
+          523,
+          162,
+          846,
+          1070
+        ],
+        "margins_percent_ltrb": [
+          39.92,
+          13.5,
+          35.42,
+          10.83
+        ],
+        "meets_15pct_each_edge": false
+      }
+    },
+    "alpha_zero_percent": 91.19,
+    "alpha_gte8_percent": 8.28,
+    "unique_alpha_values": 256,
+    "status": "FAIL_15_PERCENT_PADDING"
+  },
+  "projection": {
+    "id": "iso2x_v1",
+    "target_slopes": [
+      -0.5,
+      0.5
+    ],
+    "estimated_visual_slopes": null,
+    "control_points": [],
+    "checked_in_godot": false,
+    "verdict": "NOT_CALIBRATED"
+  },
+  "dimensions_m": null,
+  "footprint_tiles": null,
+  "anchor_px": null,
+  "game_zoom_review": "NOT_CHECKED",
+  "notes": [
+    "Exactly one sanitizer station is visually identifiable; no text or extra props.",
+    "Style is a glossy, highly rendered product illustration rather than the game screenshot’s painted miniature style.",
+    "At alpha>=8, object padding is below the requested 15% at one or more edges; the source alpha>=1 includes additional edgeward fringe.",
+    "No guide control points, measured footprint, real dimensions, anchor, or Godot screenshot were checked.",
+    "Original PNG was preserved byte-for-byte; no crop, scale, or alpha cleanup was applied."
+  ]
+}

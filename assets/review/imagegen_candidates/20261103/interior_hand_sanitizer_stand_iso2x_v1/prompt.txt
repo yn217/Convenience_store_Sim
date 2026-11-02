@@ -1,0 +1,15 @@
+Use case: game-asset.
+Asset type: one isolated transparent cutout sprite for the interior of a Japanese convenience-store management game.
+Input images: Image 1 is a style reference only. Match its warm, crisp, hand-painted isometric miniature-game rendering, soft clean shading, readable silhouette, compact detail, and polished but not photoreal finish. Do not copy any scene elements from it.
+Primary request: create exactly ONE compact freestanding hand-sanitizer station placed near a store entrance.
+Subject: a narrow, waist-high matte white and pale warm-gray metal stand on a small weighted base, with one modest clear pump bottle mounted at the top, a visible simple pump head and small drip tray; a restrained blue accent band. It must read immediately as a sanitizer dispenser, not a sign, vending machine, bag holder, or CCTV.
+Style/medium: painted isometric miniature management-game art, consistent with Image 1; softly lit, clean edges, moderate detail, matte surfaces, gentle ambient shading. Avoid glossy photorealistic product-render appearance.
+Composition/framing: single centered complete object with generous empty transparent padding at least 15% on every edge around the visible object. Keep all parts comfortably inside the canvas; no cast shadow crossing the canvas. Compact, slim vertical silhouette; no bulky cuboid body.
+Projection: iso2x_v1 orthographic isometric view, parallel non-converging edges, two ground-plane directions with screen slopes near +0.5 and -0.5, verticals upright. Show the front and one side consistently; do not use wide-angle perspective.
+Materials/textures: matte powder-coated stand, lightly translucent sanitizer bottle with simple pale-blue liquid, readable pump top, subtle metallic edge highlights.
+Lighting/mood: soft diffuse warm store lighting, modest highlights only, no bloom or glow.
+Color palette: warm white, light gray, restrained convenience-store blue, nearly colorless bottle with a small pale-blue fill.
+Background: true transparent RGBA cutout; no floor or room.
+Text (verbatim): none.
+Constraints: exactly one complete sanitizer station; no hands, people, packaging, logos, text, labels, arrows, shelves, products, furniture, tiles, floor, walls, vignette, or extra props. Preserve a broad clear margin; alpha outside the object must be fully transparent, with no low-alpha haze or fringe touching any canvas edge. Generate one image only.
+Avoid: photorealism, glossy showroom lighting, luminous halo, bloom, cast shadow, oversized base, thick box body, signs or poster panels, extra bottles, detached floating pieces, checkerboard background, watermark.
