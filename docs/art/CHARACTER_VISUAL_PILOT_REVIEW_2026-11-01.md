@@ -239,18 +239,19 @@ Rikka remains the only character layer, while the Godot-owned title logo, real b
 separate. This confirms the QA override path still works; it does not change the title candidate's
 `runtime_approved:false` state.
 
-## Assistant placement adjustment (2026-11-02)
+## Assistant placement adjustment (2026-11-03)
 
 Following the latest visual check, the assistant group was moved slightly right and raised above the mockup bottom
-menu. The portrait anchor now uses `MainLayout.CHROME_BOTTOM + 30px`; the dialogue bubble keeps its independent
+menu. The portrait anchor now uses `MainLayout.CHROME_BOTTOM + 52px`; the dialogue bubble keeps its independent
 lower slot at `MainLayout.CHROME_BOTTOM + 12px`. The full-body source image and the display-only crop policy are
 unchanged. The adjusted captures are:
 
-- `build/standing_impl_left_menu_1280_adjusted.png`
-- `build/standing_impl_left_menu_1600_adjusted.png`
-- `build/standing_impl_left_menu_1920_adjusted.png`
+- `build/character_pilot_low_stock_positioned_1280.png`
+- `build/standing_impl_left_menu_1600_adjusted.png` (previous multi-resolution evidence)
+- `build/standing_impl_left_menu_1920_adjusted.png` (previous multi-resolution evidence)
 
-All three keep the portrait and dialogue above the bottom menu, with the dialogue following the portrait horizontally.
+The new 1280 capture moves the display frame approximately 32px right and 22px up; the portrait and dialogue remain
+above the bottom menu, with the dialogue following the portrait horizontally. The source full-body PNG is unchanged.
 This is layout QA only; `runtime_approved:false` and the rights-review gate remain unchanged.
 
 ## Re-capture after route verification (2026-11-02)

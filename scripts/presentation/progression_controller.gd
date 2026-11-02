@@ -25,10 +25,10 @@ const BUBBLE_WIDTH := 420
 # Keep the assistant just under the left menu without clipping the portrait at
 # the viewport edge.  The small rightward correction also applies to the
 # display-time bust-up crop; source PNGs are never modified.
-const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 232.0
+const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 200.0
 # Lift the portrait a little farther above the bottom chrome.  This is the
 # figure anchor; the dialogue bubble keeps its independently tuned lower slot.
-const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 30.0
+const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 52.0
 const BUBBLE_BOTTOM := Layout.CHROME_BOTTOM + 12.0
 # Keep the line panel aligned with the portrait's lower-left presentation area,
 # leaving the character face unobstructed and placing the dialogue a little lower.

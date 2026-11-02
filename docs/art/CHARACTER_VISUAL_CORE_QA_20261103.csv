@@ -6,7 +6,7 @@ functional_business_greeting,SCR-09,functional_pose,coarse_contact_sheet,automat
 reaction_discovery,SCR-06,bustup_reaction,coarse_contact_sheet,automated_pass,build/runtime_assistant_story_start_1280.png,pending_detail,pending,review_only,"記号はGodot独立レイヤー。"
 reaction_deadpan,SCR-11,bustup_reaction,coarse_contact_sheet,automated_pass,build/character_pilot_event_quiet_management_1280.png,pending_detail,pending,review_only,"静かな通りイベント用。"
 reaction_first_sale_joy,SCR-18,bustup_reaction,coarse_contact_sheet,automated_pass,build/character_first_sale_review_v2.png,pending_detail,pending,review_only,"初回売上リアクション用。"
-functional_low_stock,SCR-11,functional_pose,coarse_contact_sheet,automated_pass,build/standing_impl_low_stock_1280_current.png,pending_detail,pending,review_only,"在庫不足通知用。"
+functional_low_stock,SCR-11,functional_pose,coarse_contact_sheet,automated_pass,build/character_pilot_low_stock_positioned_1280.png,pending_detail,pending,review_only,"在庫不足通知用。立ち絵表示枠を旧位置から約32px右・約22px上へ調整し、下部メニューとの間隔を確保。"
 functional_sold_out,SCR-11,functional_pose,coarse_contact_sheet,automated_pass,build/character_pilot_stock_sold_out_current_1280.png,pending_detail,pending,review_only,"売り切れ通知用。"
 functional_queue,SCR-11,functional_pose,coarse_contact_sheet,automated_pass,not_captured,pending_detail,pending,review_only,"レジ行列通知用。"
 event_hot_day,SCR-11,event_image,coarse_contact_sheet,automated_pass,build/standing_event_hot_day_latest.png,pending_detail,pending,review_only,"既存イベント発生時だけ表示。"
