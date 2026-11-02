@@ -238,3 +238,10 @@ The title candidate was also re-captured at 1600x900 as
 Rikka remains the only character layer, while the Godot-owned title logo, real buttons, and notice control remain
 separate. This confirms the QA override path still works; it does not change the title candidate's
 `runtime_approved:false` state.
+
+The left-aligned assistant placement was re-captured after the latest layout change at
+`build/standing_impl_left_menu_1600_latest.png` and `build/standing_impl_left_menu_1920_latest.png`.
+At both resolutions the display-only crop keeps the portrait attached to the left edge, the dialogue panel follows
+the same group, the lower summary remains unobstructed, and the red `ゲーム終了` action stays inside the bottom-right
+chrome. The source full-body PNG remains unchanged. These captures are layout evidence only; the candidate registry
+and `runtime_approved:false` gate are unchanged.
