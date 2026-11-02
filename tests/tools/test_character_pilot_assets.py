@@ -66,6 +66,25 @@ class CharacterPilotAssetTests(unittest.TestCase):
                 ]
                 self.assertEqual(corners, [0, 0, 0, 0], entry["id"])
 
+    def test_fullbody_derivatives_do_not_drop_interior_colored_pixels(self):
+        """A background cutout must not erase a solid interior part of the uniform or body."""
+        registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        for entry in registry["assets"]:
+            if entry.get("kind") == "bustup_reaction" or "/derived_alpha/" not in entry.get("runtime_path", ""):
+                continue
+            source_path = ROOT / entry["derived_from"].removeprefix("res://")
+            runtime_path = ROOT / entry["runtime_path"].removeprefix("res://")
+            with Image.open(source_path) as source_image, Image.open(runtime_path) as runtime_image:
+                source = np.asarray(source_image.convert("RGB"))
+                alpha = np.asarray(runtime_image.convert("RGBA"))[:, :, 3]
+            # White background is excluded, and a 2px erosion ignores only the
+            # expected anti-aliased silhouette edge. Interior colored pixels
+            # becoming transparent are the failure mode seen in broken cutouts.
+            colored = (source.min(axis=2) < 225) | ((source.max(axis=2) - source.min(axis=2)) > 22)
+            interior = cv2.erode(colored.astype(np.uint8), np.ones((5, 5), np.uint8)) > 0
+            lost = int(np.count_nonzero(interior & (alpha < 16)))
+            self.assertLessEqual(lost, 64, f"{entry['id']}: {lost} interior source pixels became transparent")
+
     def test_review_alpha_derivations_trace_to_334_mapping(self):
         """Review-only cutouts must remain traceable without becoming runtime assets."""
         placement = json.loads(PLACEMENT.read_text(encoding="utf-8"))
