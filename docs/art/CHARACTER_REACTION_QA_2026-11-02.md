@@ -91,3 +91,8 @@ focused test `test_character_visual_pilot.gd`: 4 tests / 291 assertions / 0 fail
 確認画像は `build/placement_review_additional_001_alpha_1280_latest.png` と
 `build/placement_review_reaction_001_alpha_1280_latest.png`。この経路は `runtime_approved` を変更せず、
 候補画像を通常の `Main` ランタイムへ常駐ロードしない。
+
+候補指定による `Main` 実画面確認では、親のアシスタントステージが通常のstory/cue状態に依存して非表示になる不具合を修正した（`a4187673`）。
+レビュー候補を指定したときだけステージを表示し、解除時は通常の表示計算へ戻す。`test_character_visual_pilot.gd` は
+4 tests / 354 assertions / 0 failures。確認画像は `build/pilot_candidate_additional_001_main_1280_fixed.png` で、
+候補の全身元画像は表示時クロップされ、旧アシスタントは非表示、既存UI操作領域は維持される。
