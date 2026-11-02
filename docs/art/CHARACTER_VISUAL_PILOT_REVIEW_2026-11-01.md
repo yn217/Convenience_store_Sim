@@ -297,3 +297,13 @@ and rejects interior colored pixels that became transparent, which protects slee
 hands, and held objects from background-removal regressions. The current focused run passed
 **9 tests / 0 failures**. These are still QA captures; all 50 registry rows remain
 `runtime_approved:false` pending visual, rights, and redistribution review.
+
+## Latest stock-sold-out route capture (2026-11-03)
+
+`build/character_pilot_stock_sold_out_current_1280.png` was captured through the
+non-headless Godot CLI with `--pilot-cue=stock_sold_out --freeze --inspect-pilot`.
+The selected `functional_sold_out` full-body pilot is displayed in the normal
+assistant stage at 1280x720; the left menu, speech bubble, bottom objective/stat
+strip, and event controls remain usable. The source full-body PNG is unchanged and
+the display-only crop is still used. This is runtime route evidence only and does
+not alter the `runtime_approved:false` gate.
