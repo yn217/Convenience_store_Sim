@@ -78,3 +78,12 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 工事CGと未承認 `event_roadworks` 立ち絵が経営画面の専用行に収まり、イベント本文・操作UIを
 隠さないことを確認した。これはレビュー専用キャプチャであり、`event_roadworks` の
 `runtime_approved` は変更していない。
+
+## 追加の日替わりイベントレビュー（2026-11-03）
+
+- `build/character_review_event_after_work_1280.png` — `evt_after_work`
+- `build/character_review_event_bread_feature_1280.png` — `evt_bread_feature`
+- `build/character_review_event_cold_day_1280.png` — `evt_cold_day`
+
+3件ともイベントCGと未承認立ち絵が経営画面の専用行に収まり、イベント名・効果・操作UIを
+隠さないことを確認した。いずれもレビュー専用キャプチャであり、`runtime_approved` は変更していない。
