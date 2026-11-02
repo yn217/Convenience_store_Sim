@@ -29,5 +29,6 @@
 - `build/character_core_normal_1280.png`: 通常画面のアシスタント枠で、元の `1024x1536` 全身PNGを変更せず、表示用のクリップ枠だけでバストアップ表示。吹き出しも左メニュー下の同じ表示レイヤーに収まり、下部メニューと接触しない。
 - `build/character_core_normal_1600.png` / `build/character_core_normal_1920.png`: 1600×900と1920×1080でも、表示時クロップ・吹き出し・下部メニューとの間隔を確認。
 - `build/character_core_opening_1280.png`: `--opening` の開店経路で、承認済みの接客立ち絵を通常ステージへ接続。開店演出終了後も旧アシスタントとの二重表示なし。
+- `build/character_core_low_stock_1280.png` / `build/character_core_long_queue_1280.png`: 承認済みの在庫不足・レジ行列cueを通常画面で確認。CLI inspectionでもそれぞれ `functional_low_stock.png` / `functional_queue.png` が選択され、legacy表示は非表示。
 
 いずれもGodot 4.7.2のCLIキャプチャで確認し、元の全身PNGは変更していない。
