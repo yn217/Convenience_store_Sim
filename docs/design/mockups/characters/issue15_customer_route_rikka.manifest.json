@@ -1,0 +1,31 @@
+{
+  "asset_id": "issue15_customer_route_rikka",
+  "kind": "ui_mockup",
+  "issue": 15,
+  "title": "来店客動線画面 小春六花案",
+  "character_identity": "小春六花",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue15_customer_route_rikka.png",
+  "screen_role": "customer route and state-machine visualization",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "text_encoder": "qwen_3_06b_base.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "loras": [
+      {
+        "file": "Koharu-Koharu-epoch100.safetensors",
+        "trigger": "koharu_rikka",
+        "strength": 0.8
+      },
+      {
+        "file": "anima-style-epoch35-lr5e5.safetensors",
+        "trigger": "anima_style",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "595613b5-7205-41ff-bd35-d00464016f01"
+  }
+}
