@@ -1,0 +1,27 @@
+{
+  "asset_id": "clerk_register_idle_right_v1",
+  "dimensions_px": [
+    1024,
+    1536
+  ],
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox_gt0_xyxy": [
+    37,
+    19,
+    996,
+    1496
+  ],
+  "source_sha256": "f6127203bbffc3dce576d2970a4dfca37905bf17691ef42502d2fc14fd22b4bf",
+  "content": "pass: full side-profile figure, clothing and both shoes present",
+  "identity_consistency": "visual only; consistent ponytail, blue/white sleeves and apron colors but no measured identity check",
+  "orientation": "requested right-facing profile appears clear, exact 90-degree yaw unmeasured",
+  "projection": "blocked: character sprite projection and world scale not calibrated",
+  "alpha": "checkerboard preview provided; no source modification, mask threshold or crop",
+  "runtime": "not tested; incomplete view/animation set",
+  "decision": "review-only right-profile candidate; await independent review before continuing view set",
+  "runtime_approved": false,
+  "github_uploaded": false
+}
