@@ -1,0 +1,26 @@
+{
+  "asset_id": "issue24-overlay-rikka",
+  "kind": "ui_mockup",
+  "issue": 24,
+  "character_identity": "Koharu Rikka",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue24_overlay_rikka.png",
+  "screen_role": "動線・在庫・売上オーバーレイ・遮蔽物の選択補助",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "loras": [
+      {
+        "name": "Koharu-Koharu-epoch100.safetensors",
+        "strength": 0.8
+      },
+      {
+        "name": "anima-style-epoch35-lr5e5.safetensors",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "66fdd1aa-46e7-4509-80bd-86ef6bbc3e82"
+  }
+}
