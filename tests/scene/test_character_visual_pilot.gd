@@ -17,6 +17,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 			t.ok(bool(entry.get("runtime_approved", false)), "%s is approved for normal runtime" % id)
 		else:
 			t.ok(not bool(entry.get("runtime_approved", true)), "%s remains review-only" % id)
+		t.eq(panel.entry_allowed_for_mode(entry, false), approved_core.has(id), "%s release gate matches the approval state" % id)
 		t.ok(ResourceLoader.exists(path), "%s runtime path exists" % id)
 		t.ok(load(path) is Texture2D, "%s runtime texture loads" % id)
 	t.eq(kind_counts.get("functional_pose", 0), 31, "all 31 functional standing poses are selected")
