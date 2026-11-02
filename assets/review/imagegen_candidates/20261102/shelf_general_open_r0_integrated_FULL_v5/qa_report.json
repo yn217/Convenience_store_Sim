@@ -1,0 +1,106 @@
+{
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v5",
+  "review_date": "2026-11-02",
+  "review_status": "PARTIAL_REVIEW_CANDIDATE",
+  "source_original": {
+    "path": "source_original.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "byte_size": 974026,
+    "sha256": "6245c3386ee36f0cd74631915faa548fd2e893f104250a8a7b5c4624b4926ef0",
+    "preserved_unchanged": true
+  },
+  "content_review": {
+    "status": "PASS",
+    "notes": "Visually four stocked horizontal sales decks with generic packages integrated into the gondola; no top canopy. Merchandise rows are attached to and resting on the shelves in the illustration; no detached cards."
+  },
+  "shape_review": {
+    "status": "PARTIAL_FAIL",
+    "notes": "Four tier count passes the specific correction from v4. However the shelf decks and base appear deep, and a large blank upright rear panel remains. Compared with corrected EMPTY geometry, this may still be too bulky. Game-style finish is glossier and more dimensional than the low-poly target."
+  },
+  "alpha": {
+    "status": "FAIL_MARGIN",
+    "min": 0,
+    "max": 255,
+    "fully_transparent_pixels": 1048404,
+    "fully_opaque_pixels": 842,
+    "semi_transparent_pixels": 523270,
+    "bbox_alpha_ge_8_xyxy": [
+      208,
+      192,
+      1074,
+      1181
+    ],
+    "margins_percent_ltrb": [
+      16.59,
+      15.31,
+      14.35,
+      5.82
+    ],
+    "bbox_alpha_ge_128_xyxy": [
+      208,
+      193,
+      1073,
+      1180
+    ],
+    "margins_ge_128_percent_ltrb": [
+      16.59,
+      15.39,
+      14.43,
+      5.9
+    ],
+    "edge_max_alpha": {
+      "left": 1,
+      "right": 0,
+      "top": 0,
+      "bottom": 1
+    },
+    "notes": "Checkerboard exterior is transparent; no broad opaque matte. Bottom visible margin fails the 12% gate; isolated alpha=1 touches bottom edge. Do not crop or stretch the original to disguise this."
+  },
+  "projection_and_shape": {
+    "status": "NOT_CALIBRATED",
+    "target": "iso2x_v1",
+    "reference_slopes": [
+      -0.5,
+      0.5
+    ],
+    "estimated_hough_slopes": [
+      -0.52,
+      0.56
+    ],
+    "method": "OpenCV Canny+HoughLinesP on full image; segments can include non-shelf edges, so estimates are approximate only",
+    "world_footprint_tiles": [
+      1,
+      2
+    ],
+    "measured_control_points": [],
+    "godot_checked": false
+  },
+  "unverified": [
+    "physical dimensions",
+    "1x2 world footprint correspondence",
+    "r0 axis and ground pivot",
+    "shelf-depth and backing match to EMPTY shape",
+    "rendered appearance at game zoom",
+    "occlusion and runtime performance"
+  ],
+  "runtime_approved": false,
+  "recommended_action": "Keep review-only. Preserve original. Resolve bottom alpha margin in a non-destructive derivative only if allowed, then compare exact four-deck geometry and tile landmarks against the corrected EMPTY reference and actual Godot view; do not stretch or mirror to force fit.",
+  "independent_visual_review": {
+    "status": "PARTIAL",
+    "reviewer": "Codex subagent visual QA",
+    "scope": "Image-only, no file edits",
+    "findings": {
+      "four_stocked_sales_tiers": "PASS",
+      "canopy_or_roof": "PASS_NONE_PRESENT",
+      "shelf_decks_and_front_lips": "PASS",
+      "products_resting_on_shelves": "PASS",
+      "japanese_convenience_gondola_naturalness": "PARTIAL",
+      "tall_back_panel_and_large_base": "PARTIAL",
+      "product_scale_and_density": "PARTIAL",
+      "bright_outer_edge_and_gloss": "PARTIAL",
+      "alpha_metrics": "NOT_REVIEWED_BY_VISUAL_AGENT"
+    }
+  }
+}\n

@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_general_open_r0_integrated_FULL_v5",
+  "asset_class": "shelf_with_baked_merchandise",
+  "requested_subject": "Japanese ambient open gondola FULL; exactly four shelf decks; no roof/top cap; 1x2 fixture",
+  "actual_subject": "Four-level open shelf stocked with bags, cups, cartons, pouches and bottles",
+  "production_method": "codex_imagegen_builtin",
+  "stock_state": "FULL",
+  "stock_rendering": "products_baked",
+  "fixture_type_id": "shelf_general",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 974026,
+    "sha256": "6245c3386ee36f0cd74631915faa548fd2e893f104250a8a7b5c4624b4926ef0",
+    "generated_from": "C:/Users/yuuna/.codex/generated_images/01a167fe-68ec-7a33-b9a0-3e0524a92252/exec-14bfe2ab-1241-4756-8016-e7189d49b5a0.png",
+    "reference_hashes": [
+      "ccd65d90353e8a346bfbb638cb981f66bb96655b6be9d45cdbd5dcae1e478aa7",
+      "50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3",
+      "d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae"
+    ]
+  },
+  "outputs": [
+    {"role":"source_original","path":"source_original.png","byte_size":974026,"sha256":"6245c3386ee36f0cd74631915faa548fd2e893f104250a8a7b5c4624b4926ef0","github_uploaded":false},
+    {"role":"qa_overlay","path":"checkerboard_review.jpg","github_uploaded":false}
+  ],
+  "projection": {
+    "id":"iso2x_v1",
+    "rotation":0,
+    "customer_access_edge":"r0",
+    "checked_in_godot":false,
+    "control_points":[],
+    "hough_long_axis_median_slope_approx":-0.52,
+    "hough_depth_axis_median_slope_approx":0.56,
+    "target_slopes":[-0.5,0.5],
+    "max_xy_error_source_px":null,
+    "max_z_error_source_px":null,
+    "verdict":"PARTIAL/NOT CALIBRATED; image-level edge estimate only"
+  },
+  "geometry": {
+    "footprint_tiles":[1,2],
+    "dimensions_m":null,
+    "world_ground_origin_m":null,
+    "image_anchor_px":null,
+    "verified":false
+  },
+  "quality": {
+    "subject":"pass",
+    "japanese_fixture_reference":"partial",
+    "geometry":"fail_review_gate",
+    "projection":"not_passed",
+    "alpha":"fail_margin_gate",
+    "state_sync":"not_applicable_single_FULL_candidate",
+    "godot_runtime":"not_checked",
+    "human_visual":"partial",
+    "notes":[
+      "Exactly four stocked shelf decks are visually present; no roof or canopy is visible.",
+      "The products are visually integrated with the shelf illustration and are not separate floating cards.",
+      "Shelf decks and base look deep; the large vertical rear panel needs comparison against the corrected EMPTY shape.",
+      "Visual finish has glossy/render-like highlights compared with the flatter target game screenshot.",
+      "Bottom alpha margin at alpha>=8 is 5.82%, below the 12% review gate; isolated alpha=1 pixels touch bottom edge.",
+      "Hough slope estimates are approximate and do not prove world projection or placement."
+    ]
+  },
+  "references": [
+    {"role":"geometry_empty","path":"assets/review/guided_assets/shelf_general_open_r0_v1/empty_corrected.png","sha256":"ccd65d90353e8a346bfbb638cb981f66bb96655b6be9d45cdbd5dcae1e478aa7"},
+    {"role":"game_style","path":"assets/review/guided_assets/shelf_general_open_r0_v1/game_reference.png","sha256":"50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3"},
+    {"role":"projection_guide","path":"assets/review/guided_assets/shelf_general_open_r0_v1/guide_structure.png","sha256":"d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae"}
+  ],
+  "runtime_approved":false,
+  "decision":"REVIEW CANDIDATE ONLY; do not runtime-adopt. Four-tier count and integrated shelf+goods requirement appear met, but alpha margin, geometry/style and calibrated projection gates are not passed."
+}
