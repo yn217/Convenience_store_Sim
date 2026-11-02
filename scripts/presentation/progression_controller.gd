@@ -304,10 +304,11 @@ func refresh_visual_pilot() -> void:
 		return
 	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
 	var enabled: bool = pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled()
+	var review_candidate: Dictionary = pilot.review_candidate_entry() if enabled and pilot != null and pilot.has_method("review_candidate_entry") else {}
+	var review_candidate_active := not review_candidate.is_empty()
 	var entry: Dictionary = {}
 	var reaction_entry: Dictionary = {}
 	if enabled:
-		var review_candidate: Dictionary = pilot.review_candidate_entry() if pilot.has_method("review_candidate_entry") else {}
 		if not review_candidate.is_empty():
 			if String(review_candidate.get("kind", "")) == "bustup_reaction":
 				reaction_entry = review_candidate
@@ -335,6 +336,8 @@ func refresh_visual_pilot() -> void:
 		_pilot_reaction_symbol.visible = reaction_usable and not _pilot_reaction_symbol.text.is_empty()
 	if _figure != null:
 		_figure.visible = not usable and not reaction_usable
+	if review_candidate_active and not _suppressed_by.has("event_pilot"):
+		_stage.visible = true
 	var chrome := get_node_or_null("../MockupChrome")
 	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):
 		var event_pilot_owns_assistant := _suppressed_by.has("event_pilot")

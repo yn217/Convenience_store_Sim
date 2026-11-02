@@ -156,6 +156,11 @@ func review_candidate_entry() -> Dictionary:
 func _refresh_stage_for_review_candidate() -> void:
 	var guide := get_node_or_null("../ProgressionController")
 	if guide != null and guide.has_method("refresh_visual_pilot"):
+		# Candidate capture is intentionally independent of story/cue state. Re-run the
+		# normal stage visibility calculation so the selected review image can be seen
+		# in Main, then let refresh_visual_pilot load only that candidate texture.
+		if guide.has_method("_refresh_stage"):
+			guide.call("_refresh_stage")
 		guide.refresh_visual_pilot()
 
 

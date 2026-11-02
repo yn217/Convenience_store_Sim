@@ -128,6 +128,12 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.eq(guide._bubble.offset_left - crop.offset_left, 260.0, "the dialogue bubble follows the portrait horizontally")
 	t.ok(guide._bubble.offset_top > -440.0, "the dialogue bubble is lowered in the assistant slot")
 	t.eq(Vector2((guide._pilot_figure.texture as Texture2D).get_size()), Vector2(1024, 1536), "the source full-body texture remains unmodified")
+	panel.set_review_candidate("additional_001")
+	await tree.process_frame
+	t.ok(guide._stage.visible, "candidate review override makes the assistant stage visible")
+	t.ok(guide._pilot_figure.visible, "candidate review override displays the selected full-body candidate")
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/review/derived_alpha/additional_001.png", "candidate review uses the selected derived preview")
+	panel.clear_review_candidate()
 	var reaction_preview: TextureRect = panel._reaction_image
 	t.ok(reaction_preview != null, "bust-up review has a dedicated preview slot")
 	panel._show_selected(panel._find("reaction_discovery"))
