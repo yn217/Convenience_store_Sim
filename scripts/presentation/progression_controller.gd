@@ -346,6 +346,11 @@ func refresh_visual_pilot() -> void:
 		# The opening cut-in owns the character layer for its whole animation.
 		# Keep both the generated pilot stage and the legacy fallback out of the frame.
 		_stage.visible = false
+	if PILOT_SCREEN_CUES.has(_pilot_cue_id) and not _suppressed_by.has("event_pilot") and not _suppressed_by.has("build") and not _opening_cutin_active and (usable or reaction_usable):
+		# A screen-scoped pilot cue is allowed to remain above the management window.
+		# Reassert this after snapshot/window callbacks so the parent presentation node
+		# cannot accidentally hide an explicitly requested visual route.
+		_stage.visible = true
 	var chrome := get_node_or_null("../MockupChrome")
 	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):
 		var event_pilot_owns_assistant := _suppressed_by.has("event_pilot")

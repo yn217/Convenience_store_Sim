@@ -233,6 +233,7 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "order_help", "opening the order screen requests the purchasing guidance pose")
 	t.ok(pc._stage.visible, "order guidance remains visible over the management screen")
+	t.ok(pc._stage.is_visible_in_tree(), "order guidance is visible in the scene tree")
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_order_help.png", "order screen uses the purchasing guidance pose")
 	var chrome := main.get_node_or_null("MockupChrome")
 	if chrome != null:
@@ -247,11 +248,13 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "restock_help", "opening the restock section requests the replenishment guidance pose")
 	t.ok(pc._stage.visible, "restock guidance remains visible over the management screen")
+	t.ok(pc._stage.is_visible_in_tree(), "restock guidance is visible in the scene tree")
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_restock_guidance.png", "restock section uses the replenishment guidance pose")
 	main.call("open_screen_tab", "店員")
 	await tree.process_frame
 	t.eq(pc._pilot_cue_id, "staff_schedule_open", "opening the staff screen requests the schedule pose")
 	t.ok(pc._stage.visible, "the schedule pose remains visible over the staff screen")
+	t.ok(pc._stage.is_visible_in_tree(), "the schedule pose is visible in the scene tree")
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_staff_schedule.png", "staff screen uses the schedule pose")
 	player.pilot_cue_requested.emit("low_stock_notice", {})
 	await tree.process_frame

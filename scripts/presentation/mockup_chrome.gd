@@ -383,7 +383,9 @@ func set_window(open: bool, tab: String) -> void:
 		progression.set_suppressed(open, "window")
 	if guide != null and not _last_snap.is_empty():
 		guide.apply_snapshot(_last_snap)
-		guide.visible = guide.visible and not open
+		# Keep the controller node alive while a management window is open.
+		# Its presentation layer decides whether the legacy assistant is hidden or
+		# an explicitly requested pilot cue may remain visible over the window.
 	for t in _tabs:
 		var on: bool = t == tab
 		(_tabs[t]["plate"] as UiShape).setup({"top": Color("ffe85a") if on else Color("fffdfa"), "bottom": Color("ffae12") if on else Color("eee0d8"),
@@ -415,7 +417,6 @@ func label(id: String) -> Label:
 func apply_snapshot(s: Dictionary) -> void:
 	_last_snap = s
 	guide.apply_snapshot(s)
-	guide.visible = guide.visible and not _window_layer.visible
 	var day := int(s["day"])
 	_labels["Day"].text = "DAY %d" % day
 	_labels["Date"].text = "%s（%s）" % [GameCalendar.month_week_text(day, days_per_month), GameCalendar.season_of(day, days_per_month)]

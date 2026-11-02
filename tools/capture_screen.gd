@@ -312,6 +312,9 @@ func _run() -> void:
 	if OS.get_cmdline_user_args().has("--freeze"):
 		s.speed_setting = 0
 		app._publish_snapshot()
+		var freeze_guide := main.get_node_or_null("ProgressionController")
+		if freeze_guide != null and bool(freeze_guide.get("_opening_cutin_active")) and freeze_guide.has_method("_finish_opening_cutin"):
+			freeze_guide._finish_opening_cutin()
 		main.get_node("CuePlayer").advance(10.0)
 		# CuePlayer.advance above intentionally settles transient effects, but it also
 		# consumes the short pilot-cue timer. Re-apply the requested cue last so the
@@ -383,6 +386,8 @@ func _reapply_capture_pilot_cue(main: Node) -> void:
 	var guide := main.get_node_or_null("ProgressionController")
 	if guide == null or not guide.has_method("request_pilot_cue"):
 		return
+	if bool(guide.get("_opening_cutin_active")) and guide.has_method("_finish_opening_cutin"):
+		guide._finish_opening_cutin()
 	guide._celebrations.clear()
 	if guide._celebrate_timer != null:
 		guide._celebrate_timer.stop()
@@ -402,6 +407,8 @@ func _clear_capture_transients(main: Node) -> void:
 	## Capture-only cleanup: keep opening/story screenshots focused on the requested character layer.
 	var guide := main.get_node_or_null("ProgressionController")
 	if guide != null:
+		if bool(guide.get("_opening_cutin_active")) and guide.has_method("_finish_opening_cutin"):
+			guide._finish_opening_cutin()
 		guide._celebrations.clear()
 		if guide._celebrate_timer != null:
 			guide._celebrate_timer.stop()
