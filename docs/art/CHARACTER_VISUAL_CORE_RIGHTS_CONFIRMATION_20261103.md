@@ -28,5 +28,6 @@
 - `build/event_hot_day_core_normal_1600.png` / `build/event_hot_day_core_normal_1920.png`: 1600×900と1920×1080でも、イベントCG・イベント立ち絵・経営ウィンドウの配置と二重表示なしを確認。
 - `build/character_core_normal_1280.png`: 通常画面のアシスタント枠で、元の `1024x1536` 全身PNGを変更せず、表示用のクリップ枠だけでバストアップ表示。吹き出しも左メニュー下の同じ表示レイヤーに収まり、下部メニューと接触しない。
 - `build/character_core_normal_1600.png` / `build/character_core_normal_1920.png`: 1600×900と1920×1080でも、表示時クロップ・吹き出し・下部メニューとの間隔を確認。
+- `build/character_core_opening_1280.png`: `--opening` の開店経路で、承認済みの接客立ち絵を通常ステージへ接続。開店演出終了後も旧アシスタントとの二重表示なし。
 
 いずれもGodot 4.7.2のCLIキャプチャで確認し、元の全身PNGは変更していない。
