@@ -167,6 +167,8 @@ Follow-up CLI captures also passed at 1920x1080 (`build/character_pilot_cli_1920
 
 The latest management-page capture is `build/character_pilot_event_roadworks_management_1280.png`. It opens the real `経営` page, reveals the event visual row, and shows the roadworks illustration beside the selected full-body event pilot while the store assistant remains in its separate cropped stage. The capture log reports `pilot_event ... visible=true ... event_roadworks.png`; this is display QA only and does not approve the candidate.
 
+The capture helper was tightened in commit `8a055181`: when a story or pilot cue is requested, it clears any late startup achievement toast and reapplies the requested cue at the final save boundary. The 1280x720 capture `build/runtime_assistant_story_start_1280.png` therefore shows the requested story line and independent reaction mark without the unrelated `目標達成` overlay. The ordinary placement capture `build/runtime_assistant_placement_1280.png` confirms the same display-only bust-up crop: the source remains a 1024x1536 full-body texture, while only the 300 px-high assistant frame clips it at runtime.
+
 ## Next gate
 
 1. Open the review gallery scene and inspect all 49 derived-alpha candidates.
