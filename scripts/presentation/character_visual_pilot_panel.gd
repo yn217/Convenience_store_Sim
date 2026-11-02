@@ -293,6 +293,9 @@ func _entry_allowed(entry: Dictionary) -> bool:
 
 
 static func entry_allowed_for_mode(entry: Dictionary, debug_build: bool) -> bool:
+	var path := String(entry.get("runtime_path", ""))
+	if path == "" or not ResourceLoader.exists(path):
+		return false
 	return debug_build or bool(entry.get("runtime_approved", false))
 
 
