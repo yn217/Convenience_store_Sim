@@ -75,6 +75,23 @@ P1リアクション`reaction_001`〜`reaction_010`も透過処理し、全件`R
 続く実ゲームイベント用の立ち絵`remaining_141`〜`remaining_179`もBiRefNetで透過処理し、39件すべて`RGBA 1024x1536`・alpha extrema `(0,255)`を確認した。代表`remaining_159`は`build/pilot_candidate_remaining_159_alpha_1280.png`で、左メニュー直下へ寄せたMain表示を確認した。これらは引き続きレビュー専用で、`runtime_approved`と通常レジストリは変更していない。
 `python tests/tools/test_character_pilot_assets.py`で、runtime登録済み49件に加えて、`assets/review/derived_alpha/`の加工済み候補が334行対応表・元画像・寸法・RGBA・透明四隅へ追跡でき、`runtime_approved=false`を維持することを検査する。
 
+## 個別承認の反映
+
+目視QAと権利確認が完了した候補だけを通常ビルドへ移す場合は、候補IDを明示して承認ツールを使う。既定は検証のみで、レジストリは変更しない。
+
+```powershell
+python tools/assets/approve_character_pilot.py functional_low_stock
+```
+
+実際に書き込むには、両方の確認フラグと`--apply`が必要である。対象行だけを変更し、同じ場所にバックアップを作成する。334件配置提案JSONは変更しない。
+
+```powershell
+python tools/assets/approve_character_pilot.py functional_low_stock `
+  --visual-qa-confirmed --rights-confirmed --apply
+```
+
+未承認候補の一括採用や、確認フラグなしの書き込みはできない。
+
 ## 意思決定
 CSVは追加334画像を**漏れなく**対応付けた、ゲーム側の画面・状態・UI枠の実装割り当て表である。これは一括ランタイム採用承認ではない。PNGごとのポーズを示すComfyUI埋め込みpromptおよび実画像との照合は未完了であり、`visual_match=not_yet_verified` を維持する。生成番号・Seedで意味を推定しない。候補画像と用途が一致しない場合は該当行の画面・条件を修正する。誤ったポーズを無理に使わない。
 
