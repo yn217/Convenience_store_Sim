@@ -319,6 +319,29 @@ entry and do not `preload` the pilot registry. A focused asset test guards this
 rule so the 50 candidate textures are not turned into a startup cache by a later
 route change.
 
+## Approval rollback procedure
+
+Approval is intentionally separate from the image-processing and display work.
+Before applying an approval, run the tool without `--apply` for the exact asset
+IDs and save its validation output. When `--apply` is used, `tools/assets/approve_character_pilot.py`
+writes a timestamped backup next to `data/presentation/character_visuals_v1.json`
+before changing only the requested registry rows.
+
+If a newly approved route causes a visual or runtime regression:
+
+1. Disable the route immediately by restoring the timestamped registry backup, or
+   revert the commit that contains the approval. Do not delete or overwrite the
+   original candidate PNG or its derived alpha PNG.
+2. Run the focused `character_visual_pilot` and asset-integrity tests; the legacy
+   assistant/event/title fallback remains the expected result while the row is
+   `runtime_approved:false`.
+3. Keep the affected row held for visual/rights review and record the asset ID,
+   backup timestamp, screenshot, and reason in the PR conversation before any
+   re-approval.
+
+The current branch has no applied approvals, so the fallback path is still the
+baseline and no rollback artifact is required yet.
+
 ## Latest stock-sold-out route capture (2026-11-03)
 
 `build/character_pilot_stock_sold_out_current_1280.png` was captured through the
