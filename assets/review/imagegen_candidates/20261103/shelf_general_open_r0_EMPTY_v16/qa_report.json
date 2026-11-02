@@ -1,0 +1,25 @@
+{
+  "asset_id": "shelf_general_open_r0_EMPTY_v16",
+  "runtime_approved": false,
+  "review_verdict": "PARTIAL_FAIL_SHAPE_GATE / REVIEW_ONLY",
+  "source_sha256": "71a33b96e36136a135c9c45ca3525fe66e120e78f421b1600705cf8abc487c75",
+  "shelf_count": "PASS_VISUAL_ONLY - four decks",
+  "no_canopy": "PASS_VISUAL_ONLY",
+  "geometry": "PARTIAL_FAIL - four tiers are now clearly visible, but each deck still presents a broad pale surface and the lower base reads thick. The shelf is recognizable, yet the depth rejection concern is not cleared.",
+  "style": "FAIL - strong specular highlights and a dark vignette/lighting treatment do not match the soft matte painted reference.",
+  "alpha": "FAIL - alpha>=1 reaches left and bottom canvas edges; alpha>=8 margins L/T/R/B are 21.42/3.12/22.59/0.78%, failing the 12% requirement on top and bottom.",
+  "projection": "PARTIAL - apparent long-axis direction is closer to target than v15; exact slopes, camera, and axis are uncalibrated.",
+  "dimensions_m": [
+    0.92,
+    1.92,
+    1.5
+  ],
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "customer_access_edge": "unverified",
+  "anchor_px": null,
+  "game_zoom_review": "NOT RUN - no Godot/Renderer/runtime changes",
+  "notes": "v16 improves the visible shelf count and long-axis direction versus v15, but broad deck surfaces, thick base, alpha fringe, and calibration remain unresolved. Do not pass the EMPTY gate."
+}
