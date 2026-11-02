@@ -314,6 +314,11 @@ python tools/assets/build_character_pilot_contact_sheet.py --core-only
 The sheet is a visual review aid only; it does not alter source PNGs, runtime
 derivatives, or approval flags.
 
+The per-image open-gate record for the core set is
+`docs/art/CHARACTER_VISUAL_CORE_QA_20261103.csv`. It records the route capture
+where one exists, while keeping detailed hand review, rights review, and
+`runtime_approved` explicitly pending.
+
 The Presentation routes use deferred `load(runtime_path)` calls for the selected
 entry and do not `preload` the pilot registry. A focused asset test guards this
 rule so the 50 candidate textures are not turned into a startup cache by a later

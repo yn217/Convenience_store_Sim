@@ -1,0 +1,12 @@
+asset_id,screen_id,kind,visual_match,alpha_check,layout_capture,hand_review,rights_review,approval_state,notes
+title_background_pilot,SCR-05,title_background,coarse_contact_sheet,not_applicable,build/title_standing_pilot_latest.png,pending_detail,pending,review_only,"人物入り背景とGodot UIの二重表示を確認。タイトル候補の正式採用は保留。"
+fullbody_dynamic_201,SCR-06,fullbody,coarse_contact_sheet,automated_pass,not_captured,pending_detail,pending,review_only,"通常アシスタントの基準ポーズ。"
+functional_layout_guidance,SCR-06,functional_pose,coarse_contact_sheet,automated_pass,not_captured,pending_detail,pending,review_only,"建設・配置案内用。"
+functional_business_greeting,SCR-09,functional_pose,coarse_contact_sheet,automated_pass,build/standing_opening_cutin_clean_1280.png,pending_detail,pending,review_only,"開店時の専用カットイン。"
+reaction_discovery,SCR-06,bustup_reaction,coarse_contact_sheet,automated_pass,build/runtime_assistant_story_start_1280.png,pending_detail,pending,review_only,"記号はGodot独立レイヤー。"
+reaction_deadpan,SCR-11,bustup_reaction,coarse_contact_sheet,automated_pass,build/character_pilot_event_quiet_management_1280.png,pending_detail,pending,review_only,"静かな通りイベント用。"
+reaction_first_sale_joy,SCR-18,bustup_reaction,coarse_contact_sheet,automated_pass,build/character_first_sale_review_v2.png,pending_detail,pending,review_only,"初回売上リアクション用。"
+functional_low_stock,SCR-11,functional_pose,coarse_contact_sheet,automated_pass,build/standing_impl_low_stock_1280_current.png,pending_detail,pending,review_only,"在庫不足通知用。"
+functional_sold_out,SCR-11,functional_pose,coarse_contact_sheet,automated_pass,build/character_pilot_stock_sold_out_current_1280.png,pending_detail,pending,review_only,"売り切れ通知用。"
+functional_queue,SCR-11,functional_pose,coarse_contact_sheet,automated_pass,not_captured,pending_detail,pending,review_only,"レジ行列通知用。"
+event_hot_day,SCR-11,event_image,coarse_contact_sheet,automated_pass,build/standing_event_hot_day_latest.png,pending_detail,pending,review_only,"既存イベント発生時だけ表示。"

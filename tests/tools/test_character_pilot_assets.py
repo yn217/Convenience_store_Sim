@@ -1,6 +1,7 @@
 """Focused integrity checks for the selected character-pilot PNGs."""
 
 import json
+import csv
 from pathlib import Path
 import unittest
 
@@ -12,6 +13,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "data" / "presentation" / "character_visuals_v1.json"
 PLACEMENT = ROOT / "docs" / "art" / "COMFYUI_334_IMAGE_PLACEMENT_20261101.json"
+CORE_QA = ROOT / "docs" / "art" / "CHARACTER_VISUAL_CORE_QA_20261103.csv"
 REVIEW_DERIVED = ROOT / "assets" / "review" / "derived_alpha"
 CANDIDATE_ROOT = ROOT / "assets" / "review" / "imagegen_candidates" / "20261031" / "issue30_31_32_comfyui"
 REACTION_SYMBOL_REGIONS = {
@@ -23,6 +25,23 @@ REACTION_SYMBOL_REGIONS = {
 
 
 class CharacterPilotAssetTests(unittest.TestCase):
+    def test_core_qa_table_matches_registry_and_keeps_open_review_gates(self):
+        registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        expected = set(registry["core_pilot_ids"])
+        with CORE_QA.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 11)
+        self.assertEqual({row["asset_id"] for row in rows}, expected)
+        required = {
+            "asset_id", "screen_id", "kind", "visual_match", "alpha_check",
+            "layout_capture", "hand_review", "rights_review", "approval_state",
+        }
+        for row in rows:
+            self.assertTrue(required.issubset(row), row["asset_id"])
+            self.assertEqual(row["approval_state"], "review_only", row["asset_id"])
+            self.assertEqual(row["hand_review"], "pending_detail", row["asset_id"])
+            self.assertEqual(row["rights_review"], "pending", row["asset_id"])
+
     def test_pilot_routes_use_deferred_loads_instead_of_preloading_the_registry(self):
         """The 50 candidate textures must not become a startup preload/cache."""
         scripts = [
