@@ -1,0 +1,26 @@
+{
+  "asset_id": "issue10-product-pricing-rikka",
+  "kind": "ui_mockup",
+  "issue": 10,
+  "character_identity": "Koharu Rikka",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue10_product_pricing_rikka.png",
+  "screen_role": "商品マスタ・カテゴリ・販売価格設定",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "loras": [
+      {
+        "name": "Koharu-Koharu-epoch100.safetensors",
+        "strength": 0.8
+      },
+      {
+        "name": "anima-style-epoch35-lr5e5.safetensors",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "9db4b67d-ce12-4293-ae91-2e23b94fd76f"
+  }
+}
