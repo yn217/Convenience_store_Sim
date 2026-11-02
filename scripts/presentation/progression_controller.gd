@@ -22,14 +22,14 @@ const FIGURE_SIZE := Vector2(300, 436)   # keeps the art's 640:931 aspect
 const PILOT_BUSTUP_FRAME_SIZE := Vector2(FIGURE_SIZE.x, 300.0)
 const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
-# Keep the assistant just under the left menu instead of leaving a wide dead gap
-# between the menu and the portrait/bubble group.  All assistant visuals share
-# this anchor, so the full-body source and the display-time bust-up crop move
-# together without modifying any source image files.
-const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 248.0
-# The mockup chrome is taller than the legacy summary strip. Reserve a small
-# gap above it so the pilot never renders on top of the bottom menu.
-const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 12.0
+# Keep the assistant just under the left menu without clipping the portrait at
+# the viewport edge.  The small rightward correction also applies to the
+# display-time bust-up crop; source PNGs are never modified.
+const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 232.0
+# Lift the portrait a little farther above the bottom chrome.  This is the
+# figure anchor; the dialogue bubble keeps its independently tuned lower slot.
+const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 30.0
+const BUBBLE_BOTTOM := Layout.CHROME_BOTTOM + 12.0
 # Keep the line panel aligned with the portrait's lower-left presentation area,
 # leaving the character face unobstructed and placing the dialogue a little lower.
 const BUBBLE_TOP_DROP := 92.0
@@ -613,7 +613,7 @@ func _build_stage() -> void:
 	_bubble.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	_bubble.offset_left = ASSISTANT_LEFT + FIGURE_SIZE.x - 40          # beside her head, right of the left menu
 	_bubble.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x - 40 + BUBBLE_WIDTH
-	_bubble.offset_top = -FIGURE_SIZE.y - ASSISTANT_BOTTOM + 40 + BUBBLE_TOP_DROP
+	_bubble.offset_top = -FIGURE_SIZE.y - BUBBLE_BOTTOM + 40 + BUBBLE_TOP_DROP
 	_bubble.offset_bottom = _bubble.offset_top
 	_bubble.grow_vertical = Control.GROW_DIRECTION_END
 	_stage.add_child(_bubble)
