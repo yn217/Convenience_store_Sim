@@ -156,11 +156,12 @@
       "trigger": "story_first_restock",
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_restock_guidance.png",
       "derived_from": "res://assets/runtime/character_pilot/functional_restock_guidance.png",
-      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_006_functional_00001_.png",
-      "source_pose": "006",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_005_functional_00001_.png",
+      "source_pose": "005",
       "status": "pilot_selected",
       "runtime_approved": false,
-      "fallback": "text_only"
+      "fallback": "text_only",
+      "review_note": "仕入れ完了を表す段ボール箱を両手で持つ候補へ更新。story_first_restock の表示専用パイロットで、手指・衣装・権利確認は継続"
     },
     {
       "id": "functional_order_help",

@@ -61,7 +61,7 @@ This review covers the 50-image pilot. The remaining 284 candidates stay review-
 | `functional_campaign` | functional pose | SCR-13 / `seasonal_campaign_started` | review pending; campaign product-presentation pose |
 | `functional_map_proposal` | functional pose | SCR-13 / `map_proposal_open` | review pending; map proposal pose shown in the area-map side panel |
 | `functional_register_guidance` | functional pose | SCR-06 / `story_register` | review pending; register placement tutorial pose |
-| `functional_restock_guidance` | functional pose | SCR-06 / `story_first_restock` | review pending; restocking tutorial pose |
+| `functional_restock_guidance` | functional pose | SCR-06 / `story_first_restock` | review pending; replaced with candidate `functional_005` (closed stock box / inventory arrival pose) |
 | `functional_day_report` | functional pose | SCR-18 / `day_end_normal` | review pending; normal daily-report pose |
 | `functional_business_greeting` | functional pose | SCR-09 / `business_started` | review pending; opening greeting pose; replaces the mismatched rival-store candidate |
 | `functional_three_sales` | functional pose | SCR-18 / `challenge_sales_3` | review pending; daily challenge presentation |
