@@ -81,3 +81,7 @@ focused test `test_character_visual_pilot.gd`: 4 tests / 291 assertions / 0 fail
 `pilot_size=(1024,1536)`、`legacy_visible=false`。保存画像は
 `build/standing_impl_low_stock_1920_latest.png` にあり、表示時クロップ後の立ち絵が左メニューの右側、
 吹き出しがその右側・下寄せに収まり、下部操作UIを覆わないことを目視確認した。
+
+選定済み50件（機能30・イベント11・リアクション5・汎用全身3・タイトル背景1）の確認用一覧は
+`build/character_pilot_runtime_contact_20261102.png`。再生成は
+`python tools/assets/build_character_pilot_contact_sheet.py` で行える。これは承認状態を変更しないレビュー用出力である。
