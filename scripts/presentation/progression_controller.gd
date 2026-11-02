@@ -22,7 +22,11 @@ const FIGURE_SIZE := Vector2(300, 436)   # keeps the art's 640:931 aspect
 const PILOT_BUSTUP_FRAME_SIZE := Vector2(FIGURE_SIZE.x, 300.0)
 const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
-const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT + 16.0
+# Keep the assistant just under the left menu instead of leaving a wide dead gap
+# between the menu and the portrait/bubble group.  All assistant visuals share
+# this anchor, so the full-body source and the display-time bust-up crop move
+# together without modifying any source image files.
+const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 56.0
 const BUBBLE_TOP_DROP := 64.0
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
