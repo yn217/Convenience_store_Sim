@@ -4,14 +4,17 @@ extends Control
 ## review gallery never becomes a runtime texture cache and cannot approve assets.
 
 const PLACEMENT_PATH := "res://docs/art/COMFYUI_334_IMAGE_PLACEMENT_20261101.json"
+const PROMPT_REVIEW_PATH := "res://docs/art/COMFYUI_334_PROMPT_REVIEW_20261103.json"
 const CANDIDATE_ROOT := "res://assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/"
 const DERIVED_ALPHA_ROOT := "res://assets/review/derived_alpha/"
 
 var _assets: Array = []
+var _prompt_review_by_id: Dictionary = {}
 var _filtered: Array = []
 var _list: ItemList
 var _preview: TextureRect
 var _meta: Label
+var _prompt: TextEdit
 var _status: Label
 var _filter: LineEdit
 var _group_filter: OptionButton
@@ -21,6 +24,7 @@ var _alpha_preview: CheckButton
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_assets = load_placement_assets()
+	_prompt_review_by_id = load_prompt_review_assets()
 	_filtered = _assets.duplicate()
 	_build_ui()
 	_refresh_list()
@@ -33,6 +37,19 @@ static func load_placement_assets() -> Array:
 	if typeof(parsed) != TYPE_DICTIONARY or typeof(parsed.get("assets", null)) != TYPE_ARRAY:
 		return []
 	return parsed["assets"]
+
+
+static func load_prompt_review_assets() -> Dictionary:
+	if not FileAccess.file_exists(PROMPT_REVIEW_PATH):
+		return {}
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(PROMPT_REVIEW_PATH))
+	if typeof(parsed) != TYPE_DICTIONARY or typeof(parsed.get("assets", null)) != TYPE_ARRAY:
+		return {}
+	var by_id := {}
+	for entry in parsed["assets"]:
+		if typeof(entry) == TYPE_DICTIONARY and not String(entry.get("asset_id", "")).is_empty():
+			by_id[String(entry["asset_id"])] = entry
+	return by_id
 
 
 func _build_ui() -> void:
@@ -116,6 +133,13 @@ func _build_ui() -> void:
 	_meta.name = "CandidateMetadata"
 	_meta.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	preview_column.add_child(_meta)
+	_prompt = TextEdit.new()
+	_prompt.name = "EmbeddedPrompt"
+	_prompt.editable = false
+	_prompt.custom_minimum_size = Vector2(520, 150)
+	_prompt.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
+	_prompt.scroll_fit_content_height = false
+	preview_column.add_child(_prompt)
 
 	var list_panel := PanelContainer.new()
 	split.add_child(list_panel)
@@ -188,14 +212,21 @@ func _select_item(index: int) -> void:
 	if index < 0 or index >= _filtered.size():
 		return
 	var entry: Dictionary = _filtered[index]
+	var prompt_entry: Dictionary = _prompt_review_by_id.get(String(entry.get("asset_id", "")), {})
 	var source_path := CANDIDATE_ROOT + str(entry.get("candidate_relpath", ""))
 	var derived_path := DERIVED_ALPHA_ROOT + str(entry.get("asset_id", "")) + ".png"
 	var showing_derived := _alpha_preview != null and _alpha_preview.button_pressed and ResourceLoader.exists(derived_path)
 	var display_path := derived_path if showing_derived else source_path
 	_preview.texture = load(display_path) as Texture2D
-	_meta.text = "ID: %s\nSeed: %s\nGroup: %s\nScreen: %s / Slot: %s\nTrigger: %s\nPriority: %s / Display: %s\nApproval: %s / Visual match: %s\n表示: %s\nSource: %s" % [
+	var embedded_metadata: Dictionary = prompt_entry.get("metadata", {})
+	var alignment: Dictionary = prompt_entry.get("alignment", {})
+	var embedded_seed_text := str(embedded_metadata.get("seeds", []))
+	var seed_note := "一致" if alignment.get("seed_matches_csv", false) else "要確認（PNG内SeedとCSVが不一致）"
+	_meta.text = "ID: %s\nCSV Seed: %s / PNG Seed: %s（%s）\nGroup: %s\nScreen: %s / Slot: %s\nTrigger: %s\nPriority: %s / Display: %s\nApproval: %s / Visual match: %s\n表示: %s\nSource: %s" % [
 		str(entry.get("asset_id", "")),
 		str(entry.get("seed", "")),
+		embedded_seed_text,
+		seed_note,
 		str(entry.get("group", "")),
 		str(entry.get("screen_id", "")),
 		str(entry.get("ui_slot", "")),
@@ -206,4 +237,8 @@ func _select_item(index: int) -> void:
 		str(entry.get("visual_match", "")),
 		"派生透過PNG" if showing_derived else "原画像",
 		str(entry.get("candidate_relpath", "")),
+	]
+	_prompt.text = "埋め込みPositive prompt:\n%s\n\n埋め込みNegative prompt:\n%s" % [
+		str(embedded_metadata.get("positive", "（なし）")),
+		str(embedded_metadata.get("negative", "（なし）")),
 	]

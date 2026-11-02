@@ -6,6 +6,8 @@ func test_placement_review_loader_is_complete(t, _tree) -> void:
 	var script := load("res://scripts/review/comfyui_placement_review.gd")
 	t.ok(script.new().has_method("set_review_query"), "placement review exposes a capture-only query helper")
 	t.ok(script.new().has_method("set_alpha_preview"), "placement review exposes a capture-only alpha preview helper")
+	var prompt_review: Dictionary = script.load_prompt_review_assets()
+	t.eq(prompt_review.size(), 334, "prompt review metadata loads for all 334 candidates")
 	var assets: Array = script.load_placement_assets()
 	t.eq(assets.size(), 334, "placement review loads all 334 candidates")
 	var ids := {}
