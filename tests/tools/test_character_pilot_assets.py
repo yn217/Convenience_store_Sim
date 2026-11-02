@@ -14,6 +14,11 @@ REGISTRY = ROOT / "data" / "presentation" / "character_visuals_v1.json"
 PLACEMENT = ROOT / "docs" / "art" / "COMFYUI_334_IMAGE_PLACEMENT_20261101.json"
 REVIEW_DERIVED = ROOT / "assets" / "review" / "derived_alpha"
 CANDIDATE_ROOT = ROOT / "assets" / "review" / "imagegen_candidates" / "20261031" / "issue30_31_32_comfyui"
+REACTION_SYMBOL_REGIONS = {
+    "reaction_discovery": (760, 0, 1024, 240),
+    "reaction_deadpan": (740, 0, 1024, 220),
+    "reaction_pleading": (800, 0, 1024, 340),
+}
 
 
 class CharacterPilotAssetTests(unittest.TestCase):
@@ -137,6 +142,17 @@ class CharacterPilotAssetTests(unittest.TestCase):
             areas = stats[1:, cv2.CC_STAT_AREA]
             largest = int(areas.max())
             self.assertTrue(np.all(areas >= largest * 0.05), asset_id)
+
+    def test_clean_reactions_clear_known_generated_symbol_regions(self):
+        """The explicit symbol masks clear only the selected derived PNGs."""
+        for asset_id, (left, top, right, bottom) in REACTION_SYMBOL_REGIONS.items():
+            runtime = ROOT / "assets" / "runtime" / "character_pilot" / "derived_alpha" / f"{asset_id}.png"
+            source = ROOT / "assets" / "runtime" / "character_pilot" / f"{asset_id}.png"
+            self.assertTrue(runtime.is_file(), asset_id)
+            self.assertTrue(source.is_file(), asset_id)
+            with Image.open(runtime) as image:
+                alpha = np.array(image.convert("RGBA"))[:, :, 3]
+            self.assertEqual(int(alpha[top:bottom, left:right].max()), 0, asset_id)
 
 
 if __name__ == "__main__":

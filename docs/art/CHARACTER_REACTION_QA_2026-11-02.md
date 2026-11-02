@@ -32,9 +32,9 @@
 
 ## 分離成分の除去（2026-11-02）
 
-`reaction_discovery`、`reaction_deadpan`、`reaction_pleading` は、BiRefNet後のアルファでキャラクター本体から分離した生成吹き出し／記号成分が残ることを確認した。`tools/assets/prune_disconnected_alpha.py` を明示的な反応画像にだけ適用し、最大の前景成分と面積比5%以上の成分を残す。元のComfyUI画像は変更せず、派生PNGだけを再生成する。Godot側の記号レイヤーは引き続き正本とし、`runtime_approved=false` は維持する。再処理後は派生PNGの連結成分検査も行う。
+`reaction_discovery`、`reaction_deadpan`、`reaction_pleading` は、BiRefNet後のアルファでキャラクター本体から分離した生成吹き出し／記号成分が残ることを確認した。まず `tools/assets/prune_disconnected_alpha.py` を試したが、記号がアルファ上でキャラクターと接続している画像では除去できなかった。そのため、対象3枚の派生PNGだけに `tools/assets/clean_reaction_symbol_regions.py` の明示的な矩形マスクを適用した。元のComfyUI画像と候補画像は変更せず、Godot側の記号レイヤーを引き続き正本とする。`runtime_approved=false` は維持し、再処理後は派生PNGの連結成分検査とマスク領域の透明化検査を行う。
 
-BiRefNetを再実行した場合は、次の明示的な後処理を再度実行する。
+BiRefNetを再実行した場合は、連結成分の除去に加えて、次の明示的な後処理を再度実行する。
 
 ```powershell
 python tools/assets/prune_disconnected_alpha.py `
@@ -43,6 +43,20 @@ python tools/assets/prune_disconnected_alpha.py `
           assets/runtime/character_pilot/derived_alpha/reaction_pleading.png `
   --in-place
 ```
+
+生成記号がキャラクター本体とアルファ上で接続している場合は、次の3枚だけを対象に明示マスクを適用する。元画像は上書きせず、ランタイム派生PNGのみを更新する。
+
+```powershell
+python tools/assets/clean_reaction_symbol_regions.py `
+  --input assets/runtime/character_pilot/derived_alpha/reaction_discovery.png `
+          assets/runtime/character_pilot/derived_alpha/reaction_deadpan.png `
+          assets/runtime/character_pilot/derived_alpha/reaction_pleading.png `
+  --in-place
+```
+
+マスク領域は `reaction_discovery=(760,0)-(1024,240)`、`reaction_deadpan=(740,0)-(1024,220)`、
+`reaction_pleading=(800,0)-(1024,340)`。いずれも髪・お団子・肩・手を避ける範囲に限定している。
+元画像の存在確認と派生PNGの対象領域アルファ0検査は `tests/tools/test_character_pilot_assets.py` で行う。
 
 ## `reaction_043` パイロット接続確認
 
