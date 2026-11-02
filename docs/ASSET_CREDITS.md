@@ -13,6 +13,14 @@
 
 ベースモデルAnima Base v1.0は、公式モデルカード（<https://huggingface.co/circlestone-labs/Anima>）に記載されたCircleStone Labs Non-Commercial Licenseおよび、派生モデルに適用されるNVIDIA Open Model Licenseの条件に従う。公式モデルカードは、モデル自体の非商用制限と生成物（Outputs）を区別し、生成画像を有償ゲーム等の素材に利用できる旨を明記している。ただし、モデル重みを製品へ同梱したり、モデルを有料機能として組み込んだりすることは別制限である。ユーザー提供のLoRA（`Koharu-Koharu-epoch100.safetensors`、`anima-style-epoch35-lr5e5.safetensors`）の配布・利用条件と、小春六花キャラクター規約の適用範囲は別途確認が必要であり、現在の候補・派生画像はレビュー用に限定する。
 
+### 一次資料の再確認（2026-11-03）
+
+- TOKYO6 ENTERTAINMENTの公式ガイドライン（<https://tokyo6.tokyo/guidelines/>）では、非商用の個人・同人活動と、法人利用・その他の商用利用が区別されている。後者は事前許諾が必要なため、公開形態が確定し許諾を確認するまで `runtime_approved:false` を維持する。
+- Anima公式モデルカード（<https://huggingface.co/circlestone-labs/Anima>）では、モデル・重みの利用条件と生成物（Outputs）の利用が区別されている。生成物の利用可否だけでなく、モデル重みの同梱や有料機能への組み込み条件も別途確認する。
+- ユーザー提供の小春六花LoRAおよび画風LoRAについては、配布元・利用条件の一次資料を確認できていない。したがって、これらを使った候補画像と透過派生物は、権利レビュー完了までレビュー用に限定する。
+
+これは法的判断ではなく、公開前の確認記録である。外部公開・販売・再配布の前に、TOKYO6への必要な許諾とLoRAの利用条件を確認する。
+
 商品アイコン（`scripts/presentation/product_icons.gd`）は、画像ファイルを使わずコードでImage描画する**手続き的な仮アイコン（procedural placeholder）**。オリジナルのコード生成で、第三者素材・実在ブランド・ロゴは含まない。
 
 |asset_id|asset_path|source_type (Blender/AI/third-party/code)|source_link_or_local_path|model_and_version|license_or_usage_terms|generation_date|human_review|redistribution_allowed|
