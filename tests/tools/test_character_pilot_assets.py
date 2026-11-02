@@ -9,6 +9,9 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "data" / "presentation" / "character_visuals_v1.json"
+PLACEMENT = ROOT / "docs" / "art" / "COMFYUI_334_IMAGE_PLACEMENT_20261101.json"
+REVIEW_DERIVED = ROOT / "assets" / "review" / "derived_alpha"
+CANDIDATE_ROOT = ROOT / "assets" / "review" / "imagegen_candidates" / "20261031" / "issue30_31_32_comfyui"
 
 
 class CharacterPilotAssetTests(unittest.TestCase):
@@ -54,6 +57,33 @@ class CharacterPilotAssetTests(unittest.TestCase):
                     alpha.getpixel((rgba.width - 1, rgba.height - 1)),
                 ]
                 self.assertEqual(corners, [0, 0, 0, 0], entry["id"])
+
+    def test_review_alpha_derivations_trace_to_334_mapping(self):
+        """Review-only cutouts must remain traceable without becoming runtime assets."""
+        placement = json.loads(PLACEMENT.read_text(encoding="utf-8"))
+        entries = {entry["asset_id"]: entry for entry in placement["assets"]}
+        derived = sorted(REVIEW_DERIVED.glob("*.png"))
+        self.assertGreater(len(derived), 0)
+
+        for output in derived:
+            asset_id = output.stem
+            self.assertIn(asset_id, entries, asset_id)
+            entry = entries[asset_id]
+            source = CANDIDATE_ROOT / entry["candidate_relpath"]
+            self.assertTrue(source.is_file(), asset_id)
+            self.assertFalse(bool(entry.get("runtime_approved", False)), asset_id)
+            with Image.open(source) as original, Image.open(output) as cutout:
+                self.assertEqual(cutout.mode, "RGBA", asset_id)
+                self.assertEqual(cutout.size, original.size, asset_id)
+                alpha = cutout.getchannel("A")
+                self.assertIsNotNone(alpha.getbbox(), asset_id)
+                corners = [
+                    alpha.getpixel((0, 0)),
+                    alpha.getpixel((cutout.width - 1, 0)),
+                    alpha.getpixel((0, cutout.height - 1)),
+                    alpha.getpixel((cutout.width - 1, cutout.height - 1)),
+                ]
+                self.assertEqual(corners, [0, 0, 0, 0], asset_id)
 
 
 if __name__ == "__main__":
