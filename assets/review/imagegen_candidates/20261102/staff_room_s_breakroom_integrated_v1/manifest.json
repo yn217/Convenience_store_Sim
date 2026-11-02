@@ -21,16 +21,16 @@
       "path": "source_original.png",
       "byte_size": 1564964,
       "sha256": "3b85f2e0a4cd443380cf9c5c48ccb31c22fee6e330e5261f2709f31f8d917fa3",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "6c9a541c07e2cd6834e5fecafc8c1d157dbe349d",
+      "github_uploaded": true
     },
     {
       "role": "qa_overlay",
       "path": "checkerboard_review.jpg",
       "byte_size": 182081,
       "sha256": "d4a997055aba1eb12733cdecb8cd75c178caec42b425d0773d110e4878203d7e",
-      "git_blob_sha": null,
-      "github_uploaded": false
+      "git_blob_sha": "831e013c49edee4a7a610da742aca3f15a37250d",
+      "github_uploaded": true
     }
   ],
   "projection": {
