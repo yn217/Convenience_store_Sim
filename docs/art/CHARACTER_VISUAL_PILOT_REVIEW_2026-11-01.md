@@ -328,6 +328,20 @@ python tools/assets/build_character_pilot_contact_sheet.py --core-only
 The sheet is a visual review aid only; it does not alter source PNGs, runtime
 derivatives, or approval flags.
 
+### Pre-review observations (Codex visual inspection, not approval)
+
+The core contact sheet and the hand-detail sheet were inspected on 2026-11-03.
+All 11 core entries visibly retain the two side hair buns, the white blouse,
+burgundy ribbon, navy apron, and the intended full-body or bust-up framing. The
+checkerboard comparisons for `event_after_work` and `event_snack_buzz` show no
+obvious alpha hole through the sleeves, apron, hands, or hair. The title candidate
+contains its own character-in-background composition, so it remains mutually
+exclusive with the separate `title_rikka.png` overlay.
+
+This observation is not a human sign-off: fingers, wrists, and product contact
+still require explicit hand review, and all core rows remain `pending_detail`,
+`pending`, and `review_only` in the QA table.
+
 The per-image open-gate record for the core set is
 `docs/art/CHARACTER_VISUAL_CORE_QA_20261103.csv`. It records the route capture
 where one exists, while keeping detailed hand review, rights review, and
