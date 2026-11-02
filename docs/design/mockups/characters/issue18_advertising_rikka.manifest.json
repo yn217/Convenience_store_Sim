@@ -1,0 +1,26 @@
+{
+  "asset_id": "issue18-advertising-rikka",
+  "kind": "ui_mockup",
+  "issue": 18,
+  "character_identity": "Koharu Rikka",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue18_advertising_rikka.png",
+  "screen_role": "広告予算・集客倍率・費用対効果",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "loras": [
+      {
+        "name": "Koharu-Koharu-epoch100.safetensors",
+        "strength": 0.8
+      },
+      {
+        "name": "anima-style-epoch35-lr5e5.safetensors",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "cd99d6cd-c9a9-4141-91e5-74338ca7f201"
+  }
+}
