@@ -198,13 +198,13 @@ func _title_badge_style() -> StyleBoxFlat:
 	return box
 
 
-## QA-only title candidate. The registry keeps this disabled for normal builds until visual/rights review.
-## A non-empty VisualVariants override explicitly waives that gate for local inspection.
+## Registry-gated title candidate. Unapproved rows remain fallback-only; a non-empty
+## VisualVariants override explicitly waives that gate for local debug inspection.
 static func pilot_title_texture(override_name: String = "") -> Texture2D:
-	# The explicit override is a QA-only path. A release build must never load
-	# the held title candidate while its registry row is unapproved.
-	if not OS.is_debug_build() or override_name == "":
-		return null
+	# An explicit override is a QA-only path which may inspect an unapproved
+	# candidate. Once a registry row is approved, the same texture is also
+	# available to the normal title screen in release builds.
+	var qa_override := OS.is_debug_build() and override_name != ""
 	if not FileAccess.file_exists(PILOT_REGISTRY_PATH):
 		return null
 	var data = JSON.parse_string(FileAccess.get_file_as_string(PILOT_REGISTRY_PATH))
@@ -213,12 +213,19 @@ static func pilot_title_texture(override_name: String = "") -> Texture2D:
 	for raw_entry in data.get("assets", []):
 		if typeof(raw_entry) != TYPE_DICTIONARY or String(raw_entry.get("id", "")) != PILOT_TITLE_ID:
 			continue
+		if not title_entry_allowed(raw_entry, OS.is_debug_build(), override_name):
+			return null
 		var path := String(raw_entry.get("runtime_path", ""))
 		if path == "" or not ResourceLoader.exists(path):
 			return null
 		var texture := load(path) as Texture2D
 		return texture
 	return null
+
+
+static func title_entry_allowed(entry: Dictionary, debug_build: bool, override_name: String = "") -> bool:
+	## QA override may inspect a held candidate only in debug; approved entries work normally.
+	return (debug_build and override_name != "") or bool(entry.get("runtime_approved", false))
 
 
 func _logo_label(node_name: String, text: String, size: int, color: Color, rect: Rect2, outline: int) -> Label:
