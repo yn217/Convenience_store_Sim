@@ -16,6 +16,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "data" / "presentation" / "character_visuals_v1.json"
 DEFAULT_OUTPUT = ROOT / "build" / "character_pilot_runtime_contact_20261102.png"
+DEFAULT_CORE_OUTPUT = ROOT / "build" / "character_pilot_core_contact_20261103.png"
 CARD_WIDTH = 240
 CARD_HEIGHT = 320
 IMAGE_BOX = (12, 8, CARD_WIDTH - 12, 270)
@@ -36,11 +37,19 @@ def _font(size: int):
     return ImageFont.load_default()
 
 
-def _load_entries() -> list[dict]:
+def _load_entries(core_only: bool = False) -> list[dict]:
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     entries = [entry for entry in registry["assets"] if entry.get("runtime_path")]
     if len(entries) != 50:
         raise ValueError(f"expected 50 runtime entries, found {len(entries)}")
+    if core_only:
+        core_ids = registry.get("core_pilot_ids", [])
+        if len(core_ids) != 11 or len(set(core_ids)) != 11:
+            raise ValueError("core_pilot_ids must contain 11 unique runtime entries")
+        by_id = {entry["id"]: entry for entry in entries}
+        if not set(core_ids).issubset(by_id):
+            raise ValueError("core_pilot_ids contains an unknown runtime entry")
+        entries = [by_id[asset_id] for asset_id in core_ids]
     return sorted(entries, key=lambda entry: (entry.get("kind", ""), entry.get("id", "")))
 
 
@@ -64,8 +73,8 @@ def _card(entry: dict, font) -> Image.Image:
     return card
 
 
-def build(output: Path) -> Path:
-    entries = _load_entries()
+def build(output: Path, core_only: bool = False) -> Path:
+    entries = _load_entries(core_only=core_only)
     font = _font(13)
     rows = (len(entries) + COLUMNS - 1) // COLUMNS
     sheet = Image.new("RGB", (COLUMNS * CARD_WIDTH, rows * CARD_HEIGHT), "#101a21")
@@ -82,8 +91,16 @@ def build(output: Path) -> Path:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--core-only",
+        action="store_true",
+        help="build the 11-image core QA sheet named by registry.core_pilot_ids",
+    )
     args = parser.parse_args()
-    build(args.output)
+    output = args.output
+    if args.core_only and output == DEFAULT_OUTPUT:
+        output = DEFAULT_CORE_OUTPUT
+    build(output, core_only=args.core_only)
     return 0
 
 

@@ -304,6 +304,16 @@ operation-state poses, and one event image. The remaining registry entries stay
 available for route review; this core list is a QA baseline, not an approval or a
 reduction of the 50-entry pilot registry.
 
+The core set has a dedicated read-only contact sheet at
+`build/character_pilot_core_contact_20261103.png`. It can be regenerated with:
+
+```powershell
+python tools/assets/build_character_pilot_contact_sheet.py --core-only
+```
+
+The sheet is a visual review aid only; it does not alter source PNGs, runtime
+derivatives, or approval flags.
+
 ## Latest stock-sold-out route capture (2026-11-03)
 
 `build/character_pilot_stock_sold_out_current_1280.png` was captured through the
