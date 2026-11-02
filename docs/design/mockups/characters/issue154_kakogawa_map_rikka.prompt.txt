@@ -1,0 +1,7 @@
+Issue #154 / 加古川市周辺の独立2.5D地域マップ・駅／施設座標・出店候補
+
+wide 16:9 polished anime game UI mockup screenshot for a Japanese convenience-store management simulation, fictionalized regional location selection map inspired by a riverside Japanese town, a cheerful silver-haired anime store manager with purple eyes and double bun hair standing on the left side as a helpful guide, navy and pink convenience-store uniform, holding a tablet and pointing toward the map, center shows a colorful lightweight 2.5D town map with roads, railway, river, stations, school, residential areas, shopping district, logistics area and park, separate bright location pins and candidate plots, right panel titled 出店候補地, tabs 地図 / 立地比較 / POI情報, selected station-front plot panel with predicted visitors, time-of-day demand, nearby facilities, store size, estimated cost and confirm button, clear distinction between prediction and actual results, fictional map only, clean blue pink green accent colors, premium Japanese game UI, organized spacing, no GPS, no real brand logo, no copyrighted characters, no watermark, no duplicate character, no malformed hands
+
+Negative prompt:
+low quality, worst quality, malformed hands, extra fingers, missing fingers, fused fingers, extra arms, duplicate limbs, distorted face, cropped character, unreadable gibberish text, watermark, real map labels, real brand logo, copyrighted character, blurry UI, cluttered layout
+
