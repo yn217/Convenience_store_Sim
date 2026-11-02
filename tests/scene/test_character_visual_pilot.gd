@@ -6,13 +6,17 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
 	t.eq(panel._entries.size(), 50, "the pilot registry exposes all 50 selected visuals")
+	var approved_core := ["title_background_pilot", "fullbody_dynamic_201", "functional_layout_guidance", "functional_business_greeting", "reaction_discovery", "reaction_deadpan", "reaction_first_sale_joy", "functional_low_stock", "functional_sold_out", "functional_queue", "event_hot_day"]
 	var kind_counts := {}
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
 		var kind := String(entry.get("kind", ""))
 		kind_counts[kind] = int(kind_counts.get(kind, 0)) + 1
-		t.ok(not bool(entry.get("runtime_approved", true)), "%s remains review-only" % id)
+		if approved_core.has(id):
+			t.ok(bool(entry.get("runtime_approved", false)), "%s is approved for normal runtime" % id)
+		else:
+			t.ok(not bool(entry.get("runtime_approved", true)), "%s remains review-only" % id)
 		t.ok(ResourceLoader.exists(path), "%s runtime path exists" % id)
 		t.ok(load(path) is Texture2D, "%s runtime texture loads" % id)
 	t.eq(kind_counts.get("functional_pose", 0), 31, "all 31 functional standing poses are selected")
@@ -39,7 +43,7 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.ok(panel.has_method("reaction_entry"), "pilot panel exposes a separate bust-up reaction route")
 	t.ok(panel.has_method("event_entry"), "pilot panel exposes event-image routing")
 	t.ok(panel.has_method("set_review_candidate"), "pilot panel exposes a capture-only candidate override")
-	var gate_entry: Dictionary = panel._find("functional_low_stock")
+	var gate_entry: Dictionary = panel._find("functional_expiry")
 	t.ok(not panel.entry_allowed_for_mode(gate_entry, false), "unapproved candidate is blocked in release mode")
 	var approved_gate_entry := gate_entry.duplicate(true)
 	approved_gate_entry["runtime_approved"] = true

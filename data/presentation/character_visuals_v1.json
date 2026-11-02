@@ -5,7 +5,7 @@
   "source_commit": "01ebc165b4142db7872b5529a74d7f8e29e9175f",
   "notes": [
     "Pilot-only visual registry for Issue #230.",
-    "These images are not a replacement for the existing UI until visual QA and rights review approve them.",
+    "The core_pilot_ids are approved for normal runtime after visual QA and rights confirmation; all other entries remain review-only.",
     "Reaction symbols and text remain Godot-owned overlay layers."
   ],
   "core_pilot_ids": [
@@ -29,10 +29,11 @@
       "trigger": "title_open",
       "runtime_path": "res://assets/runtime/character_pilot/title_background_pilot_sakura.png",
       "source_path": "assets/review/imagegen_candidates/20261102/title_screen_bright_sakura/title_screen_bright_sakura_1664x936.png",
-      "status": "review_only",
-      "runtime_approved": false,
+      "status": "runtime_approved",
+      "runtime_approved": true,
       "fallback": "existing_title_background",
-      "review_note": "QA hold: bright spring sakura composition is the current title pilot; Godot UI remains separate and visual/rights review is still required"
+      "review_note": "QA hold: bright spring sakura composition is the current title pilot; Godot UI remains separate and visual/rights review is still required",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "fullbody_dynamic_201",
@@ -42,9 +43,10 @@
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/fullbody_dynamic_201.png",
       "derived_from": "res://assets/runtime/character_pilot/fullbody_dynamic_201.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/additional_201_250_poses/character_sprite_201_250_1024x1536_201_00001_.png",
-      "status": "pilot_selected",
-      "runtime_approved": false,
-      "fallback": "text_only"
+      "status": "runtime_approved",
+      "runtime_approved": true,
+      "fallback": "text_only",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "functional_layout_guidance",
@@ -55,10 +57,11 @@
       "derived_from": "res://assets/runtime/character_pilot/functional_layout_guidance.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_003_functional_00001_.png",
       "source_pose": "003",
-      "status": "pilot_selected",
-      "runtime_approved": false,
+      "status": "runtime_approved",
+      "runtime_approved": true,
       "fallback": "text_only",
-      "review_note": "売場設備の配置を示すカードを持つ候補。建設モードの表示専用パイロットで、手指・衣装・権利確認は継続"
+      "review_note": "売場設備の配置を示すカードを持つ候補。建設モードの表示専用パイロットで、手指・衣装・権利確認は継続",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "fullbody_emotion_05",
@@ -80,10 +83,11 @@
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/reaction_discovery.png",
       "derived_from": "res://assets/runtime/character_pilot/reaction_discovery.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_01_1024x1024_00001_.png",
-      "status": "pilot_selected",
-      "runtime_approved": false,
+      "status": "runtime_approved",
+      "runtime_approved": true,
       "fallback": "text_only",
-      "overlay_symbol": "!"
+      "overlay_symbol": "!",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "reaction_deadpan",
@@ -93,10 +97,11 @@
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/reaction_deadpan.png",
       "derived_from": "res://assets/runtime/character_pilot/reaction_deadpan.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_38_1024x1024_00001_.png",
-      "status": "pilot_selected",
-      "runtime_approved": false,
+      "status": "runtime_approved",
+      "runtime_approved": true,
       "fallback": "text_only",
-      "overlay_symbol": "..."
+      "overlay_symbol": "...",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "reaction_pleading",
@@ -133,11 +138,12 @@
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/reaction_first_sale_joy.png",
       "derived_from": "res://assets/runtime/character_pilot/reaction_first_sale_joy.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_22_1024x1024_00001_.png",
-      "status": "pilot_selected",
-      "runtime_approved": false,
+      "status": "runtime_approved",
+      "runtime_approved": true,
       "fallback": "fullbody_emotion_05",
       "review_note": "重複キャラクターが残るreaction_031から、同じ初回売上向けの達成表情を持つreaction_022へ差し替え。生成された吹き出しはGodot側の記号レイヤーとして除去し、手指・境界・権利確認は継続",
-      "overlay_symbol": ""
+      "overlay_symbol": "",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "functional_opening_checklist",
@@ -199,9 +205,10 @@
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_sold_out.png",
       "derived_from": "res://assets/runtime/character_pilot/functional_sold_out.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_024_functional_pilot_00001_.png",
-      "status": "pilot_selected",
-      "runtime_approved": false,
-      "fallback": "text_only"
+      "status": "runtime_approved",
+      "runtime_approved": true,
+      "fallback": "text_only",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "functional_rival_store",
@@ -223,9 +230,10 @@
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_low_stock.png",
       "derived_from": "res://assets/runtime/character_pilot/functional_low_stock.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_023_functional_00001_.png",
-      "status": "pilot_selected",
-      "runtime_approved": false,
-      "fallback": "text_only"
+      "status": "runtime_approved",
+      "runtime_approved": true,
+      "fallback": "text_only",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "functional_expiry",
@@ -247,9 +255,10 @@
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/functional_queue.png",
       "derived_from": "res://assets/runtime/character_pilot/functional_queue.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_026_functional_pilot_00001_.png",
-      "status": "pilot_selected",
-      "runtime_approved": false,
-      "fallback": "text_only"
+      "status": "runtime_approved",
+      "runtime_approved": true,
+      "fallback": "text_only",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "functional_access_blocked",
@@ -441,9 +450,10 @@
       "derived_from": "res://assets/runtime/character_pilot/functional_business_greeting.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_001_functional_00001_.png",
       "source_pose": "001",
-      "status": "pilot_selected",
-      "runtime_approved": false,
-      "fallback": "text_only"
+      "status": "runtime_approved",
+      "runtime_approved": true,
+      "fallback": "text_only",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "functional_capsule_rare",
@@ -537,9 +547,10 @@
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/event_hot_day.png",
       "derived_from": "res://assets/runtime/character_pilot/event_hot_day.png",
       "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_sprites_1024x1536/functional_50_poses/rikka_pose_011_functional_00001_.png",
-      "status": "pilot_selected",
-      "runtime_approved": false,
-      "fallback": "existing_event_image"
+      "status": "runtime_approved",
+      "runtime_approved": true,
+      "fallback": "existing_event_image",
+      "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
       "id": "event_cold_day",

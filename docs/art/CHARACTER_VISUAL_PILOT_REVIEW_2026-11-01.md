@@ -23,7 +23,7 @@ This review covers the 50-image pilot. The remaining 284 candidates stay review-
 - Runtime day-end spot check: the normal and worried report routes select their separate full-body pilots; the focused scene test covers both switches.
 - Runtime warning spot check: `low_stock_notice` keeps `functional_low_stock` visible above an open management window; the focused scene test covers the warning route.
 - Runtime story-reaction spot check: `story_start` shows `reaction_discovery` and `story_queue_giveup` shows `reaction_pleading` in a dedicated 260x260 layer. The full-body pilot layer is hidden while either bust-up is active, so the two representations do not stack. `story_staff_short` intentionally keeps its dedicated `functional_staff_short` full-body pose.
-- `runtime_approved`: `false`
+- `runtime_approved`: core 11 approved; remaining 39 pilot entries remain `false`
 
 ## Candidate mapping
 
@@ -297,8 +297,9 @@ event pilot does not cover the bottom controls.
 The asset integrity check now compares each full-body/event source PNG with its derived alpha PNG
 and rejects interior colored pixels that became transparent, which protects sleeves, apron areas,
 hands, and held objects from background-removal regressions. The current focused run passed
-**13 tests / 0 failures**. These are still QA captures; all 50 registry rows remain
-`runtime_approved:false` pending visual, rights, and redistribution review.
+**13 tests / 0 failures**. At the time of this historical capture section the registry was
+still held for visual, rights, and redistribution review; the later core-approval section below
+records the 11 rows that are now enabled for normal runtime.
 
 The latest per-image scan covered 44 full-body derivatives. The highest interior-loss count was
 13 pixels for `event_after_work` and 12 for `event_snack_buzz`, both below the automated threshold
@@ -338,14 +339,13 @@ obvious alpha hole through the sleeves, apron, hands, or hair. The title candida
 contains its own character-in-background composition, so it remains mutually
 exclusive with the separate `title_rikka.png` overlay.
 
-This observation is not a human sign-off: fingers, wrists, and product contact
-still require explicit hand review, and all core rows remain `pending_detail`,
-`pending`, and `review_only` in the QA table.
+This observation preceded the explicit user approval. The core rows are now
+confirmed in the QA table; non-core entries remain outside normal runtime.
 
 The per-image open-gate record for the core set is
 `docs/art/CHARACTER_VISUAL_CORE_QA_20261103.csv`. It records the route capture
-where one exists, while keeping detailed hand review, rights review, and
-`runtime_approved` explicitly pending.
+and the explicit approval state for the core set; non-core candidates remain
+review-only.
 
 The Presentation routes use deferred `load(runtime_path)` calls for the selected
 entry and do not `preload` the pilot registry. A focused asset test guards this
@@ -372,8 +372,9 @@ If a newly approved route causes a visual or runtime regression:
    backup timestamp, screenshot, and reason in the PR conversation before any
    re-approval.
 
-The current branch has no applied approvals, so the fallback path is still the
-baseline and no rollback artifact is required yet.
+The core 11 approvals are applied. The timestamped registry backup created by
+`approve_character_pilot.py` is the rollback artifact; the remaining entries
+continue to use the legacy fallback until separately approved.
 
 ## Deferred-load measurement (2026-11-03)
 
@@ -401,8 +402,8 @@ non-headless Godot CLI with `--pilot-cue=stock_sold_out --freeze --inspect-pilot
 The selected `functional_sold_out` full-body pilot is displayed in the normal
 assistant stage at 1280x720; the left menu, speech bubble, bottom objective/stat
 strip, and event controls remain usable. The source full-body PNG is unchanged and
-the display-only crop is still used. This is runtime route evidence only and does
-not alter the `runtime_approved:false` gate.
+the display-only crop is still used. This is runtime route evidence for the
+approved core route; the source PNG remains unchanged.
 
 ## Latest long-queue route capture (2026-11-03)
 
@@ -413,8 +414,8 @@ not alter the `runtime_approved:false` gate.
 `legacy_visible=false` and no event-panel duplicate pilot were reported. The
 display-only crop stays inside the assistant stage, the speech bubble remains
 readable, and the lower menu is unobstructed. The source 1024x1536 full-body PNG
-was not modified. This is route/layout evidence only; the candidate remains
-`runtime_approved:false` pending human hand review and rights confirmation.
+was not modified. This route is now part of the approved core set; remaining
+non-core candidates still require separate review and approval.
 
 The same route was also captured at `1600x900` and `1920x1080`:
 
@@ -424,3 +425,13 @@ The same route was also captured at `1600x900` and `1920x1080`:
 Both captures keep the portrait to the right of the left navigation, keep the
 dialogue bubble readable, and leave the lower objective/stat controls and exit
 controls unobstructed.
+
+## Core approval applied (2026-11-03)
+
+The user explicitly confirmed both game adoption and the 小春六花/LoRA usage
+conditions. `approve_character_pilot.py` was run with
+`--visual-qa-confirmed --rights-confirmed --apply` for the 11 IDs in
+`core_pilot_ids`. It validated all source, derived, runtime, and fallback paths,
+created a timestamped registry backup, and set only those 11 rows to
+`runtime_approved`. The remaining 39 registry rows and all other 334-image
+review candidates remain unapproved and are not loaded by a normal build.

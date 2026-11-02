@@ -78,9 +78,15 @@ func test_title_has_her(t, tree) -> void:
 	var title: TitleScreen = load("res://scenes/title/Title.tscn").instantiate()
 	tree.root.add_child(title)
 	await tree.process_frame
-	var r := title.get_node("TitleRikka") as TextureRect
-	t.ok(r != null and r.texture != null, "she greets on the title screen")
-	t.ok(r.get_global_rect().end.x > tree.root.get_visible_rect().size.x * 0.6, "at the right, clear of the menu")
+	var r := title.get_node_or_null("TitleRikka") as TextureRect
+	var background := title.get_node("TitleBackground") as TextureRect
+	if TitleScreen.pilot_title_texture() != null:
+		t.ok(r == null, "approved title background owns the character without a duplicate overlay")
+		t.ok(background.texture != null, "approved title background is visible")
+	else:
+		t.ok(r != null and r.texture != null, "she greets on the title screen")
+		if r != null:
+			t.ok(r.get_global_rect().end.x > tree.root.get_visible_rect().size.x * 0.6, "at the right, clear of the menu")
 	title.queue_free()
 	await tree.process_frame
 
@@ -92,7 +98,7 @@ func test_title_pilot_candidate_does_not_need_a_second_figure(t, _tree) -> void:
 		t.ok(not pilot.resource_path.is_empty(), "the title pilot has a concrete runtime texture")
 	var data = JSON.parse_string(FileAccess.get_file_as_string("res://data/presentation/character_visuals_v1.json"))
 	var entry: Dictionary = (data.get("assets", []) as Array).filter(func(raw): return raw.get("id", "") == "title_background_pilot")[0]
-	t.eq(entry.get("status", ""), "review_only", "title pilot remains held pending visual and rights QA")
+	t.eq(entry.get("status", ""), "runtime_approved", "title pilot is approved for normal runtime")
 	t.eq(entry.get("fallback", ""), "existing_title_background", "held title pilot keeps the daytime fallback")
 	t.ok(String(entry.get("source_path", "")).contains("title_screen_bright_sakura_1664x936.png"), "title pilot uses the bright sakura residential-store candidate")
 	t.ok(TitleScreen.title_entry_allowed({"runtime_approved": true}, false), "approved title pilot is allowed in a normal build")

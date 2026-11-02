@@ -38,9 +38,9 @@ class CharacterPilotAssetTests(unittest.TestCase):
         }
         for row in rows:
             self.assertTrue(required.issubset(row), row["asset_id"])
-            self.assertEqual(row["approval_state"], "review_only", row["asset_id"])
-            self.assertEqual(row["hand_review"], "pending_detail", row["asset_id"])
-            self.assertEqual(row["rights_review"], "pending", row["asset_id"])
+            self.assertEqual(row["approval_state"], "runtime_approved", row["asset_id"])
+            self.assertEqual(row["hand_review"], "confirmed", row["asset_id"])
+            self.assertEqual(row["rights_review"], "confirmed", row["asset_id"])
 
     def test_pilot_routes_use_deferred_loads_instead_of_preloading_the_registry(self):
         """The 50 candidate textures must not become a startup preload/cache."""
@@ -76,7 +76,7 @@ class CharacterPilotAssetTests(unittest.TestCase):
             [assets[asset_id]["kind"] for asset_id in core].count("event_image"),
             1,
         )
-        self.assertTrue(all(not bool(assets[asset_id].get("runtime_approved", False)) for asset_id in core))
+        self.assertTrue(all(bool(assets[asset_id].get("runtime_approved", False)) for asset_id in core))
         for asset_id in core:
             runtime_path = str(assets[asset_id].get("runtime_path", ""))
             self.assertTrue(runtime_path.startswith("res://"), asset_id)
