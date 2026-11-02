@@ -1,7 +1,7 @@
 {
   "asset_id": "staff_room_s_breakroom_integrated_v1",
   "review_date": "2026-11-02",
-  "review_status": "PARTIAL_REVIEW_CANDIDATE",
+  "review_status": "PARTIAL_REVIEW_CANDIDATE_WITH_BLOCKERS",
   "source_original": {
     "path": "source_original.png",
     "width": 1536,
@@ -40,15 +40,15 @@
   },
   "content_review": {
     "status": "PASS",
-    "notes": "The image shows a compact staff break room with lockers, microwave and hot-drink counter, clock, bulletin board, and two-seat table; no people or readable words."
+    "notes": "The image shows a compact staff break room with lockers, microwave and hot-drink counter, clock, bulletin board, and two-seat table; no people or readable words. The open-front cutaway is visible, but the requested south entrance is not clearly marked as a doorway/access opening; reviewer classifies entrance/cutaway usability as partial."
   },
   "shape_projection_review": {
-    "status": "NOT_VERIFIED",
-    "notes": "A cutaway room with open south side is clearly shown. Axonometric slopes look plausible, but exact 2x2 tile diamond, +X/+Y directions, vertical scale and 2.4 m height have not been measured against iso2x_v1 guide points."
+    "status": "PARTIAL",
+    "notes": "Broad axonometric cutaway reads plausibly, and the front/south is open. Independent reviewer notes no explicit doorway/wall cutout beyond the open display face. Exact 2x2 iso2x_v1 diamond, wall angles, access alignment and scale are unverified."
   },
   "alpha_review": {
-    "status": "PASS_WITH_EDGE_NOISE_NOTE",
-    "notes": "Checkerboard preview has no broad background matte. A few alpha=1 pixels touch the left canvas edge; at alpha>=8, visible bounds leave ample margin (bbox [324,57,1226,952]). No broad colored fringe is visible at this preview scale."
+    "status": "FAIL_VISUAL_REVIEW",
+    "notes": "Independent visual QA reports a dark gray fringe/matte at the transparent silhouette boundary. Earlier pixel statistics showed only isolated alpha=1 at the canvas edge and no broad matte in the checkerboard composite, so this is recorded as a visual-review disagreement; do not claim clean alpha. Preserve the original and require a dedicated edge inspection before use."
   },
   "fixture_spec": {
     "type_id": "staff_room_s",
@@ -72,8 +72,21 @@
     "south entrance/access alignment",
     "occlusion by neighboring walls",
     "game zoom readability",
-    "Godot/runtime rendering and collision"
+    "Godot/runtime rendering and collision",
+    "whether the visible front opening matches the fixture south-access semantics",
+    "visual edge matte/fringe requires source-resolution inspection"
   ],
   "runtime_approved": false,
-  "recommended_action": "Use only as a visual review candidate. Measure against a 2x2 iso2x_v1 guide and test at game zoom before any runtime use; preserve the generated original."
+  "recommended_action": "Keep as review-only, not runtime-approved. Resolve the alpha edge concern and clarify/model a distinct south access opening; only then measure against iso2x_v1 and game zoom. Preserve the original generated PNG unchanged.",
+  "independent_visual_review": {
+    "status": "PARTIAL",
+    "findings": [
+      "Content and Japanese convenience-store staff-room use: pass.",
+      "Cutaway/access opening: partial; open face is visible but no distinct entrance is modeled.",
+      "Projection/footprint: partial; plausible iso view but tile diamond and scale unverified.",
+      "Alpha boundary: fail per visual reviewer due apparent dark gray fringe/matte; conflicts with earlier numeric/checkerboard note and needs source-resolution follow-up."
+    ],
+    "agent_reviewed": true,
+    "asset_edited": false
+  }
 }
