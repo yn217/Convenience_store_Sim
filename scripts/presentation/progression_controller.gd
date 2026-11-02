@@ -27,7 +27,9 @@ const BUBBLE_WIDTH := 420
 # this anchor, so the full-body source and the display-time bust-up crop move
 # together without modifying any source image files.
 const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 56.0
-const BUBBLE_TOP_DROP := 64.0
+# Keep the line panel aligned with the portrait's lower-left presentation area,
+# leaving the character face unobstructed and placing the dialogue a little lower.
+const BUBBLE_TOP_DROP := 92.0
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
 const BLOCKED_LINE := "大変です、店長…！費用が払えなくて、お店が止まってしまいました。セーブからやり直しましょう。"
