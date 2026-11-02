@@ -1,0 +1,73 @@
+{
+  "asset_id": "fire_extinguisher_wall_cabinet_jp_v1",
+  "review_date": "2026-11-02",
+  "review_status": "FAIL_RUNTIME_CANDIDATE",
+  "source_original": {
+    "path": "source_original.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGBA",
+    "byte_size": 1374353,
+    "sha256": "1addce252cf2d0fbb00198b27446ec8a63c37d9ae4d97b04c8463e08afe07cee",
+    "preserved_unchanged": true
+  },
+  "alpha": {
+    "min": 0,
+    "max": 254,
+    "fully_transparent_pixels": 911350,
+    "fully_opaque_pixels": 0,
+    "semi_transparent_pixels": 661514,
+    "fully_transparent_ratio": 0.579421,
+    "semi_transparent_ratio": 0.420579,
+    "nonzero_alpha_bbox_xyxy": [
+      91,
+      47,
+      1010,
+      1464
+    ],
+    "edge_margins_px": {
+      "left": 91,
+      "top": 47,
+      "right": 14,
+      "bottom": 72
+    }
+  },
+  "projection_review": {
+    "target": "iso2x_v1; wall plane along world +X should descend right at 0.5 px/px",
+    "visual_estimate_front_edge_slope": 0.42,
+    "status": "FAIL / estimate only",
+    "reason": "Prompt angle is only approximate; no world-space control points, guide overlay or engine screenshot."
+  },
+  "content_review": {
+    "status": "PASS",
+    "notes": "One wall-mounted cabinet and one visible extinguisher are clearly depicted; no readable branding or extra objects."
+  },
+  "shape_review": {
+    "status": "FAIL",
+    "notes": "Top surface and side depth are visually too large for the requested shallow wall-mounted cabinet; apparent cuboid depth is a material shape mismatch."
+  },
+  "alpha_review": {
+    "status": "PASS_WITH_EDGE_MARGIN_NOTE",
+    "notes": "Transparent checkerboard composite shows no broad background matte. Alpha ranges 0..254; 57.9421% fully transparent, 42.0579% partially transparent, no fully opaque pixels. Nonzero-alpha bbox leaves only 14px on the right. Independent reviewer cautioned about possible dark halo; after compositing on checkerboard no broad matte was visually evident, but fine fringe remains untested."
+  },
+  "unverified": [
+    "physical dimensions and world scale",
+    "wall attachment height and anchor",
+    "wall occlusion",
+    "game zoom/readability",
+    "Godot/runtime rendering",
+    "collision/click coverage"
+  ],
+  "runtime_approved": false,
+  "recommended_action": "Keep as review-only reference; if pursued, request new source art with a much shallower cabinet silhouette and iso2x guide. Do not stretch/warp this image to conceal depth mismatch.",
+  "independent_visual_review": {
+    "reviewer": "independent sub-agent",
+    "result": "PARTIAL",
+    "findings": [
+      "Extinguisher cabinet content is clear and recognizable.",
+      "Projection and requested physical dimensions cannot be confirmed from the image; the top plane looks deep.",
+      "Small hardware may not remain legible at game display size.",
+      "The original display suggested a dark halo risk; a checkerboard composite was generated and inspected afterward. No broad matte is obvious on that composite, but fine edge-color fringe and scaled-game readability are still unverified."
+    ]
+  }
+}

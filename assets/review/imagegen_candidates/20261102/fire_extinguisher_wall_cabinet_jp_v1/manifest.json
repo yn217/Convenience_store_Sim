@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "asset_id": "fire_extinguisher_wall_cabinet_jp_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "日本のコンビニ店内の壁付け消火器収納箱と消火器の一体2Dカットアウト",
+  "actual_subject": "白〜薄灰色の奥行きの強い壁付けケースに赤い消火器を収納した単体イラスト",
+  "production_method": "codex_imagegen",
+  "stock_state": "NOT_APPLICABLE",
+  "stock_rendering": "none",
+  "fixture_type_id": "fire_extinguisher_wall_cabinet",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 1374353,
+    "sha256": "1addce252cf2d0fbb00198b27446ec8a63c37d9ae4d97b04c8463e08afe07cee",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "byte_size": 1374353,
+      "sha256": "1addce252cf2d0fbb00198b27446ec8a63c37d9ae4d97b04c8463e08afe07cee",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "checkerboard_review.jpg",
+      "byte_size": 138845,
+      "sha256": "5b4c6e5c70f28fa490d84f9a5f0d5e578165ed22b7973b6a28a88ce575a63024",
+      "git_blob_sha": null,
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "NONE",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": [
+      0.42,
+      0.18,
+      0.9
+    ],
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "pass",
+    "state_sync": "not_checked",
+    "godot_runtime": "not_checked",
+    "human_visual": "fail",
+    "notes": [
+      "Requested dimensions 0.42 x 0.18 x 0.90 m are prompt intent only; generated image has no verified scale.",
+      "The cabinet is recognizable, but its visible top plane and side depth dominate the shallow wall-mounted form; do not hide this mismatch with nonuniform scaling or warping.",
+      "The front edge slope is only a rough visual estimate (about 0.42 vertical px per horizontal px versus iso2x_v1 0.5); no measured control points or Godot overlay, so projection fails pending calibration.",
+      "Checkerboard review shows transparent background without a broad matte; alpha bbox is near the right edge with 14 px remaining.",
+      "Wall height, mounting position, occlusion, exact anchor, game zoom, collision and Godot display are unverified.",
+      "Review-only candidate; source image preserved unchanged; runtime approval is false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
