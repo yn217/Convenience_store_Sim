@@ -19,3 +19,10 @@
 334候補の残り、パイロット台帳の残り39件、その他の小春六花・LoRA素材はこの確認の対象外であり、
 引き続きレビュー専用・`runtime_approved:false` とする。これは商用公開や再配布に関する法的判断ではなく、
 このゲームの現在の採用範囲を記録するための確認である。
+
+## 通常経路の実画面確認
+
+- `build/title_core_normal_1280.png`: デバッグ用の `--visual-variant` や手動cueなしで、承認済みタイトル背景を表示。背景内の小春六花と独立 `TitleRikka` の二重表示なし。
+- `build/event_hot_day_core_normal_1280.png`: `--event=evt_hot_day` の発生中だけ、イベントCGと承認済み `event_hot_day` 立ち絵を表示。通常アシスタントとの重複なし。
+
+いずれもGodot 4.7.2のCLIキャプチャで確認し、元の全身PNGは変更していない。
