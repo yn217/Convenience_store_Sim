@@ -396,6 +396,8 @@ Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path
 Godot_v4.7.2-stable_win64_console.exe --rendering-method gl_compatibility --path . --script res://tools/measure_character_pilot_load.gd -- --all-pilot build/character_pilot_load_all_20261103.json
 ```
 
+現行ブランチ `5ec371f9` の再計測（2026-11-03、Godot 4.7.2 / OpenGL Compatibility / RTX 3090）では、コア11件が **11/11** ロード成功、合計 **1226.519 ms**、最大 **180.611 ms**、ビデオメモリピーク **29.96 MB**（開始 **6.12 MB**）だった。これは上記の過去計測値を置き換えるものではなく、ドライバ差を含む再実行結果として保存する。
+
 ## Latest stock-sold-out route capture (2026-11-03)
 
 `build/character_pilot_stock_sold_out_current_1280.png` was captured through the
