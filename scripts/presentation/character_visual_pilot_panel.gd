@@ -183,7 +183,7 @@ func stage_entry(snapshot: Dictionary) -> Dictionary:
 		"reaction_pleading":
 			return _find("fullbody_emotion_05")
 		"reaction_deadpan":
-			return _find("fullbody_tutorial_layout")
+			return _find("fullbody_dynamic_201")
 	return _find("fullbody_dynamic_201")
 
 
@@ -229,6 +229,8 @@ func cue_entry(cue_id: String) -> Dictionary:
 		return _find("functional_staff_hiring")
 	if cue_id == "seasonal_campaign_started":
 		return _find("functional_campaign")
+	if cue_id == "layout_help":
+		return _find("functional_layout_guidance")
 	return {}
 
 
