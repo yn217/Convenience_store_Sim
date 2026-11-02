@@ -25,5 +25,6 @@
   "independent_review": "Sub-agent agrees: content and product integration pass; game style, projection and transparent background fail.",
   "decision": "FAIL as runtime/game sprite; preserve unchanged for review only. Regeneration needs cleaner alpha, game-aligned projection and flatter shading.",
   "runtime_approved": false,
-  "github_uploaded": false
+  "github_uploaded": true,
+  "github_commit": "2dabdc590c81fd682e870cb1e14b99a511d5def2"
 }
