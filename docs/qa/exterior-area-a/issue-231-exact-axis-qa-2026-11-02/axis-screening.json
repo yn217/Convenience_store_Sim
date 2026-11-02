@@ -1,0 +1,87 @@
+{
+  "date": "2026-11-02",
+  "projection_target_degrees": [
+    -26.565,
+    26.565
+  ],
+  "method": "Canny(60,160) + HoughLinesP(threshold=35,minLineLength=35,maxLineGap=8); every source is resized to width 896 using round(original_height*896/original_width), preserving aspect ratio; report segment-length-weighted means for lines within 7 degrees of each target. All edge types are included, so this is screening only, not ground-plane proof.",
+  "historical_error": "The previous angle audit resized the 1774x887 v6 and v5 sources to 896x512 (1.75:1) instead of their correct aspect-preserving 896x448. The 14.3% vertical stretch falsely indicated a +30 degree family and led to an unnecessary 0.8660254 runtime Y compression. Earlier angle tables based on that resize are superseded.",
+  "runtime_decision": "Remove non-uniform depth correction; use uniform backdrop scale. Keep runtime v6 because it provides the strongest continuous planted context and its aspect-preserving line-family screen is near the store axes.",
+  "candidates": [
+    {
+      "id": "runtime-v6",
+      "path": "assets/generated/backgrounds/urban_context_dimetric_v6/urban_context_dimetric_v6.png",
+      "sha256": "7365b10746fcbf8377f2395e3b60569c3e6ae010e69be63963fc67a7c6a48516",
+      "source_size_px": [
+        1774,
+        887
+      ],
+      "screening_axis_families": [
+        {
+          "target_degrees": -26.565,
+          "weighted_mean_degrees": -26.38,
+          "segments": 132
+        },
+        {
+          "target_degrees": 26.565,
+          "weighted_mean_degrees": 25.8,
+          "segments": 189
+        }
+      ],
+      "decision": "retain for runtime; close axes and the strongest continuous planted context"
+    },
+    {
+      "id": "generated-agent-a",
+      "path": "docs/qa/exterior-area-a/generated-axis-background-subagent-a.png",
+      "sha256": "ce5c7c46e1ece6a4a47849b079f18b6a1dd9e2aad523bf8568ac67f6df746c51",
+      "source_size_px": [
+        1672,
+        941
+      ],
+      "screening_axis_families": [
+        {
+          "target_degrees": -26.565,
+          "weighted_mean_degrees": -24.42,
+          "segments": 140
+        },
+        {
+          "target_degrees": 26.565,
+          "weighted_mean_degrees": 26.42,
+          "segments": 234
+        }
+      ],
+      "decision": "reject; broad dirt clearing and one axis family is shallow"
+    },
+    {
+      "id": "generated-agent-b",
+      "path": "docs/qa/exterior-area-a/generated-axis-background-subagent-b.png",
+      "sha256": "b296e624f6f7548ae526ac731d0ac27e68b6366084f7d067566cbe8e41b6ee77",
+      "source_size_px": [
+        1672,
+        941
+      ],
+      "screening_axis_families": [
+        {
+          "target_degrees": -26.565,
+          "weighted_mean_degrees": -24.14,
+          "segments": 188
+        },
+        {
+          "target_degrees": 26.565,
+          "weighted_mean_degrees": 25.54,
+          "segments": 132
+        }
+      ],
+      "decision": "reject; broad clearing and one axis family is shallow"
+    }
+  ],
+  "runtime_capture_directory": "docs/qa/exterior-area-a/issue-231-exact-axis-qa-2026-11-02",
+  "runtime_captures": [
+    "runtime-v6-uniform-12x10-world-only-1920x1080.png",
+    "runtime-v6-uniform-16x12-world-only-1920x1080.png",
+    "runtime-v6-uniform-20x16-world-only-1920x1080.png",
+    "runtime-v6-uniform-20x16-panzoom05-world-only-1920x1080.png"
+  ],
+  "camera_margin": "Minimum backdrop scale 1.6; at zoom 0.5 with 1774x887 texture, projected extent is 2838x1419 pixels, leaving 918x339 pixels beyond the 1920x1080 viewport before pan; this covers +/-160px horizontal and +/-120px vertical camera pan.",
+  "review_scope": "This committed comparison package includes the active runtime source and the two newly generated agent images. Other rejected source candidates remain local QA artifacts and are not part of the PR package."
+}

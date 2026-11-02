@@ -55,7 +55,9 @@ func test_side_point_moves_outward(t, _tree) -> void:
 
 func test_continuous_area_surface_keeps_entry_overlays(t, _tree) -> void:
 	var items := BackdropLayer.layout_items(_proj(), 16, 12, [Vector2i(0, 5), Vector2i(0, 6)], Vector2(1280, 720))
-	t.eq(_count(items, BackdropLayer.PAVE), 1, "one broad paving underlay remains below the generated surface")
+	t.eq(_count(items, BackdropLayer.PAVE), 2, "a narrow perimeter walk and entrance-side apron remain below the generated surface")
+	t.eq(items.filter(func(it): return it.get("purpose", &"") == &"perimeter_paving_ring").size(), 1, "narrow walk follows the full store perimeter")
+	t.eq(items.filter(func(it): return it.get("purpose", &"") == &"entrance_paving_apron").size(), 1, "broad paving remains on the entrance edge")
 	t.eq(_count(items, BackdropLayer.MAT), 2, "one door mat per entrance tile")
 	t.eq(_count(items, BackdropLayer.ROAD), 1, "one road strip on the entrance side")
 	var arrows := items.filter(func(it): return it.get("purpose", &"") == &"road_direction_arrow")
@@ -101,7 +103,7 @@ func test_two_lane_arrows_exist_for_all_supported_store_sizes(t, _tree) -> void:
 
 func test_slabs_only_outside_the_store(t, _tree) -> void:
 	var items := BackdropLayer.layout_items(_proj(), 4, 3, [], Vector2(1280, 720))
-	t.eq(_count(items, BackdropLayer.PAVE), 1, "exterior paving is one continuous surface without a metre grid")
+	t.eq(_count(items, BackdropLayer.PAVE), 2, "exterior paving is a continuous narrow ring with one broad entrance apron")
 
 
 func test_vignette_and_ground_are_screen_space(t, _tree) -> void:
@@ -150,14 +152,15 @@ func test_urban_context_backdrop_is_world_anchored_and_covers_viewport(t, _tree)
 	var viewport := Vector2(1600.0, 900.0)
 	var backdrop_texture: Texture2D = BackdropLayer.UrbanContextBackdrop
 	var texture_size := Vector2(backdrop_texture.get_size())
-	t.eq(texture_size, Vector2(1774.0, 887.0), "the camera-matched neighborhood source retains its generated canvas")
+	t.eq(texture_size, Vector2(1774.0, 887.0), "the fallback neighborhood source retains its authored canvas")
 	t.ok(is_equal_approx(texture_size.x / texture_size.y, 2.0), "the neighborhood artwork uses a 2:1 dimetric ground plane")
 	var proj := _proj(0.5)
 	var initial := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
 	var extent := Vector2(absf(initial.x.x) * texture_size.x + absf(initial.y.x) * texture_size.y, absf(initial.x.y) * texture_size.x + absf(initial.y.y) * texture_size.y)
 	t.ok(extent.x > viewport.x and extent.y > viewport.y, "the dimetric urban backdrop covers the viewport at minimum zoom")
-	t.ok(initial.x.is_equal_approx(Vector2(BackdropLayer.URBAN_CONTEXT_MIN_SCALE, 0.0)) and initial.y.is_equal_approx(Vector2(0.0, BackdropLayer.URBAN_CONTEXT_MIN_SCALE * BackdropLayer.URBAN_CONTEXT_DEPTH_PROJECTION)), "the backdrop depth is projected to the store's 26.565-degree ground axes")
-	t.ok(absf(initial.y.length() / initial.x.length() - BackdropLayer.URBAN_CONTEXT_DEPTH_PROJECTION) < 0.0001, "the camera pitch correction keeps its calibrated depth ratio")
+	t.ok(extent.x - viewport.x >= 320.0 and extent.y - viewport.y >= 240.0, "the backdrop has margin for the tested +/-160x120 camera pan at minimum zoom")
+	t.ok(initial.x.is_equal_approx(Vector2(BackdropLayer.URBAN_CONTEXT_MIN_SCALE, 0.0)) and initial.y.is_equal_approx(Vector2(0.0, BackdropLayer.URBAN_CONTEXT_MIN_SCALE)), "the backdrop preserves its authored screen-space directions")
+	t.ok(absf(initial.y.length() / initial.x.length() - 1.0) < 0.0001, "the background uses uniform scaling without depth-axis deformation")
 	var center_offset := initial.x * texture_size.x * 0.5 + initial.y * texture_size.y * 0.5
 	var old_center := initial.origin + center_offset
 	var expected_center := proj.world_to_screen((16.0 - 1.0) * 0.5, (12.0 - 1.0) * 0.5)
@@ -166,8 +169,22 @@ func test_urban_context_backdrop_is_world_anchored_and_covers_viewport(t, _tree)
 	var moved := BackdropLayer.urban_context_transform(proj, 16, 12, viewport, texture_size)
 	var new_center := moved.origin + moved.x * texture_size.x * 0.5 + moved.y * texture_size.y * 0.5
 	t.ok(new_center.distance_to(old_center + Vector2(80.0, -40.0)) < 0.01, "the panorama follows the world camera at full translation")
-	t.ok(absf(moved.x.length() - 2.1) < 0.0001, "the panorama keeps sufficient cover scale at minimum zoom")
+	t.ok(absf(moved.x.length() - BackdropLayer.URBAN_CONTEXT_MIN_SCALE) < 0.0001, "the panorama keeps sufficient cover scale at minimum zoom")
 	t.ok(BackdropLayer.urban_context_transform(proj, 0, 12, viewport, texture_size).x == Vector2.RIGHT, "invalid store bounds return the identity transform")
+
+
+func test_screenshot_plate_transform_tracks_camera_pan_and_zoom(t, _tree) -> void:
+	var reference_origin := Vector2(320.0, 240.0)
+	var reference_zoom := 0.5
+	var proj := _proj(0.75)
+	var transform := BackdropLayer.screen_plate_transform_from_reference(reference_origin, reference_zoom, proj)
+	var sample := Vector2(1440.0, 810.0)
+	var expected := proj.origin + (sample - reference_origin) * (proj.zoom / reference_zoom)
+	t.ok((transform * sample).distance_to(expected) < 0.01, "background pixels follow the current projection scale and origin")
+	proj.pan(Vector2(80.0, -40.0))
+	var moved := BackdropLayer.screen_plate_transform_from_reference(reference_origin, reference_zoom, proj)
+	t.ok((moved * sample).distance_to(expected + Vector2(80.0, -40.0)) < 0.01, "background plate follows camera pan after scaling")
+	t.eq(BackdropLayer.screen_plate_transform_from_reference(reference_origin, 0.0, proj), Transform2D.IDENTITY, "invalid reference zoom uses a safe identity transform")
 
 
 func test_surrounding_ground_mesh_batches_tiles_and_tracks_camera(t, _tree) -> void:
@@ -329,44 +346,21 @@ func test_area_a_frontage_uses_projected_store_endpoints(t, _tree) -> void:
 	t.eq(after.origin, before.origin + Vector2(31.0, -17.0), "Area A frontage follows camera pan")
 
 
-func test_combined_environment_tracks_the_projected_store_bounds(t, _tree) -> void:
+func test_runtime_neighborhood_plate_tracks_each_store_size_and_camera(t, _tree) -> void:
+	var viewport := Vector2(1600.0, 900.0)
+	var texture_size := Vector2(BackdropLayer.UrbanContextBackdrop.get_size())
 	var proj := _proj(1.25)
-	var backdrop_texture := load("res://assets/generated/backgrounds/store_exterior_backdrop_v2/store_exterior_backdrop_v2.png") as Texture2D
-	var layer := BackdropLayer.new()
-	_tree.root.add_child(layer)
-	layer.sync(16, 12, [], proj, Vector2(1280, 720))
-	var transform: Transform2D = layer._environment_transform
-	var ground := transform * BackdropLayer.BACKDROP_GROUND_PX
-	t.ok(ground.distance_to(BackdropLayer.environment_ground_anchor(proj)) < 0.001, "planting base stays at the exterior ground anchor")
-	t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "vegetation art keeps its proportions")
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
-		var size_transform := BackdropLayer.environment_transform(proj, size.x, size.y, Vector2(backdrop_texture.get_size()))
-		var size_ground: Vector2 = size_transform * BackdropLayer.BACKDROP_GROUND_PX
-		var left_endpoint: Vector2 = size_transform * BackdropLayer.BACKDROP_LEFT_END_PX
-		var right_endpoint: Vector2 = size_transform * BackdropLayer.BACKDROP_RIGHT_END_PX
-		var expected_left := proj.world_to_screen(-0.5 - BackdropLayer.BACKDROP_GROUND_OFFSET_M, float(size.y) - 0.5 + BackdropLayer.BACKDROP_GROUND_OFFSET_M)
-		var expected_right := proj.world_to_screen(float(size.x) - 0.5 + BackdropLayer.BACKDROP_GROUND_OFFSET_M, -0.5 - BackdropLayer.BACKDROP_GROUND_OFFSET_M)
-		var left_coverage := (left_endpoint - size_ground).dot(expected_left - size_ground) / (expected_left - size_ground).length()
-		var right_coverage := (right_endpoint - size_ground).dot(expected_right - size_ground) / (expected_right - size_ground).length()
-		t.ok(left_coverage >= (expected_left - size_ground).length() - 1.0, "left V branch reaches its own far-wall endpoint for %dx%d" % [size.x, size.y])
-		t.ok(right_coverage >= (expected_right - size_ground).length() - 1.0, "right V branch reaches its own far-wall endpoint for %dx%d" % [size.x, size.y])
-		t.ok(absf(transform.x.length() - transform.y.length()) < 0.001, "V art keeps a uniform scale for %dx%d" % [size.x, size.y])
-		t.ok(absf(size_transform.x.length() - transform.x.length()) < 0.001, "tree art keeps one world scale across %dx%d" % [size.x, size.y])
-		var tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * size_transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
-		t.ok(tree_height_m > IsoProjection.WALL_HEIGHT_M, "canopy rises above the wall in world metres for %dx%d" % [size.x, size.y])
-		if size != Vector2i(12, 10):
-			var reference_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
-			t.ok(absf(tree_height_m - reference_height_m) < 0.001, "world tree height is identical across store sizes")
-	var zoomed_proj := _proj(0.75)
-	var zoomed_transform := BackdropLayer.environment_transform(zoomed_proj, 16, 12, Vector2(backdrop_texture.get_size()))
-	var zoomed_tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * zoomed_transform.y.length() / (IsoProjection.Z_PX_PER_M * zoomed_proj.zoom)
-	var expected_tree_height_m := (BackdropLayer.BACKDROP_GROUND_PX.y - BackdropLayer.BACKDROP_TOP_Y_PX) * transform.y.length() / (IsoProjection.Z_PX_PER_M * proj.zoom)
-	t.ok(absf(zoomed_tree_height_m - expected_tree_height_m) < 0.001, "camera zoom changes pixel size without changing world tree height")
-	proj.pan(Vector2(29, -13))
-	layer.sync(16, 12, [], proj, Vector2(1280, 720))
-	var moved_ground: Vector2 = layer._environment_transform * BackdropLayer.BACKDROP_GROUND_PX
-	t.eq(moved_ground, ground + Vector2(29, -13), "camera panning moves the ground anchor with the store")
-	layer.queue_free()
+		var transform := BackdropLayer.urban_context_transform(proj, size.x, size.y, viewport, texture_size)
+		var center_offset := transform.x * texture_size.x * 0.5 + transform.y * texture_size.y * 0.5
+		var center := transform.origin + center_offset
+		var store_center := proj.world_to_screen((float(size.x) - 1.0) * 0.5, (float(size.y) - 1.0) * 0.5)
+		t.ok(center.distance_to(store_center) < 0.01, "neighborhood plate centers on %dx%d store" % [size.x, size.y])
+		proj.pan(Vector2(29.0, -13.0))
+		var moved := BackdropLayer.urban_context_transform(proj, size.x, size.y, viewport, texture_size)
+		var moved_center := moved.origin + moved.x * texture_size.x * 0.5 + moved.y * texture_size.y * 0.5
+		t.ok(moved_center.distance_to(center + Vector2(29.0, -13.0)) < 0.01, "neighborhood plate follows camera pan at %dx%d" % [size.x, size.y])
+		proj.pan(Vector2(-29.0, 13.0))
 
 
 func test_environment_branch_scale_is_independent(t, _tree) -> void:
@@ -410,31 +404,11 @@ func test_side_landscape_tracks_store_edge_and_camera(t, tree) -> void:
 	var layer := BackdropLayer.new()
 	tree.root.add_child(layer)
 	var p := _proj()
-	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
-	var sprite: Sprite2D = layer._side_landscape_sprite
-	t.ok(sprite.visible, "the combined sidewalk panel is shown for a supported store")
-	var first := sprite.transform
-	var east_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_EAST, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
-	t.eq(east_corner, Vector2(16.05, -0.5), "east strip root stays at the far wall with the requested setback")
-	t.ok(first.x.x > 0.0, "the east-side panel follows the visible rear wall direction")
-	var east_ground := BackdropLayer.SIDE_LANDSCAPE_GROUND_START_PX
-	t.ok((first * east_ground).distance_to(p.world_to_screen(east_corner.x, east_corner.y)) < 0.01, "measured planter root is fixed behind the east wall at ground level")
-	var shear := 0.5 - BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE
-	var east_slope := BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear
-	t.ok(absf(east_slope - 0.5) < 0.001, "runtime shear aligns the east-side planted edge with the +0.5 wall slope")
-	p.pan(Vector2(30, -10))
-	layer.sync(16, 12, [Vector2i(8, 11)], p, Vector2(1600, 900))
-	t.ok(sprite.transform.origin.distance_to(first.origin + Vector2(30, -10)) < 0.01, "the sidewalk panel follows camera panning")
-	layer.sync(16, 12, [Vector2i(15, 4)], p, Vector2(1600, 900))
-	t.ok(sprite.transform.x.x < 0.0, "the panel switches to the south side for an east entrance")
-	var south_corner := BackdropLayer.landscape_corner(BackdropLayer.SIDE_SOUTH, BackdropLayer.SIDE_LANDSCAPE_DEPTH_M, 16, 12)
-	t.eq(south_corner, Vector2(-0.5, 12.05), "south strip root stays at the far wall with the requested setback")
-	t.ok((sprite.transform * BackdropLayer.SIDE_LANDSCAPE_GROUND_START_PX).distance_to(p.world_to_screen(south_corner.x, south_corner.y)) < 0.01, "mirrored planter root is fixed behind the south wall at ground level")
-	var south_slope := -1.0 * (BackdropLayer.SIDE_LANDSCAPE_SOURCE_SLOPE + shear)
-	t.ok(absf(south_slope + 0.5) < 0.001, "runtime shear aligns the south-side planted edge with the -0.5 wall slope")
 	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
-		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_EAST, size.x, size.y), float(size.y) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "east planting run reaches the full far edge for %dx%d" % [size.x, size.y])
-		t.eq(BackdropLayer.side_landscape_edge_length(BackdropLayer.SIDE_SOUTH, size.x, size.y), float(size.x) + BackdropLayer.SIDE_LANDSCAPE_OVERHANG_M, "south planting run reaches the full far edge for %dx%d" % [size.x, size.y])
+		layer.sync(size.x, size.y, [Vector2i(0, 5)], p, Vector2(1600, 900))
+		var sprite := layer.get_node_or_null("SideLandscapeSprite") as Sprite2D
+		t.ok(sprite != null, "legacy planting layer remains addressable for %dx%d" % [size.x, size.y])
+		t.eq(sprite.visible, false, "detached planting strip is excluded at %dx%d" % [size.x, size.y])
 	layer.queue_free()
 
 

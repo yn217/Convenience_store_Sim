@@ -2,7 +2,7 @@ extends RefCounted
 ## 10_TEST_VECTORS §A goldens + round trip / diamond hit-test / anchors (Issue #4).
 
 const Seeds := preload("res://tests/support/test_seeds.gd")
-const ZOOMS := [0.5, 0.75, 1.0, 1.5, 2.0]
+const ZOOMS := [0.375, 0.5, 0.75, 1.0, 1.5, 2.0]
 
 
 func _proj(zoom: float = 1.0) -> IsoProjection:
@@ -29,7 +29,7 @@ func test_zoom_scales_offsets_from_origin(t, _tree) -> void:
 	var p := _proj(2.0)
 	t.ok(_near(p.world_to_screen(1, 0), Vector2(1128, 264)), "zoom 2 doubles the tile diamond")
 	t.eq(_proj(5.0).zoom, 2.0, "zoom clamps to 2.0")
-	t.eq(_proj(0.1).zoom, 0.5, "zoom clamps to 0.5")
+	t.eq(_proj(0.1).zoom, 0.35, "zoom clamps to 0.35")
 
 
 func test_tile_round_trip_every_tile_every_zoom(t, _tree) -> void:
@@ -139,6 +139,18 @@ func test_interior_zoom_clamps_to_zoom_range(t, _tree) -> void:
 	t.eq(IsoProjection.interior_zoom(Vector2(100000, 100000), 16, 12), IsoProjection.ZOOM_MAX, "huge area clamps to ZOOM_MAX")
 	t.eq(IsoProjection.interior_zoom(Vector2(40, 30), 16, 12), IsoProjection.ZOOM_MIN, "tiny area clamps to ZOOM_MIN")
 	t.eq(IsoProjection.interior_zoom(Vector2.ZERO, 16, 12), IsoProjection.ZOOM_NORMAL, "empty area falls back to zoom 1")
+
+
+func test_fit_whole_covers_all_supported_footprints_at_1280x720(t, _tree) -> void:
+	var viewport := Vector2(1280, 720)
+	var margin := 32.0
+	for size in [Vector2i(12, 10), Vector2i(16, 12), Vector2i(20, 16)]:
+		var p := IsoProjection.new()
+		p.fit_floor(viewport, size.x, size.y, margin)
+		var b := p.floor_bounds(size.x, size.y)
+		var wall_px := IsoProjection.Z_PX_PER_M * IsoProjection.WALL_HEIGHT_M * p.zoom
+		t.ok(b.position.x >= margin - 1e-6 and b.end.x <= viewport.x - margin + 1e-6, "floor x bounds fit %dx%d at 1280x720 (zoom %s)" % [size.x, size.y, str(p.zoom)])
+		t.ok(b.position.y - wall_px >= margin - 1e-3 and b.end.y + wall_px <= viewport.y - margin + 1e-3, "floor and wall bounds fit %dx%d at 1280x720 (zoom %s)" % [size.x, size.y, str(p.zoom)])
 
 
 func test_entrance_shift_points_at_the_entrances(t, _tree) -> void:

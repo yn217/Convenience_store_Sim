@@ -60,6 +60,7 @@ var fit_mode: FitMode = FitMode.INTERIOR
 ## Screen px the UI covers around the viewport (x = left rail, y = top HUD, z = right, w = bottom summary).
 ## fit_view() centres the floor in what is left. Set by MainLayout; zero means the whole viewport.
 var safe_inset := Vector4.ZERO
+var _capture_skip_store_floor := false
 
 @onready var _selection: Node2D = $SelectionOverlay
 @onready var _fixture_view: Node2D = $ObjectSortRoot/FixturePresenter
@@ -487,6 +488,8 @@ func _update_canopy_visibility() -> void:
 ## Floor pass (issue #61): tiles, grout, sheen, wall occlusion, then fixture contact shadows, all under
 ## the objects. Redrawn only when _floor_key changes (layout, camera or viewport), never per frame.
 func _draw() -> void:
+	if _capture_skip_store_floor:
+		return
 	if store_width <= 0:
 		return
 	if _backdrop == null:   # the BackdropLayer (drawn behind this node) paints the ground around the store
@@ -506,6 +509,12 @@ func _draw() -> void:
 		draw_polyline(inset, FloorStyle.MAT_INSET, maxf(1.0, projection.zoom))
 	FloorStyle.draw_shadows(self, projection, _shadows)
 	_draw_perimeter()
+
+
+## Capture-only switch used to isolate the actual backdrop without drawing the store floor.
+func set_capture_skip_store_floor(skip: bool) -> void:
+	_capture_skip_store_floor = skip
+	queue_redraw()
 
 
 func draw_background_wall_occlusion(target: CanvasItem) -> void:

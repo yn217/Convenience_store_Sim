@@ -33,6 +33,7 @@ const ROW_FILL := 0.85
 const SPACING_FILL := 1.15
 
 var _world: Node2D
+var _capture_customers_only := false
 var _sprites := FixtureSprites.new()
 var _people := CustomerSprites.new()
 var _art := ProductSprites.new()   # Codex product sprites by visual_id and facing (cached per direction)
@@ -626,6 +627,10 @@ var prof_fixtures := 0
 
 func _draw_all() -> void:
 	var proj: IsoProjection = _world.projection
+	if _capture_customers_only:
+		for customer in _world.customers:
+			_draw_customer(proj, customer)
+		return
 	var boxes_done := {}
 	var q0 := Time.get_ticks_usec()
 	var ordered := compose()
@@ -647,6 +652,12 @@ func _draw_all() -> void:
 	if _world.overlay_mode != OverlayModel.Mode.NORMAL or _world.selected_customer != "":
 		for it in hidden_customers(ordered):
 			_draw_customer(proj, it["customer"], XRAY_ALPHA)
+
+
+## Capture-only mode for exporting a separate dynamic-customer protection mask.
+func set_capture_customers_only(enabled: bool) -> void:
+	_capture_customers_only = enabled
+	queue_redraw()
 
 
 ## Sprite person (#23); a plain bar stands in when the art is missing. Anchor = feet, shared by all frames.

@@ -124,7 +124,7 @@ func test_wheel_zoom_keeps_tile_under_pointer_and_clamps(t, tree) -> void:
 	t.eq(world.projection.zoom, 2.0, "max zoom 2.0")
 	for i in 120:
 		ctl.handle_event(_wheel(pivot, false))
-	t.eq(world.projection.zoom, 0.5, "min zoom 0.5")
+	t.eq(world.projection.zoom, 0.35, "min zoom 0.35")
 	r[0].queue_free()
 	await tree.process_frame
 

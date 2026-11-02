@@ -16,8 +16,9 @@
     "painted game-environment style with soft daytime light"
   ],
   "selection": "Chosen over generated candidate A after root review: candidate B leaves less oversized roof intrusion while filling the open paved field with residential lanes, garden walls and layered planting.",
-  "runtime": "Unrotated and uniformly scaled; anchored to projected store center; follows camera pan and zoom.",
+  "runtime": "Anchored to projected store center and follows camera pan/zoom with a uniform transform. Do not deform the image to correct the source art's remaining small axis differences.",
   "verification": "Godot 4.7.2 actual captures at 12x10, 16x12, 20x16; 20x16 left and right pans; 1280x720, 1600x900, 1920x1080; min and max zoom. Focused backdrop and camera-input tests passed.",
-  "status": "runtime_verified_candidate_not_user_approved",
-  "remaining": "Generated neighborhood remains more detailed and painterly than the flat store. At maximum zoom the view intentionally centers on the store and crops out the neighborhood."
+  "status": "runtime_candidate_uses_uniform_projection_not_user_approved",
+  "remaining": "Generated neighborhood remains more detailed and painterly than the flat store. At maximum zoom the view intentionally centers on the store and crops out the neighborhood.",
+  "projection_audit_2026_11_02": "The prior approximately 30-degree positive-axis screening measurement resized the 1774x887 (2:1) source to 896x512 (1.75:1), introducing vertical distortion. Aspect-preserving screening no longer supports a 0.8660254 depth correction. Runtime uses equal X/Y scale."
 }

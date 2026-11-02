@@ -10,7 +10,7 @@ extends RefCounted
 const HALF_TILE_W := 64.0
 const HALF_TILE_H := 32.0
 const Z_PX_PER_M := 78.38367177
-const ZOOM_MIN := 0.5
+const ZOOM_MIN := 0.35
 const ZOOM_NORMAL := 1.0
 const ZOOM_MAX := 2.0
 ## Sprites are authored at 2x (256x128 source px per tile diamond).

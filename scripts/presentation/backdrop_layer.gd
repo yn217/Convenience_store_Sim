@@ -42,10 +42,7 @@ const SurroundingGround := preload("res://assets/generated/backgrounds/outer_gro
 const UrbanContextBackdrop := preload("res://assets/generated/backgrounds/urban_context_dimetric_v6/urban_context_dimetric_v6.png")
 const SURROUNDING_GROUND_OPACITY := 0.90
 const URBAN_CONTEXT_WORLD_SCALE := 2.5
-const URBAN_CONTEXT_MIN_SCALE := 2.1
-## The generated neighborhood's dominant road/curb axes measure 30 degrees; the store projects ground axes at 26.565 degrees.
-## Compressing the backdrop's screen-depth basis by tan(26.565) / tan(30) rectifies its camera pitch without rotating the scene.
-const URBAN_CONTEXT_DEPTH_PROJECTION := 0.8660254038
+const URBAN_CONTEXT_MIN_SCALE := 1.6
 ## Ground-contact V apex in the generated PNG; foliage above it keeps its authored height.
 const BACKDROP_GROUND_PX := Vector2(887.661, 435.866)
 ## Highest opaque pixel of the generated canopy; used to keep its height fixed in world metres.
@@ -104,6 +101,7 @@ const ROADSIDE_START_PX := Vector2(123.0, 465.0)
 const ROADSIDE_SPAN_M := 10.5
 
 const PAVE_M := 2.0       ## paving ring width around the store footprint (tiles)
+const PERIMETER_PAVE_RING_M := 0.35 ## keep a narrow service walk behind the walls; reserve the broad apron for the entrance
 const KERB_M := 0.18
 const PARK_DEPTH_M := 5.0  ## 3.8 m compact car plus wheel-stop and manoeuvring clearance
 const ROAD_M := 3.0
@@ -138,11 +136,22 @@ var _side_landscape_sprite: Sprite2D
 var _area_a_texture: Texture2D
 var _area_a_transform := Transform2D()
 var _area_a_visible := false
+var _capture_background_only := false
+var _capture_urban_context_texture: Texture2D
+var _capture_background_plate: Texture2D
+var _capture_full_plate_preview := false
+var _capture_screen_plate := false
+var _capture_exterior_plate: Texture2D
+var _capture_exterior_sprite: Sprite2D
+var _capture_plate_reference_origin := Vector2.ZERO
+var _capture_plate_reference_zoom := 1.0
+var _capture_projection: IsoProjection
 
 
 ## Recomputes the backdrop when the layout, camera or viewport changed; otherwise does nothing.
 ## `dressed` (issue #110): the StoreDecor exterior layer draws the A-board and planters, so their fallbacks are omitted.
 func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewport: Vector2, dressed: bool = false) -> void:
+	_capture_projection = proj
 	var key := [width, height, entrances.duplicate(), proj.origin, proj.zoom, viewport, dressed]
 	if key == _key:
 		return
@@ -150,12 +159,12 @@ func sync(width: int, height: int, entrances: Array, proj: IsoProjection, viewpo
 	_ground_texture_camera_origin = proj.origin
 	_ground_texture_viewport = viewport
 	_ground_texture_mesh = _build_surrounding_ground_mesh(proj.origin, viewport, Vector2(SurroundingGround.get_size()))
-	_urban_context_transform = urban_context_transform(proj, width, height, viewport, Vector2(UrbanContextBackdrop.get_size()))
+	var context_texture := _capture_urban_context_texture if _capture_urban_context_texture != null else (_capture_background_plate if _capture_background_plate != null else UrbanContextBackdrop)
+	_urban_context_transform = urban_context_transform(proj, width, height, viewport, Vector2(context_texture.get_size()))
+	if _capture_exterior_sprite != null:
+		_capture_exterior_sprite.transform = screen_plate_transform_from_reference(_capture_plate_reference_origin, _capture_plate_reference_zoom, proj)
 	_ops = layout_items(proj, width, height, entrances, viewport, dressed)
 	_sync_asphalt(proj, width, height, entrances, viewport)
-	_sync_environment(proj, width, height)
-	_sync_roadside_grove(proj, width, height, entrances)
-	_sync_urban_grove(proj, width, height, entrances)
 	_sync_outer_sidewalk(proj, width, height, entrances)
 	_sync_area_a(proj, width, height, entrances)
 	_sync_roadside(proj, width, height, entrances)
@@ -309,10 +318,14 @@ func _sync_asphalt(proj: IsoProjection, width: int, height: int, entrances: Arra
 func _sync_side_landscape(proj: IsoProjection, width: int, height: int, entrances: Array) -> void:
 	if _side_landscape_sprite == null:
 		_side_landscape_sprite = Sprite2D.new()
+		_side_landscape_sprite.name = "SideLandscapeSprite"
 		_side_landscape_sprite.centered = false
 		_side_landscape_sprite.texture = SideLandscape
 		add_child(_side_landscape_sprite)
-	_side_landscape_sprite.visible = width >= 8 and height >= 8
+	# The neighborhood backdrop now supplies the full exterior context. This older
+	# combined planting strip projects as a detached horizontal asset at the east
+	# corner, so keep it out of runtime composition as well as background captures.
+	_side_landscape_sprite.visible = false
 	if not _side_landscape_sprite.visible:
 		return
 	var entrance := entrance_side(width, height, entrances)
@@ -338,23 +351,18 @@ func _draw() -> void:
 		draw_mesh(_ground_mesh, null)
 	_draw_surrounding_ground_texture()
 	draw_set_transform_matrix(_urban_context_transform)
-	draw_texture_rect(UrbanContextBackdrop, Rect2(Vector2.ZERO, Vector2(UrbanContextBackdrop.get_size())), false)
+	var context_texture := _capture_urban_context_texture if _capture_urban_context_texture != null else (_capture_background_plate if _capture_background_plate != null else UrbanContextBackdrop)
+	draw_texture_rect(context_texture, Rect2(Vector2.ZERO, Vector2(context_texture.get_size())), false)
 	draw_set_transform_matrix(Transform2D.IDENTITY)
-	# Paint the combined V art after the ground fill, then road/paving geometry, then far-wall occlusion.
-	if _environment_visible:
-		draw_set_transform_matrix(_environment_transform)
-		draw_texture_rect(ExteriorBackdrop, Rect2(Vector2.ZERO, Vector2(ExteriorBackdrop.get_size())), false)
+	if _capture_full_plate_preview and _capture_screen_plate and _capture_background_plate != null:
+		draw_set_transform_matrix(screen_plate_transform_from_reference(_capture_plate_reference_origin, _capture_plate_reference_zoom, _capture_projection))
+		draw_texture(_capture_background_plate, Vector2.ZERO)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
-	if _roadside_grove_visible:
-		draw_set_transform_matrix(_roadside_grove_transform)
-		draw_texture_rect(RearGrove, Rect2(Vector2.ZERO, Vector2(RearGrove.get_size())), false)
-		draw_set_transform_matrix(Transform2D.IDENTITY)
-	if _urban_grove_visible:
-		for grove in _urban_groves:
-			var grove_texture: Texture2D = grove["texture"]
-			draw_set_transform_matrix(grove["transform"])
-			draw_texture_rect(grove_texture, Rect2(Vector2.ZERO, Vector2(grove_texture.get_size())), false)
-			draw_set_transform_matrix(Transform2D.IDENTITY)
+		return
+	if _capture_background_only or _capture_full_plate_preview:
+		return
+	# The entire neighborhood is one background image so no independent U-shaped or
+	# horizontal planting strips can introduce visible joins around the store.
 	if _outer_sidewalk_visible:
 		draw_set_transform_matrix(_outer_sidewalk_transform)
 		draw_texture_rect(OuterSidewalkStrip, Rect2(Vector2.ZERO, Vector2(OuterSidewalkStrip.get_size())), false)
@@ -376,6 +384,55 @@ func _draw() -> void:
 		owner_world.call("draw_background_wall_occlusion", self)
 	for op in _texts:
 		draw_string(ThemeDB.fallback_font, op["pos"], op["text"], HORIZONTAL_ALIGNMENT_CENTER, op["width"], op["size"], op["color"])
+
+
+## Capture-only mode that keeps the single neighborhood plate and omits store-adjacent surfaces/walls.
+func set_capture_background_only(enabled: bool) -> void:
+	_capture_background_only = enabled
+	queue_redraw()
+
+
+## Capture-only replacement for the neighborhood texture; all normal store-adjacent geometry stays visible.
+func set_capture_urban_context_texture(texture: Texture2D) -> void:
+	_capture_urban_context_texture = texture
+	_key.clear()
+	queue_redraw()
+
+
+## Capture-only background replacement; normal gameplay always uses the approved source texture.
+func set_capture_background_plate(texture: Texture2D, whole_plate_preview: bool, screen_space_plate: bool = false, reference_origin: Vector2 = Vector2.ZERO, reference_zoom: float = 1.0) -> void:
+	_capture_background_plate = texture
+	_capture_full_plate_preview = whole_plate_preview
+	_capture_screen_plate = screen_space_plate
+	_capture_plate_reference_origin = reference_origin
+	_capture_plate_reference_zoom = reference_zoom
+	_key.clear()
+	queue_redraw()
+
+
+## QA-only exterior overlay: camera-follows a full-scene transparent plate while the live store renders above it.
+func set_capture_exterior_plate(texture: Texture2D, reference_origin: Vector2, reference_zoom: float) -> void:
+	_capture_exterior_plate = texture
+	_capture_plate_reference_origin = reference_origin
+	_capture_plate_reference_zoom = reference_zoom
+	if _capture_exterior_sprite == null:
+		_capture_exterior_sprite = Sprite2D.new()
+		_capture_exterior_sprite.name = "CaptureExteriorPlateOverlay"
+		_capture_exterior_sprite.centered = false
+		_capture_exterior_sprite.z_index = 4096
+		get_parent().add_child(_capture_exterior_sprite)
+	_capture_exterior_sprite.texture = texture
+	_capture_exterior_sprite.transform = screen_plate_transform_from_reference(reference_origin, reference_zoom, _capture_projection)
+	_capture_exterior_sprite.visible = true
+	_key.clear()
+	queue_redraw()
+
+
+static func screen_plate_transform_from_reference(reference_origin: Vector2, reference_zoom: float, current_projection: IsoProjection) -> Transform2D:
+	if reference_zoom <= 0.0 or current_projection == null:
+		return Transform2D.IDENTITY
+	var ratio := current_projection.zoom / reference_zoom
+	return Transform2D(Vector2(ratio, 0.0), Vector2(0.0, ratio), current_projection.origin - reference_origin * ratio)
 
 
 ## Add low-contrast natural variation to the flat exterior fill. The tile offset follows camera origin,
@@ -451,7 +508,7 @@ static func urban_context_transform(proj: IsoProjection, width: int, height: int
 	var scale := maxf(URBAN_CONTEXT_MIN_SCALE, URBAN_CONTEXT_WORLD_SCALE * proj.zoom)
 	var store_center := proj.world_to_screen((float(width) - 1.0) * 0.5, (float(height) - 1.0) * 0.5)
 	var basis_x := Vector2.RIGHT * scale
-	var basis_y := Vector2.DOWN * (scale * URBAN_CONTEXT_DEPTH_PROJECTION)
+	var basis_y := Vector2.DOWN * scale
 	var half_size := (basis_x * texture_size.x + basis_y * texture_size.y) * 0.5
 	return Transform2D(basis_x, basis_y, store_center - half_size)
 
@@ -745,8 +802,14 @@ static func layout_items(proj: IsoProjection, width: int, height: int, entrances
 	for stripe in range(6):
 		var d := road_d0 + 0.2 + float(stripe) * 0.45
 		out.append(_poly(_side_quad(proj, side, width, height, d, d + 0.24, span.x - 0.15, span.y + 0.15), ROAD_LINE))
-	# A single calm paving ring avoids the visible 1m grid used by the old exterior mesh.
-	out.append(_poly(_world_pts(proj, _rect_world(width, height, PAVE_M)), PAVE))
+	# Keep the broad pedestrian apron only on the entrance edge. A full 2m ring on all four sides
+	# reads as a floating beige platform over the continuous neighborhood backdrop.
+	var perimeter_paving := _poly(_world_pts(proj, _rect_world(width, height, PERIMETER_PAVE_RING_M)), PAVE)
+	perimeter_paving["purpose"] = &"perimeter_paving_ring"
+	out.append(perimeter_paving)
+	var entrance_apron := _poly(_side_quad(proj, side, width, height, 0.0, PAVE_M, -0.5, edge_length - 0.5), PAVE)
+	entrance_apron["purpose"] = &"entrance_paving_apron"
+	out.append(entrance_apron)
 	# Area A replaces these broad road/paving fills; the entrance markings and props below remain on top.
 	out.append({"kind": &"area_a_break"})
 
