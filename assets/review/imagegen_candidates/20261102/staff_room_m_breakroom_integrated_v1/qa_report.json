@@ -25,17 +25,34 @@
     "fully_transparent_ratio": 0.506393,
     "semi_transparent_ratio": 0.493607,
     "fully_opaque_ratio": 0.0,
-    "bbox_alpha_ge_8_xyxy": [174, 56, 1367, 976],
-    "edge_max_alpha": {"left": 1, "right": 0, "top": 0, "bottom": 0},
-    "notes": "Checkerboard composite shows transparent exterior and no obvious broad opaque background. But the entire nontransparent subject is semitransparent and no pixel reaches alpha 255; opacity/edge behavior must be inspected in game before adoption."
+    "bbox_alpha_ge_8_xyxy": [
+      174,
+      56,
+      1367,
+      976
+    ],
+    "edge_max_alpha": {
+      "left": 1,
+      "right": 0,
+      "top": 0,
+      "bottom": 0
+    },
+    "notes": "Checkerboard composite shows transparent exterior and no obvious broad opaque background. But the entire nontransparent subject is semitransparent and no pixel reaches alpha 255; opacity/edge behavior must be inspected in game before adoption. Independent visual review also sees a broad dark outer blur and semitransparent edge; inspect against actual game backgrounds."
   },
   "projection_and_shape": {
     "status": "PARTIAL_NOT_CALIBRATED",
     "requested_projection": "iso2x_v1",
-    "requested_footprint_tiles": [3, 2],
-    "fixture_dimensions_m": [2.92, 1.92, 2.4],
+    "requested_footprint_tiles": [
+      3,
+      2
+    ],
+    "fixture_dimensions_m": [
+      2.92,
+      1.92,
+      2.4
+    ],
     "access_edge": "S",
-    "visual_notes": "Single 3/4 cutaway with open front. The layout reads wider than deep, but several visible edge slopes appear inconsistent with strict 2:1 axes. No control-point measurement was taken; do not treat prompt compliance as projection proof.",
+    "visual_notes": "Single 3/4 cutaway with open front. The layout reads wider than deep, but several visible edge slopes appear inconsistent with strict 2:1 axes. No control-point measurement was taken; do not treat prompt compliance as projection proof. Independent reviewer finds the floor plausibly 3x2 but cannot confirm the world axes or south orientation.",
     "measured_control_points": [],
     "world_anchor_verified": false,
     "godot_checked": false
@@ -51,5 +68,17 @@
     "Godot rendering and performance"
   ],
   "runtime_approved": false,
-  "recommended_action": "Review-only candidate. Resolve opacity at game scale and measure floor/wall control points against the fixture dimensions and iso2x_v1 guide. Keep source unchanged; do not stretch or mirror to force a match."
+  "recommended_action": "Keep as review-only. Inspect the broad semitransparent edge over actual game backgrounds, measure floor/wall control points against 3x2 iso2x_v1 and fixture dimensions, and verify anchor/access/readability in Godot. Preserve the original; no stretching or mirroring.",
+  "independent_visual_review": {
+    "status": "PARTIAL",
+    "agent_reviewed": true,
+    "asset_edited": false,
+    "findings": [
+      "Content: pass by visual inspection; lockers, microwave, kettle and shared table read as a staff room.",
+      "South opening: likely open at the near side, but the image has no compass; south orientation is not independently verified.",
+      "Alpha: transparent corners/background confirmed; dark outer blur and broad semitransparent edge remain a concern on game backgrounds.",
+      "Projection/scale: isometric-looking and floor plausibly resembles 3x2, but iso2x_v1 angles and 2.92x1.92x2.4m dimensions are not verified.",
+      "Game readability: furniture is clear at source size; fine details may be hard to read at game zoom, which was not tested."
+    ]
+  }
 }
