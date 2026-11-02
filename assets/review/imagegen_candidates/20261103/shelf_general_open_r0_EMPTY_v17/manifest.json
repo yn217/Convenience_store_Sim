@@ -1,0 +1,128 @@
+{
+  "schema_version": "imagegen_candidate_v1",
+  "asset_id": "shelf_general_open_r0_EMPTY_v17",
+  "asset_class": "shelf_geometry_gate",
+  "requested_subject": "EMPTY single-sided open gondola; exactly four shallow usable decks; no canopy; 1x2 fixture",
+  "actual_subject": "Four visible empty shelf decks, two end uprights, no canopy or broad base; background glow persists and shelf tops remain visually broad",
+  "review_only": true,
+  "runtime_approved": false,
+  "production_method": "Codex built-in ImageGen; new standalone image; style reference C:/Users/yuuna/Downloads/image-1792819026698.webp",
+  "prompt_file": "prompt.txt",
+  "source": {
+    "file": "source_original.png",
+    "dimensions_px": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA",
+    "bytes": 1612531,
+    "sha256": "13d6a052cad6cbf79c442f56ea6c1aa9180a0e89873e0eeb783aaa66e166739f"
+  },
+  "fixture_target": {
+    "type_id": "shelf_general",
+    "visual_id": "shelf_general_open_r0",
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "customer_access_edge": "unverified"
+  },
+  "alpha": {
+    "extrema": [
+      0,
+      254
+    ],
+    "fully_transparent_percent": 72.75,
+    "low_alpha_1_to_7_percent": 1.583,
+    "measurements": [
+      {
+        "threshold": 1,
+        "bbox_xyxy": [
+          0,
+          37,
+          1426,
+          1024
+        ],
+        "margins_percent_ltrb": [
+          0.0,
+          3.61,
+          7.16,
+          0.0
+        ],
+        "coverage_percent": 27.25
+      },
+      {
+        "threshold": 8,
+        "bbox_xyxy": [
+          333,
+          81,
+          1215,
+          991
+        ],
+        "margins_percent_ltrb": [
+          21.68,
+          7.91,
+          20.9,
+          3.22
+        ],
+        "coverage_percent": 25.67
+      },
+      {
+        "threshold": 128,
+        "bbox_xyxy": [
+          333,
+          83,
+          1214,
+          991
+        ],
+        "margins_percent_ltrb": [
+          21.68,
+          8.11,
+          20.96,
+          3.22
+        ],
+        "coverage_percent": 25.21
+      },
+      {
+        "threshold": 250,
+        "bbox_xyxy": [
+          335,
+          86,
+          1213,
+          990
+        ],
+        "margins_percent_ltrb": [
+          21.81,
+          8.4,
+          21.03,
+          3.32
+        ],
+        "coverage_percent": 24.29
+      }
+    ]
+  },
+  "projection": {
+    "target": "iso2x_v1; screen slopes +/-0.5; long axis down-right at +0.5",
+    "status": "VISUAL_APPROXIMATION_ONLY",
+    "visual_estimate": "Long shelf edges run down-right and short-axis edges rise right, broadly matching intended orientation. Slopes are not measured against pixel control points; no Godot overlay or exact r0 direction check.",
+    "godot_verified": false
+  },
+  "quality": {
+    "content": "PASS_VISUAL_ONLY - exactly four clear decks and no canopy; empty state is suitable for geometry review only.",
+    "geometry": "PARTIAL - shallow lips and low base are improved, but deck surfaces still read broad at the shown angle; no projection/depth overlay or fixture-bound comparison was performed. Shape gate remains unpassed.",
+    "style": "FAIL - bright specular edges and a strong dark vignette/glow conflict with the soft matte painted reference style.",
+    "alpha": "FAIL - alpha>=1 haze reaches left and bottom edges. At alpha>=8 margins L/T/R/B are 21.68/7.91/20.90/3.22%, below 12% at top and bottom.",
+    "projection": "PARTIAL - apparent axes are closer to requested iso2x direction, but exact slopes, camera, and customer-access side remain unverified.",
+    "dimensions_anchor": "UNVERIFIED - target footprint and dimensions are metadata only; ground origin, sprite scale, and anchor were not tested in Godot."
+  },
+  "limitations": [
+    "Review-only EMPTY candidate; does not pass shelf geometry gate.",
+    "Do not create FULL/HALF or connect to runtime.",
+    "Original image retained byte-for-byte."
+  ]
+}

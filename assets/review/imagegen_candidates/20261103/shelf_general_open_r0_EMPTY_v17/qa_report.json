@@ -1,0 +1,25 @@
+{
+  "asset_id": "shelf_general_open_r0_EMPTY_v17",
+  "runtime_approved": false,
+  "review_verdict": "PARTIAL_FAIL_SHAPE_GATE / REVIEW_ONLY",
+  "source_sha256": "13d6a052cad6cbf79c442f56ea6c1aa9180a0e89873e0eeb783aaa66e166739f",
+  "shelf_count": "PASS_VISUAL_ONLY - four decks",
+  "no_canopy": "PASS_VISUAL_ONLY",
+  "geometry": "PARTIAL - shallow lips and low base are improved, but deck surfaces still read broad at the shown angle; no projection/depth overlay or fixture-bound comparison was performed. Shape gate remains unpassed.",
+  "style": "FAIL - bright specular edges and a strong dark vignette/glow conflict with the soft matte painted reference style.",
+  "alpha": "FAIL - alpha>=1 haze reaches left and bottom edges. At alpha>=8 margins L/T/R/B are 21.68/7.91/20.90/3.22%, below 12% at top and bottom.",
+  "projection": "PARTIAL - apparent axes are closer to requested iso2x direction, but exact slopes, camera, and customer-access side remain unverified.",
+  "dimensions_m": [
+    0.92,
+    1.92,
+    1.5
+  ],
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "customer_access_edge": "unverified",
+  "anchor_px": null,
+  "game_zoom_review": "NOT RUN - no Godot/Renderer/runtime changes",
+  "notes": "Shelf count, open top, and silhouette improve on v16. Broad-looking deck tops, glossy/vignetted style, alpha haze, and uncalibrated dimensions prevent approval."
+}
