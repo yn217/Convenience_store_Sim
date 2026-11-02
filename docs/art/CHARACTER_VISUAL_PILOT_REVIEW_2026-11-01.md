@@ -202,6 +202,8 @@ hands remain present at coarse scale. It is not a per-image hand/edge approval: 
 clothing holes, or baked reaction graphics still requires individual review. The source PNGs, placement mapping,
 and `runtime_approved:false` states were not changed; these derivatives are not connected to the normal release
 runtime. The focused asset check also asserts that all 50 reaction rows have a 1024x1024 RGBA review derivative.
+Across the full placement table, the review-alpha scope is now explicit: 329 character candidates have derived
+alpha PNGs, while all five `title_screen` candidates remain opaque background sources with no alpha derivative.
 
 The pilot registry now has an explicit release gate in `character_visual_pilot_panel.gd`: debug builds can inspect
 unapproved candidates, while a non-debug build selects a character visual only when that individual registry row has

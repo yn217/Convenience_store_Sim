@@ -106,6 +106,25 @@ class CharacterPilotAssetTests(unittest.TestCase):
                 self.assertEqual(image.size, (1024, 1024), asset_id)
                 self.assertIsNotNone(image.getchannel("A").getbbox(), asset_id)
 
+    def test_review_alpha_scope_keeps_title_backgrounds_opaque(self):
+        """Review alpha derivatives cover character candidates, never title backgrounds."""
+        placement = json.loads(PLACEMENT.read_text(encoding="utf-8"))
+        title_rows = [
+            entry for entry in placement["assets"]
+            if "title" in entry.get("group", "")
+        ]
+        character_rows = [
+            entry for entry in placement["assets"]
+            if "title" not in entry.get("group", "")
+        ]
+        self.assertEqual(len(title_rows), 5)
+        self.assertEqual(len(character_rows), 329)
+        self.assertEqual(len(list(REVIEW_DERIVED.glob("*.png"))), len(character_rows))
+        for entry in title_rows:
+            self.assertFalse((REVIEW_DERIVED / f"{entry['asset_id']}.png").exists(), entry["asset_id"])
+        for entry in character_rows:
+            self.assertTrue((REVIEW_DERIVED / f"{entry['asset_id']}.png").is_file(), entry["asset_id"])
+
     def test_clean_reactions_do_not_keep_small_disconnected_symbols(self):
         for asset_id in ("reaction_discovery", "reaction_deadpan", "reaction_pleading"):
             path = ROOT / "assets" / "runtime" / "character_pilot" / "derived_alpha" / f"{asset_id}.png"
