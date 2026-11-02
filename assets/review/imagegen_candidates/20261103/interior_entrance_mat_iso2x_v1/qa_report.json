@@ -1,0 +1,17 @@
+{
+  "asset_id": "interior_entrance_mat_iso2x_v1",
+  "review_verdict": "REVIEW_ONLY_NOT_APPROVED",
+  "runtime_approved": false,
+  "source": {"path":"source_original.png","sha256":"8aaebc0a76bf90fead0108c973e919438e9305b21df52cbc33229ef72fb8dfcf","dimensions_px":[1536,1024],"mode":"RGBA","bytes":1686569,"unchanged_original":true},
+  "content": "PASS_VISUAL_ONLY: one charcoal ribbed entrance mat with a narrow blue border; no added text or objects.",
+  "style": "FAIL: photorealistic material, dramatic lighting and glow do not match restrained game art.",
+  "alpha": {
+    "threshold_1":{"bbox_xyxy":[0,31,1474,1024],"margins_ltrb_percent":[0.0,3.03,4.04,0.0],"verdict":"FAIL_HAZE_TOUCHES_LEFT_AND_BOTTOM"},
+    "threshold_8":{"bbox_xyxy":[151,173,1399,876],"margins_ltrb_percent":[9.83,16.89,8.92,14.45],"verdict":"FAIL_LEFT_RIGHT_UNDER_12_PERCENT"},
+    "threshold_128":{"bbox_xyxy":[152,174,1398,875],"margins_ltrb_percent":[9.9,16.99,8.98,14.55],"verdict":"FAIL_LEFT_RIGHT_UNDER_12_PERCENT"},
+    "zero_alpha_percent":72.52,"alpha_gte8_percent":27.06
+  },
+  "projection":{"target":"iso2x_v1","visual_slopes_abs_estimate":[0.5,0.5],"control_points":[],"godot_checked":false,"verdict":"PARTIAL_ESTIMATE_ONLY"},
+  "dimensions_m":null,"footprint_tiles":null,"anchor_px":null,"game_zoom_review":"NOT_CHECKED",
+  "notes":["Original was not modified.","Do not crop/stretch to conceal the alpha margin failure.","The checkerboard preview is inspection-only."]
+}

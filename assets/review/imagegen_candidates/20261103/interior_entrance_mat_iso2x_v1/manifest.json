@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "asset_id": "interior_entrance_mat_iso2x_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "One low-profile rectangular anti-slip store entrance mat, iso2x_v1, transparent sprite",
+  "actual_subject": "One charcoal ribbed rectangular floor mat with a narrow blue edge band, isolated on transparent background",
+  "production_method": "codex_imagegen_builtin_via_subagent",
+  "stock_state": "not_applicable",
+  "review_only": true,
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "file_size_bytes": 1686569,
+    "sha256": "8aaebc0a76bf90fead0108c973e919438e9305b21df52cbc33229ef72fb8dfcf",
+    "generated_from": "C:\\Users\\yuuna\\.codex\\generated_images\\01a19cc9-0a0d-7051-b9b5-c80936c1833e\\exec-24fcd3d0-13b8-4a3e-8e3e-719128f00d11.png",
+    "subagent_id": "01a19cc9-0a0d-7051-b9b5-c80936c1833e",
+    "github_branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "outputs": [
+    {"role":"source_original","path":"source_original.png","unchanged_original":true,"sha256":"8aaebc0a76bf90fead0108c973e919438e9305b21df52cbc33229ef72fb8dfcf"},
+    {"role":"alpha_review_preview","path":"checkerboard_review.jpg","derived_from":"source_original.png","sha256":"32dc98f78130803de28c97413cebb70d1ad0dcf9c262903cad007231cf57880b"}
+  ],
+  "prompt_file": "prompt.txt",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": null,
+    "checked_in_godot": false,
+    "target_slopes": [-0.5,0.5],
+    "estimated_visual_slopes_abs": [0.5,0.5],
+    "control_points": [],
+    "verdict": "VISUAL_ESTIMATE_ONLY_NOT_CALIBRATED"
+  },
+  "geometry": {"intended_footprint_tiles":null,"dimensions_m":null,"world_anchor_px":null,"verified":false},
+  "alpha": {
+    "format":"RGBA",
+    "thresholds": {
+      "1":{"bbox_xyxy":[0,31,1474,1024],"margins_percent_ltrb":[0.0,3.03,4.04,0.0],"status":"FAIL_HAZE_TOUCHES_LEFT_BOTTOM_EDGES"},
+      "8":{"bbox_xyxy":[151,173,1399,876],"margins_percent_ltrb":[9.83,16.89,8.92,14.45],"status":"FAIL_LEFT_RIGHT_BELOW_12_PERCENT"},
+      "128":{"bbox_xyxy":[152,174,1398,875],"margins_percent_ltrb":[9.9,16.99,8.98,14.55],"status":"FAIL_LEFT_RIGHT_BELOW_12_PERCENT"}
+    },
+    "alpha_zero_percent":72.52,
+    "alpha_gte8_percent":27.06,
+    "unique_alpha_values":255
+  },
+  "quality": {
+    "content":"PASS_VISUAL_ONLY",
+    "style":"FAIL_PHOTOREALISTIC_LIGHTING",
+    "projection":"PARTIAL_ESTIMATED_ONLY",
+    "alpha":"FAIL_EDGE_HAZE_AND_SIDE_MARGIN",
+    "world_scale":"NOT_VERIFIED",
+    "godot_runtime":"NOT_CHECKED",
+    "runtime_approved":false,
+    "overall":"REVIEW_ONLY_NOT_APPROVED",
+    "notes":[
+      "One flat low-profile mat is visible; no added props, labels, or logo.",
+      "Photorealistic material and dramatic glow do not match the target game style.",
+      "At alpha >=8, left/right margins are under 12%; at alpha >=1, haze touches left/bottom canvas edges.",
+      "Long/short edges visually approximate iso2x directions only; no control-point or Godot validation.",
+      "No game tile footprint, world dimensions, anchor, or runtime rendering was measured.",
+      "Original image remains unchanged; no crop/stretch/alpha cleanup was applied."
+    ]
+  }
+}
+
