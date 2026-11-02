@@ -389,3 +389,15 @@ assistant stage at 1280x720; the left menu, speech bubble, bottom objective/stat
 strip, and event controls remain usable. The source full-body PNG is unchanged and
 the display-only crop is still used. This is runtime route evidence only and does
 not alter the `runtime_approved:false` gate.
+
+## Latest long-queue route capture (2026-11-03)
+
+`build/character_pilot_queue_long_queue_1280.png` was captured through the actual
+`long_queue` presentation cue with the non-headless Godot CLI and
+`--freeze --inspect-pilot`. The selected `functional_queue` texture was reported as
+`res://assets/runtime/character_pilot/derived_alpha/functional_queue.png`;
+`legacy_visible=false` and no event-panel duplicate pilot were reported. The
+display-only crop stays inside the assistant stage, the speech bubble remains
+readable, and the lower menu is unobstructed. The source 1024x1536 full-body PNG
+was not modified. This is route/layout evidence only; the candidate remains
+`runtime_approved:false` pending human hand review and rights confirmation.
