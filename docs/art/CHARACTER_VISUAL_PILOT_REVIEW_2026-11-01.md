@@ -259,3 +259,11 @@ This is layout QA only; `runtime_approved:false` and the rights-review gate rema
 display-only frame, the original full-body source is not modified, and the bottom menu is still
 clear. This capture also confirms the setup checklist and assistant bubble can coexist without
 duplicating the legacy assistant layer. The asset remains review-only and is not runtime-approved.
+
+## Bust-up candidate display check (2026-11-02)
+
+`build/standing_review_reaction_001_1280.png` was captured with
+`--setup --pilot-candidate=reaction_001`. The candidate is rendered in the dedicated
+bust-up reaction slot with its generated symbol kept separate from the character layer;
+it does not replace or stack with the full-body assistant frame. This is a review-only
+candidate capture and does not change the runtime registry or approval state.
