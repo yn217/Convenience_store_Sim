@@ -85,3 +85,9 @@ focused test `test_character_visual_pilot.gd`: 4 tests / 291 assertions / 0 fail
 選定済み50件（機能30・イベント11・リアクション5・汎用全身3・タイトル背景1）の確認用一覧は
 `build/character_pilot_runtime_contact_20261102.png`。再生成は
 `python tools/assets/build_character_pilot_contact_sheet.py` で行える。これは承認状態を変更しないレビュー用出力である。
+
+334候補の読み取り専用レビュー経路も非headless CLIで確認した。`additional_001` は派生透過の全身候補、
+`reaction_001` はバストアップ候補として、候補ID・Seed・group・screen/slot・trigger・承認状態を表示した。
+確認画像は `build/placement_review_additional_001_alpha_1280_latest.png` と
+`build/placement_review_reaction_001_alpha_1280_latest.png`。この経路は `runtime_approved` を変更せず、
+候補画像を通常の `Main` ランタイムへ常駐ロードしない。
