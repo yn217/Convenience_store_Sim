@@ -17,8 +17,20 @@
     "reference_hashes": []
   },
   "outputs": [
-    {"role": "source_original", "path": "source_original.png", "byte_size": 1911796, "sha256": "a782b7591ffaa151aff0ccdd1ee52c1a1923e844a73a35b055c0cc8e3a29fe08", "github_uploaded": false},
-    {"role": "qa_overlay", "path": "checkerboard_review.jpg", "github_uploaded": false}
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "byte_size": 1911796,
+      "sha256": "a782b7591ffaa151aff0ccdd1ee52c1a1923e844a73a35b055c0cc8e3a29fe08",
+      "github_uploaded": true,
+      "git_blob_sha": "4452019be7d4a00fdcc2ed64d1e60757908cd9ff"
+    },
+    {
+      "role": "qa_overlay",
+      "path": "checkerboard_review.jpg",
+      "github_uploaded": true,
+      "git_blob_sha": "7f14d82c829bfea14d28d4ed108b30311b58fa12"
+    }
   ],
   "projection": {
     "id": "iso2x_v1",
@@ -31,8 +43,15 @@
     "visual_assessment": "PARTIAL; broad axonometric appearance but several floor/wall slopes appear inconsistent with strict 2:1 axes; not measured"
   },
   "geometry": {
-    "footprint_tiles": [3, 2],
-    "dimensions_m": [2.92, 1.92, 2.4],
+    "footprint_tiles": [
+      3,
+      2
+    ],
+    "dimensions_m": [
+      2.92,
+      1.92,
+      2.4
+    ],
     "staff_capacity": 6,
     "world_ground_origin_m": null,
     "image_anchor_px": null,
@@ -55,6 +74,10 @@
       "Review-only; runtime_approved:false."
     ]
   },
-  "github": {"repository": "yn217/Convenience_store_Sim", "draft_pr": 164, "branch": "art/chatgpt-interior-open-gondola-20261028"},
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
   "runtime_approved": false
-}
+}\n
