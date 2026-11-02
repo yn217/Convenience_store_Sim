@@ -42,7 +42,8 @@ class CharacterPilotApprovalTests(unittest.TestCase):
             rows = {row["id"]: row for row in document["assets"]}
             self.assertTrue(rows["functional_low_stock"]["runtime_approved"])
             self.assertEqual(rows["functional_low_stock"]["status"], "runtime_approved")
-            self.assertFalse(rows["functional_queue"]["runtime_approved"])
+            self.assertTrue(rows["functional_queue"]["runtime_approved"])
+            self.assertFalse(rows["functional_expiry"]["runtime_approved"])
 
 
 if __name__ == "__main__":
