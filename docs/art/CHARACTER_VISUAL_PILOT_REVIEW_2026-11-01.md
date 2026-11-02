@@ -314,6 +314,11 @@ python tools/assets/build_character_pilot_contact_sheet.py --core-only
 The sheet is a visual review aid only; it does not alter source PNGs, runtime
 derivatives, or approval flags.
 
+The Presentation routes use deferred `load(runtime_path)` calls for the selected
+entry and do not `preload` the pilot registry. A focused asset test guards this
+rule so the 50 candidate textures are not turned into a startup cache by a later
+route change.
+
 ## Latest stock-sold-out route capture (2026-11-03)
 
 `build/character_pilot_stock_sold_out_current_1280.png` was captured through the

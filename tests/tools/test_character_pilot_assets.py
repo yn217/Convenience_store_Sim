@@ -23,6 +23,22 @@ REACTION_SYMBOL_REGIONS = {
 
 
 class CharacterPilotAssetTests(unittest.TestCase):
+    def test_pilot_routes_use_deferred_loads_instead_of_preloading_the_registry(self):
+        """The 50 candidate textures must not become a startup preload/cache."""
+        scripts = [
+            ROOT / "scripts" / "presentation" / "character_visual_pilot_panel.gd",
+            ROOT / "scripts" / "presentation" / "progression_controller.gd",
+            ROOT / "scripts" / "presentation" / "event_controller.gd",
+            ROOT / "scripts" / "presentation" / "title_screen.gd",
+        ]
+        for path in scripts:
+            source = path.read_text(encoding="utf-8")
+            self.assertNotIn("preload(\"res://assets/runtime/character_pilot/", source, path.name)
+        progression = (ROOT / "scripts" / "presentation" / "progression_controller.gd").read_text(encoding="utf-8")
+        events = (ROOT / "scripts" / "presentation" / "event_controller.gd").read_text(encoding="utf-8")
+        self.assertIn("load(String(entry.get(\"runtime_path\", \"\")))", progression)
+        self.assertIn("load(String(pilot_entry.get(\"runtime_path\", \"\")))", events)
+
     def test_core_pilot_has_the_issue_230_minimum_11_routes(self):
         """The initial visual QA set is explicit without reducing the 50-entry registry."""
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
