@@ -251,3 +251,11 @@ the full-body source image and the display-only crop policy are unchanged. The a
 
 All three keep the portrait and dialogue above the bottom menu, with the dialogue following the portrait horizontally.
 This is layout QA only; `runtime_approved:false` and the rights-review gate remain unchanged.
+
+## Re-capture after route verification (2026-11-02)
+
+`build/standing_impl_low_stock_1280_current2.png` was captured through the Godot CLI with
+`--setup --pilot-cue=low_stock_notice`. The selected functional pilot remains visible in the
+display-only frame, the original full-body source is not modified, and the bottom menu is still
+clear. This capture also confirms the setup checklist and assistant bubble can coexist without
+duplicating the legacy assistant layer. The asset remains review-only and is not runtime-approved.
