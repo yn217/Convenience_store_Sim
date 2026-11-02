@@ -35,3 +35,11 @@
 - `build/character_core_quiet_street_1280.png`: `evt_quiet_street` で `reaction_deadpan.png` をイベント反応枠へ接続し、記号・キャラクターを別レイヤーとして表示。
 
 いずれもGodot 4.7.2のCLIキャプチャで確認し、元の全身PNGは変更していない。
+
+## 下部メニュー直上への表示位置調整（2026-11-03）
+
+- `build/character_core_normal_lowered_1280.png`
+- `build/character_core_normal_lowered_1920.png`
+
+立ち絵とメッセージを表示時だけ下へ移動し、下部メニューの手前約12pxで止める配置に調整した。
+元の全身PNG、表示用クロップ枠、ゲーム内の入力領域は変更していない。

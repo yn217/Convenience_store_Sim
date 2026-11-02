@@ -26,13 +26,13 @@ const BUBBLE_WIDTH := 420
 # the viewport edge.  The small rightward correction also applies to the
 # display-time bust-up crop; source PNGs are never modified.
 const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 200.0
-# Lift the portrait a little farther above the bottom chrome.  This is the
-# figure anchor; the dialogue bubble keeps its independently tuned lower slot.
-const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 52.0
+# Keep the portrait just above the bottom chrome. This is the figure anchor;
+# the source full-body PNG is still cropped only by the display frame.
+const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 12.0
 const BUBBLE_BOTTOM := Layout.CHROME_BOTTOM + 12.0
-# Keep the line panel aligned with the portrait's lower-left presentation area,
-# leaving the character face unobstructed and placing the dialogue a little lower.
-const BUBBLE_TOP_DROP := 92.0
+# Lower the line panel with the portrait so its bottom also sits just above the
+# bottom chrome while keeping the face unobstructed.
+const BUBBLE_TOP_DROP := 205.0
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
 const BLOCKED_LINE := "大変です、店長…！費用が払えなくて、お店が止まってしまいました。セーブからやり直しましょう。"
