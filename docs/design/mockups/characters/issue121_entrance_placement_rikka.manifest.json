@@ -1,0 +1,31 @@
+{
+  "asset_id": "issue121_entrance_placement_rikka",
+  "kind": "ui_mockup",
+  "issue": 121,
+  "title": "入口位置設定画面 小春六花案",
+  "character_identity": "小春六花",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue121_entrance_placement_rikka.png",
+  "screen_role": "future entrance placement, candidate validation and reachability guidance",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "text_encoder": "qwen_3_06b_base.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "loras": [
+      {
+        "file": "Koharu-Koharu-epoch100.safetensors",
+        "trigger": "koharu_rikka",
+        "strength": 0.8
+      },
+      {
+        "file": "anima-style-epoch35-lr5e5.safetensors",
+        "trigger": "anima_style",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "1defa89d-f729-488f-8575-68570a1ad520"
+  }
+}
