@@ -23,5 +23,5 @@
   "runtime": "not tested; incomplete character view set",
   "decision": "reference-only view candidate; await review before continuing additional directions/animations",
   "runtime_approved": false,
-  "github_uploaded": false
+  "github_uploaded": true
 }
