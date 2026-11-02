@@ -223,3 +223,18 @@ transient cleanup removes unrelated startup notices before saving. The selected
 `functional_business_greeting` full-body image is shown in the dedicated opening band, with the complete silhouette
 inside the frame and no second assistant figure or input-blocking character layer. This is separate from the cropped
 assistant stage used during ordinary store operation.
+
+## Latest CLI display evidence (2026-11-02)
+
+The current branch was re-captured through the non-headless CLI path. `build/standing_impl_low_stock_1280_current.png`
+uses `--pilot-cue=low_stock_notice` and reports
+`pilot_texture=res://assets/runtime/character_pilot/derived_alpha/functional_low_stock.png`,
+`pilot_size=(1024,1536)`, and `legacy_visible=false`. The visible character sits immediately below the left menu,
+the dialogue bubble follows the same left-side group with no large gap, and the bottom summary UI remains usable.
+The full-body source remains unchanged; only the 300 px display frame clips it.
+
+The title candidate was also re-captured at 1600x900 as
+`build/title_bright_sakura_pilot_1600_current.png` with `--title --visual-variant=painted_v1`. The embedded Koharu
+Rikka remains the only character layer, while the Godot-owned title logo, real buttons, and notice control remain
+separate. This confirms the QA override path still works; it does not change the title candidate's
+`runtime_approved:false` state.
