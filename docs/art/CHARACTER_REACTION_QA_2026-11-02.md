@@ -32,7 +32,7 @@
 
 ## 分離成分の除去（2026-11-02）
 
-`reaction_discovery` と `reaction_deadpan` は、BiRefNet後のアルファでキャラクター本体から分離した生成吹き出し／記号成分が残ることを確認した。`tools/assets/prune_disconnected_alpha.py` を明示的な反応画像にだけ適用し、最大の前景成分と面積比5%以上の成分を残す。元のComfyUI画像は変更せず、派生PNGだけを再生成する。Godot側の記号レイヤーは引き続き正本とし、`runtime_approved=false` は維持する。再処理後は派生PNGの連結成分検査も行う。
+`reaction_discovery`、`reaction_deadpan`、`reaction_pleading` は、BiRefNet後のアルファでキャラクター本体から分離した生成吹き出し／記号成分が残ることを確認した。`tools/assets/prune_disconnected_alpha.py` を明示的な反応画像にだけ適用し、最大の前景成分と面積比5%以上の成分を残す。元のComfyUI画像は変更せず、派生PNGだけを再生成する。Godot側の記号レイヤーは引き続き正本とし、`runtime_approved=false` は維持する。再処理後は派生PNGの連結成分検査も行う。
 
 BiRefNetを再実行した場合は、次の明示的な後処理を再度実行する。
 
@@ -40,6 +40,7 @@ BiRefNetを再実行した場合は、次の明示的な後処理を再度実行
 python tools/assets/prune_disconnected_alpha.py `
   --input assets/runtime/character_pilot/derived_alpha/reaction_discovery.png `
           assets/runtime/character_pilot/derived_alpha/reaction_deadpan.png `
+          assets/runtime/character_pilot/derived_alpha/reaction_pleading.png `
   --in-place
 ```
 

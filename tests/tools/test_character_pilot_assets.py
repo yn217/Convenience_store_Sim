@@ -88,7 +88,7 @@ class CharacterPilotAssetTests(unittest.TestCase):
                 self.assertEqual(corners, [0, 0, 0, 0], asset_id)
 
     def test_clean_reactions_do_not_keep_small_disconnected_symbols(self):
-        for asset_id in ("reaction_discovery", "reaction_deadpan"):
+        for asset_id in ("reaction_discovery", "reaction_deadpan", "reaction_pleading"):
             path = ROOT / "assets" / "runtime" / "character_pilot" / "derived_alpha" / f"{asset_id}.png"
             with Image.open(path) as image:
                 alpha = np.array(image.convert("RGBA").getchannel("A"))
