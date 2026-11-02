@@ -95,6 +95,17 @@ func test_event_picture(t, tree) -> void:
 	_force(app, "evt_neighbor_mentions", true)
 	app._publish_snapshot()
 	t.ok(panel._pilot_picture.visible and panel._pilot_picture.texture is Texture2D, "the selected event pilot is shown alongside the event picture")
+	var guide: Node = main.get_node("ProgressionController")
+	main.open_screen_tab("経営")
+	await tree.process_frame
+	t.ok(not guide._stage.visible, "the event pilot hides the persistent assistant while the event screen is open")
+	var chrome := main.get_node_or_null("MockupChrome")
+	if chrome != null:
+		t.ok(not chrome.get_node("WindowLayer/Rikka").visible, "the event pilot hides the baked assistant figure")
+		t.ok(not chrome.get_node("WindowLayer/Bubble").visible, "the event pilot hides the baked assistant bubble")
+	main.close_screen()
+	await tree.process_frame
+	t.ok(not guide._suppressed_by.has("event_pilot"), "closing the event screen releases the persistent assistant suppression")
 	for event_id in ["evt_local_fair", "evt_roadworks", "evt_hot_day", "evt_cold_day", "evt_sweets_spotlight", "evt_snack_buzz", "evt_lunch_pick", "evt_drink_pick", "evt_bread_feature", "evt_after_work"]:
 		_force(app, event_id, true)
 		app._publish_snapshot()

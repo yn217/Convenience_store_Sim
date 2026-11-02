@@ -272,7 +272,11 @@ func _refresh_stage() -> void:
 	else:
 		_assistant.text = CueText.toast_text(_pilot_cue_id, _pilot_cue_payload)
 	var pilot_screen_overlay := PILOT_SCREEN_CUES.has(_pilot_cue_id)
-	_stage.visible = (_suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
+	# An event-management pilot is the owning presentation layer. It must hide the
+	# persistent assistant even when opening a management tab also queued a short
+	# screen cue such as opening_checklist.
+	var event_pilot_suppressed := _suppressed_by.has("event_pilot")
+	_stage.visible = not event_pilot_suppressed and (_suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
 	if warn:
 		set_mood("worried")
 	else:
@@ -333,7 +337,8 @@ func refresh_visual_pilot() -> void:
 		_figure.visible = not usable and not reaction_usable
 	var chrome := get_node_or_null("../MockupChrome")
 	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):
-		chrome.set_pilot_assistant_visible(_opening_cutin_active or (_stage.visible and (usable or reaction_usable)))
+		var event_pilot_owns_assistant := _suppressed_by.has("event_pilot")
+		chrome.set_pilot_assistant_visible(event_pilot_owns_assistant or _opening_cutin_active or (_stage.visible and (usable or reaction_usable)))
 
 
 func mood() -> String:

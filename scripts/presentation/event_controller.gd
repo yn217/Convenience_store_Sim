@@ -25,6 +25,7 @@ var _pilot_caption: Label
 var _pilot_picture: TextureRect
 var _pilot_reaction_picture: TextureRect
 var _pilot_reaction_symbol: Label
+var _pilot_texture_active := false
 const PICTURE_DIR := "res://assets/ui/events/"
 const PICTURE_SIZE := Vector2(384, 216)
 const PILOT_FULLBODY_SIZE := Vector2(160, 240)
@@ -137,12 +138,38 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_pilot_picture.visible = pilot_texture != null and not is_reaction
 	_pilot_reaction_picture.visible = pilot_texture != null and is_reaction
 	_pilot_reaction_symbol.visible = pilot_texture != null and is_reaction and not _pilot_reaction_symbol.text.is_empty()
+	_pilot_texture_active = pilot_texture != null
+	_sync_assistant_suppression()
 	_render_effects(EventText.effect_chips(view) if String(view.get("status", "")) in ["scheduled", "active", "ended", "missed"] else [])
 	_render_catalog(snap.get("event_catalog", []))
 	var past: Array = snap.get("event_history", [])
 	_history.text = history_text(past)
 	_history.visible = not past.is_empty()
 	_history_title.visible = not past.is_empty()
+
+
+## The event pilot owns the event-management presentation while its panel is open.
+## Keep the persistent corner assistant hidden in that case so the same character
+## is not rendered twice. MainLayout calls this again when the screen opens/closes.
+func sync_assistant_suppression(management_visible: bool) -> void:
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null and guide.has_method("set_suppressed"):
+		guide.set_suppressed(management_visible and _pilot_texture_active, "event_pilot")
+	var chrome := get_node_or_null("../MockupChrome")
+	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):
+		if management_visible and _pilot_texture_active:
+			# The event panel's own pilot is the only assistant representation on screen.
+			chrome.set_pilot_assistant_visible(true)
+		elif guide != null and guide.has_method("refresh_visual_pilot"):
+			guide.refresh_visual_pilot()
+
+
+func _sync_assistant_suppression() -> void:
+	var main := get_parent()
+	if main == null or not main.has_method("mode_name"):
+		return
+	var management_visible: bool = main.mode_name() == "SCREEN" and String(main.ui.screen_tab) == "経営"
+	sync_assistant_suppression(management_visible)
 
 
 ## The illustration of an event (assets/ui/events/<event_id>.png), null when it has none.

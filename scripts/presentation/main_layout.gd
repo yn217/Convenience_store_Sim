@@ -384,6 +384,9 @@ func _apply_mode() -> void:
 	_fit_inspector()
 	_dimmer.visible = ui.is_screen()
 	_window.visible = ui.is_screen()
+	var event_controller := get_node_or_null("EventController")
+	if event_controller != null and event_controller.has_method("sync_assistant_suppression"):
+		event_controller.sync_assistant_suppression(ui.is_screen() and ui.screen_tab == "経営")
 	if _chrome != null:
 		_chrome.set_window(ui.is_screen(), CHROME_TAB.get(ui.screen_tab, "goods"))
 		var stock := get_node_or_null("StockController")
