@@ -33,3 +33,15 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 
 視覚確認と権利確認が完了し、明示的な承認があるまで、台帳の
 `approval_state` と `runtime_approved` は変更しない。
+
+## 代表ルートの実画面キャプチャ
+
+次の3ルートをGodot 4.7.2の非headless CLIで1280x720撮影した。
+
+- `build/character_pilot_next_expiry_1280.png` — `expiry_notice` → `functional_expiry`
+- `build/character_pilot_next_campaign_1280.png` — `seasonal_campaign_started` → `functional_campaign`
+- `build/character_pilot_next_rival_1280.png` — `rival_opened` → `functional_rival_store`
+
+3件とも `--inspect-pilot` で1024x1536のruntime texture選択、legacy表示なし、
+イベント側の重複表示なしを確認した。起動時に既存の店外小物PNGに関するloader
+warningが出るが、今回の立ち絵表示ルートの終了コードは0で、画像保存は成功している。
