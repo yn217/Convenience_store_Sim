@@ -215,3 +215,8 @@ The CLI capture `build/standing_title_pilot_1280.png` was produced with
 `TitleScreen` suppresses the standalone `title_rikka.png` layer and keeps the Godot-owned logo, menu buttons, and
 notice control separate. The 1280x720 capture shows one character only and no baked-in menu is used as an input
 surface. This remains a visual pilot capture; the title candidate is still not runtime-approved.
+
+The opening cut-in was also checked at 1280x720 in `build/standing_opening_cutin_1280.png`. The selected
+`functional_business_greeting` full-body image is shown in the dedicated opening band, with the complete silhouette
+inside the frame and no second assistant figure or input-blocking character layer. This is separate from the cropped
+assistant stage used during ordinary store operation.
