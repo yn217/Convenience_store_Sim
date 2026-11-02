@@ -1,0 +1,89 @@
+{
+  "asset_id": "shelf_general_open_r0_EMPTY_v14",
+  "review_date": "2026-11-02",
+  "review_status": "PARTIAL_REVIEW_CANDIDATE",
+  "source_original": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "file_size_bytes": 744289,
+    "sha256": "cc988bcf8483b3e8e9d2f165b639e21143b345a4898439adf45fde9b97d3b659",
+    "generated_from": "C:\\Users\\yuuna\\.codex\\generated_images\\01a167fe-68ec-7a33-b9a0-3e0524a92252\\exec-75662bf3-bdce-4327-b683-f96d28f41c99.png",
+    "reference_hashes": [
+      "4556ce7fb92b0d81d5760b37efad6b8ef03e2e5864ab7010d2106111d3537086",
+      "50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3",
+      "d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae"
+    ]
+  },
+  "content_review": {
+    "status": "PASS_VISUAL_ONLY",
+    "notes": "Exactly four empty shelf decks are visible. No merchandise, accessories, roof or canopy."
+  },
+  "shape_review": {
+    "status": "PARTIAL_FAIL",
+    "notes": "Shelf decks look broad/deep, and the rear panel is a large blank area relative to the desired slim structure. Matte/style differs from target. Compare to the corrected EMPTY guide before any geometry approval."
+  },
+  "alpha": {
+    "status": "FAIL_MARGIN",
+    "width": 1254,
+    "height": 1254,
+    "min": 0,
+    "max": 255,
+    "fully_transparent_pixels": 1067157,
+    "fully_opaque_pixels": 1090,
+    "semi_transparent_pixels": 504269,
+    "edge_max_alpha": {
+      "left": 0,
+      "right": 0,
+      "top": 0,
+      "bottom": 0
+    },
+    "bbox_alpha_ge_8_xyxy": [
+      327,
+      158,
+      1051,
+      1185
+    ],
+    "margins_percent_ltrb": [
+      26.08,
+      12.6,
+      16.19,
+      5.5
+    ],
+    "required_margin_percent": 12,
+    "notes": "No alpha touches the canvas edges, but lower transparent margin is under 12%; preserve source and do not crop/stretch."
+  },
+  "projection_and_shape": {
+    "status": "NOT_CALIBRATED",
+    "target": "iso2x_v1",
+    "target_slopes": [
+      -0.5,
+      0.5
+    ],
+    "estimated_hough_slopes": [
+      -0.488,
+      0.49
+    ],
+    "method": "OpenCV Canny and HoughLinesP; axis classification is approximate, not landmark measurement",
+    "world_footprint_tiles": [
+      1,
+      2
+    ],
+    "measured_control_points": [],
+    "godot_checked": false
+  },
+  "unverified": [
+    "physical dimensions",
+    "1x2 world footprint correspondence",
+    "r0 access direction",
+    "ground pivot",
+    "shelf depth against accepted Japanese retail reference",
+    "world-to-screen landmark errors",
+    "Godot zoom appearance and occlusion",
+    "runtime performance"
+  ],
+  "runtime_approved": false,
+  "recommended_action": "Keep review-only. Do not promote to canonical. Compare its empty geometry to the current guide and real Japanese store references; improve shelf depth, rear-panel proportion and bottom transparent margin in a separate derivative or new generation, then measure control points in Godot before producing stocked states."
+}

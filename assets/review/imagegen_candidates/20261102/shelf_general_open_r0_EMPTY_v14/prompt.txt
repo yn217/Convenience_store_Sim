@@ -1,0 +1,9 @@
+Use case: one review-only EMPTY geometry candidate for the Japanese convenience-store ambient gondola. This is a new geometry review image, not an approved canonical.
+
+References: (1) shelf_general_empty_structure_candidate_v13 is only the current open-gondola geometry direction; do not copy its old calibration assumptions as approval. (2) the actual game screenshot is style only; do not include its UI or environment. (3) iso2x_v1 structure guide defines approximate axis slopes -0.5 and +0.5; vertical uprights remain vertical and lines do not converge.
+
+Create exactly one single-sided freestanding gondola, EMPTY with no merchandise or accessories. Four and only four usable shallow shelf decks, evenly spaced; slim end uprights; narrow structural rear support panel; slim shelf lips; low narrow base. The topmost deck is a usable sales shelf with open air above it: no roof, canopy, header, cap, top board, hood, or broad blank surface above the sales area. Avoid deep tray-like shelf decks and oversized blank surfaces. It should read as an ordinary Japanese convenience-store ambient gondola, not a cabinet or warehouse rack. Compact 1x2 tile fixture proportion.
+
+Single three-quarter orthographic/isometric view following the provided iso2x guide. Restrained warm miniature-game illustration: matte cream painted steel, subtle gray accents, crisp simple contours, soft limited shading, modest detail. Avoid glossy photoreal 3D rendering. Isolated on true transparent RGBA, square canvas, entire fixture and feet visible, at least 12% transparent margin on all four sides, no alpha pixels touching canvas edges.
+
+No products, packages, signs, words, logos, people, floor, ground shadow, backdrop, interface, comparison layout, multiple views, diagrams, watermark, border, or extra shelf level. Review-only EMPTY shape candidate; do not imply geometry approval.
