@@ -239,9 +239,15 @@ Rikka remains the only character layer, while the Godot-owned title logo, real b
 separate. This confirms the QA override path still works; it does not change the title candidate's
 `runtime_approved:false` state.
 
-The left-aligned assistant placement was re-captured after the latest layout change at
-`build/standing_impl_left_menu_1600_latest.png` and `build/standing_impl_left_menu_1920_latest.png`.
-At both resolutions the display-only crop keeps the portrait attached to the left edge, the dialogue panel follows
-the same group, the lower summary remains unobstructed, and the red `ゲーム終了` action stays inside the bottom-right
-chrome. The source full-body PNG remains unchanged. These captures are layout evidence only; the candidate registry
-and `runtime_approved:false` gate are unchanged.
+## Assistant placement adjustment (2026-11-02)
+
+Following the latest visual check, the assistant group was moved slightly right and raised above the mockup bottom
+menu. `ASSISTANT_BOTTOM` now uses `MainLayout.CHROME_BOTTOM + 12px`, rather than the shorter legacy summary height;
+the full-body source image and the display-only crop policy are unchanged. The adjusted captures are:
+
+- `build/standing_impl_left_menu_1280_adjusted.png`
+- `build/standing_impl_left_menu_1600_adjusted.png`
+- `build/standing_impl_left_menu_1920_adjusted.png`
+
+All three keep the portrait and dialogue above the bottom menu, with the dialogue following the portrait horizontally.
+This is layout QA only; `runtime_approved:false` and the rights-review gate remain unchanged.

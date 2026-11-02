@@ -25,6 +25,25 @@ func test_return_button_and_cancel(t, tree) -> void:
 	await tree.process_frame
 
 
+func test_bottom_right_quit_opens_return_confirmation(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	var chrome := main.get_node("MockupChrome") as MockupChrome
+	var quit_button := chrome.get_node("Base/bottom_bar/corner_quit") as Button
+	var controller: TitleReturnController = main.get_node("TitleReturnController")
+	t.ok(quit_button != null, "bottom-right game-exit button exists")
+	quit_button.pressed.emit()
+	await tree.process_frame
+	t.ok(controller._dialog.visible, "bottom-right game-exit opens the title confirmation")
+	t.ok(tree.paused, "bottom-right game-exit pauses before confirmation")
+	controller._dialog.hide()
+	controller._cancel_return()
+	main.queue_free()
+	await tree.process_frame
+
+
 func test_title_art_and_continue_controls(t, tree) -> void:
 	var title: TitleScreen = load("res://scenes/title/Title.tscn").instantiate()
 	tree.root.add_child(title)

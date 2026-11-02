@@ -4,7 +4,7 @@ extends Node
 ## milestone progress and the latest notices. It shows what ProgressionService decided; it never
 ## judges progress itself. Hiding the tutorial only flips `tutorial_skipped` (a Domain command),
 ## so progress and notices are never lost. The assistant's lines are not in the card: she stands at the
-## bottom left of the screen (on the summary strip), over the store and any open window, and speaks in a bubble (mockup 2026-10-30).
+## above the bottom chrome at the left edge of the screen, over the store and any open window, and speaks in a bubble (mockup 2026-10-30).
 ## When a title or a daily challenge is achieved she cheers first (目標達成！ with the badge, a small hop); the
 ## celebration is presentation only: the badge is the whole reward, and each achievement event is shown once.
 
@@ -26,7 +26,10 @@ const BUBBLE_WIDTH := 420
 # between the menu and the portrait/bubble group.  All assistant visuals share
 # this anchor, so the full-body source and the display-time bust-up crop move
 # together without modifying any source image files.
-const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 296.0
+const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 248.0
+# The mockup chrome is taller than the legacy summary strip. Reserve a small
+# gap above it so the pilot never renders on top of the bottom menu.
+const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 12.0
 # Keep the line panel aligned with the portrait's lower-left presentation area,
 # leaving the character face unobstructed and placing the dialogue a little lower.
 const BUBBLE_TOP_DROP := 92.0
@@ -512,7 +515,7 @@ func _start_celebration() -> void:
 	if _celebrate_timer.is_inside_tree():
 		_celebrate_timer.start()
 	if _figure != null and _figure.is_inside_tree():   # a little hop for joy
-		var base := -Layout.BOTTOM_HEIGHT
+		var base := -ASSISTANT_BOTTOM
 		var hop := _figure.create_tween()
 		for i in 2:
 			hop.tween_property(_figure, "offset_bottom", base - 18.0, 0.12).set_ease(Tween.EASE_OUT)
@@ -538,8 +541,8 @@ func _build_stage() -> void:
 	figure.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	figure.offset_left = ASSISTANT_LEFT
 	figure.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x
-	figure.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT   # she stands on the summary strip, not over its cards
-	figure.offset_bottom = -Layout.BOTTOM_HEIGHT
+	figure.offset_top = -FIGURE_SIZE.y - ASSISTANT_BOTTOM   # leave a gap above the mockup bottom menu
+	figure.offset_bottom = -ASSISTANT_BOTTOM
 	_stage.add_child(figure)
 	_figure = figure
 	# Generated pilot files remain full-body source assets.  The assistant slot on the
@@ -550,8 +553,8 @@ func _build_stage() -> void:
 	pilot_crop.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	pilot_crop.offset_left = ASSISTANT_LEFT
 	pilot_crop.offset_right = ASSISTANT_LEFT + PILOT_BUSTUP_FRAME_SIZE.x
-	pilot_crop.offset_top = -PILOT_BUSTUP_FRAME_SIZE.y - Layout.BOTTOM_HEIGHT
-	pilot_crop.offset_bottom = -Layout.BOTTOM_HEIGHT
+	pilot_crop.offset_top = -PILOT_BUSTUP_FRAME_SIZE.y - ASSISTANT_BOTTOM
+	pilot_crop.offset_bottom = -ASSISTANT_BOTTOM
 	pilot_crop.clip_contents = true
 	pilot_crop.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stage.add_child(pilot_crop)
@@ -577,8 +580,8 @@ func _build_stage() -> void:
 	pilot_reaction.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	pilot_reaction.offset_left = ASSISTANT_LEFT + 18
 	pilot_reaction.offset_right = ASSISTANT_LEFT + 18 + 260
-	pilot_reaction.offset_top = -Layout.BOTTOM_HEIGHT - 260
-	pilot_reaction.offset_bottom = -Layout.BOTTOM_HEIGHT
+	pilot_reaction.offset_top = -ASSISTANT_BOTTOM - 260
+	pilot_reaction.offset_bottom = -ASSISTANT_BOTTOM
 	_stage.add_child(pilot_reaction)
 	_pilot_reaction = pilot_reaction
 	var pilot_reaction_symbol := Label.new()
@@ -594,8 +597,8 @@ func _build_stage() -> void:
 	pilot_reaction_symbol.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	pilot_reaction_symbol.offset_left = ASSISTANT_LEFT + 218
 	pilot_reaction_symbol.offset_right = ASSISTANT_LEFT + 298
-	pilot_reaction_symbol.offset_top = -Layout.BOTTOM_HEIGHT - 258
-	pilot_reaction_symbol.offset_bottom = -Layout.BOTTOM_HEIGHT - 198
+	pilot_reaction_symbol.offset_top = -ASSISTANT_BOTTOM - 258
+	pilot_reaction_symbol.offset_bottom = -ASSISTANT_BOTTOM - 198
 	_stage.add_child(pilot_reaction_symbol)
 	_pilot_reaction_symbol = pilot_reaction_symbol
 	_celebrate_timer = Timer.new()
@@ -610,7 +613,7 @@ func _build_stage() -> void:
 	_bubble.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	_bubble.offset_left = ASSISTANT_LEFT + FIGURE_SIZE.x - 40          # beside her head, right of the left menu
 	_bubble.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x - 40 + BUBBLE_WIDTH
-	_bubble.offset_top = -FIGURE_SIZE.y - Layout.BOTTOM_HEIGHT + 40 + BUBBLE_TOP_DROP
+	_bubble.offset_top = -FIGURE_SIZE.y - ASSISTANT_BOTTOM + 40 + BUBBLE_TOP_DROP
 	_bubble.offset_bottom = _bubble.offset_top
 	_bubble.grow_vertical = Control.GROW_DIRECTION_END
 	_stage.add_child(_bubble)

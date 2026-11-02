@@ -109,10 +109,10 @@ func test_assistant_cues_show_in_order_and_stay_dismissed(t, tree) -> void:
 	t.eq((stage.find_child("AssistantName", true, false) as Label).text, "小春六花（店長アシスタント）", "the bubble is named")
 	var figure := stage.get_node("AssistantFigure") as TextureRect
 	t.ok(figure.texture != null and figure.mouse_filter == Control.MOUSE_FILTER_IGNORE, "the standing figure shows and lets clicks through")
-	var bottom: float = tree.root.get_visible_rect().size.y - 108.0   # MainLayout.BOTTOM_HEIGHT: the summary cards stay uncovered
+	var bottom: float = tree.root.get_visible_rect().size.y - ProgressionController.ASSISTANT_BOTTOM
 	var bubble := stage.get_node("AssistantBubble") as Control
 	t.ok(figure.offset_left >= ProgressionController.ASSISTANT_LEFT and absf(figure.get_global_rect().end.y - bottom) < 1.0, "right of the left menu, standing on the summary strip: %s" % figure.get_global_rect())
-	t.ok(bubble.offset_top > -ProgressionController.FIGURE_SIZE.y - 108.0 + 40.0, "the assistant speech bubble is lowered below the figure head")
+	t.ok(bubble.offset_top > -ProgressionController.FIGURE_SIZE.y - ProgressionController.ASSISTANT_BOTTOM + 40.0, "the assistant speech bubble is lowered below the figure head")
 	(stage.find_child("AssistantDismiss", true, false) as Button).pressed.emit()
 	t.eq(pc._snap["story_cue"], "", "閉じる in the bubble dismisses it; nothing else is eligible yet")
 	t.ok(not stage.visible, "the figure and the bubble hide together")
