@@ -304,6 +304,9 @@ The latest per-image scan covered 44 full-body derivatives. The highest interior
 13 pixels for `event_after_work` and 12 for `event_snack_buzz`, both below the automated threshold
 of 64 pixels. These two candidates remain in the human hand/boundary review queue; the automated
 pass is not treated as visual approval.
+Side-by-side review of the source and derived PNGs did not show a clear sleeve, apron, or hand
+hole in either image. The cup-holding fingers in `event_after_work` and the can grip in
+`event_snack_buzz` are still retained as pending hand-anatomy checks.
 
 The registry now also names an explicit 11-image core QA set in `core_pilot_ids`:
 one title candidate, three full-body/service poses, three bust-up reactions, three
