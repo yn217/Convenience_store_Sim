@@ -134,7 +134,7 @@ The story reaction capture `build/character_pilot_story_queue_clean_latest.png` 
 
 The 49 PNGs under `assets/runtime/character_pilot/derived_alpha` were reviewed together on a dark matte in `build/character_pilot_alpha_contact_20261103.png`. At contact-sheet scale, the full-body set keeps the white blouse, apron silhouette, trousers, and shoes, with no gross white-background island or large surrounding residue visible. This is a coarse alpha/silhouette gate, not per-image hand or edge approval. The two additional clean bust-up routes are included; the older reaction routes with baked symbols remain held.
 
-The three original bust-up reactions remain held because generated bubbles/symbols are still present in their source-derived pixels. `reaction_milestone_calm` is a fourth pilot route derived from candidate 043, and `reaction_first_sale_joy` is a fifth route derived from candidate 031 after its proposed trigger was corrected from an opening failure to the actual first-sale celebration shown in the image. BiRefNet removed their disconnected generated effects, and the routes are limited to `story_first_profit` and `story_first_sale`. Godot's independent symbol layer remains authoritative, so both candidates are still `runtime_approved:false` pending detailed hand/edge and rights review.
+The three original bust-up reactions remain held because generated bubbles/symbols are still present in their source-derived pixels. `reaction_milestone_calm` is a fourth pilot route derived from candidate 043, and `reaction_first_sale_joy` is a fifth route derived from candidate 031 after its proposed trigger was corrected from an opening failure to the actual first-sale celebration shown in the image. BiRefNet removed their disconnected generated effects, and the routes are limited to `story_first_profit` and `story_first_sale`. Godot's independent symbol layer remains authoritative. At the time of this 2026-11-02 review, both candidates were still `runtime_approved:false`; the later core-approval section records the current state.
 
 ### Individual functional-pose spot checks
 
@@ -207,8 +207,9 @@ alpha PNGs, while all five `title_screen` candidates remain opaque background so
 
 The pilot registry now has an explicit release gate in `character_visual_pilot_panel.gd`: debug builds can inspect
 unapproved candidates, while a non-debug build selects a character visual only when that individual registry row has
-`runtime_approved:true` and its texture exists. With the current registry (all 50 rows still unapproved), the legacy
-assistant art remains the release fallback.
+`runtime_approved:true` and its texture exists. At the time of this 2026-11-02 measurement, all 50 rows were
+unapproved and the legacy assistant art remained the release fallback. The current registry has only the explicitly
+approved core 11 enabled; all other rows still use their fallback.
 
 ## Title pilot placement check (2026-11-02)
 
