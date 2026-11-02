@@ -107,6 +107,15 @@ python tools/assets/report_comfyui_prompt_review.py
 
 現在のレポートでは、334枚すべてでPNGメタデータ・ファイル接頭辞・画像サイズを読み取れる。一方、CSVのSeed記録はPNG内の実ワークフローSeedと一致する行だけを合格として数える。差分は対応表の修正候補として残し、生成番号から意味を推定したり、無断でCSVを書き換えたりしない。
 
+Godot上で個別確認する場合は、候補を選択すると右側にPositive/Negative promptとSeed差分が表示される。差分がある候補は、まず画像内のポーズ・衣装・手・お団子を確認し、必要なら対応表または生成元マニフェストを人手で修正する。レビュー画面は次のコマンドで起動できる。
+
+```powershell
+Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/run_all.gd -- --only=comfyui_placement_review
+Godot_v4.7.2-stable_win64.exe --path . --resolution 1280x720 --script res://tools/capture_screen.gd -- --placement-review --placement-candidate=functional_007 build/placement_review_functional_007_1280.png
+```
+
+後者は画面確認用で、承認状態や元画像を書き換えない。`--headless`でのテストはロジック確認専用であり、画面の見た目確認にはGUI版Godotを使う。
+
 ## 各画像セットの採用規則
 - `title`: 5枚をSCR-05の背景候補とし、1番を**第一比較候補**に指定、残り4枚は代替候補。人物が背景に描かれていれば `title_rikka.png` の二重表示を禁止。タイトルロゴと操作ボタンは現行GodotのControl。
 - `functional`: チュートリアル8段、日替イベント、開店、初会計、日末、支払不能、実績、在庫警告などの明確な状態に割り当てる。実際の姿勢に合わない画像は候補入れ替え。
