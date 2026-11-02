@@ -57,3 +57,16 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 - `character_art`: 14 tests / 332 assertions / 0 failures。
 
 開店カットインの重複抑止は `80372cf4`、未インポート小物の防御は `d4d0d7f0` に記録した。
+
+## 追加レビューキャプチャ（2026-11-03）
+
+次の未承認候補を、通常ビルドではなくCLIのレビュー用cueで確認した。
+
+- `build/character_pilot_review_opening_checklist_setup_1280.png` — `--setup --pilot-cue=opening_checklist`
+- `build/character_pilot_review_expiry_1280.png` — `--screen=商品 --pilot-cue=expiry_notice`
+- `build/character_pilot_review_rival_1280.png` — `--pilot-cue=rival_opened`
+
+3件とも `stage_visible=true`、指定した1024x1536の派生PNG、legacy立ち絵非表示、
+操作領域を覆わない配置を `--inspect-pilot` で確認した。開店前チェックは `--setup` で
+右上の「開店までの手順」と同時に確認し、期限切れ・ライバル店も左メニュー下のレビュー枠へ
+収まることを確認した。これは視覚QAの記録であり、3件の `runtime_approved` は変更していない。
