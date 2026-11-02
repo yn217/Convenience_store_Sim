@@ -67,3 +67,11 @@ BiRefNetで生成吹き出しを除去した派生画像を `assets/runtime/char
 
 focused test `test_character_visual_pilot.gd`: 4 tests / 291 assertions / 0 failures。これはパイロット接続確認であり、
 `runtime_approved:false` と権利確認ゲートは維持する。
+
+## 最新の表示経路確認（2026-11-02）
+
+生成記号の明示マスク適用後、表示経路を再実行した。`character_visual_pilot` は4 tests / 351 assertions / 0 failures、
+`event_ui` は4 tests / 51 assertions / 0 failures。メイン画面では全身PNGを上側のバストアップ表示枠へ表示時だけクロップし、
+元の1024×1536画像は変更しない。左メニュー右側のアシスタント枠、下寄せした吹き出し、イベント画面のfullbody/reaction分離、
+旧アシスタントとの二重表示抑止も維持している。今回の記号除去は `f3474360` で派生PNG3枚だけに適用し、
+`runtime_approved:false` と未承認候補のレビュー待ち状態は変更していない。
