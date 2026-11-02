@@ -436,3 +436,13 @@ conditions. `approve_character_pilot.py` was run with
 created a timestamped registry backup, and set only those 11 rows to
 `runtime_approved`. The remaining 39 registry rows and all other 334-image
 review candidates remain unapproved and are not loaded by a normal build.
+
+## Remaining pilot review sheet (2026-11-03)
+
+The read-only contact-sheet tool now supports `--unapproved-only`. The current
+remaining pilot set is rendered at
+`build/character_pilot_remaining_contact_20261103.png` with 39 entries, each
+labeled `approved=False`. This sheet is a review aid only; it does not modify
+the registry, source PNGs, derived PNGs, or normal-runtime approval state. The
+focused filter test confirms that the 11 approved entries and the 39 remaining
+entries partition the 50-row pilot registry without overlap.

@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "data" / "presentation" / "character_visuals_v1.json"
 DEFAULT_OUTPUT = ROOT / "build" / "character_pilot_runtime_contact_20261102.png"
 DEFAULT_CORE_OUTPUT = ROOT / "build" / "character_pilot_core_contact_20261103.png"
+DEFAULT_REMAINING_OUTPUT = ROOT / "build" / "character_pilot_remaining_contact_20261103.png"
 CARD_WIDTH = 240
 CARD_HEIGHT = 320
 IMAGE_BOX = (12, 8, CARD_WIDTH - 12, 270)
@@ -37,7 +38,7 @@ def _font(size: int):
     return ImageFont.load_default()
 
 
-def _load_entries(core_only: bool = False) -> list[dict]:
+def _load_entries(core_only: bool = False, unapproved_only: bool = False) -> list[dict]:
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     entries = [entry for entry in registry["assets"] if entry.get("runtime_path")]
     if len(entries) != 50:
@@ -50,6 +51,8 @@ def _load_entries(core_only: bool = False) -> list[dict]:
         if not set(core_ids).issubset(by_id):
             raise ValueError("core_pilot_ids contains an unknown runtime entry")
         entries = [by_id[asset_id] for asset_id in core_ids]
+    if unapproved_only:
+        entries = [entry for entry in entries if not bool(entry.get("runtime_approved", False))]
     return sorted(entries, key=lambda entry: (entry.get("kind", ""), entry.get("id", "")))
 
 
@@ -73,8 +76,8 @@ def _card(entry: dict, font) -> Image.Image:
     return card
 
 
-def build(output: Path, core_only: bool = False) -> Path:
-    entries = _load_entries(core_only=core_only)
+def build(output: Path, core_only: bool = False, unapproved_only: bool = False) -> Path:
+    entries = _load_entries(core_only=core_only, unapproved_only=unapproved_only)
     font = _font(13)
     rows = (len(entries) + COLUMNS - 1) // COLUMNS
     sheet = Image.new("RGB", (COLUMNS * CARD_WIDTH, rows * CARD_HEIGHT), "#101a21")
@@ -91,16 +94,24 @@ def build(output: Path, core_only: bool = False) -> Path:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument(
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument(
         "--core-only",
         action="store_true",
         help="build the 11-image core QA sheet named by registry.core_pilot_ids",
+    )
+    modes.add_argument(
+        "--unapproved-only",
+        action="store_true",
+        help="build a review sheet for entries that are not approved for normal runtime",
     )
     args = parser.parse_args()
     output = args.output
     if args.core_only and output == DEFAULT_OUTPUT:
         output = DEFAULT_CORE_OUTPUT
-    build(output, core_only=args.core_only)
+    if args.unapproved_only and output == DEFAULT_OUTPUT:
+        output = DEFAULT_REMAINING_OUTPUT
+    build(output, core_only=args.core_only, unapproved_only=args.unapproved_only)
     return 0
 
 
