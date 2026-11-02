@@ -22,5 +22,5 @@
   "runtime": "not checked in Godot; not eligible as production animation or runtime sprite",
   "decision": "reference-only art candidate; requires visual review against merged characters, four-direction consistency, projection/anchor measurement and separate checkout/idle poses",
   "runtime_approved": false,
-  "github_uploaded": false
+  "github_uploaded": true
 }
