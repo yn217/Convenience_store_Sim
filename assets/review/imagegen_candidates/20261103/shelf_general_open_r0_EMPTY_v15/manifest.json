@@ -1,0 +1,128 @@
+{
+  "schema_version": "imagegen_candidate_v1",
+  "asset_id": "shelf_general_open_r0_EMPTY_v15",
+  "asset_class": "shelf_geometry_gate",
+  "requested_subject": "EMPTY single-sided open ambient gondola; four shallow usable shelves; no canopy; 1x2 fixture",
+  "actual_subject": "Empty open gondola with three clear usable shelf decks, two uprights, rear rail, oversized plinth and broad deck surfaces",
+  "review_only": true,
+  "runtime_approved": false,
+  "production_method": "Codex built-in ImageGen; new image; references: prior EMPTY v14 structure and game screenshot for style",
+  "prompt_file": "prompt.txt",
+  "source": {
+    "file": "source_original.png",
+    "dimensions_px": [
+      1402,
+      1122
+    ],
+    "mode": "RGBA",
+    "bytes": 659711,
+    "sha256": "4f2edee4468686dfa4c432ed913cc1cefe1212805dba7d9cf50a259ca64c375f"
+  },
+  "fixture_target": {
+    "type_id": "shelf_general",
+    "visual_id": "shelf_general_open_r0",
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.5
+    ],
+    "customer_access_edge": "unverified"
+  },
+  "alpha": {
+    "extrema": [
+      0,
+      255
+    ],
+    "fully_transparent_percent": 75.17,
+    "low_alpha_1_to_7_percent": 1.15,
+    "measurements": [
+      {
+        "threshold": 1,
+        "bbox_xyxy": [
+          0,
+          60,
+          1380,
+          1122
+        ],
+        "margins_percent_ltrb": [
+          0.0,
+          5.35,
+          1.57,
+          0.0
+        ],
+        "coverage_percent": 24.83
+      },
+      {
+        "threshold": 8,
+        "bbox_xyxy": [
+          367,
+          116,
+          1115,
+          1055
+        ],
+        "margins_percent_ltrb": [
+          26.18,
+          10.34,
+          20.47,
+          5.97
+        ],
+        "coverage_percent": 23.68
+      },
+      {
+        "threshold": 128,
+        "bbox_xyxy": [
+          368,
+          116,
+          1114,
+          1055
+        ],
+        "margins_percent_ltrb": [
+          26.25,
+          10.34,
+          20.54,
+          5.97
+        ],
+        "coverage_percent": 23.29
+      },
+      {
+        "threshold": 250,
+        "bbox_xyxy": [
+          369,
+          118,
+          1113,
+          1053
+        ],
+        "margins_percent_ltrb": [
+          26.32,
+          10.52,
+          20.61,
+          6.15
+        ],
+        "coverage_percent": 22.53
+      }
+    ]
+  },
+  "projection": {
+    "target": "iso2x_v1; target screen slopes +/-0.5; long shelf axis requested down-right at +0.5",
+    "status": "FAIL_ORIENTATION_AND_CALIBRATION",
+    "visual_estimate": "Visible long shelf edges rise toward screen-right, opposite the requested down-right direction, and appear shallower than target. Visual estimate only; no control-point fit or Godot comparison. Access edge/r0 remains unknown.",
+    "godot_verified": false
+  },
+  "quality": {
+    "content": "FAIL - only three clear usable shelf decks are visible; rear bar is not a fourth shelf.",
+    "geometry": "FAIL - shelf top surfaces remain broad/deep and the plinth is oversized. No canopy is present and two uprights are visible.",
+    "style": "FAIL - glossy highlights and high-contrast render shading conflict with the soft painted reference.",
+    "alpha": "FAIL - alpha>=1 reaches left and bottom canvas edges. At alpha>=8 margins L/T/R/B are 26.18/10.34/20.47/5.97%, below 12% on top and bottom.",
+    "projection": "FAIL - apparent long-axis direction differs from prompt; exact iso2x slope, axis rotation, and customer access are not calibrated.",
+    "dimensions_anchor": "UNVERIFIED - target footprint, world scale, ground origin, and image anchor are metadata only; no Godot validation."
+  },
+  "limitations": [
+    "Review-only EMPTY geometry attempt. Do not create stocked states from this image.",
+    "Do not crop, stretch, or use lighting to conceal geometry/projection failure.",
+    "Original PNG is preserved byte-for-byte."
+  ]
+}

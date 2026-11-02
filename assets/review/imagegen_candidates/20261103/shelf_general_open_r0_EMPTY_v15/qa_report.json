@@ -1,0 +1,25 @@
+{
+  "asset_id": "shelf_general_open_r0_EMPTY_v15",
+  "runtime_approved": false,
+  "review_verdict": "FAIL_SHAPE_GATE / REVIEW_ONLY",
+  "source_sha256": "4f2edee4468686dfa4c432ed913cc1cefe1212805dba7d9cf50a259ca64c375f",
+  "shelf_count": "FAIL - three clear decks, not four",
+  "open_top_no_canopy": "PASS_VISUAL_ONLY",
+  "geometry": "FAIL - shelf top surfaces remain broad/deep and the plinth is oversized. No canopy is present and two uprights are visible.",
+  "style": "FAIL - glossy highlights and high-contrast render shading conflict with the soft painted reference.",
+  "alpha": "FAIL - alpha>=1 reaches left and bottom canvas edges. At alpha>=8 margins L/T/R/B are 26.18/10.34/20.47/5.97%, below 12% on top and bottom.",
+  "projection": "FAIL - apparent long-axis direction differs from prompt; exact iso2x slope, axis rotation, and customer access are not calibrated.",
+  "dimensions_m": [
+    0.92,
+    1.92,
+    1.5
+  ],
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "customer_access_edge": "unverified",
+  "anchor_px": null,
+  "game_zoom_review": "NOT RUN - no Godot/Renderer/runtime changes",
+  "notes": "Do not proceed to FULL/HALF states. EMPTY still fails shelf count, deck depth/plinth, projection direction, and alpha margin."
+}
