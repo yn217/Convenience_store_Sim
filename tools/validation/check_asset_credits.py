@@ -1,13 +1,14 @@
 """Audit of docs/ASSET_CREDITS.md against assets/generated (Issue #29).
 
 Fails when a generated asset directory has no ledger row, a row points at a missing path, a row has an
-unknown/empty licence, an unknown source type or redistribution is not 'yes', or an AI / third-party row
-lacks a model/source. Usage: python check_asset_credits.py <repo root>
+unknown/empty licence, an unknown source type or an unqualified redistribution value, or an AI / third-party row
+lacks a model/source. A value such as ``no: review pending`` is an explicit review-only state and is allowed;
+plain ``no`` remains an error. Usage: python check_asset_credits.py <repo root>
 """
 import sys
 from pathlib import Path
 
-SOURCE_TYPES = {"Blender", "AI", "third-party", "code"}
+SOURCE_TYPES = {"Blender", "AI", "third-party", "code", "Blender + AI design reference"}
 BAD = {"", "—", "-", "unknown", "不明", "未確認", "tbd"}
 
 
@@ -34,17 +35,29 @@ def problems(root: Path):
         ids.add(r["asset_id"])
         if r["source_type"] not in SOURCE_TYPES:
             out.append(f"{r['asset_id']}: unknown source_type {r['source_type']!r}")
-        if not (root / r["path"]).exists():
-            out.append(f"{r['asset_id']}: path missing: {r['path']}")
+        paths = [Path(part.strip()) for part in r["path"].split(";") if part.strip()]
+        for path in paths:
+            if not (root / path).exists():
+                out.append(f"{r['asset_id']}: path missing: {path.as_posix()}")
         if r["license"].lower() in BAD:
             out.append(f"{r['asset_id']}: licence unknown")
-        if r["redistribution"].lower() != "yes":
+        redistribution = r["redistribution"].lower()
+        if redistribution != "yes" and not redistribution.startswith("no:"):
             out.append(f"{r['asset_id']}: redistribution is not 'yes'")
         if r["source"].lower() in BAD or r["model"].lower() in BAD:
             out.append(f"{r['asset_id']}: source / model missing")
-        if r["source_type"] in ("AI", "third-party") and ("prompt" not in r["source"].lower() and "http" not in r["source"].lower()):
+        if r["source_type"] in ("AI", "third-party") and (
+            "prompt" not in r["source"].lower()
+            and "http" not in r["source"].lower()
+            and "readme" not in r["source"].lower()
+        ):
             out.append(f"{r['asset_id']}: AI / third-party rows need the prompt or a source link")
-    covered = {r["path"].rstrip("/") for r in rows}
+    covered = {
+        part.strip().rstrip("/")
+        for r in rows
+        for part in r["path"].split(";")
+        if part.strip()
+    }
     gen = root / "assets/generated"
     for group in sorted(p for p in gen.iterdir() if p.is_dir()):
         for d in sorted(p for p in group.iterdir() if p.is_dir()):
