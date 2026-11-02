@@ -5,6 +5,7 @@ extends Control
 
 const PLACEMENT_PATH := "res://docs/art/COMFYUI_334_IMAGE_PLACEMENT_20261101.json"
 const CANDIDATE_ROOT := "res://assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/"
+const DERIVED_ALPHA_ROOT := "res://assets/review/derived_alpha/"
 
 var _assets: Array = []
 var _filtered: Array = []
@@ -14,6 +15,7 @@ var _meta: Label
 var _status: Label
 var _filter: LineEdit
 var _group_filter: OptionButton
+var _alpha_preview: CheckButton
 
 
 func _ready() -> void:
@@ -80,6 +82,15 @@ func _build_ui() -> void:
 		_group_filter.add_item(group)
 	_group_filter.item_selected.connect(func(_index: int): _apply_filter())
 	controls.add_child(_group_filter)
+	_alpha_preview = CheckButton.new()
+	_alpha_preview.name = "DerivedAlphaPreview"
+	_alpha_preview.text = "派生透過を表示"
+	_alpha_preview.tooltip_text = "背景除去済みの派生PNGがある候補は、それを表示します。承認状態は変更しません。"
+	_alpha_preview.toggled.connect(func(_enabled: bool):
+		if _list != null and _list.get_selected_items().size() > 0:
+			_select_item(_list.get_selected_items()[0])
+	)
+	controls.add_child(_alpha_preview)
 
 	_status = Label.new()
 	root.add_child(_status)
@@ -146,6 +157,15 @@ func set_review_query(query: String) -> void:
 	_apply_filter()
 
 
+## Capture/review-only helper. It changes only which local preview pixels are shown.
+func set_alpha_preview(enabled: bool) -> void:
+	if _alpha_preview == null:
+		return
+	_alpha_preview.button_pressed = enabled
+	if _list != null and _list.get_selected_items().size() > 0:
+		_select_item(_list.get_selected_items()[0])
+
+
 func _refresh_list() -> void:
 	if _list == null:
 		return
@@ -169,8 +189,11 @@ func _select_item(index: int) -> void:
 		return
 	var entry: Dictionary = _filtered[index]
 	var source_path := CANDIDATE_ROOT + str(entry.get("candidate_relpath", ""))
-	_preview.texture = load(source_path) as Texture2D
-	_meta.text = "ID: %s\nSeed: %s\nGroup: %s\nScreen: %s / Slot: %s\nTrigger: %s\nPriority: %s / Display: %s\nApproval: %s / Visual match: %s\nSource: %s" % [
+	var derived_path := DERIVED_ALPHA_ROOT + str(entry.get("asset_id", "")) + ".png"
+	var showing_derived := _alpha_preview != null and _alpha_preview.button_pressed and ResourceLoader.exists(derived_path)
+	var display_path := derived_path if showing_derived else source_path
+	_preview.texture = load(display_path) as Texture2D
+	_meta.text = "ID: %s\nSeed: %s\nGroup: %s\nScreen: %s / Slot: %s\nTrigger: %s\nPriority: %s / Display: %s\nApproval: %s / Visual match: %s\n表示: %s\nSource: %s" % [
 		str(entry.get("asset_id", "")),
 		str(entry.get("seed", "")),
 		str(entry.get("group", "")),
@@ -181,5 +204,6 @@ func _select_item(index: int) -> void:
 		str(entry.get("display_policy", "")),
 		str(entry.get("approval_state", "")),
 		str(entry.get("visual_match", "")),
+		"派生透過PNG" if showing_derived else "原画像",
 		str(entry.get("candidate_relpath", "")),
 	]

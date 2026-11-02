@@ -28,6 +28,8 @@ func _run() -> void:
 		for a in OS.get_cmdline_user_args():
 			if a.begins_with("--placement-candidate=") and review.has_method("set_review_query"):
 				review.set_review_query(a.trim_prefix("--placement-candidate="))
+			if a == "--placement-alpha" and review.has_method("set_alpha_preview"):
+				review.set_alpha_preview(true)
 		for i in 8:
 			await process_frame
 		quit(0 if _save_png(out_png) else 1)

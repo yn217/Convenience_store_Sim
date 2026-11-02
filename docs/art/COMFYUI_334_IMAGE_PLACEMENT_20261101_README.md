@@ -20,6 +20,7 @@ Godot_v4.7.2-stable_win64_console.exe --path . --resolution 1280x720 --script re
 ```
 
 `--placement-candidate`を省略すると334件の一覧画面になり、指定すると該当候補だけを選択した状態になる。
+`--placement-alpha`を追加すると、`assets/review/derived_alpha/<asset_id>.png` が存在する候補は背景除去後の派生PNGを表示する。これは白い衣装の欠損、髪・指先のハロー、周囲の背景残留を目視比較するためのレビュー専用表示であり、承認状態・通常ランタイムの登録は変更しない。
 
 Mainの店長アシスタント枠で配置を確認する場合は、`--pilot-candidate`を使う。これはデバッグ用の一時表示で、元画像・通常ランタイム台帳・承認状態を変更しない。
 
