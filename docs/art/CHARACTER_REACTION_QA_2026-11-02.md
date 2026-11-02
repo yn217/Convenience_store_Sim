@@ -103,3 +103,12 @@ focused test `test_character_visual_pilot.gd`: 4 tests / 291 assertions / 0 fail
 `legacy_visible=false` で、リアクション専用レイヤーが表示され、旧アシスタントは非表示だった。
 確認画像は `build/pilot_candidate_reaction_001_main_1280_latest.png`。候補は引き続きレビュー専用であり、
 生成画像内の吹き出し・記号はゲームUIの正本として扱わず、`runtime_approved:false` も維持する。
+
+## 追加候補の実画像確認（2026-11-02）
+
+334枚コンタクトシートのリアクション候補から、`reaction_004`、`reaction_014`、`reaction_016`、
+`reaction_017`、`reaction_020`、`reaction_023`、`reaction_024`、`reaction_027` を派生透過PNGで個別確認した。
+いずれもキャラクター本体・お団子・制服は確認できる一方、生成された疑問符・怒り記号・ミニキャラ・
+吹き出しが画像内に残っている。手の形状もゲームUIで独立記号を重ねる前提の品質確認を通過していないため、
+今回の候補は追加ランタイム接続しない。既存の5リアクションだけをGodot独立記号レイヤーと組み合わせて使用し、
+未接続候補と元画像は変更せず、`runtime_approved:false` を維持する。
