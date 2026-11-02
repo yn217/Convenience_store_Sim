@@ -1,0 +1,28 @@
+{
+  "asset_id": "shelf_noodle_open_r0_integrated_v1",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox_gt0_xyxy": [
+    0,
+    15,
+    1504,
+    1024
+  ],
+  "fully_transparent_ratio": 0.3955,
+  "source_sha256": "a4a9708dce56d36a1ed1f2167e681bbdba90e2193e9c62a04e376b1c5d3ea0be",
+  "content": "pass: one coherent four-row cup-noodle gondola with readable package faces",
+  "fixture_geometry": "fail: broad end panels and heavy base; dimensions and shelf profile not matched to approved reference",
+  "projection": "fail: near-front oblique perspective; not calibrated to iso2x_v1",
+  "alpha": "fail: residual translucent gray backdrop/matte is visible on checkerboard review",
+  "independent_review": "Sub-agent visual QA agrees: shelf/product content readable; projection and background isolation fail.",
+  "decision": "FAIL as game sprite; retain source unchanged as review evidence and request a new generation with true transparent background and explicit iso2x guide alignment.",
+  "runtime_approved": false,
+  "github_uploaded": false
+}

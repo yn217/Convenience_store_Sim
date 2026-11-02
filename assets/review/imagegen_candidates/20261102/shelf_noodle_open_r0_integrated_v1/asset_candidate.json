@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "asset_id": "shelf_noodle_open_r0_integrated_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "日本のコンビニ用、商品込みの開放型カップ麺ゴンドラ棚",
+  "actual_subject": "白い棚板と左右端パネル、濃灰台座を持つ正面寄り斜視のカップ麺棚。4段にカップ商品を焼き込み。",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "shelf_noodle",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2579177,
+    "sha256": "a4a9708dce56d36a1ed1f2167e681bbdba90e2193e9c62a04e376b1c5d3ea0be",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "byte_size": 2579177,
+      "sha256": "a4a9708dce56d36a1ed1f2167e681bbdba90e2193e9c62a04e376b1c5d3ea0be",
+      "git_blob_sha": "f13b5bb5430d733bda308ecaf33d76f591eaf79a",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "checkerboard_review.jpg",
+      "byte_size": 451282,
+      "sha256": "778e15751b363a38e34ca6bb953bf7c00eac00068cd3180e6834e8318b8da413",
+      "git_blob_sha": "614799944131ca8e81e9e6bf8896d4a64b1fc39d",
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "prompt.txt",
+      "byte_size": 2340,
+      "sha256": "95052d407ebded2c46e7878d67fbcacc6587de8659da247a2ca7e8d096da66a5",
+      "git_blob_sha": "15d5bdbf2eda48a53ee5a31bfc9136112bfcc24b",
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "qa_report.json",
+      "byte_size": 1139,
+      "sha256": "c2143e2173cd149e774ee18c3eaddfeb9a7e4dd8c73cd9fc6bc344239f022220",
+      "git_blob_sha": "e99c69d0f24db7a506e03d35f4f682144b71766d",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "fail",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "blocked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "4段の商品と棚は一体で、カップ麺ラベルは視認可能。",
+      "端パネルと厚い台座が目立ち、日本式の浅い開放棚基準との照合が未完。",
+      "正面寄り斜視のためiso2x_v1に未一致。幾何変形で隠さない。",
+      "PNG alphaチャンネルはあるが、チェッカーボード上で背景マットが残る。",
+      "FULL焼き込みの単独候補で、EMPTY/HALF本体一致・在庫連携は未検証。",
+      "独立サブエージェント目視QAも投影と背景切り抜きをFAILと判定。",
+      "world寸法・ground anchor・Godot描画・人間承認は未確認。Review only; runtime_approved:false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}

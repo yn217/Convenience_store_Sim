@@ -1,0 +1,13 @@
+Use case: stylized-concept
+Asset type: review-only 2D game sprite for a Japanese convenience-store interior fixture
+Primary request: create one complete, richly stocked open gondola shelf for packaged cup noodles, as a single coherent transparent-background sprite. The shelf and all products are part of one finished illustration; do not show detached floating product cards.
+Scene/backdrop: genuinely transparent background, no floor or cast shadow outside the object.
+Subject: a narrow freestanding Japanese convenience-store gondola, about 2m wide, 0.45m deep and 1.55m tall, with a dark simple plinth, slim pale-gray uprights, shallow continuous shelves and four visible stocked rows of colorful cup-noodle packages. Package fronts face the shopper and read as small varied illustrated labels; cups are cylindrical silhouettes, not square boxes. Shelf rails are thin.
+Style/medium: polished hand-painted 2D game asset, clean anime-management-sim illustration, crisp readable outlines, restrained highlights, consistent compact game-art detail.
+Composition/framing: orthographic three-quarter isometric view from the aisle/front-right, object centered and fully in frame with generous transparent margin. Long shelf axis recedes diagonally upward to the right; shallow shelf depth is visible, front product faces remain readable. Vertical uprights stay vertical. Match a 2:1 isometric tile game's visual language, but keep perspective modest and parallel lines consistent.
+Lighting/mood: soft neutral store lighting, gentle shading on the object only.
+Color palette: warm off-white shelving, charcoal base, varied but balanced red, yellow, green and blue noodle packaging.
+Materials/textures: painted metal shelf, subtle shelf lips, clean cylindrical noodle cups with graphic front labels.
+Text (verbatim): none.
+Constraints: one shelf only; same coherent shelf body throughout; four equal, continuous shallow shelves; no roof, no large top cap, no signage, no price text, no logos, no customers, no surrounding store environment. Keep all products seated on shelves with no floating items. Transparent alpha around the complete silhouette.
+Avoid: cubes, thick box-shaped products, detached sprites, loose packages, exaggerated shelf depth, huge flat top, photographic realism, text, watermark, perspective convergence, cropped edges.
