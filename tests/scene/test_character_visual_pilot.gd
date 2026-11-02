@@ -109,6 +109,9 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.eq(String(crop.name), "AssistantPilotBustupCrop", "the store assistant uses a display-only bust-up crop frame")
 	t.ok(crop.clip_contents, "the bust-up crop clips only the display frame")
 	t.eq(crop.size.y, 300.0, "the display crop keeps the upper-body window height")
+	t.ok(crop.offset_left < 236.0, "the assistant crop sits to the left of the menu safe edge")
+	t.eq(guide._bubble.offset_left - crop.offset_left, 260.0, "the dialogue bubble follows the portrait horizontally")
+	t.ok(guide._bubble.offset_top > -440.0, "the dialogue bubble is lowered in the assistant slot")
 	t.eq(Vector2((guide._pilot_figure.texture as Texture2D).get_size()), Vector2(1024, 1536), "the source full-body texture remains unmodified")
 	var reaction_preview: TextureRect = panel._reaction_image
 	t.ok(reaction_preview != null, "bust-up review has a dedicated preview slot")
