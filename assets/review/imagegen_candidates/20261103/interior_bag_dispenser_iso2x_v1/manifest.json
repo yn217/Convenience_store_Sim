@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "asset_id": "interior_bag_dispenser_iso2x_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "One countertop holder dispensing folded shopping bags, iso2x_v1 transparent cutout",
+  "actual_subject": "One warm ivory countertop dispenser with a neat stack of translucent folded shopping bags behind a front opening and pull lip",
+  "production_method": "codex_imagegen_builtin_via_subagent",
+  "stock_state": "not_applicable",
+  "review_only": true,
+  "runtime_approved": false,
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "file_size_bytes": 1095008,
+    "sha256": "1c053fd74abbfb8e117233b6058ae3dd040af26c58813ec7689c23c473ff296a",
+    "generated_from": "C:\\Users\\yuuna\\.codex\\generated_images\\01a19ce4-a7dd-75f1-bcd4-713b93e62c4e\\exec-3aaf2bc9-a60f-42ae-9b71-f5cbdc8dd283.png",
+    "subagent_id": "01a19ce4-a7dd-75f1-bcd4-713b93e62c4e",
+    "github_branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "outputs": [
+    {"role":"source_original","path":"source_original.png","unchanged_original":true,"sha256":"1c053fd74abbfb8e117233b6058ae3dd040af26c58813ec7689c23c473ff296a"},
+    {"role":"alpha_review_preview","path":"checkerboard_review.jpg","derived_from":"source_original.png","sha256":"81cea097cfc237ff65d80c529aa04c55dcb6a2062cb8249c9fc5f9efadaec6a4"}
+  ],
+  "prompt_file": "prompt.txt",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": null,
+    "checked_in_godot": false,
+    "target_slopes": [-0.5,0.5],
+    "estimated_visual_slopes": [-0.5,0.5],
+    "control_points": [],
+    "verdict": "VISUAL_ESTIMATE_ONLY_NOT_CALIBRATED"
+  },
+  "geometry": {"intended_footprint_tiles":null,"dimensions_m":null,"world_anchor_px":null,"verified":false},
+  "alpha": {
+    "format":"RGBA",
+    "thresholds": {
+      "1":{"bbox_xyxy":[49,31,1498,1024],"margins_percent_ltrb":[3.19,3.03,2.47,0.0],"status":"FAIL_LOW_ALPHA_HAZE_TOUCHES_BOTTOM"},
+      "8":{"bbox_xyxy":[470,189,1090,817],"margins_percent_ltrb":[30.6,18.46,29.04,20.21],"status":"PASS_12_PERCENT_PADDING"},
+      "128":{"bbox_xyxy":[471,190,1089,816],"margins_percent_ltrb":[30.66,18.55,29.1,20.31],"status":"PASS_12_PERCENT_PADDING"}
+    },
+    "alpha_zero_percent":82.29,
+    "alpha_gte8_percent":17.45,
+    "unique_alpha_values":255
+  },
+  "quality": {
+    "content":"PASS_VISUAL_ONLY",
+    "style":"FAIL_GLOSSY_PHOTOREALISTIC_WITH_HALO",
+    "projection":"PARTIAL_VISUAL_ESTIMATE_ONLY",
+    "alpha":"FAIL_THRESHOLD_1_BOTTOM_EDGE_HAZE",
+    "world_scale":"NOT_VERIFIED",
+    "godot_runtime":"NOT_CHECKED",
+    "runtime_approved":false,
+    "overall":"REVIEW_ONLY_NOT_APPROVED",
+    "notes":[
+      "One holder and one folded bag stack are visible; no extra objects or text.",
+      "Alpha>=8 margins meet the requested 12% padding target on all sides.",
+      "Low-alpha luminous haze touches the bottom edge at threshold 1.",
+      "Glossy photorealistic style differs from the reference game's painted miniature look.",
+      "Projection has only visual estimates; no control points, world footprint, anchor, or Godot comparison.",
+      "The original is unmodified and retained even though QA fails."
+    ]
+  }
+}
+

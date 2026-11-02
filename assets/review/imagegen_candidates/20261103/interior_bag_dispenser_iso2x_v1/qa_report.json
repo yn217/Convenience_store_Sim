@@ -1,0 +1,17 @@
+{
+  "asset_id":"interior_bag_dispenser_iso2x_v1",
+  "review_verdict":"REVIEW_ONLY_NOT_APPROVED",
+  "runtime_approved":false,
+  "source":{"path":"source_original.png","sha256":"1c053fd74abbfb8e117233b6058ae3dd040af26c58813ec7689c23c473ff296a","dimensions_px":[1536,1024],"mode":"RGBA","bytes":1095008,"unchanged_original":true},
+  "content":"PASS_VISUAL_ONLY: one ivory bag holder with folded translucent bags and pull lip; no text or extra objects.",
+  "style":"FAIL: glossy photorealistic finish and luminous halo differ from target painted/isometric game style.",
+  "alpha":{
+    "threshold_1":{"bbox_xyxy":[49,31,1498,1024],"margins_ltrb_percent":[3.19,3.03,2.47,0.0],"verdict":"FAIL_HAZE_TOUCHES_BOTTOM_EDGE"},
+    "threshold_8":{"bbox_xyxy":[470,189,1090,817],"margins_ltrb_percent":[30.6,18.46,29.04,20.21],"verdict":"PASS_12_PERCENT_PADDING"},
+    "threshold_128":{"bbox_xyxy":[471,190,1089,816],"margins_ltrb_percent":[30.66,18.55,29.1,20.31],"verdict":"PASS_12_PERCENT_PADDING"},
+    "zero_alpha_percent":82.29,"alpha_gte8_percent":17.45
+  },
+  "projection":{"target":"iso2x_v1","visual_slopes_estimate":[-0.5,0.5],"control_points":[],"godot_checked":false,"verdict":"PARTIAL_ESTIMATE_ONLY"},
+  "dimensions_m":null,"footprint_tiles":null,"anchor_px":null,"game_zoom_review":"NOT_CHECKED",
+  "notes":["True RGBA alpha is present.","Original was not cropped, stretched, or alpha-cleaned.","The checkerboard preview is a derivative for QA, not runtime source."]
+}
