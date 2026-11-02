@@ -247,11 +247,12 @@ lower slot at `MainLayout.CHROME_BOTTOM + 12px`. The full-body source image and 
 unchanged. The adjusted captures are:
 
 - `build/character_pilot_low_stock_positioned_1280.png`
-- `build/standing_impl_left_menu_1600_adjusted.png` (previous multi-resolution evidence)
-- `build/standing_impl_left_menu_1920_adjusted.png` (previous multi-resolution evidence)
+- `build/character_pilot_low_stock_positioned_1600.png`
+- `build/character_pilot_low_stock_positioned_1920.png`
 
-The new 1280 capture moves the display frame approximately 32px right and 22px up; the portrait and dialogue remain
-above the bottom menu, with the dialogue following the portrait horizontally. The source full-body PNG is unchanged.
+The 1280/1600/1920 captures move the display frame approximately 32px right and 22px up; at all three resolutions the
+portrait and dialogue remain above the bottom menu, with the dialogue following the portrait horizontally. The source
+full-body PNG is unchanged.
 This is layout QA only; `runtime_approved:false` and the rights-review gate remain unchanged.
 
 ## Re-capture after route verification (2026-11-02)
