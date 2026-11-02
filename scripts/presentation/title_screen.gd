@@ -204,7 +204,6 @@ static func pilot_title_texture(override_name: String = "") -> Texture2D:
 	# An explicit override is a QA-only path which may inspect an unapproved
 	# candidate. Once a registry row is approved, the same texture is also
 	# available to the normal title screen in release builds.
-	var qa_override := OS.is_debug_build() and override_name != ""
 	if not FileAccess.file_exists(PILOT_REGISTRY_PATH):
 		return null
 	var data = JSON.parse_string(FileAccess.get_file_as_string(PILOT_REGISTRY_PATH))
