@@ -1,0 +1,59 @@
+{
+  "asset_id": "interior_aisle_sign_suspended_iso2x_v1",
+  "runtime_approved": false,
+  "review_verdict": "REVIEW_ONLY_NOT_APPROVED",
+  "actual_subject": "One blank cream/white horizontal sign panel with blue stripe and two vertical suspension rods/brackets; no text or extra objects.",
+  "visual_content": {
+    "blank_sign_face": "PASS",
+    "single_assembly": "PASS",
+    "extra_objects_or_text": "PASS_NONE",
+    "sign_readability": "PARTIAL",
+    "style": "PARTIAL_TOO_GLOSSY_AND_LUMINOUS",
+    "reason": "The glossy metal and bright halo make the assembly partly resemble a ceiling light fixture."
+  },
+  "source_integrity": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "dimensions_px": [1536, 1024],
+    "mode": "RGBA",
+    "bytes": 1009875,
+    "sha256": "5b9fb7e85b025b14a732c3529066f2141239b363fd376055045d12a7110a6902"
+  },
+  "alpha": {
+    "alpha_zero_percent": 88.58,
+    "alpha_gte8_percent": 10.81,
+    "threshold_1": {
+      "bbox_xyxy": [0, 0, 1466, 984],
+      "margins_percent_ltrb": [0.0, 0.0, 4.56, 3.91],
+      "verdict": "FAIL_LOW_ALPHA_HAZE_REACHES_EDGES"
+    },
+    "threshold_8": {
+      "bbox_xyxy": [395, 173, 1192, 875],
+      "margins_percent_ltrb": [25.72, 16.89, 22.4, 14.55],
+      "verdict": "PASS_12_PERCENT_MARGIN_TARGET"
+    },
+    "threshold_128": {
+      "bbox_xyxy": [396, 173, 1191, 874],
+      "margins_percent_ltrb": [25.78, 16.89, 22.46, 14.65],
+      "verdict": "PASS_12_PERCENT_MARGIN_TARGET"
+    }
+  },
+  "projection": {
+    "standard": "iso2x_v1",
+    "long_axis_visual_slope_abs_estimate": 0.5,
+    "hangers_visual_verticality": "APPROXIMATE_PASS",
+    "control_points": [],
+    "world_dimensions_m": null,
+    "footprint_tiles": null,
+    "world_anchor": null,
+    "godot_verified": false,
+    "verdict": "PARTIAL_VISUAL_ESTIMATE_ONLY"
+  },
+  "game_zoom_review": "NOT_CHECKED",
+  "notes": [
+    "Transparent RGBA confirmed; checkerboard preview is a derivative only.",
+    "Original was not cropped, stretched, or recolored.",
+    "At alpha threshold 1, low-alpha haze touches top, left and bottom image edges.",
+    "No Godot camera, game zoom, physical scale, world anchor or tile footprint was verified."
+  ]
+}

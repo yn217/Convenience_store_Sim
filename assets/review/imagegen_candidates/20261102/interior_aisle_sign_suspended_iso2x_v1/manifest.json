@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "asset_id": "interior_aisle_sign_suspended_iso2x_v1",
+  "asset_class": "interior_prop",
+  "requested_subject": "One blank suspended aisle-category sign assembly for a convenience-store interior, iso2x_v1, transparent cutout",
+  "actual_subject": "One long cream/white sign panel with a blue stripe, attached to two slim vertical suspension rods and ceiling brackets; blank sign face; no text or extra scene objects",
+  "production_method": "codex_imagegen_builtin_via_subagent",
+  "stock_state": "not_applicable",
+  "runtime_approved": false,
+  "review_only": true,
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "file_size_bytes": 1009875,
+    "sha256": "5b9fb7e85b025b14a732c3529066f2141239b363fd376055045d12a7110a6902",
+    "generated_from": "C:\\Users\\yuuna\\.codex\\generated_images\\01a19c90-425b-7fc1-9c1b-b27b6af60ad2\\exec-bb797ecc-7528-4f6a-8961-82793b6e3ada.png",
+    "subagent_id": "01a19c90-425b-7fc1-9c1b-b27b6af60ad2",
+    "github_uploaded": true,
+    "github_branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "unchanged_original": true,
+      "sha256": "5b9fb7e85b025b14a732c3529066f2141239b363fd376055045d12a7110a6902"
+    },
+    {
+      "role": "alpha_review_preview",
+      "path": "checkerboard_review.jpg",
+      "derived_from": "source_original.png",
+      "sha256": "89b9b0c29c34c81405f5a77842fd16fac966ba4f9aaa16f22b3e79ff5fca42e6"
+    }
+  ],
+  "prompt_file": "prompt.txt",
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": null,
+    "access_side": "not_applicable",
+    "checked_in_godot": false,
+    "target_slopes": [-0.5, 0.5],
+    "estimated_visual_long_axis_slope_abs": 0.5,
+    "control_points": [],
+    "verdict": "VISUAL_ESTIMATE_ONLY_NOT_CALIBRATED"
+  },
+  "geometry": {
+    "intended_footprint_tiles": null,
+    "dimensions_m": null,
+    "world_anchor_px": null,
+    "verified": false
+  },
+  "alpha": {
+    "format": "RGBA",
+    "thresholds": {
+      "1": {
+        "bbox_xyxy": [0, 0, 1466, 984],
+        "margins_percent_ltrb": [0.0, 0.0, 4.56, 3.91],
+        "status": "FAIL_LOW_ALPHA_HAZE_REACHES_EDGES"
+      },
+      "8": {
+        "bbox_xyxy": [395, 173, 1192, 875],
+        "margins_percent_ltrb": [25.72, 16.89, 22.4, 14.55],
+        "status": "PASS_12_PERCENT_MARGIN_TARGET"
+      },
+      "128": {
+        "bbox_xyxy": [396, 173, 1191, 874],
+        "margins_percent_ltrb": [25.78, 16.89, 22.46, 14.65],
+        "status": "PASS_12_PERCENT_MARGIN_TARGET"
+      }
+    },
+    "alpha_zero_percent": 88.58,
+    "alpha_gte8_percent": 10.81,
+    "unique_alpha_values": 255
+  },
+  "quality": {
+    "content": "PARTIAL",
+    "subject_readability": "PARTIAL_LIGHT_FIXTURE_AMBIGUITY",
+    "projection": "PARTIAL_VISUAL_ESTIMATE_ONLY",
+    "alpha": "FAIL_THRESHOLD_1_EDGE_HAZE",
+    "style": "PARTIAL_TOO_GLOSSY",
+    "world_scale": "NOT_VERIFIED",
+    "godot_runtime": "NOT_CHECKED",
+    "runtime_approved": false,
+    "overall": "REVIEW_ONLY_NOT_APPROVED",
+    "notes": [
+      "Single blank sign panel and two slim vertical rods are visible; no text, logo, or additional objects.",
+      "Bright low-alpha haze reaches top, left and bottom bounds at alpha >=1; threshold >=8 bounds have over 12% padding on every edge.",
+      "Glossy metallic finish and luminous effect partly resemble a ceiling light; less restrained than the intended in-game art direction.",
+      "Long sign edge visually approximates an iso2x axis, but no measured landmarks, world size, anchor, or Godot camera check exists.",
+      "Original source preserved without crop, rescale, or color edits."
+    ]
+  }
+}
