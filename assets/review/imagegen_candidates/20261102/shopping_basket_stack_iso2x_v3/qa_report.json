@@ -1,0 +1,87 @@
+{
+  "asset_id": "shopping_basket_stack_iso2x_v3",
+  "review_date": "2026-11-02",
+  "review_status": "PARTIAL_REVIEW_CANDIDATE",
+  "source_original": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "width": 1312,
+    "height": 1199,
+    "mode": "RGBA",
+    "file_size_bytes": 752527,
+    "sha256": "c48c1bcb44697b93b4e341e1f15828bc864dc85acd511aec43fa364688c9c25b",
+    "generated_from": "C:\\Users\\yuuna\\.codex\\generated_images\\01a19c77-4121-7293-abeb-58d903f52704\\exec-9af16f93-2f16-4ad8-b8c9-4db4204de595.png",
+    "reference_hashes": [
+      "50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3",
+      "d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae",
+      "471c90d03f2e2dcbe15fc6002aef56824be3952e6a644369dd85ffe1189bde69"
+    ]
+  },
+  "content_review": {
+    "status": "PASS_VISUAL_ONLY",
+    "notes": "Image reads as four nested blue convenience-store hand baskets with handles on a compact wheeled stand; no other props."
+  },
+  "projection_and_geometry": {
+    "status": "PARTIAL_NOT_CALIBRATED",
+    "method": "OpenCV Canny+HoughLinesP segment slope histogram; image-level estimates only",
+    "estimated_axis_slopes": [
+      -0.55,
+      0.55
+    ],
+    "target_slopes": [
+      -0.5,
+      0.5
+    ],
+    "world_footprint_tiles": [
+      1,
+      1
+    ],
+    "physical_dimensions_m": null,
+    "image_anchor_px": null,
+    "godot_checked": false
+  },
+  "alpha": {
+    "status": "FAIL_BOTTOM_MARGIN",
+    "min": 0,
+    "max": 255,
+    "bbox_alpha_ge_8_xyxy": [
+      289,
+      204,
+      1048,
+      1110
+    ],
+    "margins_percent_ltrb": [
+      22.03,
+      17.01,
+      20.12,
+      7.42
+    ],
+    "required_margin_percent": 12,
+    "fully_transparent_pixels": 1083252,
+    "fully_opaque_pixels": 262,
+    "semi_transparent_pixels": 489574,
+    "edge_max_alpha_ltrb": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "notes": "Real alpha channel; no baked checkerboard. Bottom margin fails 12%; alpha=1 pixels touch bottom edge."
+  },
+  "style_review": {
+    "status": "PARTIAL",
+    "notes": "Readable, simple basket prop but highlights/render finish remain glossy compared with target game art."
+  },
+  "unverified": [
+    "exact 1x1 fixture fit",
+    "physical dimensions",
+    "ground anchor",
+    "front/access direction",
+    "world-to-screen control point errors",
+    "occlusion",
+    "Godot game-scale readability",
+    "runtime performance"
+  ],
+  "runtime_approved": false,
+  "recommended_action": "Keep review-only. Preserve original. A non-destructive derivative may add transparent canvas margin if policy permits; separately check projection control points and game background. Do not deform or anisotropically scale to force fit."
+}

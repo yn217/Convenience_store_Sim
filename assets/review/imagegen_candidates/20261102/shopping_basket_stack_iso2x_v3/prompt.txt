@@ -1,0 +1,6 @@
+Subagent task prompt sent before built-in Codex ImageGen (the agent did not return its downstream tool prompt verbatim): Generate exactly one improved 2D image candidate for the Japanese convenience-store interior shopping-basket stack, using built-in Codex ImageGen. Correct the prior failed candidates: older RGB candidate had a baked checkerboard, and the previous alpha candidate had a perspective-like camera and edge-touching alpha. Depict blue nested handheld shopping baskets on a compact low stand/dolly, matte low-poly/game-illustration style, true transparent RGBA and at least 12% safe margins, with no checkerboard/background/shadow. Match project iso2x_v1: long and depth edges near slopes ±0.5 in screen space, verticals straight, no perspective convergence; one compact interior prop, no shelf, no extra goods, no labels/logos. References: game_reference.png for style only; guide_structure.png for projection only; previous shopping_basket_stack_candidate_alpha.png for basket content only, not its camera angle or crop. One image only; no review or repository file edits.
+
+Reference file paths:
+- assets/review/guided_assets/shelf_general_open_r0_v1/game_reference.png
+- assets/review/guided_assets/shelf_general_open_r0_v1/guide_structure.png
+- assets/review/imagegen_candidates/20261029/shopping_basket_stack_candidate_alpha.png

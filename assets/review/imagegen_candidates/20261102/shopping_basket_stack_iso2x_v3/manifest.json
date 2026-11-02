@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "asset_id": "shopping_basket_stack_iso2x_v3",
+  "asset_class": "interior_prop",
+  "requested_subject": "Stack of nested blue convenience-store hand baskets on compact stand/dolly; iso2x_v1; transparent cutout",
+  "actual_subject": "Four nested blue plastic baskets on wheeled dolly, isolated, no background",
+  "production_method": "codex_imagegen_builtin_via_subagent",
+  "stock_state": "not_applicable",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "width": 1312,
+    "height": 1199,
+    "mode": "RGBA",
+    "file_size_bytes": 752527,
+    "sha256": "c48c1bcb44697b93b4e341e1f15828bc864dc85acd511aec43fa364688c9c25b",
+    "generated_from": "C:\\Users\\yuuna\\.codex\\generated_images\\01a19c77-4121-7293-abeb-58d903f52704\\exec-9af16f93-2f16-4ad8-b8c9-4db4204de595.png",
+    "reference_hashes": [
+      "50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3",
+      "d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae",
+      "471c90d03f2e2dcbe15fc6002aef56824be3952e6a644369dd85ffe1189bde69"
+    ]
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "sha256": "c48c1bcb44697b93b4e341e1f15828bc864dc85acd511aec43fa364688c9c25b",
+      "github_uploaded": true,
+      "git_blob_sha": "0ad8288c111c001e12d6c5cf456bef56cbf16c9c",
+      "github_branch": "art/chatgpt-interior-open-gondola-20261028"
+    },
+    {
+      "role": "alpha_preview",
+      "path": "checkerboard_review.jpg",
+      "github_uploaded": true,
+      "git_blob_sha": "9486b787d7f5002c42c57d670f7e6c79d0c433da",
+      "github_branch": "art/chatgpt-interior-open-gondola-20261028"
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "access_side": "unverified",
+    "checked_in_godot": false,
+    "target_slopes": [
+      -0.5,
+      0.5
+    ],
+    "estimated_hough_slopes": [
+      -0.55,
+      0.55
+    ],
+    "control_points": [],
+    "verdict": "PARTIAL; image-level approximate line slopes only, no world calibration"
+  },
+  "geometry": {
+    "intended_footprint_tiles": [
+      1,
+      1
+    ],
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "alpha": {
+    "threshold": 8,
+    "bbox_xyxy": [
+      289,
+      204,
+      1048,
+      1110
+    ],
+    "margins_percent_ltrb": [
+      22.03,
+      17.01,
+      20.12,
+      7.42
+    ],
+    "edge_max_alpha_ltrb": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "fully_transparent_pixels": 1083252,
+    "fully_opaque_pixels": 262,
+    "semi_transparent_pixels": 489574,
+    "status": "FAIL_BOTTOM_MARGIN"
+  },
+  "quality": {
+    "content": "PASS_VISUAL_ONLY",
+    "projection": "PARTIAL_NOT_CALIBRATED",
+    "alpha": "FAIL_BOTTOM_MARGIN",
+    "style": "PARTIAL_GLOSSY",
+    "world_scale": "NOT_VERIFIED",
+    "godot_runtime": "NOT_CHECKED",
+    "notes": [
+      "Four blue handled shopping baskets appear nested on a small wheeled dolly; content is legible as an interior basket-return/entry prop.",
+      "Unlike the older RGB candidate, the source has real alpha and no checkerboard baked into the image.",
+      "Thresholded alpha margin is 7.42% at bottom, below the 12% gate; alpha=1 touches the bottom edge. Preserve original; do not crop/stretch.",
+      "Hough slope estimate clusters around ±0.55, close to ±0.50 target but approximate; no measured control points.",
+      "Highlights and smooth render finish remain more glossy than the target game style.",
+      "Footprint, physical dimensions, anchor, access orientation, occlusion, and actual Godot display are unverified."
+    ]
+  },
+  "prompt_record": "prompt.txt contains the generation task prompt/brief; agent did not return its exact downstream prompt text.",
+  "references": [
+    {
+      "role": "game_style",
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/game_reference.png",
+      "sha256": "50b5eb65acba1847fb18f98fafec20e7e7d41316da9ec6839d5af8dde61e2df3"
+    },
+    {
+      "role": "projection_guide",
+      "path": "assets/review/guided_assets/shelf_general_open_r0_v1/guide_structure.png",
+      "sha256": "d8e4c8482d03d428109bda24735edd6c3d5b1764ccc3db94925701ee80594eae"
+    },
+    {
+      "role": "basket_content_reference",
+      "path": "assets/review/imagegen_candidates/20261029/shopping_basket_stack_candidate_alpha.png",
+      "sha256": "471c90d03f2e2dcbe15fc6002aef56824be3952e6a644369dd85ffe1189bde69"
+    }
+  ],
+  "runtime_approved": false,
+  "decision": "Review-only correction iteration. Transparency and approximate iso axes improve on prior basket candidates, but bottom alpha margin and game-style/world calibration gates fail or remain unverified.",
+  "generation_agent": {
+    "nickname": "Feynman",
+    "agent_id": "01a19c77-4121-7293-abeb-58d903f52704",
+    "exact_downstream_prompt_returned": false
+  }
+}
