@@ -88,6 +88,16 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 3件ともイベントCGと未承認立ち絵が経営画面の専用行に収まり、イベント名・効果・操作UIを
 隠さないことを確認した。いずれもレビュー専用キャプチャであり、`runtime_approved` は変更していない。
 
+## 機能案内ポーズの追加レビュー（2026-11-03）
+
+- `build/character_review_order_help_1280.png` — `order_help` / `functional_order_help`
+- `build/character_review_restock_help_1280.png` — `restock_help` / `functional_restock_guidance`
+- `build/character_review_register_1280.png` — `story_register` / `functional_register_guidance`
+
+3件とも発注・補充・会計案内の実画面で、立ち絵と吹き出しが左メニュー下かつ下部メニュー直上に収まり、
+管理画面の操作領域を覆わないことを確認した。レビュー専用キャプチャであり、
+3件の `runtime_approved` は変更していない。
+
 ## 追加の日替わりイベントレビュー（続き、2026-11-03）
 
 - `build/character_review_event_local_fair_1280.png` — `evt_local_fair`
