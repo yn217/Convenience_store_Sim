@@ -189,3 +189,16 @@ The current runtime pilot therefore keeps five detailed bust-up routes (`reactio
 `reaction_pleading`, `reaction_deadpan`, `reaction_milestone_calm`, and `reaction_first_sale_joy`) and leaves the other 45 candidates in the 334-image placement review.
 Each candidate needs a clean derivation, hand/edge inspection, and a concrete game trigger before it can be added to
 `character_visuals_v1.json`; `runtime_approved:false` remains unchanged.
+
+## Derived-alpha review set completion (2026-11-02)
+
+The remaining reaction candidates `reaction_019` through `reaction_050` were processed with the local BiRefNet
+background-removal workflow into `assets/review/derived_alpha/`. All 50 reaction rows now have a review-only
+RGBA derivative, and the numbered contact sheet is available at
+`docs/art/character_reaction_derived_alpha_contact_20261102.png`.
+
+The dark-matte contact-sheet pass confirms that the character silhouettes, blouse, apron, hair buns, and visible
+hands remain present at coarse scale. It is not a per-image hand/edge approval: any candidate with uncertain fingers,
+clothing holes, or baked reaction graphics still requires individual review. The source PNGs, placement mapping,
+and `runtime_approved:false` states were not changed; these derivatives are not connected to the normal release
+runtime. The focused asset check also asserts that all 50 reaction rows have a 1024x1024 RGBA review derivative.

@@ -87,6 +87,25 @@ class CharacterPilotAssetTests(unittest.TestCase):
                 ]
                 self.assertEqual(corners, [0, 0, 0, 0], asset_id)
 
+    def test_all_reaction_review_candidates_have_derived_alpha(self):
+        """Every reaction candidate has a review cutout, while approval stays separate."""
+        placement = json.loads(PLACEMENT.read_text(encoding="utf-8"))
+        reactions = [
+            entry for entry in placement["assets"]
+            if "reaction" in entry.get("group", "")
+        ]
+        self.assertEqual(len(reactions), 50)
+
+        for entry in reactions:
+            asset_id = entry["asset_id"]
+            output = REVIEW_DERIVED / f"{asset_id}.png"
+            self.assertTrue(output.is_file(), asset_id)
+            self.assertFalse(bool(entry.get("runtime_approved", False)), asset_id)
+            with Image.open(output) as image:
+                self.assertEqual(image.mode, "RGBA", asset_id)
+                self.assertEqual(image.size, (1024, 1024), asset_id)
+                self.assertIsNotNone(image.getchannel("A").getbbox(), asset_id)
+
     def test_clean_reactions_do_not_keep_small_disconnected_symbols(self):
         for asset_id in ("reaction_discovery", "reaction_deadpan", "reaction_pleading"):
             path = ROOT / "assets" / "runtime" / "character_pilot" / "derived_alpha" / f"{asset_id}.png"
