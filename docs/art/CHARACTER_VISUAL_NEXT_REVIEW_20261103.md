@@ -70,3 +70,11 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 操作領域を覆わない配置を `--inspect-pilot` で確認した。開店前チェックは `--setup` で
 右上の「開店までの手順」と同時に確認し、期限切れ・ライバル店も左メニュー下のレビュー枠へ
 収まることを確認した。これは視覚QAの記録であり、3件の `runtime_approved` は変更していない。
+
+## 追加のイベントレビュー（2026-11-03）
+
+- `build/character_review_event_roadworks_1280.png` — `--screen=経営 --event=evt_roadworks`
+
+工事CGと未承認 `event_roadworks` 立ち絵が経営画面の専用行に収まり、イベント本文・操作UIを
+隠さないことを確認した。これはレビュー専用キャプチャであり、`event_roadworks` の
+`runtime_approved` は変更していない。
