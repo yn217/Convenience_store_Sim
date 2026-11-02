@@ -1,0 +1,31 @@
+{
+  "asset_id": "issue89_overlay_architecture_rikka",
+  "kind": "ui_mockup",
+  "issue": 89,
+  "title": "オーバーレイGUI構成 小春六花案",
+  "character_identity": "小春六花",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue89_overlay_architecture_rikka.png",
+  "screen_role": "full-screen store world with layered HUD, context panel, notification and modal",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "text_encoder": "qwen_3_06b_base.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "loras": [
+      {
+        "file": "Koharu-Koharu-epoch100.safetensors",
+        "trigger": "koharu_rikka",
+        "strength": 0.8
+      },
+      {
+        "file": "anima-style-epoch35-lr5e5.safetensors",
+        "trigger": "anima_style",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "f023cf26-e081-488b-b273-e49ef6dc5f3d"
+  }
+}
