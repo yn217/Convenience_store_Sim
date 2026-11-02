@@ -1,0 +1,79 @@
+{
+  "asset_id": "staff_room_s_breakroom_integrated_v1",
+  "review_date": "2026-11-02",
+  "review_status": "PARTIAL_REVIEW_CANDIDATE",
+  "source_original": {
+    "path": "source_original.png",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "byte_size": 1564964,
+    "sha256": "3b85f2e0a4cd443380cf9c5c48ccb31c22fee6e330e5261f2709f31f8d917fa3",
+    "preserved_unchanged": true
+  },
+  "alpha": {
+    "min": 0,
+    "max": 254,
+    "fully_transparent_pixels": 975779,
+    "fully_opaque_pixels": 0,
+    "semi_transparent_pixels": 597085,
+    "fully_transparent_ratio": 0.620384,
+    "semi_transparent_ratio": 0.379616,
+    "bbox_any_nonzero_xyxy": [
+      0,
+      21,
+      1482,
+      954
+    ],
+    "bbox_alpha_ge_8_xyxy": [
+      324,
+      57,
+      1226,
+      952
+    ],
+    "edge_max_alpha": {
+      "left": 1,
+      "right": 0,
+      "top": 0,
+      "bottom": 0
+    }
+  },
+  "content_review": {
+    "status": "PASS",
+    "notes": "The image shows a compact staff break room with lockers, microwave and hot-drink counter, clock, bulletin board, and two-seat table; no people or readable words."
+  },
+  "shape_projection_review": {
+    "status": "NOT_VERIFIED",
+    "notes": "A cutaway room with open south side is clearly shown. Axonometric slopes look plausible, but exact 2x2 tile diamond, +X/+Y directions, vertical scale and 2.4 m height have not been measured against iso2x_v1 guide points."
+  },
+  "alpha_review": {
+    "status": "PASS_WITH_EDGE_NOISE_NOTE",
+    "notes": "Checkerboard preview has no broad background matte. A few alpha=1 pixels touch the left canvas edge; at alpha>=8, visible bounds leave ample margin (bbox [324,57,1226,952]). No broad colored fringe is visible at this preview scale."
+  },
+  "fixture_spec": {
+    "type_id": "staff_room_s",
+    "footprint_tiles": [
+      2,
+      2
+    ],
+    "dimensions_m": [
+      1.92,
+      1.92,
+      2.4
+    ],
+    "access_edge": "S",
+    "source": "data/fixtures/mvp_v1.json",
+    "verified_against_image": false
+  },
+  "unverified": [
+    "projected world control points and exact iso2x_v1 angles",
+    "physical scale and floor bounds",
+    "ground pivot and tile placement",
+    "south entrance/access alignment",
+    "occlusion by neighboring walls",
+    "game zoom readability",
+    "Godot/runtime rendering and collision"
+  ],
+  "runtime_approved": false,
+  "recommended_action": "Use only as a visual review candidate. Measure against a 2x2 iso2x_v1 guide and test at game zoom before any runtime use; preserve the generated original."
+}
