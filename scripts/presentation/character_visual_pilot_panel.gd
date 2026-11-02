@@ -8,6 +8,7 @@ const PLACEMENT_PATH := "res://docs/art/COMFYUI_334_IMAGE_PLACEMENT_20261101.jso
 const CANDIDATE_ROOT := "res://assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/"
 var _entries: Array = []
 var _review_candidate: Dictionary = {}
+var _runtime_enabled := false
 var _image: TextureRect
 var _meta: Label
 var _reaction_image: TextureRect
@@ -18,9 +19,13 @@ var _snapshot: Dictionary = {}
 
 
 func _ready() -> void:
-	if not OS.is_debug_build():
-		return
 	_entries = _load_entries()
+	# Release builds may use this route only after an individual asset is approved.
+	# Until then, the legacy assistant remains the safe fallback. Debug builds keep
+	# the review toggle so unapproved candidates can still be checked in-game.
+	if not OS.is_debug_build():
+		_runtime_enabled = _has_runtime_approved_entry()
+		return
 	var body := get_node_or_null("../Layout/MainArea/FixtureInspector/Scroll/Body")
 	if body == null:
 		return
@@ -102,7 +107,7 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 
 
 func is_pilot_enabled() -> bool:
-	return _toggle != null and _toggle.button_pressed
+	return _runtime_enabled or (_toggle != null and _toggle.button_pressed)
 
 
 ## Debug/capture-only override. It never writes to the runtime registry or approval state.
@@ -196,7 +201,7 @@ func reaction_entry(snapshot: Dictionary) -> Dictionary:
 
 func event_entry(event_id: String) -> Dictionary:
 	for entry in _entries:
-		if String(entry.get("kind", "")) == "event_image" and String(entry.get("trigger", "")) == event_id:
+		if _entry_allowed(entry) and String(entry.get("kind", "")) == "event_image" and String(entry.get("trigger", "")) == event_id:
 			return entry
 	if event_id == "evt_quiet_street":
 		return _find("reaction_deadpan")
@@ -205,7 +210,7 @@ func event_entry(event_id: String) -> Dictionary:
 
 func cue_entry(cue_id: String) -> Dictionary:
 	for entry in _entries:
-		if String(entry.get("kind", "")) == "functional_pose" and String(entry.get("trigger", "")) == cue_id:
+		if _entry_allowed(entry) and String(entry.get("kind", "")) == "functional_pose" and String(entry.get("trigger", "")) == cue_id:
 			return entry
 	if cue_id == "rival_opened":
 		return _find("functional_rival_store")
@@ -278,9 +283,20 @@ func day_end_entry(mood: String) -> Dictionary:
 
 func _find(asset_id: String) -> Dictionary:
 	for entry in _entries:
-		if String(entry.get("id", "")) == asset_id:
+		if _entry_allowed(entry) and String(entry.get("id", "")) == asset_id:
 			return entry
 	return {}
+
+
+func _entry_allowed(entry: Dictionary) -> bool:
+	return OS.is_debug_build() or bool(entry.get("runtime_approved", false))
+
+
+func _has_runtime_approved_entry() -> bool:
+	for entry in _entries:
+		if bool(entry.get("runtime_approved", false)) and ResourceLoader.exists(String(entry.get("runtime_path", ""))):
+			return true
+	return false
 
 
 func _show_selected(entry: Dictionary) -> void:
