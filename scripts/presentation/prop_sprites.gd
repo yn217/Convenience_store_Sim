@@ -44,7 +44,13 @@ func _load(prop_id: String, rotation: int) -> Dictionary:
 	for name in LAYER_ORDER:
 		if not rot["layers"].has(name):
 			continue
-		var tex := load("%s/%s/%s" % [DIR, prop_id, rot["layers"][name]]) as Texture2D
+		var layer_path := "%s/%s/%s" % [DIR, prop_id, rot["layers"][name]]
+		# Generated props may be present before Godot has created their .import data.
+		# Treat that as a missing layer and let the caller keep its fallback drawing,
+		# instead of emitting a loader error during unrelated UI/portrait tests.
+		if not ResourceLoader.exists(layer_path, "Texture2D"):
+			return {}
+		var tex := load(layer_path) as Texture2D
 		if tex == null:
 			return {}
 		layers.append(tex)
