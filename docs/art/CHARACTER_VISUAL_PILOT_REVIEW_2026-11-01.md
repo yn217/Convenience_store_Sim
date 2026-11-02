@@ -267,3 +267,13 @@ duplicating the legacy assistant layer. The asset remains review-only and is not
 bust-up reaction slot with its generated symbol kept separate from the character layer;
 it does not replace or stack with the full-body assistant frame. This is a review-only
 candidate capture and does not change the runtime registry or approval state.
+
+## Current focused CLI verification (2026-11-02)
+
+The current branch was rechecked without Computer Use through the Godot 4.7.2 CLI. The
+`character_visual_pilot` suite passed in four shards: **4 tests / 362 assertions / 0 failures**.
+The event-panel suite also passed in four shards: **4 tests / 51 assertions / 0 failures**.
+These checks cover registry routing, display-only bust-up cropping of the unchanged full-body
+source texture, left-menu/bottom-chrome safe placement, separate reaction layers, and selected
+event-pilot presentation. They do not change `runtime_approved:false` or replace the pending
+human visual and rights review.
