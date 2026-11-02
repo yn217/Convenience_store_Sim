@@ -43,5 +43,17 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 - `build/character_pilot_next_rival_1280.png` — `rival_opened` → `functional_rival_store`
 
 3件とも `--inspect-pilot` で1024x1536のruntime texture選択、legacy表示なし、
-イベント側の重複表示なしを確認した。起動時に既存の店外小物PNGに関するloader
-warningが出るが、今回の立ち絵表示ルートの終了コードは0で、画像保存は成功している。
+イベント側の重複表示なしを確認した。未インポート小物を安全にスキップする
+`PropSprites` の防御を追加したため、現在のfocused runtime testではloader warningは
+発生しない。
+
+## コア採用後の追加実画面確認
+
+- `build/character_pilot_event_hot_day_screen_1280_latest.png` — `--screen=経営 --event=evt_hot_day`
+  で、承認済み `event_hot_day` がイベント管理画面の専用枠に表示されることを確認。
+- `build/character_pilot_business_opening_1280_fixed.png` — `--opening` で開店カットイン中の
+  左下アシスタントを抑止し、中央の開店演出だけが表示されることを確認。
+- `event_ui`: 4 tests / 51 assertions / 0 failures。
+- `character_art`: 14 tests / 332 assertions / 0 failures。
+
+開店カットインの重複抑止は `80372cf4`、未インポート小物の防御は `d4d0d7f0` に記録した。
