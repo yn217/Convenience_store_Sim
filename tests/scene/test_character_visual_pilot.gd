@@ -6,12 +6,20 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
 	panel._entries = panel._load_entries()
 	t.eq(panel._entries.size(), 50, "the pilot registry exposes all 50 selected visuals")
+	var kind_counts := {}
 	for entry in panel._entries:
 		var id := String(entry.get("id", ""))
 		var path := String(entry.get("runtime_path", ""))
+		var kind := String(entry.get("kind", ""))
+		kind_counts[kind] = int(kind_counts.get(kind, 0)) + 1
 		t.ok(not bool(entry.get("runtime_approved", true)), "%s remains review-only" % id)
 		t.ok(ResourceLoader.exists(path), "%s runtime path exists" % id)
 		t.ok(load(path) is Texture2D, "%s runtime texture loads" % id)
+	t.eq(kind_counts.get("functional_pose", 0), 30, "all 30 functional standing poses are selected")
+	t.eq(kind_counts.get("event_image", 0), 11, "all 11 selected event standing images are registered")
+	t.eq(kind_counts.get("bustup_reaction", 0), 5, "five cleaned reactions have dedicated routes")
+	t.eq(kind_counts.get("fullbody", 0), 3, "three general full-body pilots are registered")
+	t.eq(kind_counts.get("title_background", 0), 1, "one title background pilot is kept exclusive")
 	for pair in [
 		["story_start", "reaction_discovery"],
 		["story_register", "functional_register_guidance"],
