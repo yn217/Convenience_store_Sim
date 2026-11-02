@@ -126,13 +126,25 @@ func _run() -> void:
 			var cw: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 			cw._set_customer(best["customer_id"])
 			app._publish_snapshot()
-	for a in OS.get_cmdline_user_args():   # --build: build mode (palette at the left); --screen=商品: management window on that tab
-		if a.begins_with("--build-tab="):   # --build-tab=service: build mode on that catalog tab (all/shelf/cold/counter/service)
-			main.call("toggle_build")
-			main.get_node("BuildController")._catalog_view.set_category(StringName(a.trim_prefix("--build-tab=")))
-		elif a == "--build":
-			main.call("toggle_build")
-		elif a.begins_with("--screen="):
+	# `--build` and `--build-tab=...` are two ways of requesting the same mode.
+	# Apply the toggle once so combining them does not enter build mode and then
+	# immediately leave it again.
+	var build_requested := false
+	var build_category := ""
+	for a in OS.get_cmdline_user_args():
+		if a == "--build":
+			build_requested = true
+		elif a.begins_with("--build-tab="):   # all/shelf/cold/counter/service
+			build_requested = true
+			build_category = a.trim_prefix("--build-tab=")
+	if build_requested:
+		main.call("toggle_build")
+		if build_category != "":
+			main.get_node("BuildController")._catalog_view.set_category(StringName(build_category))
+	for a in OS.get_cmdline_user_args():   # --screen=商品: management window on that tab
+		if a == "--build" or a.begins_with("--build-tab="):
+			continue
+		if a.begins_with("--screen="):
 			main.call("open_screen_tab", a.trim_prefix("--screen="))
 		elif a == "--order":   # --order: open the real 商品発注 route and show its pilot guidance cue
 			main.call("open_goods_order")
