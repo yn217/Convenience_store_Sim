@@ -1,0 +1,22 @@
+{
+  "asset_id": "fridge_dessert_display_case_iso2x_v1",
+  "runtime_approved": false,
+  "review_verdict": "REJECT_FOR_RUNTIME / KEEP_AS_REVIEW_REFERENCE_ONLY",
+  "source_sha256": "bb09dd15351f55826bbb18e57ca0af67c0416fcc815bc7d765b7565966c12e02",
+  "content": "PASS — one integrated low dessert case with recognizable puddings, cream puffs, roll slices, and cakes; not a beverage cooler or isolated product cards.",
+  "style": "FAIL — reflective, photorealistic product-render finish and strong specular highlights diverge from the attached soft painted game reference.",
+  "alpha": "FAIL — alpha>=1 fringe touches left and bottom canvas edges; alpha>=8 margins are below the 12% target on top/right/bottom.",
+  "projection": "FAIL_PENDING_OVERLAY — visible edge slopes do not convincingly match iso2x; exact camera and fixture overlay not performed.",
+  "dimensions_m": [
+    0.92,
+    1.92,
+    1.6
+  ],
+  "footprint_tiles": [
+    1,
+    2
+  ],
+  "anchor_px": null,
+  "game_zoom_review": "NOT_RUN — no Godot/Renderer/runtime changes",
+  "notes": "Do not fix the projection or geometry mismatch by stretching the generated image. Use fixture control points and redraw/re-generate if a future approved workflow requires it."
+}

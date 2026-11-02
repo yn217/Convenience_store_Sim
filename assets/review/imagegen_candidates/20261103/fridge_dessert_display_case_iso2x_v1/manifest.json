@@ -1,0 +1,111 @@
+{
+  "schema_version": "imagegen_candidate_v1",
+  "asset_id": "fridge_dessert_display_case_iso2x_v1",
+  "asset_class": "integrated_fixture_with_goods",
+  "requested_subject": "Japanese convenience-store refrigerated dessert display case, fixture and stocked desserts as one integrated 2D asset",
+  "actual_subject": "Long low glass-front refrigerated dessert counter case containing puddings, cream puffs, roll cake slices, and cake squares",
+  "review_only": true,
+  "runtime_approved": false,
+  "stock_state": "FULL review illustration only; EMPTY/HALF variants not produced",
+  "production_method": "Codex built-in ImageGen; new image; style reference: C:/Users/yuuna/Downloads/image-1792819026698.webp",
+  "prompt_file": "prompt.txt",
+  "source": {
+    "file": "source_original.png",
+    "dimensions_px": [
+      1672,
+      941
+    ],
+    "mode": "RGBA",
+    "bytes": 1364386,
+    "sha256": "bb09dd15351f55826bbb18e57ca0af67c0416fcc815bc7d765b7565966c12e02"
+  },
+  "alpha": {
+    "extrema": [
+      0,
+      255
+    ],
+    "fully_transparent_percent": 57.72,
+    "low_alpha_1_to_7_percent": 0.934,
+    "measurements": [
+      {
+        "threshold": 1,
+        "bbox_xyxy": [
+          0,
+          15,
+          1632,
+          941
+        ],
+        "margins_percent_ltrb": [
+          0.0,
+          1.59,
+          2.39,
+          0.0
+        ],
+        "coverage_percent": 42.28
+      },
+      {
+        "threshold": 8,
+        "bbox_xyxy": [
+          234,
+          79,
+          1530,
+          909
+        ],
+        "margins_percent_ltrb": [
+          14.0,
+          8.4,
+          8.49,
+          3.4
+        ],
+        "coverage_percent": 41.34
+      },
+      {
+        "threshold": 128,
+        "bbox_xyxy": [
+          236,
+          80,
+          1529,
+          908
+        ],
+        "margins_percent_ltrb": [
+          14.11,
+          8.5,
+          8.55,
+          3.51
+        ],
+        "coverage_percent": 41.14
+      }
+    ]
+  },
+  "projection": {
+    "target": "iso2x_v1, expected 2:1 tile basis and 1x2 footprint; runtime fixture fridge_dessert_a, dimensions 0.92 x 1.92 x 1.6 m",
+    "status": "FAIL_PENDING_OVERLAY",
+    "visual_estimate": "Long case edges appear around -0.33 screen dy/dx; short-end edges appear much steeper than the iso2x ±0.50 basis. This is a visual estimate, not a calibrated measurement. Pixel bbox aspect is 1296/830 = 1.56; physical footprint/anchor is not proven.",
+    "godot_verified": false
+  },
+  "geometry": {
+    "footprint_tiles": [
+      1,
+      2
+    ],
+    "dimensions_m": [
+      0.92,
+      1.92,
+      1.6
+    ],
+    "status": "unverified against fixture control points and ground anchor"
+  },
+  "quality": {
+    "content": "PASS — one integrated low dessert case with recognizable puddings, cream puffs, roll slices, and cakes; not a beverage cooler or isolated product cards.",
+    "composition": "PARTIAL — contents read together with the case, but many small trays and bright interior lighting compete at game zoom.",
+    "style": "FAIL — reflective, photorealistic product-render finish and strong specular highlights diverge from the attached soft painted game reference.",
+    "alpha": "FAIL — alpha>=1 fringe touches left and bottom canvas edges; alpha>=8 margins are below the 12% target on top/right/bottom.",
+    "projection": "FAIL_PENDING_OVERLAY — visible edge slopes do not convincingly match iso2x; exact camera and fixture overlay not performed.",
+    "dimensions_anchor": "UNVERIFIED — source fixture dimensions recorded; sprite scale and ground pivot not validated in Godot."
+  },
+  "limitations": [
+    "Review candidate only; do not use as runtime asset.",
+    "No Godot/game screenshot or physical-scale validation was performed.",
+    "Image generation is not a substitute for projection-guided artwork."
+  ]
+}
