@@ -1,0 +1,146 @@
+{
+  "engine": "Godot 4.7.2.stable.official.ed1daf0bf",
+  "capture": "tools/capture_screen.gd; StoreViewport direct, outer HUD omitted",
+  "assets": [
+    {
+      "file": "12x10-east-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2546287,
+      "sha256": "562696d9f0783b76d28ce3cd2911b60eeb88734ef5fde8ba220e671347088bb3"
+    },
+    {
+      "file": "12x10-north-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2511715,
+      "sha256": "d9984206c3fd3467fea2ab24ea6ba898e4014285105f56635dbebd11fa72a61f"
+    },
+    {
+      "file": "12x10-south-1280x720-day.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1717416,
+      "sha256": "2a113dbd7a4269f89cea0e62ade064e68b9ec5ed48ac833d8fc858f814ed055a"
+    },
+    {
+      "file": "12x10-south-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2527407,
+      "sha256": "b33a7ce3a5707810809ca732e9ad9319edbc32d57c759932b5d3ef3fd0c84aa2"
+    },
+    {
+      "file": "12x10-west-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2528933,
+      "sha256": "a9a9d6028e8c09038bba826202e38371d132f83f2065b06ebe79059f50d0e2a7"
+    },
+    {
+      "file": "16x12-east-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2497745,
+      "sha256": "fe75860fb0b17f7273d40ca15f9a5c1fd6b988098f01de2b7e027519aa1296ca"
+    },
+    {
+      "file": "16x12-north-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2500884,
+      "sha256": "f0f7e92fd198a393889b7a1c084c1b67a0bf36267971f884281f3f3a9df31cc1"
+    },
+    {
+      "file": "16x12-south-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2528931,
+      "sha256": "bffa043156dfb4e3c8c5b93bafb7def6066cb5c566737a08edf03a502e69cfc9"
+    },
+    {
+      "file": "16x12-west-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2496855,
+      "sha256": "521f9d08a6c30cee9c028ab03b79da4f435846dddf0275019a5ba26656c7662b"
+    },
+    {
+      "file": "20x16-east-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2493872,
+      "sha256": "5d627ebc21474269ead0282bd6deb807f905d5130a75331d093b31fdfb7030cf"
+    },
+    {
+      "file": "20x16-east-panzoom05-1600-120-1920x1080-day.png",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 3486801,
+      "sha256": "2cc445104ae4293d47c376e7329aeb7959a030807f04dbb15dc8671e20827a81"
+    },
+    {
+      "file": "20x16-north-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2490676,
+      "sha256": "2d9f23f5a5e38835c7fc1bbfc7c2c5f26d99fdb732e4832aeb01c7dc8cc549c3"
+    },
+    {
+      "file": "20x16-north-panzoom05-1600-120-1920x1080-day.png",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 3506607,
+      "sha256": "6ab8553cd81c3782698b69271134362ece83740a7e651622d23149fcd1373e04"
+    },
+    {
+      "file": "20x16-panzoom05-entrance-contact-1920x1080.png",
+      "width": 1316,
+      "height": 808,
+      "bytes": 1369637,
+      "sha256": "3959dd73b462820908d79f1f90fbfaeae9d6585cc018a15ee4af9d665965ed51"
+    },
+    {
+      "file": "20x16-south-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2504506,
+      "sha256": "075d1741824cfe7574c36fd0ae3de2b435e0cd2154b8c2f9801946a35698f525"
+    },
+    {
+      "file": "20x16-south-1920x1080-night.png",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 2766792,
+      "sha256": "a276c94a15449a17e4d2a049d391fb7596cc618f90c766eab04c0adc563d5ebc"
+    },
+    {
+      "file": "20x16-south-panzoom05-1600-120-1920x1080-day.png",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 3483332,
+      "sha256": "457e9b505a038acfe8df2a2e5cbb2f73b7c1744006581bbca40ce531c99990d4"
+    },
+    {
+      "file": "20x16-west-1600x900-day.png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2491205,
+      "sha256": "7ea3563f8c4bf75fef6e729a2b095a4f0135e8b930385160e420b72b4ffc5308"
+    },
+    {
+      "file": "20x16-west-panzoom05-1600-120-1920x1080-day.png",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 3505812,
+      "sha256": "2eda199a2fa215a0dd784c4ee0c5357e3d0b5e3e15e1891100cb9b7109311698"
+    },
+    {
+      "file": "entrance-direction-size-contact-1600x900-day.png",
+      "width": 1968,
+      "height": 1604,
+      "bytes": 3448378,
+      "sha256": "b518aef59bb052dd12f7770543a8b03c666ec6799d60d954fdaff835a866cffe"
+    }
+  ]
+}
