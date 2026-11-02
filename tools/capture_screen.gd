@@ -384,6 +384,8 @@ func _reapply_capture_pilot_cue(main: Node) -> void:
 	guide._celebrations.clear()
 	if guide._celebrate_timer != null:
 		guide._celebrate_timer.stop()
+	if guide.has_method("_refresh_stage"):
+		guide._refresh_stage()
 	guide.request_pilot_cue(cue_id, {})
 
 
@@ -406,6 +408,14 @@ func _reapply_capture_story_cue(main: Node) -> void:
 	var guide := main.get_node_or_null("ProgressionController")
 	if guide == null or not guide.has_method("set_capture_story_cue"):
 		return
+	# The deterministic setup can emit an achievement after the first cue pass.
+	# Clear that presentation-only toast at the final capture boundary so a
+	# story-cue screenshot contains only the requested story pose/reaction.
+	guide._celebrations.clear()
+	if guide._celebrate_timer != null:
+		guide._celebrate_timer.stop()
+	if guide.has_method("_refresh_stage"):
+		guide._refresh_stage()
 	if guide.has_method("clear_pilot_cue"):
 		guide.clear_pilot_cue()
 	guide.set_capture_story_cue(story_cue)
