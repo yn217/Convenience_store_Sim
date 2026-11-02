@@ -1,0 +1,29 @@
+{
+  "asset_id": "register_impulse_counter_integrated_FULL_v1",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "alpha_bbox_gt0_xyxy": [
+    97,
+    23,
+    1484,
+    1024
+  ],
+  "fully_transparent_ratio": 0.5496,
+  "source_sha256": "63344bc2b02c9a5d42369518d655bb5a20127e01b6c3884f7b33f5a0b31c5945",
+  "content": "pass: POS, payment terminal, scanner and integrated front candy shelves form one checkout fixture",
+  "fixture_plausibility": "pass visually; exact fixture dimensions and game footprint are not calibrated",
+  "game_style": "fail: glossy realistic shading is stronger than the flatter game screenshot style",
+  "projection": "fail: three-quarter perspective is not verified against iso2x_v1 and apparent axes do not demonstrate 2:1 slopes",
+  "alpha": "fail: background haze/matte remains visible over the checkerboard; alpha bbox reaches the lower image edge",
+  "independent_review": "Sub-agent agrees: content and product integration pass; game style, projection and transparent background fail.",
+  "decision": "FAIL as runtime/game sprite; preserve unchanged for review only. Regeneration needs cleaner alpha, game-aligned projection and flatter shading.",
+  "runtime_approved": false,
+  "github_uploaded": false
+}

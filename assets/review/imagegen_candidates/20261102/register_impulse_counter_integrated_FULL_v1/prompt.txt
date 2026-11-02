@@ -1,0 +1,12 @@
+Use case: stylized-concept
+Asset type: review-only standalone 2D sprite for a Japanese convenience-store interior
+Input image: Image 1 is a game screenshot used only as art-style and camera reference; do not reproduce its UI, store layout, people, signs, or exterior.
+Primary request: one complete compact convenience-store checkout counter with an integrated impulse-goods display, drawn as a single coherent sprite. The small packaged goods belong inside the fixture's built-in display shelves and are not separate floating cards.
+Subject: a single Japanese cashier counter viewed from the customer aisle. Include one compact POS touchscreen, scanner area, payment terminal, and a low front-facing built-in retail shelf stocked with colorful chewing gum, mints, and small candy packets. The shelving and products are one unified completed fixture illustration. Use only one counter, one terminal and one integrated product bay.
+Style/medium: polished anime management-simulation game art matching Image 1's clean detailed Japanese retail illustration, soft painterly highlights, crisp readable edges, controlled detail suitable for a small game sprite.
+Composition/framing: orthographic high three-quarter isometric view aligned to the screenshot's 2:1 diamond grid. Show the counter's long axis receding diagonally up-right, with both its customer-facing front and modest right end visible. Keep verticals upright and parallel lines parallel; no wide-angle convergence. Center one entire object with generous transparent margin.
+Lighting/mood: bright neutral indoor store lighting, subtle shading only on the object.
+Palette/materials: warm white counter body, restrained navy-blue accent trim, muted gray countertop; small candy packets in varied red, yellow, green, blue and cream.
+Text: no legible words, no logos, no price labels.
+Constraints: genuine transparent background around the complete object; preserve alpha; no floor, no cast shadow beyond the object. Low display bay integrated into counter front, goods clearly seated on shelves. Counter silhouette compact and plausible, not a wall of shelving.
+Avoid: detached or floating packages, box piles, product cards, thick cuboid candy, huge counter depth, large roof/top panel, people, hands, store environment, UI, text, watermark, black/gray background matte, perspective convergence, cropped edges.

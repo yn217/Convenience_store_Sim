@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "asset_id": "register_impulse_counter_integrated_FULL_v1",
+  "asset_class": "interior_fixture",
+  "requested_subject": "日本のコンビニ用レジカウンター。前面に菓子/ガム棚を一体化した完成FULL状態。",
+  "actual_subject": "白色カウンターにPOS端末、決済端末、スキャナー、菓子/ガム商品棚を統合した3/4斜視画像。",
+  "production_method": "codex_imagegen",
+  "stock_state": "FULL",
+  "stock_rendering": "static_review_baked",
+  "fixture_type_id": "register_impulse_counter",
+  "source": {
+    "path": "source_original.png",
+    "unchanged_original": true,
+    "file_size_bytes": 2014549,
+    "sha256": "63344bc2b02c9a5d42369518d655bb5a20127e01b6c3884f7b33f5a0b31c5945",
+    "reference_hashes": []
+  },
+  "outputs": [
+    {
+      "role": "source_original",
+      "path": "source_original.png",
+      "byte_size": 2014549,
+      "sha256": "63344bc2b02c9a5d42369518d655bb5a20127e01b6c3884f7b33f5a0b31c5945",
+      "git_blob_sha": "f4bde36fca248fae696c3a66645495ad568f443c",
+      "github_uploaded": false
+    },
+    {
+      "role": "qa_overlay",
+      "path": "checkerboard_review.jpg",
+      "byte_size": 316346,
+      "sha256": "496b29630c929ba0339969187657e4d4ef379a5ba6dd1e0f30d94f8e73f3f8ff",
+      "git_blob_sha": "9ceca7a7758df1eb9b48c4556cedbe379c03e2e2",
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "prompt.txt",
+      "byte_size": 2367,
+      "sha256": "fa74f6a9d05f4a112bc2a24050a0c681bbf9873836ea505fecbc242f29ceaeac",
+      "git_blob_sha": "262bf003834b40b073c4a9e2200ae9560abd3bb8",
+      "github_uploaded": false
+    },
+    {
+      "role": "other",
+      "path": "qa_report.json",
+      "byte_size": 1320,
+      "sha256": "054afbad0ee1e85ffd36d9fb41f5a2efe60d505dde252266ed1d8bdf95c44223",
+      "git_blob_sha": "79d542d440e7ffcd8b3d33d485ce92733ca98e7d",
+      "github_uploaded": false
+    }
+  ],
+  "projection": {
+    "id": "iso2x_v1",
+    "rotation": 0,
+    "customer_access_edge": "E",
+    "checked_in_godot": false,
+    "control_points": [],
+    "max_xy_error_source_px": null,
+    "max_z_error_source_px": null
+  },
+  "geometry": {
+    "footprint_tiles": null,
+    "dimensions_m": null,
+    "world_ground_origin_m": null,
+    "image_anchor_px": null,
+    "verified": false
+  },
+  "quality": {
+    "subject": "pass",
+    "japanese_fixture_reference": "not_checked",
+    "geometry": "blocked",
+    "projection": "fail",
+    "alpha": "fail",
+    "state_sync": "blocked",
+    "godot_runtime": "not_checked",
+    "human_visual": "not_checked",
+    "notes": [
+      "レジ機器と商品陳列が一体化して視認可能。",
+      "写真的な光沢が強く、ゲームのフラット寄り塗りスタイルと不一致。",
+      "iso2x_v1方向/2:1傾斜は未確認で、現画像は強い斜視。",
+      "透明PNGにalphaはあるが、チェッカーボード上で背景の灰色マット/光が残る。alpha bboxは画像下端に接触。",
+      "実寸・tile footprint・world anchor・ランタイム・人間承認・在庫状態遷移は未検証。",
+      "独立サブエージェントQAも内容と一体感のみpass、style/projection/alphaはfail。",
+      "Review only; runtime_approved:false."
+    ]
+  },
+  "github": {
+    "repository": "yn217/Convenience_store_Sim",
+    "draft_pr": 164,
+    "branch": "art/chatgpt-interior-open-gondola-20261028"
+  },
+  "runtime_approved": false
+}
