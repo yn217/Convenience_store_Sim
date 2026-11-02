@@ -415,3 +415,12 @@ display-only crop stays inside the assistant stage, the speech bubble remains
 readable, and the lower menu is unobstructed. The source 1024x1536 full-body PNG
 was not modified. This is route/layout evidence only; the candidate remains
 `runtime_approved:false` pending human hand review and rights confirmation.
+
+The same route was also captured at `1600x900` and `1920x1080`:
+
+- `build/character_pilot_queue_long_queue_1600.png`
+- `build/character_pilot_queue_long_queue_1920.png`
+
+Both captures keep the portrait to the right of the left navigation, keep the
+dialogue bubble readable, and leave the lower objective/stat controls and exit
+controls unobstructed.
