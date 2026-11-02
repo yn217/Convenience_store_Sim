@@ -75,3 +75,9 @@ focused test `test_character_visual_pilot.gd`: 4 tests / 291 assertions / 0 fail
 元の1024×1536画像は変更しない。左メニュー右側のアシスタント枠、下寄せした吹き出し、イベント画面のfullbody/reaction分離、
 旧アシスタントとの二重表示抑止も維持している。今回の記号除去は `f3474360` で派生PNG3枚だけに適用し、
 `runtime_approved:false` と未承認候補のレビュー待ち状態は変更していない。
+
+1920×1080のCLI実画面でも `--pilot-cue=low_stock_notice` を確認した。ログ上は
+`pilot_texture=res://assets/runtime/character_pilot/derived_alpha/functional_low_stock.png`、
+`pilot_size=(1024,1536)`、`legacy_visible=false`。保存画像は
+`build/standing_impl_low_stock_1920_latest.png` にあり、表示時クロップ後の立ち絵が左メニューの右側、
+吹き出しがその右側・下寄せに収まり、下部操作UIを覆わないことを目視確認した。
