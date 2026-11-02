@@ -20,6 +20,11 @@ REGIONS: dict[str, tuple[int, int, int, int]] = {
     "reaction_discovery.png": (760, 0, 1024, 240),
     "reaction_deadpan.png": (740, 0, 1024, 220),
     "reaction_pleading.png": (800, 0, 1024, 340),
+    # The first-sale candidate was switched to reaction_022: it has a clear
+    # celebratory face/hand pose, but its generated exclamation balloon must
+    # remain a Godot-owned overlay.  Stop above the hand so the character's
+    # fingers and wrist are preserved.
+    "reaction_first_sale_joy.png": (820, 320, 1024, 630),
 }
 
 

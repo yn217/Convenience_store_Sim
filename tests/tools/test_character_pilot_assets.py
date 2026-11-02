@@ -18,6 +18,7 @@ REACTION_SYMBOL_REGIONS = {
     "reaction_discovery": (760, 0, 1024, 240),
     "reaction_deadpan": (740, 0, 1024, 220),
     "reaction_pleading": (800, 0, 1024, 340),
+    "reaction_first_sale_joy": (820, 320, 1024, 630),
 }
 
 
@@ -153,6 +154,14 @@ class CharacterPilotAssetTests(unittest.TestCase):
             with Image.open(runtime) as image:
                 alpha = np.array(image.convert("RGBA"))[:, :, 3]
             self.assertEqual(int(alpha[top:bottom, left:right].max()), 0, asset_id)
+
+    def test_first_sale_reaction_keeps_canvas_and_has_transparent_corners(self):
+        path = ROOT / "assets" / "runtime" / "character_pilot" / "derived_alpha" / "reaction_first_sale_joy.png"
+        with Image.open(path) as image:
+            rgba = image.convert("RGBA")
+            self.assertEqual(rgba.size, (1024, 1024))
+            alpha = np.array(rgba.getchannel("A"))
+        self.assertEqual([int(alpha[0, 0]), int(alpha[0, -1]), int(alpha[-1, 0]), int(alpha[-1, -1])], [0, 0, 0, 0])
 
 
 if __name__ == "__main__":

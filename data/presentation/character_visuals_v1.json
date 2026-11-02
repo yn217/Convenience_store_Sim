@@ -119,11 +119,11 @@
       "trigger": "story_first_sale",
       "runtime_path": "res://assets/runtime/character_pilot/derived_alpha/reaction_first_sale_joy.png",
       "derived_from": "res://assets/runtime/character_pilot/reaction_first_sale_joy.png",
-      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_31_1024x1024_00001_.png",
+      "source_path": "assets/review/imagegen_candidates/20261031/issue30_31_32_comfyui/character_reactions_1024x1024/rikka_bustup_reaction_22_1024x1024_00001_.png",
       "status": "pilot_selected",
       "runtime_approved": false,
       "fallback": "fullbody_emotion_05",
-      "review_note": "配置表のopening_check_failed案から、実画像の達成表情・両手のガッツポーズを目視確認し、初回売上達成へ用途を修正。BiRefNet派生で生成エフェクトを除去。手指・境界・権利確認は継続",
+      "review_note": "重複キャラクターが残るreaction_031から、同じ初回売上向けの達成表情を持つreaction_022へ差し替え。生成された吹き出しはGodot側の記号レイヤーとして除去し、手指・境界・権利確認は継続",
       "overlay_symbol": ""
     },
     {
