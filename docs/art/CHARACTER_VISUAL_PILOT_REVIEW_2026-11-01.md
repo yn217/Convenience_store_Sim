@@ -242,8 +242,9 @@ separate. This confirms the QA override path still works; it does not change the
 ## Assistant placement adjustment (2026-11-02)
 
 Following the latest visual check, the assistant group was moved slightly right and raised above the mockup bottom
-menu. `ASSISTANT_BOTTOM` now uses `MainLayout.CHROME_BOTTOM + 12px`, rather than the shorter legacy summary height;
-the full-body source image and the display-only crop policy are unchanged. The adjusted captures are:
+menu. The portrait anchor now uses `MainLayout.CHROME_BOTTOM + 30px`; the dialogue bubble keeps its independent
+lower slot at `MainLayout.CHROME_BOTTOM + 12px`. The full-body source image and the display-only crop policy are
+unchanged. The adjusted captures are:
 
 - `build/standing_impl_left_menu_1280_adjusted.png`
 - `build/standing_impl_left_menu_1600_adjusted.png`
@@ -277,3 +278,22 @@ These checks cover registry routing, display-only bust-up cropping of the unchan
 source texture, left-menu/bottom-chrome safe placement, separate reaction layers, and selected
 event-pilot presentation. They do not change `runtime_approved:false` or replace the pending
 human visual and rights review.
+
+## Latest title and event route captures (2026-11-03)
+
+`build/title_standing_pilot_latest.png` was captured at 1280x720 with
+`--title --visual-variant=painted_v1`. The embedded character is rendered once, while the
+Godot-owned title logo, real buttons, and notice control remain independent. The title route now
+also permits an approved registry row to load in a normal build; an unapproved row still falls back
+to the existing title background.
+
+`build/standing_event_hot_day_latest.png` was captured at 1280x720 with
+`--event=evt_hot_day --screen=経営`. The event CG and selected event standing pilot appear in the
+event panel, while the persistent corner assistant is suppressed to prevent double rendering. The
+event pilot does not cover the bottom controls.
+
+The asset integrity check now compares each full-body/event source PNG with its derived alpha PNG
+and rejects interior colored pixels that became transparent, which protects sleeves, apron areas,
+hands, and held objects from background-removal regressions. The current focused run passed
+**9 tests / 0 failures**. These are still QA captures; all 50 registry rows remain
+`runtime_approved:false` pending visual, rights, and redistribution review.
