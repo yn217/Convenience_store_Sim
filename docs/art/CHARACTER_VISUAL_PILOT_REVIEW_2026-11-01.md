@@ -297,8 +297,13 @@ event pilot does not cover the bottom controls.
 The asset integrity check now compares each full-body/event source PNG with its derived alpha PNG
 and rejects interior colored pixels that became transparent, which protects sleeves, apron areas,
 hands, and held objects from background-removal regressions. The current focused run passed
-**9 tests / 0 failures**. These are still QA captures; all 50 registry rows remain
+**13 tests / 0 failures**. These are still QA captures; all 50 registry rows remain
 `runtime_approved:false` pending visual, rights, and redistribution review.
+
+The latest per-image scan covered 44 full-body derivatives. The highest interior-loss count was
+13 pixels for `event_after_work` and 12 for `event_snack_buzz`, both below the automated threshold
+of 64 pixels. These two candidates remain in the human hand/boundary review queue; the automated
+pass is not treated as visual approval.
 
 The registry now also names an explicit 11-image core QA set in `core_pilot_ids`:
 one title candidate, three full-body/service poses, three bust-up reactions, three
