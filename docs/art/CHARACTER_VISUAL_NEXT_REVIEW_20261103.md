@@ -88,6 +88,22 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 3件ともイベントCGと未承認立ち絵が経営画面の専用行に収まり、イベント名・効果・操作UIを
 隠さないことを確認した。いずれもレビュー専用キャプチャであり、`runtime_approved` は変更していない。
 
+## 機能イベントの追加レビュー（2026-11-03）
+
+- `build/character_review_staff_short_1280.png` — `story_staff_short` / `functional_staff_short`
+- `build/character_review_first_profit_1280.png` — `story_first_profit`（専用立ち絵と反応レイヤーの組み合わせ）
+- `build/character_review_campaign_1280.png` — `seasonal_campaign_started` / `functional_campaign`
+
+スタッフ不足、初黒字、販促提案の3画面で、立ち絵を下部メニュー直上の表示枠へ配置して確認した。
+いずれもレビュー専用キャプチャであり、未承認候補の `runtime_approved` は変更していない。
+
+## 日次レポート表示の回帰確認（2026-11-03）
+
+日次レポートを開く直前に短時間の画面cueが残っている場合でも、日次レポート中は
+`functional_day_report`（赤字時は `functional_day_end_review`）を優先するよう表示ルートを修正した。
+focused runtime testでは、古い `functional_empty_handed` が残らないこと、日次レポートの
+立ち絵とメッセージが表示枠を維持することを確認した。修正対象の候補は引き続き未承認である。
+
 ## 機能案内ポーズの追加レビュー（2026-11-03）
 
 - `build/character_review_order_help_1280.png` — `order_help` / `functional_order_help`

@@ -187,11 +187,16 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.ok(not guide._pilot_reaction_symbol.visible, "staff shortage hides the reaction symbol layer")
 	t.ok(guide._pilot_figure.visible, "staff shortage shows its dedicated full-body pose")
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_staff_short.png", "staff shortage loads the dedicated full-body texture")
+	guide.request_pilot_cue("empty_handed", {})
+	await tree.process_frame
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_empty_handed.png", "a short-lived cue can replace the staff shortage pose")
 	guide.say_day_end("通常決算の確認", "normal")
 	await tree.process_frame
-	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_report.png", "normal day-end uses the report pilot in the runtime stage")
+	t.ok(guide._stage.visible, "normal day-end keeps the assistant stage visible beside the report")
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_report.png", "normal day-end overrides a stale screen cue with the report pilot")
 	guide.say_day_end("赤字決算の確認", "worried")
 	await tree.process_frame
+	t.ok(guide._stage.visible, "worried day-end keeps the assistant stage visible beside the report")
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_end_review.png", "worried day-end uses the review pilot in the runtime stage")
 	main.queue_free()
 	await tree.process_frame
