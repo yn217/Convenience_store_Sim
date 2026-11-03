@@ -50,6 +50,11 @@ var _bubble_text: Label
 var _labels: Dictionary = {}
 var _goal_fill: UiShape
 var _event_icon: TextureRect
+var _event_card: UiShape
+var _event_tag: UiShape
+var _event_tag_text: Label
+var _event_decor: Array[TextureRect] = []
+var _now_sec := 0
 var days_per_month := GameCalendar.DEFAULT_DAYS_PER_MONTH   # set by GameHud (from the balance)
 var guide: Node   # 開店までの手順 (top right while setting up; hidden while the window is open)
 var _last_snap: Dictionary = {}
@@ -261,15 +266,14 @@ func _build_bottom() -> void:
 			MockStyle.picture(bar, MockStyle.glyph(c[4], 96), ir, c[5])
 		_named(c[0], MockStyle.label(bar, "", Rect2(c[9], 60, c[2] + c[3] - c[9] - 6, 46), 30, MockStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER, "ExtraBold"))
 	# today's event
-	MockStyle.shape(bar, Rect2(1058, 8, 414, 128), {"top": Color("fff3f8"), "bottom": Color("ffd2e3"), "border": Color("ffffff"), "border_width": 3.0,
-		"radius": 16.0, "inner": Color("ff9fc1"), "inner_inset": 2.0, "shadow": Color(0, 0, 0, 0.25)})
-	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(1070, 82, 40, 40), Color(1, 1, 1, 0.75))
-	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(1352, 14, 34, 34), Color(1, 1, 1, 0.8))
-	MockStyle.picture(bar, MockStyle.art("sakura"), Rect2(1420, 26, 26, 26), Color(1, 1, 1, 0.8))
-	var tag := MockStyle.shape(bar, Rect2(1062, 12, 132, 34), {"kind": UiShape.Kind.RIBBON, "top": Color("f0558a"), "bottom": Color("c92f63"), "radius": 8.0,
-		"gloss": 0.25})
-	MockStyle.picture(tag, MockStyle.glyph("star", 64), Rect2(10, 8, 18, 18))
-	MockStyle.label(tag, "開催中！", Rect2(32, 0, 90, 34), 17, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black")
+	# today's event: colours, decorations, picture and tag follow the event (EventCardTheme)
+	_event_card = MockStyle.shape(bar, Rect2(1058, 8, 414, 128), {"border": Color("ffffff"), "border_width": 3.0, "radius": 16.0,
+		"inner_inset": 2.0, "shadow": Color(0, 0, 0, 0.25)})
+	for r in [Rect2(1070, 82, 40, 40), Rect2(1352, 14, 34, 34), Rect2(1420, 26, 26, 26)]:
+		_event_decor.append(MockStyle.picture(bar, null, r))
+	_event_tag = MockStyle.shape(bar, Rect2(1062, 12, 132, 34), {"kind": UiShape.Kind.RIBBON, "radius": 8.0, "gloss": 0.25})
+	MockStyle.picture(_event_tag, MockStyle.glyph("star", 64), Rect2(10, 8, 18, 18))
+	_event_tag_text = MockStyle.label(_event_tag, "", Rect2(32, 0, 96, 34), 17, Color.WHITE, HORIZONTAL_ALIGNMENT_LEFT, "Black")
 	_named("EventTitle", MockStyle.label(bar, "", Rect2(1100, 44, 250, 44), 27, INK, HORIZONTAL_ALIGNMENT_CENTER, "Black"))
 	_named("EventLine", MockStyle.label(bar, "", Rect2(1082, 88, 276, 34), 18, INK, HORIZONTAL_ALIGNMENT_CENTER))
 	_event_icon = MockStyle.picture(bar, null, Rect2(1352, 30, 108, 96))
@@ -288,7 +292,7 @@ func _build_bottom() -> void:
 		if corners[i][3] == "glyph":
 			MockStyle.picture(b, MockStyle.glyph(corners[i][2], 96), Rect2(10, 7, 54, 58), Color("fff4e2"))
 		elif corners[i][3] == "power":
-			MockStyle.label(b, "⏻", Rect2(0, 2, 78, 60), 45, Color("fff4e2"), HORIZONTAL_ALIGNMENT_CENTER, "Black", 2, Color("6e202b"))
+			MockStyle.picture(b, MockStyle.glyph("power", 96), Rect2(14, 9, 50, 50), Color("fff4e2"))   # the font has no ⏻
 		else:
 			MockStyle.picture(b, MockStyle.art(corners[i][2]), Rect2(8, 5, 62, 58))
 		MockStyle.label(b, corners[i][1], Rect2(0, 70, 78, 36), 14 if is_quit else 15, Color("fff4e2"), HORIZONTAL_ALIGNMENT_CENTER, "ExtraBold", 2, Color(0, 0, 0, 0.5))
@@ -440,6 +444,7 @@ func apply_snapshot(s: Dictionary) -> void:
 		ratio = MetricBar.goal_progress(int(goal["value"]), int(goal["threshold"]))
 	_labels["GoalPercent"].text = "%d%%" % roundi(ratio * 100.0)
 	_goal_fill.size.x = maxf(18.0, 246.0 * ratio)
+	_now_sec = int(s.get("time_sec", 0))
 	_apply_event(s.get("gameplay_event", {"status": "no_data"}))
 	_set_speed(int(s["speed_setting"]))
 
@@ -451,11 +456,32 @@ func _apply_event(view: Dictionary) -> void:
 		var chips := EventText.effect_chips(view)
 		_labels["EventLine"].text = "・".join(chips.map(func(c): return c["text"])) if not chips.is_empty() else String(view.get("description_ja", ""))
 		var cats: Array = view.get("categories", {}).keys()
-		_event_icon.texture = _category_icon(String(cats[0])) if not cats.is_empty() else MockStyle.art("store_building")
+		var own := EventCardTheme.picture(view)
+		_event_icon.texture = own if own != null else (_category_icon(String(cats[0])) if not cats.is_empty() else MockStyle.art("store_building"))
 	else:
 		_labels["EventTitle"].text = "本日のイベント"
 		_labels["EventLine"].text = "2日目から毎日抽選" if int(view.get("day", 0)) < 1 else "今日は特別なイベントなし"
 		_event_icon.texture = MockStyle.art("store_building")
+	_apply_event_look(view)
+
+
+## The card's colours, decorations and tag for the event (EventCardTheme).
+func _apply_event_look(view: Dictionary) -> void:
+	var th := EventCardTheme.theme(view)
+	_event_card.setup({"top": Color(String(th["top"])), "bottom": Color(String(th["bottom"])), "inner": Color(String(th["inner"]))})
+	var deco: Array = th["decor"]
+	var tex: Texture2D = null
+	if String(deco[0]) == "sakura":
+		tex = MockStyle.art("sakura")
+	elif String(deco[0]) != "":
+		tex = MockStyle.glyph(String(deco[0]), 64)
+	for d in _event_decor:
+		d.texture = tex
+		d.modulate = Color(String(deco[1]), 0.8) if tex != null else Color.WHITE
+	var tag := EventCardTheme.tag(view, _now_sec)
+	var tc := EventCardTheme.tag_colors(view, _now_sec)
+	_event_tag.setup({"top": tc[0], "bottom": tc[1]})
+	_event_tag_text.text = String(tag["text"])
 
 
 func _category_icon(category: String) -> Texture2D:

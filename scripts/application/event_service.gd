@@ -114,7 +114,8 @@ static func effects(state: GameState) -> Dictionary:
 	return GameplayEventDirector.effects_at(state.gameplay_events, state.gameplay_event_state, state.time_sec)
 
 
-## What the screen shows (SCR-11): {"status", "event_id", "name_ja", "description_ja", "start_sec", "end_sec", "traffic", "categories", "tone"}.
+## What the screen shows (SCR-11): {"status", "event_id", "name_ja", "description_ja", "start_sec", "end_sec", "traffic", "categories", "tone",
+## "visual_theme"}.
 ## status: no_data | undrawn | none | scheduled | active | ended | missed.
 static func view(state: GameState) -> Dictionary:
 	var ges := state.gameplay_event_state
@@ -133,5 +134,5 @@ static func view(state: GameState) -> Dictionary:
 	return {
 		"status": status, "day": int(ges["last_selected_day"]), "event_id": ev["event_id"], "name_ja": ev["name_ja"], "description_ja": ev["description_ja"],
 		"start_sec": int(ges["event_start_sec"]), "end_sec": int(ges["event_end_sec"]), "traffic": float(ev["effects"]["traffic_multiplier"]),
-		"categories": ev["effects"]["category_weight_multipliers"].duplicate(), "tone": ev["tone"],
+		"categories": ev["effects"]["category_weight_multipliers"].duplicate(), "tone": ev["tone"], "visual_theme": ev["visual_theme"],
 	}

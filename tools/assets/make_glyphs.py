@@ -37,6 +37,13 @@ GLYPHS = {
     "tools": f'<path {W} d="M21.4 5.8 18.3 8.9 15.1 5.7l3.1-3.1a5 5 0 0 0-6.6 6.2L3 17.4a2.2 2.2 0 0 0 3.1 3.1l8.6-8.6a5 5 0 0 0 6.7-6.1zM4.2 2.2 2.2 4.2l4.6 6.2 1.6.2 2.1 2.1 1.4-1.4-2.1-2.1-.2-1.6zm9.6 12.3 6.1 6.1a1.8 1.8 0 0 0 2.5-2.5l-6.1-6.1z"/>',
     "search": f'<path {W} fill-rule="evenodd" d="M10 2.5a7.5 7.5 0 0 1 6 12l5.4 5.4-1.8 1.8-5.4-5.4A7.5 7.5 0 1 1 10 2.5zm0 2.6a4.9 4.9 0 1 0 0 9.8 4.9 4.9 0 0 0 0-9.8z"/>',
     "list": f'<path {W} d="M3 4.5h3v3H3zm5 .5h13v2H8zM3 10.5h3v3H3zm5 .5h13v2H8zM3 16.5h3v3H3zm5 .5h13v2H8z"/>',
+    "power": '<path fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" d="M7 5.8a8.2 8.2 0 1 0 10 0"/>'
+             '<path fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" d="M12 2.6v8.6"/>',
+    "sun": f'<circle {W} cx="12" cy="12" r="5"/><path fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" '
+           'd="M12 1.8v3M12 19.2v3M1.8 12h3M19.2 12h3M4.8 4.8l2.1 2.1M17.1 17.1l2.1 2.1M4.8 19.2l2.1-2.1M17.1 6.9l2.1-2.1"/>',
+    "snow": '<path fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" '
+            'd="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10M9.5 3.5 12 6l2.5-2.5M9.5 20.5 12 18l2.5 2.5"/>',
+    "heart": f'<path {W} d="M12 21.2 3.6 13A5.2 5.2 0 0 1 12 6.4 5.2 5.2 0 0 1 20.4 13z"/>',
     "shield": f'<path {W} d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/>',
 }
 
