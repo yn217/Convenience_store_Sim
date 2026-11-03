@@ -109,6 +109,12 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 リアクションは顔の切れ・吹き出し記号の独立レイヤー化、全身画像は足元と表示時クロップを確認する。
 このレビュー準備では、元画像・派生PNG・レジストリの承認状態を変更していない。
 
+## 未承認39件の採用ゲート検証（2026-11-03）
+
+`tools/assets/approve_character_pilot.py` を未承認39件へドライランで実行した。
+全39件でruntime/source/derived/fallbackの参照検証が成功し、レジストリ変更なしで終了した。
+実際の承認には、対象IDを明示した `--apply` と、目視QA・権利確認の両方が必要である。
+
 ## 機能イベントの追加レビュー（2026-11-03）
 
 - `build/character_review_staff_short_1280.png` — `story_staff_short` / `functional_staff_short`
