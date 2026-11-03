@@ -117,6 +117,19 @@ focused runtime testでは、古い `functional_empty_handed` が残らないこ
 タイトル文字・実ボタン・お知らせUIをGodot側で描画し、画像内のメニュー文字との二重表示がないこと、
 背景に含まれる小春六花と別立ち絵を重ねていないことを確認した。
 
+## 全50件の遅延ロード計測（2026-11-03）
+
+`tools/measure_character_pilot_load.gd --all-pilot` をGodot 4.7.2の実レンダラーで実行した。
+
+- 50/50件が読み込み成功
+- 全身・イベント画像は1024x1536、リアクションは1024x1024、タイトル背景は1344x768
+- 50件を順次ロードした合計時間: 6376.363ms
+- 1件あたりの最大ロード時間: 1934.777ms（`event_bread_feature`）
+- ビデオメモリ: 6.12MB → 最大29.96MB
+- 承認状態は変更していない（`all_runtime_approved=false` は未承認候補を含む全件計測の結果）
+
+これは全件を常駐ロードする実装ではなく、候補ファイルの欠落とロード負荷を測る読み取り専用計測である。
+
 ## 機能案内ポーズの追加レビュー（2026-11-03）
 
 - `build/character_review_order_help_1280.png` — `order_help` / `functional_order_help`
