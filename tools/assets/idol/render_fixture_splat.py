@@ -45,8 +45,10 @@ def rotz(deg):
     return torch.tensor([[math.cos(a), -math.sin(a), 0], [math.sin(a), math.cos(a), 0], [0, 0, 1]], dtype=torch.float32, device=S.DEV)
 
 
-def clean(g, min_alpha=0.04):
+def clean(g, min_alpha=0.04, clip=True):
     g = S.select(g, g["alpha"] > min_alpha)
+    if not clip:   # #238 ablation: keep the stray splats outside the 0.5-99.5 % box
+        return g
     p = g["xyz"]
     lo = torch.quantile(p[::7], 0.005, dim=0)
     hi = torch.quantile(p[::7], 0.995, dim=0)
@@ -106,7 +108,7 @@ def deskew(g):
     return g, ks
 
 
-def fit(g, front_yaw, across, deep, height, stretch=STRETCH, skew=False):
+def fit(g, front_yaw, across, deep, height, stretch=STRETCH, skew=False, cut=True, vertical_slack=0.15):
     """Front to -y (object frame), centred, scaled into across x deep x height, cut to it; then mirrored into the
     game frame (left-handed: gy = -oy) so the front faces game +y = S."""
     g = S.transform(g, rotz(front_yaw - 180.0), torch.zeros(3, device=S.DEV))   # azimuth yaw -> 180 (= -y)
@@ -123,7 +125,7 @@ def fit(g, front_yaw, across, deep, height, stretch=STRETCH, skew=False):
     s_x = min(across / ext[0], stretch * s_h)
     s_y = min(deep / ext[1], stretch * s_h)
     s_m = math.sqrt(s_x * s_y)
-    s_v = min(max(height / ext[2], 0.85 * s_m), 1.15 * s_m)
+    s_v = min(max(height / ext[2], (1 - vertical_slack) * s_m), (1 + vertical_slack) * s_m)
     centre = torch.tensor([(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, lo[2]], device=S.DEV)
     m = torch.diag(torch.tensor([s_x, -s_y, s_v], device=S.DEV))
     g = S.transform(g, m, -(m @ centre))
@@ -132,7 +134,7 @@ def fit(g, front_yaw, across, deep, height, stretch=STRETCH, skew=False):
     keep = (q[:, 0].abs() <= across / 2 + eps) & (q[:, 1].abs() <= deep / 2 + eps) & (q[:, 2] >= -0.01) & (q[:, 2] <= height + 0.01)
     info = {"robust_extent_before_scale": [round(e, 4) for e in ext], "scale_x": round(s_x, 4), "scale_y": round(s_y, 4),
             "scale_vertical": round(s_v, 4), "cut_splats": int((~keep).sum()), "shear": shear}
-    return S.select(g, keep), info
+    return (S.select(g, keep) if cut else g), info
 
 
 def turn_matrix(quarter):

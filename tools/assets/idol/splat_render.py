@@ -64,13 +64,14 @@ def select(g: dict, keep: torch.Tensor) -> dict:
     return {k: v[keep] for k, v in g.items()}
 
 
-def rasterize(g: dict, J: torch.Tensor, view: torch.Tensor, origin, size, max_radius: int = 48) -> np.ndarray:
+def rasterize(g: dict, J: torch.Tensor, view: torch.Tensor, origin, size, max_radius: int = 48, dilation: float = 0.3) -> np.ndarray:
     """Orthographic splatting. J [2,3]: world -> screen px (x right, y down), `view` [3]: unit vector towards the
-    camera (bigger dot = nearer), origin: the screen px of the world origin, size: (w, h). Straight-alpha RGBA uint8."""
+    camera (bigger dot = nearer), origin: the screen px of the world origin, size: (w, h). Straight-alpha RGBA uint8.
+    Pixel i is sampled at screen coordinate i (not i + 0.5). dilation: added to the 2D covariance (px^2)."""
     w, h = size
     uv = g["xyz"] @ J.T + torch.tensor(origin, dtype=torch.float32, device=DEV)
     depth = g["xyz"] @ view
-    c2 = J @ g["cov"] @ J.T + 0.3 * torch.eye(2, device=DEV)
+    c2 = J @ g["cov"] @ J.T + dilation * torch.eye(2, device=DEV)
     a, b, d = c2[:, 0, 0], c2[:, 0, 1], c2[:, 1, 1]
     det = (a * d - b * b).clamp_min(1e-8)
     conic = torch.stack([d / det, -b / det, a / det], 1)
@@ -96,6 +97,8 @@ def rasterize(g: dict, J: torch.Tensor, view: torch.Tensor, origin, size, max_ra
             dep.append(depth[gi])
             al.append(alpha[m])
             col.append(g["rgb"][gi])
+    if not pix:   # nothing on screen (an empty layer): transparent
+        return np.zeros((h, w, 4), np.uint8)
     pix, dep, al, col = torch.cat(pix), torch.cat(dep), torch.cat(al), torch.cat(col)
     order = torch.argsort(dep, descending=True)                       # nearest first
     order = order[torch.sort(pix[order], stable=True).indices]       # then grouped by pixel
