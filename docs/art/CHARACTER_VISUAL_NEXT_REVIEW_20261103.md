@@ -98,6 +98,17 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 下部メニュー直上までの表示域に収まり、下部メニューとの接触・重なりがない。元の全身画像ファイルは
 変更せず、表示時だけ `AssistantPilotBustupCrop` で切り抜く仕様を維持している。
 
+## 未承認39件の次回レビュー準備（2026-11-03）
+
+- `build/character_pilot_remaining_contact_20261103.png` — 未承認39件の読み取り専用コンタクトシート
+- 内訳: `functional_pose` 26件、`event_image` 10件、`bustup_reaction` 2件、`fullbody` 1件
+- 一覧にはruntime画像、論理asset ID、kind、`approved=false`を併記している
+
+コンタクトシートでは双団子・制服・全身枠の大枠を比較できるが、これだけで通常採用を確定しない。
+次回の個別確認では、機能ポーズは手指・商品接触・腕の接続、イベント画像はイベント内容の視認性、
+リアクションは顔の切れ・吹き出し記号の独立レイヤー化、全身画像は足元と表示時クロップを確認する。
+このレビュー準備では、元画像・派生PNG・レジストリの承認状態を変更していない。
+
 ## 機能イベントの追加レビュー（2026-11-03）
 
 - `build/character_review_staff_short_1280.png` — `story_staff_short` / `functional_staff_short`
