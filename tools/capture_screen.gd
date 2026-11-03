@@ -378,6 +378,11 @@ func _run() -> void:
 		SimulationRunner.roll_day(s, s.day, s.day + 1)   # as at midnight: the report, then the new day
 		app._publish_snapshot()
 		var guide: ProgressionController = main.get_node("ProgressionController")
+		# The deterministic setup starts the store before rolling the day forward.
+		# Finish that presentation-only cut-in after the report snapshot has been
+		# published so it cannot hide the day-end assistant in the saved frame.
+		if bool(guide.get("_opening_cutin_active")) and guide.has_method("_finish_opening_cutin"):
+			guide._finish_opening_cutin()
 		while guide.is_celebrating():   # earlier titles' cheers are over by the end of the day: her day remark shows
 			guide.close_celebration()
 	var cut: Control = main.get_node("ProgressionController")._cutin   # the setup above opened the store: no 開店！ in review shots

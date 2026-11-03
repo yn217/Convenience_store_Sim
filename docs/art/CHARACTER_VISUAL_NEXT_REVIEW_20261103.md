@@ -104,6 +104,11 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 focused runtime testでは、古い `functional_empty_handed` が残らないこと、日次レポートの
 立ち絵とメッセージが表示枠を維持することを確認した。修正対象の候補は引き続き未承認である。
 
+決定的な日次レポートキャプチャでは、営業開始カットインを後処理で終了させるよう
+`tools/capture_screen.gd` も補正した。`build/character_review_day_report_1280_fixed2.png` で、
+日次レポートカードと「今日もお疲れさまでした」のメッセージ、立ち絵が下部メニュー直上に
+同時表示されることを確認した。
+
 ## タイトル背景の通常ルート確認（2026-11-03）
 
 - `build/title_core_1280.png` — 1280x720、承認済み `title_background_pilot`
