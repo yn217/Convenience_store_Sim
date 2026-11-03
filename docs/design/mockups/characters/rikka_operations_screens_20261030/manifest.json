@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "asset_group": "character_rikka_operations_screens_20261030",
+  "status": "review_candidate",
+  "source": "user-provided mockup attachments",
+  "character_identity": "Koharu Rikka (小春六花; user-specified reference; rights review required)",
+  "runtime_connected": false,
+  "screens": [
+    {
+      "issues": [30, 21],
+      "screen": "complaint_response",
+      "path": "docs/design/mockups/characters/rikka_operations_screens_20261030/issue30_21_complaint_response_rikka.png"
+    },
+    {
+      "issues": [11, 21],
+      "screen": "restock_inventory",
+      "path": "docs/design/mockups/characters/rikka_operations_screens_20261030/issue11_21_restock_inventory_rikka.png"
+    },
+    {
+      "issues": [19],
+      "screen": "daily_report",
+      "path": "docs/design/mockups/characters/rikka_operations_screens_20261030/issue19_daily_report_rikka.png"
+    },
+    {
+      "issues": [19, 32],
+      "screen": "daily_result",
+      "path": "docs/design/mockups/characters/rikka_operations_screens_20261030/issue19_32_daily_result_rikka.png"
+    },
+    {
+      "issues": [32],
+      "screen": "daily_mission",
+      "path": "docs/design/mockups/characters/rikka_operations_screens_20261030/issue32_daily_mission_rikka.png"
+    },
+    {
+      "issues": [19, 32],
+      "screen": "today_result",
+      "path": "docs/design/mockups/characters/rikka_operations_screens_20261030/issue19_32_today_result_rikka.png"
+    }
+  ]
+}
