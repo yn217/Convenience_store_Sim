@@ -20,6 +20,11 @@ PICKS = {
     "clipboard": "clipboard_9401", "mission": "mission_9402", "book": "book_9402", "calendar": "calendar_9402",
     "flag": "flag_9402", "sakura": "sakura_9401", "trophy": "nav_achievement_9401", "store_building": "store_building_9401",
     "logo_store": "logo_store_9401", "box": "nav_goods_9401", "cart": "cart_9401",
+    # 本日のイベント card (EventCardTheme.picture), one per visual_theme
+    "event_festival": "event_festival_9401", "event_roadworks": "event_roadworks_9402", "event_sun": "event_sun_9402",
+    "event_cold": "event_cold_9402", "event_dessert": "event_dessert_9401", "event_snack": "event_snack_9402",
+    "event_social": "event_social_9402", "event_quiet": "event_quiet_9402", "event_lunch": "event_lunch_9401",
+    "event_drink": "event_drink_9401", "event_bread": "event_bread_9402", "event_evening": "event_evening_9401",
 }
 
 

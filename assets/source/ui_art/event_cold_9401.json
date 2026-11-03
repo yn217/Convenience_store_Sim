@@ -1,0 +1,18 @@
+{
+  "icon": "event_cold",
+  "seed": 9401,
+  "loras": {
+    "anima-style-epoch35-lr5e5": 0.8
+  },
+  "positive": "anima_style, cute sticker illustration, a single object, centered, whole object in frame, bold clean outline, bright saturated colours, soft gradient shading with a white highlight, plain pure white background, no text, no letters, no numbers, no square tile, no frame behind the object, a steaming bowl of japanese oden with a white snowflake",
+  "negative": "low quality, worst quality, blurry, text, letters, words, numbers, logo, brand name, watermark, people, person, hands, background scenery, multiple objects, cropped, frame, border",
+  "comfy_output": "uiart_event_cold_9401_00001_.png",
+  "base": "Anima-Base-v1.0",
+  "size": [
+    512,
+    512
+  ],
+  "steps": 24,
+  "cfg": 4.5,
+  "sampler": "euler/simple"
+}

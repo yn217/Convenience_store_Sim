@@ -50,6 +50,19 @@ ICONS = {
     "crown_silver": "a small shiny silver crown",
     "crown_bronze": "a small shiny bronze crown",
     "pencil": "a small yellow pencil, diagonal",
+    # 本日のイベント card, one per data/events visual_theme (event_<theme>)
+    "event_festival": "a red japanese paper lantern with a small festival fan, summer festival",
+    "event_roadworks": "an orange and white striped traffic cone next to a small yellow road barrier",
+    "event_sun": "a bright smiling yellow sun with a cold drink bottle and an ice pop",
+    "event_cold": "a steaming bowl of japanese oden with a white snowflake",
+    "event_dessert": "a cute strawberry shortcake slice and a custard pudding cup",
+    "event_snack": "an open bag of potato chips with chips spilling out",
+    "event_social": "a pink speech bubble with a heart and a small smartphone",
+    "event_quiet": "a sleepy grey cloud with a small breeze swirl, calm and quiet",
+    "event_lunch": "a japanese rice ball onigiri wrapped in nori next to a small bento box",
+    "event_drink": "a cold plastic drink bottle and a can with water droplets",
+    "event_bread": "a golden melon pan and a croissant, freshly baked bread",
+    "event_evening": "a crescent moon over a small glowing street lamp, evening",
 }
 NEGATIVE = ("low quality, worst quality, blurry, text, letters, words, numbers, logo, brand name, watermark, people, "
             "person, hands, background scenery, multiple objects, cropped, frame, border")
