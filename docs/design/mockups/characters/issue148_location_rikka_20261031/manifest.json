@@ -1,0 +1,10 @@
+{
+  "asset_id": "issue148_location_selection_rikka_20261031",
+  "kind": "ui_mockup",
+  "issue": 148,
+  "character_identity": "Koharu Rikka (user-specified reference; rights review required before production redistribution)",
+  "source": "generated with user-provided character reference",
+  "runtime_connected": false,
+  "file": "issue148_location_selection_rikka.png",
+  "screen_role": "initial location selection, four profile comparison, hourly traffic preview, popular categories, and persistent location guidance"
+}
