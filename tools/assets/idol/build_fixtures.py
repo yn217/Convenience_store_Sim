@@ -1,10 +1,11 @@
 """Renders every fixture of tools/assets/idol/fixtures.json into assets/generated/fixtures/<type>/ (body, shadow,
 glass_front layers + <type>_a.visual.json + RENDER_INFO.json). Run with the Idol venv python, from the repo root:
 
-    F:/AI_Tools/idol-sdk/.venv/Scripts/python.exe -I tools/assets/idol/build_fixtures.py [type ...] [--src DIR]
+    F:/AI_Tools/idol-sdk/.venv/Scripts/python.exe -I tools/assets/idol/build_fixtures.py [type ...] [--src DIR] [--backend gsplat_classic]
 
 --src: the Idol source folder (default: the primary checkout's assets/source/idol, where the PLYs and their
-reference images are kept with their manifests).
+reference images are kept with their manifests). --backend: passed to render_fixture_splat.py (gsplat_classic needs
+the gsplat venv, F:/AI_Tools/gsplat-venv/Scripts/python.exe).
 """
 import json
 import os
@@ -45,12 +46,17 @@ def main():
         i = args.index("--src")
         src = args[i + 1]
         del args[i:i + 2]
+    backend = []
+    if "--backend" in args:
+        i = args.index("--backend")
+        backend = ["--backend", args[i + 1]]
+        del args[i:i + 2]
     cfg = json.load(open(os.path.join(HERE, "fixtures.json"), encoding="utf-8"))
     for t in (args or [k for k in cfg if not k.startswith("_")]):
         c = cfg[t]
         out = os.path.join("assets/generated/fixtures", t)
         cmd = [sys.executable, "-I", os.path.join(HERE, "render_fixture_splat.py"), "--ply", os.path.join(src, c["ply"]),
-               "--type", t, "--front_yaw", str(c["front_yaw"]), "--out", out] + c.get("args", [])
+               "--type", t, "--front_yaw", str(c["front_yaw"]), "--out", out] + c.get("args", []) + backend
         subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
         os.replace(os.path.join(out, "render_info.json"), os.path.join(out, "RENDER_INFO.json"))
         provenance(t, c, src, out)

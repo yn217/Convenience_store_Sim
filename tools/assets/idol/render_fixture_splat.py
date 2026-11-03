@@ -4,6 +4,9 @@ tools/assets/pixal3d/render_fixture.py + crop_fixture.py.
     <idol venv python> -I tools/assets/idol/render_fixture_splat.py --ply reference.ply --type coffee_machine \
         --front_yaw 120 [--out assets/generated/fixtures/coffee_machine] [--preview sheet.png]
 
+--backend: the rasterizer (splat_backends.py): current (default, splat_render.py) or gsplat_classic, the same picture
+about 30-60x faster with far less VRAM (#238); gsplat needs its venv, F:/AI_Tools/gsplat-venv/Scripts/python.exe.
+
 --front_yaw: the azimuth of the model's front in the Idol frame (degrees, the camera.json convention: direction
 (sin yaw, cos yaw)); --preview writes an 8-view sheet (0, 45, ... 315) to pick it by eye.
 
@@ -24,6 +27,7 @@ import torch
 from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import splat_backends as B  # noqa: E402
 import splat_render as S  # noqa: E402
 
 HALF_W, HALF_H, Z_PX = 128.0, 64.0, 156.77
@@ -57,11 +61,11 @@ def clean(g, min_alpha=0.04, clip=True):
     return S.select(g, keep)
 
 
-def preview(g, path):
+def preview(g, path, rasterize=S.rasterize):
     tiles = []
     for k in range(8):
         J, v = S.orbit(math.radians(45 * k), math.radians(12), 380)
-        im = Image.fromarray(S.rasterize(g, J, v, (200, 210), (400, 420)), "RGBA")
+        im = Image.fromarray(rasterize(g, J, v, (200, 210), (400, 420)), "RGBA")
         bg = Image.new("RGBA", im.size, "white")
         bg.alpha_composite(im)
         ImageDraw.Draw(bg).text((8, 6), "yaw %d" % (45 * k), fill="red")
@@ -161,6 +165,7 @@ def main():
     p.add_argument("--out")
     p.add_argument("--visual_id")
     p.add_argument("--preview")
+    p.add_argument("--backend", default="current", choices=["current", "gsplat_classic"], help="the rasterizer (#238)")
     p.add_argument("--slots", type=float, nargs=5, metavar=("COLS", "ROWS", "Z", "X_HALF", "Y_HALF"),
                    help="product cells cell0.. on a grid over the body (front-S frame, metres), item bottoms at Z")
     p.add_argument("--stretch", type=float, default=STRETCH, help="how far one horizontal axis may stretch past the other")
@@ -173,9 +178,10 @@ def main():
     p.add_argument("--glass_above", type=float,
                    help="splats above this height on the viewer's half go to a glass_front layer drawn over the products")
     a = p.parse_args()
+    draw = B.BACKENDS[a.backend]
     g = clean(S.load(a.ply))
     if a.preview:
-        preview(g, a.preview)
+        preview(g, a.preview, draw)
         if not a.out:
             return
     d = next(f for f in json.load(open(FIXTURES, encoding="utf-8")) if f["type_id"] == a.type)
@@ -188,7 +194,7 @@ def main():
     body, info = fit(g, a.front_yaw, across, deep, dims["height"], a.stretch, a.deskew)
     if a.drop_above is not None:
         body = S.select(body, body["xyz"][:, 2] <= a.drop_above)
-    info.update({"cutaway": a.cutaway, "slots": a.slots, "glass_above": a.glass_above, "glass_alpha": a.glass_alpha, "drop_above": a.drop_above, "ply": a.ply, "type": a.type, "front_yaw": a.front_yaw, "access_edge": d["access_edges"][0]})
+    info.update({"backend": a.backend, "cutaway": a.cutaway, "slots": a.slots, "glass_above": a.glass_above, "glass_alpha": a.glass_alpha, "drop_above": a.drop_above, "ply": a.ply, "type": a.type, "front_yaw": a.front_yaw, "access_edge": d["access_edges"][0]})
     c30 = math.cos(math.radians(30)) / math.sqrt(2)
     view = torch.tensor([c30, c30, 0.5], device=S.DEV)      # towards the camera: 30 deg up, from game (+1, +1)
     J = torch.tensor([[HALF_W, -HALF_W, 0.0], [HALF_H, HALF_H, -Z_PX]], device=S.DEV)
@@ -217,10 +223,10 @@ def main():
         if a.glass_above is not None:
             q = gr["xyz"]
             near = (q[:, 2] > a.glass_above) & ((q[:, 0] - cx) + (q[:, 1] - cy) > 0)
-            glass = layer_image(S.rasterize(S.select(gr, near), J * SS, view, (ox * SS, oy * SS), (W * SS, H * SS)), (W, H))
+            glass = layer_image(draw(S.select(gr, near), J * SS, view, (ox * SS, oy * SS), (W * SS, H * SS)), (W, H))
             glass.putalpha(glass.getchannel("A").point(lambda v: round(v * a.glass_alpha)))
             gr = S.select(gr, ~near)
-        body_img = layer_image(S.rasterize(gr, J * SS, view, (ox * SS, oy * SS), (W * SS, H * SS)), (W, H))
+        body_img = layer_image(draw(gr, J * SS, view, (ox * SS, oy * SS), (W * SS, H * SS)), (W, H))
         gx = SHADOW_GROW_M
         sh = Image.new("L", (W, H), 0)
         pts = [(ox + iso(x, y)[0], oy + iso(x, y)[1]) for x, y in
