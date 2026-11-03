@@ -88,6 +88,16 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 3件ともイベントCGと未承認立ち絵が経営画面の専用行に収まり、イベント名・効果・操作UIを
 隠さないことを確認した。いずれもレビュー専用キャプチャであり、`runtime_approved` は変更していない。
 
+## 通常営業3解像度の配置確認（2026-11-03）
+
+- `build/character_core_normal_lowered_1280.png` — 1280x720
+- `build/character_core_normal_lowered_1600.png` — 1600x900
+- `build/character_core_normal_lowered_1920.png` — 1920x1080
+
+通常営業の同一表示を3解像度で確認した。小春六花の表示時クロップとメッセージ枠は、左メニューの下から
+下部メニュー直上までの表示域に収まり、下部メニューとの接触・重なりがない。元の全身画像ファイルは
+変更せず、表示時だけ `AssistantPilotBustupCrop` で切り抜く仕様を維持している。
+
 ## 機能イベントの追加レビュー（2026-11-03）
 
 - `build/character_review_staff_short_1280.png` — `story_staff_short` / `functional_staff_short`
