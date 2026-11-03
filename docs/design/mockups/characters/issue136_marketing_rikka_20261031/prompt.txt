@@ -1,0 +1,5 @@
+Use case: ui-mockup
+Asset type: one 16:9 game screen mockup for a Japanese convenience-store management simulation
+Primary request: Create one polished marketing campaign planning screen for Issue #136. Use the user-provided Koharu Rikka reference as the guide character.
+Composition: left navigation, center panel titled 「販促キャンペーン」 with tabs 「新規作成」「実施中」「実績」, media cards 「地域紙」「テレビCM」「ラジオCM」「ネット広告」, campaign fields 「目的」「対象カテゴリ」「時間帯」「予算」「実施期間」, right 「効果予測」 panel with 「想定リーチ」「来店数への影響」「広告費」「予測粗利益」 and button 「この内容で出稿」.
+Constraints: distinguish forecast from actual results, no real media company logos, no real brands, no seasonal event screen, one screen, one guide character, static mockup only.
