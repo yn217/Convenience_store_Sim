@@ -1,0 +1,31 @@
+{
+  "asset_id": "issue109_camera_framing_rikka",
+  "kind": "ui_mockup",
+  "issue": 109,
+  "title": "初期カメラ・ズーム比較画面 小春六花案",
+  "character_identity": "小春六花",
+  "source": "local ComfyUI generation",
+  "runtime_connected": false,
+  "file": "docs/design/mockups/characters/issue109_camera_framing_rikka.png",
+  "screen_role": "interior-priority and whole-store camera framing comparison",
+  "generation": {
+    "base_model": "Anima-Base-v1.0.safetensors",
+    "text_encoder": "qwen_3_06b_base.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "loras": [
+      {
+        "file": "Koharu-Koharu-epoch100.safetensors",
+        "trigger": "koharu_rikka",
+        "strength": 0.8
+      },
+      {
+        "file": "anima-style-epoch35-lr5e5.safetensors",
+        "trigger": "anima_style",
+        "strength": 0.8
+      }
+    ],
+    "width": 1024,
+    "height": 576,
+    "prompt_id": "adabf066-e681-4295-926d-6278df581a8d"
+  }
+}
