@@ -15,6 +15,8 @@ var save_dir := SaveStore.DIR
 var _continue: Button
 var _settings: VBoxContainer
 var _sound: CheckBox
+var _loading: Control
+var _start_pending := false
 
 
 func _ready() -> void:
@@ -117,6 +119,11 @@ func _ready() -> void:
 	col.add_child(_settings)
 	col.add_child(_button("Quit", "ゲームを終了", func(): get_tree().quit(), false))
 	refresh()
+	set_process(false)
+	# The game scene (about 5 s of scripts and pictures) loads in the background while the title is shown, so 新規ゲーム /
+	# 続きから only wait for what is left; headless runs (the tests) do not start it.
+	if DisplayServer.get_name() != "headless":
+		ResourceLoader.load_threaded_request(MAIN_SCENE, "", true)
 
 
 func _title_menu_style() -> StyleBoxFlat:
@@ -264,7 +271,7 @@ func refresh() -> void:
 
 func new_game() -> void:
 	AppRoot.start_slot = ""
-	get_tree().change_scene_to_file(MAIN_SCENE)
+	_start()
 
 
 ## Starts the game with the slot saved last.
@@ -273,7 +280,46 @@ func continue_game() -> void:
 	if slot == "":
 		return
 	AppRoot.start_slot = slot
-	get_tree().change_scene_to_file(MAIN_SCENE)
+	_start()
+
+
+## Shows 「お店を準備しています…」 at once, then changes scene when the background load is done (_process).
+func _start() -> void:
+	if _start_pending:
+		return
+	_start_pending = true
+	_show_loading()
+	set_process(true)
+
+
+func _process(_delta: float) -> void:
+	if not _start_pending:
+		return
+	var status := ResourceLoader.load_threaded_get_status(MAIN_SCENE)
+	if status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+		return
+	set_process(false)
+	var packed: PackedScene = ResourceLoader.load_threaded_get(MAIN_SCENE) if status == ResourceLoader.THREAD_LOAD_LOADED else load(MAIN_SCENE)
+	get_tree().change_scene_to_packed(packed)
+
+
+func _show_loading() -> void:
+	_loading = ColorRect.new()
+	_loading.name = "Loading"
+	(_loading as ColorRect).color = Color(0, 0, 0, 0.45)
+	_loading.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_loading.mouse_filter = Control.MOUSE_FILTER_STOP   # no second click while it loads
+	var label := Label.new()
+	label.text = "お店を準備しています…"
+	label.add_theme_font_size_override("font_size", 40)
+	label.add_theme_color_override("font_color", Color.WHITE)
+	label.add_theme_constant_override("outline_size", 8)
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.6))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_loading.add_child(label)
+	add_child(_loading)
 
 
 static func read_settings() -> Dictionary:

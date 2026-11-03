@@ -69,7 +69,17 @@ const COMPACT_WIDTH := 1280
 static var _texture_cache: Dictionary = {}
 
 
+static var _built: Theme
+
+
+## The game theme, built once and shared (the title and the game both use it; building took about 0.7 s).
 static func build() -> Theme:
+	if _built == null:
+		_built = _make()
+	return _built
+
+
+static func _make() -> Theme:
 	var theme := Theme.new()
 	# Frames: default panels are thick rounded game windows, cards are lifted with a shadow.
 	theme.set_stylebox("panel", "PanelContainer", _frame())
