@@ -333,9 +333,11 @@ func _show_selected(entry: Dictionary) -> void:
 	_reaction_image.visible = is_pilot_enabled() and is_reaction
 	_reaction_meta.visible = is_pilot_enabled() and is_reaction
 	_reaction_title.visible = is_pilot_enabled() and is_reaction
-	var details := "画面=%s / 条件=%s\n未承認候補のため、既存表示へのフォールバックを維持" % [
+	var approval_note := "通常ランタイム採用済み" if bool(entry.get("runtime_approved", false)) else "未承認候補のため、既存表示へのフォールバックを維持"
+	var details := "画面=%s / 条件=%s\n%s" % [
 		String(entry.get("screen_id", "")),
 		String(entry.get("trigger", "")),
+		approval_note,
 	]
 	if is_reaction:
 		_reaction_meta.text = "バストアップリアクション: %s\n%s" % [String(entry.get("id", "")), details]

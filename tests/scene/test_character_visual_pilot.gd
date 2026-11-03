@@ -51,6 +51,8 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.ok(panel.entry_allowed_for_mode(approved_gate_entry, false), "approved candidate is allowed in release mode")
 	t.ok(panel.entry_allowed_for_mode(gate_entry, true), "debug mode can inspect an unapproved candidate")
 	t.ok(not panel.entry_allowed_for_mode({"runtime_approved": true, "runtime_path": "res://missing_character.png"}, false), "missing approved texture is blocked")
+	t.ok(bool(panel._find("functional_low_stock").get("runtime_approved", false)), "approved pilot metadata is available to the review panel")
+	t.ok(not bool(panel._find("functional_expiry").get("runtime_approved", true)), "review-only pilot metadata remains unapproved")
 	panel.set_review_candidate("additional_001")
 	t.eq(panel.review_candidate_entry().get("asset_id", ""), "additional_001", "candidate review override resolves a placement asset")
 	t.eq(panel.review_candidate_entry().get("kind", ""), "fullbody", "full-body candidate review uses the assistant stage")
