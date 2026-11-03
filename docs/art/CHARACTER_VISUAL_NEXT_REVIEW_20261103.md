@@ -104,6 +104,14 @@ Godot表示ルートへ接続済みの未承認候補から11件を抽出した�
 focused runtime testでは、古い `functional_empty_handed` が残らないこと、日次レポートの
 立ち絵とメッセージが表示枠を維持することを確認した。修正対象の候補は引き続き未承認である。
 
+## タイトル背景の通常ルート確認（2026-11-03）
+
+- `build/title_core_1280.png` — 1280x720、承認済み `title_background_pilot`
+- `build/title_core_1920.png` — 1920x1080、承認済み `title_background_pilot`
+
+タイトル文字・実ボタン・お知らせUIをGodot側で描画し、画像内のメニュー文字との二重表示がないこと、
+背景に含まれる小春六花と別立ち絵を重ねていないことを確認した。
+
 ## 機能案内ポーズの追加レビュー（2026-11-03）
 
 - `build/character_review_order_help_1280.png` — `order_help` / `functional_order_help`
