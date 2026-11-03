@@ -1,0 +1,6 @@
+Use case: ui-mockup
+Asset type: one 16:9 in-game screen mockup for a Japanese convenience-store management simulation
+Primary request: Create one polished normal-play store main screen for Issue #105, using the user-provided Koharu Rikka reference as a guide character and the supplied store-main screenshot only as a layout reference.
+Composition: isometric store view, top HUD for time/season/funds/sales/visitors/rating, left navigation, bottom shortcuts, right panels for 「本日の状況」 and 「人気商品 TOP5」, bottom-right 「本日の目標」 and 「本日のイベント」, category pills above shelves. Do not show staff-management controls.
+Text: 「本日の状況」, 「人気商品 TOP5」, 「本日の目標」, 「本日のイベント」, 「客単価」, 「商品発注」, 「棚の編集」, 「キャンペーン」, 「設備・拡張」.
+Constraints: one screen, one guide character, no collage, no fake weather data, no repeat-rate metric, no real company branding, static mockup only.
