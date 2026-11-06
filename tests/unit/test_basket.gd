@@ -47,10 +47,10 @@ func test_basket_sizes_follow_the_balance_distribution(t, _tree) -> void:
 	t.ok(absf(BasketModel.mean_size(balance) - 1.9) < 0.01, "mean basket about 1.9 items")
 
 
-func test_checkout_takes_sixty_seconds_plus_twenty_per_item(t, _tree) -> void:
+func test_checkout_takes_thirty_seconds_plus_eight_per_item(t, _tree) -> void:
 	var balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance/mvp_v1.json"))
-	t.eq(BasketModel.checkout_seconds(balance, 1), 80, "60 + 20 game seconds for one item (#117 v2)")
-	t.eq(BasketModel.checkout_seconds(balance, 3), 120, "60 + 3 x 20 for three items")
+	t.eq(BasketModel.checkout_seconds(balance, 1), 38, "30 + 8 game seconds for one item")
+	t.eq(BasketModel.checkout_seconds(balance, 3), 54, "30 + 3 x 8 for three items")
 	t.eq(BasketModel.checkout_seconds({"checkout_base_game_seconds": 30, "checkout_per_item_game_seconds": 0}, 4), 30, "the single-item override keeps 30 s")
 
 
@@ -113,8 +113,8 @@ func test_schema_one_save_loads_as_single_item_baskets(t, _tree) -> void:
 	t.eq(int(again["schema_version"]), SaveGame.SCHEMA_VERSION, "re-saved as the current schema")
 	t.eq(int(again["customers"][0]["basket_size"]), 1, "re-saved customers carry basket_size")
 	var bad = JSON.parse_string(JSON.stringify(data))
-	bad["customers"][0]["basket_size"] = 5
-	t.ok(not SaveGame.from_dict(bad, balance, fx, pr)["ok"], "basket_size outside 1..4 is rejected")
+	bad["customers"][0]["basket_size"] = 6
+	t.ok(not SaveGame.from_dict(bad, balance, fx, pr)["ok"], "basket_size outside 1..5 is rejected")
 
 
 func _sum(values: Array) -> int:

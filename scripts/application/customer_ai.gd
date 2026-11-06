@@ -223,6 +223,8 @@ func _update(state: GameState, c: Dictionary) -> void:
 func _walk(state: GameState, c: Dictionary) -> bool:
 	var path: Array = c["path"]
 	var speed: float = float(state.balance.get("customer_walk_tiles_per_game_second", WALK_TILES_PER_STEP_FALLBACK))
+	if c["phase"] == "WALK_REGISTER" and int(c["queue_slot"]) >= 0:
+		speed *= float(state.balance.get("customer_queue_walk_factor", 1.0))   # steps up smartly: the till does not idle for a held slot
 	c["progress"] = float(c["progress"]) + speed * GameClock.STEP_GAME_SECONDS
 	while float(c["progress"]) >= 1.0 and not path.is_empty():
 		c["progress"] = float(c["progress"]) - 1.0

@@ -76,6 +76,7 @@ func test_same_seed_and_ticks_give_identical_arrivals(t, _tree) -> void:
 
 func test_one_arrivals_draw_per_open_step_and_other_streams_untouched(t, _tree) -> void:
 	var s := _state()
+	s.balance["base_potential_visitors_per_day"] = 0.0   # nobody comes: a visitor takes more arrivals draws
 	var runner := _open(s)
 	var ref := Lcg32.new(Seeds.ARRIVALS)
 	for i in 100:
@@ -110,6 +111,7 @@ func test_paused_setup_and_closing_change_nothing(t, _tree) -> void:
 func test_full_store_loses_visitors_and_empty_store_does_not_crash(t, _tree) -> void:
 	var s := _state()
 	s.balance["base_potential_visitors_per_day"] = 1.0e9   # p = 1 every step
+	s.balance["max_active_customers"] = 30
 	for i in 30:
 		s.customers.append({"customer_id": "x%d" % i, "phase": "CHECKOUT", "checkout_left": 1000000000, "register_id": "r", "reservation_ids": [], "queue_slot": -1, "tile": Vector2i(1, 1)})
 	var runner := _open(s)

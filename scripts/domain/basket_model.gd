@@ -6,7 +6,7 @@ extends RefCounted
 ## single-item model stays bit-for-bit identical. Pure functions.
 
 const MIN_SIZE := 1
-const MAX_SIZE := 4
+const MAX_SIZE := 5
 const DEFAULT_CHECKOUT_BASE_SEC := 20
 const DEFAULT_CHECKOUT_PER_ITEM_SEC := 8
 

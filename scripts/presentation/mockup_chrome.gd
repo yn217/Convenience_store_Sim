@@ -425,16 +425,16 @@ func apply_snapshot(s: Dictionary) -> void:
 	_labels["Day"].text = "DAY %d" % day
 	_labels["Date"].text = "%s（%s）" % [GameCalendar.month_week_text(day, days_per_month), GameCalendar.season_of(day, days_per_month)]
 	_labels["Clock"].text = GameHud.format_clock(int(s["time_sec"]))
-	_labels["Cash"].text = GameHud.format_yen(int(s["cash_yen"]))
+	MockStyle.set_fitted(_labels["Cash"], GameHud.format_yen(int(s["cash_yen"])))
 	var t := MetricBar.texts(s)
 	var n := MetricBar.numbers(s)
-	_labels["Sales"].text = t["sales"]
-	_labels["Profit"].text = t["profit"]
-	_labels["Visitors"].text = "%d人" % n["customers"]
-	_labels["MSales"].text = t["sales"]
-	_labels["MProfit"].text = t["profit"]
-	_labels["MCustomers"].text = "%d人" % n["customers"]
-	_labels["MUnit"].text = t["unit_price"]
+	MockStyle.set_fitted(_labels["Sales"], t["sales"])
+	MockStyle.set_fitted(_labels["Profit"], t["profit"])
+	MockStyle.set_fitted(_labels["Visitors"], "%d人" % n["customers"])
+	MockStyle.set_fitted(_labels["MSales"], t["sales"])
+	MockStyle.set_fitted(_labels["MProfit"], t["profit"])
+	MockStyle.set_fitted(_labels["MCustomers"], "%d人" % n["customers"])
+	MockStyle.set_fitted(_labels["MUnit"], t["unit_price"])
 	var goal := MetricBar.next_goal(s.get("milestone_progress", []))
 	var ratio := 1.0
 	if goal.is_empty():

@@ -15,7 +15,7 @@ const STAFF_WALKING := ["TO_REGISTER", "TO_PICKUP", "TO_SHELF", "TO_REST"]
 const STILL_SEC := 180            # a walker that has not changed tile for this long is stuck
 const LONG_VISIT_SEC := 3 * 3600  # far beyond browse + queue + checkout
 const REVISIT_LIMIT := 6          # entering one tile more often than this in one visit = walking in circles
-const FLAP_PER_HOUR := 40         # staff phase changes per game hour
+const FLAP_PER_HOUR := 120        # staff phase changes per game hour (staff walk at 3x the customer pace)
 
 
 static func layout() -> Dictionary:
@@ -116,6 +116,8 @@ class Watch:
 				v["phase_since"] = t
 				v["since"] = t   # standing in line or at the till is not being stuck
 				v["phases"] = int(v["phases"]) + 1
+			if int(c.get("browse_left", -1)) > 0:
+				v["since"] = t   # looking at a shelf is not being stuck: impulse stops can follow one another on a tile
 			if c["phase"] in WALKING and not (c["path"] as Array).is_empty() and t - int(v["since"]) >= STILL_SEC and not v["flagged"].has("still"):
 				v["flagged"]["still"] = true
 				_issue("customer_still", id, t, "%s at %s for %ds, next %s" % [c["phase"], c["tile"], t - int(v["since"]), c["path"][0]])

@@ -62,6 +62,18 @@ static func label(parent: Control, text: String, r: Rect2, px: int, color: Color
 	return l
 
 
+## Sets a figure on a fixed-width label: a text too wide for the label is drawn smaller, never cut off.
+static func set_fitted(l: Label, text: String, min_px := 11) -> void:
+	if l.text == text:
+		return
+	l.text = text
+	var base := int(l.get_meta("base_px", l.get_theme_font_size("font_size")))
+	l.set_meta("base_px", base)
+	var width := l.get_theme_font("font").get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, base).x
+	var px := base if width <= l.size.x else maxi(min_px, floori(base * l.size.x / width))
+	l.add_theme_font_size_override("font_size", px)
+
+
 static func style_label(l: Control, px: int, color: Color, weight := "ExtraBold", outline := 0, outline_color := Color(0, 0, 0, 0.55)) -> void:
 	l.add_theme_font_override("font", font(weight))
 	l.add_theme_font_size_override("font_size", px)

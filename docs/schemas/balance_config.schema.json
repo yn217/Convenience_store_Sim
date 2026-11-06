@@ -49,6 +49,10 @@
       "type": "integer",
       "minimum": 1
     },
+    "customer_queue_walk_factor": {
+      "type": "number",
+      "minimum": 1
+    },
     "customer_walk_tiles_per_game_second": {
       "type": "number",
       "exclusiveMinimum": 0

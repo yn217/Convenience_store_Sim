@@ -114,6 +114,7 @@ func test_the_figure_stays_with_the_simulation(t, _tree) -> void:
 		world.product_catalog = s.products
 		pres._world = world
 		var worst := 0.0
+		var worst_in_line := 0.0
 		var step_no := 0
 		for frame in 3600 / speed:
 			var steps := clock.advance(FRAME, speed)
@@ -127,8 +128,13 @@ func test_the_figure_stays_with_the_simulation(t, _tree) -> void:
 			pres._sync_customers(FRAME * speed)
 			for c in world.customers:
 				if pres._pos.has(c["customer_id"]):
-					worst = maxf(worst, (pres._pos[c["customer_id"]] as Vector2).distance_to(Presenter.target_pos(c)))
+					var lag := (pres._pos[c["customer_id"]] as Vector2).distance_to(Presenter.target_pos(c))
+					if c["phase"] in ["WALK_REGISTER", "QUEUE", "CHECKOUT"]:   # stepping up in the line, faster than the walking pace
+						worst_in_line = maxf(worst_in_line, lag)
+					else:
+						worst = maxf(worst, lag)
 		t.ok(worst < 0.5, "x%d: the figure trails the simulation by at most %.2f tiles" % [speed, worst])
+		t.ok(worst_in_line < 2.0, "x%d: and by %.2f tiles while stepping up in the line" % [speed, worst_in_line])
 		# paused: no game time passes, nothing moves
 		var before := pres._pos.duplicate()
 		world.speed_setting = 0

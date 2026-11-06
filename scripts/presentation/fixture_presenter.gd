@@ -217,7 +217,10 @@ func _walk(id: String, tr: Walk, path: Array, progress: float, real: float, pace
 	# Pace: walk at the calm pace while the simulation is ahead (faster only when far behind), and brake so the
 	# figure comes to rest on its position instead of stopping dead.
 	var lag_free := LAG_FOLLOW if _follow else WALK_LAG_FREE
-	var goal := clampf(pace + maxf(want - lag_free, 0.0) * 1.5, pace, WALK_MAX) if want > 0.001 else 0.0
+	# Following the simulation, a figure catches up hard: people step up in the line faster than they walk.
+	var catch_up := 8.0 if _follow else 1.5
+	var top := WALK_MAX * float(maxi(_world.speed_setting, 1)) if _follow else WALK_MAX
+	var goal := clampf(pace + maxf(want - lag_free, 0.0) * catch_up, pace, top) if want > 0.001 else 0.0
 	var v := move_toward(tr.v, goal, _accel * real)
 	v = minf(v, sqrt(2.0 * _accel * want))
 	tr.v = v

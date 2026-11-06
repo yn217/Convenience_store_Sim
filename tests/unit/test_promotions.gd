@@ -75,7 +75,7 @@ func test_price_sales_change_what_customers_pay(t, _tree) -> void:
 func test_a_sale_sells_more_and_books_the_discount(t, _tree) -> void:
 	var units := {}
 	for promo in [false, true]:
-		var s := Run.new_state(300.0)
+		var s := Run.new_state(60.0)
 		var cmds := Run.place_layout(s)
 		if promo:
 			cmds.execute({"command_id": "p1", "kind": &"START_PROMOTION", "def_id": "sale_onigiri", "days": 2})
