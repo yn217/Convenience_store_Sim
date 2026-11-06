@@ -93,11 +93,14 @@ func _run() -> void:
 	t1 = Time.get_ticks_usec()
 	for i in 30:
 		s.snapshot()
+	var snapshot_ms := float(Time.get_ticks_usec() - t1) / 1000.0 / 30.0
 	t1 = Time.get_ticks_usec()
 	for i in 10:
 		app._publish_snapshot()
 	var publish_ms := float(Time.get_ticks_usec() - t1) / 1000.0 / 10.0
-	var snapshot_ms := float(Time.get_ticks_usec() - t1) / 1000.0 / 30.0
+	var publish_parts := _time_views(main, s.snapshot())
+	print("PUBLISHPARTS ", publish_parts)
+	print("SNAPSHOT_MS ", snapshot_ms, " PUBLISH_MS ", publish_ms)
 	for i in WARMUP:
 		await process_frame
 	if OS.get_cmdline_user_args().has("probe"):
@@ -154,7 +157,7 @@ func _run() -> void:
 	var info := {
 		"conditions": {"store": "16x12", "fixtures_placed": s.grid.instances.size(), "customers_in_store": s.customers.size(), "window": str(get_root().size), "speed": s.speed_setting, "frames": FRAMES},
 		"by_speed": by_speed,
-		"sim_step_ms": sim_ms, "compose_ms": compose_ms, "snapshot_ms": snapshot_ms, "publish_ms": publish_ms,
+		"sim_step_ms": sim_ms, "compose_ms": compose_ms, "snapshot_ms": snapshot_ms, "publish_ms": publish_ms, "publish_parts": publish_parts,
 		"video_mem_mb": float(RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_VIDEO_MEM_USED)) / 1048576.0,
 		"environment": {"godot": Engine.get_version_info()["string"], "os": OS.get_name() + " " + OS.get_version(), "gpu": RenderingServer.get_video_adapter_name(), "renderer": str(ProjectSettings.get_setting("rendering/renderer/rendering_method")), "cpu": OS.get_processor_name(), "threads": OS.get_processor_count()},
 	}
@@ -171,3 +174,19 @@ func _time_steps(app: Node, steps: int) -> float:
 	for i in steps:
 		app.runner._run_step()
 	return float(Time.get_ticks_usec() - t0) / 1000.0 / float(steps)
+
+
+## Cost of one apply_snapshot per view that has one, slowest first (ms).
+func _time_views(main: Node, snap: Dictionary) -> Dictionary:
+	var views: Array = main.find_children("*", "Node", true, false).filter(func(n): return n.has_method("apply_snapshot"))
+	var rows: Array = []
+	for v in views:
+		var t0 := Time.get_ticks_usec()
+		for i in 5:
+			v.apply_snapshot(snap)
+		rows.append([String(v.name), float(Time.get_ticks_usec() - t0) / 5000.0])
+	rows.sort_custom(func(a, b): return a[1] > b[1])
+	var parts := {}
+	for r in rows:
+		parts[r[0]] = r[1]
+	return parts

@@ -24,6 +24,8 @@ var _balance: Dictionary
 var _fixtures: FixtureCatalog
 var cue_bridge := PresentationEventBridge.new()
 const PUBLISH_INTERVAL := 0.05
+const PANEL_REFRESH_EVERY := 20   # a panel nobody is looking at refreshes on every 20th timed publish (once a second)
+var _timed_publishes := 0
 var _since_publish := 0.0
 var _publish_pending := false
 var _products: ProductCatalog
@@ -114,7 +116,8 @@ func _process(delta: float) -> void:
 	if _publish_pending and _since_publish >= PUBLISH_INTERVAL:
 		_since_publish = 0.0
 		_publish_pending = false
-		_publish_snapshot()
+		_timed_publishes += 1
+		_publish_snapshot(_timed_publishes % PANEL_REFRESH_EVERY != 0)
 
 
 ## Cue definitions -> the bridge. A bad file only costs the decoration (reported once), never the game.
@@ -275,7 +278,19 @@ func _on_selection_changed(tile: Vector2i) -> void:
 		main.show_selection(tile)
 
 
-func _publish_snapshot() -> void:
+## Does this controller's panel need the refresh: always outside a light one, else when a control of its own shows (a controller without one of these fields keeps the once-a-second refresh).
+func _panel_due(view: Node, light: bool) -> bool:
+	if not light:
+		return true
+	for f in ["_box", "_chart", "_summary", "_status", "_products"]:
+		var c = view.get(f)
+		if c is CanvasItem and (c as CanvasItem).is_visible_in_tree():
+			return true
+	return false
+
+
+## `light`: the clock's frequent refresh leaves out the panels that are not on screen (a command always refreshes all).
+func _publish_snapshot(light := false) -> void:
 	var snap := state.snapshot()
 	var world := _world()
 	if world != null and world.has_method("apply_snapshot"):
@@ -288,34 +303,34 @@ func _publish_snapshot() -> void:
 		guide.apply_snapshot(snap)
 		guide.show_events(state.take_progression_events())
 	var business := get_node_or_null("../BusinessController")
-	if business != null and business.has_method("apply_snapshot") and business.is_node_ready() and business.get("_tiers") != null and not business._tiers.is_empty():
+	if business != null and business.has_method("apply_snapshot") and business.is_node_ready() and business.get("_tiers") != null and not business._tiers.is_empty() and _panel_due(business, light):
 		business.apply_snapshot(snap)
 	var staffer := get_node_or_null("../StaffController")
-	if staffer != null and staffer.is_node_ready() and staffer.get("_summary") != null:
+	if staffer != null and staffer.is_node_ready() and staffer.get("_summary") != null and _panel_due(staffer, light):
 		staffer.apply_snapshot(snap)
 	var promoter := get_node_or_null("../PromotionController")
-	if promoter != null and promoter.is_node_ready() and promoter.get("_box") != null:
+	if promoter != null and promoter.is_node_ready() and promoter.get("_box") != null and _panel_due(promoter, light):
 		promoter.apply_snapshot(snap)
 	var media := get_node_or_null("../MediaController")
-	if media != null and media.is_node_ready() and media.get("_box") != null:
+	if media != null and media.is_node_ready() and media.get("_box") != null and _panel_due(media, light):
 		media.apply_snapshot(snap)
 	var kuji := get_node_or_null("../LotteryController")
-	if kuji != null and kuji.is_node_ready() and kuji.get("_box") != null:
+	if kuji != null and kuji.is_node_ready() and kuji.get("_box") != null and _panel_due(kuji, light):
 		kuji.apply_snapshot(snap)
 	var reporter := get_node_or_null("../ReportController")
-	if reporter != null and reporter.has_method("apply_snapshot") and reporter.is_node_ready() and reporter.get("_chart") != null:
+	if reporter != null and reporter.has_method("apply_snapshot") and reporter.is_node_ready() and reporter.get("_chart") != null and _panel_due(reporter, light):
 		reporter.apply_snapshot(snap)
 	var stocker := get_node_or_null("../StockController")
-	if stocker != null and stocker.has_method("apply_snapshot") and stocker.is_node_ready() and stocker.get("_products") != null:
+	if stocker != null and stocker.has_method("apply_snapshot") and stocker.is_node_ready() and stocker.get("_products") != null and _panel_due(stocker, light):
 		stocker.apply_snapshot(snap)
 	var pricer := get_node_or_null("../PriceController")
-	if pricer != null and pricer.has_method("apply_snapshot") and pricer.is_node_ready() and pricer.get("_products") != null:
+	if pricer != null and pricer.has_method("apply_snapshot") and pricer.is_node_ready() and pricer.get("_products") != null and _panel_due(pricer, light):
 		pricer.apply_snapshot(snap)
 	var eventer := get_node_or_null("../EventController")
-	if eventer != null and eventer.is_node_ready() and eventer.get("_status") != null:
+	if eventer != null and eventer.is_node_ready() and eventer.get("_status") != null and _panel_due(eventer, light):
 		eventer.apply_snapshot(snap)
 	var visual_pilot := get_node_or_null("../CharacterVisualPilotPanel")
-	if visual_pilot != null and visual_pilot.is_node_ready() and visual_pilot.has_method("apply_snapshot"):
+	if visual_pilot != null and visual_pilot.is_node_ready() and visual_pilot.has_method("apply_snapshot") and not light:
 		visual_pilot.apply_snapshot(snap)
 	var fixture_card := get_node_or_null("../FixtureCard")
 	if fixture_card != null and fixture_card.is_node_ready():
