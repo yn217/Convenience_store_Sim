@@ -94,6 +94,9 @@ const WALK_MAX := 12.0   # 0.2 tile per frame at 60 fps: no jumps
 ## brakes so that it trails the simulation by at most about LAG_FOLLOW tiles (what a click shows is where it stands).
 const FOLLOW_PACE := 1.1
 const LAG_FOLLOW := 0.3
+## The figure is never further behind than this while following (#117: a click shows where the customer stands, within
+## a tile). It holds in the line too, where customers step up faster than the figure's pace allows.
+const LAG_MAX := 0.9
 var _follow := false
 var _accel := WALK_ACCEL
 ## Start and stop: the pace changes by at most this much per real second (tiles/s per s), so figures never snap.
@@ -229,6 +232,8 @@ func _walk(id: String, tr: Walk, path: Array, progress: float, real: float, pace
 	# crosses a tile boundary, which is rare per frame (pace 0.08 tile per frame at x1).
 	if s > s0 and int(floor(s)) > int(floor(s0)):
 		s = _clip_at_turn(hist, path, s0, s)
+	if _follow:
+		s = maxf(s, target - LAG_MAX)   # still on the path: only the frame's step may round a corner
 	tr.s = s
 	tr.hold = maxf(tr.hold - real, 0.0)
 	var pos := _point_on(hist, path, s)

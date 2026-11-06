@@ -134,7 +134,7 @@ func test_the_figure_stays_with_the_simulation(t, _tree) -> void:
 					else:
 						worst = maxf(worst, lag)
 		t.ok(worst < 0.5, "x%d: the figure trails the simulation by at most %.2f tiles" % [speed, worst])
-		t.ok(worst_in_line < 2.0, "x%d: and by %.2f tiles while stepping up in the line" % [speed, worst_in_line])
+		t.ok(worst_in_line < 1.0, "x%d: and by %.2f tiles while stepping up in the line" % [speed, worst_in_line])
 		# paused: no game time passes, nothing moves
 		var before := pres._pos.duplicate()
 		world.speed_setting = 0
