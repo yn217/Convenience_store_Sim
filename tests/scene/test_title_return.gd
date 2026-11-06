@@ -86,3 +86,22 @@ func test_leaving_without_saving_opens_the_title(t, tree) -> void:
 	if tree.current_scene != null and tree.current_scene.scene_file_path == TitleReturnController.TITLE_SCENE:
 		tree.current_scene.queue_free()
 	await tree.process_frame
+
+
+func test_the_window_close_button_asks_first(t, tree) -> void:
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	tree.root.add_child(main)
+	await tree.process_frame
+	await tree.process_frame
+	t.ok(not tree.auto_accept_quit, "in a game the close button does not end the process by itself")
+	var dialog := main.get_node("ReturnToTitleDialog") as ConfirmationDialog
+	main.get_node("WindowCloseGuard").notification(Node.NOTIFICATION_WM_CLOSE_REQUEST)
+	t.ok(dialog.visible, "the save question comes up")
+	t.ok(tree.paused, "and the game waits for the answer")
+	dialog.canceled.emit()
+	dialog.hide()
+	t.ok(not tree.paused, "cancel goes back to the game")
+	main.queue_free()
+	await tree.process_frame
+	await tree.process_frame
+	t.ok(tree.auto_accept_quit, "without a game the close button closes at once")

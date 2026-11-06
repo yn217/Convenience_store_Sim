@@ -50,6 +50,9 @@ var _window_header: Control
 
 
 func _ready() -> void:
+	var close_guard := WindowCloseGuard.new()
+	close_guard.name = "WindowCloseGuard"
+	add_child(close_guard)
 	theme = UiTheme.build()
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_palette = $Layout/MainArea/BuildPalette
