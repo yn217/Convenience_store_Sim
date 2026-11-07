@@ -12,7 +12,7 @@ SOURCE_TYPES = {"Blender", "AI", "third-party", "code", "Blender + AI design ref
 BAD = {"", "—", "-", "unknown", "不明", "未確認", "tbd"}
 
 
-def parse(root: Path):
+def parse(root: Path, malformed: list | None = None):
     rows = []
     for line in (root / "docs/ASSET_CREDITS.md").read_text(encoding="utf-8").splitlines():
         if not line.startswith("|") or line.startswith("|---") or line.startswith("|asset_id"):
@@ -20,12 +20,14 @@ def parse(root: Path):
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         if len(cells) == 9:
             rows.append(dict(zip(["asset_id", "path", "source_type", "source", "model", "license", "date", "review", "redistribution"], cells)))
+        elif malformed is not None:
+            malformed.append(f"{cells[0]}: ledger row has {len(cells)} cells, expected 9")
     return rows
 
 
 def problems(root: Path):
     out = []
-    rows = parse(root)
+    rows = parse(root, out)
     if not rows:
         out.append("no rows in the ledger")
     ids = set()

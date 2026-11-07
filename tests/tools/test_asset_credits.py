@@ -35,6 +35,11 @@ class Credits(unittest.TestCase):
         self.assertEqual(len([i for i in ids if i.startswith("fixture_")]), 28)
         self.assertEqual(len([i for i in ids if i.startswith("customer_")]), 3)
 
+    def test_a_row_with_the_wrong_cell_count_is_reported(self):
+        ledger = self.tmp / "docs" / "ASSET_CREDITS.md"
+        ledger.write_text(ledger.read_text(encoding="utf-8") + "\n|short_row|assets/generated|code|yes|\n", encoding="utf-8")
+        self.assertTrue(any("short_row: ledger row has 4 cells" in p for p in cc.problems(self.tmp)))
+
     def test_unlisted_asset_is_found(self):
         (self.tmp / "assets/generated/fixtures/new_thing").mkdir()
         self.assertTrue(any("without a ledger row" in p for p in cc.problems(self.tmp)))
