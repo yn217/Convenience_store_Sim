@@ -386,3 +386,8 @@ func test_a_collab_fair_with_limited_goods(t, _tree) -> void:
 	t.ok(sold > 0, "fans bought the goods (%d)" % sold)
 	t.ok(PromotionController.promo_line({"display_name": "x", "kind": "collab", "running": {"days_left": 1, "stats": {}}}).contains("限定グッズ"), "the card says so")
 
+
+func test_percent_off_never_rounds_back_to_the_list_price(t, _tree) -> void:
+	t.eq(Promotions.percent_price(200, 20.0), 160, "normal prices stay on the 10 yen grid")
+	t.eq(Promotions.percent_price(50, 10.0), 45, "a cheap item keeps its discount")
+	t.eq(Promotions.percent_price(200, 0.0), 200, "no discount, no change")

@@ -53,6 +53,13 @@ static func running(state: GameState) -> Array:
 	return state.promotions.filter(func(p): return int(p["start_day"]) <= state.day and state.day <= int(p["end_day"]))
 
 
+## A percent-off price on the 10 yen grid. A cheap item that would round back to its list price keeps the exact price.
+static func percent_price(list: int, percent_off: float) -> int:
+	var exact := float(list) * (100.0 - percent_off) / 100.0
+	var rounded := int(round(exact / 10.0)) * 10
+	return rounded if rounded < list or percent_off <= 0.0 else int(round(exact))
+
+
 ## The effective price of a SKU now: the lowest of the running price promotions that cover it (in their hours),
 ## or the list price. -> {price, promotion_id}.
 static func price_now(state: GameState, sku_id: String, list: int) -> Dictionary:
@@ -71,7 +78,7 @@ static func price_now(state: GameState, sku_id: String, list: int) -> Dictionary
 		if d.has("fixed_price_yen"):
 			price = int(d["fixed_price_yen"])
 		elif d.has("percent_off"):
-			price = int(round(float(list) * (100.0 - float(d["percent_off"])) / 100.0 / 10.0)) * 10
+			price = percent_price(list, float(d["percent_off"]))
 		price = clampi(price, 1, list)
 		if price < int(best["price"]):
 			best = {"price": price, "promotion_id": p["promotion_id"]}
