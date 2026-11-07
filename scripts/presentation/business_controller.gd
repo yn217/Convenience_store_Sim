@@ -390,7 +390,10 @@ func _yen_or_none(yen: int) -> String:
 
 
 func start_business() -> CommandResult:
-	return _send({"kind": &"START_BUSINESS"})
+	var r := _send({"kind": &"START_BUSINESS"})
+	if r.ok and not bool(r.data.get("opened", true)):
+		_status.text = "工事は終わりましたが、資金が足りず開店できません"
+	return r
 
 
 func request_close() -> CommandResult:

@@ -242,6 +242,8 @@ func _start_business(command_id: String) -> CommandResult:
 		_pass_construction_days(work)
 	if not BusinessService.day_charged(_state, _state.day):
 		if BusinessService.total(BusinessService.day_costs(_state)) > _state.cash_yen:
+			if work > 0:   # the work days already passed and were charged: keep them, only the opening waits
+				return _commit(command_id, ["%s:CONSTRUCTION_FINISHED" % command_id], {"construction_days": work, "opened": false})
 			return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
 		BusinessService.charge_day(_state, _state.day, false)
 	_state.business_state = GameState.OPEN

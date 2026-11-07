@@ -123,3 +123,25 @@ func test_expansion_work_keeps_the_store_shut(t, _tree) -> void:
 	var again := cmds.execute({"command_id": "open2", "kind": &"START_BUSINESS"})
 	t.ok(not again.ok, "only once")
 
+
+## A bill that lands during the work (a branch's day) can leave too little for the opening day. The finished work
+## stays booked and the command says so, instead of failing with the days already gone.
+class DrainedDuringWork extends GameCommands:
+	func _pass_construction_days(days: int) -> void:
+		super(days)
+		_state.ledger.cash_yen = 0
+
+
+func test_work_stays_done_when_the_opening_day_cannot_be_paid(t, _tree) -> void:
+	var s := Run.new_state(100.0)
+	var cmds := Run.place_layout(s)
+	t.ok(cmds.execute({"command_id": "ex", "kind": &"EXPAND_STORE"}).ok, "extended")
+	Run.restock(s, cmds, 0)
+	var day0 := s.day
+	var days := s.construction_days
+	var r := DrainedDuringWork.new(s).execute({"command_id": "open", "kind": &"START_BUSINESS"})
+	t.ok(r.ok, "the finished work is committed: %s" % r.message_key)
+	t.eq(r.data.get("opened", true), false, "the result says the store did not open")
+	t.eq(s.business_state, GameState.SETUP, "the store stays shut")
+	t.eq(s.construction_days, 0, "no work is left to repeat")
+	t.eq(s.day, day0 + days, "the days of work stay passed")
