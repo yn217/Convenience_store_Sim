@@ -32,7 +32,7 @@
       "status": "runtime_approved",
       "runtime_approved": true,
       "fallback": "existing_title_background",
-      "review_note": "QA hold: bright spring sakura composition is the current title pilot; Godot UI remains separate and visual/rights review is still required",
+      "review_note": "採用確認済みのタイトル背景パイロット。人物入り背景を使用し、Godot UIと追加立ち絵は重ねない",
       "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
@@ -60,7 +60,7 @@
       "status": "runtime_approved",
       "runtime_approved": true,
       "fallback": "text_only",
-      "review_note": "売場設備の配置を示すカードを持つ候補。建設モードの表示専用パイロットで、手指・衣装・権利確認は継続",
+      "review_note": "採用確認済み。売場設備の配置を示すカードを持つ建設モード表示用パイロット",
       "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },
     {
@@ -141,7 +141,7 @@
       "status": "runtime_approved",
       "runtime_approved": true,
       "fallback": "fullbody_emotion_05",
-      "review_note": "重複キャラクターが残るreaction_031から、同じ初回売上向けの達成表情を持つreaction_022へ差し替え。生成された吹き出しはGodot側の記号レイヤーとして除去し、手指・境界・権利確認は継続",
+      "review_note": "採用確認済み。重複キャラクターを避けたreaction_022へ差し替え、吹き出し・記号はGodot側の独立レイヤーで表示",
       "overlay_symbol": "",
       "approval_recorded_at": "2026-11-02T18:33:10.092811+00:00"
     },

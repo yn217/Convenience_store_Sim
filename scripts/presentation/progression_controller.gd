@@ -26,13 +26,13 @@ const BUBBLE_WIDTH := 420
 # the viewport edge.  The small rightward correction also applies to the
 # display-time bust-up crop; source PNGs are never modified.
 const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 200.0
-# Lift the portrait a little farther above the bottom chrome.  This is the
-# figure anchor; the dialogue bubble keeps its independently tuned lower slot.
-const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 52.0
+# Keep the portrait just above the bottom chrome. This is the figure anchor;
+# the source full-body PNG is still cropped only by the display frame.
+const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 12.0
 const BUBBLE_BOTTOM := Layout.CHROME_BOTTOM + 12.0
-# Keep the line panel aligned with the portrait's lower-left presentation area,
-# leaving the character face unobstructed and placing the dialogue a little lower.
-const BUBBLE_TOP_DROP := 92.0
+# Lower the line panel with the portrait so its bottom also sits just above the
+# bottom chrome while keeping the face unobstructed.
+const BUBBLE_TOP_DROP := 205.0
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
 const BLOCKED_LINE := "大変です、店長…！費用が払えなくて、お店が止まってしまいました。セーブからやり直しましょう。"
@@ -280,7 +280,11 @@ func _refresh_stage() -> void:
 	# screen cue such as opening_checklist.
 	var event_pilot_suppressed := _suppressed_by.has("event_pilot")
 	var build_suppressed := _suppressed_by.has("build")
-	_stage.visible = not event_pilot_suppressed and not build_suppressed and (_suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
+	var day_end_overlay := _day_remark != ""
+	# The report card is a presentation overlay, not a management screen. Keep
+	# Rikka and her message visible beside it even while the underlying window
+	# suppression is active.
+	_stage.visible = not event_pilot_suppressed and not build_suppressed and (day_end_overlay or _suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or day_end_overlay or cue != "" or _pilot_cue_id != "")
 	if warn:
 		set_mood("worried")
 	else:
@@ -318,10 +322,13 @@ func refresh_visual_pilot() -> void:
 				reaction_entry = review_candidate
 			else:
 				entry = review_candidate
+		elif _day_remark != "" and pilot.has_method("day_end_entry"):
+			# The day-end report owns the assistant stage while its card is open.
+			# A short-lived screen cue may still be active when the report opens;
+			# it must not leave the previous pose visible over the report.
+			entry = pilot.day_end_entry(_day_mood)
 		elif _pilot_cue_id != "" and pilot.has_method("cue_entry"):
 			entry = pilot.cue_entry(_pilot_cue_id)
-		elif _day_remark != "" and pilot.has_method("day_end_entry"):
-			entry = pilot.day_end_entry(_day_mood)
 		else:
 			entry = pilot.stage_entry(_snap)
 			if pilot.has_method("reaction_entry"):
@@ -350,6 +357,9 @@ func refresh_visual_pilot() -> void:
 		# A screen-scoped pilot cue is allowed to remain above the management window.
 		# Reassert this after snapshot/window callbacks so the parent presentation node
 		# cannot accidentally hide an explicitly requested visual route.
+		_stage.visible = true
+	if _day_remark != "" and not _suppressed_by.has("event_pilot") and not _suppressed_by.has("build") and not _opening_cutin_active and (usable or reaction_usable):
+		# The day-end report owns the assistant slot beside the report card.
 		_stage.visible = true
 	var chrome := get_node_or_null("../MockupChrome")
 	if chrome != null and chrome.has_method("set_pilot_assistant_visible"):

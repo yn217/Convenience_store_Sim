@@ -51,6 +51,8 @@ func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	t.ok(panel.entry_allowed_for_mode(approved_gate_entry, false), "approved candidate is allowed in release mode")
 	t.ok(panel.entry_allowed_for_mode(gate_entry, true), "debug mode can inspect an unapproved candidate")
 	t.ok(not panel.entry_allowed_for_mode({"runtime_approved": true, "runtime_path": "res://missing_character.png"}, false), "missing approved texture is blocked")
+	t.ok(bool(panel._find("functional_low_stock").get("runtime_approved", false)), "approved pilot metadata is available to the review panel")
+	t.ok(not bool(panel._find("functional_expiry").get("runtime_approved", true)), "review-only pilot metadata remains unapproved")
 	panel.set_review_candidate("additional_001")
 	t.eq(panel.review_candidate_entry().get("asset_id", ""), "additional_001", "candidate review override resolves a placement asset")
 	t.eq(panel.review_candidate_entry().get("kind", ""), "fullbody", "full-body candidate review uses the assistant stage")
@@ -137,7 +139,8 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.eq(crop.size.y, 300.0, "the display crop keeps the upper-body window height")
 	t.ok(crop.offset_left >= 32.0, "the assistant crop is shifted right from the left edge")
 	t.ok(crop.offset_left < 236.0, "the assistant crop sits to the left of the menu safe edge")
-	t.ok(crop.get_global_rect().end.y <= main.get_viewport_rect().size.y - 200.0, "the assistant crop clears the bottom menu with a visible gap")
+	var expected_crop_bottom: float = main.get_viewport_rect().size.y - ProgressionController.ASSISTANT_BOTTOM
+	t.ok(absf(crop.get_global_rect().end.y - expected_crop_bottom) <= 1.0, "the assistant crop reaches the lower display slot just above the bottom menu")
 	t.eq(guide._bubble.offset_left - crop.offset_left, 260.0, "the dialogue bubble follows the portrait horizontally")
 	t.ok(guide._bubble.offset_top > -ProgressionController.FIGURE_SIZE.y - ProgressionController.ASSISTANT_BOTTOM + 40.0, "the dialogue bubble is lowered in the assistant slot")
 	var chrome_bottom: float = main.get_viewport_rect().size.y - ProgressionController.ASSISTANT_BOTTOM
@@ -186,11 +189,16 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.ok(not guide._pilot_reaction_symbol.visible, "staff shortage hides the reaction symbol layer")
 	t.ok(guide._pilot_figure.visible, "staff shortage shows its dedicated full-body pose")
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_staff_short.png", "staff shortage loads the dedicated full-body texture")
+	guide.request_pilot_cue("empty_handed", {})
+	await tree.process_frame
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_empty_handed.png", "a short-lived cue can replace the staff shortage pose")
 	guide.say_day_end("通常決算の確認", "normal")
 	await tree.process_frame
-	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_report.png", "normal day-end uses the report pilot in the runtime stage")
+	t.ok(guide._stage.visible, "normal day-end keeps the assistant stage visible beside the report")
+	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_report.png", "normal day-end overrides a stale screen cue with the report pilot")
 	guide.say_day_end("赤字決算の確認", "worried")
 	await tree.process_frame
+	t.ok(guide._stage.visible, "worried day-end keeps the assistant stage visible beside the report")
 	t.eq((guide._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_day_end_review.png", "worried day-end uses the review pilot in the runtime stage")
 	main.queue_free()
 	await tree.process_frame
