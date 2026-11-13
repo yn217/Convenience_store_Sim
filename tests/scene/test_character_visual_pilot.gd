@@ -208,7 +208,10 @@ func test_runtime_notification_uses_functional_pilot_pose(t, tree) -> void:
 	player.pilot_cue_requested.emit("long_queue", {})
 	await tree.process_frame
 	t.ok(pc._stage.visible, "a warning cue opens the assistant stage")
-	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_queue.png", "long queue selects the queue pose")
+	t.eq((pc._pilot_reaction.texture as Texture2D).resource_path, "res://assets/runtime/rikka_reactions/reaction_18.png", "a long queue first gets her live reaction (rikka_reactions_v1.json)")
+	player.pilot_cue_requested.emit("long_queue", {})
+	await tree.process_frame
+	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_queue.png", "while the reaction cools down, long queue falls back to the queue pose")
 	player.pilot_cue_requested.emit("access_blocked", {})
 	await tree.process_frame
 	t.eq((pc._pilot_figure.texture as Texture2D).resource_path, "res://assets/runtime/character_pilot/derived_alpha/functional_access_blocked.png", "blocked access selects the blocked-aisle pose")

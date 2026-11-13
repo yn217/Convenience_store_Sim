@@ -77,6 +77,9 @@ var _pilot_cue_payload: Dictionary = {}
 var _pilot_cue_timer: Timer
 var _capture_story_cue_override := ""   # visual-QA capture only; never written to GameState
 var _opening_cutin_active := false
+var _reactions: RikkaReactions   # her live reactions to gameplay cues (data/presentation/rikka_reactions_v1.json)
+var _live: Dictionary = {}       # the reaction on screen {cue_id, image, line}, {} when none
+var _live_timer: Timer
 var _seq: int = 0
 var _milestone_defs: Array = []
 
@@ -129,6 +132,11 @@ func setup(app: Node, milestones: Array) -> void:
 	_pilot_cue_timer = Timer.new()
 	_pilot_cue_timer.one_shot = true
 	_pilot_cue_timer.timeout.connect(_clear_pilot_cue)
+	_reactions = RikkaReactions.load_default()
+	_live_timer = Timer.new()
+	_live_timer.one_shot = true
+	_live_timer.timeout.connect(_clear_live_reaction)
+	add_child(_live_timer)
 	add_child(_pilot_cue_timer)
 	_connect_pilot_cue.call_deferred()
 	apply_snapshot({"progression": {"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [], "active_daily_challenge_id": null}})
@@ -149,11 +157,48 @@ func request_pilot_cue(cue_id: String, payload: Dictionary = {}) -> void:
 
 
 func _on_pilot_cue(cue_id: String, payload: Dictionary) -> void:
+	if react(cue_id, Time.get_ticks_msec() / 1000.0):
+		return
 	if not ["opening_checklist", "low_stock_notice", "expiry_notice", "long_queue", "access_blocked", "empty_handed", "rival_opened", "capsule_rare", "capsule_empty", "order_help", "restock_help", "staff_schedule_open", "save_complete", "staff_hired", "seasonal_campaign_started", "layout_help"].has(cue_id):
 		return
+	# A newer notice replaces her reaction (a reaction cooling down falls back to this pose and the factual line).
+	if not _live.is_empty():
+		if _live_timer != null:
+			_live_timer.stop()
+		_live = {}
 	_pilot_cue_id = cue_id
 	_pilot_cue_payload = payload.duplicate()
 	_pilot_cue_timer.start(2.5)
+	_refresh_stage()
+
+
+## Her live reaction to a gameplay cue: a bust-up face and one line for a few seconds. She stays quiet while she has
+## something more important to say (a celebration, the payment stop, the day-end remark, the opening) or a window
+## is open; such a cue is skipped without starting its cooldown. Returns true when she reacted.
+func react(cue_id: String, now: float) -> bool:
+	if _reactions == null or not _reactions.handles(cue_id) or not can_react():
+		return false
+	var picked := _reactions.pick(cue_id, now)
+	if picked.is_empty():
+		return false
+	_live = picked
+	if _live_timer != null and _live_timer.is_inside_tree():
+		_live_timer.start(_reactions.show_seconds)
+	_refresh_stage()
+	return true
+
+
+func can_react() -> bool:
+	return _celebrations.is_empty() and _day_remark == "" and not _opening_cutin_active and _suppressed_by.is_empty() \
+		and String(_snap.get("business_state", "")) != String(GameState.PAYMENT_BLOCKED)
+
+
+func live_reaction() -> Dictionary:
+	return _live
+
+
+func _clear_live_reaction() -> void:
+	_live = {}
 	_refresh_stage()
 
 
@@ -270,6 +315,8 @@ func _refresh_stage() -> void:
 		_assistant.text = String(_celebrations[0]["line"])
 	elif _day_remark != "":
 		_assistant.text = _day_remark
+	elif not _live.is_empty():
+		_assistant.text = String(_live["line"])
 	elif cue != "":
 		_assistant.text = ProgressionText.assistant_text(cue) if cue != "" else ""
 	else:
@@ -280,7 +327,7 @@ func _refresh_stage() -> void:
 	# screen cue such as opening_checklist.
 	var event_pilot_suppressed := _suppressed_by.has("event_pilot")
 	var build_suppressed := _suppressed_by.has("build")
-	_stage.visible = not event_pilot_suppressed and not build_suppressed and (_suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or _day_remark != "" or cue != "" or _pilot_cue_id != "")
+	_stage.visible = not event_pilot_suppressed and not build_suppressed and (_suppressed_by.is_empty() or pilot_screen_overlay) and (warn or celebrating or _day_remark != "" or not _live.is_empty() or cue != "" or _pilot_cue_id != "")
 	if warn:
 		set_mood("worried")
 	else:
@@ -312,7 +359,12 @@ func refresh_visual_pilot() -> void:
 	var review_candidate_active := not review_candidate.is_empty()
 	var entry: Dictionary = {}
 	var reaction_entry: Dictionary = {}
-	if enabled:
+	# A live reaction is her own presentation, not a pilot route: it shows whether or not the pilot is enabled, but a
+	# celebration, the payment stop and the day-end remark keep their own figure.
+	var live := not _live.is_empty() and _celebrations.is_empty() and _day_remark == "" and not review_candidate_active
+	if live:
+		reaction_entry = {"runtime_path": String(_live["image"]), "overlay_symbol": String(_live.get("symbol", ""))}   # the cutout drops drawn symbols
+	elif enabled:
 		if not review_candidate.is_empty():
 			if String(review_candidate.get("kind", "")) == "bustup_reaction":
 				reaction_entry = review_candidate
@@ -329,7 +381,7 @@ func refresh_visual_pilot() -> void:
 	var texture: Texture2D = load(String(entry.get("runtime_path", ""))) as Texture2D if not entry.is_empty() else null
 	var reaction_texture: Texture2D = load(String(reaction_entry.get("runtime_path", ""))) as Texture2D if not reaction_entry.is_empty() else null
 	var usable: bool = enabled and texture != null
-	var reaction_usable: bool = enabled and reaction_texture != null
+	var reaction_usable: bool = (enabled or live) and reaction_texture != null
 	_pilot_figure.visible = usable and not reaction_usable
 	_pilot_figure.texture = texture if usable else null
 	if _pilot_reaction != null:
@@ -514,6 +566,10 @@ func _on_dismiss_pressed() -> void:
 		close_celebration()
 	elif _day_remark != "":
 		end_day_end()
+	elif not _live.is_empty():   # 閉じる on a live reaction closes only the reaction, never the story line under it
+		if _live_timer != null:
+			_live_timer.stop()
+		_clear_live_reaction()
 	else:
 		dismiss_cue()
 
@@ -604,10 +660,11 @@ func _build_stage() -> void:
 	pilot_reaction_symbol.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pilot_reaction_symbol.visible = false
 	pilot_reaction_symbol.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	pilot_reaction_symbol.offset_left = ASSISTANT_LEFT + 218
-	pilot_reaction_symbol.offset_right = ASSISTANT_LEFT + 298
-	pilot_reaction_symbol.offset_top = -ASSISTANT_BOTTOM - 258
-	pilot_reaction_symbol.offset_bottom = -ASSISTANT_BOTTOM - 198
+	# Beside her head, left of the speech bubble (which starts at FIGURE_SIZE.x - 40): drawn under it, it was hidden.
+	pilot_reaction_symbol.offset_left = ASSISTANT_LEFT + 176
+	pilot_reaction_symbol.offset_right = ASSISTANT_LEFT + 252
+	pilot_reaction_symbol.offset_top = -ASSISTANT_BOTTOM - 262
+	pilot_reaction_symbol.offset_bottom = -ASSISTANT_BOTTOM - 202
 	_stage.add_child(pilot_reaction_symbol)
 	_pilot_reaction_symbol = pilot_reaction_symbol
 	_celebrate_timer = Timer.new()

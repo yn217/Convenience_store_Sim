@@ -387,6 +387,16 @@ func _run() -> void:
 		await process_frame
 	_reapply_capture_pilot_cue(main)
 	_reapply_capture_story_cue(main)
+	for a in OS.get_cmdline_user_args():   # --rikka-reaction=CUE: her live reaction to a gameplay cue (rikka_reactions_v1.json)
+		if a.begins_with("--rikka-reaction="):
+			var guide: ProgressionController = main.get_node("ProgressionController")
+			while guide.is_celebrating():
+				guide.close_celebration()
+			if guide._opening_cutin_active:   # the shot skips the 開店！ band, so let it finish first
+				guide._finish_opening_cutin()
+			guide.react(a.trim_prefix("--rikka-reaction="), 1.0e6)
+			for i in 4:
+				await process_frame
 	await process_frame
 	quit(0 if _save_png(out_png) else 1)
 
