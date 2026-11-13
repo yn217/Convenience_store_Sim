@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "notes": [
+    "Scenarios with a deadline (user's decision 2026-11-14, proposal D). A scenario is picked on the title screen instead of free play.",
+    "It sets the start (cash, reputation, a fixed site on the area map) and the goals; the balance file is not changed.",
+    "Goals are judged when a day closes, from the closed daily reports. All goals met = cleared; the deadline passes first = not cleared.",
+    "There is no game over (spec 15 §1): after the result the game goes on as free play.",
+    "Metrics: best_day_revenue (the best single day of this store), total_revenue (closed days of every store of the company), reputation (the first store), rival_closed (rivals closed for good), store_rank.",
+    "Targets are provisional, measured against the sample store (about 360,000 yen a day with two staff). Days run about 6 real minutes at x4."
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "sc_first_week",
+      "name_ja": "はじめての一週間",
+      "summary_ja": "標準のお店で、1日の売上30万円をめざします。棚とレジをそろえ、品切れを出さないのがコツです。",
+      "difficulty": 1,
+      "days": 7,
+      "start": {},
+      "goals": [
+        {"metric": "best_day_revenue", "target": 300000}
+      ],
+      "intro_ja": "店長、最初の一週間です。まずは1日30万円、いっしょにめざしましょう！",
+      "clear_ja": "1日30万円、達成です！ 店長、もう立派なコンビニの店長ですね！",
+      "fail_ja": "あと少しでした…。でも、お店はこれからです。このまま続けましょう！"
+    },
+    {
+      "scenario_id": "sc_station_rush",
+      "name_ja": "駅前の朝ラッシュ",
+      "summary_ja": "通勤客でにぎわう駅前のお店です。朝のパン・おにぎり・コーヒーを切らさず、2週間で累計売上500万円と評判56をめざします。4日目にはライバル店も来ます。",
+      "difficulty": 2,
+      "days": 14,
+      "start": {"map_id": "aoba_city_central_district_v2", "plot_id": "P01"},
+      "goals": [
+        {"metric": "total_revenue", "target": 5000000},
+        {"metric": "reputation", "target": 56}
+      ],
+      "intro_ja": "駅前は朝が勝負です！ パンとおにぎり、コーヒーを切らさないようにしましょう。",
+      "clear_ja": "駅前でいちばんのお店になりましたね！ 通勤のみなさんの顔ぶれ、覚えてきました♪",
+      "fail_ja": "朝のラッシュ、手ごわかったですね…。お店は続けられますから、次の朝に備えましょう！"
+    },
+    {
+      "scenario_id": "sc_rebuild",
+      "name_ja": "赤字店の立て直し",
+      "summary_ja": "資金20万円、評判40からのスタートです。少ない資金で品切れと行列を減らし、2週間で評判50と1日の売上20万円まで立て直します。",
+      "difficulty": 3,
+      "days": 14,
+      "start": {"cash_yen": 200000, "reputation": 40},
+      "goals": [
+        {"metric": "reputation", "target": 50},
+        {"metric": "best_day_revenue", "target": 200000}
+      ],
+      "intro_ja": "資金も評判もぎりぎりです…。でも店長となら立て直せます。売れるものから、少しずつ！",
+      "clear_ja": "評判が戻ってきました！ 店長、本当に立て直しちゃいましたね！",
+      "fail_ja": "まだ道半ばですね…。お店は続きます。お客さんの信頼、もう一度積み上げましょう！"
+    },
+    {
+      "scenario_id": "sc_rival_battle",
+      "name_ja": "ライバルに勝て",
+      "summary_ja": "住宅街のお店です。4日目に近くへライバル店が出店します。評判を65以上に保ち、30日以内にライバル店を撤退させます（出店から21日たつと撤退を考えます）。",
+      "difficulty": 3,
+      "days": 30,
+      "start": {"map_id": "aoba_city_central_district_v2", "plot_id": "P07", "reputation": 58},
+      "goals": [
+        {"metric": "rival_closed", "target": 1}
+      ],
+      "intro_ja": "近くにライバル店が来るそうです…！ 評判で負けないお店にしましょう、店長！",
+      "clear_ja": "ライバル店が撤退しました！ この街のコンビニといえば、うちのお店です！",
+      "fail_ja": "ライバル店、まだがんばっていますね…。お店は続けられます。評判を上げて、もう一度勝負です！"
+    }
+  ]
+}

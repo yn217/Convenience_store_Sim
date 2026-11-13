@@ -70,6 +70,8 @@ var _suppressed_by := {}       # why the corner figure steps aside: "window" (ma
 var _day_remark := ""          # her remark on the closed day while the day-end card is open ("" otherwise)
 var _achievements: Label
 var _rank: Label               # 店舗ランク and what the next rank needs
+var _scenario: Label           # the scenario in play: days left and its goals (ScenarioText.panel_text)
+var _scenario_dialog: ScenarioDialog
 var _missions: VBoxContainer   # 本日のミッション: today's challenge and the nearest titles, each with a bar
 var _mission_rows: Array = []  # per row: {box, caption, goal, bar, count, chip}
 var _history: Array[String] = []
@@ -102,6 +104,15 @@ func setup(app: Node, milestones: Array) -> void:
 	title.text = "はじめかた・目標"
 	title.add_theme_font_size_override("font_size", 20)
 	_body.add_child(title)
+	_scenario = Label.new()
+	_scenario.name = "ScenarioGoal"
+	_scenario.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_scenario.theme_type_variation = &"AccentLabel"
+	_scenario.visible = false
+	_body.add_child(_scenario)
+	_scenario_dialog = ScenarioDialog.new()
+	_scenario_dialog.setup(app)
+	get_parent().add_child.call_deferred(_scenario_dialog)
 	_rank = Label.new()
 	_rank.name = "StoreRank"
 	_rank.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -208,6 +219,10 @@ func say(line: String, image: String, symbol: String = "") -> void:
 	_refresh_stage()
 
 
+func scenario_dialog() -> ScenarioDialog:
+	return _scenario_dialog
+
+
 func live_reaction() -> Dictionary:
 	return _live
 
@@ -247,6 +262,9 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_challenge.text = ProgressionText.challenge_text(p["active_daily_challenge_id"])
 	_rank.text = rank_text(snap.get("store_rank", {}))
 	_rank.visible = not _rank.text.is_empty()
+	_scenario.text = ScenarioText.panel_text(snap.get("scenario", {}))
+	_scenario.visible = not _scenario.text.is_empty()
+	_scenario_dialog.offer_intro(snap)
 	var done: int = p["completed_milestone_ids"].size()
 	_milestones.text = "称号 %d/%d（店のレベル %d）" % [done, maxi(_milestone_defs.size(), done), done]
 	_notices.text = "\n".join(_history.slice(maxi(_history.size() - NOTICE_LINES, 0)))
@@ -742,6 +760,8 @@ func _build_stage() -> void:
 ## Called by AppRoot with the achievements that happened since the last snapshot.
 func show_events(events: Array) -> void:
 	for e in events:
+		if String(e["kind"]) in ["SCENARIO_CLEARED", "SCENARIO_FAILED"]:
+			_scenario_dialog.show_result(e, _snap.get("scenario", {}))
 		var line := ProgressionText.notice(e, _milestone_defs)
 		if line != "":
 			_history.append(line)

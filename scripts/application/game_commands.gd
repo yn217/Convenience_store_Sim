@@ -78,6 +78,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _stock_result(command_id, StockOps.restock(_state, command_id, command.get("instance_id"), command.get("slot_id"), command.get("sku_id"), command.get("qty")))
 		&"SET_RIVALS":   # #129: rival stores on or off (the company's)
 			var on := bool(command.get("enabled", true))
+			if not on and ScenarioService.active(_state) and ScenarioService.needs_rivals(ScenarioService.definition(_state)):
+				return _fail(&"INVALID_OPERATION", &"scenario_needs_rivals")
 			for st in Company.stores(_state):
 				st.rivals_enabled = on
 			var rv: Array[String] = ["%s:RIVALS_SET" % command_id]
@@ -417,6 +419,8 @@ func _resize(command_id: String, size: Dictionary, cost: int, event: String) -> 
 func _set_site(command_id: String, map_id: String, plot_id: String) -> CommandResult:
 	if _state.location_locked():
 		return _fail(&"INVALID_OPERATION", &"site_locked")
+	if ScenarioService.site_fixed(_state):
+		return _fail(&"INVALID_OPERATION", &"scenario_site_fixed")
 	var site := WorldMap.site(map_id, plot_id)
 	if site.is_empty():
 		return _fail(&"INVALID_OPERATION", &"site_unavailable")
@@ -432,6 +436,8 @@ func _set_site(command_id: String, map_id: String, plot_id: String) -> CommandRe
 func _set_facilities(command_id: String, ids) -> CommandResult:
 	if _state.location_locked():
 		return _fail(&"INVALID_OPERATION", &"facilities_locked")
+	if ScenarioService.site_fixed(_state):
+		return _fail(&"INVALID_OPERATION", &"scenario_site_fixed")
 	if typeof(ids) != TYPE_ARRAY or (ids as Array).size() > NearbyFacility.max_count():
 		return _fail(&"INVALID_OPERATION", &"too_many_facilities")
 	var out: Array = []
@@ -449,6 +455,8 @@ func _set_facilities(command_id: String, ids) -> CommandResult:
 func _set_location(command_id: String, location_id: String) -> CommandResult:
 	if _state.location_locked():
 		return _fail(&"INVALID_OPERATION", &"location_locked")
+	if ScenarioService.site_fixed(_state):
+		return _fail(&"INVALID_OPERATION", &"scenario_site_fixed")
 	if location_id != "" and StoreLocation.find(location_id).is_empty():
 		return _fail(&"INVALID_OPERATION", &"unknown_location")
 	_state.location_id = location_id

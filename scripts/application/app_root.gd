@@ -20,6 +20,8 @@ var runner: SimulationRunner
 var save_dir: String = SaveStore.DIR
 ## The slot to load when the game starts (the title screen's 続きから, #28); "" = a new game.
 static var start_slot := ""
+## The scenario a new game starts with (the title screen's シナリオ, ScenarioService); "" = free play.
+static var start_scenario := ""
 var _balance: Dictionary
 var _fixtures: FixtureCatalog
 var cue_bridge := PresentationEventBridge.new()
@@ -49,6 +51,11 @@ func _ready() -> void:
 	state.milestones = _load_milestones()
 	state.gameplay_events = _load_gameplay_events()
 	state.rank_gating = true   # the store rank opens fixtures and features in the game (StoreRank)
+	if start_slot == "" and start_scenario != "":
+		var err := ScenarioService.start(state, start_scenario)
+		if err != "":
+			push_warning("scenario %s not started: %s" % [start_scenario, err])
+	start_scenario = ""
 	_load_cues()
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)

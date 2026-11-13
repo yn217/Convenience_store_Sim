@@ -17,6 +17,8 @@ const BY_KEY := {
 	&"rank_locked_3": "店舗ランク★3で使えるようになります",
 	&"rank_locked_4": "店舗ランク★4で使えるようになります",
 	&"rank_locked_5": "店舗ランク★5で使えるようになります",
+	&"scenario_site_fixed": "このシナリオでは出店場所が決まっています",
+	&"scenario_needs_rivals": "このシナリオではライバル店をオフにできません",
 	&"event_choice_made": "今日のイベントはもう選んであります",
 	&"unknown_event_choice": "その選択肢はありません",
 	&"construction_needs_setup": "営業を終了して準備中に戻すと建設できます",

@@ -78,6 +78,7 @@ static func open_store(active: GameState, command_id: String, map_id: String, pl
 	s.milestones = active.milestones
 	s.gameplay_events = active.gameplay_events
 	s.progression_state = active.progression_state   # one record of achievements for the company
+	s.scenario = active.scenario   # and one scenario
 	s.rivals = active.rivals   # the company's rivals (#129)
 	s.market_conditions = active.market_conditions
 	s.rivals_enabled = active.rivals_enabled
@@ -120,6 +121,7 @@ static func switch_to(active: GameState, store_id: String) -> GameState:
 	target.milestones = active.milestones
 	target.gameplay_events = active.gameplay_events
 	target.progression_state = active.progression_state
+	target.scenario = active.scenario
 	target.rivals = active.rivals
 	target.market_conditions = active.market_conditions
 	target.rivals_enabled = active.rivals_enabled

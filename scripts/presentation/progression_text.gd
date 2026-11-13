@@ -48,6 +48,10 @@ static func notice(event: Dictionary, milestones: Array) -> String:
 			return "店舗ランクアップ: %s %s" % [StoreRank.stars(int(event["rank"])), info["name_ja"]]
 		"CHALLENGE":
 			return "チャレンジ達成！ %s" % CHALLENGE.get(event["challenge_id"], "")
+		"SCENARIO_CLEARED":
+			return "シナリオクリア: %s（%d日）" % [String(ScenarioRules.find(String(event["scenario_id"])).get("name_ja", "")), int(event["days_used"])]
+		"SCENARIO_FAILED":
+			return "シナリオ期限終了: %s" % String(ScenarioRules.find(String(event["scenario_id"])).get("name_ja", ""))
 	return ""
 
 

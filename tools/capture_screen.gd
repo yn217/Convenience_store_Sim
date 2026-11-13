@@ -39,8 +39,16 @@ func _run() -> void:
 		root.add_child(title)
 		for i in 30:
 			await process_frame
+		if OS.get_cmdline_user_args().has("--scenario-list"):   # the title's scenario list (ScenarioRules)
+			title.open_scenarios()
+			for i in 6:
+				await process_frame
 		quit(0 if _save_png(out_png) else 1)
 		return
+	for a in OS.get_cmdline_user_args():   # --scenario=ID: a new game of that scenario (its card opens at the start)
+		if a.begins_with("--scenario="):
+			AppRoot.start_scenario = a.trim_prefix("--scenario=")
+			ScenarioText.records_path = "user://capture_scenario_records.json"   # a shot never touches the player's clear records
 	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
 	root.add_child(main)
 	for i in 5:
@@ -413,6 +421,28 @@ func _run() -> void:
 			var guide: ProgressionController = main.get_node("ProgressionController")
 			if guide._opening_cutin_active:
 				guide._finish_opening_cutin()
+			app._publish_snapshot()
+			for i in 6:
+				await process_frame
+	for a in OS.get_cmdline_user_args():   # --scenario-result=cleared|failed: the scenario's result card (with --scenario=ID)
+		if a.begins_with("--scenario-result=") and not s.scenario.is_empty():
+			var guide: ProgressionController = main.get_node("ProgressionController")
+			if guide._opening_cutin_active:
+				guide._finish_opening_cutin()
+			guide.scenario_dialog().close()
+			var sc := ScenarioService.definition(s)
+			var cleared := a.trim_prefix("--scenario-result=") == "cleared"
+			var days := 3 if cleared else int(sc["days"])
+			for d in days:
+				var report := DailyReport.build(d, s.ledger, {}, s.reputation, s.cash_yen)
+				report["revenue_yen"] = 9000000 if cleared else 150000 + d * 10000
+				s.daily_reports.append(report)
+			if cleared:
+				s.reputation = 99
+				for r in s.rivals:
+					r["closed_day"] = days
+			s.day = days
+			ProgressionService.evaluate(s)
 			app._publish_snapshot()
 			for i in 6:
 				await process_frame

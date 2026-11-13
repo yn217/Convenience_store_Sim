@@ -17,6 +17,7 @@ var _settings: VBoxContainer
 var _sound: CheckBox
 var _loading: Control
 var _start_pending := false
+var _scenarios: Control
 
 
 func _ready() -> void:
@@ -63,9 +64,9 @@ func _ready() -> void:
 	menu_frame.name = "TitleMenuFrame"
 	menu_frame.set_anchors_preset(Control.PRESET_CENTER)
 	menu_frame.offset_left = -310
-	menu_frame.offset_top = -270
+	menu_frame.offset_top = -306
 	menu_frame.offset_right = 310
-	menu_frame.offset_bottom = 285
+	menu_frame.offset_bottom = 321
 	menu_frame.add_theme_stylebox_override("panel", _title_menu_style())
 	menu_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(menu_frame)
@@ -106,6 +107,7 @@ func _ready() -> void:
 	col.add_child(tagline)
 	col.add_child(HSeparator.new())
 	col.add_child(_button("NewGame", "新規ゲーム", new_game, true))
+	col.add_child(_button("Scenario", "シナリオ（期限つきの目標）", open_scenarios, false))
 	_continue = _button("Continue", "続きから", continue_game, false)
 	col.add_child(_continue)
 	col.add_child(_button("Settings", "設定", func(): _settings.visible = not _settings.visible, false))
@@ -271,7 +273,115 @@ func refresh() -> void:
 
 func new_game() -> void:
 	AppRoot.start_slot = ""
+	AppRoot.start_scenario = ""
 	_start()
+
+
+## A new game with a scenario (ScenarioService sets it up when the game scene starts).
+func start_scenario(scenario_id: String) -> void:
+	if ScenarioRules.find(scenario_id).is_empty():
+		return
+	AppRoot.start_slot = ""
+	AppRoot.start_scenario = scenario_id
+	_start()
+
+
+func open_scenarios() -> void:
+	if _scenarios == null:
+		_scenarios = _build_scenarios()
+		add_child(_scenarios)
+	_scenarios.visible = true
+
+
+func close_scenarios() -> void:
+	if _scenarios != null:
+		_scenarios.visible = false
+
+
+## The scenario list over the title: each scenario's name, difficulty, days, story, goals and the clear record here.
+func _build_scenarios() -> Control:
+	var root := Control.new()
+	root.name = "ScenarioSelect"
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.mouse_filter = Control.MOUSE_FILTER_STOP
+	var dim := ColorRect.new()
+	dim.color = Color(0.03, 0.06, 0.12, 0.66)
+	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.add_child(dim)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(center)
+	var panel := PanelContainer.new()
+	panel.theme_type_variation = &"Card"
+	panel.custom_minimum_size = Vector2(980, 0)
+	center.add_child(panel)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 12)
+	panel.add_child(col)
+	var title := Label.new()
+	title.text = "シナリオを選ぶ"
+	title.theme_type_variation = &"WindowTitle"
+	title.add_theme_font_size_override("font_size", 28)
+	col.add_child(title)
+	var hint := Label.new()
+	hint.text = "期限までに目標を達成するとクリアです。期限が過ぎても、お店はそのまま続けられます。"
+	hint.theme_type_variation = &"MutedLabel"
+	col.add_child(hint)
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(0, 640)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	col.add_child(scroll)
+	var list := VBoxContainer.new()
+	list.name = "ScenarioList"
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 10)
+	scroll.add_child(list)
+	var records := ScenarioText.read_records()
+	for sc in ScenarioRules.scenarios():
+		list.add_child(_scenario_card(sc, records))
+	var back := _button("ScenarioBack", "戻る", close_scenarios, false)
+	back.custom_minimum_size = Vector2(200, 52)
+	back.size_flags_horizontal = Control.SIZE_SHRINK_END
+	col.add_child(back)
+	return root
+
+
+func _scenario_card(sc: Dictionary, records: Dictionary) -> Control:
+	var card := PanelContainer.new()
+	card.name = "Scenario_%s" % sc["scenario_id"]
+	card.theme_type_variation = &"Card"
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 16)
+	card.add_child(row)
+	var text := VBoxContainer.new()
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(text)
+	var head := Label.new()
+	head.text = "%s　%s・%d日" % [sc["name_ja"], ScenarioText.difficulty_text(int(sc["difficulty"])), int(sc["days"])]
+	head.theme_type_variation = &"CardTitle"
+	head.add_theme_font_size_override("font_size", 22)
+	text.add_child(head)
+	var summary := Label.new()
+	summary.text = String(sc["summary_ja"])
+	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	summary.custom_minimum_size.x = 680
+	text.add_child(summary)
+	var goals := Label.new()
+	goals.text = "目標: " + "・".join((sc["goals"] as Array).map(func(g): return ScenarioText.target_text(g)))
+	goals.theme_type_variation = &"AccentLabel"
+	text.add_child(goals)
+	var record := ScenarioText.record_text(String(sc["scenario_id"]), records)
+	if record != "":
+		var done := Label.new()
+		done.text = record
+		done.theme_type_variation = &"GoodLabel"
+		text.add_child(done)
+	var go := _button("Start_%s" % sc["scenario_id"], "はじめる", start_scenario.bind(String(sc["scenario_id"])), true)
+	go.custom_minimum_size = Vector2(160, 58)
+	go.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(go)
+	return card
 
 
 ## Starts the game with the slot saved last.
@@ -280,6 +390,7 @@ func continue_game() -> void:
 	if slot == "":
 		return
 	AppRoot.start_slot = slot
+	AppRoot.start_scenario = ""
 	_start()
 
 

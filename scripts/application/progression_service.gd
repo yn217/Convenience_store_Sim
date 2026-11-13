@@ -64,6 +64,7 @@ static func evaluate(state: GameState) -> Array[Dictionary]:
 	_milestones(state, events)
 	_challenge(state, events)
 	_rank(state, events)
+	ScenarioService.judge(state, events)   # a scenario in play, once per closed day
 	for e in events:
 		state.progression_events.append(e)
 	return events

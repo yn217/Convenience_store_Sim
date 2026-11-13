@@ -113,6 +113,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"promo_stats": state.promo_stats.duplicate(true),
 			"coupons": state.coupons.duplicate(true), "next_coupon_seq": state.next_coupon_seq,   # #137 phase 2
 			"campaigns": state.campaigns.duplicate(true), "next_campaign_seq": state.next_campaign_seq,   # #136
+			"scenario": state.scenario.duplicate(true),   # a scenario in play ({} = free play)
 		},
 	}
 
@@ -285,6 +286,7 @@ static func from_dict(data, balance: Dictionary, fixtures: FixtureCatalog, produ
 			b.ledger = s.ledger
 			b.set_store_id(b.store_id)
 			b.progression_state = s.progression_state   # the company's achievements (#146)
+			b.scenario = s.scenario   # and its scenario
 			b.rivals = s.rivals   # and its rivals (#129)
 			b.market_conditions = s.market_conditions
 			b.progression_totals = s.progression_totals
@@ -495,6 +497,7 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 		var arr = rt.get(k, [])
 		if typeof(arr) == TYPE_ARRAY and (arr.size() == 0 or arr.size() == 24) and arr.all(func(x): return JsonCheck.is_int(x) and int(x) >= 0):
 			s.set(k, arr.map(func(x): return int(x)))
+	ScenarioService.load_saved(rt.get("scenario"), s.scenario)   # a scenario in play; absent in older saves = free play
 	if typeof(rt.get("store_id")) == TYPE_STRING:   # #146 (absent in older saves: the first store)
 		s.set_store_id(String(rt["store_id"]))
 		s.store_name = String(rt.get("store_name", ""))

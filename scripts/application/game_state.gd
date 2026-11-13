@@ -107,6 +107,8 @@ var progression_state: Dictionary = {
 ## Store rank gating (StoreRank, 2026-11-13): AppRoot turns it on for the game it runs, so a locked fixture or feature is
 ## refused. Off for states built directly (tests, tools). Not saved: the rank itself is progression_state.store_rank.
 var rank_gating := false
+## A scenario in play (ScenarioService): {} in free play. The company's, shared by its stores like progression_state.
+var scenario: Dictionary = {}
 var next_segment_seq: int = 0
 ## Player sell prices that differ from the SKU default {sku_id: yen}. Never touches lot costs
 ## or already snapshotted reservations/ledger rows.
@@ -380,6 +382,7 @@ func snapshot() -> Dictionary:
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
 		"store_rank": ProgressionService.rank_view(self),
+		"scenario": ScenarioService.view(self),
 		"event_catalog": EventService.catalog(self),
 		"event_history": EventService.history(self),
 		"stocked_categories": stocked,
