@@ -123,3 +123,11 @@ potential_probability =
 ## 10. データ正本の統一
 - EventDirectorの`event_rng_state`は**`GameState.rng_states.events`の参照を指す説明上の名前**であり、GameEventStateに第二の独立乱数を重複保存しない。
 - エンジン実装で`docs/examples/mvp_v1.gameplay_events.json`→`res://data/events/mvp_v1.json`に取り込む際はID・weight・window・effectを改変せずschemaとgolden rollを実行。
+
+## 11. 選択肢イベント（2026-11-13、ユーザー決定で §1・§4・§5 の「現金を動かさない」を一部変更）
+- イベント定義に任意の`choices`（2〜3件）を持てる。各選択肢は`choice_id`, `label_ja`, `description_ja`, `cost_yen`(0〜200000), `effects`, `line_ja`。**無料の選択肢がちょうど1件**必要で、その`effects`はイベント本体と同じにする（選ばなかった日は今までどおり）。
+- 選択肢の倍率は来店0.70〜1.60、カテゴリ1.0〜2.0（イベント本体の範囲より広い。有料で上乗せできる分）。
+- `CHOOSE_EVENT_OPTION {choice_id}`は当日のイベントが予定中か開催中で、まだ選んでいない時だけ通る。有料の選択肢はその場で`PROMO`（販促費）として台帳に記録し、資金不足なら何も変えずに拒否する。選び直しはできない。
+- `gameplay_event_state.choice_id`（null=未選択、旧セーブは欠けていてよい）を保存する。日次抽選で null に戻す。効果は`effects_at`が選んだ選択肢（未選択なら無料の選択肢）から出す。
+- 画面: `EventChoiceDialog`が当日1回だけ開き、開いている間は時計を止め、選んだら元の速度で再開して六花が`line_ja`を話す。絵は`assets/runtime/event_choices/<event_id>.png`。
+- 9件が選択肢を持つ: 既存6件（お祭り、工事、暑い日、寒い日、口コミ、仕事帰り）と新規3件（ご当地グルメフェア、にわか雨、おにぎり祭り。DAY 3から抽選）。

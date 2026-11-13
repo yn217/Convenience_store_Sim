@@ -82,7 +82,10 @@
               "drink",
               "snack",
               "dessert",
-              "ice_cream"
+              "ice_cream",
+              "bento",
+              "daily_fresh",
+              "coffee"
             ]
           },
           "additionalProperties": {
@@ -103,6 +106,85 @@
         "opportunity",
         "challenge"
       ]
+    },
+    "choices": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "description": "Optional player choices (2026-11-13). Exactly one has cost_yen 0: it holds when the player does not pick. A paid choice is booked as a PROMO expense.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "choice_id",
+          "label_ja",
+          "description_ja",
+          "cost_yen",
+          "effects",
+          "line_ja"
+        ],
+        "properties": {
+          "choice_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label_ja": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description_ja": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cost_yen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200000
+          },
+          "effects": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "traffic_multiplier",
+              "category_weight_multipliers"
+            ],
+            "properties": {
+              "traffic_multiplier": {
+                "type": "number",
+                "minimum": 0.7,
+                "maximum": 1.6
+              },
+              "category_weight_multipliers": {
+                "type": "object",
+                "propertyNames": {
+                  "enum": [
+                    "rice_ball",
+                    "oden",
+                    "instant_noodle",
+                    "bread",
+                    "drink",
+                    "snack",
+                    "dessert",
+                    "ice_cream",
+                    "bento",
+                    "daily_fresh",
+                    "coffee"
+                  ]
+                },
+                "additionalProperties": {
+                  "type": "number",
+                  "minimum": 1,
+                  "maximum": 2.0
+                }
+              }
+            }
+          },
+          "line_ja": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
     }
   }
 }

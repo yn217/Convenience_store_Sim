@@ -16,7 +16,7 @@ func test_panel_shows_each_state(t, tree) -> void:
 	await tree.process_frame
 	var app: Node = main.get_node("AppRoot")
 	var panel: EventController = main.get_node("EventController")
-	t.eq(app.state.gameplay_events.size(), 12, "master data is loaded at boot")
+	t.eq(app.state.gameplay_events.size(), 15, "master data is loaded at boot")
 	t.ok(panel._status.text.contains("DAY 0 はイベントなし"), panel._status.text)
 	app.state.time_sec = 86400 + 6 * 3600
 	_force(app, "evt_hot_day", false)
@@ -51,7 +51,7 @@ func test_effect_chips_and_the_event_list(t, tree) -> void:
 	var app: Node = main.get_node("AppRoot")
 	var panel: EventController = main.get_node("EventController")
 	t.ok(not panel._effects.visible, "no event: no effect chips")
-	t.eq(panel._list.get_child_count(), 12, "all 12 events are listed")
+	t.eq(panel._list.get_child_count(), 15, "all 15 events are listed")
 	t.ok(panel._cells.values().all(func(c): return c["state"] == "locked"), "day 0: none can be drawn yet")
 	app.state.time_sec = 86400 + 12 * 3600
 	app.state.reputation = 0

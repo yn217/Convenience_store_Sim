@@ -834,6 +834,13 @@
             "minLength": 1
           },
           "uniqueItems": true
+        },
+        "choice_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The player's pick for today's event (an event choice id), null until picked. Absent in older saves = null."
         }
       },
       "required": [

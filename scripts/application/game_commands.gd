@@ -98,6 +98,8 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _campaign_result(command_id, Marketing.cancel(_state, String(command.get("campaign_id", ""))), "CAMPAIGN_CANCELLED")
 		&"START_PROMOTION":
 			result = _promotion_result(command_id, Promotions.start(_state, command_id, String(command.get("def_id", "")), int(command.get("days", 0))), "PROMOTION_STARTED")
+		&"CHOOSE_EVENT_OPTION":   # an event choice (EventService.choose)
+			result = _promotion_result(command_id, EventService.choose(_state, command_id, String(command.get("choice_id", ""))), "EVENT_CHOICE_MADE")
 		&"START_LOTTERY":   # #138
 			result = _promotion_result(command_id, Lottery.start(_state, command_id, String(command.get("set_id", ""))), "LOTTERY_STARTED")
 		&"STOP_PROMOTION":

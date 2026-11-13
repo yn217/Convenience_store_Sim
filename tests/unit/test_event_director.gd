@@ -45,7 +45,7 @@ func _open_store(s: GameState) -> void:
 
 func test_twelve_seed_events_load_and_are_sane(t, _tree) -> void:
 	var events := _events()
-	t.eq(events.size(), 12)
+	t.eq(events.size(), 15, "the 12 seed events and the 3 choice events of 2026-11-13")
 	var ids := {}
 	for e in events:
 		t.ok(not ids.has(e["event_id"]), "unique id")

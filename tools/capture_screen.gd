@@ -387,6 +387,21 @@ func _run() -> void:
 		await process_frame
 	_reapply_capture_pilot_cue(main)
 	_reapply_capture_story_cue(main)
+	for a in OS.get_cmdline_user_args():   # --event-choice=EVENT_ID: today's event asks the player (EventChoiceDialog)
+		if a.begins_with("--event-choice="):
+			var ev := GameplayEventDirector.event_by_id(s.gameplay_events, a.trim_prefix("--event-choice="))
+			var day := s.time_sec / 86400 + 1
+			var w := GameplayEventDirector.window(day, ev)
+			s.time_sec = w.x - 3600
+			s.day = day
+			s.gameplay_event_state.merge({"last_selected_day": day, "selection_event_id": "daily:%d" % day, "selected_event_id": ev["event_id"],
+				"event_start_sec": w.x, "event_end_sec": w.y, "started": false, "ended": false, "choice_id": null}, true)
+			var guide: ProgressionController = main.get_node("ProgressionController")
+			if guide._opening_cutin_active:
+				guide._finish_opening_cutin()
+			app._publish_snapshot()
+			for i in 6:
+				await process_frame
 	for a in OS.get_cmdline_user_args():   # --rikka-reaction=CUE: her live reaction to a gameplay cue (rikka_reactions_v1.json)
 		if a.begins_with("--rikka-reaction="):
 			var guide: ProgressionController = main.get_node("ProgressionController")

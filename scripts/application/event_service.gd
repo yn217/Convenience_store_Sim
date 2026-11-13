@@ -37,6 +37,7 @@ static func _draw_today(state: GameState, day_index: int) -> void:
 	ges["selection_event_id"] = "daily:%d" % day_index
 	ges["started"] = false
 	ges["ended"] = false
+	ges["choice_id"] = null   # a new day's event is chosen afresh
 	if r["event_id"] == "":
 		ges["selected_event_id"] = null
 		ges["event_start_sec"] = null
@@ -109,13 +110,36 @@ static func catalog(state: GameState) -> Array[Dictionary]:
 	return out
 
 
+## CHOOSE_EVENT_OPTION: the player's pick for today's event, once, before the event ends. A paid choice books its
+## cost as a PROMO expense (販促費) now; nothing changes when the pick is refused. -> "" or the reason.
+static func choose(state: GameState, command_id: String, choice_id: String) -> String:
+	var v := view(state)
+	if not String(v.get("status", "")) in ["scheduled", "active"]:
+		return "no_event_to_choose"
+	var ges := state.gameplay_event_state
+	if ges.get("choice_id") != null:
+		return "event_choice_made"
+	var ev := GameplayEventDirector.event_by_id(state.gameplay_events, String(ges["selected_event_id"]))
+	var c := GameplayEventDirector.choice_by_id(ev, choice_id)
+	if c.is_empty():
+		return "unknown_event_choice"
+	var cost := int(c["cost_yen"])
+	if cost > state.cash_yen:
+		return "not_enough_cash"
+	if cost > 0 and not state.ledger.record("PROMO", "%s:EVENT_CHOICE" % command_id, -cost, state.day, state.time_sec,
+			{"event_id": ev["event_id"], "choice_id": choice_id}, {"expense": cost}):
+		return "not_enough_cash"
+	ges["choice_id"] = choice_id
+	return ""
+
+
 ## Multipliers in force right now.
 static func effects(state: GameState) -> Dictionary:
 	return GameplayEventDirector.effects_at(state.gameplay_events, state.gameplay_event_state, state.time_sec)
 
 
 ## What the screen shows (SCR-11): {"status", "event_id", "name_ja", "description_ja", "start_sec", "end_sec", "traffic", "categories", "tone",
-## "visual_theme"}.
+## "visual_theme", "choices", "choice_id"}. choices = [] for an event without; choice_id = "" until the player picks.
 ## status: no_data | undrawn | none | scheduled | active | ended | missed.
 static func view(state: GameState) -> Dictionary:
 	var ges := state.gameplay_event_state
@@ -131,8 +155,14 @@ static func view(state: GameState) -> Dictionary:
 		status = "ended" if bool(ges["started"]) else "missed"
 	elif bool(ges["started"]):
 		status = "active"
+	var fx: Dictionary = GameplayEventDirector.effective_choice(ev, ges).get("effects", ev["effects"])
+	var choices: Array[Dictionary] = []
+	for c in ev.get("choices", []):
+		choices.append({"choice_id": c["choice_id"], "label_ja": c["label_ja"], "description_ja": c["description_ja"], "cost_yen": int(c["cost_yen"]),
+			"traffic": float(c["effects"]["traffic_multiplier"]), "categories": c["effects"]["category_weight_multipliers"].duplicate(), "line_ja": c["line_ja"]})
 	return {
 		"status": status, "day": int(ges["last_selected_day"]), "event_id": ev["event_id"], "name_ja": ev["name_ja"], "description_ja": ev["description_ja"],
-		"start_sec": int(ges["event_start_sec"]), "end_sec": int(ges["event_end_sec"]), "traffic": float(ev["effects"]["traffic_multiplier"]),
-		"categories": ev["effects"]["category_weight_multipliers"].duplicate(), "tone": ev["tone"], "visual_theme": ev["visual_theme"],
+		"start_sec": int(ges["event_start_sec"]), "end_sec": int(ges["event_end_sec"]), "traffic": float(fx["traffic_multiplier"]),
+		"categories": fx["category_weight_multipliers"].duplicate(), "tone": ev["tone"], "visual_theme": ev["visual_theme"],
+		"choices": choices, "choice_id": "" if ges.get("choice_id") == null else String(ges["choice_id"]),
 	}

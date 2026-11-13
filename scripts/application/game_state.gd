@@ -97,7 +97,7 @@ var progression_totals := {"scanned": 0, "sales": 0, "revenue": 0, "order_qty": 
 var gameplay_events: Array[Dictionary] = []
 var gameplay_event_state: Dictionary = {
 	"last_selected_day": -1, "selection_event_id": null, "selected_event_id": null, "event_start_sec": null,
-	"event_end_sec": null, "started": false, "ended": false, "shown_notice_ids": [],
+	"event_end_sec": null, "started": false, "ended": false, "shown_notice_ids": [], "choice_id": null,
 }
 var progression_state: Dictionary = {
 	"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [],

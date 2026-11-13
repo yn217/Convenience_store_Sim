@@ -193,6 +193,14 @@ func can_react() -> bool:
 		and String(_snap.get("business_state", "")) != String(GameState.PAYMENT_BLOCKED)
 
 
+## A line of her own with a reaction face, e.g. after the player picked an event choice (EventChoiceDialog).
+func say(line: String, image: String, symbol: String = "") -> void:
+	_live = {"cue_id": "say", "image": image, "line": line, "symbol": symbol}
+	if _live_timer != null and _live_timer.is_inside_tree():
+		_live_timer.start(_reactions.show_seconds + 1.0 if _reactions != null else 5.0)
+	_refresh_stage()
+
+
 func live_reaction() -> Dictionary:
 	return _live
 

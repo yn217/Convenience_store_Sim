@@ -31,11 +31,15 @@ const PICTURE_SIZE := Vector2(384, 216)
 const PILOT_FULLBODY_SIZE := Vector2(160, 240)
 const PILOT_REACTION_SIZE := Vector2(220, 220)
 static var _pictures := {}
+var _choice: EventChoiceDialog   # today's event choice (opens by itself, see offer())
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
 
 func _ready() -> void:
+	_choice = EventChoiceDialog.new()
+	_choice.setup(get_node_or_null("../AppRoot"))
+	get_parent().add_child.call_deferred(_choice)
 	var title := Label.new()
 	title.text = "今日のイベント"
 	title.add_theme_font_size_override("font_size", 20)
@@ -146,6 +150,12 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_history.text = history_text(past)
 	_history.visible = not past.is_empty()
 	_history_title.visible = not past.is_empty()
+	if _choice != null and _choice.is_inside_tree():
+		_choice.offer(view)
+
+
+func choice_dialog() -> EventChoiceDialog:
+	return _choice
 
 
 ## The event pilot owns the event-management presentation while its panel is open.
