@@ -102,8 +102,11 @@ var gameplay_event_state: Dictionary = {
 var progression_state: Dictionary = {
 	"tutorial_skipped": false, "tutorial_step_index": 0, "completed_milestone_ids": [],
 	"completed_daily_challenge_ids": [], "active_daily_challenge_day": -1, "active_daily_challenge_id": null,
-	"challenge_stock_qualified": false, "dismissed_story_cue_ids": [],
+	"challenge_stock_qualified": false, "dismissed_story_cue_ids": [], "store_rank": 1,
 }
+## Store rank gating (StoreRank, 2026-11-13): AppRoot turns it on for the game it runs, so a locked fixture or feature is
+## refused. Off for states built directly (tests, tools). Not saved: the rank itself is progression_state.store_rank.
+var rank_gating := false
 var next_segment_seq: int = 0
 ## Player sell prices that differ from the SKU default {sku_id: yen}. Never touches lot costs
 ## or already snapshotted reservations/ledger rows.
@@ -376,6 +379,7 @@ func snapshot() -> Dictionary:
 		"fixture_sales": fixture_sales_today(),
 		"fixture_money": fixture_money_today(),
 		"gameplay_event": EventService.view(self),
+		"store_rank": ProgressionService.rank_view(self),
 		"event_catalog": EventService.catalog(self),
 		"event_history": EventService.history(self),
 		"stocked_categories": stocked,

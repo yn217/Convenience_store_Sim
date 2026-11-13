@@ -18,6 +18,7 @@ func test_the_screen_shows_the_set_and_buys_it(t, tree) -> void:
 	var lc: LotteryController = r[2]
 	var screen: KujiScreen = main.get_node("KujiScreen")
 	var stage: Control = main.get_node("AssistantStage")
+	app.state.progression_state["store_rank"] = 5   # this test is about the feature, not the store rank that opens it
 	t.ok(not screen.visible, "closed at boot")
 	t.ok(stage.visible, "the corner assistant is up (story line)")
 	(main.find_child("OpenKujiScreen", true, false) as Button).pressed.emit()

@@ -47,6 +47,7 @@ func _run() -> void:
 		await process_frame
 	var app: Node = main.get_node("AppRoot")
 	var s: GameState = app.state
+	s.rank_gating = false   # review layouts use fixtures of every rank (StoreRank); the game itself keeps the gate
 	s.ledger.cash_yen = 5000000
 	for a in OS.get_cmdline_user_args():   # --store-size=small|large: resize the store before the layout (#145)
 		if a.begins_with("--store-size="):
@@ -387,6 +388,19 @@ func _run() -> void:
 		await process_frame
 	_reapply_capture_pilot_cue(main)
 	_reapply_capture_story_cue(main)
+	for a in OS.get_cmdline_user_args():   # --rank-up=N: the store climbs to rank N (StoreRank) and she celebrates it
+		if a.begins_with("--rank-up="):
+			var guide: ProgressionController = main.get_node("ProgressionController")
+			if guide._opening_cutin_active:
+				guide._finish_opening_cutin()
+			while guide.is_celebrating():
+				guide.close_celebration()
+			var rank := int(a.trim_prefix("--rank-up="))
+			s.progression_state["store_rank"] = rank
+			app._publish_snapshot()
+			guide.show_events([{"kind": "RANK_UP", "rank": rank}])
+			for i in 4:
+				await process_frame
 	for a in OS.get_cmdline_user_args():   # --event-choice=EVENT_ID: today's event asks the player (EventChoiceDialog)
 		if a.begins_with("--event-choice="):
 			var ev := GameplayEventDirector.event_by_id(s.gameplay_events, a.trim_prefix("--event-choice="))

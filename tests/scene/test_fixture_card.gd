@@ -49,6 +49,7 @@ func test_a_broken_crane_is_repaired_from_its_card(t, tree) -> void:
 	var card: FixtureCard = main.get_node("FixtureCard")
 	var world: Node2D = main.get_node("Layout/MainArea/StoreViewport/SubViewport/StoreWorld")
 	app.state.ledger.cash_yen = 5000000
+	app.state.progression_state["store_rank"] = 5   # this test is about the feature, not the store rank that opens it
 	var r: CommandResult = app.run_command({"command_id": "fc_crane", "kind": &"PLACE_FIXTURE", "type_id": "crane_game", "x": 3, "y": 2, "rotation": 0})
 	t.ok(r.ok, "a crane game can be placed")
 	var fid := String(r.data["instance_id"])

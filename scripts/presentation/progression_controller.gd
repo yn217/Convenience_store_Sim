@@ -34,6 +34,7 @@ const BUBBLE_BOTTOM := Layout.CHROME_BOTTOM + 12.0
 # leaving the character face unobstructed and placing the dialogue a little lower.
 const BUBBLE_TOP_DROP := 92.0
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
+const RANK_HEADING := "★ ランクアップ！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
 const BLOCKED_LINE := "大変です、店長…！費用が払えなくて、お店が止まってしまいました。セーブからやり直しましょう。"
 const CUTIN_WORD := "開店！"
@@ -68,6 +69,7 @@ var _suppressed_by := {}       # why the corner figure steps aside: "window" (ma
                                # would sit under her bubble), "kuji" (限定くじ管理, she is on that screen)
 var _day_remark := ""          # her remark on the closed day while the day-end card is open ("" otherwise)
 var _achievements: Label
+var _rank: Label               # 店舗ランク and what the next rank needs
 var _missions: VBoxContainer   # 本日のミッション: today's challenge and the nearest titles, each with a bar
 var _mission_rows: Array = []  # per row: {box, caption, goal, bar, count, chip}
 var _history: Array[String] = []
@@ -100,6 +102,11 @@ func setup(app: Node, milestones: Array) -> void:
 	title.text = "はじめかた・目標"
 	title.add_theme_font_size_override("font_size", 20)
 	_body.add_child(title)
+	_rank = Label.new()
+	_rank.name = "StoreRank"
+	_rank.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_rank.theme_type_variation = &"AccentLabel"
+	_body.add_child(_rank)
 	_card = Label.new()
 	_card.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_toggle = Button.new()
@@ -238,6 +245,8 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_card.text = "チュートリアルは非表示です（進み具合は保存されています）" if skipped else ProgressionText.step_text(int(p["tutorial_step_index"]))
 	_toggle.text = "チュートリアルを再表示" if skipped else "チュートリアルをスキップ"
 	_challenge.text = ProgressionText.challenge_text(p["active_daily_challenge_id"])
+	_rank.text = rank_text(snap.get("store_rank", {}))
+	_rank.visible = not _rank.text.is_empty()
 	var done: int = p["completed_milestone_ids"].size()
 	_milestones.text = "称号 %d/%d（店のレベル %d）" % [done, maxi(_milestone_defs.size(), done), done]
 	_notices.text = "\n".join(_history.slice(maxi(_history.size() - NOTICE_LINES, 0)))
@@ -317,6 +326,8 @@ func _refresh_stage() -> void:
 		_blocked_closed = false
 	var warn := blocked and not _blocked_closed
 	_heading.visible = celebrating and not warn
+	if celebrating:
+		_heading.text = RANK_HEADING if String(_celebrations[0].get("kind", "")) == "RANK_UP" else CELEBRATE_HEADING
 	if warn:   # the store stopped for unpaid costs: she says so first, worried (the panel has the details)
 		_assistant.text = BLOCKED_LINE
 	elif celebrating:
@@ -734,7 +745,7 @@ func show_events(events: Array) -> void:
 		var line := ProgressionText.notice(e, _milestone_defs)
 		if line != "":
 			_history.append(line)
-		var cheer := ProgressionText.celebration(e, _milestone_defs)
+		var cheer := rank_cheer(int(e["rank"])) if String(e["kind"]) == "RANK_UP" else ProgressionText.celebration(e, _milestone_defs)
 		if cheer != "":
 			_celebrations.append({"kind": String(e["kind"]), "line": cheer})
 			if _celebrations.size() == 1:
@@ -743,6 +754,36 @@ func show_events(events: Array) -> void:
 		apply_snapshot(_snap)
 	else:
 		_refresh_stage()
+
+
+## 店舗ランク ★2 にぎわうお店 and the next rank's two conditions, e.g. "次の★3: 累計売上 ¥1,234,567 / ¥5,000,000・評判 53 / 55".
+static func rank_text(view: Dictionary) -> String:
+	if view.is_empty():
+		return ""
+	var lines: Array[String] = ["店舗ランク %s %s" % [StoreRank.stars(int(view["rank"])), String(view["name_ja"])]]
+	var next: Dictionary = view.get("next", {})
+	if next.is_empty():
+		lines.append("最高ランクです")
+	else:
+		lines.append("次の%s: 累計売上 %s / %s・評判 %d / %d" % [StoreRank.stars(int(next["rank"])), GameHud.format_yen(int(view["revenue_yen"])),
+			GameHud.format_yen(int(next["revenue_yen"])), int(view["reputation"]), int(next["reputation"])])
+	return "
+".join(lines)
+
+
+## What she says when the store climbs a rank: the new rank and what it opens (fixture names from the catalog).
+func rank_cheer(rank: int) -> String:
+	var info := StoreRank.rank_info(rank)
+	var names: Array[String] = []
+	var fixtures: FixtureCatalog = _app.state.fixtures if _app != null and _app.get("state") != null else null
+	for t in info["fixtures"]:
+		var shown := String(fixtures.get_type(t).get("display_name", t)) if fixtures != null else String(t)
+		names.append(shown.get_slice("（", 0))   # the short name: ベーカリーオーブン, not its case in brackets
+	for f in info["features"]:
+		names.append(String(StoreRank.FEATURE_JA.get(f, f)))
+	var opened := "
+新しく使えるもの: %s" % "、".join(names) if not names.is_empty() else ""
+	return "店長、お店のランクが%s「%s」に上がりました！%s" % [StoreRank.stars(rank), info["name_ja"], opened]
 
 
 func dismiss_cue() -> CommandResult:

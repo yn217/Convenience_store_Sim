@@ -63,9 +63,35 @@ static func evaluate(state: GameState) -> Array[Dictionary]:
 	_tutorial(state, events)
 	_milestones(state, events)
 	_challenge(state, events)
+	_rank(state, events)
 	for e in events:
 		state.progression_events.append(e)
 	return events
+
+
+## Store rank (StoreRank): one RANK_UP event per rank climbed; a rank once reached is kept even if reputation falls.
+static func _rank(state: GameState, events: Array[Dictionary]) -> void:
+	var p: Dictionary = state.progression_state
+	var reached := int(p.get("store_rank", 1))
+	var now := StoreRank.qualified(int(state.progression_totals["revenue"]), state.reputation)
+	if now <= reached:
+		return
+	p["store_rank"] = now
+	for r in range(reached + 1, now + 1):
+		events.append({"kind": "RANK_UP", "rank": r})
+
+
+## The store rank for the screen: {rank, name_ja, top, next: {} at the top else {rank, name_ja, revenue_yen, reputation},
+## revenue_yen, reputation, locked: {item: rank}}.
+static func rank_view(state: GameState) -> Dictionary:
+	var rank := int(state.progression_state.get("store_rank", 1))
+	var info := StoreRank.rank_info(rank)
+	var next := {}
+	if rank < StoreRank.top():
+		var n := StoreRank.rank_info(rank + 1)
+		next = {"rank": rank + 1, "name_ja": n["name_ja"], "revenue_yen": int(n["revenue_yen"]), "reputation": int(n["reputation"])}
+	return {"rank": rank, "name_ja": info["name_ja"], "top": StoreRank.top(), "next": next, "revenue_yen": int(state.progression_totals["revenue"]),
+		"reputation": state.reputation, "locked": StoreRank.locked(rank), "gating": state.rank_gating}
 
 
 # ---------------------------------------------------------------- incremental ledger totals

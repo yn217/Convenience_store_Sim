@@ -115,6 +115,7 @@ func test_a_second_store_from_the_map(t, tree) -> void:
 	var app: Node = main.get_node("AppRoot")
 	var bc: BusinessController = main.get_node("BusinessController")
 	app.state.ledger.cash_yen = 50000000
+	app.state.progression_state["store_rank"] = 5   # this test is about the feature, not the store rank that opens it
 	app.state.time_sec = 60   # the first store has opened once: its site is fixed
 	app._publish_snapshot()
 	bc.open_map()

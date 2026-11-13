@@ -38,6 +38,8 @@ var _tabs: Dictionary = {}        # category -> Button
 var _category: StringName = ALL
 var _cash: int = 0
 var _selected: String = ""
+var _locks: Dictionary = {}       # type_id -> store rank that opens it (StoreRank); absent = open
+var _enabled := true
 
 
 ## Builds the tabs above `anchor` (the scroll that holds the grid) and one card per fixture type, in data order.
@@ -95,9 +97,24 @@ func set_selected(type_id: String) -> void:
 
 ## Off outside SETUP: the cards stop taking clicks. Affordability does not disable a card (see _refresh_affordability).
 func set_enabled(enabled: bool) -> void:
+	_enabled = enabled
 	for type_id in _cards:
 		var card: Button = _cards[type_id]
-		card.disabled = not enabled
+		card.disabled = not enabled or _locks.has(type_id)
+
+
+## Store rank locks {type_id: rank}: a closed card is dimmed, says the rank that opens it and takes no clicks.
+func set_locks(locks: Dictionary) -> void:
+	if locks == _locks:
+		return
+	_locks = locks.duplicate()
+	for type_id in _cards:
+		_refresh_affordability(type_id)
+	set_enabled(_enabled)
+
+
+func lock_of(type_id: String) -> int:
+	return int(_locks.get(type_id, 0))
 
 
 func card(type_id: String) -> Button:
@@ -109,11 +126,13 @@ func is_affordable(type_id: String) -> bool:
 
 
 func _refresh_affordability(type_id: String) -> void:
-	var ok := is_affordable(type_id)
+	var locked := _locks.has(type_id)
+	var ok := is_affordable(type_id) and not locked
 	var content: Control = _content[type_id]
 	content.modulate = Color.WHITE if ok else DIM
 	var price: Label = _prices[type_id]
-	price.add_theme_color_override("font_color", UiTheme.TEXT_PRIMARY if ok else PRICE_UNAFFORDABLE)
+	price.text = ("%sで解放" % StoreRank.stars(int(_locks[type_id]))) if locked else GameHud.format_yen(_costs[type_id])
+	price.add_theme_color_override("font_color", UiTheme.WARM if locked else (UiTheme.TEXT_PRIMARY if ok else PRICE_UNAFFORDABLE))
 
 
 ## Card face per pointer state: hovered (and pressed) cards are lifted with a light rim; the selected card keeps the glow.

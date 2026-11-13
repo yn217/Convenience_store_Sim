@@ -44,6 +44,7 @@ func _run() -> void:
 		await process_frame
 	var app: Node = main.get_node("AppRoot")
 	var s: GameState = app.state
+	s.rank_gating = false   # review layouts use fixtures of every rank (StoreRank); the game itself keeps the gate
 	s.ledger.cash_yen = 5000000
 	var n := 0
 	for p in PLAN:

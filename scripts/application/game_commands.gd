@@ -44,6 +44,10 @@ func execute(command: Dictionary) -> CommandResult:
 		return CommandResult.failure(&"INVALID_OPERATION", _state.revision, &"command_malformed")
 	if _state.applied_command_ids.has(command_id):
 		return CommandResult.failure(&"ALREADY_APPLIED", _state.revision)
+	if _state.rank_gating:   # store rank (StoreRank): a fixture or feature opens at its rank
+		var need := rank_needed(kind, command)
+		if need > int(_state.progression_state.get("store_rank", 1)):
+			return _fail(&"INVALID_OPERATION", StringName("rank_locked_%d" % need))
 	var result: CommandResult
 	match kind:
 		&"SET_SPEED":
@@ -141,6 +145,24 @@ func _commit(command_id: String, events: Array[String], data: Dictionary = {}) -
 	_state.revision += 1
 	_state.applied_command_ids.append(command_id)
 	return CommandResult.success(_state.revision, events, &"", data)
+
+
+## The store rank a command needs; 1 for everything open from the start.
+static func rank_needed(kind: StringName, command: Dictionary) -> int:
+	match kind:
+		&"PLACE_FIXTURE":
+			return StoreRank.rank_for(String(command.get("type_id", "")))
+		&"START_PROMOTION":
+			return StoreRank.rank_for("promotions")
+		&"BOOK_CAMPAIGN":
+			return StoreRank.rank_for("media")
+		&"EXPAND_STORE":
+			return StoreRank.rank_for("expand_store")
+		&"START_LOTTERY":
+			return StoreRank.rank_for("lottery")
+		&"OPEN_STORE":
+			return StoreRank.rank_for("open_store")
+	return 1
 
 
 func _fail(code: StringName, message: StringName = &"") -> CommandResult:

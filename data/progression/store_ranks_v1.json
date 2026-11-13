@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "notes": [
+    "Store rank (user's decision 2026-11-13): the store grows from ★1 to ★5 and each rank opens fixtures and features.",
+    "A rank needs both the company's total revenue and the store's reputation; a rank once reached is kept.",
+    "Fixtures not listed under any rank are open from the start. Features: promotions, media, expand_store, lottery, open_store.",
+    "Reputation moves by at most +1 a day on a good day, so its steps are small."
+  ],
+  "ranks": [
+    {"rank": 1, "name_ja": "まちの小さなコンビニ", "revenue_yen": 0, "reputation": 0,
+     "fixtures": ["register_basic", "shelf_general", "shelf_onigiri", "shelf_noodle", "shelf_bread", "shelf_snack", "fridge_drink", "fridge_dessert", "warmer_oden", "freezer_ice", "staff_room_s"],
+     "features": []},
+    {"rank": 2, "name_ja": "にぎわうお店", "revenue_yen": 1000000, "reputation": 52,
+     "fixtures": ["fridge_daily", "shelf_goods", "coffee_machine", "atm", "copier"],
+     "features": ["promotions"]},
+    {"rank": 3, "name_ja": "評判のお店", "revenue_yen": 5000000, "reputation": 55,
+     "fixtures": ["bakery_oven", "pizza_oven", "soft_serve_machine", "frappe_blender", "eat_in_counter", "eat_in_table", "staff_room_m"],
+     "features": ["media", "expand_store"]},
+    {"rank": 4, "name_ja": "地域の人気店", "revenue_yen": 15000000, "reputation": 60,
+     "fixtures": ["capsule_toy_1", "capsule_toy_3", "capsule_toy_5", "crane_game", "staff_room_l"],
+     "features": ["lottery"]},
+    {"rank": 5, "name_ja": "街いちばんのコンビニ", "revenue_yen": 40000000, "reputation": 65,
+     "fixtures": [],
+     "features": ["open_store"]}
+  ]
+}

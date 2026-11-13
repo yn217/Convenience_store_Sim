@@ -48,6 +48,7 @@ func _ready() -> void:
 	state = GameState.from_balance(balance, DEFAULT_SEEDS, fixtures, products)
 	state.milestones = _load_milestones()
 	state.gameplay_events = _load_gameplay_events()
+	state.rank_gating = true   # the store rank opens fixtures and features in the game (StoreRank)
 	_load_cues()
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
@@ -239,6 +240,7 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 	fresh.revision = state.revision + 1
 	fresh.milestones = state.milestones
 	fresh.gameplay_events = state.gameplay_events
+	fresh.rank_gating = true
 	state = fresh
 	cue_bridge.reset()   # a loaded game never replays what was announced before
 	commands = GameCommands.new(state)
@@ -256,6 +258,7 @@ func _switch_store(store_id: String) -> CommandResult:
 	var target := Company.switch_to(state, store_id)
 	if target == null:
 		return CommandResult.failure(&"INVALID_OPERATION", state.revision, &"unknown_store")
+	target.rank_gating = true
 	state = target
 	cue_bridge.reset()
 	commands = GameCommands.new(state)

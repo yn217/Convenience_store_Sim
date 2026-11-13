@@ -80,6 +80,8 @@ func apply_snapshot(snap: Dictionary) -> void:
 	if moving_id != NO_ID and not _instances.has(moving_id):
 		cancel_mode()
 	if _catalog_view != null:
+		var rank: Dictionary = snap.get("store_rank", {})
+		_catalog_view.set_locks(rank.get("locked", {}) if bool(rank.get("gating", false)) else {})
 		_catalog_view.set_enabled(is_setup())
 		_catalog_view.set_cash(int(snap.get("cash_yen", 0)))
 	_undo.disabled = not (is_setup() and snap.get("can_undo", false))

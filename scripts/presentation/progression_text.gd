@@ -43,6 +43,9 @@ static func notice(event: Dictionary, milestones: Array) -> String:
 				if m["milestone_id"] == event["id"]:
 					return "称号を獲得: %s（%d %s）" % [m["name_ja"], int(m["threshold"]), metric_unit(m["metric"])]
 			return "称号を獲得しました"
+		"RANK_UP":
+			var info := StoreRank.rank_info(int(event["rank"]))
+			return "店舗ランクアップ: %s %s" % [StoreRank.stars(int(event["rank"])), info["name_ja"]]
 		"CHALLENGE":
 			return "チャレンジ達成！ %s" % CHALLENGE.get(event["challenge_id"], "")
 	return ""
