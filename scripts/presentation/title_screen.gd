@@ -12,6 +12,10 @@ const PILOT_TITLE_ID := "title_background_pilot"
 const TITLE_RIKKA_SIZE := Vector2(560, 815)   # keeps the art's 640:931 aspect
 
 var save_dir := SaveStore.DIR
+## The bundled mid-game save 続きから opens in a debug build when there is no save of one's own (user's request
+## 2026-11-14, for testing). Tests point it elsewhere.
+const SAMPLE_SAVE := "res://data/saves/sample_midgame.json"
+var sample_path := SAMPLE_SAVE
 var _continue: Button
 var _settings: VBoxContainer
 var _sound: CheckBox
@@ -264,11 +268,16 @@ func _button(node_name: String, text: String, on_press: Callable, primary: bool)
 	return b
 
 
-## 続きから is off without a save.
+## 続きから is off without a save, except in a debug build with the bundled mid-game data.
 func refresh() -> void:
 	var has_save := SaveStore.latest_slot(save_dir) != ""
-	_continue.disabled = not has_save
-	_continue.tooltip_text = "" if has_save else "セーブがありません"
+	var sample := not has_save and sample_available()
+	_continue.disabled = not has_save and not sample
+	_continue.tooltip_text = "" if has_save else ("テスト用の途中データ（4日目の朝）から始めます" if sample else "セーブがありません")
+
+
+func sample_available() -> bool:
+	return OS.is_debug_build() and sample_path != "" and FileAccess.file_exists(sample_path)
 
 
 func new_game() -> void:
@@ -388,6 +397,11 @@ func _scenario_card(sc: Dictionary, records: Dictionary) -> Control:
 func continue_game() -> void:
 	var slot := SaveStore.latest_slot(save_dir)
 	if slot == "":
+		if sample_available():   # no save of one's own: the bundled mid-game data (debug builds)
+			AppRoot.start_slot = ""
+			AppRoot.start_scenario = ""
+			AppRoot.start_sample = sample_path
+			_start()
 		return
 	AppRoot.start_slot = slot
 	AppRoot.start_scenario = ""

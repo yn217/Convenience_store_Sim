@@ -225,6 +225,11 @@ func say(line: String, image: String, symbol: String = "") -> void:
 	_refresh_stage()
 
 
+## A loaded game: its first snapshot only records the business state (an open store loaded is not an opening).
+func forget_business_state() -> void:
+	_last_business = ""
+
+
 func scenario_dialog() -> ScenarioDialog:
 	return _scenario_dialog
 

@@ -20,6 +20,9 @@ var runner: SimulationRunner
 var save_dir: String = SaveStore.DIR
 ## The slot to load when the game starts (the title screen's 続きから, #28); "" = a new game.
 static var start_slot := ""
+## A bundled save to start from (the title's 続きから in a debug build without a save of one's own, 2026-11-14): a res://
+## path of a save dictionary in JSON; "" = none.
+static var start_sample := ""
 ## The scenario a new game starts with (the title screen's シナリオ, ScenarioService); "" = free play.
 static var start_scenario := ""
 var _balance: Dictionary
@@ -111,7 +114,15 @@ func _ready() -> void:
 	if start_slot != "":   # #28: 続きから on the title screen
 		var slot := start_slot
 		start_slot = ""
-		_load_game(slot, false)
+		_load_game.call_deferred(slot, false)   # after every panel is ready, so the first refresh reaches them all
+	elif start_sample != "":   # 続きから with the bundled mid-game data (debug builds, no save of one's own)
+		var path := start_sample
+		start_sample = ""
+		var data = JSON.parse_string(FileAccess.get_file_as_string(path)) if FileAccess.file_exists(path) else null
+		if typeof(data) == TYPE_DICTIONARY:
+			_load_data.call_deferred(data)
+		else:
+			push_warning("sample save unreadable: " + path)
 
 
 func _process(delta: float) -> void:
@@ -239,7 +250,12 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 	if not read["ok"]:
 		var key := &"save_empty" if read["error"] == "no_save" else &"save_corrupt"
 		return CommandResult.failure(&"INVALID_OPERATION", state.revision, key)
-	var loaded := SaveGame.from_dict(read["data"], _balance, _fixtures, _products)
+	return _load_data(read["data"])
+
+
+## Replaces the running state with a save dictionary once it is fully validated; anything wrong leaves the game as it is.
+func _load_data(save: Dictionary) -> CommandResult:
+	var loaded := SaveGame.from_dict(save, _balance, _fixtures, _products)
 	if not loaded["ok"]:
 		var key := &"save_unsupported" if loaded["unsupported_version"] else &"save_invalid"
 		return CommandResult.failure(&"INVALID_OPERATION", state.revision, key)
@@ -252,6 +268,13 @@ func _load_game(slot_id: String, use_backup: bool) -> CommandResult:
 	cue_bridge.reset()   # a loaded game never replays what was announced before
 	commands = GameCommands.new(state)
 	runner = SimulationRunner.new(state)
+	# The ledger totals behind the goals are recounted now, not when the clock next runs (a save opens paused); what
+	# that completes is recorded silently: a load never replays an announcement (15 §6).
+	ProgressionService.evaluate(state)
+	state.take_progression_events()
+	var guide := get_node_or_null("../ProgressionController")
+	if guide != null and guide.has_method("forget_business_state"):
+		guide.forget_business_state()   # an open store loaded is not the player opening it: no 開店！ band
 	_publish_snapshot()
 	var world := _world()
 	if world != null and world.has_method("reset_default_view"):

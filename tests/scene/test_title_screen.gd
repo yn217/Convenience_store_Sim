@@ -10,6 +10,7 @@ func test_the_title_screen(t, tree) -> void:
 		DirAccess.remove_absolute(SaveStore.path_for(id, dir))
 	var title: TitleScreen = load("res://scenes/title/Title.tscn").instantiate()
 	title.save_dir = dir
+	title.sample_path = ""   # this test is about the player's own saves
 	tree.root.add_child(title)
 	await tree.process_frame
 	for n in ["NewGame", "Continue", "Settings", "Quit"]:
@@ -37,5 +38,35 @@ func test_the_title_screen(t, tree) -> void:
 	t.eq((again.get_node("AppRoot") as AppRoot).state.grid.instances.size(), 1, "the saved store is back")
 	t.eq(AppRoot.start_slot, "", "loaded once")
 	again.queue_free()
+	title.queue_free()
+	await tree.process_frame
+
+
+## Debug builds (user's request 2026-11-14): without a save of one's own, 続きから opens the bundled mid-game data.
+func test_continue_opens_the_bundled_mid_game_data_without_a_save(t, tree) -> void:
+	var dir := "user://test_title_sample"
+	DirAccess.make_dir_recursive_absolute(dir)
+	for id in SaveStore.SLOTS:
+		DirAccess.remove_absolute(SaveStore.path_for(id, dir))
+	var title: TitleScreen = load("res://scenes/title/Title.tscn").instantiate()
+	title.save_dir = dir
+	tree.root.add_child(title)
+	await tree.process_frame
+	t.ok(FileAccess.file_exists(TitleScreen.SAMPLE_SAVE), "the mid-game data is bundled")
+	t.ok(not title._continue.disabled, "続きから is on without a save (debug build)")
+	t.ok(title._continue.tooltip_text.contains("テスト用"), "and says it is the test data: %s" % title._continue.tooltip_text)
+	AppRoot.start_sample = TitleScreen.SAMPLE_SAVE
+	var main: Node = load("res://scenes/main/Main.tscn").instantiate()
+	main.get_node("AppRoot").save_dir = dir
+	tree.root.add_child(main)
+	await tree.process_frame
+	var app: AppRoot = main.get_node("AppRoot")
+	t.eq(AppRoot.start_sample, "", "used once")
+	t.ok(app.state.day >= 3 and app.state.grid.instances.size() >= 10 and app.state.daily_reports.size() >= 3, "a store some days in: day %d, %d fixtures" % [app.state.day, app.state.grid.instances.size()])
+	t.eq(int(app.state.speed_setting), 0, "it opens paused")
+	await tree.process_frame
+	t.ok(not (main.get_node("ProgressionController") as ProgressionController)._opening_cutin_active, "a loaded open store does not play the 開店！ band")
+	t.ok(int(app.state.progression_totals["revenue"]) > 0, "the goal totals are recounted on load, before the clock runs")
+	main.queue_free()
 	title.queue_free()
 	await tree.process_frame
