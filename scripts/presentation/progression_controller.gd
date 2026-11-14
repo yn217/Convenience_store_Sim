@@ -579,7 +579,10 @@ func _watch_window() -> void:
 	var window := get_parent().get_node_or_null("ManagementWindow") as Control
 	if window == null:
 		return
-	window.visibility_changed.connect(func(): set_suppressed(window.visible, "window"))
+	window.visibility_changed.connect(func():
+		set_suppressed(window.visible, "window")
+		if window.visible:
+			UiFx.open_pop(window))   # the 経営管理 window pops in (2026-11-14)
 	set_suppressed(window.visible, "window")
 	# The build catalog stands at the left edge, where her bubble is (screen audit 2026-11-01): she steps aside there too.
 	var palette := get_parent().get_node_or_null("Layout/MainArea/BuildPalette") as Control

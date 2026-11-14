@@ -25,6 +25,22 @@ const META_POP := &"ui_fx_pop"
 static var reduced := false
 
 
+## A panel that opens pops in: from 95 % and transparent to full size over OPEN_SECONDS, with a small overshoot
+## (2026-11-14, so windows and dialogs do not just appear). Nothing under reduce_motion.
+const OPEN_SECONDS := 0.2
+
+
+static func open_pop(c: Control) -> void:
+	if reduced or c == null or not c.is_inside_tree():
+		return
+	c.pivot_offset = c.size * 0.5
+	c.scale = Vector2(0.95, 0.95)
+	c.modulate.a = 0.0
+	var tw := c.create_tween()
+	tw.tween_property(c, "scale", Vector2.ONE, OPEN_SECONDS).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(c, "modulate:a", 1.0, OPEN_SECONDS * 0.7)
+
+
 ## Scale of a button for its pointer state: pressed sinks to 0.96, hovered lifts to 1.04, otherwise 1.
 static func press_scale(hovered: bool, pressed: bool) -> float:
 	if pressed:

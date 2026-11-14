@@ -91,6 +91,7 @@ func _open(view: Dictionary) -> void:
 		_buttons.add_child(b)
 	visible = true
 	_guide_aside(true)
+	UiFx.open_pop(_root.find_child("EventChoicePanel", true, false) as Control)
 	if _app != null and _app.get("state") != null and int(_app.state.speed_setting) > 0:
 		_paused_by_dialog = _app.set_speed(0).ok
 

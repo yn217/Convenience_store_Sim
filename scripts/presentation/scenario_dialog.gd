@@ -65,6 +65,7 @@ func offer_intro(snap: Dictionary) -> void:
 	_to_title.visible = false
 	visible = true
 	_guide_aside(true)
+	UiFx.open_pop(_root.find_child("ScenarioPanel", true, false) as Control)
 
 
 ## The result card for SCENARIO_CLEARED / SCENARIO_FAILED; records a clear on this computer.
@@ -87,6 +88,7 @@ func show_result(event: Dictionary, view: Dictionary) -> void:
 	_to_title.visible = true
 	visible = true
 	_guide_aside(true)
+	UiFx.open_pop(_root.find_child("ScenarioPanel", true, false) as Control)
 	if _app != null and _app.get("state") != null and int(_app.state.speed_setting) > 0:
 		_paused_by_dialog = _app.set_speed(0).ok
 
