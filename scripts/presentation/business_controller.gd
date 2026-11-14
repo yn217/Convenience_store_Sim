@@ -451,21 +451,31 @@ func open_map() -> void:
 		_map_window.name = "AreaMap"
 		_map_window.title = "地域マップ"
 		_map_window.size = Vector2i(1240, 720)   # a 16:9 picture map needs the width
+		_map_window.theme = map_window_theme()   # the 経営管理 window's cream and brown (2026-11-14), not Godot's grey
 		_map_window.close_requested.connect(func(): _map_window.hide())
 		_map_window.visibility_changed.connect(func():   # the corner assistant steps aside while the map is open
 			var guide := get_node_or_null("../ProgressionController")
 			if guide != null and guide.has_method("set_map_open"):
 				guide.set_map_open(_map_window.visible))
+		var frame := PanelContainer.new()
+		frame.name = "MapFrame"
+		frame.theme_type_variation = &"WindowFrame"
+		frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		var row := HBoxContainer.new()
-		row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		row.add_theme_constant_override("separation", 12)
+		frame.add_child(row)
 		_map_view = MapView.new()
 		_map_view.name = "MapView"
 		_map_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_map_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		_map_view.plot_clicked.connect(_show_plot)
 		row.add_child(_map_view)
+		var side_card := PanelContainer.new()
+		side_card.theme_type_variation = &"Card"
 		var side := VBoxContainer.new()
 		side.custom_minimum_size = Vector2(280, 0)
+		side.add_theme_constant_override("separation", 8)
+		side_card.add_child(side)
 		_map_choice = OptionButton.new()
 		_map_choice.name = "MapChoice"
 		for id in WorldMap.MAPS:
@@ -474,7 +484,8 @@ func open_map() -> void:
 		_map_choice.item_selected.connect(func(i): show_map(String(_map_choice.get_item_metadata(i))))
 		side.add_child(_map_choice)
 		_map_title = Label.new()
-		_map_title.add_theme_font_size_override("font_size", 18)
+		_map_title.add_theme_font_size_override("font_size", 22)
+		_map_title.add_theme_color_override("font_color", UiTheme.W_ACCENT)
 		side.add_child(_map_title)
 		_map_info = Label.new()
 		_map_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -524,14 +535,39 @@ func open_map() -> void:
 		_map_pick.text = "ここに出店する"
 		_map_pick.disabled = true
 		_map_pick.pressed.connect(func(): pick_site(_map_selected))
+		_map_pick.theme_type_variation = &"PrimaryButton"
+		_map_pick.custom_minimum_size = Vector2(0, 52)
 		side.add_child(_map_pick)
-		row.add_child(side)
-		_map_window.add_child(row)
+		row.add_child(side_card)
+		_map_window.add_child(frame)
 		add_child(_map_window)
 		_refresh_map_pilot_picture()
 		show_map(String(_snap.get("map_id", "")) if String(_snap.get("map_id", "")) != "" else WorldMap.DEFAULT_MAP)
 	_map_view.current = _current_plot_on(_map_view.map_id)
 	_map_window.popup_centered()
+
+
+## The map window's theme: the 経営管理 window's (UiTheme.build_window) plus a brown title bar and frame for the Window
+## itself, white title text and a round close button.
+static func map_window_theme() -> Theme:
+	var theme := UiTheme.build_window()
+	var border := StyleBoxFlat.new()
+	border.bg_color = UiTheme.W_RIBBON_BROWN
+	border.border_color = UiTheme.W_RIM.darkened(0.2)
+	border.set_border_width_all(3)
+	border.set_corner_radius_all(14)
+	border.expand_margin_top = 36
+	border.expand_margin_left = 6
+	border.expand_margin_right = 6
+	border.expand_margin_bottom = 6
+	border.shadow_color = Color(0, 0, 0, 0.35)
+	border.shadow_size = 14
+	theme.set_stylebox("embedded_border", "Window", border)
+	theme.set_stylebox("embedded_unfocused_border", "Window", border)
+	theme.set_color("title_color", "Window", Color.WHITE)
+	theme.set_font_size("title_font_size", "Window", 20)
+	theme.set_constant("title_height", "Window", 34)
+	return theme
 
 
 func _refresh_map_pilot_picture(_enabled: bool = true) -> void:

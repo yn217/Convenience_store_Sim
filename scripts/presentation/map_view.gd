@@ -20,6 +20,7 @@ const PLOT_RADIUS := 13.0
 const HIT_RADIUS := 18.0
 const LAND := Color("e8efe4")
 const WATER := Color("16324a")
+const LETTERBOX := Color("d8c4a0")
 const ROAD := Color("ffffff")
 const ROAD_EDGE := Color("b9c4bb")
 const RAIL := Color("5a6470")
@@ -165,7 +166,8 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), WATER)
+	# Around a picture map: a warm frame colour like the window (2026-11-14); a code-drawn map keeps its sea.
+	draw_rect(Rect2(Vector2.ZERO, size), LETTERBOX if _background != null else WATER)
 	if _map.is_empty():
 		return
 	var k := _scale()
