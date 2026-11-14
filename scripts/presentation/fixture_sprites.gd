@@ -34,6 +34,18 @@ func rotation_entry(type_id: String, rotation: int) -> Dictionary:
 	return entry
 
 
+## The same variant's picture for a stock state (HALF / EMPTY, issue #91): the manifest beside the chosen one, named
+## <visual>_<state>.visual.json. {} when that variant has no picture for the state.
+func state_entry(type_id: String, rotation: int, state: String) -> Dictionary:
+	refresh()
+	var key := "%s/%s/%d" % [state, type_id, rotation]
+	if not _cache.has(key):
+		var choice := VisualVariants.resolve(_prefs, "fixtures", type_id, VisualVariants.override())
+		var path := str(choice["path"]).replace(".visual.json", "_%s.visual.json" % state.to_lower())
+		_cache[key] = _load_path(path, rotation, str(choice["variant"])) if path != str(choice["path"]) else {}
+	return _cache[key]
+
+
 ## The base variant's entry ("a", items drawn live), whatever variant is chosen: what a shelf with products baked into
 ## its picture falls back to when it is not full (issue #91: no HALF / EMPTY picture yet).
 func base_entry(type_id: String, rotation: int) -> Dictionary:
@@ -51,7 +63,10 @@ func has_sprites(type_id: String) -> bool:
 
 func _load(type_id: String, rotation: int, forced: String = "") -> Dictionary:
 	var choice := VisualVariants.resolve(_prefs, "fixtures", type_id, forced if forced != "" else VisualVariants.override())
-	var path := str(choice["path"])
+	return _load_path(str(choice["path"]), rotation, str(choice["variant"]))
+
+
+func _load_path(path: String, rotation: int, variant: String) -> Dictionary:
 	if path == "" or not FileAccess.file_exists(path):
 		return {}
 	var json := JSON.new()
@@ -76,6 +91,6 @@ func _load(type_id: String, rotation: int, forced: String = "") -> Dictionary:
 		"anchor": Vector2(rot["anchor_px"][0], rot["anchor_px"][1]),
 		"layers": layers,
 		"slots": slots,
-		"variant": choice["variant"],
+		"variant": variant,
 		"baked": VisualVariants.products_baked(json.data),
 	}

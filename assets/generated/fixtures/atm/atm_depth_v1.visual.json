@@ -19,7 +19,7 @@
   },
   "variant": "depth_v1",
   "state": "FULL",
-  "runtime_approved": false,
+  "runtime_approved": true,
   "rotations": {
     "0": {
       "canvas_px": [

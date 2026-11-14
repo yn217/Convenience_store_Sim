@@ -123,6 +123,6 @@ func test_products_baked_flag(t, _tree) -> void:
 
 func test_real_preferences_file_lists_the_pilot(t, _tree) -> void:
 	var prefs := VisualVariants.load_preferences()
-	t.eq(prefs.get("fixtures", {}).get("fridge_drink", []), ["painted_v1", "a"], "fridge_drink order")
-	t.eq(prefs.get("fixtures", {}).get("shelf_general", []), ["painted_v1", "a"], "shelf_general order")
+	t.eq(prefs.get("fixtures", {}).get("fridge_drink", []), ["depth_v1", "painted_v1", "a"], "fridge_drink order")
+	t.eq(prefs.get("fixtures", {}).get("shelf_general", []), ["depth_v1", "painted_v1", "a"], "shelf_general order")
 	t.eq(VisualVariants.load_preferences("user://no_such_visual_variants.json"), {}, "missing file gives no preferences")

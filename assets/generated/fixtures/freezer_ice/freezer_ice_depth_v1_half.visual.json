@@ -1,0 +1,241 @@
+{
+  "manifest_version": 1,
+  "visual_id": "freezer_ice_depth_v1_half",
+  "fixture_type_id": "freezer_ice",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 2,
+    "h": 2
+  },
+  "dimensions_m": {
+    "width": 1.92,
+    "depth": 1.92,
+    "height": 1
+  },
+  "variant": "depth_v1",
+  "state": "HALF",
+  "runtime_approved": true,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        698,
+        479
+      ],
+      "anchor_px": [
+        348.69,
+        231.75
+      ],
+      "layers": {
+        "body": "freezer_ice_depth_v1_half_0_body.png",
+        "shadow": "freezer_ice_depth_v1_half_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.69,
+        231.75
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          348.69,
+          105.76
+        ],
+        "cell1_item0": [
+          471.57,
+          167.2
+        ],
+        "cell2_item0": [
+          225.81,
+          167.2
+        ],
+        "cell3_item0": [
+          348.69,
+          228.64
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          348.69,
+          167.75
+        ],
+        [
+          604.69,
+          295.75
+        ],
+        [
+          348.69,
+          423.75
+        ],
+        [
+          92.69,
+          295.75
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        698,
+        479
+      ],
+      "anchor_px": [
+        348.69,
+        231.75
+      ],
+      "layers": {
+        "body": "freezer_ice_depth_v1_half_1_body.png",
+        "shadow": "freezer_ice_depth_v1_half_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.69,
+        231.75
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          471.57,
+          167.2
+        ],
+        "cell1_item0": [
+          348.69,
+          228.64
+        ],
+        "cell2_item0": [
+          348.69,
+          105.76
+        ],
+        "cell3_item0": [
+          225.81,
+          167.2
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          348.69,
+          167.75
+        ],
+        [
+          604.69,
+          295.75
+        ],
+        [
+          348.69,
+          423.75
+        ],
+        [
+          92.69,
+          295.75
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        698,
+        479
+      ],
+      "anchor_px": [
+        348.69,
+        231.75
+      ],
+      "layers": {
+        "body": "freezer_ice_depth_v1_half_2_body.png",
+        "shadow": "freezer_ice_depth_v1_half_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.69,
+        231.75
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          348.69,
+          228.64
+        ],
+        "cell1_item0": [
+          225.81,
+          167.2
+        ],
+        "cell2_item0": [
+          471.57,
+          167.2
+        ],
+        "cell3_item0": [
+          348.69,
+          105.76
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          348.69,
+          167.75
+        ],
+        [
+          604.69,
+          295.75
+        ],
+        [
+          348.69,
+          423.75
+        ],
+        [
+          92.69,
+          295.75
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        698,
+        479
+      ],
+      "anchor_px": [
+        348.69,
+        231.75
+      ],
+      "layers": {
+        "body": "freezer_ice_depth_v1_half_3_body.png",
+        "shadow": "freezer_ice_depth_v1_half_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.69,
+        231.75
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          225.81,
+          167.2
+        ],
+        "cell1_item0": [
+          348.69,
+          105.76
+        ],
+        "cell2_item0": [
+          348.69,
+          228.64
+        ],
+        "cell3_item0": [
+          471.57,
+          167.2
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          348.69,
+          167.75
+        ],
+        [
+          604.69,
+          295.75
+        ],
+        [
+          348.69,
+          423.75
+        ],
+        [
+          92.69,
+          295.75
+        ]
+      ]
+    }
+  }
+}

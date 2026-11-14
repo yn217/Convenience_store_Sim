@@ -8,7 +8,11 @@ scaled by 181.02 * S / 1024 and placed so the anchor is the centre of the footpr
 
 Game rotation r shows the render at yaw 90 * r: the game turns fixtures N -> E -> S -> W, and Blender's +y is the
 game's north. The products are part of the picture, so the manifests say state FULL (VisualVariants.products_baked).
-The variant is not runtime_approved; it is seen with --visual-variant=depth_v1 or the settings toggle until approved.
+The user approved the variant for the game on 2026-11-14 (runtime_approved, first in visual_variants.json).
+
+HALF and EMPTY (issue #91 stock states, 2026-11-14): depth_states_20261114/final/<type>_<state>_y<yaw>.png, the same
+fixture with part or all of its goods repainted away, framed exactly like FULL. They become <type>_depth_v1_<state>
+manifests with state HALF / EMPTY; FixturePresenter picks the state from the shelf's stock.
 
 Run: python tools/assets/package_depth_fixtures.py [type ...]
 """
@@ -22,6 +26,8 @@ from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = Path("F:/Stable Diffusion/game-assets/depth_fixtures_all_20261107")
+STATES_SRC = Path("F:/Stable Diffusion/game-assets/depth_states_20261114")
+STATES = {"half": "HALF", "empty": "EMPTY"}
 OUT = ROOT / "assets/generated/fixtures"
 VARIANT = "depth_v1"
 EL = math.radians(30)
@@ -87,7 +93,7 @@ def shadow(canvas, anchor, w, h):
     return out
 
 
-def package(type_id, catalog, boxes):
+def package(type_id, catalog, boxes, state=""):
     fx = catalog[type_id]
     base_path = OUT / type_id / f"{type_id}_a.visual.json"
     base = json.loads(base_path.read_text(encoding="utf-8"))
@@ -95,13 +101,15 @@ def package(type_id, catalog, boxes):
     k = PX_PER_M * S / RENDER
     manifest = {k2: v for k2, v in base.items() if k2 != "rotations"}
     # state FULL = products baked into the picture (VisualVariants.products_baked); provenance is in docs/ASSET_CREDITS.md.
-    manifest.update({"visual_id": f"{type_id}_{VARIANT}", "variant": VARIANT, "state": "FULL", "runtime_approved": False})
+    vid = f"{type_id}_{VARIANT}" + (f"_{state}" if state else "")
+    manifest.update({"visual_id": vid, "variant": VARIANT, "state": STATES.get(state, "FULL"), "runtime_approved": True})   # the user's decision 2026-11-14
     manifest["rotations"] = {}
     report = {}
     for r in range(4):
         yaw = 90 * r
-        src = Image.open(SRC / "final" / f"{type_id}_y{yaw}.png").convert("RGBA")
-        bbox = src.getbbox()
+        src = Image.open((STATES_SRC / "final" / f"{type_id}_{state}_y{yaw}.png") if state else (SRC / "final" / f"{type_id}_y{yaw}.png")).convert("RGBA")
+        # A stock state is cut with the FULL picture's box, so all three share canvas and anchor.
+        bbox = Image.open(SRC / "final" / f"{type_id}_y{yaw}.png").getbbox() if state else src.getbbox()
         crop = src.crop(bbox)
         size = (max(1, round(crop.width * k)), max(1, round(crop.height * k)))
         body = crop.resize(size, Image.Resampling.LANCZOS)
@@ -118,7 +126,7 @@ def package(type_id, catalog, boxes):
         anchor = anchor + off
         out = Image.new("RGBA", canvas)
         out.alpha_composite(body, off)
-        name = f"{type_id}_{VARIANT}_{r}"
+        name = f"{vid}_{r}"
         out.save(OUT / type_id / f"{name}_body.png")
         shadow(canvas, anchor, w, h).save(OUT / type_id / f"{name}_shadow.png")
         b = base["rotations"][str(r)]
@@ -132,7 +140,7 @@ def package(type_id, catalog, boxes):
             rot["selection_polygon_px"] = [[round(p[0] + shift[0], 2), round(p[1] + shift[1], 2)] for p in b["selection_polygon_px"]]
         manifest["rotations"][str(r)] = rot
         report[r] = {"scale": round(k, 4), "canvas": canvas}
-    (OUT / type_id / f"{type_id}_{VARIANT}.visual.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (OUT / type_id / f"{vid}.visual.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return report
 
 
@@ -147,6 +155,10 @@ def main():
             print("skip (no base manifest)", t)
             continue
         print(t, package(t, catalog, boxes)[0])
+        for state in STATES:
+            if all((STATES_SRC / "final" / f"{t}_{state}_y{y}.png").exists() for y in (0, 90, 180, 270)):
+                package(t, catalog, boxes, state)
+                print("  +", state)
 
 
 if __name__ == "__main__":

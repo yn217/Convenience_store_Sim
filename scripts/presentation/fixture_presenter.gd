@@ -658,10 +658,14 @@ func _draw_all() -> void:
 			prof_customers += Time.get_ticks_usec() - q0
 			continue
 		var entry := _sprites.rotation_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))
-		if bool(entry.get("baked", false)) and stock_state(_world.shelf_stock.get(it["inst"]["instance_id"], {}), _capacity(it["inst"]["type_id"])) != "FULL":
-			var base := _sprites.base_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))
-			if not base.is_empty():
-				entry = base   # a picture with its products baked in is only true while the shelf is full (#91)
+		if bool(entry.get("baked", false)):
+			var state := stock_state(_world.shelf_stock.get(it["inst"]["instance_id"], {}), _capacity(it["inst"]["type_id"]))
+			if state != "FULL":   # a picture with its products baked in shows the shelf's stock state (#91)
+				var alt := _sprites.state_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]), state)
+				if alt.is_empty():
+					alt = _sprites.base_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))   # no picture for it: live items
+				if not alt.is_empty():
+					entry = alt
 		if not entry.is_empty():
 			q0 = Time.get_ticks_usec()
 			_draw_sprite(proj, it, entry)

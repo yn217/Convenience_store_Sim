@@ -33,7 +33,7 @@ func test_baked_entry_skips_item_drawing(t, tree) -> void:
 	var ground := proj.world_to_screen(it["lo"].x, it["lo"].y)
 	var stock: Dictionary = world.shelf_stock.get("fridge_drink_0", {})
 	var skus: Dictionary = world.shelf_skus.get("fridge_drink_0", {})
-	var entry: Dictionary = FixtureSprites.new().rotation_entry("fridge_drink", 0)
+	var entry: Dictionary = FixtureSprites.new().base_entry("fridge_drink", 0)
 	t.ok(not entry.is_empty(), "base fridge_drink sprites load")
 	t.ok(not bool(entry.get("baked", true)), "base variant is not baked")
 	t.ok(PresenterScript.draws_products(entry), "base variant keeps the item drawing")
@@ -66,5 +66,5 @@ func test_variant_switch_reloads_the_sprite_entries(t, tree) -> void:
 	t.ok(not sprites.refresh(), "and only once")
 	VisualVariants.set_test_images(not VisualVariants.test_images())
 	t.ok(sprites.refresh(), "switching back reloads again")
-	t.eq(sprites.rotation_entry("fridge_drink", 0)["variant"], "a", "no approved painted variant: base stays in use")
+	t.eq(sprites.rotation_entry("fridge_drink", 0)["variant"], "depth_v1", "the approved depth art is in use (2026-11-14)")
 	await tree.process_frame

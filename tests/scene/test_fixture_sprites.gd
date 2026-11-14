@@ -14,9 +14,9 @@ func test_manifest_entries_for_every_rotation(t, _tree) -> void:
 			t.ok(e["layers"].has("body") and e["layers"].has("shadow"), "%s r%d body+shadow" % [type_id, r])
 	t.ok(sprites.rotation_entry("no_such_type", 0).is_empty(), "type without art keeps its placeholder")
 	t.ok(not sprites.has_sprites("no_such_type"))
-	t.eq(sprites.rotation_entry("fridge_drink", 0)["layers"].has("glass_front"), true)
-	t.eq(sprites.rotation_entry("fridge_drink", 0)["slots"].size(), 24)
-	t.eq(sprites.rotation_entry("register_basic", 0)["slots"].size(), 0)
+	t.eq(sprites.base_entry("fridge_drink", 0)["layers"].has("glass_front"), true, "the current art keeps its glass layer")
+	t.eq(sprites.base_entry("fridge_drink", 0)["slots"].size(), 24)
+	t.eq(sprites.base_entry("register_basic", 0)["slots"].size(), 0)
 
 
 func test_presenter_draws_all_rotations_and_zooms(t, tree) -> void:
@@ -47,6 +47,7 @@ func test_presenter_draws_all_rotations_and_zooms(t, tree) -> void:
 
 ## Package icons (command type 3) appear at close zoom only, follow the SKU in the slot, and are dropped from the cache when it changes.
 func test_shelf_items_become_package_icons(t, tree) -> void:
+	VisualVariants.set_override("a")   # live item icons are the current art's (the depth art has its goods baked in)
 	var fixtures := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
 	var products := ProductCatalog.from_json_text(FileAccess.get_file_as_string("res://data/products/mvp_v1.json"))
 	var world: Node2D = load("res://scenes/store/StoreWorld.tscn").instantiate()
@@ -76,6 +77,7 @@ func test_shelf_items_become_package_icons(t, tree) -> void:
 	await tree.process_frame
 	var after := _icon_cmds(presenter)
 	t.ok(after.size() > 0 and after[0][1] != first_tex, "restocking another SKU redraws its icon")
+	VisualVariants.set_override("")
 	world.queue_free()
 	await tree.process_frame
 

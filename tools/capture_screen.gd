@@ -396,6 +396,23 @@ func _run() -> void:
 		await process_frame
 	_reapply_capture_pilot_cue(main)
 	_reapply_capture_story_cue(main)
+	if OS.get_cmdline_user_args().has("--stock-mix"):   # every third shelf at 40 %, every third empty (issue #91 states)
+		var order: Array = []
+		for seg in s.inventory_segments:
+			var fid := String(seg["location"].get("fixture_id", ""))
+			if seg["location"]["kind"] == "FIXTURE" and not order.has(fid):
+				order.append(fid)
+		for seg in s.inventory_segments:
+			if seg["location"]["kind"] != "FIXTURE":
+				continue
+			match order.find(String(seg["location"]["fixture_id"])) % 3:
+				1:
+					seg["physical_qty"] = int(int(seg["physical_qty"]) * 0.4)
+				2:
+					seg["physical_qty"] = 0
+		app._publish_snapshot()
+		for i in 4:
+			await process_frame
 	for a in OS.get_cmdline_user_args():   # --decor=all or id,id: storefront decorations bought (DecorCatalog)
 		if a.begins_with("--decor="):
 			var want := a.trim_prefix("--decor=")

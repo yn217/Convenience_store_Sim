@@ -11,8 +11,101 @@
     }
   },
   "fixtures": {
-    "fridge_drink": ["painted_v1", "a"],
-    "shelf_general": ["painted_v1", "a"]
+    "fridge_drink": [
+      "depth_v1",
+      "painted_v1",
+      "a"
+    ],
+    "shelf_general": [
+      "depth_v1",
+      "painted_v1",
+      "a"
+    ],
+    "atm": [
+      "depth_v1",
+      "a"
+    ],
+    "capsule_toy_1": [
+      "depth_v1",
+      "a"
+    ],
+    "coffee_machine": [
+      "depth_v1",
+      "a"
+    ],
+    "copier": [
+      "depth_v1",
+      "a"
+    ],
+    "crane_game": [
+      "depth_v1",
+      "a"
+    ],
+    "eat_in_counter": [
+      "depth_v1",
+      "a"
+    ],
+    "eat_in_table": [
+      "depth_v1",
+      "a"
+    ],
+    "frappe_blender": [
+      "depth_v1",
+      "a"
+    ],
+    "freezer_ice": [
+      "depth_v1",
+      "a"
+    ],
+    "fridge_daily": [
+      "depth_v1",
+      "a"
+    ],
+    "pizza_oven": [
+      "depth_v1",
+      "a"
+    ],
+    "shelf_bread": [
+      "depth_v1",
+      "a"
+    ],
+    "shelf_goods": [
+      "depth_v1",
+      "a"
+    ],
+    "shelf_noodle": [
+      "depth_v1",
+      "a"
+    ],
+    "shelf_onigiri": [
+      "depth_v1",
+      "a"
+    ],
+    "shelf_snack": [
+      "depth_v1",
+      "a"
+    ],
+    "soft_serve_machine": [
+      "depth_v1",
+      "a"
+    ],
+    "staff_room_l": [
+      "depth_v1",
+      "a"
+    ],
+    "staff_room_m": [
+      "depth_v1",
+      "a"
+    ],
+    "staff_room_s": [
+      "depth_v1",
+      "a"
+    ],
+    "warmer_oden": [
+      "depth_v1",
+      "a"
+    ]
   },
-  "props": {}
+  "props": {},
+  "_comment_depth_v1": "depth_v1 (Blender depth -> ComfyUI, tools/assets/package_depth_fixtures.py) is the default fixture art since the user's decision 2026-11-14; its HALF / EMPTY pictures follow the shelf's stock."
 }

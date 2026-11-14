@@ -1,0 +1,273 @@
+{
+  "manifest_version": 1,
+  "visual_id": "warmer_oden_depth_v1_half",
+  "fixture_type_id": "warmer_oden",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 0.92,
+    "height": 1.1
+  },
+  "variant": "depth_v1",
+  "state": "HALF",
+  "runtime_approved": true,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_half_0_body.png",
+        "shadow": "warmer_oden_depth_v1_half_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          232.5,
+          215.68
+        ],
+        "cell1_item0": [
+          203.49,
+          201.17
+        ],
+        "cell2_item0": [
+          174.48,
+          186.66
+        ],
+        "cell3_item0": [
+          267.06,
+          198.4
+        ],
+        "cell4_item0": [
+          238.05,
+          183.89
+        ],
+        "cell5_item0": [
+          209.04,
+          169.38
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_half_1_body.png",
+        "shadow": "warmer_oden_depth_v1_half_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          174.48,
+          198.4
+        ],
+        "cell1_item0": [
+          203.49,
+          183.89
+        ],
+        "cell2_item0": [
+          232.5,
+          169.38
+        ],
+        "cell3_item0": [
+          209.04,
+          215.68
+        ],
+        "cell4_item0": [
+          238.05,
+          201.17
+        ],
+        "cell5_item0": [
+          267.06,
+          186.66
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_half_2_body.png",
+        "shadow": "warmer_oden_depth_v1_half_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          209.04,
+          169.38
+        ],
+        "cell1_item0": [
+          238.05,
+          183.89
+        ],
+        "cell2_item0": [
+          267.06,
+          198.4
+        ],
+        "cell3_item0": [
+          174.48,
+          186.66
+        ],
+        "cell4_item0": [
+          203.49,
+          201.17
+        ],
+        "cell5_item0": [
+          232.5,
+          215.68
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_half_3_body.png",
+        "shadow": "warmer_oden_depth_v1_half_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          267.06,
+          186.66
+        ],
+        "cell1_item0": [
+          238.05,
+          201.17
+        ],
+        "cell2_item0": [
+          209.04,
+          215.68
+        ],
+        "cell3_item0": [
+          232.5,
+          169.38
+        ],
+        "cell4_item0": [
+          203.49,
+          183.89
+        ],
+        "cell5_item0": [
+          174.48,
+          198.4
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ]
+    }
+  }
+}

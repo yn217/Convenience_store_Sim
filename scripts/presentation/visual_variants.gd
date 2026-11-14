@@ -50,6 +50,14 @@ static func override() -> String:
 	return TEST_VARIANT if _test_images else ""
 
 
+## Tests: the dev override as if given on the command line ("" = none). Bumps the generation so sprites reload.
+static func set_override(name: String) -> void:
+	_arg_parsed = true
+	if name != _arg_variant:
+		_arg_variant = name
+		generation += 1
+
+
 static func test_images() -> bool:
 	return _test_images
 
@@ -106,4 +114,4 @@ static func _usable(path: String, waived: bool) -> bool:
 
 ## A painted FULL variant has its products baked into the sprite: the presenter must not draw items on top.
 static func products_baked(manifest: Dictionary) -> bool:
-	return bool(manifest.get("products_baked", false)) or str(manifest.get("state", "")) == "FULL"
+	return bool(manifest.get("products_baked", false)) or str(manifest.get("state", "")) in ["FULL", "HALF", "EMPTY"]
