@@ -466,7 +466,7 @@ func open_map() -> void:
 		var backdrop := ColorRect.new()
 		backdrop.name = "MapBackdrop"
 		backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		backdrop.material = _blur_material()
+		backdrop.material = UiFx.blur_material()
 		backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
 		_map_window.add_child(backdrop)
 		var frame := PanelContainer.new()
@@ -635,22 +635,6 @@ static func _pop_box(face: Color, radius: int, pad: int, edge: Color = Color(0, 
 	return b
 
 
-## The store behind the map, blurred and warmed (a screen-texture blur at a mip level).
-static func _blur_material() -> ShaderMaterial:
-	var sh := Shader.new()
-	sh.code = "shader_type canvas_item;\n" \
-		+ "uniform sampler2D screen_tex : hint_screen_texture, filter_linear_mipmap;\n" \
-		+ "uniform float lod = 3.0;\n" \
-		+ "uniform vec4 tint : source_color = vec4(0.18, 0.10, 0.14, 0.45);\n" \
-		+ "void fragment() {\n" \
-		+ "\tvec3 c = textureLod(screen_tex, SCREEN_UV, lod).rgb;\n" \
-		+ "\tCOLOR = vec4(mix(c, tint.rgb, tint.a), 1.0);\n" \
-		+ "}\n"
-	var m := ShaderMaterial.new()
-	m.shader = sh
-	return m
-
-
 func _refresh_map_pilot_picture(_enabled: bool = true) -> void:
 	if _pilot_map_picture == null:
 		return
@@ -660,32 +644,11 @@ func _refresh_map_pilot_picture(_enabled: bool = true) -> void:
 		var entry: Dictionary = pilot.cue_entry("map_proposal_open")
 		var runtime_path := String(entry.get("runtime_path", ""))
 		if runtime_path != "":
-			texture = _trimmed(load(runtime_path) as Texture2D, MAP_FIGURE_SHARE)
+			texture = UiFx.trimmed_figure(load(runtime_path) as Texture2D, MAP_FIGURE_SHARE)
 	_pilot_map_picture.texture = texture
 	_pilot_map_picture.visible = texture != null
 
 
-## The texture cut to its opaque pixels (an AtlasTexture of the used rect), so a figure with wide transparent margins
-## fills the space it is given. Cached per source.
-var _trim_cache: Dictionary = {}
-
-
-## `share` keeps that much of her height from the top (the legs cut off).
-func _trimmed(tex: Texture2D, share: float = 1.0) -> Texture2D:
-	if tex == null:
-		return null
-	var key := "%s#%.2f" % [tex.resource_path, share]
-	if not _trim_cache.has(key):
-		var img := tex.get_image()
-		var used := img.get_used_rect() if img != null else Rect2i()
-		if used.size.x <= 0 or used.size.y <= 0:
-			_trim_cache[key] = tex
-		else:
-			var atlas := AtlasTexture.new()
-			atlas.atlas = tex
-			atlas.region = Rect2(Vector2(used.position), Vector2(used.size.x, roundf(used.size.y * share)))
-			_trim_cache[key] = atlas
-	return _trim_cache[key]
 
 
 ## Shows another area map in the window (#154: Kakogawa beside 青葉市).

@@ -247,8 +247,37 @@ func _build_day_end() -> void:
 	get_parent().add_child.call_deferred(_day_end)
 
 
+## Her figure for the day's mood: the registered pilot pose when the pilot is on, else the mood figure.
+func day_end_figure(mood: String) -> Texture2D:
+	var pilot := get_node_or_null("../CharacterVisualPilotPanel")
+	if pilot != null and pilot.has_method("is_pilot_enabled") and pilot.is_pilot_enabled() and pilot.has_method("day_end_entry"):
+		var path := String(pilot.day_end_entry(mood).get("runtime_path", ""))
+		if path != "" and ResourceLoader.exists(path):
+			return load(path) as Texture2D
+	var fallback := String(ProgressionController.FIGURES.get(mood, ProgressionController.FIGURES["normal"]))
+	return load(fallback) as Texture2D if ResourceLoader.exists(fallback) else null
+
+
+var _paused_for_day_end := false
+
+
+## The clock stops while the day's result is up (2026-11-14) and runs on at the earlier speed after 翌日の経営へ.
+func _pause_for_day_end() -> void:
+	var app := get_node_or_null("../AppRoot")
+	if app != null and app.get("state") != null and int(app.state.speed_setting) > 0:
+		_paused_for_day_end = app.set_speed(0).ok
+
+
 func _close_day_end() -> void:
 	_day_end.close()
+	var guide_aside := get_node_or_null("../ProgressionController")
+	if guide_aside != null and guide_aside.has_method("set_suppressed"):
+		guide_aside.set_suppressed(false, "day_end")
+	if _paused_for_day_end:
+		_paused_for_day_end = false
+		var app := get_node_or_null("../AppRoot")
+		if app != null and app.get("state") != null:
+			app.set_speed(maxi(int(app.state.last_nonzero_speed), 1))
 	var guide := get_node_or_null("../ProgressionController")
 	if guide != null and guide.has_method("end_day_end"):
 		guide.end_day_end()
@@ -311,14 +340,13 @@ func apply_snapshot(snap: Dictionary) -> void:
 			var closed: Dictionary = reports.back()
 			var day := int(closed["day_index"])
 			var closed_hours: Array = snap.get("hourly_sales", {}).get("yesterday", []) if day == int(snap.get("day", 0)) - 1 else []
+			var mood := ProgressionText.day_end_mood(closed)
 			_day_end.show_day(closed, reports, day_history_lines(day, _day_log.get(day, {}), snap.get("progression", {})), closed_hours,
-				GameCalendar.label(day))
-			var guide := get_node_or_null("../ProgressionController")   # 小春六花 comments on the day beside the card
-			if guide != null and guide.has_method("say_day_end"):
-				guide.say_day_end(ProgressionText.day_end_remark(reports), ProgressionText.day_end_mood(closed))
-			var stage := get_parent().get_node_or_null("AssistantStage") as Control
-			if stage != null:
-				stage.move_to_front()   # she speaks over the result screen's dim, not under it
+				GameCalendar.label(day), ProgressionText.day_end_remark(reports), day_end_figure(mood))
+			var guide := get_node_or_null("../ProgressionController")   # she speaks on the result screen, not in the corner
+			if guide != null and guide.has_method("set_suppressed"):
+				guide.set_suppressed(true, "day_end")
+			_pause_for_day_end()
 		_seen_reports = reports.size()
 	_label.text = summary_text(reports)
 	_last_snap = snap

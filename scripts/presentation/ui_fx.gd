@@ -41,6 +41,46 @@ static func open_pop(c: Control) -> void:
 	tw.parallel().tween_property(c, "modulate:a", 1.0, OPEN_SECONDS * 0.7)
 
 
+## Behind a screen that stops the game (the area map, the day's result): the store blurred and warmed, through a
+## screen-texture blur at a mip level (2026-11-14).
+static func blur_material(tint: Color = Color(0.18, 0.10, 0.14, 0.45)) -> ShaderMaterial:
+	var sh := Shader.new()
+	sh.code = "shader_type canvas_item;\n" \
+		+ "uniform sampler2D screen_tex : hint_screen_texture, filter_linear_mipmap;\n" \
+		+ "uniform float lod = 3.0;\n" \
+		+ "uniform vec4 tint : source_color;\n" \
+		+ "void fragment() {\n" \
+		+ "\tvec3 c = textureLod(screen_tex, SCREEN_UV, lod).rgb;\n" \
+		+ "\tCOLOR = vec4(mix(c, tint.rgb, tint.a), 1.0);\n" \
+		+ "}\n"
+	var m := ShaderMaterial.new()
+	m.shader = sh
+	m.set_shader_parameter("tint", tint)
+	return m
+
+
+static var _trim_cache: Dictionary = {}
+
+
+## A standing figure cut to its opaque pixels and to `share` of its height from the top (0.66: head to thighs), as an
+## AtlasTexture, so a large figure fills its slot without transparent margins. Cached per source and share.
+static func trimmed_figure(tex: Texture2D, share: float = 1.0) -> Texture2D:
+	if tex == null:
+		return null
+	var key := "%s#%.2f" % [tex.resource_path, share]
+	if not _trim_cache.has(key):
+		var img := tex.get_image()
+		var used := img.get_used_rect() if img != null else Rect2i()
+		if used.size.x <= 0 or used.size.y <= 0:
+			_trim_cache[key] = tex
+		else:
+			var atlas := AtlasTexture.new()
+			atlas.atlas = tex
+			atlas.region = Rect2(Vector2(used.position), Vector2(used.size.x, roundf(used.size.y * share)))
+			_trim_cache[key] = atlas
+	return _trim_cache[key]
+
+
 ## Scale of a button for its pointer state: pressed sinks to 0.96, hovered lifts to 1.04, otherwise 1.
 static func press_scale(hovered: bool, pressed: bool) -> float:
 	if pressed:

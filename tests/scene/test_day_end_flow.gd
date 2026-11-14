@@ -33,8 +33,10 @@ func test_a_day_with_no_sale(t, tree) -> void:
 	t.ok(rc._day_end.visible, "the first day closes with its card")
 	t.ok(rc._day_end.card_text().contains("DAY 0　営業結果") and rc._day_end.card_text().contains("売上高 ¥0"), rc._day_end.card_text())
 	t.ok(rc._day_end.card_text().contains("お買い上げ 0人") and rc._day_end.card_text().contains("来店 0人"), "no visitor, no buyer: both 0")
-	t.ok(pc._assistant.text.contains("お買い上げがありませんでした"), "her remark says how to start: %s" % pc._assistant.text)
-	t.eq(pc.mood(), "worried", "a day without a sale: her worried face")
+	t.ok(rc._day_end.card_text().contains("お買い上げがありませんでした"), "her remark says how to start: %s" % rc._day_end.card_text())
+	var shown: Texture2D = rc._day_end._figure.texture
+	var source: Texture2D = (shown as AtlasTexture).atlas if shown is AtlasTexture else shown
+	t.eq(source, rc.day_end_figure("worried"), "a day without a sale: her worried figure")
 	t.ok(rc._day_end._hourly.visible and rc._day_end._hourly.values().all(func(v): return int(v) == 0), "an empty chart, not an error")
 	r[0].queue_free()
 	await tree.process_frame

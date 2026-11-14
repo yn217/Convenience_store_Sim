@@ -10,15 +10,22 @@ func test_the_day_end_card(t, tree) -> void:
 	var app: AppRoot = main.get_node("AppRoot")
 	var rc: ReportController = main.get_node("ReportController")
 	t.ok(rc._day_end != null and not rc._day_end.visible, "no card before a day closes")
+	app.state.business_state = GameState.OPEN
+	app.state.speed_setting = 2
+	app.state.last_nonzero_speed = 2
 	app.state.close_day_once(0)
 	app.call("_publish_snapshot")
 	t.ok(rc._day_end.visible, "a day closed: the card shows")
+	t.eq(int(app.state.speed_setting), 0, "the clock stops while the result is up")
 	t.ok(rc._day_end.card_text().contains("DAY 0　営業結果") and rc._day_end.card_text().contains("売上高"), rc._day_end.card_text())
 	t.ok(rc._day_end.card_text().contains("今日のイベント：なし") and rc._day_end.card_text().contains("獲得した称号："), "the day's history follows the result")
 	var pc: ProgressionController = main.get_node("ProgressionController")
-	t.ok(pc._stage.visible and pc._assistant.text.begins_with("今日もお疲れさまでした"), "小春六花 comments on the day: %s" % pc._assistant.text)
+	t.ok(rc._day_end.card_text().contains("今日もお疲れさまでした"), "小春六花 comments on the day on the result screen")
+	t.ok((rc._day_end.find_child("DayEndRikka", true, false) as TextureRect).visible, "standing large beside the card")
+	t.ok(not pc._stage.visible, "the corner assistant steps aside meanwhile")
 	(rc._day_end.find_child("DayEndNext", true, false) as Button).pressed.emit()
 	t.ok(not rc._day_end.visible, "翌日の経営へ closes it")
+	t.eq(int(app.state.speed_setting), 2, "and the clock runs on at the earlier speed")
 	t.ok(not pc._assistant.text.begins_with("今日もお疲れさまでした"), "and her remark goes with it")
 	app.call("_publish_snapshot")
 	t.ok(not rc._day_end.visible, "it does not come back without a new day")

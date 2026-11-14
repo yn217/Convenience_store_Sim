@@ -3,14 +3,18 @@ extends Control
 ## The day's result screen (#19 SCR-13, redone 2026-11-14 for a commercial look): over a dimmed store, a cream card in
 ## the 経営管理 window's style with the day and a grade (S/A/B/C), four figure tiles that count up with the change
 ## from the day before, the day by hour, the day's topics (event, challenge, titles) and 履歴を詳しく見る / 翌日の経営へ.
-## It slides in; the grade pops after the figures. Presentation only: ReportController feeds it the closed report.
+## It slides in; the grade pops after the figures. Since 2026-11-14 (user's request) the store behind is blurred and 小春六花
+## stands large on the left, from the head to the thighs (the screen edge cuts the rest), with her comment on the day in
+## a speech box; the game is paused meanwhile (ReportController). Presentation only.
 
 signal history_requested
 signal next_requested
 
 const CARD_WIDTH := 900
 const COUNT_SECONDS := 0.8
-const LEFT_ROOM := 420.0
+const LEFT_ROOM := 560.0
+const FIGURE_SHARE := 0.66   # head to thighs
+const FIGURE_RECT := Rect2(110, 200, 460, 1100)   # from the top-left; the bottom runs past the screen (the size of the map screen's figure)
 const GRADE_COLORS := {"S": Color("e8a100"), "A": Color("f07a14"), "B": Color("2f74c8"), "C": Color("8a8a8a")}
 const GRADE_WORDS := {"S": "過去最高の売上！", "A": "好調な一日", "B": "まずまずの一日", "C": "赤字の一日"}
 
@@ -24,6 +28,9 @@ var _tiles: Dictionary = {}   # key -> {value: Label, delta: Label}
 var _hourly: HourlyChart
 var _topics: Label
 var _tween: Tween
+var _figure: TextureRect
+var _line_box: PanelContainer
+var _line: Label
 
 
 func _init() -> void:
@@ -37,7 +44,12 @@ func _init() -> void:
 
 ## Shows the closed day. `reports` are all closed days, oldest first (the last is `closed`); `topics` the history
 ## lines (event, challenge, titles); `hours` the day's sales by hour ([] hides the chart); `date_text` e.g. "4月 第1週".
-func show_day(closed: Dictionary, reports: Array, topics: Array, hours: Array, date_text: String = "") -> void:
+func show_day(closed: Dictionary, reports: Array, topics: Array, hours: Array, date_text: String = "", remark: String = "",
+		figure: Texture2D = null) -> void:
+	_figure.texture = UiFx.trimmed_figure(figure, FIGURE_SHARE)
+	_figure.visible = _figure.texture != null
+	_line.text = remark
+	_line_box.visible = remark != ""
 	var day := int(closed["day_index"])
 	_title.text = "DAY %d　営業結果" % day
 	_date.text = date_text
@@ -76,6 +88,8 @@ func card_text() -> String:
 		var t: Dictionary = _tiles[k]
 		parts.append("%s %s %s %s" % [(t["name"] as Label).text, _final_text(k), (t["delta"] as Label).text, (t["caption"] as Label).text])
 	parts.append(_topics.text)
+	if _line_box.visible:
+		parts.append(_line.text)
 	return "\n".join(parts)
 
 
@@ -149,10 +163,20 @@ func _animate() -> void:
 
 func _build() -> void:
 	var dim := ColorRect.new()
-	dim.color = Color(0.03, 0.05, 0.09, 0.55)
+	dim.name = "DayEndBackdrop"
+	dim.material = UiFx.blur_material()   # the store behind, blurred
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(dim)
+	_figure = TextureRect.new()
+	_figure.name = "DayEndRikka"
+	_figure.position = FIGURE_RECT.position
+	_figure.size = FIGURE_RECT.size
+	_figure.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_figure.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_figure.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_figure.visible = false
+	add_child(_figure)
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	center.offset_left = LEFT_ROOM   # Rikka comments on the day from the bottom-left corner: the card stands right of her
@@ -258,6 +282,36 @@ func _build() -> void:
 	next.custom_minimum_size = Vector2(260, 54)
 	next.pressed.connect(func(): next_requested.emit())
 	row.add_child(next)
+	# Her comment on the day: the assistant's cream speech box, low on the left over her, above everything else.
+	_line_box = PanelContainer.new()
+	_line_box.name = "DayEndLine"
+	_line_box.add_theme_stylebox_override("panel", ProgressionController.bubble_style())
+	_line_box.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_line_box.offset_left = 40
+	_line_box.offset_right = 700
+	_line_box.offset_top = -40
+	_line_box.offset_bottom = -40
+	_line_box.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_line_box.visible = false
+	add_child(_line_box)
+	var line_col := VBoxContainer.new()
+	line_col.add_theme_constant_override("separation", 6)
+	_line_box.add_child(line_col)
+	var tab := PanelContainer.new()
+	tab.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	tab.add_theme_stylebox_override("panel", ProgressionController._name_tab_style())
+	var who := Label.new()
+	who.text = "%s（店長アシスタント）" % ProgressionController.ASSISTANT_NAME
+	who.add_theme_color_override("font_color", Color.WHITE)
+	who.add_theme_font_size_override("font_size", 16)
+	tab.add_child(who)
+	line_col.add_child(tab)
+	_line = Label.new()
+	_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_line.add_theme_font_size_override("font_size", 20)
+	_line.add_theme_color_override("font_color", ProgressionController.BUBBLE_TEXT)
+	_line.custom_minimum_size = Vector2(600, 0)
+	line_col.add_child(_line)
 
 
 func _tile(key: String, caption: String) -> PanelContainer:
