@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "_comment": "Ordered visual variant preferences per asset id (first usable wins; base variant \"a\" is the fallback). A variant is usable when its manifest exists and runtime_approved is true, or a dev override is on. See scripts/presentation/visual_variants.gd.",
+  "_comment": "Ordered visual variant preferences per asset id (first usable wins; base variant \"a\" is the fallback). A variant is usable when its manifest exists and runtime_approved is true, or a dev override is on. See scripts/presentation/visual_variants.gd. depth_v1 (Blender depth -> ComfyUI, tools/assets/package_depth_fixtures.py) is the default fixture art since the user's decision 2026-11-14; its HALF / EMPTY pictures follow the shelf's stock.",
   "paths": {
     "fixtures": {
       "painted_v1": "res://assets/generated/fixtures/{id}/{id}_painted_v1.visual.json",
@@ -126,6 +126,5 @@
       "a"
     ]
   },
-  "props": {},
-  "_comment_depth_v1": "depth_v1 (Blender depth -> ComfyUI, tools/assets/package_depth_fixtures.py) is the default fixture art since the user's decision 2026-11-14; its HALF / EMPTY pictures follow the shelf's stock."
+  "props": {}
 }
