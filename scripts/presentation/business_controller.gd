@@ -21,7 +21,8 @@ var _location: OptionButton
 var _location_info: Label
 var _facility_boxes: Dictionary = {}   # facility id -> CheckBox (#149)
 var _facility_info: Label
-var _map_window: Window          # #150: the area map, opened from the 地図で選ぶ button
+var _map_window: Control         # #150: the area map, opened from the 地図で選ぶ button (an overlay since 2026-11-14)
+var _map_layer: CanvasLayer
 var _map_view: MapView
 var _map_info: Label
 var _pilot_map_picture: TextureRect
@@ -447,23 +448,63 @@ static func size_text(snap: Dictionary) -> String:
 ## Opens the area map (#150): sites to pick before the first opening, the facilities around them and a forecast.
 func open_map() -> void:
 	if _map_window == null:
-		_map_window = Window.new()
+		# An overlay over the blurred store (user's request 2026-11-14): the map on a card, 小春六花 standing large in front
+		# of its right edge, pop colours. Above the HUD (its own canvas layer).
+		_map_layer = CanvasLayer.new()
+		_map_layer.name = "AreaMapLayer"
+		_map_layer.layer = 35
+		_map_window = Control.new()
 		_map_window.name = "AreaMap"
-		_map_window.title = "地域マップ"
-		_map_window.size = Vector2i(1240, 720)   # a 16:9 picture map needs the width
-		_map_window.theme = map_window_theme()   # the 経営管理 window's cream and brown (2026-11-14), not Godot's grey
-		_map_window.close_requested.connect(func(): _map_window.hide())
+		_map_window.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_map_window.mouse_filter = Control.MOUSE_FILTER_STOP
+		_map_window.theme = map_overlay_theme()
+		_map_window.visible = false
 		_map_window.visibility_changed.connect(func():   # the corner assistant steps aside while the map is open
 			var guide := get_node_or_null("../ProgressionController")
 			if guide != null and guide.has_method("set_map_open"):
 				guide.set_map_open(_map_window.visible))
+		var backdrop := ColorRect.new()
+		backdrop.name = "MapBackdrop"
+		backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		backdrop.material = _blur_material()
+		backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+		_map_window.add_child(backdrop)
 		var frame := PanelContainer.new()
 		frame.name = "MapFrame"
 		frame.theme_type_variation = &"WindowFrame"
-		frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		frame.set_anchors_preset(Control.PRESET_CENTER)
+		frame.offset_left = -MAP_CARD.x * 0.5 - MAP_CARD_SHIFT
+		frame.offset_right = MAP_CARD.x * 0.5 - MAP_CARD_SHIFT
+		frame.offset_top = -MAP_CARD.y * 0.5
+		frame.offset_bottom = MAP_CARD.y * 0.5
+		_map_window.add_child(frame)
+		var outer := VBoxContainer.new()
+		outer.add_theme_constant_override("separation", 10)
+		frame.add_child(outer)
+		var head := HBoxContainer.new()
+		outer.add_child(head)
+		var ribbon := PanelContainer.new()
+		ribbon.add_theme_stylebox_override("panel", _pop_box(POP_PINK, 14, 22))
+		var ribbon_text := Label.new()
+		ribbon_text.text = "地域マップ　出店する場所をえらぼう"
+		ribbon_text.add_theme_font_size_override("font_size", 24)
+		ribbon_text.add_theme_color_override("font_color", Color.WHITE)
+		ribbon.add_child(ribbon_text)
+		head.add_child(ribbon)
+		var spacer := Control.new()
+		spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		head.add_child(spacer)
+		var close := Button.new()
+		close.name = "MapClose"
+		close.text = "×"
+		close.theme_type_variation = &"CloseRound"
+		close.custom_minimum_size = Vector2(46, 46)
+		close.pressed.connect(func(): _map_window.hide())
+		head.add_child(close)
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 12)
-		frame.add_child(row)
+		row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		outer.add_child(row)
 		_map_view = MapView.new()
 		_map_view.name = "MapView"
 		_map_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -490,18 +531,23 @@ func open_map() -> void:
 		_map_info = Label.new()
 		_map_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_map_info.text = "黄色の丸が出店できる区画です。クリックすると、立地と周りの施設・予想来店数が出ます。"
+		_map_info.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		side.add_child(_map_info)
 		_pilot_map_picture = TextureRect.new()
 		_pilot_map_picture.name = "MapPilotPicture"
-		# Rikka fills the panel's free height (user, 2026-11-14: she was small in a lot of empty space); the picture is
-		# cut to her outline (_trimmed) so its transparent margins take no room.
-		_pilot_map_picture.custom_minimum_size = Vector2(0, 220)
-		_pilot_map_picture.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		# 小春六花 stands in front of the card's right edge, large, from the head to the thighs (user, 2026-11-14: the legs
+		# may be cut); the picture is cut to her outline (_trimmed). Added after the card so she is drawn over it.
+		_pilot_map_picture.set_anchors_preset(Control.PRESET_CENTER)
+		# Tall enough that the screen's bottom edge, not a visible line, cuts her at the thighs.
+		_pilot_map_picture.offset_left = MAP_CARD.x * 0.5 - MAP_CARD_SHIFT - 20   # just over the card edge, clear of the × and the text
+		_pilot_map_picture.offset_right = _pilot_map_picture.offset_left + 640
+		_pilot_map_picture.offset_top = -MAP_CARD.y * 0.5 - 60
+		_pilot_map_picture.offset_bottom = 640.0
+		_pilot_map_picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_pilot_map_picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_pilot_map_picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_pilot_map_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_pilot_map_picture.visible = false
-		side.add_child(_pilot_map_picture)
 		var pilot := get_node_or_null("../CharacterVisualPilotPanel")
 		if pilot != null and pilot.has_signal("pilot_visibility_changed"):
 			var refresh_picture := Callable(self, "_refresh_map_pilot_picture")
@@ -539,35 +585,70 @@ func open_map() -> void:
 		_map_pick.custom_minimum_size = Vector2(0, 52)
 		side.add_child(_map_pick)
 		row.add_child(side_card)
-		_map_window.add_child(frame)
-		add_child(_map_window)
+		_map_window.add_child(_pilot_map_picture)
+		_map_layer.add_child(_map_window)
+		add_child(_map_layer)
 		_refresh_map_pilot_picture()
 		show_map(String(_snap.get("map_id", "")) if String(_snap.get("map_id", "")) != "" else WorldMap.DEFAULT_MAP)
 	_map_view.current = _current_plot_on(_map_view.map_id)
-	_map_window.popup_centered()
+	_map_window.show()
+	UiFx.open_pop(_map_window.get_node("MapFrame") as Control)
 
 
-## The map window's theme: the 経営管理 window's (UiTheme.build_window) plus a brown title bar and frame for the Window
-## itself, white title text and a round close button.
-static func map_window_theme() -> Theme:
+const MAP_CARD := Vector2(1240, 660)
+const MAP_CARD_SHIFT := 230.0   # the card stands left of centre: 小春六花 fills the right
+const MAP_FIGURE_SHARE := 0.66   # head to thighs; the screen edge cuts the rest
+const POP_PINK := Color("ef6f96")
+const POP_ORANGE := Color("ff9a3c")
+
+
+## The map overlay's theme (2026-11-14, pop): the 経営管理 window's, with pink-edged white dropdowns, an orange and pink
+## slider and a pale orange (not grey) 出店 button while no site is chosen.
+static func map_overlay_theme() -> Theme:
 	var theme := UiTheme.build_window()
-	var border := StyleBoxFlat.new()
-	border.bg_color = UiTheme.W_RIBBON_BROWN
-	border.border_color = UiTheme.W_RIM.darkened(0.2)
-	border.set_border_width_all(3)
-	border.set_corner_radius_all(14)
-	border.expand_margin_top = 36
-	border.expand_margin_left = 6
-	border.expand_margin_right = 6
-	border.expand_margin_bottom = 6
-	border.shadow_color = Color(0, 0, 0, 0.35)
-	border.shadow_size = 14
-	theme.set_stylebox("embedded_border", "Window", border)
-	theme.set_stylebox("embedded_unfocused_border", "Window", border)
-	theme.set_color("title_color", "Window", Color.WHITE)
-	theme.set_font_size("title_font_size", "Window", 20)
-	theme.set_constant("title_height", "Window", 34)
+	for st in ["normal", "hover", "pressed", "focus"]:
+		theme.set_stylebox(st, "OptionButton", _pop_box(Color.WHITE if st != "hover" else Color("fff0f5"), 12, 12, POP_PINK))
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		theme.set_color(c, "OptionButton", UiTheme.W_TEXT)
+	var track := _pop_box(Color("ffe2c4"), 6, 0)
+	track.content_margin_top = 5
+	track.content_margin_bottom = 5
+	theme.set_stylebox("slider", "HSlider", track)
+	theme.set_stylebox("grabber_area", "HSlider", _pop_box(POP_ORANGE, 6, 0))
+	theme.set_stylebox("grabber_area_highlight", "HSlider", _pop_box(POP_PINK, 6, 0))
+	theme.set_stylebox("disabled", "PrimaryButton", _pop_box(Color(POP_ORANGE, 0.35), 14, 16, Color(POP_ORANGE, 0.6)))
+	theme.set_color("font_disabled_color", "PrimaryButton", Color("a2582a"))
 	return theme
+
+
+static func _pop_box(face: Color, radius: int, pad: int, edge: Color = Color(0, 0, 0, 0)) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = face
+	b.set_corner_radius_all(radius)
+	if edge.a > 0.0:
+		b.border_color = edge
+		b.set_border_width_all(2)
+	b.content_margin_left = pad
+	b.content_margin_right = pad
+	b.content_margin_top = 6
+	b.content_margin_bottom = 6
+	return b
+
+
+## The store behind the map, blurred and warmed (a screen-texture blur at a mip level).
+static func _blur_material() -> ShaderMaterial:
+	var sh := Shader.new()
+	sh.code = "shader_type canvas_item;\n" \
+		+ "uniform sampler2D screen_tex : hint_screen_texture, filter_linear_mipmap;\n" \
+		+ "uniform float lod = 3.0;\n" \
+		+ "uniform vec4 tint : source_color = vec4(0.18, 0.10, 0.14, 0.45);\n" \
+		+ "void fragment() {\n" \
+		+ "\tvec3 c = textureLod(screen_tex, SCREEN_UV, lod).rgb;\n" \
+		+ "\tCOLOR = vec4(mix(c, tint.rgb, tint.a), 1.0);\n" \
+		+ "}\n"
+	var m := ShaderMaterial.new()
+	m.shader = sh
+	return m
 
 
 func _refresh_map_pilot_picture(_enabled: bool = true) -> void:
@@ -579,11 +660,9 @@ func _refresh_map_pilot_picture(_enabled: bool = true) -> void:
 		var entry: Dictionary = pilot.cue_entry("map_proposal_open")
 		var runtime_path := String(entry.get("runtime_path", ""))
 		if runtime_path != "":
-			texture = _trimmed(load(runtime_path) as Texture2D)
+			texture = _trimmed(load(runtime_path) as Texture2D, MAP_FIGURE_SHARE)
 	_pilot_map_picture.texture = texture
 	_pilot_map_picture.visible = texture != null
-	if _map_info != null:   # without her, the text takes the free height as before
-		_map_info.size_flags_vertical = Control.SIZE_FILL if texture != null else Control.SIZE_EXPAND_FILL
 
 
 ## The texture cut to its opaque pixels (an AtlasTexture of the used rect), so a figure with wide transparent margins
@@ -591,20 +670,22 @@ func _refresh_map_pilot_picture(_enabled: bool = true) -> void:
 var _trim_cache: Dictionary = {}
 
 
-func _trimmed(tex: Texture2D) -> Texture2D:
+## `share` keeps that much of her height from the top (the legs cut off).
+func _trimmed(tex: Texture2D, share: float = 1.0) -> Texture2D:
 	if tex == null:
 		return null
-	if not _trim_cache.has(tex.resource_path):
+	var key := "%s#%.2f" % [tex.resource_path, share]
+	if not _trim_cache.has(key):
 		var img := tex.get_image()
 		var used := img.get_used_rect() if img != null else Rect2i()
 		if used.size.x <= 0 or used.size.y <= 0:
-			_trim_cache[tex.resource_path] = tex
+			_trim_cache[key] = tex
 		else:
 			var atlas := AtlasTexture.new()
 			atlas.atlas = tex
-			atlas.region = Rect2(used)
-			_trim_cache[tex.resource_path] = atlas
-	return _trim_cache[tex.resource_path]
+			atlas.region = Rect2(Vector2(used.position), Vector2(used.size.x, roundf(used.size.y * share)))
+			_trim_cache[key] = atlas
+	return _trim_cache[key]
 
 
 ## Shows another area map in the window (#154: Kakogawa beside 青葉市).
