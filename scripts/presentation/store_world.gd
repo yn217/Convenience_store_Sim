@@ -246,6 +246,8 @@ func set_hover_screen(screen_pos: Vector2) -> Vector2i:
 			_selection.show_tile(projection.tile_diamond(hover_tile))
 	if changed:
 		hover_changed.emit(hover_tile)
+		if _sign_layer != null:
+			_sign_layer.queue_redraw()   # the category pill follows the cursor
 	return hover_tile
 
 
@@ -407,6 +409,8 @@ var _ghost: Dictionary = {}
 func _set_selected(c: Vector2i) -> void:
 	var changed := c != selected_tile
 	selected_tile = c
+	if changed and _sign_layer != null:
+		_sign_layer.queue_redraw()
 	_update_canopy_visibility()
 	if _selection != null:
 		if c == NO_TILE:

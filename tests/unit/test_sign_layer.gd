@@ -61,3 +61,10 @@ func test_board_grows_with_zoom_and_text(t, _tree) -> void:
 	t.ok(big.size.y > small.size.y, "taller at higher zoom")
 	var wide := SignLayer.board_rect(bounds, 90.0, 1.0)
 	t.ok(wide.size.x > SignLayer.board_rect(bounds, 30.0, 1.0).size.x, "wider for longer text")
+
+
+func test_sold_out_fixtures_are_found(t, _tree) -> void:
+	var fx := FixtureCatalog.from_json_text(FileAccess.get_file_as_string("res://data/fixtures/mvp_v1.json"))
+	var placed := [{"instance_id": "a", "type_id": "shelf_snack"}, {"instance_id": "b", "type_id": "shelf_snack"}, {"instance_id": "r", "type_id": "register_basic"}]
+	var ids := SignLayer.sold_out_ids(placed, fx, {"a": {"row0": 3}, "b": {"row0": 0}})
+	t.eq(ids, ["b"], "a shelf with nothing on it is sold out; a register holds no stock and never is")

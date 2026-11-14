@@ -1,7 +1,9 @@
 class_name SignLayer
 extends Node2D
-## Issue #61 (signs), redrawn for mockup #105 B6: a small rounded pill above each stocked fixture (e.g. おにぎり over the
-## rice-ball case) with the category icon on its left. Presentation only: it reads the snapshot through StoreWorld and
+## Issue #61 (signs), redrawn for mockup #105 B6: a small rounded pill above a stocked fixture (e.g. おにぎり over the
+## rice-ball case) with the category icon on its left. Since 2026-11-14 (the fixture art shows its goods; the pills hid
+## it) only where it helps: the fixture under the cursor or selected, every fixture while building, and a sold-out
+## fixture (red, 品切れ). A register nobody staffs always shows 休止中. Presentation only: it reads the snapshot through StoreWorld and
 ## never changes state or takes input. Hidden when zoomed far out (< MIN_ZOOM) and while an information overlay is on,
 ## so the layout and info overlays stay readable. The pills are rebuilt only when (revision, zoom, origin, fixture
 ## count) changes; a steady frame just replays the cached commands.
@@ -32,6 +34,8 @@ const ICONS := {
 ## The sign over a register nobody staffs (#113): a grey pill, no icon.
 const CLOSED_TEXT := "休止中"
 const CLOSED_COLOR := Color("5b6470")
+const SOLD_OUT_TEXT := "品切れ"
+const SOLD_OUT_COLOR := Color("d64545")
 const MIN_ZOOM := 0.5
 const TEXT_COLOR := Color.WHITE
 const DARKEN := 0.25          ## pill fill = category colour darkened by this amount (lighter than before: readable icon)
@@ -44,6 +48,20 @@ const GAP_PX := 4.0           ## gap between icon and text at zoom 1
 var _world: Node2D
 var _key: Array = []
 var _commands: Array = []     ## [{"box": StyleBoxFlat, "rect": Rect2, "text": String, "pos": Vector2, "size": int, "icon": Texture2D, "icon_rect": Rect2}]
+
+
+## Fixtures that hold stock and have none on their shelves: [instance_id], in layout order.
+static func sold_out_ids(fixtures: Array, catalog: FixtureCatalog, shelf_stock: Dictionary) -> Array:
+	var out: Array = []
+	for inst in fixtures:
+		if int(catalog.get_type(inst["type_id"]).get("capacity_units", 0)) <= 0:
+			continue
+		var units := 0
+		for k in shelf_stock.get(inst["instance_id"], {}):
+			units += int(shelf_stock[inst["instance_id"]][k])
+		if units == 0:
+			out.append(inst["instance_id"])
+	return out
 
 
 ## Short Japanese label of a fixture: the first allowed category. "" for the register and unlabelled types.
@@ -108,7 +126,9 @@ func _font() -> Font:
 
 func _rebuild_if_stale() -> void:
 	var proj: IsoProjection = _world.projection
-	var key := [_world.revision, proj.zoom, proj.origin, _world.fixtures.size(), _world.closed_registers]
+	var empties := sold_out_ids(_world.fixtures, _world.fixture_catalog, _world.shelf_stock)
+	var building: bool = _world.mode != _world.Mode.OBSERVE
+	var key := [_world.revision, proj.zoom, proj.origin, _world.fixtures.size(), _world.closed_registers, empties, building, _world.hover_tile, _world.selected_tile]
 	if key == _key:
 		return
 	_key = key
@@ -118,16 +138,21 @@ func _rebuild_if_stale() -> void:
 	for inst in _world.fixtures:
 		var def: Dictionary = _world.fixture_catalog.get_type(inst["type_id"])
 		var closed: bool = _world.closed_registers.has(inst["instance_id"])
+		var sold_out: bool = empties.has(inst["instance_id"])
 		var text := CLOSED_TEXT if closed else label_for(def)
 		if text == "":
 			continue
 		var cells := StoreGrid.footprint_cells(def["footprint"], inst["x"], inst["y"], inst["rotation"])
+		if not (closed or sold_out or building or cells.has(_world.hover_tile) or cells.has(_world.selected_tile)):
+			continue
+		if sold_out:
+			text += "　" + SOLD_OUT_TEXT
 		var bounds := OverlayModel.fixture_bounds(proj, cells, float(def["dimensions_m"]["height"]))
 		var text_width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
 		var icon_name := "" if closed else icon_for(def)
 		var icon: Texture2D = UiIcons.texture(icon_name, 32) if icon_name != "" else null
 		var rect := board_rect(bounds, text_width, proj.zoom, icon != null)
-		var base: Color = CLOSED_COLOR if closed else _Presenter.CATEGORY_COLOR.get(def["allowed_categories"][0], _Presenter.REGISTER_COLOR)
+		var base: Color = CLOSED_COLOR if closed else (SOLD_OUT_COLOR if sold_out else _Presenter.CATEGORY_COLOR.get(def["allowed_categories"][0], _Presenter.REGISTER_COLOR))
 		var box := StyleBoxFlat.new()
 		box.bg_color = base.darkened(DARKEN)
 		box.border_color = base.lightened(BORDER_LIGHTEN)
