@@ -171,162 +171,6 @@
     }
   },
   "inventory_states": {
-    "half_r0": {
-      "canvas_px": [
-        570,
-        454
-      ],
-      "anchor_px": [
-        348.56,
-        270.75
-      ],
-      "layers": {
-        "body": "bakery_oven_depth_v1_half_0_body.png",
-        "shadow": "bakery_oven_depth_v1_half_0_shadow.png"
-      },
-      "sorting_anchor_px": [
-        348.56,
-        270.75
-      ],
-      "slot_anchors_px": {},
-      "selection_polygon_px": [
-        [
-          348.56,
-          206.75
-        ],
-        [
-          476.56,
-          270.75
-        ],
-        [
-          220.56,
-          398.75
-        ],
-        [
-          92.56,
-          334.75
-        ]
-      ],
-      "state": "HALF",
-      "rotation": 0
-    },
-    "half_r1": {
-      "canvas_px": [
-        570,
-        454
-      ],
-      "anchor_px": [
-        220.56,
-        270.75
-      ],
-      "layers": {
-        "body": "bakery_oven_depth_v1_half_1_body.png",
-        "shadow": "bakery_oven_depth_v1_half_1_shadow.png"
-      },
-      "sorting_anchor_px": [
-        220.56,
-        270.75
-      ],
-      "slot_anchors_px": {},
-      "selection_polygon_px": [
-        [
-          220.56,
-          206.75
-        ],
-        [
-          476.56,
-          334.75
-        ],
-        [
-          348.56,
-          398.75
-        ],
-        [
-          92.56,
-          270.75
-        ]
-      ],
-      "state": "HALF",
-      "rotation": 1
-    },
-    "half_r2": {
-      "canvas_px": [
-        570,
-        509
-      ],
-      "anchor_px": [
-        348.56,
-        325.65
-      ],
-      "layers": {
-        "body": "bakery_oven_depth_v1_half_2_body.png",
-        "shadow": "bakery_oven_depth_v1_half_2_shadow.png"
-      },
-      "sorting_anchor_px": [
-        348.56,
-        325.65
-      ],
-      "slot_anchors_px": {},
-      "selection_polygon_px": [
-        [
-          348.56,
-          261.65
-        ],
-        [
-          476.56,
-          325.65
-        ],
-        [
-          220.56,
-          453.65
-        ],
-        [
-          92.56,
-          389.65
-        ]
-      ],
-      "state": "HALF",
-      "rotation": 2
-    },
-    "half_r3": {
-      "canvas_px": [
-        570,
-        509
-      ],
-      "anchor_px": [
-        220.56,
-        325.65
-      ],
-      "layers": {
-        "body": "bakery_oven_depth_v1_half_3_body.png",
-        "shadow": "bakery_oven_depth_v1_half_3_shadow.png"
-      },
-      "sorting_anchor_px": [
-        220.56,
-        325.65
-      ],
-      "slot_anchors_px": {},
-      "selection_polygon_px": [
-        [
-          220.56,
-          261.65
-        ],
-        [
-          476.56,
-          389.65
-        ],
-        [
-          348.56,
-          453.65
-        ],
-        [
-          92.56,
-          325.65
-        ]
-      ],
-      "state": "HALF",
-      "rotation": 3
-    },
     "empty_r0": {
       "canvas_px": [
         570,
@@ -481,6 +325,318 @@
         ]
       ],
       "state": "EMPTY",
+      "rotation": 3
+    },
+    "full_r0": {
+      "canvas_px": [
+        570,
+        454
+      ],
+      "anchor_px": [
+        348.56,
+        270.75
+      ],
+      "layers": {
+        "body": "bakery_oven_depth_v1_0_body.png",
+        "shadow": "bakery_oven_depth_v1_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        270.75
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          206.75
+        ],
+        [
+          476.56,
+          270.75
+        ],
+        [
+          220.56,
+          398.75
+        ],
+        [
+          92.56,
+          334.75
+        ]
+      ],
+      "state": "FULL",
+      "rotation": 0
+    },
+    "full_r1": {
+      "canvas_px": [
+        570,
+        454
+      ],
+      "anchor_px": [
+        220.56,
+        270.75
+      ],
+      "layers": {
+        "body": "bakery_oven_depth_v1_1_body.png",
+        "shadow": "bakery_oven_depth_v1_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        270.75
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          206.75
+        ],
+        [
+          476.56,
+          334.75
+        ],
+        [
+          348.56,
+          398.75
+        ],
+        [
+          92.56,
+          270.75
+        ]
+      ],
+      "state": "FULL",
+      "rotation": 1
+    },
+    "full_r2": {
+      "canvas_px": [
+        570,
+        509
+      ],
+      "anchor_px": [
+        348.56,
+        325.65
+      ],
+      "layers": {
+        "body": "bakery_oven_depth_v1_2_body.png",
+        "shadow": "bakery_oven_depth_v1_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        325.65
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          261.65
+        ],
+        [
+          476.56,
+          325.65
+        ],
+        [
+          220.56,
+          453.65
+        ],
+        [
+          92.56,
+          389.65
+        ]
+      ],
+      "state": "FULL",
+      "rotation": 2
+    },
+    "full_r3": {
+      "canvas_px": [
+        570,
+        509
+      ],
+      "anchor_px": [
+        220.56,
+        325.65
+      ],
+      "layers": {
+        "body": "bakery_oven_depth_v1_3_body.png",
+        "shadow": "bakery_oven_depth_v1_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        325.65
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          261.65
+        ],
+        [
+          476.56,
+          389.65
+        ],
+        [
+          348.56,
+          453.65
+        ],
+        [
+          92.56,
+          325.65
+        ]
+      ],
+      "state": "FULL",
+      "rotation": 3
+    },
+    "half_r0": {
+      "canvas_px": [
+        570,
+        454
+      ],
+      "anchor_px": [
+        348.56,
+        270.75
+      ],
+      "layers": {
+        "body": "bakery_oven_depth_v1_half_0_body.png",
+        "shadow": "bakery_oven_depth_v1_half_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        270.75
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          206.75
+        ],
+        [
+          476.56,
+          270.75
+        ],
+        [
+          220.56,
+          398.75
+        ],
+        [
+          92.56,
+          334.75
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 0
+    },
+    "half_r1": {
+      "canvas_px": [
+        570,
+        454
+      ],
+      "anchor_px": [
+        220.56,
+        270.75
+      ],
+      "layers": {
+        "body": "bakery_oven_depth_v1_half_1_body.png",
+        "shadow": "bakery_oven_depth_v1_half_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        270.75
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          206.75
+        ],
+        [
+          476.56,
+          334.75
+        ],
+        [
+          348.56,
+          398.75
+        ],
+        [
+          92.56,
+          270.75
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 1
+    },
+    "half_r2": {
+      "canvas_px": [
+        570,
+        509
+      ],
+      "anchor_px": [
+        348.56,
+        325.65
+      ],
+      "layers": {
+        "body": "bakery_oven_depth_v1_half_2_body.png",
+        "shadow": "bakery_oven_depth_v1_half_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        325.65
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          261.65
+        ],
+        [
+          476.56,
+          325.65
+        ],
+        [
+          220.56,
+          453.65
+        ],
+        [
+          92.56,
+          389.65
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 2
+    },
+    "half_r3": {
+      "canvas_px": [
+        570,
+        509
+      ],
+      "anchor_px": [
+        220.56,
+        325.65
+      ],
+      "layers": {
+        "body": "bakery_oven_depth_v1_half_3_body.png",
+        "shadow": "bakery_oven_depth_v1_half_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        325.65
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          261.65
+        ],
+        [
+          476.56,
+          389.65
+        ],
+        [
+          348.56,
+          453.65
+        ],
+        [
+          92.56,
+          325.65
+        ]
+      ],
+      "state": "HALF",
       "rotation": 3
     }
   }

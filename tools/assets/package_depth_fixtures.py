@@ -168,7 +168,10 @@ def main():
         if states:
             path = OUT / t / f"{t}_{VARIANT}.visual.json"
             manifest = json.loads(path.read_text(encoding="utf-8"))
-            manifest["inventory_states"] = states
+            # The Codex branch's loader looks every state up here, FULL included ("full_r0" = rotations["0"]).
+            for r, rot in manifest["rotations"].items():
+                states[f"full_r{r}"] = dict(rot, state="FULL", rotation=int(r))
+            manifest["inventory_states"] = dict(sorted(states.items()))
             path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
