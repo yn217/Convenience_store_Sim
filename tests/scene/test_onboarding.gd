@@ -107,11 +107,13 @@ func test_assistant_cues_show_in_order_and_stay_dismissed(t, tree) -> void:
 	t.ok(stage.visible, "and comes back when it closes")
 	t.ok(stage.visible and pc._assistant.text.contains("どんなお店"), "her line shows in the bubble")
 	t.eq((stage.find_child("AssistantName", true, false) as Label).text, "小春六花（店長アシスタント）", "the bubble is named")
-	var figure := stage.get_node("AssistantFigure") as TextureRect
+	var figure := stage.find_child("AssistantFigure", true, false) as TextureRect
 	t.ok(figure.texture != null and figure.mouse_filter == Control.MOUSE_FILTER_IGNORE, "the standing figure shows and lets clicks through")
 	var bottom: float = tree.root.get_visible_rect().size.y - ProgressionController.ASSISTANT_BOTTOM
 	var bubble := stage.get_node("AssistantBubble") as Control
-	t.ok(figure.offset_left >= ProgressionController.ASSISTANT_LEFT and absf(figure.get_global_rect().end.y - bottom) < 1.0, "right of the left menu, standing on the summary strip: %s" % figure.get_global_rect())
+	var crop := figure.get_parent() as Control
+	t.ok(crop.clip_contents and absf(crop.get_global_rect().end.y - bottom) < 1.0, "in the bottom-left corner, shown waist up on the bottom bar: %s" % crop.get_global_rect())
+	t.ok(crop.get_global_rect().position.y > 600.0 * tree.root.get_visible_rect().size.y / 1080.0 - 30.0, "her head stays under the left menu: %s" % crop.get_global_rect())
 	t.ok(bubble.offset_top > -ProgressionController.FIGURE_SIZE.y - ProgressionController.ASSISTANT_BOTTOM + 40.0, "the assistant speech bubble is lowered below the figure head")
 	(stage.find_child("AssistantDismiss", true, false) as Button).pressed.emit()
 	t.eq(pc._snap["story_cue"], "", "閉じる in the bubble dismisses it; nothing else is eligible yet")

@@ -22,13 +22,13 @@ const FIGURE_SIZE := Vector2(300, 436)   # keeps the art's 640:931 aspect
 const PILOT_BUSTUP_FRAME_SIZE := Vector2(FIGURE_SIZE.x, 300.0)
 const Layout := preload("res://scripts/presentation/main_layout.gd")
 const BUBBLE_WIDTH := 420
-# Keep the assistant just under the left menu without clipping the portrait at
-# the viewport edge.  The small rightward correction also applies to the
-# display-time bust-up crop; source PNGs are never modified.
-const ASSISTANT_LEFT := Layout.CHROME_MENU_RIGHT - 200.0
-# Lift the portrait a little farther above the bottom chrome.  This is the
-# figure anchor; the dialogue bubble keeps its independently tuned lower slot.
-const ASSISTANT_BOTTOM := Layout.CHROME_BOTTOM + 52.0
+# Bottom-left corner (user's request 2026-11-14: she covered the left menu): she stands on the bottom bar's top edge,
+# shown from the waist up, so her head stays under the menu's last button. Source PNGs are never modified.
+const ASSISTANT_LEFT := 10.0
+## The bust-up frame's bottom edge: the top of the bottom bar.
+const ASSISTANT_BOTTOM := float(Layout.CHROME_BOTTOM)
+## Room above the full figure inside its crop, so her little hop is not cut.
+const FIGURE_HEADROOM := 24.0
 const BUBBLE_BOTTOM := Layout.CHROME_BOTTOM + 12.0
 # Keep the line panel aligned with the portrait's lower-left presentation area,
 # leaving the character face unobstructed and placing the dialogue a little lower.
@@ -623,13 +623,13 @@ func _start_celebration() -> void:
 	if _celebrate_timer.is_inside_tree():
 		_celebrate_timer.start()
 	if _figure != null and _figure.is_inside_tree():   # a little hop for joy
-		var base := -ASSISTANT_BOTTOM
+		var base := FIGURE_HEADROOM   # her top inside the crop
 		var hop := _figure.create_tween()
 		for i in 2:
-			hop.tween_property(_figure, "offset_bottom", base - 18.0, 0.12).set_ease(Tween.EASE_OUT)
-			hop.parallel().tween_property(_figure, "offset_top", base - FIGURE_SIZE.y - 18.0, 0.12).set_ease(Tween.EASE_OUT)
-			hop.tween_property(_figure, "offset_bottom", base, 0.14).set_ease(Tween.EASE_IN)
-			hop.parallel().tween_property(_figure, "offset_top", base - FIGURE_SIZE.y, 0.14).set_ease(Tween.EASE_IN)
+			hop.tween_property(_figure, "offset_top", base - 18.0, 0.12).set_ease(Tween.EASE_OUT)
+			hop.parallel().tween_property(_figure, "offset_bottom", base + FIGURE_SIZE.y - 18.0, 0.12).set_ease(Tween.EASE_OUT)
+			hop.tween_property(_figure, "offset_top", base, 0.14).set_ease(Tween.EASE_IN)
+			hop.parallel().tween_property(_figure, "offset_bottom", base + FIGURE_SIZE.y, 0.14).set_ease(Tween.EASE_IN)
 
 
 func _build_stage() -> void:
@@ -646,12 +646,23 @@ func _build_stage() -> void:
 	figure.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	figure.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
 	figure.mouse_filter = Control.MOUSE_FILTER_IGNORE   # the rail and the store under her stay clickable
-	figure.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	figure.offset_left = ASSISTANT_LEFT
-	figure.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x
-	figure.offset_top = -FIGURE_SIZE.y - ASSISTANT_BOTTOM   # leave a gap above the mockup bottom menu
-	figure.offset_bottom = -ASSISTANT_BOTTOM
-	_stage.add_child(figure)
+	# The fallback figure is shown waist up too, in its own crop that ends on the bottom bar.
+	var figure_crop := Control.new()
+	figure_crop.name = "AssistantFigureCrop"
+	figure_crop.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	figure_crop.offset_left = ASSISTANT_LEFT
+	figure_crop.offset_right = ASSISTANT_LEFT + FIGURE_SIZE.x
+	figure_crop.offset_top = -PILOT_BUSTUP_FRAME_SIZE.y - FIGURE_HEADROOM - ASSISTANT_BOTTOM
+	figure_crop.offset_bottom = -ASSISTANT_BOTTOM
+	figure_crop.clip_contents = true
+	figure_crop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stage.add_child(figure_crop)
+	figure.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	figure.offset_left = 0.0
+	figure.offset_right = FIGURE_SIZE.x
+	figure.offset_top = FIGURE_HEADROOM
+	figure.offset_bottom = FIGURE_HEADROOM + FIGURE_SIZE.y
+	figure_crop.add_child(figure)
 	_figure = figure
 	# Generated pilot files remain full-body source assets.  The assistant slot on the
 	# store screen is intentionally a bust-up window: clip the child at display time

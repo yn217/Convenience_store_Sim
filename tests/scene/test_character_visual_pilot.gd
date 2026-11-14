@@ -1,6 +1,8 @@
 extends RefCounted
 ## Focused registry and routing checks for the Issue #230 character visual pilot.
 
+const Layout := preload("res://scripts/presentation/main_layout.gd")
+
 
 func test_registry_assets_and_story_routes_load(t, _tree) -> void:
 	var panel: Node = load("res://scripts/presentation/character_visual_pilot_panel.gd").new()
@@ -135,9 +137,14 @@ func test_runtime_assistant_stage_uses_selected_pilot(t, tree) -> void:
 	t.eq(String(crop.name), "AssistantPilotBustupCrop", "the store assistant uses a display-only bust-up crop frame")
 	t.ok(crop.clip_contents, "the bust-up crop clips only the display frame")
 	t.eq(crop.size.y, 300.0, "the display crop keeps the upper-body window height")
-	t.ok(crop.offset_left >= 32.0, "the assistant crop is shifted right from the left edge")
-	t.ok(crop.offset_left < 236.0, "the assistant crop sits to the left of the menu safe edge")
-	t.ok(crop.get_global_rect().end.y <= main.get_viewport_rect().size.y - 200.0, "the assistant crop clears the bottom menu with a visible gap")
+	t.ok(crop.offset_left >= 0.0 and crop.offset_left < 236.0, "the assistant crop sits in the bottom-left corner (user, 2026-11-14)")
+	t.ok(absf(crop.get_global_rect().end.y - (main.get_viewport_rect().size.y - Layout.CHROME_BOTTOM)) < 1.0, "she stands on the bottom bar's top edge")
+	var menu_bottom := 0.0
+	for b in main.find_children("*", "Button", true, false):
+		var r := (b as Control).get_global_rect()
+		if r.end.x <= Layout.CHROME_MENU_RIGHT + 1 and r.position.y < main.get_viewport_rect().size.y - Layout.CHROME_BOTTOM and (b as Control).is_visible_in_tree():
+			menu_bottom = maxf(menu_bottom, r.end.y)
+	t.ok(crop.get_global_rect().position.y >= menu_bottom, "her head stays under the left menu: %.0f >= %.0f" % [crop.get_global_rect().position.y, menu_bottom])
 	t.eq(guide._bubble.offset_left - crop.offset_left, 260.0, "the dialogue bubble follows the portrait horizontally")
 	t.ok(guide._bubble.offset_top > -ProgressionController.FIGURE_SIZE.y - ProgressionController.ASSISTANT_BOTTOM + 40.0, "the dialogue bubble is lowered in the assistant slot")
 	var chrome_bottom: float = main.get_viewport_rect().size.y - ProgressionController.ASSISTANT_BOTTOM
