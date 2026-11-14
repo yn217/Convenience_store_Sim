@@ -1,0 +1,173 @@
+{
+  "manifest_version": 1,
+  "visual_id": "pizza_oven_depth_v1",
+  "fixture_type_id": "pizza_oven",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 0.92,
+    "height": 1.4
+  },
+  "variant": "depth_v1",
+  "state": "FULL",
+  "runtime_approved": false,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        442,
+        395
+      ],
+      "anchor_px": [
+        220.5,
+        276.01
+      ],
+      "layers": {
+        "body": "pizza_oven_depth_v1_0_body.png",
+        "shadow": "pizza_oven_depth_v1_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.5,
+        276.01
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.5,
+          212.01
+        ],
+        [
+          348.5,
+          276.01
+        ],
+        [
+          220.5,
+          340.01
+        ],
+        [
+          92.5,
+          276.01
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        442,
+        395
+      ],
+      "anchor_px": [
+        220.5,
+        276.1
+      ],
+      "layers": {
+        "body": "pizza_oven_depth_v1_1_body.png",
+        "shadow": "pizza_oven_depth_v1_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.5,
+        276.1
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.5,
+          212.1
+        ],
+        [
+          348.5,
+          276.1
+        ],
+        [
+          220.5,
+          340.1
+        ],
+        [
+          92.5,
+          276.1
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        442,
+        395
+      ],
+      "anchor_px": [
+        220.69,
+        276.1
+      ],
+      "layers": {
+        "body": "pizza_oven_depth_v1_2_body.png",
+        "shadow": "pizza_oven_depth_v1_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.69,
+        276.1
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.69,
+          212.1
+        ],
+        [
+          348.69,
+          276.1
+        ],
+        [
+          220.69,
+          340.1
+        ],
+        [
+          92.69,
+          276.1
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        442,
+        395
+      ],
+      "anchor_px": [
+        220.69,
+        276.01
+      ],
+      "layers": {
+        "body": "pizza_oven_depth_v1_3_body.png",
+        "shadow": "pizza_oven_depth_v1_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.69,
+        276.01
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.69,
+          212.01
+        ],
+        [
+          348.69,
+          276.01
+        ],
+        [
+          220.69,
+          340.01
+        ],
+        [
+          92.69,
+          276.01
+        ]
+      ]
+    }
+  }
+}

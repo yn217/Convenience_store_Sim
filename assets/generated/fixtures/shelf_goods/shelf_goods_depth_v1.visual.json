@@ -1,0 +1,173 @@
+{
+  "manifest_version": 1,
+  "visual_id": "shelf_goods_depth_v1",
+  "fixture_type_id": "shelf_goods",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.6
+  },
+  "variant": "depth_v1",
+  "state": "FULL",
+  "runtime_approved": false,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        348.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_0_body.png",
+        "shadow": "shelf_goods_depth_v1_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          235.16
+        ],
+        [
+          476.56,
+          299.16
+        ],
+        [
+          220.56,
+          427.16
+        ],
+        [
+          92.56,
+          363.16
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        220.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_1_body.png",
+        "shadow": "shelf_goods_depth_v1_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          235.16
+        ],
+        [
+          476.56,
+          363.16
+        ],
+        [
+          348.56,
+          427.16
+        ],
+        [
+          92.56,
+          299.16
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        348.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_2_body.png",
+        "shadow": "shelf_goods_depth_v1_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          235.16
+        ],
+        [
+          476.56,
+          299.16
+        ],
+        [
+          220.56,
+          427.16
+        ],
+        [
+          92.56,
+          363.16
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        220.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_3_body.png",
+        "shadow": "shelf_goods_depth_v1_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          235.16
+        ],
+        [
+          476.56,
+          363.16
+        ],
+        [
+          348.56,
+          427.16
+        ],
+        [
+          92.56,
+          299.16
+        ]
+      ]
+    }
+  }
+}

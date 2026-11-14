@@ -1,0 +1,173 @@
+{
+  "manifest_version": 1,
+  "visual_id": "crane_game_depth_v1",
+  "fixture_type_id": "crane_game",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 0.9,
+    "depth": 0.9,
+    "height": 1.9
+  },
+  "variant": "depth_v1",
+  "state": "FULL",
+  "runtime_approved": false,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        442,
+        488
+      ],
+      "anchor_px": [
+        221.08,
+        368.84
+      ],
+      "layers": {
+        "body": "crane_game_depth_v1_0_body.png",
+        "shadow": "crane_game_depth_v1_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        221.08,
+        368.84
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          221.08,
+          304.84
+        ],
+        [
+          349.08,
+          368.84
+        ],
+        [
+          221.08,
+          432.84
+        ],
+        [
+          93.08,
+          368.84
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        442,
+        488
+      ],
+      "anchor_px": [
+        221.08,
+        368.73
+      ],
+      "layers": {
+        "body": "crane_game_depth_v1_1_body.png",
+        "shadow": "crane_game_depth_v1_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        221.08,
+        368.73
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          221.08,
+          304.73
+        ],
+        [
+          349.08,
+          368.73
+        ],
+        [
+          221.08,
+          432.73
+        ],
+        [
+          93.08,
+          368.73
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        442,
+        488
+      ],
+      "anchor_px": [
+        220.3,
+        368.73
+      ],
+      "layers": {
+        "body": "crane_game_depth_v1_2_body.png",
+        "shadow": "crane_game_depth_v1_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.3,
+        368.73
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.3,
+          304.73
+        ],
+        [
+          348.3,
+          368.73
+        ],
+        [
+          220.3,
+          432.73
+        ],
+        [
+          92.3,
+          368.73
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        442,
+        488
+      ],
+      "anchor_px": [
+        220.3,
+        368.84
+      ],
+      "layers": {
+        "body": "crane_game_depth_v1_3_body.png",
+        "shadow": "crane_game_depth_v1_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.3,
+        368.84
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.3,
+          304.84
+        ],
+        [
+          348.3,
+          368.84
+        ],
+        [
+          220.3,
+          432.84
+        ],
+        [
+          92.3,
+          368.84
+        ]
+      ]
+    }
+  }
+}

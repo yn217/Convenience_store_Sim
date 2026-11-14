@@ -33,6 +33,12 @@ const BUBBLE_BOTTOM := Layout.CHROME_BOTTOM + 12.0
 # Keep the line panel aligned with the portrait's lower-left presentation area,
 # leaving the character face unobstructed and placing the dialogue a little lower.
 const BUBBLE_TOP_DROP := 92.0
+## The speech bubble's colours (mockup styles.css .speech: #fffaf3 / #e2b798 / #34222a, and the pink name tab).
+const BUBBLE_FILL := Color("fff8ec")
+const BUBBLE_BORDER := Color("e2b798")
+const BUBBLE_TEXT := Color("34222a")
+const BUBBLE_TAB := Color("e98aa4")
+const BUBBLE_ACCENT := Color("e2563f")
 const CELEBRATE_HEADING := "★ 目標達成！ ★"
 const RANK_HEADING := "★ ランクアップ！ ★"
 const CELEBRATE_SECONDS := 8.0   # a celebration closes itself so it never keeps covering the store
@@ -711,7 +717,7 @@ func _build_stage() -> void:
 	_stage.add_child(_celebrate_timer)
 	_bubble = PanelContainer.new()
 	_bubble.name = "AssistantBubble"
-	_bubble.theme_type_variation = &"Card"
+	_bubble.add_theme_stylebox_override("panel", bubble_style())   # the mockup's cream speech bubble (styles.css .speech)
 	_bubble.mouse_filter = Control.MOUSE_FILTER_STOP
 	_bubble.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	_bubble.offset_left = ASSISTANT_LEFT + FIGURE_SIZE.x - 40          # beside her head, right of the left menu
@@ -723,16 +729,24 @@ func _build_stage() -> void:
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 6)
 	_bubble.add_child(column)
+	# Her name on a pink tab, as in the mockup.
+	var name_tab := PanelContainer.new()
+	name_tab.name = "AssistantNameTab"
+	name_tab.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	name_tab.add_theme_stylebox_override("panel", _name_tab_style())
+	column.add_child(name_tab)
 	var name_label := Label.new()
 	name_label.name = "AssistantName"
 	name_label.text = "%s（店長アシスタント）" % ASSISTANT_NAME
-	name_label.add_theme_color_override("font_color", UiTheme.WARM)
-	name_label.add_theme_font_size_override("font_size", 18)
-	column.add_child(name_label)
+	name_label.add_theme_color_override("font_color", Color.WHITE)
+	name_label.add_theme_font_size_override("font_size", 16)
+	name_tab.add_child(name_label)
 	_heading = Label.new()
 	_heading.name = "CelebrateHeading"
 	_heading.text = CELEBRATE_HEADING
-	_heading.add_theme_color_override("font_color", UiTheme.WARM)
+	_heading.add_theme_color_override("font_color", BUBBLE_ACCENT)
+	_heading.add_theme_color_override("font_outline_color", Color.WHITE)
+	_heading.add_theme_constant_override("outline_size", 6)
 	_heading.add_theme_font_size_override("font_size", 30)
 	_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_heading.visible = false
@@ -741,20 +755,80 @@ func _build_stage() -> void:
 	_assistant.name = "AssistantLine"
 	_assistant.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_assistant.custom_minimum_size.x = BUBBLE_WIDTH - 40
-	_assistant.add_theme_font_size_override("font_size", 17)
+	_assistant.add_theme_font_size_override("font_size", 18)
+	_assistant.add_theme_color_override("font_color", BUBBLE_TEXT)
+	_assistant.add_theme_constant_override("line_spacing", 4)
 	column.add_child(_assistant)
 	_dismiss = Button.new()
 	_dismiss.name = "AssistantDismiss"
 	_dismiss.text = "閉じる"
 	_dismiss.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_style_dismiss(_dismiss)
 	_dismiss.pressed.connect(_on_dismiss_pressed)
 	column.add_child(_dismiss)
-	# The bubble's tail points left, at her face.
+	# The bubble's tail points left, at her face: the border colour first, the cream fill over it.
+	var tail_edge := Polygon2D.new()
+	tail_edge.name = "BubbleTailEdge"
+	tail_edge.polygon = PackedVector2Array([Vector2(3, 34), Vector2(-26, 58), Vector2(3, 72)])
+	tail_edge.color = BUBBLE_BORDER
+	_bubble.add_child(tail_edge)
 	var tail := Polygon2D.new()
 	tail.name = "BubbleTail"
-	tail.polygon = PackedVector2Array([Vector2(0, 30), Vector2(-22, 52), Vector2(0, 62)])
-	tail.color = UiTheme.CARD_TOP.lerp(UiTheme.CARD_BOTTOM, 0.2)   # the card's gradient near the top, where the tail sits
+	tail.polygon = PackedVector2Array([Vector2(4, 38), Vector2(-20, 58), Vector2(4, 68)])
+	tail.color = BUBBLE_FILL
 	_bubble.add_child(tail)
+
+
+## The speech bubble: cream with a warm tan border and round corners, a soft shadow (mockup styles.css .speech).
+static func bubble_style() -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = BUBBLE_FILL
+	box.border_color = BUBBLE_BORDER
+	box.set_border_width_all(3)
+	box.corner_radius_top_left = 34
+	box.corner_radius_top_right = 30
+	box.corner_radius_bottom_left = 26
+	box.corner_radius_bottom_right = 26
+	box.corner_detail = 10
+	box.shadow_color = Color(0.05, 0.03, 0.02, 0.35)
+	box.shadow_size = 10
+	box.shadow_offset = Vector2(0, 4)
+	box.content_margin_left = 20
+	box.content_margin_right = 18
+	box.content_margin_top = 12
+	box.content_margin_bottom = 12
+	return box
+
+
+static func _name_tab_style() -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = BUBBLE_TAB
+	box.set_corner_radius_all(14)
+	box.content_margin_left = 14
+	box.content_margin_right = 14
+	box.content_margin_top = 3
+	box.content_margin_bottom = 4
+	return box
+
+
+## 閉じる: a small pill in the bubble's colours instead of the dark theme button.
+static func _style_dismiss(b: Button) -> void:
+	for state in ["normal", "hover", "pressed", "focus"]:
+		var box := StyleBoxFlat.new()
+		box.bg_color = BUBBLE_BORDER.lightened(0.35) if state == "normal" else BUBBLE_BORDER.lightened(0.15)
+		box.border_color = BUBBLE_BORDER.darkened(0.15)
+		box.set_border_width_all(2 if state != "focus" else 3)
+		box.set_corner_radius_all(16)
+		box.content_margin_left = 16
+		box.content_margin_right = 16
+		box.content_margin_top = 4
+		box.content_margin_bottom = 5
+		if state == "focus":
+			box.bg_color = Color(0, 0, 0, 0)
+		b.add_theme_stylebox_override(state, box)
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		b.add_theme_color_override(c, BUBBLE_TEXT)
+	b.add_theme_font_size_override("font_size", 16)
 
 
 ## Called by AppRoot with the achievements that happened since the last snapshot.

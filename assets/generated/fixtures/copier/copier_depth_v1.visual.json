@@ -1,0 +1,173 @@
+{
+  "manifest_version": 1,
+  "visual_id": "copier_depth_v1",
+  "fixture_type_id": "copier",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 0.92,
+    "height": 1.2
+  },
+  "variant": "depth_v1",
+  "state": "FULL",
+  "runtime_approved": false,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        442,
+        351
+      ],
+      "anchor_px": [
+        220.89,
+        232.47
+      ],
+      "layers": {
+        "body": "copier_depth_v1_0_body.png",
+        "shadow": "copier_depth_v1_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.89,
+        232.47
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.89,
+          168.47
+        ],
+        [
+          348.89,
+          232.47
+        ],
+        [
+          220.89,
+          296.47
+        ],
+        [
+          92.89,
+          232.47
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        442,
+        368
+      ],
+      "anchor_px": [
+        220.46,
+        248.76
+      ],
+      "layers": {
+        "body": "copier_depth_v1_1_body.png",
+        "shadow": "copier_depth_v1_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.46,
+        248.76
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.46,
+          184.76
+        ],
+        [
+          348.46,
+          248.76
+        ],
+        [
+          220.46,
+          312.76
+        ],
+        [
+          92.46,
+          248.76
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        442,
+        371
+      ],
+      "anchor_px": [
+        220.62,
+        252.6
+      ],
+      "layers": {
+        "body": "copier_depth_v1_2_body.png",
+        "shadow": "copier_depth_v1_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.62,
+        252.6
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.62,
+          188.6
+        ],
+        [
+          348.62,
+          252.6
+        ],
+        [
+          220.62,
+          316.6
+        ],
+        [
+          92.62,
+          252.6
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        442,
+        355
+      ],
+      "anchor_px": [
+        220.61,
+        236.31
+      ],
+      "layers": {
+        "body": "copier_depth_v1_3_body.png",
+        "shadow": "copier_depth_v1_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.61,
+        236.31
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.61,
+          172.31
+        ],
+        [
+          348.61,
+          236.31
+        ],
+        [
+          220.61,
+          300.31
+        ],
+        [
+          92.61,
+          236.31
+        ]
+      ]
+    }
+  }
+}

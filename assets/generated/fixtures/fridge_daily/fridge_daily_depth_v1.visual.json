@@ -1,0 +1,173 @@
+{
+  "manifest_version": 1,
+  "visual_id": "fridge_daily_depth_v1",
+  "fixture_type_id": "fridge_daily",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 2
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 1.92,
+    "height": 1.3
+  },
+  "variant": "depth_v1",
+  "state": "FULL",
+  "runtime_approved": false,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        349.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_0_body.png",
+        "shadow": "fridge_daily_depth_v1_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        349.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          349.0,
+          193.16
+        ],
+        [
+          477.0,
+          257.16
+        ],
+        [
+          221.0,
+          385.16
+        ],
+        [
+          93.0,
+          321.16
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        221.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_1_body.png",
+        "shadow": "fridge_daily_depth_v1_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        221.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          221.0,
+          193.16
+        ],
+        [
+          477.0,
+          321.16
+        ],
+        [
+          349.0,
+          385.16
+        ],
+        [
+          93.0,
+          257.16
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        349.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_2_body.png",
+        "shadow": "fridge_daily_depth_v1_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        349.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          349.0,
+          193.16
+        ],
+        [
+          477.0,
+          257.16
+        ],
+        [
+          221.0,
+          385.16
+        ],
+        [
+          93.0,
+          321.16
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        221.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_3_body.png",
+        "shadow": "fridge_daily_depth_v1_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        221.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          221.0,
+          193.16
+        ],
+        [
+          477.0,
+          321.16
+        ],
+        [
+          349.0,
+          385.16
+        ],
+        [
+          93.0,
+          257.16
+        ]
+      ]
+    }
+  }
+}

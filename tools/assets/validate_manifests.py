@@ -169,7 +169,12 @@ def calibration_errors(prov, base):
     return errs
 
 
-def silhouette_errors(d, r, rot, base):
+# Variants drawn from their own models (depth_v1: Blender depth -> ComfyUI, 2026-11-14) only have to stand on the floor
+# inside the blueprint's envelope, like the model types: Japanese shelves without the top board are lower on purpose.
+ENVELOPE_VARIANTS = {"depth_v1"}
+
+
+def silhouette_errors(d, r, rot, base, variant=""):
     """Rendered opaque body extent vs the projected blueprint extent, relative to the anchor."""
     bp = blueprints.rotated(blueprints.build(d), d, r)
     pts = [iso2x.project(x, y, z) for b in bp["boxes"] if b.layer == "body" for (x, y, z) in b.corners()]
@@ -179,7 +184,7 @@ def silhouette_errors(d, r, rot, base):
     ax, ay = rot["anchor_px"]
     got = (xs.min() - ax, ys.min() - ay, xs.max() + 1 - ax, ys.max() + 1 - ay)
     errs = []
-    if blueprints.is_model_type(d["type_id"]):
+    if blueprints.is_model_type(d["type_id"]) or variant in ENVELOPE_VARIANTS:
         # a model cut to its envelope: inside it on every side, and standing on the floor (bottom edge close)
         for name, g, w, sign in zip(("left", "top", "right", "bottom"), got, want, (1, 1, -1, -1)):
             if sign * (g - w) < -GROUND_TOL_PX:
@@ -308,7 +313,7 @@ def manifest_errors(mpath, catalog, prov):
             continue
         if union[0] < PADDING_PX or union[1] < PADDING_PX or cw - union[2] < PADDING_PX or ch - union[3] < PADDING_PX:
             errs.append("%s r%d: less than %d px padding around the sprite" % (name, r, PADDING_PX))
-        errs += ["%s: %s" % (name, e) for e in silhouette_errors(d, r, rot, base)]
+        errs += ["%s: %s" % (name, e) for e in silhouette_errors(d, r, rot, base, m.get("variant", ""))]
         errs += ["%s: %s" % (name, e) for e in front_side_errors(d, r, rot)]
     return errs
 

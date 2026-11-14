@@ -1,0 +1,173 @@
+{
+  "manifest_version": 1,
+  "visual_id": "staff_room_l_depth_v1",
+  "fixture_type_id": "staff_room_l",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 4,
+    "h": 3
+  },
+  "dimensions_m": {
+    "width": 3.92,
+    "depth": 2.92,
+    "height": 2.4
+  },
+  "variant": "depth_v1",
+  "state": "FULL",
+  "runtime_approved": false,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        1082,
+        694
+      ],
+      "anchor_px": [
+        476.64,
+        255.12
+      ],
+      "layers": {
+        "body": "staff_room_l_depth_v1_0_body.png",
+        "shadow": "staff_room_l_depth_v1_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        476.64,
+        255.12
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          476.64,
+          191.12
+        ],
+        [
+          988.64,
+          447.12
+        ],
+        [
+          604.64,
+          639.12
+        ],
+        [
+          92.64,
+          383.12
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        1082,
+        694
+      ],
+      "anchor_px": [
+        604.64,
+        255.12
+      ],
+      "layers": {
+        "body": "staff_room_l_depth_v1_1_body.png",
+        "shadow": "staff_room_l_depth_v1_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        604.64,
+        255.12
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          604.64,
+          191.12
+        ],
+        [
+          988.64,
+          383.12
+        ],
+        [
+          476.64,
+          639.12
+        ],
+        [
+          92.64,
+          447.12
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        1082,
+        694
+      ],
+      "anchor_px": [
+        476.64,
+        255.12
+      ],
+      "layers": {
+        "body": "staff_room_l_depth_v1_2_body.png",
+        "shadow": "staff_room_l_depth_v1_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        476.64,
+        255.12
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          476.64,
+          191.12
+        ],
+        [
+          988.64,
+          447.12
+        ],
+        [
+          604.64,
+          639.12
+        ],
+        [
+          92.64,
+          383.12
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        1082,
+        694
+      ],
+      "anchor_px": [
+        604.64,
+        255.12
+      ],
+      "layers": {
+        "body": "staff_room_l_depth_v1_3_body.png",
+        "shadow": "staff_room_l_depth_v1_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        604.64,
+        255.12
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          604.64,
+          191.12
+        ],
+        [
+          988.64,
+          383.12
+        ],
+        [
+          476.64,
+          639.12
+        ],
+        [
+          92.64,
+          447.12
+        ]
+      ]
+    }
+  }
+}

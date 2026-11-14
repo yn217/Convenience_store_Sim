@@ -64,6 +64,7 @@ func offer_intro(snap: Dictionary) -> void:
 	_ok.text = "はじめる"
 	_to_title.visible = false
 	visible = true
+	_guide_aside(true)
 
 
 ## The result card for SCENARIO_CLEARED / SCENARIO_FAILED; records a clear on this computer.
@@ -85,6 +86,7 @@ func show_result(event: Dictionary, view: Dictionary) -> void:
 	_ok.text = "このまま続ける"
 	_to_title.visible = true
 	visible = true
+	_guide_aside(true)
 	if _app != null and _app.get("state") != null and int(_app.state.speed_setting) > 0:
 		_paused_by_dialog = _app.set_speed(0).ok
 
@@ -97,9 +99,17 @@ func _set_art(path: String) -> void:
 func close() -> void:
 	visible = false
 	_mode = ""
+	_guide_aside(false)
 	if _paused_by_dialog and _app != null:
 		_paused_by_dialog = false
 		_app.set_speed(maxi(int(_app.state.last_nonzero_speed), 1))
+
+
+## The corner assistant steps aside while this dialog is open (her card would show dimmed behind it).
+func _guide_aside(on: bool) -> void:
+	var guide := get_parent().get_node_or_null("ProgressionController") if get_parent() != null else null
+	if guide != null and guide.has_method("set_suppressed"):
+		guide.set_suppressed(on, "dialog")
 
 
 func _on_to_title() -> void:

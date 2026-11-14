@@ -90,6 +90,7 @@ func _open(view: Dictionary) -> void:
 		b.pressed.connect(choose.bind(String(c["choice_id"])))
 		_buttons.add_child(b)
 	visible = true
+	_guide_aside(true)
 	if _app != null and _app.get("state") != null and int(_app.state.speed_setting) > 0:
 		_paused_by_dialog = _app.set_speed(0).ok
 
@@ -134,9 +135,17 @@ func choose(choice_id: String) -> void:
 
 func _close() -> void:
 	visible = false
+	_guide_aside(false)
 	if _paused_by_dialog and _app != null:
 		_paused_by_dialog = false
 		_app.set_speed(maxi(int(_app.state.last_nonzero_speed), 1))
+
+
+## The corner assistant steps aside while this dialog is open (her card would show dimmed behind it).
+func _guide_aside(on: bool) -> void:
+	var guide := get_parent().get_node_or_null("ProgressionController") if get_parent() != null else null
+	if guide != null and guide.has_method("set_suppressed"):
+		guide.set_suppressed(on, "dialog")
 
 
 func _build() -> void:

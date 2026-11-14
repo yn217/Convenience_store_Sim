@@ -16,6 +16,8 @@ const TOAST_FADE_SECONDS := 0.3
 const SALE_FONT := 20
 const SALE_RISE := 40.0            # px the pop-up rises over its lifetime (0 under reduce_motion)
 const SALE_CLEAR_BADGE := 34.0     # px above the badge's bottom edge where the sale text's baseline starts
+const SALE_PLATE_PAD := Vector2(10, 5)   # px around the sale text on its plate
+const SALE_FADE_SHARE := 0.35     # the pop-up fades over the last 35% of its life
 const FALLBACK_TOP := 76.0
 const FALLBACK_RIGHT := 12.0
 
@@ -255,9 +257,30 @@ func _draw_sales(font: Font, proj: IsoProjection) -> void:
 		var k: float = float(f["age"]) / maxf(float(f["ttl"]), 0.01)
 		# Starts above the "レジ待ち" badge (which sits on the same anchor) and rises from there, never over it.
 		var at := p + Vector2(-20, -SALE_CLEAR_BADGE * proj.zoom - (0.0 if still else SALE_RISE * k * proj.zoom))
-		var alpha := 1.0 if still else 1.0 - k
-		draw_string_outline(font, at, f["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, SALE_FONT, 4, Color(0, 0, 0, 0.8 * alpha))
-		draw_string(font, at, f["text"], HORIZONTAL_ALIGNMENT_LEFT, -1, SALE_FONT, Color(1, 0.95, 0.5, alpha))
+		# Fully readable for most of its life, fading only at the end; on a small plate so it reads over the shoppers.
+		var alpha := 1.0 if still else clampf((1.0 - k) / SALE_FADE_SHARE, 0.0, 1.0)
+		var text := String(f["text"])
+		var tw := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, SALE_FONT).x
+		var plate := Rect2(at + Vector2(-SALE_PLATE_PAD.x, -SALE_FONT - SALE_PLATE_PAD.y + 4), Vector2(tw + SALE_PLATE_PAD.x * 2, SALE_FONT + SALE_PLATE_PAD.y * 2))
+		draw_style_box(_sale_plate(alpha), plate)
+		draw_string(font, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, SALE_FONT, Color(1, 0.93, 0.55, alpha))
+
+
+var _sale_plates: Dictionary = {}
+
+
+## The sale pop-up's plate: a dark warm pill with a gold edge, cached per alpha step.
+func _sale_plate(alpha: float) -> StyleBoxFlat:
+	var step := int(round(alpha * 20.0))
+	if not _sale_plates.has(step):
+		var box := StyleBoxFlat.new()
+		var a := float(step) / 20.0
+		box.bg_color = Color(0.16, 0.09, 0.05, 0.86 * a)
+		box.border_color = Color(1, 0.8, 0.4, 0.9 * a)
+		box.set_border_width_all(2)
+		box.set_corner_radius_all(14)
+		_sale_plates[step] = box
+	return _sale_plates[step]
 
 
 func _toast_box(level: String) -> StyleBoxFlat:

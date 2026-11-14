@@ -1,0 +1,173 @@
+{
+  "manifest_version": 1,
+  "visual_id": "soft_serve_machine_depth_v1",
+  "fixture_type_id": "soft_serve_machine",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 0.92,
+    "height": 1.5
+  },
+  "variant": "depth_v1",
+  "state": "FULL",
+  "runtime_approved": false,
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        442,
+        406
+      ],
+      "anchor_px": [
+        220.71,
+        286.9
+      ],
+      "layers": {
+        "body": "soft_serve_machine_depth_v1_0_body.png",
+        "shadow": "soft_serve_machine_depth_v1_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.71,
+        286.9
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.71,
+          222.9
+        ],
+        [
+          348.71,
+          286.9
+        ],
+        [
+          220.71,
+          350.9
+        ],
+        [
+          92.71,
+          286.9
+        ]
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        442,
+        393
+      ],
+      "anchor_px": [
+        220.71,
+        274.13
+      ],
+      "layers": {
+        "body": "soft_serve_machine_depth_v1_1_body.png",
+        "shadow": "soft_serve_machine_depth_v1_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.71,
+        274.13
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.71,
+          210.13
+        ],
+        [
+          348.71,
+          274.13
+        ],
+        [
+          220.71,
+          338.13
+        ],
+        [
+          92.71,
+          274.13
+        ]
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        442,
+        393
+      ],
+      "anchor_px": [
+        220.71,
+        274.13
+      ],
+      "layers": {
+        "body": "soft_serve_machine_depth_v1_2_body.png",
+        "shadow": "soft_serve_machine_depth_v1_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.71,
+        274.13
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.71,
+          210.13
+        ],
+        [
+          348.71,
+          274.13
+        ],
+        [
+          220.71,
+          338.13
+        ],
+        [
+          92.71,
+          274.13
+        ]
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        442,
+        406
+      ],
+      "anchor_px": [
+        220.71,
+        286.9
+      ],
+      "layers": {
+        "body": "soft_serve_machine_depth_v1_3_body.png",
+        "shadow": "soft_serve_machine_depth_v1_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.71,
+        286.9
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.71,
+          222.9
+        ],
+        [
+          348.71,
+          286.9
+        ],
+        [
+          220.71,
+          350.9
+        ],
+        [
+          92.71,
+          286.9
+        ]
+      ]
+    }
+  }
+}

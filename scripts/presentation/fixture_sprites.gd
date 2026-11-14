@@ -34,13 +34,23 @@ func rotation_entry(type_id: String, rotation: int) -> Dictionary:
 	return entry
 
 
+## The base variant's entry ("a", items drawn live), whatever variant is chosen: what a shelf with products baked into
+## its picture falls back to when it is not full (issue #91: no HALF / EMPTY picture yet).
+func base_entry(type_id: String, rotation: int) -> Dictionary:
+	refresh()
+	var key := "base/%s/%d" % [type_id, rotation]
+	if not _cache.has(key):
+		_cache[key] = _load(type_id, rotation, VisualVariants.BASE)
+	return _cache[key]
+
+
 func has_sprites(type_id: String) -> bool:
 	var choice := VisualVariants.resolve(_prefs, "fixtures", type_id, VisualVariants.override())
 	return str(choice["path"]) != "" and FileAccess.file_exists(str(choice["path"]))
 
 
-func _load(type_id: String, rotation: int) -> Dictionary:
-	var choice := VisualVariants.resolve(_prefs, "fixtures", type_id, VisualVariants.override())
+func _load(type_id: String, rotation: int, forced: String = "") -> Dictionary:
+	var choice := VisualVariants.resolve(_prefs, "fixtures", type_id, forced if forced != "" else VisualVariants.override())
 	var path := str(choice["path"])
 	if path == "" or not FileAccess.file_exists(path):
 		return {}

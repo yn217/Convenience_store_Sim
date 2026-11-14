@@ -658,6 +658,10 @@ func _draw_all() -> void:
 			prof_customers += Time.get_ticks_usec() - q0
 			continue
 		var entry := _sprites.rotation_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))
+		if bool(entry.get("baked", false)) and stock_state(_world.shelf_stock.get(it["inst"]["instance_id"], {}), _capacity(it["inst"]["type_id"])) != "FULL":
+			var base := _sprites.base_entry(it["inst"]["type_id"], int(it["inst"]["rotation"]))
+			if not base.is_empty():
+				entry = base   # a picture with its products baked in is only true while the shelf is full (#91)
 		if not entry.is_empty():
 			q0 = Time.get_ticks_usec()
 			_draw_sprite(proj, it, entry)
@@ -783,6 +787,25 @@ func _blit(tex: Texture2D, top_left: Vector2, s: float, strip: Vector2, tint: Co
 	if u1 - u0 < 0.5:
 		return
 	cmds.append([0, tex, Rect2(top_left + Vector2(u0 * s, 0.0), Vector2(u1 - u0, size.y) * s), Rect2(u0, 0.0, u1 - u0, size.y), tint])
+
+
+## Stock state of a fixture (issue #91): FULL above half its capacity, HALF above zero, EMPTY at zero. A fixture that
+## holds no stock (capacity 0: a register, an ATM) is always FULL.
+static func stock_state(per_slot: Dictionary, capacity: int) -> String:
+	if capacity <= 0:
+		return "FULL"
+	var units := 0
+	for k in per_slot:
+		units += int(per_slot[k])
+	if units * 2 > capacity:
+		return "FULL"
+	return "HALF" if units > 0 else "EMPTY"
+
+
+func _capacity(type_id: String) -> int:
+	if _world.fixture_catalog == null:
+		return 0
+	return int(_world.fixture_catalog.get_type(type_id).get("capacity_units", 0))
 
 
 ## Items are drawn on top of the sprite unless the variant has its products baked in (painted FULL, issue #91).
