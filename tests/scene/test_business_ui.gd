@@ -67,7 +67,10 @@ func test_the_site_is_picked_on_the_area_map(t, tree) -> void:
 	t.ok(bc._map_window.visible, "the map opens")
 	t.ok(bc._pilot_map_picture != null, "the area map creates its pilot picture slot")
 	t.ok(bc._pilot_map_picture.visible, "the enabled pilot shows the map proposal picture in the side panel")
-	t.ok(String(bc._pilot_map_picture.texture.resource_path).ends_with("derived_alpha/functional_map_proposal.png"), "the map uses the registered proposal pose")
+	var shown: Texture2D = bc._pilot_map_picture.texture
+	var source: Texture2D = (shown as AtlasTexture).atlas if shown is AtlasTexture else shown   # cut to her outline (2026-11-14)
+	t.ok(String(source.resource_path).ends_with("derived_alpha/functional_map_proposal.png"), "the map uses the registered proposal pose")
+	t.ok(shown is AtlasTexture and (shown as AtlasTexture).region.size.y < source.get_height(), "trimmed to her outline, so she fills the panel")
 	bc.show_map("aoba_town_v1")   # the site facts below are those of the first 青葉市 map
 	bc._show_plot("P02")
 	t.ok(not bc._map_pick.disabled, "an available site can be picked")

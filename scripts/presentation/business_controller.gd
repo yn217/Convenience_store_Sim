@@ -478,12 +478,14 @@ func open_map() -> void:
 		side.add_child(_map_title)
 		_map_info = Label.new()
 		_map_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_map_info.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		_map_info.text = "黄色の丸が出店できる区画です。クリックすると、立地と周りの施設・予想来店数が出ます。"
 		side.add_child(_map_info)
 		_pilot_map_picture = TextureRect.new()
 		_pilot_map_picture.name = "MapPilotPicture"
+		# Rikka fills the panel's free height (user, 2026-11-14: she was small in a lot of empty space); the picture is
+		# cut to her outline (_trimmed) so its transparent margins take no room.
 		_pilot_map_picture.custom_minimum_size = Vector2(0, 220)
+		_pilot_map_picture.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		_pilot_map_picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_pilot_map_picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_pilot_map_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -541,9 +543,32 @@ func _refresh_map_pilot_picture(_enabled: bool = true) -> void:
 		var entry: Dictionary = pilot.cue_entry("map_proposal_open")
 		var runtime_path := String(entry.get("runtime_path", ""))
 		if runtime_path != "":
-			texture = load(runtime_path) as Texture2D
+			texture = _trimmed(load(runtime_path) as Texture2D)
 	_pilot_map_picture.texture = texture
 	_pilot_map_picture.visible = texture != null
+	if _map_info != null:   # without her, the text takes the free height as before
+		_map_info.size_flags_vertical = Control.SIZE_FILL if texture != null else Control.SIZE_EXPAND_FILL
+
+
+## The texture cut to its opaque pixels (an AtlasTexture of the used rect), so a figure with wide transparent margins
+## fills the space it is given. Cached per source.
+var _trim_cache: Dictionary = {}
+
+
+func _trimmed(tex: Texture2D) -> Texture2D:
+	if tex == null:
+		return null
+	if not _trim_cache.has(tex.resource_path):
+		var img := tex.get_image()
+		var used := img.get_used_rect() if img != null else Rect2i()
+		if used.size.x <= 0 or used.size.y <= 0:
+			_trim_cache[tex.resource_path] = tex
+		else:
+			var atlas := AtlasTexture.new()
+			atlas.atlas = tex
+			atlas.region = Rect2(used)
+			_trim_cache[tex.resource_path] = atlas
+	return _trim_cache[tex.resource_path]
 
 
 ## Shows another area map in the window (#154: Kakogawa beside 青葉市).
