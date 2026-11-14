@@ -169,5 +169,319 @@
         ]
       ]
     }
+  },
+  "inventory_states": {
+    "half_r0": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        348.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_half_0_body.png",
+        "shadow": "shelf_goods_depth_v1_half_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          235.16
+        ],
+        [
+          476.56,
+          299.16
+        ],
+        [
+          220.56,
+          427.16
+        ],
+        [
+          92.56,
+          363.16
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 0
+    },
+    "half_r1": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        220.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_half_1_body.png",
+        "shadow": "shelf_goods_depth_v1_half_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          235.16
+        ],
+        [
+          476.56,
+          363.16
+        ],
+        [
+          348.56,
+          427.16
+        ],
+        [
+          92.56,
+          299.16
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 1
+    },
+    "half_r2": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        348.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_half_2_body.png",
+        "shadow": "shelf_goods_depth_v1_half_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          235.16
+        ],
+        [
+          476.56,
+          299.16
+        ],
+        [
+          220.56,
+          427.16
+        ],
+        [
+          92.56,
+          363.16
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 2
+    },
+    "half_r3": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        220.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_half_3_body.png",
+        "shadow": "shelf_goods_depth_v1_half_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          235.16
+        ],
+        [
+          476.56,
+          363.16
+        ],
+        [
+          348.56,
+          427.16
+        ],
+        [
+          92.56,
+          299.16
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 3
+    },
+    "empty_r0": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        348.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_empty_0_body.png",
+        "shadow": "shelf_goods_depth_v1_empty_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          235.16
+        ],
+        [
+          476.56,
+          299.16
+        ],
+        [
+          220.56,
+          427.16
+        ],
+        [
+          92.56,
+          363.16
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 0
+    },
+    "empty_r1": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        220.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_empty_1_body.png",
+        "shadow": "shelf_goods_depth_v1_empty_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          235.16
+        ],
+        [
+          476.56,
+          363.16
+        ],
+        [
+          348.56,
+          427.16
+        ],
+        [
+          92.56,
+          299.16
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 1
+    },
+    "empty_r2": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        348.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_empty_2_body.png",
+        "shadow": "shelf_goods_depth_v1_empty_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        348.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          348.56,
+          235.16
+        ],
+        [
+          476.56,
+          299.16
+        ],
+        [
+          220.56,
+          427.16
+        ],
+        [
+          92.56,
+          363.16
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 2
+    },
+    "empty_r3": {
+      "canvas_px": [
+        570,
+        482
+      ],
+      "anchor_px": [
+        220.56,
+        299.16
+      ],
+      "layers": {
+        "body": "shelf_goods_depth_v1_empty_3_body.png",
+        "shadow": "shelf_goods_depth_v1_empty_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.56,
+        299.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          220.56,
+          235.16
+        ],
+        [
+          476.56,
+          363.16
+        ],
+        [
+          348.56,
+          427.16
+        ],
+        [
+          92.56,
+          299.16
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 3
+    }
   }
 }

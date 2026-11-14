@@ -169,5 +169,319 @@
         ]
       ]
     }
+  },
+  "inventory_states": {
+    "half_r0": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        349.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_half_0_body.png",
+        "shadow": "fridge_daily_depth_v1_half_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        349.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          349.0,
+          193.16
+        ],
+        [
+          477.0,
+          257.16
+        ],
+        [
+          221.0,
+          385.16
+        ],
+        [
+          93.0,
+          321.16
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 0
+    },
+    "half_r1": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        221.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_half_1_body.png",
+        "shadow": "fridge_daily_depth_v1_half_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        221.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          221.0,
+          193.16
+        ],
+        [
+          477.0,
+          321.16
+        ],
+        [
+          349.0,
+          385.16
+        ],
+        [
+          93.0,
+          257.16
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 1
+    },
+    "half_r2": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        349.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_half_2_body.png",
+        "shadow": "fridge_daily_depth_v1_half_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        349.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          349.0,
+          193.16
+        ],
+        [
+          477.0,
+          257.16
+        ],
+        [
+          221.0,
+          385.16
+        ],
+        [
+          93.0,
+          321.16
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 2
+    },
+    "half_r3": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        221.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_half_3_body.png",
+        "shadow": "fridge_daily_depth_v1_half_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        221.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          221.0,
+          193.16
+        ],
+        [
+          477.0,
+          321.16
+        ],
+        [
+          349.0,
+          385.16
+        ],
+        [
+          93.0,
+          257.16
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 3
+    },
+    "empty_r0": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        349.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_empty_0_body.png",
+        "shadow": "fridge_daily_depth_v1_empty_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        349.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          349.0,
+          193.16
+        ],
+        [
+          477.0,
+          257.16
+        ],
+        [
+          221.0,
+          385.16
+        ],
+        [
+          93.0,
+          321.16
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 0
+    },
+    "empty_r1": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        221.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_empty_1_body.png",
+        "shadow": "fridge_daily_depth_v1_empty_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        221.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          221.0,
+          193.16
+        ],
+        [
+          477.0,
+          321.16
+        ],
+        [
+          349.0,
+          385.16
+        ],
+        [
+          93.0,
+          257.16
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 1
+    },
+    "empty_r2": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        349.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_empty_2_body.png",
+        "shadow": "fridge_daily_depth_v1_empty_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        349.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          349.0,
+          193.16
+        ],
+        [
+          477.0,
+          257.16
+        ],
+        [
+          221.0,
+          385.16
+        ],
+        [
+          93.0,
+          321.16
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 2
+    },
+    "empty_r3": {
+      "canvas_px": [
+        570,
+        440
+      ],
+      "anchor_px": [
+        221.0,
+        257.16
+      ],
+      "layers": {
+        "body": "fridge_daily_depth_v1_empty_3_body.png",
+        "shadow": "fridge_daily_depth_v1_empty_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        221.0,
+        257.16
+      ],
+      "slot_anchors_px": {},
+      "selection_polygon_px": [
+        [
+          221.0,
+          193.16
+        ],
+        [
+          477.0,
+          321.16
+        ],
+        [
+          349.0,
+          385.16
+        ],
+        [
+          93.0,
+          257.16
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 3
+    }
   }
 }

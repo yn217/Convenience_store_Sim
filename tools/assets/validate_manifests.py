@@ -34,7 +34,7 @@ LAYER_KEYS = {"body", "shadow", "glass_front", "fixture_back", "fixture_front"}
 ROT_KEYS = {"canvas_px", "anchor_px", "layers", "slot_anchors_px", "selection_polygon_px", "sorting_anchor_px"}
 TOP_KEYS = {"manifest_version", "visual_id", "fixture_type_id", "projection_id", "world_units_per_tile",
             "source_px_per_tile_diamond", "footprint", "dimensions_m", "rotations",
-            "variant", "state", "runtime_approved"}
+            "variant", "state", "runtime_approved", "inventory_states"}
 TOP_REQUIRED = {"manifest_version", "visual_id", "fixture_type_id", "projection_id", "world_units_per_tile",
                 "source_px_per_tile_diamond"}
 GROUND_TOL_PX = 2.0     # source px; 1 screen px at zoom 1.0
@@ -273,9 +273,15 @@ def manifest_errors(mpath, catalog, prov):
     if set(m["rotations"]) != {"0", "1", "2", "3"}:
         errs.append("%s: needs all four rotations" % name)
         return errs
-    for rk in ("0", "1", "2", "3"):
-        r = int(rk)
-        rot = m["rotations"][rk]
+    # inventory_states (issue #91 / #168): "<state>_r<rotation>" -> a rotation record of a stock state; checked like the
+    # rotations it stands in for.
+    checks = [(rk, int(rk), m["rotations"][rk]) for rk in ("0", "1", "2", "3")]
+    for sk, rec in (m.get("inventory_states") or {}).items():
+        if not isinstance(rec, dict) or not set(ROT_KEYS) >= set(k for k in rec if k not in ("state", "rotation")) or rec.get("rotation") not in (0, 1, 2, 3) or "layers" not in rec:
+            errs.append("%s: inventory state %s malformed" % (name, sk))
+            continue
+        checks.append((sk, int(rec["rotation"]), rec))
+    for rk, r, rot in checks:
         cw, ch = rot["canvas_px"]
         sizes_ok = True
         for lname, fname in rot["layers"].items():

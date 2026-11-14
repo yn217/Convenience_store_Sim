@@ -269,5 +269,519 @@
         ]
       ]
     }
+  },
+  "inventory_states": {
+    "half_r0": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_half_0_body.png",
+        "shadow": "warmer_oden_depth_v1_half_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          232.5,
+          215.68
+        ],
+        "cell1_item0": [
+          203.49,
+          201.17
+        ],
+        "cell2_item0": [
+          174.48,
+          186.66
+        ],
+        "cell3_item0": [
+          267.06,
+          198.4
+        ],
+        "cell4_item0": [
+          238.05,
+          183.89
+        ],
+        "cell5_item0": [
+          209.04,
+          169.38
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 0
+    },
+    "half_r1": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_half_1_body.png",
+        "shadow": "warmer_oden_depth_v1_half_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          174.48,
+          198.4
+        ],
+        "cell1_item0": [
+          203.49,
+          183.89
+        ],
+        "cell2_item0": [
+          232.5,
+          169.38
+        ],
+        "cell3_item0": [
+          209.04,
+          215.68
+        ],
+        "cell4_item0": [
+          238.05,
+          201.17
+        ],
+        "cell5_item0": [
+          267.06,
+          186.66
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 1
+    },
+    "half_r2": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_half_2_body.png",
+        "shadow": "warmer_oden_depth_v1_half_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          209.04,
+          169.38
+        ],
+        "cell1_item0": [
+          238.05,
+          183.89
+        ],
+        "cell2_item0": [
+          267.06,
+          198.4
+        ],
+        "cell3_item0": [
+          174.48,
+          186.66
+        ],
+        "cell4_item0": [
+          203.49,
+          201.17
+        ],
+        "cell5_item0": [
+          232.5,
+          215.68
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 2
+    },
+    "half_r3": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_half_3_body.png",
+        "shadow": "warmer_oden_depth_v1_half_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          267.06,
+          186.66
+        ],
+        "cell1_item0": [
+          238.05,
+          201.17
+        ],
+        "cell2_item0": [
+          209.04,
+          215.68
+        ],
+        "cell3_item0": [
+          232.5,
+          169.38
+        ],
+        "cell4_item0": [
+          203.49,
+          183.89
+        ],
+        "cell5_item0": [
+          174.48,
+          198.4
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ],
+      "state": "HALF",
+      "rotation": 3
+    },
+    "empty_r0": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_empty_0_body.png",
+        "shadow": "warmer_oden_depth_v1_empty_0_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          232.5,
+          215.68
+        ],
+        "cell1_item0": [
+          203.49,
+          201.17
+        ],
+        "cell2_item0": [
+          174.48,
+          186.66
+        ],
+        "cell3_item0": [
+          267.06,
+          198.4
+        ],
+        "cell4_item0": [
+          238.05,
+          183.89
+        ],
+        "cell5_item0": [
+          209.04,
+          169.38
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 0
+    },
+    "empty_r1": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_empty_1_body.png",
+        "shadow": "warmer_oden_depth_v1_empty_1_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          174.48,
+          198.4
+        ],
+        "cell1_item0": [
+          203.49,
+          183.89
+        ],
+        "cell2_item0": [
+          232.5,
+          169.38
+        ],
+        "cell3_item0": [
+          209.04,
+          215.68
+        ],
+        "cell4_item0": [
+          238.05,
+          201.17
+        ],
+        "cell5_item0": [
+          267.06,
+          186.66
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 1
+    },
+    "empty_r2": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_empty_2_body.png",
+        "shadow": "warmer_oden_depth_v1_empty_2_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          209.04,
+          169.38
+        ],
+        "cell1_item0": [
+          238.05,
+          183.89
+        ],
+        "cell2_item0": [
+          267.06,
+          198.4
+        ],
+        "cell3_item0": [
+          174.48,
+          186.66
+        ],
+        "cell4_item0": [
+          203.49,
+          201.17
+        ],
+        "cell5_item0": [
+          232.5,
+          215.68
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 2
+    },
+    "empty_r3": {
+      "canvas_px": [
+        442,
+        346
+      ],
+      "anchor_px": [
+        220.77,
+        227.02
+      ],
+      "layers": {
+        "body": "warmer_oden_depth_v1_empty_3_body.png",
+        "shadow": "warmer_oden_depth_v1_empty_3_shadow.png"
+      },
+      "sorting_anchor_px": [
+        220.77,
+        227.02
+      ],
+      "slot_anchors_px": {
+        "cell0_item0": [
+          267.06,
+          186.66
+        ],
+        "cell1_item0": [
+          238.05,
+          201.17
+        ],
+        "cell2_item0": [
+          209.04,
+          215.68
+        ],
+        "cell3_item0": [
+          232.5,
+          169.38
+        ],
+        "cell4_item0": [
+          203.49,
+          183.89
+        ],
+        "cell5_item0": [
+          174.48,
+          198.4
+        ]
+      },
+      "selection_polygon_px": [
+        [
+          220.77,
+          163.02
+        ],
+        [
+          348.77,
+          227.02
+        ],
+        [
+          220.77,
+          291.02
+        ],
+        [
+          92.77,
+          227.02
+        ]
+      ],
+      "state": "EMPTY",
+      "rotation": 3
+    }
   }
 }

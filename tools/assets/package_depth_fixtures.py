@@ -11,8 +11,8 @@ game's north. The products are part of the picture, so the manifests say state F
 The user approved the variant for the game on 2026-11-14 (runtime_approved, first in visual_variants.json).
 
 HALF and EMPTY (issue #91 stock states, 2026-11-14): depth_states_20261114/final/<type>_<state>_y<yaw>.png, the same
-fixture with part or all of its goods repainted away, framed exactly like FULL. They become <type>_depth_v1_<state>
-manifests with state HALF / EMPTY; FixturePresenter picks the state from the shelf's stock.
+fixture with part or all of its goods repainted away, framed exactly like FULL. They are listed in the FULL
+manifest's inventory_states ("half_r0", ...); FixturePresenter picks the state from the shelf's stock.
 
 Run: python tools/assets/package_depth_fixtures.py [type ...]
 """
@@ -140,6 +140,8 @@ def package(type_id, catalog, boxes, state=""):
             rot["selection_polygon_px"] = [[round(p[0] + shift[0], 2), round(p[1] + shift[1], 2)] for p in b["selection_polygon_px"]]
         manifest["rotations"][str(r)] = rot
         report[r] = {"scale": round(k, 4), "canvas": canvas}
+    if state:
+        return manifest["rotations"]   # the caller files them under the FULL manifest's inventory_states
     (OUT / type_id / f"{vid}.visual.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return report
 
@@ -155,10 +157,19 @@ def main():
             print("skip (no base manifest)", t)
             continue
         print(t, package(t, catalog, boxes)[0])
+        # HALF / EMPTY go into the FULL manifest as inventory_states {"<state>_r<rotation>": rotation record}: the
+        # format FixtureSprites reads on the Codex branch too (issue #168), not manifests of their own.
+        states = {}
         for state in STATES:
             if all((STATES_SRC / "final" / f"{t}_{state}_y{y}.png").exists() for y in (0, 90, 180, 270)):
-                package(t, catalog, boxes, state)
+                for r, rot in package(t, catalog, boxes, state).items():
+                    states[f"{state}_r{r}"] = dict(rot, state=STATES[state], rotation=int(r))
                 print("  +", state)
+        if states:
+            path = OUT / t / f"{t}_{VARIANT}.visual.json"
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            manifest["inventory_states"] = states
+            path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

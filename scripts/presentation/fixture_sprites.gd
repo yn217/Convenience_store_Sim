@@ -34,15 +34,14 @@ func rotation_entry(type_id: String, rotation: int) -> Dictionary:
 	return entry
 
 
-## The same variant's picture for a stock state (HALF / EMPTY, issue #91): the manifest beside the chosen one, named
-## <visual>_<state>.visual.json. {} when that variant has no picture for the state.
+## The chosen variant's picture for a stock state (HALF / EMPTY, issue #91): the manifest's inventory_states record
+## "<state>_r<rotation>" (the Codex branch's format, issue #168). {} when that variant has no picture for the state.
 func state_entry(type_id: String, rotation: int, state: String) -> Dictionary:
 	refresh()
 	var key := "%s/%s/%d" % [state, type_id, rotation]
 	if not _cache.has(key):
 		var choice := VisualVariants.resolve(_prefs, "fixtures", type_id, VisualVariants.override())
-		var path := str(choice["path"]).replace(".visual.json", "_%s.visual.json" % state.to_lower())
-		_cache[key] = _load_path(path, rotation, str(choice["variant"])) if path != str(choice["path"]) else {}
+		_cache[key] = _load_path(str(choice["path"]), rotation, str(choice["variant"]), "%s_r%d" % [state.to_lower(), rotation])
 	return _cache[key]
 
 
@@ -66,13 +65,13 @@ func _load(type_id: String, rotation: int, forced: String = "") -> Dictionary:
 	return _load_path(str(choice["path"]), rotation, str(choice["variant"]))
 
 
-func _load_path(path: String, rotation: int, variant: String) -> Dictionary:
+func _load_path(path: String, rotation: int, variant: String, state_key: String = "") -> Dictionary:
 	if path == "" or not FileAccess.file_exists(path):
 		return {}
 	var json := JSON.new()
 	if json.parse(FileAccess.get_file_as_string(path)) != OK or typeof(json.data) != TYPE_DICTIONARY:
 		return {}
-	var rot: Dictionary = json.data["rotations"].get(str(rotation), {})
+	var rot: Dictionary = json.data["rotations"].get(str(rotation), {}) if state_key == "" else json.data.get("inventory_states", {}).get(state_key, {})
 	if rot.is_empty():
 		return {}
 	var layers := {}
