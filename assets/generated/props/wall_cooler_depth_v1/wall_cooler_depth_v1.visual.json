@@ -1,0 +1,90 @@
+{
+  "manifest_version": 1,
+  "visual_id": "wall_cooler_depth_v1",
+  "fixture_type_id": "wall_cooler_depth_v1",
+  "projection_id": "iso2x_v1",
+  "world_units_per_tile": 1,
+  "source_px_per_tile_diamond": [
+    256,
+    128
+  ],
+  "footprint": {
+    "w": 1,
+    "h": 1
+  },
+  "dimensions_m": {
+    "width": 0.92,
+    "depth": 0.92,
+    "height": 2.0
+  },
+  "rotations": {
+    "0": {
+      "canvas_px": [
+        267,
+        463
+      ],
+      "anchor_px": [
+        133.64,
+        388.36
+      ],
+      "layers": {
+        "body": "wall_cooler_depth_v1_0_body.png"
+      },
+      "sorting_anchor_px": [
+        133.64,
+        388.36
+      ]
+    },
+    "1": {
+      "canvas_px": [
+        267,
+        463
+      ],
+      "anchor_px": [
+        133.64,
+        388.36
+      ],
+      "layers": {
+        "body": "wall_cooler_depth_v1_1_body.png"
+      },
+      "sorting_anchor_px": [
+        133.64,
+        388.36
+      ]
+    },
+    "2": {
+      "canvas_px": [
+        267,
+        463
+      ],
+      "anchor_px": [
+        133.64,
+        388.36
+      ],
+      "layers": {
+        "body": "wall_cooler_depth_v1_2_body.png"
+      },
+      "sorting_anchor_px": [
+        133.64,
+        388.36
+      ]
+    },
+    "3": {
+      "canvas_px": [
+        267,
+        463
+      ],
+      "anchor_px": [
+        133.64,
+        388.36
+      ],
+      "layers": {
+        "body": "wall_cooler_depth_v1_3_body.png"
+      },
+      "sorting_anchor_px": [
+        133.64,
+        388.36
+      ]
+    }
+  }
+}

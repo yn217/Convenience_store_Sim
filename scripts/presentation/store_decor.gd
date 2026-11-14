@@ -44,6 +44,7 @@ const COOLER_COUNT := 6
 const COOLER_START := 2
 const FLOWER_STRIDE := 4
 const LAMP_STRIDE := 6
+const WALL_COOLER := "wall_cooler_depth_v1"   ## the back-wall cooler doors (tools/assets/package_wall_cooler.py)
 const DECOR_CLEARANCE := 0.9   ## a bought decoration keeps this far (tiles) from the other street furniture
 
 ## Draw op tags.
@@ -522,9 +523,13 @@ static func _back_wall(width: int, height: int, wall: int, entrances: Array, occ
 	var out: Array = []
 	var n := _edge_len(wall, width, height)
 	var count := clampi(n - COOLER_START - 2, 0, COOLER_COUNT)
+	# The walk-in cooler's glass doors (2026-11-14 depth art, like the fixtures): rotation 0 faces south (north wall), 1 east.
+	var door := WALL_COOLER if PropSprites.is_available(WALL_COOLER) else "reachin_cooler_row"
 	for k in count:
 		var g := _wall_ground(wall, float(COOLER_START + k), WALL_OFFSET)
-		out.append({"kind": &"sprite", "id": "reachin_cooler_row", "x": g.x, "y": g.y, "front": false})
+		out.append({"kind": &"sprite", "id": door, "x": g.x, "y": g.y, "front": false})
+		if door == WALL_COOLER:
+			out[-1]["rot"] = 0 if wall == SIDE_NORTH else 1
 	for end in [0, n - 1]:
 		var floor_cell := _floor_cell(wall, end)
 		if occupied.has(floor_cell) or _is_entrance(entrances, floor_cell):

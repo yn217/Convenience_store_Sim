@@ -55,10 +55,11 @@ func test_fascia_and_store_name_above_the_glass(t, _tree) -> void:
 
 func test_cooler_row_on_the_back_wall_only(t, _tree) -> void:
 	var items := StoreDecor.wall_items(W, H, ENTR, {})
-	var coolers := _sprites(items, "reachin_cooler_row")
-	t.eq(coolers.size(), StoreDecor.COOLER_COUNT, "six reach-in coolers on the north back wall")
+	var coolers := _sprites(items, StoreDecor.WALL_COOLER)
+	t.eq(coolers.size(), StoreDecor.COOLER_COUNT, "six glass cooler doors on the north back wall (2026-11-14 art)")
 	for c in coolers:
 		t.ok(absf(c["y"] - StoreDecor.WALL_OFFSET) < 1e-6, "coolers stand behind the north wall")
+		t.eq(int(c.get("rot", -1)), 0, "and face south, into the store")
 		t.ok(c["x"] >= StoreDecor.COOLER_START and c["x"] < W - 1, "coolers are not in the corners")
 		t.ok(not _inside_floor(c, W, H), "coolers never stand on the floor")
 
@@ -77,10 +78,11 @@ func test_entrance_on_north_moves_the_storefront(t, _tree) -> void:
 	var doors := _sprites(items, "storefront_door")
 	t.eq(doors.size(), 1, "one door on the north wall")
 	t.ok(absf(doors[0]["y"] + 1.0) < 1e-6 and doors[0]["x"] == 3.0, "door stands one tile outside north at x = 3")
-	var coolers := _sprites(items, "reachin_cooler_row")
+	var coolers := _sprites(items, StoreDecor.WALL_COOLER)
 	t.eq(coolers.size(), StoreDecor.COOLER_COUNT, "coolers move to the west back wall")
 	for c in coolers:
 		t.ok(absf(c["x"] - StoreDecor.WALL_OFFSET) < 1e-6, "coolers stand behind the west wall")
+		t.eq(int(c.get("rot", -1)), 1, "and face east, into the store")
 
 
 func test_entrance_on_east_is_a_low_front(t, _tree) -> void:
