@@ -389,6 +389,8 @@ func _run() -> void:
 		var guide: ProgressionController = main.get_node("ProgressionController")
 		while guide.is_celebrating():   # earlier titles' cheers are over by the end of the day: her day remark shows
 			guide.close_celebration()
+		if guide._opening_cutin_active:   # the 開店！ band of the setup is long over by midnight
+			guide._finish_opening_cutin()
 	var cut: Control = main.get_node("ProgressionController")._cutin   # the setup above opened the store: no 開店！ in review shots
 	if cut != null:
 		cut.visible = false

@@ -31,11 +31,11 @@ func test_a_day_with_no_sale(t, tree) -> void:
 	var pc: ProgressionController = r[3]
 	_midnight(app, 0)
 	t.ok(rc._day_end.visible, "the first day closes with its card")
-	t.ok(rc._day_end_text.text.contains("DAY 0　営業結果") and rc._day_end_text.text.contains("売上高 ¥0"), rc._day_end_text.text)
-	t.ok(rc._day_end_text.text.contains("今日の来店 0人 ／ 購買 0人"), "no visitor, no buyer: both 0")
+	t.ok(rc._day_end.card_text().contains("DAY 0　営業結果") and rc._day_end.card_text().contains("売上高 ¥0"), rc._day_end.card_text())
+	t.ok(rc._day_end.card_text().contains("お買い上げ 0人") and rc._day_end.card_text().contains("来店 0人"), "no visitor, no buyer: both 0")
 	t.ok(pc._assistant.text.contains("お買い上げがありませんでした"), "her remark says how to start: %s" % pc._assistant.text)
 	t.eq(pc.mood(), "worried", "a day without a sale: her worried face")
-	t.ok(rc._day_end_hourly.visible and rc._day_end_hourly.values().all(func(v): return int(v) == 0), "an empty chart, not an error")
+	t.ok(rc._day_end._hourly.visible and rc._day_end._hourly.values().all(func(v): return int(v) == 0), "an empty chart, not an error")
 	r[0].queue_free()
 	await tree.process_frame
 
@@ -53,8 +53,8 @@ func test_a_loss_matches_the_ledger(t, tree) -> void:
 	t.eq(int(report["revenue_yen"]), int(sum["revenue_yen"]), "revenue from the ledger")
 	t.eq(int(report["gross_profit_yen"]), int(sum["gross_profit_yen"]))
 	t.ok(int(report["operating_profit_yen"]) < 0, "a loss")
-	t.ok(rc._day_end_text.text.contains("営業利益 -¥"), "the loss keeps its minus sign: %s" % rc._day_end_text.text)
-	t.ok(rc._day_end_text.text.contains("粗利益 ¥120"), "gross profit is not the operating result")
+	t.ok(rc._day_end.card_text().contains("営業利益 -¥"), "the loss keeps its minus sign: %s" % rc._day_end.card_text())
+	t.ok(rc._day_end.card_text().contains("粗利益 ¥120"), "gross profit is not the operating result")
 	r[0].queue_free()
 	await tree.process_frame
 
@@ -76,7 +76,7 @@ func test_details_then_the_next_day_and_repeated_presses(t, tree) -> void:
 	t.ok(not rc._day_end.visible)
 	main.call("close_screen")
 	_midnight(app, 1)
-	t.ok(rc._day_end.visible and rc._day_end_text.text.contains("DAY 1　営業結果"), "the next midnight brings the next card")
+	t.ok(rc._day_end.visible and rc._day_end.card_text().contains("DAY 1　営業結果"), "the next midnight brings the next card")
 	var next := rc._day_end.find_child("DayEndNext", true, false) as Button
 	next.pressed.emit()
 	next.pressed.emit()

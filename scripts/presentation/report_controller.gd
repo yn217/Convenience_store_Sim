@@ -18,8 +18,7 @@ var _chart: ReportChart
 
 var _detail_button: Button
 var _company: Label   # #146: all stores of the company together
-var _day_end: PanelContainer   # #19 SCR-13: the day's result when the date moves on
-var _day_end_text: Label
+var _day_end: DayEndScreen   # #19 SCR-13: the day's result when the date moves on (redone 2026-11-14)
 var _seen_reports := -1
 var _day_log := {}             # day -> {event, titles}: what each day had, gathered from the snapshots (#19)
 var _done_titles = null        # completed milestone ids at the last snapshot (null before the first)
@@ -31,7 +30,6 @@ var _shelf_lines: Label
 var _day_buttons: Dictionary = {}   # "today" / "yesterday" -> Button
 var _last_snap: Dictionary = {}
 var _hourly: HourlyChart       # #19 売上の推移: today by hour, yesterday behind
-var _day_end_hourly: HourlyChart   # the closed day by hour, on the day-end card
 
 
 func setup(_app: Node) -> void:
@@ -237,50 +235,20 @@ func _legend() -> HBoxContainer:
 	return row
 
 
-## SCR-13 (#19): a centred card when a day closes — its sales, gross and operating profit, visitors, buyers and
-## wastage from the closed report (the ledger), with 履歴を詳しく見る (the データ tab) and 翌日の経営へ (close).
+## SCR-13 (#19): the day's result screen when a day closes (DayEndScreen): 履歴を詳しく見る opens the データ tab,
+## 翌日の経営へ closes it.
 func _build_day_end() -> void:
-	_day_end = PanelContainer.new()
-	_day_end.name = "DayEndPanel"
-	_day_end.theme_type_variation = &"Card"
-	_day_end.visible = false
-	_day_end.custom_minimum_size = Vector2(420, 0)
-	_day_end.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	_day_end.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_day_end.grow_vertical = Control.GROW_DIRECTION_BOTH
-	var col := VBoxContainer.new()
-	col.add_theme_constant_override("separation", 10)
-	_day_end.add_child(col)
-	_day_end_text = Label.new()
-	_day_end_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	col.add_child(_day_end_text)
-	_day_end_hourly = HourlyChart.new()
-	_day_end_hourly.name = "DayEndHourly"
-	_day_end_hourly.custom_minimum_size = Vector2(0, 80)
-	col.add_child(_day_end_hourly)
-	var row := HBoxContainer.new()
-	var more := Button.new()
-	more.name = "DayEndHistory"
-	more.text = "履歴を詳しく見る"
-	more.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	more.pressed.connect(func():
+	_day_end = DayEndScreen.new()
+	_day_end.history_requested.connect(func():
 		_close_day_end()
 		if get_parent().has_method("open_screen_tab"):
 			get_parent().call("open_screen_tab", "データ"))
-	row.add_child(more)
-	var next := Button.new()
-	next.name = "DayEndNext"
-	next.text = "翌日の経営へ"
-	next.theme_type_variation = &"PrimaryButton"
-	next.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	next.pressed.connect(_close_day_end)
-	row.add_child(next)
-	col.add_child(row)
+	_day_end.next_requested.connect(_close_day_end)
 	get_parent().add_child.call_deferred(_day_end)
 
 
 func _close_day_end() -> void:
-	_day_end.visible = false
+	_day_end.close()
 	var guide := get_node_or_null("../ProgressionController")
 	if guide != null and guide.has_method("end_day_end"):
 		guide.end_day_end()
@@ -342,14 +310,15 @@ func apply_snapshot(snap: Dictionary) -> void:
 		if _seen_reports >= 0 and reports.size() == _seen_reports + 1:
 			var closed: Dictionary = reports.back()
 			var day := int(closed["day_index"])
-			_day_end_text.text = day_end_text(closed) + "\n" + "\n".join(day_history_lines(day, _day_log.get(day, {}), snap.get("progression", {})))
-			_day_end.visible = true
 			var closed_hours: Array = snap.get("hourly_sales", {}).get("yesterday", []) if day == int(snap.get("day", 0)) - 1 else []
-			_day_end_hourly.set_hours(closed_hours)
-			_day_end_hourly.visible = not closed_hours.is_empty()
+			_day_end.show_day(closed, reports, day_history_lines(day, _day_log.get(day, {}), snap.get("progression", {})), closed_hours,
+				GameCalendar.label(day))
 			var guide := get_node_or_null("../ProgressionController")   # 小春六花 comments on the day beside the card
 			if guide != null and guide.has_method("say_day_end"):
 				guide.say_day_end(ProgressionText.day_end_remark(reports), ProgressionText.day_end_mood(closed))
+			var stage := get_parent().get_node_or_null("AssistantStage") as Control
+			if stage != null:
+				stage.move_to_front()   # she speaks over the result screen's dim, not under it
 		_seen_reports = reports.size()
 	_label.text = summary_text(reports)
 	_last_snap = snap
