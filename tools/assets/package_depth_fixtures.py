@@ -35,9 +35,9 @@ PX_PER_M = 128 * math.sqrt(2)          # half a tile diamond (128 source px) per
 HALF_W, HALF_H = 128.0, 64.0          # source px of one tile step in x (and -y) on screen
 RENDER = 1024
 MARGIN = 16                           # transparent px around everything (validate_manifests wants 8)
-# Known bad renders (memory 2026-11-07): the register's and the bakery's backs, the dessert case's top board and the
-# capsule machines' column counts. They keep the current art.
-EXCLUDE = {"register_basic", "bakery_oven", "fridge_dessert", "capsule_toy_3", "capsule_toy_5"}
+# 2026-11-14: the register's and the bakery's backs were redone, the capsule units remodelled (3 and 5 columns) and the
+# dessert case's canopy kept (the daily case has the same); every fixture now has depth art.
+EXCLUDE = set()
 
 
 def view(yaw):

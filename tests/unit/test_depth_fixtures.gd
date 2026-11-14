@@ -1,7 +1,6 @@
 extends RefCounted
 ## The depth_v1 fixture art (2026-11-14, the game's default by the user's decision): products baked into the picture, so
-## the picture follows the stock (issue #91 FULL / HALF / EMPTY); a state without a picture falls back to the current
-## art with its items drawn live.
+## the picture follows the stock (issue #91 FULL / HALF / EMPTY); a machine without state pictures keeps its picture.
 
 const Presenter := preload("res://scripts/presentation/fixture_presenter.gd")
 
@@ -20,7 +19,7 @@ func test_every_depth_manifest_has_four_rotations_and_is_approved(t, _tree) -> v
 			var rot: Dictionary = m["rotations"][str(r)]
 			for layer in rot["layers"].values():
 				t.ok(ResourceLoader.exists("res://assets/generated/fixtures/%s/%s" % [d, layer]), "%s r%d: %s exists" % [d, r, layer])
-	t.ok(found >= 20, "the depth art covers most fixtures: %d" % found)
+	t.eq(found, 28, "every fixture has depth art")
 
 
 func test_the_stock_state_follows_the_fill(t, _tree) -> void:
@@ -34,7 +33,7 @@ func test_the_stock_state_follows_the_fill(t, _tree) -> void:
 func test_the_depth_variant_is_the_default_and_the_base_stays_reachable(t, _tree) -> void:
 	var prefs := VisualVariants.load_preferences()
 	t.eq(String(VisualVariants.resolve(prefs, "fixtures", "shelf_snack", "")["variant"]), "depth_v1", "the game shows the depth art")
-	t.eq(String(VisualVariants.resolve(prefs, "fixtures", "register_basic", "")["variant"]), "a", "a fixture without it keeps the current art")
+	t.eq(String(VisualVariants.resolve(prefs, "fixtures", "register_basic", "")["variant"]), "depth_v1", "the register too (its back redone 2026-11-14)")
 	t.eq(String(VisualVariants.resolve(prefs, "fixtures", "shelf_snack", "a")["variant"]), "a", "the override can still force the current art")
 	var sprites := FixtureSprites.new()
 	var base := sprites.base_entry("shelf_snack", 0)
@@ -49,4 +48,4 @@ func test_a_shelf_has_half_and_empty_pictures_of_the_same_unit(t, _tree) -> void
 		t.ok(not e.is_empty(), "shelf_general has a %s picture" % state)
 		t.ok(bool(e.get("baked", false)), "its goods are part of the picture")
 		t.eq(e["anchor"], sprites.rotation_entry("shelf_general", 1)["anchor"], "it stands exactly where the FULL picture does")
-	t.ok(sprites.state_entry("atm", 0, "EMPTY").is_empty(), "a fixture without stock pictures has none (the presenter falls back)")
+	t.ok(sprites.state_entry("coffee_machine", 0, "EMPTY").is_empty(), "a machine whose goods do not show has none: its picture stays")

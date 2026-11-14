@@ -172,6 +172,9 @@ def calibration_errors(prov, base):
 # Variants drawn from their own models (depth_v1: Blender depth -> ComfyUI, 2026-11-14) only have to stand on the floor
 # inside the blueprint's envelope, like the model types: Japanese shelves without the top board are lower on purpose.
 ENVELOPE_VARIANTS = {"depth_v1"}
+# Painted details may rise a little above the model (the register's POS screen seen from the staff side): the top edge
+# of these variants may stand this far above the envelope. The floor contact keeps GROUND_TOL_PX.
+ENVELOPE_TOP_TOL_PX = 40.0
 
 
 def silhouette_errors(d, r, rot, base, variant=""):
@@ -187,7 +190,8 @@ def silhouette_errors(d, r, rot, base, variant=""):
     if blueprints.is_model_type(d["type_id"]) or variant in ENVELOPE_VARIANTS:
         # a model cut to its envelope: inside it on every side, and standing on the floor (bottom edge close)
         for name, g, w, sign in zip(("left", "top", "right", "bottom"), got, want, (1, 1, -1, -1)):
-            if sign * (g - w) < -GROUND_TOL_PX:
+            tol_px = ENVELOPE_TOP_TOL_PX if name == "top" and variant in ENVELOPE_VARIANTS else GROUND_TOL_PX
+            if sign * (g - w) < -tol_px:
                 errs.append("%s r%d: %s edge %.1f px outside the body envelope" % (d["type_id"], r, name, g - w))
         tol = MODEL_GROUND_TOL_OPEN_PX.get(d["type_id"], MODEL_GROUND_TOL_PX)
         if want[3] - got[3] > tol:

@@ -104,6 +104,26 @@
     "warmer_oden": [
       "depth_v1",
       "a"
+    ],
+    "bakery_oven": [
+      "depth_v1",
+      "a"
+    ],
+    "capsule_toy_3": [
+      "depth_v1",
+      "a"
+    ],
+    "capsule_toy_5": [
+      "depth_v1",
+      "a"
+    ],
+    "fridge_dessert": [
+      "depth_v1",
+      "a"
+    ],
+    "register_basic": [
+      "depth_v1",
+      "a"
     ]
   },
   "props": {},

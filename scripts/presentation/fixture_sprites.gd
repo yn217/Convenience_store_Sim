@@ -46,8 +46,8 @@ func state_entry(type_id: String, rotation: int, state: String) -> Dictionary:
 	return _cache[key]
 
 
-## The base variant's entry ("a", items drawn live), whatever variant is chosen: what a shelf with products baked into
-## its picture falls back to when it is not full (issue #91: no HALF / EMPTY picture yet).
+## The base variant's entry ("a", items drawn live), whatever variant is chosen (the current art, e.g. for tests of the
+## live item drawing).
 func base_entry(type_id: String, rotation: int) -> Dictionary:
 	refresh()
 	var key := "base/%s/%d" % [type_id, rotation]
