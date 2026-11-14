@@ -18,6 +18,7 @@ var _status: Label
 var _rows_key := []
 var _stores: Array = []   # #146: the company's stores (for the transfer choice)
 var _staff_labels: Dictionary = {}   # staff id -> Label (texts change every snapshot; rows only when people change)
+var _staff_bars: Dictionary = {}     # staff id -> {bar: fatigue ProgressBar, pct: Label}
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -72,7 +73,12 @@ func apply_snapshot(snap: Dictionary) -> void:
 	for s in staff:
 		var l: Label = _staff_labels.get(s["customer_id"])
 		if l != null:
-			l.text = staff_line(s, float(util.get(s["customer_id"], 0.0)))
+			l.text = work_line(s, float(util.get(s["customer_id"], 0.0)))
+		var fb: Dictionary = _staff_bars.get(s["customer_id"], {})
+		if not fb.is_empty():
+			var f := int(round(float(s.get("fatigue", 0.0))))
+			(fb["bar"] as ProgressBar).value = f
+			(fb["pct"] as Label).text = "%d%%" % f
 	_hours.text = hours_text(staffing.get("line_today", []), staffing.get("balked_today", []), staffing.get("abandoned_today", []))
 	_advice.text = String(staffing.get("advice", ""))
 
@@ -84,35 +90,93 @@ func _rebuild(staff: Array, cands: Array, full: bool) -> void:
 		_cand_box.remove_child(n)   # out of the tree now, so the new CandidateCards keeps its name
 		n.queue_free()
 	_staff_labels.clear()
+	_staff_bars.clear()
+	# The staff as cards like the candidates' (2026-11-14: the rows of small text were hard to read): face, name and
+	# type, 日給, a bar per skill, fatigue as a bar, what they are doing and how busy they were, 異動 / 解雇.
+	var team := GridContainer.new()
+	team.name = "StaffCards"
+	team.columns = CARD_COLUMNS
+	team.add_theme_constant_override("h_separation", 8)
+	team.add_theme_constant_override("v_separation", 8)
+	_staff_box.add_child(team)
 	for s in staff:
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 8)
-		var face := Portraits.make_rect(ROW_FACE)
-		face.name = "Face_" + String(s["customer_id"])
+		var id := String(s["customer_id"])
+		var card := PanelContainer.new()
+		card.name = "Staff_" + id
+		card.theme_type_variation = &"SubCard"
+		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var col := VBoxContainer.new()
+		col.add_theme_constant_override("separation", 4)
+		card.add_child(col)
+		var head := HBoxContainer.new()
+		head.add_theme_constant_override("separation", 8)
+		var face := Portraits.make_rect(CARD_FACE)
+		face.name = "Face_" + id
 		face.texture = Portraits.texture(Portraits.id_for_staff(String(s.get("name", ""))))
-		row.add_child(face)
-		var l := Label.new()
-		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		row.add_child(l)
-		_staff_labels[s["customer_id"]] = l
+		head.add_child(face)
+		var who := VBoxContainer.new()
+		who.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var name_label := Label.new()
+		name_label.text = String(s.get("name", ""))
+		name_label.add_theme_font_size_override("font_size", 18)
+		who.add_child(name_label)
+		var kind := Label.new()
+		kind.text = "%s　日給 %s" % [OverlayModel.ARCHETYPE_NAMES.get(s.get("archetype", ""), s.get("archetype", "")), OverlayModel.yen(int(s.get("daily_wage_yen", 0)))]
+		kind.theme_type_variation = &"AccentLabel"
+		who.add_child(kind)
+		head.add_child(who)
+		col.add_child(head)
+		_skill_rows(col, s.get("skills", {}))
+		var tired := HBoxContainer.new()
+		tired.add_theme_constant_override("separation", 6)
+		var cap := Label.new()
+		cap.text = "疲労"
+		cap.custom_minimum_size.x = 48
+		var bar := ProgressBar.new()
+		bar.name = "Fatigue"
+		bar.show_percentage = false
+		var fill := StyleBoxFlat.new()   # orange, not the skills' green: more is worse
+		fill.bg_color = Color("f08a24")
+		fill.set_corner_radius_all(4)
+		bar.add_theme_stylebox_override("fill", fill)
+		bar.max_value = 100
+		bar.custom_minimum_size.y = UiTheme.BAR_HEIGHT
+		bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		var pct := Label.new()
+		tired.add_child(cap)
+		tired.add_child(bar)
+		tired.add_child(pct)
+		col.add_child(tired)
+		var work := Label.new()
+		work.name = "Work"
+		work.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		work.theme_type_variation = &"MutedLabel"
+		col.add_child(work)
+		_staff_labels[s["customer_id"]] = work
+		_staff_bars[s["customer_id"]] = {"bar": bar, "pct": pct}
+		var buttons := HBoxContainer.new()
+		buttons.alignment = BoxContainer.ALIGNMENT_END
+		buttons.add_theme_constant_override("separation", 6)
 		if _stores.size() > 1:   # #146: move to another store of the company (both closed)
 			var to := OptionButton.new()
-			to.name = "Transfer_" + String(s["customer_id"])
+			to.name = "Transfer_" + id
 			to.add_item("異動…")
 			to.set_item_metadata(0, null)
 			for st in _stores:
 				if not bool(st["active"]):
 					to.add_item("→ " + String(st["name"]))
 					to.set_item_metadata(to.item_count - 1, String(st["store_id"]))
-			to.item_selected.connect(func(i): if to.get_item_metadata(i) != null: transfer_staff(String(s["customer_id"]), String(to.get_item_metadata(i))))
-			row.add_child(to)
+			to.item_selected.connect(func(i): if to.get_item_metadata(i) != null: transfer_staff(id, String(to.get_item_metadata(i))))
+			buttons.add_child(to)
 		var fire := Button.new()
-		fire.name = "Fire_" + String(s["customer_id"])
+		fire.name = "Fire_" + id
 		fire.text = "解雇"
-		fire.pressed.connect(fire_staff.bind(String(s["customer_id"])))
-		row.add_child(fire)
-		_staff_box.add_child(row)
+		fire.theme_type_variation = &"DangerButton"
+		fire.pressed.connect(fire_staff.bind(id))
+		buttons.add_child(fire)
+		col.add_child(buttons)
+		team.add_child(card)
 	var cards := GridContainer.new()   # #144 mockup: the candidates side by side, one card each, to compare at a glance
 	cards.name = "CandidateCards"
 	cards.columns = maxi(mini(cands.size(), CARD_COLUMNS), 1)
@@ -191,7 +255,20 @@ func _candidate_card(c: Dictionary, full: bool) -> PanelContainer:
 	who.add_child(kind)
 	head.add_child(who)
 	col.add_child(head)
-	var sk: Dictionary = c.get("skills", {})
+	_skill_rows(col, c.get("skills", {}))
+	var hire := Button.new()
+	hire.name = "Hire_" + String(c["candidate_id"])
+	hire.text = "採用"
+	hire.theme_type_variation = &"PrimaryButton"
+	hire.disabled = full
+	hire.tooltip_text = "上限に達しています" if full else ""
+	hire.pressed.connect(hire_candidate.bind(String(c["candidate_id"])))
+	col.add_child(hire)
+	return card
+
+
+## A bar per skill with its number (the number is the cue, not only the bar), under `col`.
+func _skill_rows(col: VBoxContainer, sk: Dictionary) -> void:
 	for s in SKILLS:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 6)
@@ -213,15 +290,6 @@ func _candidate_card(c: Dictionary, full: bool) -> PanelContainer:
 		row.add_child(bar)
 		row.add_child(n)
 		col.add_child(row)
-	var hire := Button.new()
-	hire.name = "Hire_" + String(c["candidate_id"])
-	hire.text = "採用"
-	hire.theme_type_variation = &"PrimaryButton"
-	hire.disabled = full
-	hire.tooltip_text = "上限に達しています" if full else ""
-	hire.pressed.connect(hire_candidate.bind(String(c["candidate_id"])))
-	col.add_child(hire)
-	return card
 
 
 const ERRORS := {"staff_cap_reached": "店員の上限です。大きい控え室を置くと増やせます", "unknown_candidate": "候補がいません", "unknown_staff": "店員がいません"}
@@ -234,6 +302,11 @@ static func summary_text(count: int, cap: int, wages: int) -> String:
 static func staff_line(s: Dictionary, util: float) -> String:
 	var lines := OverlayModel.staff_panel_lines(s, "")
 	return "%s　%s\n%s　稼働 %d%%　%s" % [lines[0], lines[1], lines[2], int(round(util * 100.0)), lines[3]]
+
+
+## What a staff member is doing now and how busy they were today: "仕事：レジ担当　稼働 98%".
+static func work_line(s: Dictionary, util: float) -> String:
+	return "%s　稼働 %d%%" % [OverlayModel.staff_panel_lines(s, "")[3], int(round(util * 100.0))]
 
 
 static func candidate_line(c: Dictionary) -> String:
