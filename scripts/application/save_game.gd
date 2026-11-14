@@ -99,6 +99,7 @@ static func to_dict(state: GameState, save_id: String, saved_at_utc: String) -> 
 			"store_id": state.store_id, "store_name": state.store_name,   # #146
 			"rivals": state.rivals.duplicate(true), "rivals_enabled": state.rivals_enabled,   # #129
 			"eat_in_total": state.eat_in_total,   # #134
+			"decor": state.decor.duplicate(),   # storefront decorations (DecorCatalog)
 			"construction_days": state.construction_days,   # #145
 			"lotteries": state.lotteries.duplicate(true),   # #138
 			"event_history": state.event_history.duplicate(true),   # #31
@@ -497,6 +498,10 @@ static func _fill(s: GameState, d: Dictionary, errs: Array[String]) -> void:
 		var arr = rt.get(k, [])
 		if typeof(arr) == TYPE_ARRAY and (arr.size() == 0 or arr.size() == 24) and arr.all(func(x): return JsonCheck.is_int(x) and int(x) >= 0):
 			s.set(k, arr.map(func(x): return int(x)))
+	if typeof(rt.get("decor")) == TYPE_ARRAY:   # storefront decorations (absent in older saves); an unknown id is dropped
+		for id in rt["decor"]:
+			if typeof(id) == TYPE_STRING and not DecorCatalog.find(id).is_empty() and not s.decor.has(id):
+				s.decor.append(String(id))
 	ScenarioService.load_saved(rt.get("scenario"), s.scenario)   # a scenario in play; absent in older saves = free play
 	if typeof(rt.get("store_id")) == TYPE_STRING:   # #146 (absent in older saves: the first store)
 		s.set_store_id(String(rt["store_id"]))

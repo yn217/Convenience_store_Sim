@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "notes": [
+    "Storefront decorations (user's decision 2026-11-14, proposal E): bought once, stand outside the store and only change how it looks.",
+    "They do not change visitors, sales or reputation (the user chose looks only). The trees and the planter are painted; the banners are the same simple style as the lunch-box banner already outside.",
+    "Each item has a list of places along the entrance side (tiles from the door span or from the far end) and a depth from the wall; the first place that is clear of the other street furniture is used."
+  ],
+  "decor": [
+    {"decor_id": "nobori_coffee", "name_ja": "のぼり旗（コーヒー）", "description_ja": "店先に赤いのぼり旗を立てます。", "prop_id": "nobori_banner_coffee", "price_yen": 8000,
+     "spots": [{"from": "end", "along": -2.45, "depth": 1.0}, {"from": "start", "along": 2.7, "depth": 1.7}]},
+    {"decor_id": "nobori_ice", "name_ja": "のぼり旗（アイス）", "description_ja": "アイスののぼり旗を立てます。", "prop_id": "nobori_banner_ice", "price_yen": 8000,
+     "spots": [{"from": "door_left", "along": -3.6, "depth": 1.0}, {"from": "end", "along": -2.45, "depth": 1.0}]},
+    {"decor_id": "flower_planter", "name_ja": "花のプランター", "description_ja": "店先に花のプランターを置きます。", "prop_id": "flower_planter_painted_v1", "price_yen": 15000,
+     "spots": [{"from": "start", "along": 3.0, "depth": 1.7}, {"from": "end", "along": -2.45, "depth": 1.7}]},
+    {"decor_id": "cherry_tree", "name_ja": "桜の木", "description_ja": "店の角に桜の木を植えます。", "prop_id": "cherry_tree_painted_v1", "price_yen": 80000,
+     "spots": [{"from": "end", "along": 2.2, "depth": 1.4}, {"from": "start", "along": -2.4, "depth": 1.4}]},
+    {"decor_id": "street_tree", "name_ja": "街路樹", "description_ja": "店の角に緑の木を植えます。", "prop_id": "green_street_tree_v1", "price_yen": 50000,
+     "spots": [{"from": "start", "along": -2.4, "depth": 1.4}, {"from": "end", "along": 2.2, "depth": 1.4}]}
+  ]
+}

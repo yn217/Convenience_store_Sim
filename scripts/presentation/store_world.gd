@@ -29,6 +29,7 @@ var store_width: int = 0
 var store_height: int = 0
 var revision: int = -1
 var entrance_tiles: Array[Vector2i] = []
+var _decor_bought: Array = []   # storefront decorations the store bought (DecorCatalog ids)
 var _floor_key: Array = []   # what the floor and walls were last drawn from (layout, camera, viewport)
 var _shadows: Array = []     # fixture contact shadows in world space, cached by _shadow_sig (layout signature)
 var _shadow_sig: Array = []
@@ -124,6 +125,13 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	speed_setting = int(snapshot.get("speed_setting", 0))
 	walk_tiles_per_game_second = float(snapshot.get("walk_tiles_per_game_second", 0.0))
 	fixture_sales = snapshot.get("fixture_sales", {})
+	var bought: Array = snapshot.get("decor", [])
+	if bought != _decor_bought:   # storefront decorations (DecorCatalog): redraw the street side
+		_decor_bought = bought.duplicate()
+		for layer_node in [_ext_decor, _front_decor]:
+			if layer_node != null:
+				layer_node.decor = _decor_bought
+		floor_changed = true
 	closed_registers = snapshot.get("closed_registers", [])
 	if snapshot.has("time_sec"):
 		_time_sec = int(snapshot["time_sec"])

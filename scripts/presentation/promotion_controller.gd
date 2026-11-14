@@ -14,6 +14,7 @@ var _box: VBoxContainer
 var _status: Label
 var _rows_key := []
 var _labels: Dictionary = {}   # def id -> Label
+var _decor: DecorPanel         # 店先の飾り, in this card (DecorPanel)
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -29,6 +30,9 @@ func setup(app: Node) -> void:
 	_box = VBoxContainer.new()
 	_body.add_child(_box)
 	_status = _label()
+	_decor = DecorPanel.new()
+	_decor.setup(app)
+	_body.add_child(_decor)
 
 
 func _label() -> Label:
@@ -41,6 +45,7 @@ func _label() -> Label:
 func apply_snapshot(snap: Dictionary) -> void:
 	if _box == null:
 		return
+	_decor.apply_snapshot(snap)
 	var promos: Array = snap.get("promotions", [])
 	var key := promos.map(func(p): return [p["def_id"], String((p["running"] as Dictionary).get("promotion_id", ""))])
 	if key != _rows_key:

@@ -109,6 +109,8 @@ var progression_state: Dictionary = {
 var rank_gating := false
 ## A scenario in play (ScenarioService): {} in free play. The company's, shared by its stores like progression_state.
 var scenario: Dictionary = {}
+## Storefront decorations this store bought (DecorCatalog ids, 2026-11-14): looks only, nothing in the simulation reads them.
+var decor: Array = []
 var next_segment_seq: int = 0
 ## Player sell prices that differ from the SKU default {sku_id: yen}. Never touches lot costs
 ## or already snapshotted reservations/ledger rows.
@@ -386,6 +388,7 @@ func snapshot() -> Dictionary:
 		"event_catalog": EventService.catalog(self),
 		"event_history": EventService.history(self),
 		"stocked_categories": stocked,
+		"decor": decor.duplicate(),
 	}
 
 

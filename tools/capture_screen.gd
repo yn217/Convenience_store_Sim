@@ -396,6 +396,13 @@ func _run() -> void:
 		await process_frame
 	_reapply_capture_pilot_cue(main)
 	_reapply_capture_story_cue(main)
+	for a in OS.get_cmdline_user_args():   # --decor=all or id,id: storefront decorations bought (DecorCatalog)
+		if a.begins_with("--decor="):
+			var want := a.trim_prefix("--decor=")
+			s.decor = DecorCatalog.items().map(func(d): return d["decor_id"]) if want == "all" else Array(want.split(","))
+			app._publish_snapshot()
+			for i in 4:
+				await process_frame
 	for a in OS.get_cmdline_user_args():   # --rank-up=N: the store climbs to rank N (StoreRank) and she celebrates it
 		if a.begins_with("--rank-up="):
 			var guide: ProgressionController = main.get_node("ProgressionController")

@@ -44,6 +44,7 @@ const COOLER_COUNT := 6
 const COOLER_START := 2
 const FLOWER_STRIDE := 4
 const LAMP_STRIDE := 6
+const DECOR_CLEARANCE := 0.9   ## a bought decoration keeps this far (tiles) from the other street furniture
 
 ## Draw op tags.
 const OP_SPRITE := 0
@@ -58,18 +59,20 @@ var _sprites := PropSprites.new()
 var _key: Array = []
 var _ops: Array = []
 var _items: Array = []
+## Storefront decorations the store bought (DecorCatalog ids); StoreWorld sets them from the snapshot.
+var decor: Array = []
 
 
 ## Recomputes the draw list when the layout, the fixtures' footprints, the camera or the viewport changed.
 func sync(width: int, height: int, entrances: Array, fixtures: Array, catalog: FixtureCatalog, proj: IsoProjection, viewport: Vector2) -> void:
-	var key := [width, height, entrances.duplicate(), FloorStyle.layout_signature(fixtures), layer, proj.origin, proj.zoom, viewport]
+	var key := [width, height, entrances.duplicate(), FloorStyle.layout_signature(fixtures), layer, proj.origin, proj.zoom, viewport, decor.duplicate()]
 	if key == _key:
 		return
 	_key = key
 	if layer == LAYER_REG_FLOOR or layer == LAYER_REG_TOP:
 		_items = RegisterDecor.layer_items(layer, width, height, entrances, fixtures, catalog)
 	else:
-		_items = _layer_items(width, height, entrances, occupied_cells(fixtures, catalog), layer)
+		_items = _layer_items(width, height, entrances, occupied_cells(fixtures, catalog), layer, decor)
 	_build_ops(proj)
 	queue_redraw()
 
@@ -218,13 +221,13 @@ static func occupied_cells(fixtures: Array, catalog: FixtureCatalog) -> Dictiona
 
 
 ## The items of one layer (see the header). Polys and text only ever come from the wall layer.
-static func _layer_items(width: int, height: int, entrances: Array, occupied: Dictionary, which: int) -> Array:
+static func _layer_items(width: int, height: int, entrances: Array, occupied: Dictionary, which: int, bought: Array = []) -> Array:
 	if which == LAYER_WALL:
 		return wall_items(width, height, entrances, occupied)
 	if which == LAYER_CANOPY:
 		return canopy_items(width, height, entrances)
 	var out: Array = []
-	for it in exterior_items(width, height, entrances):
+	for it in exterior_items(width, height, entrances, bought):
 		var is_equipment: bool = it.get("id", "") == "exterior_hvac_v1"
 		if which == LAYER_EQUIPMENT:
 			if is_equipment:
@@ -304,7 +307,7 @@ static func wall_items(width: int, height: int, entrances: Array, occupied: Dict
 ## the side the default camera sees the least: the storefront hides the pavement right behind it, so the street
 ## furniture stands on the visible pavement past the front corner of that side. Coordinates come from
 ## BackdropLayer.side_point, so depth is measured from the store edge and nothing lands on the floor.
-static func exterior_items(width: int, height: int, entrances: Array) -> Array:
+static func exterior_items(width: int, height: int, entrances: Array, bought: Array = []) -> Array:
 	var out: Array = []
 	if width <= 0 or height <= 0:
 		return out
@@ -358,7 +361,36 @@ static func exterior_items(width: int, height: int, entrances: Array) -> Array:
 			if not near_equipment:
 				_add(out, "flower_planter_painted_v1", near, width, height, 1.1, f)
 			f += FLOWER_STRIDE
+	_add_decor(out, bought, side, width, height, span, n)
 	return out
+
+
+## The bought decorations (DecorCatalog) on the entrance side: each at the first of its spots that is clear of the
+## street furniture already placed (DECOR_CLEARANCE tiles); one with no clear spot is left out. Looks only.
+static func _add_decor(out: Array, bought: Array, side: int, width: int, height: int, span: Vector2, n: int) -> void:
+	for d in DecorCatalog.items():
+		if not bought.has(d["decor_id"]):
+			continue
+		for spot in d["spots"]:
+			var along := float(spot["along"])
+			match String(spot["from"]):
+				"door_left":
+					along += span.x
+				"door_right":
+					along += span.y
+				"end":
+					along += float(n)
+			var p := BackdropLayer.side_point(side, float(spot["depth"]), along, width, height)
+			var clear := true
+			for it in out:
+				if it.get("kind") == &"sprite" and Vector2(float(it["x"]), float(it["y"])).distance_to(p) < DECOR_CLEARANCE:
+					clear = false
+					break
+			if clear:
+				_add(out, String(d["prop_id"]), side, width, height, float(spot["depth"]), along)
+				out[-1]["role"] = "decor"
+				out[-1]["decor_id"] = d["decor_id"]
+				break
 
 
 static func _pole_sign_items(side: int, width: int, height: int) -> Array:

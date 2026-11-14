@@ -122,6 +122,10 @@ func execute(command: Dictionary) -> CommandResult:
 			result = _set_facilities(command_id, command.get("facility_ids", []))
 		&"SET_LOCATION":
 			result = _set_location(command_id, String(command.get("location_id", "")))
+		&"BUY_DECOR":   # a storefront decoration (DecorCatalog): looks only
+			result = _buy_decor(command_id, String(command.get("decor_id", "")))
+		&"REMOVE_DECOR":
+			result = _remove_decor(command_id, String(command.get("decor_id", "")))
 		&"REPAIR_CRANE":   # #132 phase 2
 			result = _repair_crane(command_id, String(command.get("fixture_id", "")))
 		&"HIRE_STAFF":
@@ -466,6 +470,29 @@ func _set_location(command_id: String, location_id: String) -> CommandResult:
 
 
 ## HIRE_STAFF / FIRE_STAFF (#144): allowed in every business state and while paused.
+## BUY_DECOR: any time, once per store; paid like a fixture (not part of the operating profit).
+func _buy_decor(command_id: String, decor_id: String) -> CommandResult:
+	var d := DecorCatalog.find(decor_id)
+	if d.is_empty():
+		return _fail(&"INVALID_OPERATION", &"unknown_decor")
+	if _state.decor.has(decor_id):
+		return _fail(&"INVALID_OPERATION", &"decor_owned")
+	if not _state.ledger.record("FIXTURE_PURCHASE", "%s:DECOR" % command_id, -int(d["price_yen"]), _state.day, _state.time_sec, {"decor": decor_id}):
+		return _fail(&"INSUFFICIENT_CASH", &"not_enough_cash")
+	_state.decor.append(decor_id)
+	var events: Array[String] = ["%s:DECOR_BOUGHT" % command_id]
+	return _commit(command_id, events, {"decor_id": decor_id})
+
+
+## REMOVE_DECOR: takes it away; nothing is paid back.
+func _remove_decor(command_id: String, decor_id: String) -> CommandResult:
+	if not _state.decor.has(decor_id):
+		return _fail(&"INVALID_OPERATION", &"decor_not_owned")
+	_state.decor.erase(decor_id)
+	var events: Array[String] = ["%s:DECOR_REMOVED" % command_id]
+	return _commit(command_id, events, {"decor_id": decor_id})
+
+
 func _repair_crane(command_id: String, fixture_id: String) -> CommandResult:
 	var err := CraneGame.repair(_state, fixture_id, command_id)
 	if err == "not_enough_cash":

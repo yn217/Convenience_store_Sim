@@ -996,6 +996,12 @@
         "facilities": {"description": "Nearby facility ids (issue #149), at most max_facilities.", "type": "array", "items": {"type": "string"}},
         "facility_visits": {"description": "Visitors each facility sent today (issue #149).", "type": "object"},
         "location_id": {"description": "Store location (issue #148): station / school / office / residential, or \"\" for the standard store.", "type": "string"},
+        "decor": {
+          "type": "array",
+          "description": "Storefront decorations this store bought (DecorCatalog ids, 2026-11-14): looks only. Absent in older saves = none.",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
         "scenario": {
           "type": "object",
           "description": "A scenario in play (ScenarioService, 2026-11-14): {} in free play. Absent in older saves = free play.",
