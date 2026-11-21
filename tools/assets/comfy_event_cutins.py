@@ -4,8 +4,9 @@ Anima Base + Koharu LoRA + anima style LoRA on the separate ComfyUI at 8189, 134
 earlier event CGs (issue30_31_32_comfyui), but with the in-game look: two small hair buns, pink hairpin,
 white short-sleeve shirt, navy pinstripe apron.
 
-  python gen.py            # all events, SEEDS each
-  python gen.py hot_day    # one event
+  python comfy_event_cutins.py             # the start cut-ins: all events, SEEDS each
+  python comfy_event_cutins.py hot_day     # one event
+  python comfy_event_cutins.py --choices   # the event choice pictures (the morning ask): CHOICES, CHOICE_SEEDS
 """
 import json, sys, time, urllib.request, pathlib, shutil
 
@@ -65,6 +66,49 @@ EVENTS = {
 }
 
 
+## The event choice screen (assets/runtime/event_choices, 2026-11-21): before the event, she gets ready or wonders
+## what to do; the nine events that ask the player.
+CHOICE_SEEDS = [2611221, 2611222]
+CHOICES = {
+    "evt_local_fair": (
+        "late afternoon in front of a small Japanese neighborhood convenience store, people hanging red paper lanterns along the street, "
+        "she holds a plain festival flyer with both hands and looks at the viewer with an excited questioning smile, "
+        "a festival tent being set up in the background, warm sunset light, anticipation"),
+    "evt_roadworks": (
+        "road construction right in front of a small Japanese convenience store, orange traffic cones and yellow barriers, "
+        "a small excavator and construction workers in helmets in the background, dust, "
+        "she stands at the store entrance holding a clipboard, troubled thinking expression with a finger on her chin, daytime"),
+    "evt_hot_day": (
+        "hot summer morning inside a Japanese convenience store, strong sunlight through the front window, "
+        "she fans herself with a hand fan in front of an open glass drink refrigerator full of plastic bottles, "
+        "checking the stock, slight sweat, determined smile, bright summer colors"),
+    "evt_cold_day": (
+        "frosty winter morning at the entrance of a Japanese convenience store, frost on the glass door, "
+        "she wears a red knitted scarf over her uniform and blows white breath into her cupped hands, "
+        "rosy cheeks, cozy warm store light behind her, pale blue cold morning outside"),
+    "evt_neighbor_mentions": (
+        "sunny day in front of a small Japanese neighborhood convenience store, two neighborhood women chatting happily by the entrance "
+        "in the background, she peeks out from the door holding a smartphone to her chest, "
+        "pleasantly surprised happy blush, sparkles, friendly local atmosphere"),
+    "evt_after_work": (
+        "late afternoon inside a Japanese convenience store, orange light through the window, "
+        "she arranges fried chicken pieces into the hot snack showcase next to the register with tongs, "
+        "focused gentle expression, getting ready for the evening rush, warm lighting"),
+    "evt_gourmet_fair": (
+        "local gourmet fair inside a Japanese convenience store, a special table display of regional bento boxes and local specialty snacks, "
+        "plain colorful paper banners without text, she holds up a fancy regional bento box toward the viewer, "
+        "proud cheerful smile, bright lively atmosphere"),
+    "evt_sudden_rain": (
+        "dark rain clouds gathering outside the large front window of a Japanese convenience store, the street getting dim, "
+        "she looks up at the sky through the window holding a folded clear vinyl umbrella, slightly worried expression, "
+        "cool gray light outside, warm light inside"),
+    "evt_onigiri_festa": (
+        "early morning inside a bright Japanese convenience store, morning sunlight, "
+        "she happily lines up triangle onigiri rice balls wrapped with a black nori seaweed strip in clear plastic film on a chilled shelf, "
+        "excited smile, a small wall television in the corner showing a blurry bowl of rice, fresh morning atmosphere"),
+}
+
+
 def graph(prompt: str, seed: int, prefix: str) -> dict:
     return {
         "1": {"class_type": "UNETLoader", "inputs": {"unet_name": "Anima-Base-v1.0.safetensors", "weight_dtype": "default"}},
@@ -92,12 +136,18 @@ def get(path):
 
 
 def main():
+    global OUT, EVENTS, SEEDS
+    args = sys.argv[1:]
+    tag = "cutin"
+    if "--choices" in args:
+        args.remove("--choices")
+        OUT, EVENTS, SEEDS, tag = OUT.parent / "choices_out", CHOICES, CHOICE_SEEDS, "choice"
     OUT.mkdir(exist_ok=True)
-    names = sys.argv[1:] or list(EVENTS)
+    names = args or list(EVENTS)
     jobs = []
     for name in names:
         for seed in SEEDS:
-            prefix = f"koharu_event_20261121/{name}_s{seed}"
+            prefix = f"koharu_event_20261121/{tag}_{name}_s{seed}"
             r = post("/prompt", {"prompt": graph(CHAR + EVENTS[name], seed, prefix)})
             jobs.append((r["prompt_id"], name, seed))
     print(f"queued {len(jobs)}", flush=True)
