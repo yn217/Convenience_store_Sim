@@ -32,6 +32,7 @@ const PILOT_FULLBODY_SIZE := Vector2(160, 240)
 const PILOT_REACTION_SIZE := Vector2(220, 220)
 static var _pictures := {}
 var _choice: EventChoiceDialog   # today's event choice (opens by itself, see offer())
+var _start_cutin: EventStartCutin   # the event's special picture when it begins (2026-11-21)
 
 @onready var _body: VBoxContainer = $"../Layout/MainArea/FixtureInspector/Scroll/Body"
 
@@ -40,6 +41,9 @@ func _ready() -> void:
 	_choice = EventChoiceDialog.new()
 	_choice.setup(get_node_or_null("../AppRoot"))
 	get_parent().add_child.call_deferred(_choice)
+	_start_cutin = EventStartCutin.new()
+	_start_cutin.setup(get_node_or_null("../AppRoot"))
+	get_parent().add_child.call_deferred(_start_cutin)
 	var title := Label.new()
 	title.text = "今日のイベント"
 	title.add_theme_font_size_override("font_size", 20)
@@ -152,10 +156,24 @@ func apply_snapshot(snap: Dictionary) -> void:
 	_history_title.visible = not past.is_empty()
 	if _choice != null and _choice.is_inside_tree():
 		_choice.offer(view)
+	if _start_cutin != null and _start_cutin.is_inside_tree():
+		_start_cutin.observe(view, _cutin_blocked())
 
 
 func choice_dialog() -> EventChoiceDialog:
 	return _choice
+
+
+func start_cutin() -> EventStartCutin:
+	return _start_cutin
+
+
+## Another screen holds the player: the event's cut-in waits until it is gone.
+func _cutin_blocked() -> bool:
+	if _choice != null and _choice.is_open():
+		return true
+	var guide := get_node_or_null("../ProgressionController")
+	return guide != null and bool(guide.get("_opening_cutin_active"))
 
 
 ## The event pilot owns the event-management presentation while its panel is open.

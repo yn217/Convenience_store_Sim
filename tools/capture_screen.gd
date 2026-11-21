@@ -394,6 +394,18 @@ func _run() -> void:
 	var cut: Control = main.get_node("ProgressionController")._cutin   # the setup above opened the store: no 開店！ in review shots
 	if cut != null:
 		cut.visible = false
+	for arg in OS.get_cmdline_user_args():   # --event-start=evt_local_fair: the event's special picture as it begins
+		if arg.begins_with("--event-start="):
+			var ev_id := arg.trim_prefix("--event-start=")
+			var ev_name := ev_id
+			for e in s.gameplay_events:
+				if String(e["event_id"]) == ev_id:
+					ev_name = String(e["name_ja"])
+			var start: EventStartCutin = main.get_node("EventController").start_cutin()
+			start.observe({"day": s.day, "event_id": ev_id, "name_ja": ev_name, "status": "scheduled"})
+			start.observe({"day": s.day, "event_id": ev_id, "name_ja": ev_name, "status": "active"})
+			for i in 60:   # its zoom, ribbon and line are in place
+				await process_frame
 	for i in 30:
 		await process_frame
 	_reapply_capture_pilot_cue(main)
