@@ -1,8 +1,22 @@
 # Convenience_store_Sim
 
+![営業中の店内（アイソメトリック表示）](docs/screenshots/store.jpg)
+
 リアル寄りの **2.5Dアイソメトリック・コンビニ経営シミュレーション**（企画・設計段階）。
 
 店舗の棚・レジ・冷蔵ケースなどをタイル単位で配置し、8カテゴリの商品を仕入れ・陳列。顧客行動、レジ会計、粗利・廃棄・広告費の収支を改善しながら経営する。
+
+## スクリーンショット
+
+| タイトル | イベント開始（小春六花） |
+|:-:|:-:|
+| ![タイトル画面](docs/screenshots/title.jpg) | ![イベント開始のカットイン](docs/screenshots/event_start.jpg) |
+| **イベントの選択** | **地域マップ（出店先えらび）** |
+| ![イベントの選択画面](docs/screenshots/event_choice.jpg) | ![地域マップ](docs/screenshots/map.jpg) |
+| **什器の配置（建設カタログ）** | **お客さんのインスペクタ** |
+| ![建設カタログ](docs/screenshots/build.jpg) | ![お客さんの詳細](docs/screenshots/customer.jpg) |
+
+画像は `tools/capture_screen.gd`（1920×1080）で撮影し、縮小したものです（2026-11-22時点）。
 
 ## 状態
 - **MVPの縦断スライスが動作**（空の店舗 → 仕入れ → 陳列 → 営業 → 会計 → 日次レポート → セーブ/ロード）。Godot 4.7.2 / GDScript。
@@ -13,7 +27,7 @@
 ## 遊び方・起動（Windows）
 ```powershell
 $env:GODOT = "<...>\Godot_v4.7.2-stable_win64.exe"   # GUI版
-toolsun_game.ps1             # ソースから起動
+tools\run_game.ps1             # ソースから起動
 tools\package_windows.ps1      # dist\ConvenienceStoreSim\Play.bat と zip を作る（Godot同梱、エクスポートテンプレート不要）
 ```
 - 左のパレットで レジ → 棚 を置き、右の「商品」から発注・補充、「営業」で開始。P=一時停止、O=表示モード、F=全景、右クリック/Esc=取消。
@@ -21,7 +35,7 @@ tools\package_windows.ps1      # dist\ConvenienceStoreSim\Play.bat と zip を�
 
 ## テスト・検証
 ```powershell
-toolsun_tests.ps1            # 構成検査・カタログ整合・アセット検査・Python試験・GDScript構文・headless試験（全件）
+tools\run_tests.ps1            # 構成検査・カタログ整合・アセット検査・Python試験・GDScript構文・headless試験（全件）
 Godot --path . --resolution 1920x1080 --script res://tools/perf_bench.gd -- docs/qa/perf_result.json   # 性能（実描画が必要）
 Godot --path . --script res://tools/screenshot.gd -- out.png demo zoom=1.5 [overlay=1|2] [cues]       # 目視確認用
 ```
