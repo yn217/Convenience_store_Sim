@@ -5,13 +5,16 @@ extends CanvasLayer
 ## open and runs on at the earlier speed after the pick; Rikka then says the choice's line. It only sends
 ## CHOOSE_EVENT_OPTION through AppRoot; EventService decides. Not choosing is not possible here, but the free choice
 ## is always one of the buttons (and it is what holds if the dialog never opens, e.g. the event already ended).
+## Since 2026-11-21 it looks like the event's start cut-in (EventStartCutin): the store blurred behind, a cream window,
+## a pink ribbon with the event's name, the picture in a white frame and her question in her speech box.
 
 const ART_DIR := "res://assets/runtime/event_choices/"
 const ART_SIZE := Vector2(640, 360)
 const PANEL_WIDTH := 720
 const PAID_REACTION := "res://assets/runtime/rikka_reactions/reaction_34.png"   # wink and a peace sign
 const FREE_REACTION := "res://assets/runtime/rikka_reactions/reaction_21.png"   # thumbs up
-const ASK_LINE := "小春六花「店長、どうしましょうか？」"
+const ASK_LINE := "店長、どうしましょうか？"
+const PINK := Color("ef6f96")
 
 var _app: Node
 var _offered := {}            # "day:event_id" already offered in this session
@@ -64,10 +67,11 @@ func offer(view: Dictionary) -> void:
 func _open(view: Dictionary) -> void:
 	_view = view
 	var event_id := String(view["event_id"])
-	_title.text = "今日のイベント：%s" % String(view["name_ja"])
+	_title.text = String(view["name_ja"])
 	var art_path := ART_DIR + event_id + ".png"
 	_art.texture = load(art_path) as Texture2D if ResourceLoader.exists(art_path) else null
 	_art.visible = _art.texture != null
+	_art.get_parent().visible = _art.visible   # its white frame
 	_desc.text = "%s\n開催 %s〜%s" % [String(view["description_ja"]), EventText.clock(int(view["start_sec"])), EventText.clock(int(view["end_sec"]))]
 	_ask.text = ASK_LINE
 	_message.text = ""
@@ -153,43 +157,99 @@ func _build() -> void:
 	_root = Control.new()
 	_root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_root.mouse_filter = Control.MOUSE_FILTER_STOP   # the store behind does not take clicks while she asks
-	_root.theme = UiTheme.build()   # a CanvasLayer does not pass Main's theme down
+	_root.theme = BusinessController.map_overlay_theme()   # a CanvasLayer does not pass Main's theme down; cream and pop
 	add_child(_root)
-	var dim := ColorRect.new()
-	dim.color = Color(0.03, 0.06, 0.12, 0.62)
-	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dim.mouse_filter = Control.MOUSE_FILTER_STOP
-	_root.add_child(dim)
+	var backdrop := ColorRect.new()
+	backdrop.name = "EventChoiceBackdrop"
+	backdrop.material = UiFx.blur_material()   # the store behind, blurred (as the start cut-in)
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+	_root.add_child(backdrop)
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(center)
 	var panel := PanelContainer.new()
 	panel.name = "EventChoicePanel"
-	panel.theme_type_variation = &"Card"
+	panel.theme_type_variation = &"WindowFrame"
 	panel.custom_minimum_size.x = PANEL_WIDTH
 	center.add_child(panel)
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 10)
 	panel.add_child(col)
+	# 今日のイベント and its name on a pink ribbon.
+	var ribbon := PanelContainer.new()
+	ribbon.name = "EventChoiceRibbon"
+	ribbon.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	var rb := StyleBoxFlat.new()
+	rb.bg_color = PINK
+	rb.set_corner_radius_all(14)
+	rb.border_color = Color.WHITE
+	rb.set_border_width_all(3)
+	rb.content_margin_left = 22
+	rb.content_margin_right = 26
+	rb.content_margin_top = 4
+	rb.content_margin_bottom = 6
+	ribbon.add_theme_stylebox_override("panel", rb)
+	col.add_child(ribbon)
+	var rib_col := VBoxContainer.new()
+	rib_col.add_theme_constant_override("separation", -4)
+	ribbon.add_child(rib_col)
+	var head := Label.new()
+	head.text = "今日のイベント"
+	head.add_theme_font_size_override("font_size", 18)
+	head.add_theme_color_override("font_color", Color("fff3a8"))
+	rib_col.add_child(head)
 	_title = Label.new()
-	_title.theme_type_variation = &"WindowTitle"
-	_title.add_theme_font_size_override("font_size", 26)
-	col.add_child(_title)
+	_title.name = "EventChoiceTitle"
+	_title.add_theme_font_size_override("font_size", 32)
+	_title.add_theme_color_override("font_color", Color.WHITE)
+	_title.add_theme_color_override("font_outline_color", Color("b8406a"))
+	_title.add_theme_constant_override("outline_size", 6)
+	rib_col.add_child(_title)
+	# The picture in a white rounded frame.
+	var frame := PanelContainer.new()
+	frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var fb := StyleBoxFlat.new()
+	fb.bg_color = Color.WHITE
+	fb.set_corner_radius_all(14)
+	fb.set_content_margin_all(6)
+	fb.shadow_color = Color(0, 0, 0, 0.2)
+	fb.shadow_size = 8
+	fb.shadow_offset = Vector2(0, 3)
+	frame.add_theme_stylebox_override("panel", fb)
+	col.add_child(frame)
 	_art = TextureRect.new()
 	_art.name = "EventChoiceArt"
 	_art.custom_minimum_size = ART_SIZE
 	_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_art.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	col.add_child(_art)
+	_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	frame.add_child(_art)
 	_desc = Label.new()
 	_desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_desc.custom_minimum_size.x = PANEL_WIDTH - 48
 	col.add_child(_desc)
+	# Her question in her speech box.
+	var bubble := PanelContainer.new()
+	bubble.name = "EventChoiceAsk"
+	bubble.add_theme_stylebox_override("panel", ProgressionController.bubble_style())
+	col.add_child(bubble)
+	var ask_col := VBoxContainer.new()
+	ask_col.add_theme_constant_override("separation", 4)
+	bubble.add_child(ask_col)
+	var tab := PanelContainer.new()
+	tab.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	tab.add_theme_stylebox_override("panel", ProgressionController._name_tab_style())
+	var who := Label.new()
+	who.text = "%s（店長アシスタント）" % ProgressionController.ASSISTANT_NAME
+	who.add_theme_color_override("font_color", Color.WHITE)
+	who.add_theme_font_size_override("font_size", 15)
+	tab.add_child(who)
+	ask_col.add_child(tab)
 	_ask = Label.new()
-	_ask.theme_type_variation = &"AccentLabel"
-	col.add_child(_ask)
+	_ask.add_theme_font_size_override("font_size", 22)
+	_ask.add_theme_color_override("font_color", ProgressionController.BUBBLE_TEXT)
+	ask_col.add_child(_ask)
 	_buttons = VBoxContainer.new()
 	_buttons.name = "EventChoiceButtons"
 	_buttons.add_theme_constant_override("separation", 8)
